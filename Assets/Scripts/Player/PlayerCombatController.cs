@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
@@ -36,6 +37,8 @@ public class PlayerCombatController : MonoBehaviour
         currentCoroutine = AttackCoroutine();
         StartCoroutine(currentCoroutine);
     }
+
+
 
     void ResetCombo()
     {
@@ -90,5 +93,15 @@ public class PlayerCombatController : MonoBehaviour
         ResetCombo();
 
         currentCoroutine = null;
+    }
+
+    public void PerformBlock()
+    {
+
+    }
+
+    internal void ThrowShield()
+    {
+        inventory.ResetShield();
     }
 }

@@ -67,6 +67,7 @@ public class PlayerInteract : MonoBehaviour, ICollector
         if (combatInventory.shieldWeapon == null)
         {
             pickable.PickUp(combatInventory.GetLeftHand());
+            combatInventory.SetShield(pickable as IWeapon);
         }
     }
 }

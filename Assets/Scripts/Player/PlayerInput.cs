@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     private Vector2 lookInput;   // Mouse/Gamepad look
     private bool sprintHeld;
     private bool jumpPressed;
+    private bool throwHeld;
 
     protected virtual void Awake()
     {
@@ -37,11 +38,31 @@ public class PlayerInput : MonoBehaviour
         controls.Player.Sprint.canceled += ctx => sprintHeld = false;
 
         // Combat
-        controls.Player.Attack.performed += ctx => playerCombatController.PerformAttack();
-        controls.Player.ThrowItem.performed += ctx => playerCombatController.ThrowWeapon();
+
+        controls.Player.ThrowItem.performed += ctx => throwHeld = true;
+        controls.Player.ThrowItem.canceled += ctx => throwHeld = false;
+
+        controls.Player.Attack.performed += ctx =>
+        {
+            if (throwHeld)
+                playerCombatController.ThrowWeapon();
+            else
+                playerCombatController.PerformAttack();
+
+        };
+
+        controls.Player.Block.performed += ctx =>
+        {
+            if (throwHeld)
+                playerCombatController.ThrowShield();
+            else
+                playerCombatController.PerformBlock();
+        };
+
+
 
         // Interaction
-        controls.Player.Interaction.performed += ctx => interactions.Interact(); 
+        controls.Player.Interaction.performed += ctx => interactions.Interact();
 
     }
 
@@ -52,7 +73,7 @@ public class PlayerInput : MonoBehaviour
     {
         characterController.ControlLocomotionType();
         characterController.ControlRotationType();
-       
+
         characterAnimator.UpdateAnimator(characterController);
         characterAnimator.SetAnimatorMoveSpeed(characterController);
     }
@@ -73,13 +94,13 @@ public class PlayerInput : MonoBehaviour
 
     #region Controller Setup
 
-    public void Init(PlayerController controller, PlayerCombatController combat, vThirdPersonCamera camera, PlayerInteract interact , CharacterAnimator anim)
+    public void Init(PlayerController controller, PlayerCombatController combat, vThirdPersonCamera camera, PlayerInteract interact, CharacterAnimator anim)
     {
         characterController = controller;
         playerCombatController = combat;
         tpCamera = camera;
         interactions = interact;
-        characterAnimator = anim;   
+        characterAnimator = anim;
 
     }
 

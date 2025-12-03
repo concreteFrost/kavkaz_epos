@@ -73,6 +73,7 @@ public class Weapon : Item, IWeapon
 
     public void ThrowWeapon()
     {
+        Debug.Log("throw");
         parent = null;
         transform.SetParent(parent);
         owner = null;   

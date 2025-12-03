@@ -1,3 +1,4 @@
+using UnityEngine;
 
 public class PlayerCombatInventory : CombatInventory
 {
@@ -49,7 +50,11 @@ public class PlayerCombatInventory : CombatInventory
     public override void ResetShield()
     {
 
-        if (shieldWeapon == null) return;
+        if (shieldWeapon == null)
+        {
+            Debug.Log("shield is null");
+            return;
+        }
 
         shieldWeapon.ThrowWeapon();
         shieldWeapon = null;
