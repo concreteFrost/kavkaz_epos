@@ -24,9 +24,10 @@ public class PlayerCombatInventory : CombatInventory
        anim.IsWeaponed = true; 
     }
 
-    public override void SetShield(IWeapon w)
+    public override void SetShield(IShield w)
     {
         shieldWeapon = w;
+        
     }
 
     public override void ResetWeapon()
@@ -56,7 +57,7 @@ public class PlayerCombatInventory : CombatInventory
             return;
         }
 
-        shieldWeapon.ThrowWeapon();
+        shieldWeapon.ThrowShield();
         shieldWeapon = null;
 
     }

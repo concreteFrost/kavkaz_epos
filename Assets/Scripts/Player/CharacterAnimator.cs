@@ -26,6 +26,7 @@ public class CharacterAnimator : MonoBehaviour
         //combat control
         animator.SetBool(AnimatorParameters.IsWeaponed, IAnim.IsWeaponed);
         animator.SetBool(AnimatorParameters.IsAttacking, IAnim.IsAttacking);
+        animator.SetBool(AnimatorParameters.IsShieldRaised, IAnim.IsShieldRaised);  
         animator.SetInteger(AnimatorParameters.AttackIndex, IAnim.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, IAnim.WeaponIndex);
 
@@ -65,5 +66,6 @@ public static partial class AnimatorParameters
     public static int AttackIndex = Animator.StringToHash("AttackIndex");
     public static int WeaponType = Animator.StringToHash("WeaponType");
     public static int HasShield = Animator.StringToHash("HasShield");
+    public static int IsShieldRaised = Animator.StringToHash("IsShieldRaised");
 }
 

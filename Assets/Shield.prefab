@@ -75,9 +75,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7047170653988915332}
-  - component: {fileID: 482821045255475220}
   - component: {fileID: 4134873691407384374}
   - component: {fileID: 7485148907650295780}
+  - component: {fileID: 6054064764918884102}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -103,24 +103,6 @@ Transform:
   - {fileID: 3892892996187040265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &482821045255475220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3255179769068497855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9252a1d4d7e6904392a41e72f835335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  pickableType: 2
-  interactionCollder: {fileID: 7463870308691895986}
-  weaponSO: {fileID: 11400000, guid: 2a3539e6ed02535438b35f4e1bb7c5df, type: 2}
-  damageCollider: {fileID: 1281106971726448866}
-  damageAmount: 0
-  breakdownThreshold: 0
 --- !u!54 &4134873691407384374
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,8 +149,26 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.67, y: 0.99830234, z: 0.7}
-  m_Center: {x: 0, y: -0.119151175, z: 0}
+  m_Size: {x: 0.45, y: 0.99830234, z: 0.09}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6054064764918884102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255179769068497855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57260287b9dd65a4da78d89ca6804883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shield
+  pickableType: 0
+  interactionCollder: {fileID: 7463870308691895986}
+  shieldSO: {fileID: 11400000, guid: 1feb83e5356c87a4382a907b433ce869, type: 2}
+  defenceCollider: {fileID: 6268282904979441766}
+  breakdownThreshold: 0
+  defenceBonus: 0
 --- !u!1 &4258747628330075431
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,10 +178,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3892892996187040265}
-  - component: {fileID: 1281106971726448866}
   - component: {fileID: 6135738271347796028}
+  - component: {fileID: 6268282904979441766}
   m_Layer: 2
-  m_Name: DamageCollider
+  m_Name: DefenceCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,24 +196,12 @@ Transform:
   m_GameObject: {fileID: 4258747628330075431}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.114, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7047170653988915332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1281106971726448866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4258747628330075431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f23bda327bc359240bea9a89d89b6bfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageCollider
 --- !u!65 &6135738271347796028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -229,12 +217,24 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.66, y: 1, z: 0.12}
+  m_Size: {x: 0.45, y: 0.99830234, z: 0.09}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6268282904979441766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4258747628330075431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a46fd1347eb274b93da172f2d4e22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenceCollider
 --- !u!1001 &2907503581148464619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -253,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08aecb816b6b4194a9c2897afa4f9148, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08aecb816b6b4194a9c2897afa4f9148, type: 3}
       propertyPath: m_LocalRotation.w

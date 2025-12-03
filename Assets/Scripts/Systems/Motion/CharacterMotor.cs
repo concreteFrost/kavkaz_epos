@@ -101,6 +101,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     internal bool isWeaponed = false;
     internal bool isAttacking = false;
+    internal bool isShieldRaised = false;
     internal int attackIndex = 0;
     internal int weaponIndex = 0;
 
@@ -116,8 +117,6 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public float HorizontalSpeed { get => horizontalSpeed; set => horizontalSpeed=value; }
     public float AnimationSmooth { get => animationSmooth; set => animationSmooth = value; }
     public float GroundDistance { get => groundDistance; set => groundDistance = value; }
-    public float InputVertical { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public float InputHorizontal { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public bool StopMove { get => stopMove; set => stopMove = value; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
     public bool IsJumping { get => isJumping; set => isJumping = value; }
@@ -126,6 +125,8 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public bool IsWeaponed { get => isWeaponed; set => isWeaponed =value; }
     public int AttackIndex { get => attackIndex; set => attackIndex = value; }
     public int WeaponIndex { get => weaponIndex; set => weaponIndex = value; }
+
+    public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
 
     #endregion
 

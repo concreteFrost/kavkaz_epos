@@ -59,6 +59,8 @@ public class PlayerInput : MonoBehaviour
                 playerCombatController.PerformBlock();
         };
 
+        controls.Player.Block.canceled += ctx => playerCombatController.CancelBlock();
+
 
 
         // Interaction

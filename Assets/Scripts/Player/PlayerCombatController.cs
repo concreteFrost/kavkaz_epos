@@ -24,6 +24,11 @@ public class PlayerCombatController : MonoBehaviour
         if (anim.IsJumping || !anim.IsGrounded)
             return;
 
+        if (anim.IsShieldRaised)
+        {
+            ResetCombo();
+            return;
+        }
 
         // ставим атаку в очередь
         if (anim.IsAttacking)
@@ -38,6 +43,29 @@ public class PlayerCombatController : MonoBehaviour
         StartCoroutine(currentCoroutine);
     }
 
+    public void ThrowWeapon()
+    {   
+        inventory.ResetWeapon();
+    }
+
+
+    public void PerformBlock()
+    {
+        if (inventory.shieldWeapon == null) return;
+        anim.IsShieldRaised = true;
+    }
+
+    public void CancelBlock()
+    {
+        if(inventory.shieldWeapon == null) return;
+        anim.IsShieldRaised = false;
+    }
+
+    internal void ThrowShield()
+    {
+        inventory.ResetShield();
+    }
+
 
 
     void ResetCombo()
@@ -49,12 +77,7 @@ public class PlayerCombatController : MonoBehaviour
         anim.AttackIndex = 0;   
     }
 
-    public void ThrowWeapon()
-    {
-        inventory.ResetWeapon();
-     
-    }
-
+  
     IEnumerator AttackCoroutine()
     {
 
@@ -64,9 +87,7 @@ public class PlayerCombatController : MonoBehaviour
         var currentAttakChain = w.WeaponData().attackSet;
         anim.WeaponIndex = currentWeaponType;
 
-
-
-        while (true)
+        while (true && !anim.IsShieldRaised)
         {
             anim.IsAttacking = true;
             anim.AttackIndex = totalClicks;
@@ -95,13 +116,5 @@ public class PlayerCombatController : MonoBehaviour
         currentCoroutine = null;
     }
 
-    public void PerformBlock()
-    {
 
-    }
-
-    internal void ThrowShield()
-    {
-        inventory.ResetShield();
-    }
 }

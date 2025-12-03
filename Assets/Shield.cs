@@ -1,87 +1,84 @@
 using UnityEngine;
 
-public class Weapon : Item, IWeapon
+public class Shield : Item, IShield
 {
-
-    public WeaponSO weaponSO;
+    public ShieldSO shieldSO;
 
     Rigidbody rb;
     private Collider physicsCollider;
-    [SerializeField] private DamageCollider damageCollider;
+    [SerializeField] private DefenceCollider defenceCollider;
     Transform parent;
 
-    public float damageAmount;
     public float breakdownThreshold;
+    public float defenceBonus;
     protected string owner { get; set; }
 
-    #region IWeapon variables
-    public WeaponSO WeaponData() => weaponSO;
-
+    #region IShield Variables
+    public ShieldSO ShieldData()=>shieldSO;
     public string Owner { get => owner; set => owner = value; }
 
     #endregion
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        physicsCollider = GetComponent<Collider>(); 
+        physicsCollider = GetComponent<Collider>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init(this.gameObject, weaponSO);
+        Init(this.gameObject, shieldSO);
     }
 
     protected override void Init(GameObject instance, ItemSO itemData)
     {
 
-        base.Init(instance,itemData);
+        base.Init(instance, itemData);
 
         rb.isKinematic = false;
         physicsCollider.enabled = true;
-        damageAmount = weaponSO.damageAmount;
-        breakdownThreshold = weaponSO.breakdownThreshold;  
-        damageCollider.DisableCollider();
-     
+       
+        breakdownThreshold =shieldSO.breakdownThreshold;
+        defenceBonus = shieldSO.defenceBonus;   
+
+        defenceCollider.DisableCollider();  
     }
 
-    public void PerformAttack()
+    public void PerformDefence()
     {
-        damageCollider.EnableCollider();
+        physicsCollider.enabled = true;
     }
 
-    public void CancelAttack()
+    public void CancelDefence()
     {
-        damageCollider.DisableCollider();
+        physicsCollider.enabled = false;
     }
+
     public override void PickUp(Transform target)
     {
-       
+
         parent = target;
         transform.SetParent(parent);
-        transform.position = target.position;  
-        transform.rotation = target.rotation; 
+        transform.position = target.position;
+        transform.rotation = target.rotation;
         owner = target.name;    //replace with actual id
-        damageCollider.SetOwner(owner);
-        
+        defenceCollider.SetOwner(owner);
+      
         interactionCollder.DisableCollider();
-        rb.isKinematic = true;  
+        rb.isKinematic = true;
         physicsCollider.enabled = false;
 
     }
 
-    public void ThrowWeapon()
+    public void ThrowShield()
     {
-       
         parent = null;
         transform.SetParent(parent);
-        owner = null;   
-        damageCollider.ResetOwner();    
+        owner = null;
+        defenceCollider.ResetOwner();
         interactionCollder.EnableCollider();
         rb.isKinematic = false;
         physicsCollider.enabled = true;
-
     }
-
-
 }
