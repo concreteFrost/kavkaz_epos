@@ -23,13 +23,13 @@ public class AttackBehaviour : StateMachineBehaviour
         if (!attackEnabled & t >= enableTime)
         {
 
-            inv.currentWeapon.PerformAttack();
+            inv.CurrentWeapon.PerformAttack();
             attackEnabled = true;
         }
 
         if (attackEnabled & t >= disableTime)
         {
-            inv.currentWeapon.CancelAttack();
+            inv.CurrentWeapon.CancelAttack();
 
             attackEnabled = false;
         }
@@ -41,7 +41,7 @@ public class AttackBehaviour : StateMachineBehaviour
     {
         attackEnabled = false;
         attackDisabled = false;
-        inv.currentWeapon.CancelAttack();
+        inv.CurrentWeapon.CancelAttack();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

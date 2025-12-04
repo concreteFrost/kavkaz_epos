@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public interface IWeapon 
 {
@@ -6,6 +5,7 @@ public interface IWeapon
     public void PerformAttack();
     public void CancelAttack();
     public void ThrowWeapon();
+    public void ReduceDurability(float amount);
 
-    public string Owner { get; set; }   
+    public IAttackSource AttackSource { get; set; }
 }

@@ -1,18 +1,18 @@
-using System;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour, ICollector
 {
     ICharacterAnimator animator;
-    PlayerCombatInventory combatInventory;
+    IAttackSource attackSource;
 
     private IPickable pickable { get; set; }=null;
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
-    public void Init(PlayerCombatInventory _combatInventory, ICharacterAnimator anim)
+    public void Init(ICharacterAnimator anim, IAttackSource source)
     {
-        combatInventory = _combatInventory; 
-        animator = anim;    
+       
+        animator = anim;  
+        attackSource = source;
     }
 
     public void Interact()
@@ -22,52 +22,9 @@ public class PlayerInteract : MonoBehaviour, ICollector
 
         if (pickable != null)
         {
-            HandleItemPick(pickable.Type());
+            pickable.PickUp(attackSource);  
         }
     }
 
-    private void HandleItemPick(PickableType type)
-    {
-        switch (type){
-            case PickableType.weapon:
-                PickWeapon();
-                break;
-            case PickableType.inventoryItem:
-                PickInventoryItem();
-                break;
-            case PickableType.shield:
-                PickShield();
-                break;
-            default:
-                PickInventoryItem();
-                break;
-        }
-    }
-
-    private void PickInventoryItem()
-    {
-        pickable.PickUp(this.transform);
-    }
-
-    private void PickWeapon()
-    {
-        bool canOverride = combatInventory.currentWeapon.WeaponData().canOverride;
-
-        if (canOverride)
-        {
-            pickable.PickUp(combatInventory.GetRightHand());
-            combatInventory.SetWeapon(pickable as IWeapon);
-
-        }
-    }
-
-    private void PickShield()
-    {
-
-        if (combatInventory.shieldWeapon == null)
-        {
-            pickable.PickUp(combatInventory.GetLeftHand());
-            combatInventory.SetShield(pickable as IShield);
-        }
-    }
+  
 }

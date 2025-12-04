@@ -17,6 +17,9 @@ public class WeaponSO : ItemSO
     [Tooltip("Определяет порог поломки")]
     public float breakdownThreshold;
 
+    [Tooltip("Сколько снимать от состояния при ударе")]
+    public float breakdownPenalty;
+
     public AttackSO attackSet;
 
 

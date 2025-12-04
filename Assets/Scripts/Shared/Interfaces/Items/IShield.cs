@@ -8,5 +8,5 @@ public interface IShield
     public void CancelDefence();
 
     public void ThrowShield();
-    public string Owner {  get; set; }  
+    public IAttackSource AttackSource { get; set; }
 }

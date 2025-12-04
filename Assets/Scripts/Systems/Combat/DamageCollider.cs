@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
-    Collider col;
-    string owner;
+    Collider col;    
+    public List<Collider> collectedColliders = new List<Collider>();
 
-    bool isAttackRegistered = false;    
+    protected float currentDamage;
+  
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -13,40 +15,39 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
-    public void SetOwner(string _owner)
-    {
-        owner = _owner;
-    }
-
-    public void ResetOwner()
-    {
-        owner=null;
-    }
-
-    public void EnableCollider()
-    {
-        
+    public void EnableCollider(float _currDamage)
+    {  
         col.enabled = true;
+        currentDamage = _currDamage;    
     }
 
     public void DisableCollider()
     {
         col.enabled = false;
-        isAttackRegistered = false;
+        collectedColliders.Clear();
+    }
+
+    protected virtual void HandleCollision(Collider other)
+    {
+        if (collectedColliders.Contains(other))
+            return;
+
+        collectedColliders.Add(other);
+
+        var damagable = other.GetComponentInChildren<IDamagable>()
+                ?? other.GetComponent<IDamagable>();
+
+        if (damagable == null) return;
+
+        damagable.TakeDamage(currentDamage);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (!isAttackRegistered)
-        {
-            Debug.Log(other.name);
-            isAttackRegistered = true;
-        }
-       
-       
+        HandleCollision(other);
     }
 
-    
+
+
 
 }

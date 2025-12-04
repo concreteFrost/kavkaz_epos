@@ -45,24 +45,31 @@ public class PlayerCombatController : MonoBehaviour
 
     public void ThrowWeapon()
     {   
-        inventory.ResetWeapon();
+        inventory.CurrentWeapon.ThrowWeapon();
+        inventory.ResetWeapon();    
     }
 
 
     public void PerformBlock()
     {
-        if (inventory.shieldWeapon == null) return;
+        if (inventory.ShieldWeapon == null) return;
+        inventory.ShieldWeapon.PerformDefence();
         anim.IsShieldRaised = true;
+
     }
 
     public void CancelBlock()
     {
-        if(inventory.shieldWeapon == null) return;
+        if(inventory.ShieldWeapon == null) return;
+        inventory.ShieldWeapon.CancelDefence();
         anim.IsShieldRaised = false;
     }
 
     internal void ThrowShield()
     {
+        if (inventory.ShieldWeapon == null) return;
+
+        inventory.ShieldWeapon.ThrowShield();
         inventory.ResetShield();
     }
 
@@ -81,7 +88,7 @@ public class PlayerCombatController : MonoBehaviour
     IEnumerator AttackCoroutine()
     {
 
-        var w = inventory.currentWeapon;
+        var w = inventory.CurrentWeapon;
 
         var currentWeaponType = (int)w.WeaponData().attackSet.attackType;
         var currentAttakChain = w.WeaponData().attackSet;

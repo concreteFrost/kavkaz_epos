@@ -3,12 +3,29 @@ using UnityEngine;
 public class BareHandsWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField] private WeaponSO weaponSO;
+
+    private float currentDamageAmount;
     public WeaponSO WeaponData() => weaponSO;
-    protected string owner { get; set; }
-    public string Owner { get => owner; set => owner = value; }
+    public IAttackSource AttackSource { get; set; }
 
-    [SerializeField] private DamageCollider damageCollider;
+    [SerializeField] private WeaponDamageCollider damageCollider;
 
+
+    public void ReduceDurability(float amount)
+    {
+        
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        currentDamageAmount = weaponSO.damageAmount;
+        damageCollider.SetWeapon(this);
+    }
     public void CancelAttack()
     {
         damageCollider.DisableCollider();
@@ -16,7 +33,12 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     public void PerformAttack()
     {
-        damageCollider.EnableCollider();
+        damageCollider.EnableCollider(currentDamageAmount);
+    }
+
+    public void SetOwner(IAttackSource source)
+    {
+        AttackSource = source;  
     }
 
     public void ThrowWeapon()

@@ -6,44 +6,36 @@ public class PlayerCombatInventory : CombatInventory
 
     public BareHandsWeapon bareHands;
 
-    public void Init(ICharacterAnimator _anim)
+    public override void Init(ICharacterAnimator _anim)
     {
-        
+        base.Init(_anim);
+
         anim = _anim;
 
-        defaultWeapon = bareHands;
+        bareHands.SetOwner(this);
 
-        defaultWeapon.Owner = this.tag; //заменить на id персонажа
-        currentWeapon = defaultWeapon;
+        DefaultWeapon = bareHands;
+        CurrentWeapon = DefaultWeapon;
 
     }
 
     public override void SetWeapon(IWeapon w)
     {
-       currentWeapon = w;
+       CurrentWeapon = w;
        anim.IsWeaponed = true; 
+     
     }
 
     public override void SetShield(IShield w)
     {
-        shieldWeapon = w;
-        
+        ShieldWeapon = w;        
     }
 
     public override void ResetWeapon()
     {
 
-        //if (anim.isAttacking)
-        //    return;
-
+        CurrentWeapon = DefaultWeapon;
         anim.IsAttacking = false;   
-        if (!currentWeapon.WeaponData().canOverride)
-        {
-            currentWeapon.ThrowWeapon();
-        }
-        
-        currentWeapon = defaultWeapon;
-
         anim.IsWeaponed = false;    
 
     }
@@ -51,14 +43,13 @@ public class PlayerCombatInventory : CombatInventory
     public override void ResetShield()
     {
 
-        if (shieldWeapon == null)
+        if (ShieldWeapon == null)
         {
             Debug.Log("shield is null");
             return;
         }
 
-        shieldWeapon.ThrowShield();
-        shieldWeapon = null;
+        ShieldWeapon = null;
 
     }
 

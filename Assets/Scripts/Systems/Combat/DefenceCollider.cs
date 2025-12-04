@@ -3,7 +3,7 @@ using UnityEngine;
 public class DefenceCollider : MonoBehaviour
 {
     Collider col;
-    string owner;
+    IAttackSource owner;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -11,9 +11,9 @@ public class DefenceCollider : MonoBehaviour
         DisableCollider();
     }
 
-    public void SetOwner(string _owner)
+    public void SetOwner(IAttackSource source)
     {
-        owner = _owner;
+        owner =source;
     }
 
     public void ResetOwner()

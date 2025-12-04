@@ -3,14 +3,9 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour, IPickable 
 {
 
-    [SerializeField] private PickableType pickableType;
-    public PickableType Type() => pickableType;
-    protected bool isPicked { get; set; }
-    public bool IsPicked() => isPicked;
+    public bool IsPicked { get; set; }
 
-    public abstract void PickUp(Transform parent);
-
-    public GameObject ObjectInstance {  get; set; } 
+    public abstract void PickUp(IAttackSource s);
 
     public ItemSO ItemData { get; set; }
 
@@ -19,9 +14,8 @@ public abstract class Item : MonoBehaviour, IPickable
     [SerializeField] protected InteractionCollider interactionCollder;
 
 
-    protected virtual void Init(GameObject instance, ItemSO itemData)
+    protected virtual void Init(ItemSO itemData)
     {
-        ObjectInstance = instance;
         ItemData = itemData;    
 
         if(interactionCollder != null)

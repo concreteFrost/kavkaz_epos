@@ -8,11 +8,9 @@ public enum PickableType
 }
 public interface IPickable
 {
-    public PickableType Type();
-    public bool IsPicked();
-    public abstract void PickUp(Transform parent);
-  
+    public bool IsPicked { get; set; }
+
     public ItemSO ItemData {  get; set; }   
 
-    public GameObject ObjectInstance { get; set; }
+    public abstract void PickUp(IAttackSource attackSource);
 }

@@ -51,8 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   pickableType: 1
   interactionCollder: {fileID: 1249627329746634573}
-  damageCollider: {fileID: 8686132267618914895}
   weaponSO: {fileID: 11400000, guid: 2a3539e6ed02535438b35f4e1bb7c5df, type: 2}
+  damageCollider: {fileID: 6596508924225042948}
   damageAmount: 0
   breakdownThreshold: 0
 --- !u!65 &5586387104702930198
@@ -112,8 +112,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7887159939066409377}
-  - component: {fileID: 8686132267618914895}
   - component: {fileID: 3125023660129920970}
+  - component: {fileID: 6596508924225042948}
   m_Layer: 2
   m_Name: DamageCollider
   m_TagString: Untagged
@@ -136,18 +136,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5408012577201723460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8686132267618914895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3366594387873492907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f23bda327bc359240bea9a89d89b6bfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageCollider
 --- !u!136 &3125023660129920970
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -171,6 +159,19 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6596508924225042948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3366594387873492907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
+  collectedColliders: []
 --- !u!1 &4902979136545494141
 GameObject:
   m_ObjectHideFlags: 0

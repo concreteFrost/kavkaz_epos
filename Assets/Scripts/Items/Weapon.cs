@@ -7,18 +7,15 @@ public class Weapon : Item, IWeapon
 
     Rigidbody rb;
     private Collider physicsCollider;
-    [SerializeField] private DamageCollider damageCollider;
-    Transform parent;
+    [SerializeField] private WeaponDamageCollider damageCollider;
 
     public float damageAmount;
     public float breakdownThreshold;
-    protected string owner { get; set; }
 
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
 
-    public string Owner { get => owner; set => owner = value; }
-
+    public IAttackSource AttackSource { get;  set; }
     #endregion
 
     private void Awake()
@@ -29,57 +26,80 @@ public class Weapon : Item, IWeapon
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init(this.gameObject, weaponSO);
+        Init(weaponSO);
     }
 
-    protected override void Init(GameObject instance, ItemSO itemData)
+    protected override void Init(ItemSO itemData)
     {
 
-        base.Init(instance,itemData);
+        base.Init(itemData);
 
         rb.isKinematic = false;
         physicsCollider.enabled = true;
         damageAmount = weaponSO.damageAmount;
         breakdownThreshold = weaponSO.breakdownThreshold;  
         damageCollider.DisableCollider();
+        damageCollider.SetWeapon(this);
      
     }
 
     public void PerformAttack()
     {
-        damageCollider.EnableCollider();
+        damageCollider.EnableCollider(damageAmount);
     }
 
     public void CancelAttack()
     {
         damageCollider.DisableCollider();
     }
-    public override void PickUp(Transform target)
+    public override void PickUp(IAttackSource target)
     {
+
+        if(breakdownThreshold <= 0)
+        {
+            Debug.Log("this weapon is broken");
+            return;
+        }
+
+
+        if (!target.CurrentWeapon.WeaponData().canOverride)
+            return;
+
+        AttackSource = target;
+ 
+        transform.SetParent(AttackSource.GetRightHand());
+        transform.position = AttackSource.GetRightHand().position;  
+        transform.rotation = AttackSource.GetRightHand().rotation; 
        
-        parent = target;
-        transform.SetParent(parent);
-        transform.position = target.position;  
-        transform.rotation = target.rotation; 
-        owner = target.name;    //replace with actual id
-        damageCollider.SetOwner(owner);
-        
         interactionCollder.DisableCollider();
         rb.isKinematic = true;  
         physicsCollider.enabled = false;
 
+        target.SetWeapon(this); 
+
+    }
+
+    public void ReduceDurability(float amount)
+    {
+        breakdownThreshold -= amount;   
+
+        if(breakdownThreshold <= 0)
+        {
+            AttackSource.ResetWeapon();
+            ThrowWeapon();    
+        }
     }
 
     public void ThrowWeapon()
     {
        
-        parent = null;
-        transform.SetParent(parent);
-        owner = null;   
-        damageCollider.ResetOwner();    
+        transform.SetParent(null);  
+        damageCollider.DisableCollider();
         interactionCollder.EnableCollider();
         rb.isKinematic = false;
         physicsCollider.enabled = true;
+
+        AttackSource = null;
 
     }
 

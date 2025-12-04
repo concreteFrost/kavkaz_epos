@@ -11,11 +11,11 @@ public class Shield : Item, IShield
 
     public float breakdownThreshold;
     public float defenceBonus;
-    protected string owner { get; set; }
+
+    public IAttackSource AttackSource { get; set; } = null;
 
     #region IShield Variables
     public ShieldSO ShieldData()=>shieldSO;
-    public string Owner { get => owner; set => owner = value; }
 
     #endregion
 
@@ -28,13 +28,13 @@ public class Shield : Item, IShield
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init(this.gameObject, shieldSO);
+        Init(shieldSO);
     }
 
-    protected override void Init(GameObject instance, ItemSO itemData)
+    protected override void Init( ItemSO itemData)
     {
 
-        base.Init(instance, itemData);
+        base.Init( itemData);
 
         rb.isKinematic = false;
         physicsCollider.enabled = true;
@@ -43,31 +43,36 @@ public class Shield : Item, IShield
         defenceBonus = shieldSO.defenceBonus;   
 
         defenceCollider.DisableCollider();  
+      
     }
 
     public void PerformDefence()
     {
-        physicsCollider.enabled = true;
+        defenceCollider.EnableCollider();
     }
 
     public void CancelDefence()
     {
-        physicsCollider.enabled = false;
+        defenceCollider.DisableCollider();
     }
 
-    public override void PickUp(Transform target)
+    public override void PickUp(IAttackSource s)
     {
 
-        parent = target;
+        AttackSource = s;   
+
+        parent = AttackSource.GetLeftHand();
         transform.SetParent(parent);
-        transform.position = target.position;
-        transform.rotation = target.rotation;
-        owner = target.name;    //replace with actual id
-        defenceCollider.SetOwner(owner);
+        transform.position = AttackSource.GetLeftHand().position;
+        transform.rotation = AttackSource.GetLeftHand().rotation;
+
+        defenceCollider.SetOwner(AttackSource);
       
         interactionCollder.DisableCollider();
         rb.isKinematic = true;
         physicsCollider.enabled = false;
+
+        s.SetShield(this);
 
     }
 
@@ -75,10 +80,11 @@ public class Shield : Item, IShield
     {
         parent = null;
         transform.SetParent(parent);
-        owner = null;
         defenceCollider.ResetOwner();
         interactionCollder.EnableCollider();
         rb.isKinematic = false;
         physicsCollider.enabled = true;
+
+        AttackSource = null;
     }
 }

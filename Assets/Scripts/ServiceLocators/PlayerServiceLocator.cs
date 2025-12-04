@@ -13,7 +13,8 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerStats stats;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
-    [SerializeField] private CharacterAnimator characterAnimator;   
+    [SerializeField] private CharacterAnimator characterAnimator;  
+    [SerializeField] private PlayerDamageManager damageManager;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class PlayerServiceLocator : MonoBehaviour
         combatInventory.Init(motor);
         combatController.Init(motor,combatInventory);
 
-        interaction.Init(combatInventory,motor);
+        interaction.Init(motor, combatInventory);
        
     }
 
