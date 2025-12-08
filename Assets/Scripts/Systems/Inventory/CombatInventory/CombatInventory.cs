@@ -6,6 +6,8 @@ public abstract class CombatInventory : MonoBehaviour , IAttackSource
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;
 
+    public IDamagable Damagable { get; set; } = null;
+
     public IWeapon DefaultWeapon { get; set; } = null;
 
     public IWeapon CurrentWeapon { get; set; } =null;
@@ -29,7 +31,7 @@ public abstract class CombatInventory : MonoBehaviour , IAttackSource
 
     public abstract void ResetShield();
 
-    public virtual void Init(ICharacterAnimator anim)
+    public virtual void Init(ICharacterAnimator anim, IDamagable damagable)
     {
         sourceId = GetInstanceID().ToString(); 
     }

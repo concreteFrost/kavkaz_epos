@@ -12,16 +12,7 @@ public abstract class CharacterDamageManager : MonoBehaviour, IDamagable
 
     public float Health() => currentHealth;
 
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-
-        if (currentHealth < 0)
-        {
-            Die();
-        }
-    }
-
+    public abstract void TakeDamage(float damage);
 
     public void Die()
     {

@@ -3,33 +3,25 @@ using UnityEngine;
 public class WeaponDamageCollider : DamageCollider
 {
     public IWeapon weaponOwner; // Ссылка на оружие, состояние которого будет уменьшаться
- 
+
     public void SetWeapon(IWeapon _weapon)
     {
         weaponOwner = _weapon;
     }
 
-    protected override void HandleCollision(Collider other)
+    protected override void HandleCollision(Collider other, float damage)
     {
-        if (collectedColliders.Contains(other) || weaponOwner == null)
+        if (attackInterrupted)
             return;
 
-        collectedColliders.Add(other);
+
+        if (collectedColliders.Contains(other))
+            return;
+
         weaponOwner.ReduceDurability(weaponOwner.WeaponData().breakdownPenalty);
 
-        var damagable = other.GetComponentInChildren<IDamagable>()
-                ?? other.GetComponent<IDamagable>();
+        if (TargetHasShield(other)) return;
 
-        if (damagable == null) return;
-
-        var targetId = damagable.SourceId();
-        bool isFriend = weaponOwner.AttackSource.TargetIds.Contains(targetId);
-
-        if (!isFriend && targetId != weaponOwner.AttackSource.SourceId())
-        {
-            // Вместо урона по цели, уменьшаем состояние оружия
-            damagable.TakeDamage(currentDamage);
-           
-        }
+        PerformNormalDamage(other);
     }
 }

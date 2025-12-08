@@ -26,10 +26,12 @@ public class PlayerServiceLocator : MonoBehaviour
         playerInput.Init(motor, combatController, thirdPersonCamera,interaction,characterAnimator );
         motor.Init(animator,stats);
 
-        combatInventory.Init(motor);
+        combatInventory.Init(motor, damageManager);
         combatController.Init(motor,combatInventory);
 
         interaction.Init(motor, combatInventory);
+
+        damageManager.Init(combatInventory);
        
     }
 

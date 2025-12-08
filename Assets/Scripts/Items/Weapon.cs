@@ -1,28 +1,20 @@
 using UnityEngine;
 
-public class Weapon : Item, IWeapon
+public class Weapon : CombatItem, IWeapon
 {
-
     public WeaponSO weaponSO;
 
-    Rigidbody rb;
-    private Collider physicsCollider;
     [SerializeField] private WeaponDamageCollider damageCollider;
 
     public float damageAmount;
-    public float breakdownThreshold;
-
+  
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
 
-    public IAttackSource AttackSource { get;  set; }
     #endregion
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        physicsCollider = GetComponent<Collider>(); 
-    }
+    public IAttackSource AttackSource { get; set; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,12 +25,11 @@ public class Weapon : Item, IWeapon
     {
 
         base.Init(itemData);
-
-        rb.isKinematic = false;
-        physicsCollider.enabled = true;
+        ToggleInteraction(true);
+       
         damageAmount = weaponSO.damageAmount;
-        breakdownThreshold = weaponSO.breakdownThreshold;  
-        damageCollider.DisableCollider();
+        breakdownThreshold = 100f;
+    
         damageCollider.SetWeapon(this);
      
     }
@@ -61,20 +52,14 @@ public class Weapon : Item, IWeapon
             return;
         }
 
-
         if (!target.CurrentWeapon.WeaponData().canOverride)
             return;
 
         AttackSource = target;
- 
-        transform.SetParent(AttackSource.GetRightHand());
-        transform.position = AttackSource.GetRightHand().position;  
-        transform.rotation = AttackSource.GetRightHand().rotation; 
        
-        interactionCollder.DisableCollider();
-        rb.isKinematic = true;  
-        physicsCollider.enabled = false;
-
+        AssignParent(target.GetRightHand());
+        ToggleInteraction(false);
+        
         target.SetWeapon(this); 
 
     }
@@ -92,13 +77,11 @@ public class Weapon : Item, IWeapon
 
     public void ThrowWeapon()
     {
-       
-        transform.SetParent(null);  
-        damageCollider.DisableCollider();
-        interactionCollder.EnableCollider();
-        rb.isKinematic = false;
-        physicsCollider.enabled = true;
 
+        ResetParent();
+        ToggleInteraction(true);
+
+        damageCollider.DisableCollider();
         AttackSource = null;
 
     }

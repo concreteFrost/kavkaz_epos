@@ -7,5 +7,4 @@ public interface IWeapon
     public void ThrowWeapon();
     public void ReduceDurability(float amount);
 
-    public IAttackSource AttackSource { get; set; }
 }

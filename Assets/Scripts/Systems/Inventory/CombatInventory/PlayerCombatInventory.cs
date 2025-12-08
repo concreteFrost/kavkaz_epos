@@ -6,11 +6,12 @@ public class PlayerCombatInventory : CombatInventory
 
     public BareHandsWeapon bareHands;
 
-    public override void Init(ICharacterAnimator _anim)
+    public override void Init(ICharacterAnimator _anim , IDamagable damagable)
     {
-        base.Init(_anim);
+        base.Init(_anim, damagable);
 
         anim = _anim;
+        Damagable = damagable;
 
         bareHands.SetOwner(this);
 
@@ -50,6 +51,7 @@ public class PlayerCombatInventory : CombatInventory
         }
 
         ShieldWeapon = null;
+        anim.IsShieldRaised = false;
 
     }
 

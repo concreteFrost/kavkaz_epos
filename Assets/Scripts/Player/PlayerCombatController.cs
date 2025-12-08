@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
@@ -72,8 +71,6 @@ public class PlayerCombatController : MonoBehaviour
         inventory.ShieldWeapon.ThrowShield();
         inventory.ResetShield();
     }
-
-
 
     void ResetCombo()
     {
