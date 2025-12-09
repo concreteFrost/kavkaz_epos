@@ -40,20 +40,23 @@ public class DefenceCollider : MonoBehaviour
         col.enabled = false;
     }
 
-    public void CalculateDamage(float incoming)
+    public void CalculateDamage(float healthDamage, float balanceDamage)
     {
-
+        // Прочность щита уменьшается
         Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
+
+        // Коэффициент защиты щита
         float defence = currentDefenceBonus != 0 ? currentDefenceBonus : 1f;
-        float result = defence * incoming;
 
-        if (Owner != null) {
-            Owner.TakeDamage(result);
+        // --- УРОН ---
+
+        // Урон после щита
+        float finalDamage = healthDamage * defence;
+
+        if (Owner != null)
+        {
+            Owner.TakeDamage(finalDamage,balanceDamage);
         }
-
-       
-       
     }
-
 
 }

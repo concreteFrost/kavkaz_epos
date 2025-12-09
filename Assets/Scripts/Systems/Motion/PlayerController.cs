@@ -22,7 +22,6 @@ public class PlayerController : CharacterMotor
         if (lockMovement) return;
 
         SetControllerMoveSpeed(playerStats);
-        //characterAnimator.SetAnimatorMoveSpeed(this);
 
         if (!useRootMotion)
             MoveCharacter(moveDirection);
@@ -112,4 +111,6 @@ public class PlayerController : CharacterMotor
         else
             animator.CrossFadeInFixedTime("JumpMove", .2f);
     }
+
+
 }

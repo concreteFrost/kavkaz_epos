@@ -15,7 +15,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public float Health() => currentHealth;
   
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float balanceDamage)
     {
         currentHealth -= damage;
 

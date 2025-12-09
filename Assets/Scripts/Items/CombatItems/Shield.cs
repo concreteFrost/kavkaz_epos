@@ -5,8 +5,6 @@ public class Shield : CombatItem, IShield
     public ShieldSO shieldSO;
 
     [SerializeField] private DefenceCollider defenceCollider;
-    public float defenceBonus;
-
     public IAttackSource AttackSource { get; set; } = null;
 
     #region IShield Variables
@@ -26,8 +24,7 @@ public class Shield : CombatItem, IShield
         ToggleInteraction(true);
 
         base.breakdownThreshold = 100f;
-        defenceBonus = shieldSO.defenceBonus;
-
+       
         defenceCollider.SetShieldData(this);
         defenceCollider.DisableCollider();  
       

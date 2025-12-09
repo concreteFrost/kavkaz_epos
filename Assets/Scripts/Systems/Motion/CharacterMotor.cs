@@ -13,7 +13,6 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     [Tooltip("Rotate with the Camera forward when standing idle")]
     public bool rotateWithCamera = false;
 
-
     [Header("animator smooth speed")]
     [Range(1f, 20f)]
     public float movementSmooth = 6f;
@@ -94,7 +93,6 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
     internal Vector3 moveDirection;                     // used to know the direction you're moving 
 
-
     #region Combat Internal Variables
 
     private float attackSlow = 1f;
@@ -105,6 +103,12 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     internal int attackIndex = 0;
     internal int weaponIndex = 0;
 
+    #endregion
+
+    #region Damage Internal Variabled
+
+    internal bool isDamaged = false;
+    internal float balancePenalty = 0f;
     #endregion
 
     #endregion
@@ -125,8 +129,9 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public bool IsWeaponed { get => isWeaponed; set => isWeaponed =value; }
     public int AttackIndex { get => attackIndex; set => attackIndex = value; }
     public int WeaponIndex { get => weaponIndex; set => weaponIndex = value; }
-
     public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
+    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
+    public float BalancePenalty { get=>balancePenalty; set => balancePenalty = value; }
 
     #endregion
 
@@ -180,6 +185,19 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         AirControl();
     }
 
+
+    private void OnAnimatorMove()
+    {
+
+        if (animator.applyRootMotion)
+        {
+            //Debug.Log("root motion applied");
+            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+            _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
+        }
+
+    }
+
     #region Locomotion
 
     public virtual void SetControllerMoveSpeed(CharacterStats stats)
@@ -202,7 +220,9 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         if (_direction.magnitude > 1f)
             _direction.Normalize();
 
-        Vector3 targetPosition = (useRootMotion ? animator.rootPosition : _rigidbody.position) + FinalDirection(_direction);
+     
+
+        Vector3 targetPosition = _rigidbody.position + FinalDirection(_direction);
         Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
 
         bool useVerticalVelocity = true;
@@ -212,13 +232,12 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     private Vector3 FinalDirection(Vector3 _direction)
     {
-        // если атакуем — плавно уменьшаем скорость
-        float target = (stopMove || isAttacking) ? 0f : 1f;
+        // если атакуем или ранены — плавно уменьшаем скорость
+        float target = (stopMove || isAttacking || isDamaged) ? 0f : 1f;
         attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
 
         return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
     }
-
 
     public virtual void CheckSlopeLimit()
     {
@@ -256,7 +275,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public virtual void RotateToDirection(Vector3 direction)
     {
         //предотвращаем вращение персонажа если атакуем
-        float result = isAttacking ? 0 : rotationSpeed;
+        float result = (isAttacking || isDamaged) ? 0 : rotationSpeed;
 
         RotateToDirection(direction, result);
     }

@@ -7,7 +7,8 @@ public class DamageCollider : MonoBehaviour
     public List<Collider> collectedColliders = new List<Collider>();
 
     public bool attackInterrupted = false; // используется при обнаружении щита у цели
-    protected float currentDamage;
+    protected float healthDamage;
+    protected float balanceDamage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -16,10 +17,11 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
-    public void EnableCollider(float _currDamage)
+    public void EnableCollider(float _healthDamage, float _balanceDamage)
     {
         col.enabled = true;
-        currentDamage = _currDamage;
+        healthDamage = _healthDamage;
+        balanceDamage = _balanceDamage;
     }
 
     public void DisableCollider()
@@ -35,8 +37,7 @@ public class DamageCollider : MonoBehaviour
         {
             var defence = other.GetComponent<DefenceCollider>();
 
-            defence.CalculateDamage(currentDamage);
-            attackInterrupted = true;
+            defence.CalculateDamage(healthDamage,balanceDamage);
             return true;
         }
 
@@ -50,10 +51,10 @@ public class DamageCollider : MonoBehaviour
 
         if (damagable == null) return;
 
-        damagable.TakeDamage(currentDamage);
+        damagable.TakeDamage(healthDamage,balanceDamage);
     }
 
-    protected virtual void HandleCollision(Collider other, float damage)
+    protected virtual void HandleCollision(Collider other)
     {
         if (attackInterrupted)
             return;
@@ -64,8 +65,11 @@ public class DamageCollider : MonoBehaviour
 
         collectedColliders.Add(other);
 
-
-        if (TargetHasShield(other)) return;
+        if (TargetHasShield(other))
+        {
+            attackInterrupted = true;
+            return;
+        }
 
         PerformNormalDamage(other);
 
@@ -73,7 +77,7 @@ public class DamageCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        HandleCollision(other, currentDamage);
+        HandleCollision(other);
     }
 
 

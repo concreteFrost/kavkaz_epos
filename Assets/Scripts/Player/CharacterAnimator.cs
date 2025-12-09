@@ -30,6 +30,10 @@ public class CharacterAnimator : MonoBehaviour
         animator.SetInteger(AnimatorParameters.AttackIndex, IAnim.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, IAnim.WeaponIndex);
 
+
+        //damage control
+        animator.SetBool(AnimatorParameters.IsDamaged, IAnim.IsDamaged);
+        animator.SetFloat(AnimatorParameters.BalancePenalty, IAnim.BalancePenalty); 
     }
 
     public void SetAnimatorMoveSpeed(ICharacterAnimator IAnim)
@@ -39,13 +43,6 @@ public class CharacterAnimator : MonoBehaviour
         IAnim.HorizontalSpeed = relativeInput.x;
 
         var newInput = new Vector2(IAnim.VerticalSpeed, IAnim.HorizontalSpeed);
-
-        //if (isAttacking) //предотвращаем анимацию ходьбы при ударе
-        //{
-        //    inputMagnitude = Mathf.Lerp(inputMagnitude, 0f, Time.deltaTime * animationStopSmooth);
-        //    return;
-        //}
-
 
         IAnim.InputMagnitude = Mathf.Clamp(newInput.magnitude, 0, IAnim.IsSprinting ? AnimatorConsts.runningSpeed : AnimatorConsts.walkSpeed);
        
@@ -67,5 +64,7 @@ public static partial class AnimatorParameters
     public static int WeaponType = Animator.StringToHash("WeaponType");
     public static int HasShield = Animator.StringToHash("HasShield");
     public static int IsShieldRaised = Animator.StringToHash("IsShieldRaised");
+    public static int IsDamaged = Animator.StringToHash("IsDamaged");
+    public static int BalancePenalty = Animator.StringToHash("BalancePenalty");
 }
 

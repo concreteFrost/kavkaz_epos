@@ -61,8 +61,6 @@ public class PlayerInput : MonoBehaviour
 
         controls.Player.Block.canceled += ctx => playerCombatController.CancelBlock();
 
-
-
         // Interaction
         controls.Player.Interaction.performed += ctx => interactions.Interact();
 
@@ -156,8 +154,10 @@ public class PlayerInput : MonoBehaviour
     protected virtual bool JumpConditions()
     {
         return characterController.isGrounded &&
+              
                characterController.GroundAngle() < characterController.slopeLimit &&
                !characterController.isJumping &&
+               !characterController.isDamaged &&
                !characterController.stopMove;
     }
 

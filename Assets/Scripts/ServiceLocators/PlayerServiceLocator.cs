@@ -31,7 +31,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         interaction.Init(motor, combatInventory);
 
-        damageManager.Init(combatInventory);
+        damageManager.Init(combatInventory, motor);
        
     }
 

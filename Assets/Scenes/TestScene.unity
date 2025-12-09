@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 0695f9e4227a6bd429600b7bda8824c7, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: e3a3791f7afbe214db365ebf45bef6a1, type: 2}
   m_LightingSettings: {fileID: 1959531398}
 --- !u!196 &4
 NavMeshSettings:
@@ -18490,6 +18490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   collectedColliders: []
+  attackInterrupted: 0
+  balanceReduction: 1
 --- !u!1 &798197151
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class WeaponDamageCollider : DamageCollider
         weaponOwner = _weapon;
     }
 
-    protected override void HandleCollision(Collider other, float damage)
+    protected override void HandleCollision(Collider other)
     {
         if (attackInterrupted)
             return;
@@ -18,7 +18,7 @@ public class WeaponDamageCollider : DamageCollider
         if (collectedColliders.Contains(other))
             return;
 
-        weaponOwner.ReduceDurability(weaponOwner.WeaponData().breakdownPenalty);
+        weaponOwner.ReduceDurability(weaponOwner.WeaponData().GetBreakdownPenalty());
 
         if (TargetHasShield(other)) return;
 

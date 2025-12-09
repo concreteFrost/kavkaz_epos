@@ -9,6 +9,9 @@ public class DamageSource : MonoBehaviour
 
     bool colliderActive = false;
 
+    private float healthDamage = 10f;
+    private float balanceDamage = 0.1f;
+
     void Start()
     {
         defaultCooldown = cooldown;
@@ -21,7 +24,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(10);
+            damageCollider.EnableCollider(healthDamage,balanceDamage);
             colliderActive = true;
         }
 

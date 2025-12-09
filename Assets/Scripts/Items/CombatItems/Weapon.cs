@@ -6,8 +6,6 @@ public class Weapon : CombatItem, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    public float damageAmount;
-  
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
 
@@ -27,7 +25,6 @@ public class Weapon : CombatItem, IWeapon
         base.Init(itemData);
         ToggleInteraction(true);
        
-        damageAmount = weaponSO.damageAmount;
         breakdownThreshold = 100f;
     
         damageCollider.SetWeapon(this);
@@ -36,7 +33,9 @@ public class Weapon : CombatItem, IWeapon
 
     public void PerformAttack()
     {
-        damageCollider.EnableCollider(damageAmount);
+        var healthDamage = weaponSO.GetHealthDamage();
+        var balanceDamage = weaponSO.GetBalanceDamage();
+        damageCollider.EnableCollider(healthDamage, balanceDamage);
     }
 
     public void CancelAttack()
