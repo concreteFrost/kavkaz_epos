@@ -1,25 +1,68 @@
 using UnityEngine;
 
-public abstract class CharacterStats : MonoBehaviour
+public abstract class CharacterStats : MonoBehaviour, IDamagable , ICharacterStats
 {
-    public CharacterStatsSO statsSO;
+
+    public BaseCharacterStatsSO statsSO;
 
     [Header("movement speed")]
     public float walkSpeed;
     public float runningSpeed;
 
     [Header("jumping")]
-    public float sprintSpeed;
     public float jumpHeight;
     public float jumpTimer;
 
+    [Header("health")]
+    public float currentHealth;
+    public float maxHealth;
 
-    public virtual void Init()
+    [Header("stamina")]
+    public float currentStamina;
+    public float maxStamina;
+    public float staminaRunReducePenalty = 0.03f;
+    public float staminaJumpReducePenalty = 2f;
+    public float staminaRegenDelay = 5f;
+    public float staminaRegenRate = 0.1f;
+    protected float staminaRegenTimer = 0.0f; 
+
+
+    [SerializeField] protected string damagableId;
+    [SerializeField] protected float currentBalance;
+
+    public string SourceId() => damagableId;
+
+    public float Health() => currentHealth;
+
+    public abstract void TakeDamage(float d, float b);
+
+    public void Die()
+    {
+        Debug.Log("died");
+    }
+
+    protected void ResetBalance()
+    {
+        currentBalance = 0;
+    }
+
+    protected void InitializeStats()
     {
         walkSpeed = statsSO.walkSpeed;
         runningSpeed = statsSO.runningSpeed;
-        sprintSpeed = statsSO.sprintSpeed;
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
+
+        currentHealth = statsSO.health;
+        maxHealth = currentHealth;
+
+        currentStamina = statsSO.stamina;
+        maxStamina = currentStamina;    
+
     }
+
+    public abstract void ReduceStamina(float amount);
+    public abstract void HandleStaminaRegen();
+
+
 }

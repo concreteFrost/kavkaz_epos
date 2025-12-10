@@ -5,22 +5,24 @@ public class PlayerCombatController : MonoBehaviour
 {
     ICharacterAnimator anim;
 
-    PlayerCombatInventory inventory;    
+    PlayerCombatInventory inventory;  
+    PlayerStats stats;
     [SerializeField] private int totalClicks = 0;
 
     IEnumerator currentCoroutine = null;
 
     bool isInQueue = false;
 
-    public void Init(ICharacterAnimator _anim, PlayerCombatInventory inv)
+    public void Init(ICharacterAnimator _anim, PlayerCombatInventory inv, PlayerStats _stats)
     {
         anim = _anim;
-        inventory = inv;    
+        inventory = inv; 
+        stats = _stats;
     }
 
     public void PerformAttack()
     {
-        if (anim.IsJumping || !anim.IsGrounded)
+        if (anim.IsJumping || !anim.IsGrounded || stats.currentStamina <=0)
             return;
 
         if (anim.IsShieldRaised)
@@ -99,6 +101,7 @@ public class PlayerCombatController : MonoBehaviour
             var currentAttack = currentAttakChain.attackList[totalClicks];
 
             w.SetCurrentAttack(currentAttack);
+            //stats.ReduceStamina(currentAttack.staminaPenalty);
 
             float time = currentAttack.attackTime;
 
@@ -106,9 +109,10 @@ public class PlayerCombatController : MonoBehaviour
 
             if (isInQueue)
             {
-                isInQueue = false;
-
+                   
                 totalClicks++;
+
+                isInQueue = false;
                 if (totalClicks > currentAttakChain.attackList.Count-1) // сбрасываем цепочку на начало
                     break;
             }

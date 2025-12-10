@@ -9,10 +9,13 @@ public class AttackBehaviour : StateMachineBehaviour
     public bool attackDisabled = false;
 
     CombatInventory inv;
+    ICharacterStats stats;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<CombatInventory>();
+        stats = animator.GetComponentInChildren<ICharacterStats>();
+        stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,8 +25,9 @@ public class AttackBehaviour : StateMachineBehaviour
 
         if (!attackEnabled & t >= enableTime)
         {
-
+           
             inv.CurrentWeapon.PerformAttack();
+           
             attackEnabled = true;
         }
 

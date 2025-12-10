@@ -9,8 +9,6 @@ public abstract class CharacterDamageManager : MonoBehaviour, IDamagable
 
     public string SourceId() => damagableId;
 
-    public string SelfId() => damagableId;
-
     public float Health() => currentHealth;
 
     public abstract void TakeDamage(float d, float b);
@@ -19,8 +17,6 @@ public abstract class CharacterDamageManager : MonoBehaviour, IDamagable
     {
         Debug.Log("died");
     }
-
- 
 
     protected void ResetBalance()
     {

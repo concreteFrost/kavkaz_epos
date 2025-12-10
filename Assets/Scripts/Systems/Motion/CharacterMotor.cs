@@ -5,7 +5,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     #region Inspector Variables
 
-    internal CharacterStats playerStats;
+    internal PlayerStats playerStats;
 
     [Header("camera rotation")]
     [Tooltip("Rotation speed of the character")]
@@ -135,7 +135,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     #endregion
 
-    public void Init(Animator anim, CharacterStats stats)
+    public void Init(Animator anim, PlayerStats stats)
     {
         animator = anim;
         playerStats = stats;

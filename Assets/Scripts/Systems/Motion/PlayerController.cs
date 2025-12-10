@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerController : CharacterMotor
+public class PlayerController: CharacterMotor
 {
 
     public virtual void ControlAnimatorRootMotion()
@@ -69,8 +69,12 @@ public class PlayerController : CharacterMotor
 
     public virtual void Sprint(bool value)
     {
-        var sprintConditions = (input.sqrMagnitude > 0.1f && isGrounded &&
-            !((horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f)));
+        bool isMoving = input.sqrMagnitude > 0.1f && !(horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f);
+        bool hasStamina = playerStats.currentStamina > 0;
+      
+
+
+        var sprintConditions = isMoving && isGrounded && !isAttacking && hasStamina;
 
         if (value && sprintConditions)
         {
@@ -83,6 +87,8 @@ public class PlayerController : CharacterMotor
                 else if (!isSprinting)
                 {
                     isSprinting = true;
+
+                   
                 }
             }
             else if (!useContinuousSprint && isSprinting)
@@ -94,16 +100,24 @@ public class PlayerController : CharacterMotor
         {
             isSprinting = false;
         }
+
+        if (isSprinting)
+        {
+            playerStats.ReduceStamina(playerStats.staminaRunReducePenalty);
+        }
+       
     }
 
     public virtual void Jump()
     {
-        if (isAttacking)
+        if (isAttacking || playerStats.currentStamina <=0)
             return;
 
         // trigger jump behaviour
+        playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
         isJumping = true;
+        
 
         // trigger jump animations
         if (input.sqrMagnitude < 0.1f)
