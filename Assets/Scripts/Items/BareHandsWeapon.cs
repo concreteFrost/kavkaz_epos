@@ -43,9 +43,9 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     public void PerformAttack()
     {
-        var healthDamage = currentAttack.attackDamage;
-        var balanceDamage = currentAttack.balanceDamage;  
-        damageCollider.EnableCollider(healthDamage,balanceDamage);
+        var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
+        var balanceDamage = currentAttack.GetFinalBalanceDamage();
+        damageCollider.EnableCollider(healthDamage, balanceDamage);
     }
 
     public void SetOwner(IAttackSource source)

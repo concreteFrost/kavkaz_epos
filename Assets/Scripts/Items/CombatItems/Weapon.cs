@@ -40,8 +40,8 @@ public class Weapon : CombatItem, IWeapon
 
     public void PerformAttack()
     {
-        var healthDamage = currentAttack.attackDamage;
-        var balanceDamage = currentAttack.balanceDamage;
+        var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
+        var balanceDamage = currentAttack.GetFinalBalanceDamage();
         damageCollider.EnableCollider(healthDamage, balanceDamage);
     }
 

@@ -5,8 +5,19 @@ using UnityEngine;
 public class Attack
 {
     public float attackTime = 1f;
-    public float attackDamage;
-    public float balanceDamage;
+    public float healthDamageMultiplier;
+    public float balanceDamageMultiplier;
+    public float staminaPenalty;
+
+    public float GetFinalHealthDamage(float baseDamage)
+    {
+        return baseDamage + (baseDamage * healthDamageMultiplier);
+    }
+
+    public float GetFinalBalanceDamage()
+    {
+        return balanceDamageMultiplier;
+    }
 }
 
 [CreateAssetMenu(fileName = "AttackSet", menuName = "Scriptable Systems/Combat/AttackSet")]
