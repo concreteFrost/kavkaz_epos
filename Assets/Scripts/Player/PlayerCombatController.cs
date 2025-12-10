@@ -96,7 +96,11 @@ public class PlayerCombatController : MonoBehaviour
             anim.IsAttacking = true;
             anim.AttackIndex = totalClicks;
 
-            float time = currentAttakChain.attackList[totalClicks].attackTime;
+            var currentAttack = currentAttakChain.attackList[totalClicks];
+
+            w.SetCurrentAttack(currentAttack);
+
+            float time = currentAttack.attackTime;
 
             yield return new WaitForSeconds(time);
 

@@ -3,12 +3,19 @@ using UnityEngine;
 public class Weapon : CombatItem, IWeapon
 {
     public WeaponSO weaponSO;
+    private Attack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
 
+    public void SetCurrentAttack(Attack attack)
+    {
+        currentAttack = attack;
+    }
+
+    public Attack GetCurrentAttack() => currentAttack;
     #endregion
 
     public IAttackSource AttackSource { get; set; }
@@ -33,8 +40,8 @@ public class Weapon : CombatItem, IWeapon
 
     public void PerformAttack()
     {
-        var healthDamage = weaponSO.GetHealthDamage();
-        var balanceDamage = weaponSO.GetBalanceDamage();
+        var healthDamage = currentAttack.attackDamage;
+        var balanceDamage = currentAttack.balanceDamage;
         damageCollider.EnableCollider(healthDamage, balanceDamage);
     }
 
@@ -85,5 +92,5 @@ public class Weapon : CombatItem, IWeapon
 
     }
 
-
+   
 }

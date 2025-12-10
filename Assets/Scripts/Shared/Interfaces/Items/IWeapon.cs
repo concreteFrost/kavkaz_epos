@@ -6,5 +6,7 @@ public interface IWeapon
     public void CancelAttack();
     public void ThrowWeapon();
     public void ReduceDurability(float amount);
+    public void SetCurrentAttack(Attack attack);
+    public Attack GetCurrentAttack();
 
 }

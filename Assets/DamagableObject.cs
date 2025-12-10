@@ -17,6 +17,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void TakeDamage(float damage, float balanceDamage)
     {
+        Debug.Log(damage + " " + balanceDamage);
         currentHealth -= damage;
 
         if (currentHealth <= 0) { 

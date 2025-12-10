@@ -5,6 +5,8 @@ using UnityEngine;
 public class Attack
 {
     public float attackTime = 1f;
+    public float attackDamage;
+    public float balanceDamage;
 }
 
 [CreateAssetMenu(fileName = "AttackSet", menuName = "Scriptable Systems/Combat/AttackSet")]

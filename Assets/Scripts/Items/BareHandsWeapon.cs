@@ -3,10 +3,24 @@ using UnityEngine;
 public class BareHandsWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField] private WeaponSO weaponSO;
-    public WeaponSO WeaponData() => weaponSO;
+    private Attack currentAttack;
+   
     public IAttackSource AttackSource { get; set; }
 
     [SerializeField] private WeaponDamageCollider damageCollider;
+
+    #region IWeapon Variables
+    public WeaponSO WeaponData() => weaponSO;
+
+    public void SetCurrentAttack(Attack attack)
+    {
+        currentAttack = attack;
+    }
+
+    public Attack GetCurrentAttack() => currentAttack;
+
+
+    #endregion
 
     public void ReduceDurability(float amount) 
     {
@@ -29,8 +43,8 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     public void PerformAttack()
     {
-        var healthDamage = weaponSO.GetHealthDamage();
-        var balanceDamage = weaponSO.GetBalanceDamage();    
+        var healthDamage = currentAttack.attackDamage;
+        var balanceDamage = currentAttack.balanceDamage;  
         damageCollider.EnableCollider(healthDamage,balanceDamage);
     }
 
@@ -44,6 +58,5 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
         //без имплементации
     }
 
-
-  
+   
 }
