@@ -5,6 +5,8 @@ public abstract class CharacterStats : MonoBehaviour, IDamagable , ICharacterSta
 
     public BaseCharacterStatsSO statsSO;
 
+    protected bool isDead;
+
     [Header("movement speed")]
     public float walkSpeed;
     public float runningSpeed;
@@ -34,10 +36,13 @@ public abstract class CharacterStats : MonoBehaviour, IDamagable , ICharacterSta
 
     public float Health() => currentHealth;
 
+    public bool IsDead() => isDead; 
+
     public abstract void TakeDamage(float d, float b);
 
-    public void Die()
+    public virtual void Die()
     {
+        isDead = true;
         Debug.Log("died");
     }
 

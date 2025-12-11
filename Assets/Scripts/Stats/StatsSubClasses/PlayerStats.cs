@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : CharacterStats
 {
     PlayerStatsUI ui;
+    PlayerInput input;
     IAttackSource inventory;
     ICharacterAnimator animator;
     private void Awake()
@@ -10,15 +12,15 @@ public class PlayerStats : CharacterStats
         damagableId = GetInstanceID().ToString();
     }
 
-    public void Init(IAttackSource src, ICharacterAnimator anim, PlayerStatsUI _ui)
+    public void Init(PlayerStatsServiceProvider provider)
     {
         base.InitializeStats();
-
-        inventory = src;
-        animator = anim;
-        ui = _ui;
-
+        
+        ui = provider.playerStatsUI;
         ui.Init(this);
+        inventory = provider.combatInventory;
+        animator = provider.motor;
+        input = provider.input;
     }
 
     private void Update()
@@ -32,9 +34,42 @@ public class PlayerStats : CharacterStats
 
     }
 
+    public override void Die()
+    {
+        base.Die();
+        input.controls.Disable();
+
+        inventory.CurrentWeapon?.ThrowWeapon();
+        inventory.ShieldWeapon?.ThrowShield();
+        inventory.ResetWeapon();
+
+        StartCoroutine(RespawnCoroutine(3f));
+
+    }
+
+    public void Respawn()
+    {
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        input.controls.Enable();  
+        
+        ui.UpdateHealthSlider(currentHealth);
+        ui.UpdateStaminaSlider(currentStamina);
+
+        isDead = false;
+      
+    }
+
+    IEnumerator RespawnCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Respawn();
+    }
+
     #region Health Control
     public override void TakeDamage(float damage, float balanceDamage)
     {
+        if(isDead) return;
 
         animator.BalancePenalty = balanceDamage;
 

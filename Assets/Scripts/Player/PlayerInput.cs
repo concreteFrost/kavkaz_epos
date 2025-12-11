@@ -3,21 +3,16 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [HideInInspector] public PlayerController characterController;
-    [HideInInspector] public PlayerCombatController playerCombatController;
-    [HideInInspector] public vThirdPersonCamera tpCamera;
-    [HideInInspector] public CharacterAnimator characterAnimator;
-    [HideInInspector] public Camera cameraMain;
+    PlayerInputServiceProvider provider;
+    private Camera cameraMain;
 
-    private PlayerInteract interactions;
-    private PlayerControls controls;
+    [HideInInspector] public PlayerControls controls;
 
     private Vector2 moveInput;   // Move
     private Vector2 lookInput;   // Mouse/Gamepad look
     private bool sprintHeld;
     private bool jumpPressed;
     private bool throwHeld;
-
     protected virtual void Awake()
     {
         controls = new PlayerControls();
@@ -45,24 +40,24 @@ public class PlayerInput : MonoBehaviour
         controls.Player.Attack.performed += ctx =>
         {
             if (throwHeld)
-                playerCombatController.ThrowWeapon();
+               provider.combatController.ThrowWeapon();
             else
-                playerCombatController.PerformAttack();
+                provider.combatController.PerformAttack();
 
         };
 
         controls.Player.Block.performed += ctx =>
         {
             if (throwHeld)
-                playerCombatController.ThrowShield();
+                provider.combatController.ThrowShield();
             else
-                playerCombatController.PerformBlock();
+                provider.combatController.PerformBlock();
         };
 
-        controls.Player.Block.canceled += ctx => playerCombatController.CancelBlock();
+        controls.Player.Block.canceled += ctx => provider.combatController.CancelBlock();
 
         // Interaction
-        controls.Player.Interaction.performed += ctx => interactions.Interact();
+        controls.Player.Interaction.performed += ctx => provider.interact.Interact();
 
     }
 
@@ -71,38 +66,36 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        characterController.ControlLocomotionType();
-        characterController.ControlRotationType();
 
-        characterAnimator.UpdateAnimator(characterController);
-        characterAnimator.SetAnimatorMoveSpeed(characterController);
+       provider.controller.ControlLocomotionType();
+       provider.controller.ControlRotationType();
+
+       provider.animator.UpdateAnimator(provider.controller);
+       provider.animator.SetAnimatorMoveSpeed(provider.controller);
     }
 
 
     protected virtual void Update()
     {
+        
         InputHandle();
-
-        characterController.UpdateMotor();
+        provider.controller.UpdateMotor();
 
     }
 
-    public virtual void OnAnimatorMove()
+    public void Init(PlayerInputServiceProvider serviceProvider)
     {
-        characterController.ControlAnimatorRootMotion();
+        provider = serviceProvider;
     }
+
+    //public virtual void OnAnimatorMove()
+    //{
+    //    characterController.ControlAnimatorRootMotion();
+    //}
 
     #region Controller Setup
 
-    public void Init(PlayerController controller, PlayerCombatController combat, vThirdPersonCamera camera, PlayerInteract interact, CharacterAnimator anim)
-    {
-        characterController = controller;
-        playerCombatController = combat;
-        tpCamera = camera;
-        interactions = interact;
-        characterAnimator = anim;
 
-    }
 
     protected virtual void InputHandle()
     {
@@ -119,8 +112,8 @@ public class PlayerInput : MonoBehaviour
 
     public virtual void MoveInput()
     {
-        characterController.input.x = moveInput.x;
-        characterController.input.z = moveInput.y;
+       provider.controller.input.x = moveInput.x;
+       provider.controller.input.z = moveInput.y;
     }
 
     protected virtual void CameraInput()
@@ -132,39 +125,39 @@ public class PlayerInput : MonoBehaviour
             else
             {
                 cameraMain = Camera.main;
-                characterController.rotateTarget = cameraMain.transform;
+                provider.controller.rotateTarget = cameraMain.transform;
             }
         }
 
         if (cameraMain)
-            characterController.UpdateMoveDirection(cameraMain.transform);
+            provider.controller.UpdateMoveDirection(cameraMain.transform);
 
-        if (tpCamera == null)
+        if (provider.vThirdPersonCamera == null)
             return;
 
-        tpCamera.RotateCamera(lookInput.x, lookInput.y);
+        provider.vThirdPersonCamera.RotateCamera(lookInput.x, lookInput.y);
     }
 
 
     protected virtual void SprintInput()
     {
-        characterController.Sprint(sprintHeld);
+        provider.controller.Sprint(sprintHeld);
     }
 
     protected virtual bool JumpConditions()
     {
-        return characterController.isGrounded &&
-              
-               characterController.GroundAngle() < characterController.slopeLimit &&
-               !characterController.isJumping &&
-               !characterController.isDamaged &&
-               !characterController.stopMove;
+        return provider.controller.isGrounded &&
+
+               provider.controller.GroundAngle() < provider.controller.slopeLimit &&
+               !provider.controller.isJumping &&
+               !provider.controller.isDamaged &&
+               !provider.controller.stopMove;
     }
 
     protected virtual void JumpInput()
     {
         if (jumpPressed && JumpConditions())
-            characterController.Jump();
+            provider.controller.Jump();
 
         jumpPressed = false; // consume press
     }

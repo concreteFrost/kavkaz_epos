@@ -135,10 +135,10 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     #endregion
 
-    public void Init(Animator anim, PlayerStats stats)
+    public void Init(PlayerControllerServiceProvider service)
     {
-        animator = anim;
-        playerStats = stats;
+        animator = service.animator;
+        playerStats = service.stats;
        
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
@@ -179,6 +179,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
 
     public virtual void UpdateMotor()
     {
+        
         CheckGround();
         CheckSlopeLimit();
         ControlJumpBehaviour();

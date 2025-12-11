@@ -88,6 +88,7 @@ public class Weapon : CombatItem, IWeapon
         ToggleInteraction(true);
 
         damageCollider.DisableCollider();
+        AttackSource.ResetWeapon();
         AttackSource = null;
 
     }

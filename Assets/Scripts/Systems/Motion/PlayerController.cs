@@ -3,19 +3,19 @@
 public class PlayerController: CharacterMotor
 {
 
-    public virtual void ControlAnimatorRootMotion()
-    {
-        if (!this.enabled) return;
+    //public virtual void ControlAnimatorRootMotion()
+    //{
+    //    if (!this.enabled) return;
 
-        if (inputSmooth == Vector3.zero)
-        {
-            transform.position = animator.rootPosition;
-            transform.rotation = animator.rootRotation;
-        }
+    //    if (inputSmooth == Vector3.zero)
+    //    {
+    //        transform.position = animator.rootPosition;
+    //        transform.rotation = animator.rootRotation;
+    //    }
 
-        if (useRootMotion)
-            MoveCharacter(moveDirection);
-    }
+    //    if (useRootMotion)
+    //        MoveCharacter(moveDirection);
+    //}
 
     public virtual void ControlLocomotionType()
     {

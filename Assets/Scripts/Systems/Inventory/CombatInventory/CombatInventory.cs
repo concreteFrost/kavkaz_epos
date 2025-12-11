@@ -31,7 +31,7 @@ public abstract class CombatInventory : MonoBehaviour , IAttackSource
 
     public abstract void ResetShield();
 
-    public virtual void Init(ICharacterAnimator anim, IDamagable damagable)
+    public virtual void Init(PlayerCombatInventoryServiceProvider service)
     {
         sourceId = GetInstanceID().ToString(); 
     }

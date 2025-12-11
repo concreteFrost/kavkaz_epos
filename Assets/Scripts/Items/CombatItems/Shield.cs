@@ -77,6 +77,7 @@ public class Shield : CombatItem, IShield
         ToggleInteraction(true);
 
         defenceCollider.ResetOwner();
+        AttackSource.ResetShield();
         AttackSource = null;
     }
 }

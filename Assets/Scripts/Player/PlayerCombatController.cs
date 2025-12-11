@@ -5,7 +5,7 @@ public class PlayerCombatController : MonoBehaviour
 {
     ICharacterAnimator anim;
 
-    PlayerCombatInventory inventory;  
+    IAttackSource inventory;  
     PlayerStats stats;
     [SerializeField] private int totalClicks = 0;
 
@@ -13,11 +13,11 @@ public class PlayerCombatController : MonoBehaviour
 
     bool isInQueue = false;
 
-    public void Init(ICharacterAnimator _anim, PlayerCombatInventory inv, PlayerStats _stats)
+    public void Init(PlayerCombatControllerServiceProvider service)
     {
-        anim = _anim;
-        inventory = inv; 
-        stats = _stats;
+        anim = service.motor;
+        inventory = service.combatInventory; 
+        stats = service.stats;
     }
 
     public void PerformAttack()
@@ -47,7 +47,7 @@ public class PlayerCombatController : MonoBehaviour
     public void ThrowWeapon()
     {   
         inventory.CurrentWeapon.ThrowWeapon();
-        inventory.ResetWeapon();    
+        //inventory.ResetWeapon();    
     }
 
 
@@ -66,12 +66,12 @@ public class PlayerCombatController : MonoBehaviour
         anim.IsShieldRaised = false;
     }
 
-    internal void ThrowShield()
+    public void ThrowShield()
     {
         if (inventory.ShieldWeapon == null) return;
 
         inventory.ShieldWeapon.ThrowShield();
-        inventory.ResetShield();
+        //inventory.ResetShield();
     }
 
     void ResetCombo()
@@ -128,5 +128,5 @@ public class PlayerCombatController : MonoBehaviour
         currentCoroutine = null;
     }
 
-
+   
 }

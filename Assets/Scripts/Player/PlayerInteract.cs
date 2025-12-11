@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerInteract : MonoBehaviour, ICollector
+public class PlayerInteract : MonoBehaviour, ICollector 
 {
     ICharacterAnimator animator;
     IAttackSource attackSource;
@@ -8,11 +8,11 @@ public class PlayerInteract : MonoBehaviour, ICollector
     private IPickable pickable { get; set; }=null;
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
-    public void Init(ICharacterAnimator anim, IAttackSource source)
+    public void Init(PlayerInteractServiceProvider service)
     {
        
-        animator = anim;  
-        attackSource = source;
+        animator = service.motor;  
+        attackSource = service.combatInventory;
     }
 
     public void Interact()

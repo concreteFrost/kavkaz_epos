@@ -6,12 +6,12 @@ public class PlayerCombatInventory : CombatInventory
 
     public BareHandsWeapon bareHands;
 
-    public override void Init(ICharacterAnimator _anim , IDamagable damagable)
+    public override void Init(PlayerCombatInventoryServiceProvider service)
     {
-        base.Init(_anim, damagable);
+        base.Init(service);
 
-        anim = _anim;
-        Damagable = damagable;
+        anim = service.motor;
+        Damagable = service.stats;
 
         bareHands.SetOwner(this);
 

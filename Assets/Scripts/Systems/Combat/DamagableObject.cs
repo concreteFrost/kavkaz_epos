@@ -2,21 +2,19 @@ using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
 {
+    private bool isDead;
 
     [SerializeField] float currentHealth = 30;
     [SerializeField] string selfId;
 
+    public bool IsDead() => isDead;
     public string SourceId() => selfId;
-    public void Die()
-    {
-       Destroy(gameObject);
-    }
-
-    public float Health() => currentHealth;
   
-
+    public float Health() => currentHealth;
     public void TakeDamage(float damage, float balanceDamage)
     {
+        if(isDead) return;  
+
         Debug.Log(damage + " " + balanceDamage);
         currentHealth -= damage;
 
@@ -24,6 +22,12 @@ public class DamagableObject : MonoBehaviour, IDamagable
         
             Die();
         }
+    }
+
+    public void Die()
+    {
+        isDead = true;
+        Destroy(gameObject);
     }
 
     private void Awake()

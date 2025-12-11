@@ -5,9 +5,9 @@ public class CharacterAnimator : MonoBehaviour
 {
     Animator animator;
 
-    public void Init(Animator anim)
+    public void Init(CharacterAnimatorServiceProvider provider)
     {
-        animator = anim;    
+        animator = provider.animator;    
     }
 
     public void UpdateAnimator(ICharacterAnimator IAnim)
