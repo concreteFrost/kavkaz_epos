@@ -5,8 +5,8 @@ public class PlayerStats : CharacterStats
 {
     PlayerStatsUI ui;
     PlayerInput input;
-    IAttackSource inventory;
-    ICharacterAnimator animator;
+    PlayerCombatInventory inventory;
+    PlayerMotor animator;
     private void Awake()
     {
         damagableId = GetInstanceID().ToString();
@@ -15,17 +15,18 @@ public class PlayerStats : CharacterStats
     public void Init(PlayerStatsServiceProvider provider)
     {
         base.InitializeStats();
-        
-        ui = provider.playerStatsUI;
-        ui.Init(this);
+
         inventory = provider.combatInventory;
         animator = provider.motor;
         input = provider.input;
+
+        ui = provider.playerStatsUI;
+        ui.Init(this);
     }
 
     private void Update()
     {
-        HandleStaminaRegen();   
+        HandleStaminaRegen();
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -37,7 +38,9 @@ public class PlayerStats : CharacterStats
     public override void Die()
     {
         base.Die();
-        input.controls.Disable();
+        input.controls.Player.Disable();
+
+        animator.IsDead = true;
 
         inventory.CurrentWeapon?.ThrowWeapon();
         inventory.ShieldWeapon?.ThrowShield();
@@ -49,15 +52,21 @@ public class PlayerStats : CharacterStats
 
     public void Respawn()
     {
+
+        input.controls.Player.Enable();
+        animator.IsDead = false;
+
         currentHealth = maxHealth;
         currentStamina = maxStamina;
-        input.controls.Enable();  
-        
+
+
         ui.UpdateHealthSlider(currentHealth);
         ui.UpdateStaminaSlider(currentStamina);
 
+
+
         isDead = false;
-      
+
     }
 
     IEnumerator RespawnCoroutine(float delay)
@@ -69,7 +78,7 @@ public class PlayerStats : CharacterStats
     #region Health Control
     public override void TakeDamage(float damage, float balanceDamage)
     {
-        if(isDead) return;
+        if (isDead) return;
 
         animator.BalancePenalty = balanceDamage;
 

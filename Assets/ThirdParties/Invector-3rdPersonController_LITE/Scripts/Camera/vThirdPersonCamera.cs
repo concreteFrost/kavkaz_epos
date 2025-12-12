@@ -58,6 +58,11 @@ public class vThirdPersonCamera : MonoBehaviour
 
     #endregion
 
+    Transform lockTarget;
+    Transform defaultLockTarget;
+
+    public float offset;
+
     void Start()
     {
         Init();
@@ -72,9 +77,10 @@ public class vThirdPersonCamera : MonoBehaviour
         currentTarget = target;
         currentTargetPos = new Vector3(currentTarget.position.x, currentTarget.position.y + offSetPlayerPivot, currentTarget.position.z);
 
-        targetLookAt = new GameObject("targetLookAt").transform;
+        defaultLockTarget = new GameObject("targetLookAt").transform;
+        targetLookAt = defaultLockTarget;
         targetLookAt.position = currentTarget.position;
-        targetLookAt.hideFlags = HideFlags.HideInHierarchy;
+        //targetLookAt.hideFlags = HideFlags.HideInHierarchy;
         targetLookAt.rotation = currentTarget.rotation;
 
         mouseY = currentTarget.eulerAngles.x;
@@ -126,6 +132,12 @@ public class vThirdPersonCamera : MonoBehaviour
     /// <param name="y"></param>
     public void RotateCamera(float x, float y)
     {
+        if (lockTarget != null)
+        {
+            // Мышь не управляет углом, просто выходим
+            movementSpeed = Vector2.zero;
+            return;
+        }
         // free rotation 
         mouseX += x * xMouseSensitivity;
         mouseY -= y * yMouseSensitivity;
@@ -194,19 +206,56 @@ public class vThirdPersonCamera : MonoBehaviour
             currentHeight = height;
         }
         //Check if target position with culling height applied is not blocked
-        if (CullingRayCast(current_cPos, planePoints, out hitInfo, distance, cullingLayer, Color.cyan)) distance = Mathf.Clamp(cullingDistance, 0.0f, defaultDistance);
-        var lookPoint = current_cPos + targetLookAt.forward * 2f;
+        if (CullingRayCast(current_cPos, planePoints, out hitInfo, distance, cullingLayer, Color.cyan))
+        {
+            distance = Mathf.Clamp(cullingDistance, 0.0f, defaultDistance);
+        } 
+           
+        var lookPoint = current_cPos +  targetLookAt.forward * 2f;
         lookPoint += (targetLookAt.right * Vector3.Dot(camDir * (distance), targetLookAt.right));
         targetLookAt.position = current_cPos;
-
+     
         Quaternion newRot = Quaternion.Euler(mouseY, mouseX, 0);
+
         targetLookAt.rotation = Quaternion.Slerp(targetLookAt.rotation, newRot, smoothCameraRotation * Time.deltaTime);
         transform.position = current_cPos + (camDir * (distance));
-        var rotation = Quaternion.LookRotation((lookPoint) - transform.position);
 
+        // ---------- TARGET LOCK MODE ----------
+        if (lockTarget != null)
+        {
+            HandleCameraLock();
+            return;
+        }
+        // --------------------------------------
+
+
+        var rotation = Quaternion.LookRotation((lookPoint) - transform.position);
+       
         transform.rotation = rotation;
         movementSpeed = Vector2.zero;
     }
+
+    private void HandleCameraLock()
+    {
+        Vector3 targetDirection = lockTarget.transform.position;
+        targetDirection.y -= offset; 
+        transform.rotation = Quaternion.LookRotation((targetDirection) - transform.position);
+        
+    }
+
+
+    public void LockOnTarget(Transform _target)
+    {
+       lockTarget = _target;
+       //targetLookAt = _target;
+    }
+
+    public void UnlockTarget()
+    {
+        lockTarget = null;
+        //targetLookAt = defaultLockTarget;
+    }
+
 
     /// <summary>
     /// Custom Raycast using NearClipPlanesPoints

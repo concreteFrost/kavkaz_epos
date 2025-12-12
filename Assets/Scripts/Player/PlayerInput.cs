@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -13,6 +12,11 @@ public class PlayerInput : MonoBehaviour
     private bool sprintHeld;
     private bool jumpPressed;
     private bool throwHeld;
+    private bool attackPressed;
+    private bool blockHeld;
+    private bool interactPressed;
+    private bool lockOnTargetPressed;   
+
     protected virtual void Awake()
     {
         controls = new PlayerControls();
@@ -33,32 +37,17 @@ public class PlayerInput : MonoBehaviour
         controls.Player.Sprint.canceled += ctx => sprintHeld = false;
 
         // Combat
-
         controls.Player.ThrowItem.performed += ctx => throwHeld = true;
         controls.Player.ThrowItem.canceled += ctx => throwHeld = false;
-
-        controls.Player.Attack.performed += ctx =>
-        {
-            if (throwHeld)
-               provider.combatController.ThrowWeapon();
-            else
-                provider.combatController.PerformAttack();
-
-        };
-
-        controls.Player.Block.performed += ctx =>
-        {
-            if (throwHeld)
-                provider.combatController.ThrowShield();
-            else
-                provider.combatController.PerformBlock();
-        };
-
-        controls.Player.Block.canceled += ctx => provider.combatController.CancelBlock();
+        controls.Player.Attack.performed += ctx => attackPressed = true;
+        controls.Player.Block.performed += ctx => blockHeld = true;
+        controls.Player.Block.canceled += ctx => blockHeld = false;
+        controls.Player.LockTarget.performed += ctx => lockOnTargetPressed = true;
 
         // Interaction
-        controls.Player.Interaction.performed += ctx => provider.interact.Interact();
+        controls.Player.Interaction.performed += ctx => interactPressed = true;
 
+        
     }
 
     protected virtual void OnEnable() => controls.Enable();
@@ -67,17 +56,17 @@ public class PlayerInput : MonoBehaviour
     protected virtual void FixedUpdate()
     {
 
-       provider.controller.ControlLocomotionType();
-       provider.controller.ControlRotationType();
+        provider.controller.ControlLocomotionType();
+        provider.controller.ControlRotationType();
 
-       provider.animator.UpdateAnimator(provider.controller);
-       provider.animator.SetAnimatorMoveSpeed(provider.controller);
+        provider.animator.UpdateAnimator(provider.controller);
+        provider.animator.SetAnimatorMoveSpeed(provider.controller);
     }
 
 
     protected virtual void Update()
     {
-        
+
         InputHandle();
         provider.controller.UpdateMotor();
 
@@ -93,9 +82,6 @@ public class PlayerInput : MonoBehaviour
     //    characterController.ControlAnimatorRootMotion();
     //}
 
-    #region Controller Setup
-
-
 
     protected virtual void InputHandle()
     {
@@ -104,38 +90,20 @@ public class PlayerInput : MonoBehaviour
         SprintInput();
         JumpInput();
 
+        AttackInput();
+        BlockInput();
+        LockOnTargetInput();
+
+        InteractionInput(); 
+
     }
 
-    #endregion
-
-    #region New Input System adaptation
+    #region Motion Inputs
 
     public virtual void MoveInput()
     {
-       provider.controller.input.x = moveInput.x;
-       provider.controller.input.z = moveInput.y;
-    }
-
-    protected virtual void CameraInput()
-    {
-        if (!cameraMain)
-        {
-            if (!Camera.main)
-                Debug.Log("Missing MainCamera");
-            else
-            {
-                cameraMain = Camera.main;
-                provider.controller.rotateTarget = cameraMain.transform;
-            }
-        }
-
-        if (cameraMain)
-            provider.controller.UpdateMoveDirection(cameraMain.transform);
-
-        if (provider.vThirdPersonCamera == null)
-            return;
-
-        provider.vThirdPersonCamera.RotateCamera(lookInput.x, lookInput.y);
+        provider.controller.input.x = moveInput.x;
+        provider.controller.input.z = moveInput.y;
     }
 
 
@@ -162,5 +130,85 @@ public class PlayerInput : MonoBehaviour
         jumpPressed = false; // consume press
     }
 
+    #endregion
+
+    #region Combat Inputs
+
+    private void AttackInput()
+    {
+        if (attackPressed)
+        {
+            if (throwHeld)
+                provider.combatController.ThrowWeapon();
+            else
+                provider.combatController.PerformAttack();
+
+            attackPressed = false;
+        }
+
+    }
+
+    private void BlockInput()
+    {
+        if (blockHeld)
+        {
+            if (throwHeld)
+                provider.combatController.ThrowShield();
+            else
+                provider.combatController.PerformBlock();
+        }
+        else
+        {
+            provider.combatController.CancelBlock();
+        }
+
+    }
+
+
+    private void LockOnTargetInput()
+    {
+        if (lockOnTargetPressed)
+        {
+            provider.targetLock.SetLockTarget();
+            lockOnTargetPressed = false;
+        }
+    }
+
+    #endregion
+
+    #region Interaction Inputs
+    private void InteractionInput()
+    {
+        if (interactPressed)
+        {
+            provider.interact.Interact();
+            interactPressed = false;
+        }
+    }
+    #endregion
+
+    #region Camera Inputs
+
+    protected virtual void CameraInput()
+    {
+        if (!cameraMain)
+        {
+            if (!Camera.main)
+                Debug.Log("Missing MainCamera");
+            else
+            {
+                cameraMain = Camera.main;
+                //provider.controller.rotateTarget = cameraMain.transform;
+            }
+        }
+
+        if (cameraMain)
+            provider.controller.UpdateMoveDirection(cameraMain.transform);
+
+        if (provider.vThirdPersonCamera == null)
+            return;
+
+        provider.vThirdPersonCamera.RotateCamera(lookInput.x, lookInput.y);
+    }
     #endregion
 }

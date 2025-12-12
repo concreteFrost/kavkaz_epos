@@ -20,8 +20,6 @@ public class WeaponDamageCollider : DamageCollider
 
         weaponOwner.ReduceDurability(weaponOwner.WeaponData().GetBreakdownPenalty());
 
-        if (TargetHasShield(other)) return;
-
-        PerformNormalDamage(other);
+        HandleDamageCalculation(other, healthDamage);   
     }
 }

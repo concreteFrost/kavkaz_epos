@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
 {
-    ICharacterAnimator anim;
-
-    IAttackSource inventory;  
+    PlayerMotor motor;
+    PlayerCombatInventory inventory;  
     PlayerStats stats;
     [SerializeField] private int totalClicks = 0;
 
@@ -15,24 +14,24 @@ public class PlayerCombatController : MonoBehaviour
 
     public void Init(PlayerCombatControllerServiceProvider service)
     {
-        anim = service.motor;
+        motor = service.motor;
         inventory = service.combatInventory; 
         stats = service.stats;
     }
 
     public void PerformAttack()
     {
-        if (anim.IsJumping || !anim.IsGrounded || stats.currentStamina <=0)
+        if (motor.IsJumping || !motor.IsGrounded || stats.currentStamina <=0)
             return;
 
-        if (anim.IsShieldRaised)
+        if (motor.IsShieldRaised)
         {
             ResetCombo();
             return;
         }
 
         // ставим атаку в очередь
-        if (anim.IsAttacking)
+        if (motor.IsAttacking)
         {
             isInQueue = true;
             return;
@@ -55,7 +54,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.PerformDefence();
-        anim.IsShieldRaised = true;
+        motor.IsShieldRaised = true;
 
     }
 
@@ -63,7 +62,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if(inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
-        anim.IsShieldRaised = false;
+        motor.IsShieldRaised = false;
     }
 
     public void ThrowShield()
@@ -79,8 +78,8 @@ public class PlayerCombatController : MonoBehaviour
         totalClicks = 0;
         isInQueue = false;
        
-        anim.IsAttacking = false;
-        anim.AttackIndex = 0;   
+        motor.IsAttacking = false;
+        motor.AttackIndex = 0;   
     }
 
   
@@ -91,12 +90,12 @@ public class PlayerCombatController : MonoBehaviour
 
         var currentWeaponType = (int)w.WeaponData().attackSet.attackType;
         var currentAttakChain = w.WeaponData().attackSet;
-        anim.WeaponIndex = currentWeaponType;
+        motor.WeaponIndex = currentWeaponType;
 
-        while (true && !anim.IsShieldRaised)
+        while (true && !motor.IsShieldRaised)
         {
-            anim.IsAttacking = true;
-            anim.AttackIndex = totalClicks;
+            motor.IsAttacking = true;
+            motor.AttackIndex = totalClicks;
 
             var currentAttack = currentAttakChain.attackList[totalClicks];
 

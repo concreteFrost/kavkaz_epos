@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class PlayerCombatInventory : CombatInventory
 {
-    ICharacterAnimator anim;
+    PlayerMotor motor;
 
     public BareHandsWeapon bareHands;
 
@@ -10,7 +8,7 @@ public class PlayerCombatInventory : CombatInventory
     {
         base.Init(service);
 
-        anim = service.motor;
+        motor = service.motor;
         Damagable = service.stats;
 
         bareHands.SetOwner(this);
@@ -23,7 +21,7 @@ public class PlayerCombatInventory : CombatInventory
     public override void SetWeapon(IWeapon w)
     {
        CurrentWeapon = w;
-       anim.IsWeaponed = true; 
+       motor.IsWeaponed = true; 
      
     }
 
@@ -36,22 +34,18 @@ public class PlayerCombatInventory : CombatInventory
     {
 
         CurrentWeapon = DefaultWeapon;
-        anim.IsAttacking = false;   
-        anim.IsWeaponed = false;    
+        motor.IsAttacking = false;   
+        motor.IsWeaponed = false;    
 
     }
 
     public override void ResetShield()
     {
 
-        if (ShieldWeapon == null)
-        {
-            Debug.Log("shield is null");
-            return;
-        }
+        if (ShieldWeapon == null) return;
 
         ShieldWeapon = null;
-        anim.IsShieldRaised = false;
+        motor.IsShieldRaised = false;
 
     }
 

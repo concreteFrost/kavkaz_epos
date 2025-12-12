@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public class CharacterMotor : MonoBehaviour, ICharacterAnimator
+public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 {
 
     #region Inspector Variables
-
-    internal PlayerStats playerStats;
 
     [Header("camera rotation")]
     [Tooltip("Rotation speed of the character")]
@@ -54,7 +52,6 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     [Range(30, 80)] public float slopeLimit = 45f;
 
     [Header("Lock")]
-
     public bool lockMovement = true;                 // lock the movement of the controller (not the animation)
     public bool lockRotation = false;                 // lock the rotation of the controller (not the animation)  
 
@@ -70,10 +67,13 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     #endregion
 
     #region Internal Variables
+
+    internal PlayerStats playerStats;
     // movement bools
     internal bool isJumping;
     internal bool isGrounded { get; set; }
     internal bool isSprinting { get; set; }
+    internal bool isStrafing { get; set; }
     public bool stopMove { get; protected set; }
 
     internal float inputMagnitude;                      // sets the inputMagnitude to update the animations in the animator controller
@@ -86,8 +86,8 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     internal float jumpCounter;                         // used to count the routine to reset the jump
     internal float groundDistance;                      // used to know the distance from the ground
     internal RaycastHit groundHit;                      // raycast to hit the ground 
-            
-    internal Transform rotateTarget;                    // used as a generic reference for the camera.transform
+
+    protected Transform rotateTarget;                    // used as a generic reference for the camera.transform
     internal Vector3 input;                             // generate raw input for the controller
     internal Vector3 colliderCenter;                    // storage the center of the capsule collider info                
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
@@ -108,6 +108,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     #region Damage Internal Variabled
 
     internal bool isDamaged = false;
+    internal bool isDead = false;
     internal float balancePenalty = 0f;
     #endregion
 
@@ -118,28 +119,29 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public float InputMagnitude { get => inputMagnitude; set => inputMagnitude = value; }
     public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
     public float VerticalSpeed { get => verticalSpeed; set => verticalSpeed = value; }
-    public float HorizontalSpeed { get => horizontalSpeed; set => horizontalSpeed=value; }
+    public float HorizontalSpeed { get => horizontalSpeed; set => horizontalSpeed = value; }
     public float AnimationSmooth { get => animationSmooth; set => animationSmooth = value; }
     public float GroundDistance { get => groundDistance; set => groundDistance = value; }
+    public bool IStrafing { get => isStrafing; set => isStrafing = value; }
     public bool StopMove { get => stopMove; set => stopMove = value; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
     public bool IsJumping { get => isJumping; set => isJumping = value; }
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
-    public bool IsWeaponed { get => isWeaponed; set => isWeaponed =value; }
+    public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
     public int AttackIndex { get => attackIndex; set => attackIndex = value; }
     public int WeaponIndex { get => weaponIndex; set => weaponIndex = value; }
     public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
     public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
-    public float BalancePenalty { get=>balancePenalty; set => balancePenalty = value; }
-
+    public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
     #endregion
 
     public void Init(PlayerControllerServiceProvider service)
     {
         animator = service.animator;
         playerStats = service.stats;
-       
+
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
         // slides the character through walls and edges
@@ -175,11 +177,12 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         colliderHeight = GetComponent<CapsuleCollider>().height;
 
         isGrounded = true;
+        ResetLockTarget();
     }
 
     public virtual void UpdateMotor()
     {
-        
+
         CheckGround();
         CheckSlopeLimit();
         ControlJumpBehaviour();
@@ -221,7 +224,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         if (_direction.magnitude > 1f)
             _direction.Normalize();
 
-     
+
 
         Vector3 targetPosition = _rigidbody.position + FinalDirection(_direction);
         Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
@@ -266,6 +269,19 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         stopMove = false;
     }
 
+    public void SetLockTarget(Transform target)
+    {
+        Debug.Log("seet lock tacket");
+        rotateTarget = target;
+        isStrafing = true;
+    }
+
+    public void ResetLockTarget()
+    {
+        rotateTarget = null;
+        isStrafing = false;
+    }
+
     public virtual void RotateToPosition(Vector3 position)
     {
 
@@ -276,13 +292,35 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
     public virtual void RotateToDirection(Vector3 direction)
     {
         //предотвращаем вращение персонажа если атакуем
-        float result = (isAttacking || isDamaged) ? 0 : rotationSpeed;
+        float result = (isAttacking || isDamaged ) ? 0 : rotationSpeed;
 
+        if (rotateTarget != null)
+        {
+            Debug.Log("target not tnul");
+            Debug.Log(rotateTarget.name);
+            Vector3 lookDir = rotateTarget.position - transform.position;
+            lookDir.y = 0; // чтобы не задирал голову
+
+            if (lookDir.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRot,
+                    rotationSpeed * Time.deltaTime
+                );
+            }
+
+            return;
+        }
+
+        // обычная логика если нет lock-on
         RotateToDirection(direction, result);
     }
 
     public virtual void RotateToDirection(Vector3 direction, float rotationSpeed)
     {
+
         if (!jumpAndRotate && !isGrounded) return;
         direction.y = 0f;
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
@@ -343,7 +381,7 @@ public class CharacterMotor : MonoBehaviour, ICharacterAnimator
         }
     }
 
-   
+
 
     #endregion
 

@@ -5,7 +5,7 @@ public class CharacterAnimator : MonoBehaviour
 {
     Animator animator;
 
-    public void Init(CharacterAnimatorServiceProvider provider)
+    public void Init(PlayerAnimatorServiceProvider provider)
     {
         animator = provider.animator;    
     }
@@ -15,9 +15,11 @@ public class CharacterAnimator : MonoBehaviour
         
         if (animator == null || !animator.enabled) return;
 
+        animator.SetBool(AnimatorParameters.IsStrafing, IAnim.IStrafing);
         animator.SetBool(AnimatorParameters.IsSprinting, IAnim.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, IAnim.IsGrounded);
         animator.SetFloat(AnimatorParameters.GroundDistance, IAnim.GroundDistance);
+        animator.SetFloat(AnimatorParameters.InputHorizontal, IAnim.StopMove ? 0 : IAnim.HorizontalSpeed, IAnim.AnimationSmooth, Time.deltaTime);
         animator.SetFloat(AnimatorParameters.InputVertical, IAnim.StopMove ? 0 : IAnim.VerticalSpeed, IAnim.AnimationSmooth, Time.deltaTime);
         animator.SetFloat(AnimatorParameters.InputMagnitude, IAnim.StopMove ? 0f :  IAnim.InputMagnitude, IAnim.AnimationSmooth, Time.deltaTime);
 
@@ -30,10 +32,10 @@ public class CharacterAnimator : MonoBehaviour
         animator.SetInteger(AnimatorParameters.AttackIndex, IAnim.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, IAnim.WeaponIndex);
 
-
         //damage control
         animator.SetBool(AnimatorParameters.IsDamaged, IAnim.IsDamaged);
         animator.SetFloat(AnimatorParameters.BalancePenalty, IAnim.BalancePenalty); 
+        animator.SetBool(AnimatorParameters.IsDead, IAnim.IsDead);
     }
 
     public void SetAnimatorMoveSpeed(ICharacterAnimator IAnim)
@@ -66,5 +68,6 @@ public static partial class AnimatorParameters
     public static int IsShieldRaised = Animator.StringToHash("IsShieldRaised");
     public static int IsDamaged = Animator.StringToHash("IsDamaged");
     public static int BalancePenalty = Animator.StringToHash("BalancePenalty");
+    public static int IsDead = Animator.StringToHash("IsDead");
 }
 

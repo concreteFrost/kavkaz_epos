@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CharacterMotor), true)]
+[CustomEditor(typeof(PlayerMotor), true)]
 public class vCharacterEditor : Editor
 {
     GUISkin skin;
@@ -10,7 +10,7 @@ public class vCharacterEditor : Editor
 
     void OnEnable()
     {
-        CharacterMotor motor = (CharacterMotor)target;
+        PlayerMotor motor = (PlayerMotor)target;
     }
 
     public override void OnInspectorGUI()
@@ -18,7 +18,7 @@ public class vCharacterEditor : Editor
         if (!skin) skin = Resources.Load("vSkin") as GUISkin;
         GUI.skin = skin;
 
-        CharacterMotor motor = (CharacterMotor)target;
+        PlayerMotor motor = (PlayerMotor)target;
 
         if (!motor) return;
 

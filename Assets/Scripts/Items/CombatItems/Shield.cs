@@ -52,9 +52,6 @@ public class Shield : CombatItem, IShield
         AttackSource = s;   
 
         AssignParent(AttackSource.GetLeftHand());   
-
-        defenceCollider.SetOwner(AttackSource.Damagable);
-
         ToggleInteraction(false);
         s.SetShield(this);
 
@@ -76,7 +73,6 @@ public class Shield : CombatItem, IShield
         ResetParent();
         ToggleInteraction(true);
 
-        defenceCollider.ResetOwner();
         AttackSource.ResetShield();
         AttackSource = null;
     }

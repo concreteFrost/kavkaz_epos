@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerController: CharacterMotor
+public class PlayerController: PlayerMotor
 {
 
     //public virtual void ControlAnimatorRootMotion()
@@ -72,9 +72,7 @@ public class PlayerController: CharacterMotor
         bool isMoving = input.sqrMagnitude > 0.1f && !(horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f);
         bool hasStamina = playerStats.currentStamina > 0;
       
-
-
-        var sprintConditions = isMoving && isGrounded && !isAttacking && hasStamina;
+        var sprintConditions = isMoving && isGrounded && !isAttacking &&!isDamaged && hasStamina;
 
         if (value && sprintConditions)
         {

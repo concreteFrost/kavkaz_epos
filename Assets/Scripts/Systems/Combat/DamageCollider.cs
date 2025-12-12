@@ -31,20 +31,22 @@ public class DamageCollider : MonoBehaviour
         collectedColliders.Clear();
     }
 
-    protected bool TargetHasShield(Collider other)
+    //ћетод расчета урона с учетом защиты цели
+    protected float DamageReductionAmount(Collider other)
     {
         if (other.GetComponent<DefenceCollider>() != null)
         {
             var defence = other.GetComponent<DefenceCollider>();
 
-            defence.CalculateDamage(healthDamage,balanceDamage);
-            return true;
+            float finalDamage = defence.CalculateDamage(healthDamage,balanceDamage);
+            return finalDamage;
         }
 
-        return false;
+        return 0;
     }
 
-    protected void PerformNormalDamage(Collider other)
+    //ћетод нанесени€ урона цели
+    protected void PerformDamage(Collider other , float _healthDamage)
     {
         var damagable = other.GetComponentInChildren<IDamagable>()
               ?? other.GetComponent<IDamagable>();
@@ -54,26 +56,39 @@ public class DamageCollider : MonoBehaviour
         damagable.TakeDamage(healthDamage,balanceDamage);
     }
 
-    protected virtual void HandleCollision(Collider other)
+    //ћетод обработки расчета урона с учетом защиты цели 
+    protected void HandleDamageCalculation(Collider other, float _healthDamage)
     {
-        if (attackInterrupted)
-            return;
+        float finalDamage = DamageReductionAmount(other);
 
-
-        if (collectedColliders.Contains(other))
-            return;
-
-        collectedColliders.Add(other);
-
-        if (TargetHasShield(other))
+        if (DamageReductionAmount(other) > 0) //щит сработал
         {
             attackInterrupted = true;
             return;
         }
 
-        PerformNormalDamage(other);
+        PerformDamage(other, finalDamage);
+    }
+
+    //ћетод обработки столкновени€ коллайдера урона с целью
+    protected virtual void HandleCollision(Collider other)
+    {
+        //≈сли атака была прервана щитом, то не наносим урон
+        if (attackInterrupted)
+            return;
+
+
+        //≈сли цель уже была поражена этой атакой, то не наносим урон повторно
+        if (collectedColliders.Contains(other))
+            return;
+
+        collectedColliders.Add(other);
+
+       HandleDamageCalculation(other, healthDamage);
 
     }
+
+ 
 
     private void OnTriggerEnter(Collider other)
     {

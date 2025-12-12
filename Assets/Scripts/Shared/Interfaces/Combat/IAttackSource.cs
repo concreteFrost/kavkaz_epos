@@ -5,7 +5,7 @@ public interface IAttackSource
 {
     public string SourceId();
     public List<string> TargetIds { get; set; }
-    public IDamagable Damagable { get; set; }
+    //public IDamagable Damagable { get; set; }
     public IWeapon DefaultWeapon { get; set; }
     public IWeapon CurrentWeapon { get; set; }
     public IShield ShieldWeapon { get; set; }

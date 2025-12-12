@@ -3,7 +3,6 @@ using UnityEngine;
 public class DefenceCollider : MonoBehaviour
 {
     Collider col;
-    IDamagable Owner; //для получении информации о владельце
     IShield Shield;
 
     float currentDefenceBonus;
@@ -13,16 +12,6 @@ public class DefenceCollider : MonoBehaviour
     {
         col = GetComponent<Collider>();
         DisableCollider();
-    }
-
-    public void SetOwner(IDamagable source)
-    {
-        Owner =source;
-    }
-
-    public void ResetOwner()
-    {
-        Owner = null;
     }
 
     public void SetShieldData(IShield shield)
@@ -40,7 +29,7 @@ public class DefenceCollider : MonoBehaviour
         col.enabled = false;
     }
 
-    public void CalculateDamage(float healthDamage, float balanceDamage)
+    public float CalculateDamage(float healthDamage, float balanceDamage)
     {
         // Прочность щита уменьшается
         Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
@@ -53,10 +42,7 @@ public class DefenceCollider : MonoBehaviour
         // Урон после щита
         float finalDamage = healthDamage * defence;
 
-        if (Owner != null)
-        {
-            Owner.TakeDamage(finalDamage,balanceDamage);
-        }
+        return finalDamage; 
     }
 
 }

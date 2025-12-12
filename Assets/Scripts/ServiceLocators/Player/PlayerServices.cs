@@ -7,22 +7,23 @@ public class PlayerInputServiceProvider
     public vThirdPersonCamera vThirdPersonCamera;
     public PlayerInteract interact;
     public CharacterAnimator animator;
+    public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, vThirdPersonCamera vThirdPersonCamera, PlayerInteract interact, CharacterAnimator animator)
+    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, vThirdPersonCamera vThirdPersonCamera, PlayerInteract interact, CharacterAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.combatController = combatController;
         this.vThirdPersonCamera = vThirdPersonCamera;
         this.interact = interact;
         this.animator = animator;
-       
+        this.targetLock = targetLock;
     }
 }
 
-public class CharacterAnimatorServiceProvider
+public class PlayerAnimatorServiceProvider
 {
     public Animator animator;
-    public CharacterAnimatorServiceProvider(Animator animator)
+    public PlayerAnimatorServiceProvider(Animator animator)
     {
         this.animator = animator;
     }
