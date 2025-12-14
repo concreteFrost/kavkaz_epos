@@ -16,6 +16,7 @@ public class AttackBehaviour : StateMachineBehaviour
         inv = animator.GetComponentInChildren<CombatInventory>();
         stats = animator.GetComponentInChildren<ICharacterStats>();
         stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
+        animator.applyRootMotion = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -46,6 +47,7 @@ public class AttackBehaviour : StateMachineBehaviour
         attackEnabled = false;
         attackDisabled = false;
         inv.CurrentWeapon.CancelAttack();
+        animator.applyRootMotion = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

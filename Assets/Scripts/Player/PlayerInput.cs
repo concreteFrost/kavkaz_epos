@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
     private bool attackPressed;
     private bool blockHeld;
     private bool interactPressed;
-    private bool lockOnTargetPressed;   
+    private bool lockOnTargetPressed;
 
     protected virtual void Awake()
     {
@@ -46,8 +46,9 @@ public class PlayerInput : MonoBehaviour
 
         // Interaction
         controls.Player.Interaction.performed += ctx => interactPressed = true;
+        cameraMain = Camera.main;   
 
-        
+
     }
 
     protected virtual void OnEnable() => controls.Enable();
@@ -86,7 +87,7 @@ public class PlayerInput : MonoBehaviour
     protected virtual void InputHandle()
     {
         MoveInput();
-        CameraInput();
+       
         SprintInput();
         JumpInput();
 
@@ -94,8 +95,13 @@ public class PlayerInput : MonoBehaviour
         BlockInput();
         LockOnTargetInput();
 
-        InteractionInput(); 
+        InteractionInput();
 
+    }
+
+    private void LateUpdate()
+    {
+        CameraInput();
     }
 
     #region Motion Inputs
@@ -203,12 +209,9 @@ public class PlayerInput : MonoBehaviour
         }
 
         if (cameraMain)
-            provider.controller.UpdateMoveDirection(cameraMain.transform);
+            provider.controller.UpdateMoveDirection();
 
-        if (provider.vThirdPersonCamera == null)
-            return;
-
-        provider.vThirdPersonCamera.RotateCamera(lookInput.x, lookInput.y);
+      
     }
     #endregion
 }

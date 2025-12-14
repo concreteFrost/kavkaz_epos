@@ -1,21 +1,7 @@
 ﻿using UnityEngine;
 
-public class PlayerController: PlayerMotor
+public class PlayerController : PlayerMotor
 {
-
-    //public virtual void ControlAnimatorRootMotion()
-    //{
-    //    if (!this.enabled) return;
-
-    //    if (inputSmooth == Vector3.zero)
-    //    {
-    //        transform.position = animator.rootPosition;
-    //        transform.rotation = animator.rootRotation;
-    //    }
-
-    //    if (useRootMotion)
-    //        MoveCharacter(moveDirection);
-    //}
 
     public virtual void ControlLocomotionType()
     {
@@ -43,36 +29,17 @@ public class PlayerController: PlayerMotor
         }
     }
 
-    public virtual void UpdateMoveDirection(Transform referenceTransform = null)
+    public virtual void UpdateMoveDirection()
     {
-        if (input.magnitude <= 0.01)
-        {
-            moveDirection = Vector3.Lerp(moveDirection, Vector3.zero, (movementSmooth) * Time.deltaTime);
-            return;
-        }
-
-        if (referenceTransform && !rotateByWorld)
-        {
-            //get the right-facing direction of the referenceTransform
-            var right = referenceTransform.right;
-            right.y = 0;
-            //get the forward direction relative to referenceTransform Right
-            var forward = Quaternion.AngleAxis(-90, Vector3.up) * right;
-            // determine the direction the player will face based on input and the referenceTransform's right and forward directions
-            moveDirection = (inputSmooth.x * right) + (inputSmooth.z * forward);
-        }
-        else
-        {
-            moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
-        }
+        moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
     }
 
     public virtual void Sprint(bool value)
     {
         bool isMoving = input.sqrMagnitude > 0.1f && !(horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f);
         bool hasStamina = playerStats.currentStamina > 0;
-      
-        var sprintConditions = isMoving && isGrounded && !isAttacking &&!isDamaged && hasStamina;
+
+        var sprintConditions = isMoving && isGrounded && !isAttacking && !isDamaged && hasStamina;
 
         if (value && sprintConditions)
         {
@@ -86,7 +53,7 @@ public class PlayerController: PlayerMotor
                 {
                     isSprinting = true;
 
-                   
+
                 }
             }
             else if (!useContinuousSprint && isSprinting)
@@ -103,19 +70,19 @@ public class PlayerController: PlayerMotor
         {
             playerStats.ReduceStamina(playerStats.staminaRunReducePenalty);
         }
-       
+
     }
 
     public virtual void Jump()
     {
-        if (isAttacking || playerStats.currentStamina <=0)
+        if (isAttacking || playerStats.currentStamina <= 0)
             return;
 
         // trigger jump behaviour
         playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
         isJumping = true;
-        
+
 
         // trigger jump animations
         if (input.sqrMagnitude < 0.1f)

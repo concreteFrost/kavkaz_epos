@@ -177,12 +177,12 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         colliderHeight = GetComponent<CapsuleCollider>().height;
 
         isGrounded = true;
+        isSprinting = true;
         ResetLockTarget();
     }
 
     public virtual void UpdateMotor()
     {
-
         CheckGround();
         CheckSlopeLimit();
         ControlJumpBehaviour();
@@ -282,17 +282,10 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         isStrafing = false;
     }
 
-    public virtual void RotateToPosition(Vector3 position)
-    {
-
-        Vector3 desiredDirection = position - transform.position;
-        RotateToDirection(desiredDirection.normalized);
-    }
-
     public virtual void RotateToDirection(Vector3 direction)
     {
         //предотвращаем вращение персонажа если атакуем
-        float result = (isAttacking || isDamaged ) ? 0 : rotationSpeed;
+        float result = (isAttacking || isDamaged) ? 0 : rotationSpeed;
 
         if (rotateTarget != null)
         {
@@ -380,8 +373,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
             return Physics.CapsuleCastAll(p1, p2, _capsuleCollider.radius * 0.5f, transform.forward, 0.6f, groundLayer).Length == 0;
         }
     }
-
-
 
     #endregion
 

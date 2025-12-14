@@ -4,16 +4,15 @@ public class PlayerInputServiceProvider
 {
     public PlayerController controller;
     public PlayerCombatController combatController;
-    public vThirdPersonCamera vThirdPersonCamera;
     public PlayerInteract interact;
     public CharacterAnimator animator;
     public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, vThirdPersonCamera vThirdPersonCamera, PlayerInteract interact, CharacterAnimator animator, PlayerTargetLock targetLock)
+    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, PlayerInteract interact, CharacterAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.combatController = combatController;
-        this.vThirdPersonCamera = vThirdPersonCamera;
+      
         this.interact = interact;
         this.animator = animator;
         this.targetLock = targetLock;

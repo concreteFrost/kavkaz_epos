@@ -8,7 +8,6 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [SerializeField] private PlayerController motor;
     [SerializeField] private PlayerInput input;
-    [SerializeField] private vThirdPersonCamera thirdPersonCamera;
     
     [SerializeField] private PlayerCombatController combatController;
     [SerializeField] private PlayerStats stats;
@@ -21,7 +20,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private void Awake()
     {
-        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, thirdPersonCamera, interaction, characterAnimator, targetLock);
+        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, interaction, characterAnimator, targetLock);
         PlayerAnimatorServiceProvider animatorService = new PlayerAnimatorServiceProvider(animator);
         PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator, stats);
         PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats);
@@ -38,13 +37,9 @@ public class PlayerServiceLocator : MonoBehaviour
         combatController.Init(combatControllerService);
         interaction.Init(interactionService);
 
-        targetLock.Init(thirdPersonCamera, motor); 
+        targetLock.Init(motor); 
        
     }
 
-    private void Start()
-    {
-        thirdPersonCamera.SetMainTarget(this.transform);
-    }
 
 }

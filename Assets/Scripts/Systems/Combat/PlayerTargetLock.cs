@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerTargetLock : MonoBehaviour
 {
-    vThirdPersonCamera playerCamera;
     PlayerMotor playerMotor;
     Transform currentTarget;
 
@@ -20,9 +19,8 @@ public class PlayerTargetLock : MonoBehaviour
 
     }
 
-    public void Init(vThirdPersonCamera cam, PlayerMotor motor)
+    public void Init(PlayerMotor motor)
     {
-        playerCamera = cam;
         playerMotor = motor;
     }
 
@@ -52,7 +50,7 @@ public class PlayerTargetLock : MonoBehaviour
 
         if (currentTarget != null)
         {
-            playerCamera.LockOnTarget(currentTarget);
+            //playerCamera.LockOnTarget(currentTarget);
             playerMotor.SetLockTarget(currentTarget);
         }
     }
@@ -63,7 +61,7 @@ public class PlayerTargetLock : MonoBehaviour
     {
 
         currentTarget = null;
-        playerCamera.UnlockTarget();
+        //playerCamera.UnlockTarget();
         playerMotor.ResetLockTarget();
         wasTargetSearched = false;
     }

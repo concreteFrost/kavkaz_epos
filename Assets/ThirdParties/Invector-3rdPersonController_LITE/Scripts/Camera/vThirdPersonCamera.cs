@@ -65,7 +65,7 @@ public class vThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        Init();
+        //Init();
     }
 
     public void Init()
