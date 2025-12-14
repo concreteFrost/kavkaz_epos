@@ -74,6 +74,8 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     internal bool isGrounded { get; set; }
     internal bool isSprinting { get; set; }
     internal bool isStrafing { get; set; }
+
+    internal bool isDodging { get; set; }   
     public bool stopMove { get; protected set; }
 
     internal float inputMagnitude;                      // sets the inputMagnitude to update the animations in the animator controller
@@ -123,6 +125,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     public float AnimationSmooth { get => animationSmooth; set => animationSmooth = value; }
     public float GroundDistance { get => groundDistance; set => groundDistance = value; }
     public bool IStrafing { get => isStrafing; set => isStrafing = value; }
+    public bool IsDodging { get => isDodging; set => isDodging = value; }   
     public bool StopMove { get => stopMove; set => stopMove = value; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
     public bool IsJumping { get => isJumping; set => isJumping = value; }
@@ -237,7 +240,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     private Vector3 FinalDirection(Vector3 _direction)
     {
         // если атакуем или ранены — плавно уменьшаем скорость
-        float target = (stopMove || isAttacking || isDamaged) ? 0f : 1f;
+        float target = (stopMove || isAttacking || isDamaged || isDodging) ? 0f : 1f;
         attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
 
         return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
@@ -271,7 +274,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
     public void SetLockTarget(Transform target)
     {
-        Debug.Log("seet lock tacket");
         rotateTarget = target;
         isStrafing = true;
     }
@@ -284,32 +286,18 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
     public virtual void RotateToDirection(Vector3 direction)
     {
-        //предотвращаем вращение персонажа если атакуем
-        float result = (isAttacking || isDamaged) ? 0 : rotationSpeed;
-
+        if (isDamaged) return;
+       
         if (rotateTarget != null)
         {
-            Debug.Log("target not tnul");
-            Debug.Log(rotateTarget.name);
-            Vector3 lookDir = rotateTarget.position - transform.position;
-            lookDir.y = 0; // чтобы не задирал голову
-
-            if (lookDir.sqrMagnitude > 0.001f)
-            {
-                Quaternion targetRot = Quaternion.LookRotation(lookDir);
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    targetRot,
-                    rotationSpeed * Time.deltaTime
-                );
-            }
-
+            RotateToTarget();
             return;
         }
 
         // обычная логика если нет lock-on
-        RotateToDirection(direction, result);
+        RotateToDirection(direction, rotationSpeed);
     }
+
 
     public virtual void RotateToDirection(Vector3 direction, float rotationSpeed)
     {
@@ -319,6 +307,22 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
         Quaternion _newRotation = Quaternion.LookRotation(desiredForward);
         transform.rotation = _newRotation;
+    }
+
+    private void RotateToTarget()
+    {
+        Vector3 lookDir = rotateTarget.position - transform.position;
+        lookDir.y = 0; // чтобы не задирал голову
+
+        if (lookDir.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRot,
+                rotationSpeed * Time.deltaTime
+            );
+        }
     }
 
     #endregion

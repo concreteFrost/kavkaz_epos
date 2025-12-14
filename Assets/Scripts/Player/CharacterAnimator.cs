@@ -16,6 +16,7 @@ public class CharacterAnimator : MonoBehaviour
         if (animator == null || !animator.enabled) return;
 
         animator.SetBool(AnimatorParameters.IsStrafing, IAnim.IStrafing);
+        animator.SetBool(AnimatorParameters.IsDodging, IAnim.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, IAnim.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, IAnim.IsGrounded);
         animator.SetFloat(AnimatorParameters.GroundDistance, IAnim.GroundDistance);
@@ -69,5 +70,6 @@ public static partial class AnimatorParameters
     public static int IsDamaged = Animator.StringToHash("IsDamaged");
     public static int BalancePenalty = Animator.StringToHash("BalancePenalty");
     public static int IsDead = Animator.StringToHash("IsDead");
+    public static int IsDodging = Animator.StringToHash("IsDodging");
 }
 

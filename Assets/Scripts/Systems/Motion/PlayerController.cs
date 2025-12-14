@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEditor.VersionControl;
+using UnityEngine;
 
 public class PlayerController : PlayerMotor
 {
@@ -15,22 +17,13 @@ public class PlayerController : PlayerMotor
 
     public virtual void ControlRotationType()
     {
-        if (lockRotation) return;
-
-        bool validInput = input != Vector3.zero || (rotateWithCamera);
-
-        if (validInput)
-        {
-            // calculate input smooth
-            inputSmooth = Vector3.Lerp(inputSmooth, input, (movementSmooth) * Time.deltaTime);
-
-            Vector3 dir = (rotateWithCamera && input == Vector3.zero) && rotateTarget ? rotateTarget.forward : moveDirection;
-            RotateToDirection(dir);
-        }
+        Vector3 dir = (rotateWithCamera && input == Vector3.zero) && rotateTarget ? rotateTarget.forward : moveDirection;
+        RotateToDirection(dir);
     }
 
     public virtual void UpdateMoveDirection()
     {
+        
         moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
     }
 
@@ -90,6 +83,39 @@ public class PlayerController : PlayerMotor
         else
             animator.CrossFadeInFixedTime("JumpMove", .2f);
     }
+
+    public virtual void Dodge(Vector2 dir)
+    {
+        if (isAttacking || isDodging)
+            return;
+
+        isDodging = true;
+
+        float dodgeX = 0f;
+        float dodgeY = 0f;
+
+        Vector3 relativeInput = transform.InverseTransformDirection(moveDirection);
+
+        if (relativeInput.sqrMagnitude < 0.01f)
+        {
+            // без движения — всегда назад
+            dodgeY = -1f;
+        }
+        else if (Mathf.Abs(relativeInput.x) > Mathf.Abs(relativeInput.z)) //
+        {
+            dodgeX = Mathf.Sign(relativeInput.x);
+        }
+        else
+        {
+            dodgeY = Mathf.Sign(relativeInput.z); 
+        }
+
+        playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
+
+        animator.SetFloat("DodgeX", dodgeX);
+        animator.SetFloat("DodgeY", dodgeY);
+    }
+
 
 
 }

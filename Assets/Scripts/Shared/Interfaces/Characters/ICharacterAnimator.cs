@@ -9,6 +9,7 @@ public interface ICharacterAnimator
     public float AnimationSmooth {  get; set; }
     public float GroundDistance {  get; set; }  
     public bool IStrafing {  get; set; }
+    public bool IsDodging { get; set; } 
     public bool StopMove {  get; set; } 
     public bool IsSprinting { get; set; }   
     public bool IsJumping { get; set; }

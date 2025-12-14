@@ -37,7 +37,7 @@ public class PlayerServiceLocator : MonoBehaviour
         combatController.Init(combatControllerService);
         interaction.Init(interactionService);
 
-        targetLock.Init(motor); 
+        targetLock.Init(motor, uIServiceLocator.GetLockOnTargetUI()); 
        
     }
 

@@ -89,7 +89,7 @@ public class PlayerInput : MonoBehaviour
         MoveInput();
        
         SprintInput();
-        JumpInput();
+        JumpInput(moveInput);
 
         AttackInput();
         BlockInput();
@@ -125,14 +125,20 @@ public class PlayerInput : MonoBehaviour
                provider.controller.GroundAngle() < provider.controller.slopeLimit &&
                !provider.controller.isJumping &&
                !provider.controller.isDamaged &&
+               !provider.controller.isStrafing &&
                !provider.controller.stopMove;
     }
 
-    protected virtual void JumpInput()
-    {
-        if (jumpPressed && JumpConditions())
-            provider.controller.Jump();
+ 
 
+    protected virtual void JumpInput(Vector2 dir)
+    {
+        if (jumpPressed)
+        {
+            if (JumpConditions()) provider.controller.Jump(); //простой прыжок
+
+            if (provider.controller.isStrafing) provider.controller.Dodge(dir); //уклон
+        }
         jumpPressed = false; // consume press
     }
 

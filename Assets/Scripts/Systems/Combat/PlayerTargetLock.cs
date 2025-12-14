@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerTargetLock : MonoBehaviour
 {
     PlayerMotor playerMotor;
+    LockOnTargetUI lockOnTargetUI;  
     Transform currentTarget;
 
     [SerializeField] float checkTargetRadius = 10f;
@@ -10,18 +12,23 @@ public class PlayerTargetLock : MonoBehaviour
 
     bool wasTargetSearched = false;
 
+    [SerializeField] private Image img;
+
     private void Update()
     {
 
         if (currentTarget == null) return;
 
+        lockOnTargetUI.CalculateImagePosition();
+
         CalculateDistanceToTarget();
 
     }
 
-    public void Init(PlayerMotor motor)
+    public void Init(PlayerMotor _motor, LockOnTargetUI _lockOnTargetUI)
     {
-        playerMotor = motor;
+        playerMotor = _motor;
+        lockOnTargetUI = _lockOnTargetUI;   
     }
 
 
@@ -33,7 +40,6 @@ public class PlayerTargetLock : MonoBehaviour
         if (dist > targetResetDistance)
         {
             ResetLockTarget();
-            Debug.Log("Target Lock Reset due to distance");
         }
     }
     public void SetLockTarget()
@@ -43,6 +49,7 @@ public class PlayerTargetLock : MonoBehaviour
         if (!wasTargetSearched)
         {
             ResetLockTarget();
+            lockOnTargetUI.ResetTarget();   
             return;
         }
 
@@ -50,8 +57,9 @@ public class PlayerTargetLock : MonoBehaviour
 
         if (currentTarget != null)
         {
-            //playerCamera.LockOnTarget(currentTarget);
             playerMotor.SetLockTarget(currentTarget);
+            lockOnTargetUI.SetTarget(currentTarget);    
+            
         }
     }
 
@@ -61,8 +69,8 @@ public class PlayerTargetLock : MonoBehaviour
     {
 
         currentTarget = null;
-        //playerCamera.UnlockTarget();
         playerMotor.ResetLockTarget();
+        lockOnTargetUI.ResetTarget();
         wasTargetSearched = false;
     }
 
