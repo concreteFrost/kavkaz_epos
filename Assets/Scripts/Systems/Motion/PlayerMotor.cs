@@ -17,17 +17,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     [Range(0f, 1f)]
     public float animationSmooth = 0.2f;
 
-    [Header("- Movement")]
-
-    [Tooltip("Turn off if you have 'in place' animations and use this values above to move the character, or use with root motion as extra speed")]
-    public bool useRootMotion = false;
-    [Tooltip("Use this to rotate the character using the World axis, or false to use the camera axis - CHECK for Isometric Camera")]
-    public bool rotateByWorld = false;
-    [Tooltip("Check This to use sprint on press button to your Character run until the stamina finish or movement stops\nIf uncheck your Character will sprint as long as the SprintInput is pressed or the stamina finishes")]
-    public bool useContinuousSprint = true;
-
     [Header("- Airborne")]
-
     [Tooltip("Use the currently Rigidbody Velocity to influence on the Jump Distance")]
     public bool jumpWithRigidbodyForce = false;
     [Tooltip("Rotate or not while airborne")]
@@ -51,10 +41,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     [Tooltip("Max angle to walk")]
     [Range(30, 80)] public float slopeLimit = 45f;
 
-    [Header("Lock")]
-    public bool lockMovement = true;                 // lock the movement of the controller (not the animation)
-    public bool lockRotation = false;                 // lock the rotation of the controller (not the animation)  
-
     #endregion
 
     #region Components
@@ -69,75 +55,46 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     #region Internal Variables
 
     internal PlayerStats playerStats;
-    // movement bools
-    internal bool isJumping;
-    internal bool isGrounded { get; set; }
-    internal bool isSprinting { get; set; }
-    internal bool isStrafing { get; set; }
 
-    internal bool isDodging { get; set; }   
-    public bool stopMove { get; protected set; }
-
-    internal float inputMagnitude;                      // sets the inputMagnitude to update the animations in the animator controller
-    internal float verticalSpeed;                       // set the verticalSpeed based on the verticalInput
-    internal float horizontalSpeed;                     // set the horizontalSpeed based on the horizontalInput       
     internal float moveSpeed;                           // set the current moveSpeed for the MoveCharacter method
     internal float verticalVelocity;                    // set the vertical velocity of the rigidbody
     internal float colliderRadius, colliderHeight;      // storage capsule collider extra information        
     internal float heightReached;                       // max height that character reached in air;
     internal float jumpCounter;                         // used to count the routine to reset the jump
-    internal float groundDistance;                      // used to know the distance from the ground
     internal RaycastHit groundHit;                      // raycast to hit the ground 
 
     protected Transform rotateTarget;                    // used as a generic reference for the camera.transform
     internal Vector3 input;                             // generate raw input for the controller
     internal Vector3 colliderCenter;                    // storage the center of the capsule collider info                
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
-    internal Vector3 moveDirection;                     // used to know the direction you're moving 
+    internal Vector3 moveDirection;
 
-    #region Combat Internal Variables
-
-    private float attackSlow = 1f;
-
-    internal bool isWeaponed = false;
-    internal bool isAttacking = false;
-    internal bool isShieldRaised = false;
-    internal int attackIndex = 0;
-    internal int weaponIndex = 0;
-
-    #endregion
-
-    #region Damage Internal Variabled
-
-    internal bool isDamaged = false;
-    internal bool isDead = false;
-    internal float balancePenalty = 0f;
-    #endregion
+    private float attackSlow = 1f;// used to know the direction you're moving 
 
     #endregion
 
     #region ICharacterAnimator
-
-    public float InputMagnitude { get => inputMagnitude; set => inputMagnitude = value; }
+    public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
     public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
-    public float VerticalSpeed { get => verticalSpeed; set => verticalSpeed = value; }
-    public float HorizontalSpeed { get => horizontalSpeed; set => horizontalSpeed = value; }
     public float AnimationSmooth { get => animationSmooth; set => animationSmooth = value; }
-    public float GroundDistance { get => groundDistance; set => groundDistance = value; }
-    public bool IStrafing { get => isStrafing; set => isStrafing = value; }
-    public bool IsDodging { get => isDodging; set => isDodging = value; }   
-    public bool StopMove { get => stopMove; set => stopMove = value; }
-    public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
-    public bool IsJumping { get => isJumping; set => isJumping = value; }
-    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
-    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
-    public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
-    public int AttackIndex { get => attackIndex; set => attackIndex = value; }
-    public int WeaponIndex { get => weaponIndex; set => weaponIndex = value; }
-    public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
-    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
-    public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
-    public bool IsDead { get => isDead; set => isDead = value; }
+    public float InputMagnitude { get ; set ; }
+    public float VerticalSpeed { get ; set ; }
+    public float HorizontalSpeed { get; set; }
+    public float GroundDistance { get; set; }
+    public bool IsLockedOnTarget { get; set; }
+    public bool IsDodging { get; set; }   
+    public bool StopMove { get; set; }
+    public bool IsSprinting { get; set; }
+    public bool IsJumping { get; set; }
+    public bool IsGrounded { get; set; }
+    public bool IsAttacking { get; set ; }
+    public bool IsWeaponed { get ; set ; }
+    public int AttackIndex { get; set; }
+    public int WeaponIndex { get; set; }
+    public bool IsShieldRaised { get; set; }
+    public bool IsDamaged { get; set; }
+    public float BalancePenalty { get; set; }
+    public bool IsDead { get; set; }
     #endregion
 
     public void Init(PlayerControllerServiceProvider service)
@@ -179,9 +136,8 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         colliderRadius = GetComponent<CapsuleCollider>().radius;
         colliderHeight = GetComponent<CapsuleCollider>().height;
 
-        isGrounded = true;
-        isSprinting = true;
-        ResetLockTarget();
+        IsGrounded = true;
+        IsSprinting = true;
     }
 
     public virtual void UpdateMotor()
@@ -198,7 +154,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
         if (animator.applyRootMotion)
         {
-            //Debug.Log("root motion applied");
             _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
             _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
         }
@@ -207,18 +162,28 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
     #region Locomotion
 
+    public virtual void UpdateMoveDirection()
+    {
+        moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
+    }
+
+    public virtual void ControlLocomotionType()
+    {
+        SetControllerMoveSpeed(playerStats);
+        MoveCharacter(moveDirection);
+    }
+
     public virtual void SetControllerMoveSpeed(CharacterStats stats)
     {
-        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? stats.runningSpeed : stats.walkSpeed, movementSmooth * Time.deltaTime);
+        moveSpeed = Mathf.Lerp(moveSpeed, IsSprinting ? stats.runningSpeed : stats.walkSpeed, movementSmooth * Time.deltaTime);
     }
 
     public virtual void MoveCharacter(Vector3 _direction)
     {
-
         // calculate input smooth
         inputSmooth = Vector3.Lerp(inputSmooth, input, (movementSmooth) * Time.deltaTime);
 
-        if (!isGrounded || isJumping) return;
+        if (!IsGrounded || IsJumping) return;
 
         _direction.y = 0;
         _direction.x = Mathf.Clamp(_direction.x, -1f, 1f);
@@ -226,7 +191,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         // limit the input
         if (_direction.magnitude > 1f)
             _direction.Normalize();
-
 
 
         Vector3 targetPosition = _rigidbody.position + FinalDirection(_direction);
@@ -240,53 +204,24 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     private Vector3 FinalDirection(Vector3 _direction)
     {
         // если атакуем или ранены — плавно уменьшаем скорость
-        float target = (stopMove || isAttacking || isDamaged || isDodging) ? 0f : 1f;
+        float target = (StopMove || IsAttacking || IsDamaged || IsDodging) ? 0f : 1f;
         attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
 
         return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
     }
 
-    public virtual void CheckSlopeLimit()
+    #endregion
+
+    #region Rotation
+    public virtual void ControlRotationType()
     {
-        if (input.sqrMagnitude < 0.1) return;
-
-        RaycastHit hitinfo;
-        var hitAngle = 0f;
-
-        if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + moveDirection.normalized * (_capsuleCollider.radius + 0.2f), out hitinfo, groundLayer))
-        {
-            hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
-
-            var targetPoint = hitinfo.point + moveDirection.normalized * _capsuleCollider.radius;
-            if ((hitAngle > slopeLimit) && Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint, out hitinfo, groundLayer))
-            {
-                hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
-
-                if (hitAngle > slopeLimit && hitAngle < 85f)
-                {
-                    stopMove = true;
-                    return;
-                }
-            }
-        }
-        stopMove = false;
-    }
-
-    public void SetLockTarget(Transform target)
-    {
-        rotateTarget = target;
-        isStrafing = true;
-    }
-
-    public void ResetLockTarget()
-    {
-        rotateTarget = null;
-        isStrafing = false;
+        Vector3 dir = (rotateWithCamera && input == Vector3.zero) && rotateTarget ? rotateTarget.forward : moveDirection;
+        RotateToDirection(dir);
     }
 
     public virtual void RotateToDirection(Vector3 direction)
     {
-        if (isDamaged) return;
+        if (IsDamaged) return;
        
         if (rotateTarget != null)
         {
@@ -302,7 +237,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     public virtual void RotateToDirection(Vector3 direction, float rotationSpeed)
     {
 
-        if (!jumpAndRotate && !isGrounded) return;
+        if (!jumpAndRotate && !IsGrounded) return;
         direction.y = 0f;
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
         Quaternion _newRotation = Quaternion.LookRotation(desiredForward);
@@ -327,17 +262,46 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
     #endregion
 
+    #region Slope Check
+    public virtual void CheckSlopeLimit()
+    {
+        if (input.sqrMagnitude < 0.1) return;
+
+        RaycastHit hitinfo;
+        var hitAngle = 0f;
+
+        if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + moveDirection.normalized * (_capsuleCollider.radius + 0.2f), out hitinfo, groundLayer))
+        {
+            hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
+
+            var targetPoint = hitinfo.point + moveDirection.normalized * _capsuleCollider.radius;
+            if ((hitAngle > slopeLimit) && Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint, out hitinfo, groundLayer))
+            {
+                hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
+
+                if (hitAngle > slopeLimit && hitAngle < 85f)
+                {
+                    StopMove = true;
+                    return;
+                }
+            }
+        }
+        StopMove = false;
+    }
+
+    #endregion
+
     #region Jump Methods
 
     protected virtual void ControlJumpBehaviour()
     {
-        if (!isJumping) return;
+        if (!IsJumping) return;
 
         jumpCounter -= Time.deltaTime;
         if (jumpCounter <= 0)
         {
             jumpCounter = 0;
-            isJumping = false;
+            IsJumping = false;
         }
         // apply extra force to the jump height   
         var vel = _rigidbody.linearVelocity;
@@ -347,11 +311,11 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
 
     public virtual void AirControl()
     {
-        if ((isGrounded && !isJumping)) return;
+        if (IsGrounded && !IsJumping) return;
         if (transform.position.y > heightReached) heightReached = transform.position.y;
         inputSmooth = Vector3.Lerp(inputSmooth, input, airSmooth * Time.deltaTime);
 
-        if (jumpWithRigidbodyForce && !isGrounded)
+        if (jumpWithRigidbodyForce && !IsGrounded)
         {
             _rigidbody.AddForce(moveDirection * airSpeed * Time.deltaTime, ForceMode.VelocityChange);
             return;
@@ -368,15 +332,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         _rigidbody.linearVelocity = Vector3.Lerp(_rigidbody.linearVelocity, targetVelocity, airSmooth * Time.deltaTime);
     }
 
-    protected virtual bool jumpFwdCondition
-    {
-        get
-        {
-            Vector3 p1 = transform.position + _capsuleCollider.center + Vector3.up * -_capsuleCollider.height * 0.5F;
-            Vector3 p2 = p1 + Vector3.up * _capsuleCollider.height;
-            return Physics.CapsuleCastAll(p1, p2, _capsuleCollider.radius * 0.5f, transform.forward, 0.6f, groundLayer).Length == 0;
-        }
-    }
 
     #endregion
 
@@ -387,29 +342,29 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
         CheckGroundDistance();
         ControlMaterialPhysics();
 
-        if (groundDistance <= groundMinDistance)
+        if (GroundDistance <= groundMinDistance)
         {
-            isGrounded = true;
-            if (!isJumping && groundDistance > 0.05f)
+            IsGrounded = true;
+            if (!IsJumping && GroundDistance > 0.05f)
                 _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
 
             heightReached = transform.position.y;
         }
         else
         {
-            if (groundDistance >= groundMaxDistance)
+            if (GroundDistance >= groundMaxDistance)
             {
                 // set IsGrounded to false 
-                isGrounded = false;
+                IsGrounded = false;
                 // check vertical velocity
                 verticalVelocity = _rigidbody.linearVelocity.y;
                 // apply extra gravity when falling
-                if (!isJumping)
+                if (!IsJumping)
                 {
                     _rigidbody.AddForce(transform.up * extraGravity * Time.deltaTime, ForceMode.VelocityChange);
                 }
             }
-            else if (!isJumping)
+            else if (!IsJumping)
             {
                 _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
             }
@@ -419,11 +374,11 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     protected virtual void ControlMaterialPhysics()
     {
         // change the physics material to very slip when not grounded
-        _capsuleCollider.material = (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
+        _capsuleCollider.material = (IsGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
 
-        if (isGrounded && input == Vector3.zero)
+        if (IsGrounded && input == Vector3.zero)
             _capsuleCollider.material = maxFrictionPhysics;
-        else if (isGrounded && input != Vector3.zero)
+        else if (IsGrounded && input != Vector3.zero)
             _capsuleCollider.material = frictionPhysics;
         else
             _capsuleCollider.material = slippyPhysics;
@@ -453,7 +408,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
                     if (dist > newDist) dist = newDist;
                 }
             }
-            groundDistance = (float)System.Math.Round(dist, 2);
+            GroundDistance = (float)System.Math.Round(dist, 2);
         }
     }
 

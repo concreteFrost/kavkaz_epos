@@ -46,7 +46,7 @@ public class PlayerInput : MonoBehaviour
 
         // Interaction
         controls.Player.Interaction.performed += ctx => interactPressed = true;
-        cameraMain = Camera.main;   
+        cameraMain = Camera.main;
 
 
     }
@@ -87,7 +87,7 @@ public class PlayerInput : MonoBehaviour
     protected virtual void InputHandle()
     {
         MoveInput();
-       
+
         SprintInput();
         JumpInput(moveInput);
 
@@ -118,26 +118,12 @@ public class PlayerInput : MonoBehaviour
         provider.controller.Sprint(sprintHeld);
     }
 
-    protected virtual bool JumpConditions()
-    {
-        return provider.controller.isGrounded &&
-
-               provider.controller.GroundAngle() < provider.controller.slopeLimit &&
-               !provider.controller.isJumping &&
-               !provider.controller.isDamaged &&
-               !provider.controller.isStrafing &&
-               !provider.controller.stopMove;
-    }
-
- 
 
     protected virtual void JumpInput(Vector2 dir)
     {
         if (jumpPressed)
         {
-            if (JumpConditions()) provider.controller.Jump(); //простой прыжок
-
-            if (provider.controller.isStrafing) provider.controller.Dodge(dir); //уклон
+            provider.controller.HandleJumpOrDodge(dir);
         }
         jumpPressed = false; // consume press
     }
@@ -184,6 +170,8 @@ public class PlayerInput : MonoBehaviour
             provider.targetLock.SetLockTarget();
             lockOnTargetPressed = false;
         }
+
+        provider.targetLock.SwitchTarget(lookInput.x);
     }
 
     #endregion
@@ -217,7 +205,7 @@ public class PlayerInput : MonoBehaviour
         if (cameraMain)
             provider.controller.UpdateMoveDirection();
 
-      
+
     }
     #endregion
 }

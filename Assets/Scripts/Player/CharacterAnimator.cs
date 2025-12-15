@@ -15,7 +15,7 @@ public class CharacterAnimator : MonoBehaviour
         
         if (animator == null || !animator.enabled) return;
 
-        animator.SetBool(AnimatorParameters.IsStrafing, IAnim.IStrafing);
+        animator.SetBool(AnimatorParameters.IsStrafing, IAnim.IsLockedOnTarget);
         animator.SetBool(AnimatorParameters.IsDodging, IAnim.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, IAnim.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, IAnim.IsGrounded);

@@ -1,81 +1,70 @@
-﻿using Unity.VisualScripting;
-using UnityEditor.VersionControl;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : PlayerMotor
 {
-
-    public virtual void ControlLocomotionType()
+    public void SetLockTarget(Transform target)
     {
-        if (lockMovement) return;
-
-        SetControllerMoveSpeed(playerStats);
-
-        if (!useRootMotion)
-            MoveCharacter(moveDirection);
+        rotateTarget = target;
+        IsLockedOnTarget = true;
     }
 
-    public virtual void ControlRotationType()
+    public void ResetLockTarget()
     {
-        Vector3 dir = (rotateWithCamera && input == Vector3.zero) && rotateTarget ? rotateTarget.forward : moveDirection;
-        RotateToDirection(dir);
+        rotateTarget = null;
+        IsLockedOnTarget = false;
     }
 
-    public virtual void UpdateMoveDirection()
+    public virtual void Sprint(bool inputSprint)
     {
-        
-        moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
-    }
-
-    public virtual void Sprint(bool value)
-    {
-        bool isMoving = input.sqrMagnitude > 0.1f && !(horizontalSpeed >= 0.5 || horizontalSpeed <= -0.5 || verticalSpeed <= 0.1f);
+        bool isMoving = input.sqrMagnitude > 0.1f;
         bool hasStamina = playerStats.currentStamina > 0;
 
-        var sprintConditions = isMoving && isGrounded && !isAttacking && !isDamaged && hasStamina;
+        // локальное направление движения
+        Vector3 localDir = transform.InverseTransformDirection(moveDirection);
+        bool isMovingForward = localDir.z > 0.1f; // спринт только вперёд
 
-        if (value && sprintConditions)
-        {
-            if (input.sqrMagnitude > 0.1f)
-            {
-                if (isGrounded && useContinuousSprint)
-                {
-                    isSprinting = !isSprinting;
-                }
-                else if (!isSprinting)
-                {
-                    isSprinting = true;
+        bool canSprint =
+            inputSprint &&
+            isMoving &&
+            isMovingForward &&
+            hasStamina &&
+            IsGrounded &&
+            !IsAttacking &&
+            !IsDamaged;
 
+        IsSprinting = canSprint;
 
-                }
-            }
-            else if (!useContinuousSprint && isSprinting)
-            {
-                isSprinting = false;
-            }
-        }
-        else if (isSprinting)
-        {
-            isSprinting = false;
-        }
-
-        if (isSprinting)
-        {
+        if (IsSprinting)
             playerStats.ReduceStamina(playerStats.staminaRunReducePenalty);
-        }
-
     }
 
-    public virtual void Jump()
-    {
-        if (isAttacking || playerStats.currentStamina <= 0)
-            return;
 
-        // trigger jump behaviour
+    public void HandleJumpOrDodge(Vector2 dir)
+    {
+        if (IsLockedOnTarget)
+        {
+            Dodge(dir);
+            return;
+        }
+
+        Jump();
+    }
+
+    private void Jump()
+    {
+        bool canJump =  IsGrounded &&
+               GroundAngle() < slopeLimit &&
+               !IsJumping &&
+               !IsAttacking &&
+               !IsDamaged &&
+               !StopMove &&
+               playerStats.currentStamina > 0;
+
+        if (!canJump) return;
+
         playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
-        isJumping = true;
-
+        IsJumping = true;
 
         // trigger jump animations
         if (input.sqrMagnitude < 0.1f)
@@ -84,17 +73,17 @@ public class PlayerController : PlayerMotor
             animator.CrossFadeInFixedTime("JumpMove", .2f);
     }
 
-    public virtual void Dodge(Vector2 dir)
+    private void Dodge(Vector2 dir)
     {
-        if (isAttacking || isDodging)
+        if (IsAttacking || IsDodging)
             return;
 
-        isDodging = true;
+        IsDodging = true;
 
         float dodgeX = 0f;
         float dodgeY = 0f;
 
-        Vector3 relativeInput = transform.InverseTransformDirection(moveDirection);
+        Vector3 relativeInput = GetInverseTransformDirection();
 
         if (relativeInput.sqrMagnitude < 0.01f)
         {
