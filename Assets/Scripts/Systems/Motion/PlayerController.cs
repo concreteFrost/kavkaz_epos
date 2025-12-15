@@ -75,7 +75,7 @@ public class PlayerController : PlayerMotor
 
     private void Dodge(Vector2 dir)
     {
-        if (IsAttacking || IsDodging)
+        if (IsAttacking || IsDodging || playerStats.currentStamina <=0)
             return;
 
         IsDodging = true;
