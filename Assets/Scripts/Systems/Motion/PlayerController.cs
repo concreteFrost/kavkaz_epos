@@ -5,13 +5,13 @@ public class PlayerController : PlayerMotor
     public void SetLockTarget(Transform target)
     {
         rotateTarget = target;
-        IsLockedOnTarget = true;
+        isLockedOnTarget = true;
     }
 
     public void ResetLockTarget()
     {
         rotateTarget = null;
-        IsLockedOnTarget = false;
+        isLockedOnTarget = false;
     }
 
     public virtual void Sprint(bool inputSprint)
@@ -28,11 +28,11 @@ public class PlayerController : PlayerMotor
             isMoving &&
             isMovingForward &&
             hasStamina &&
-            IsGrounded &&
-            !IsAttacking &&
-            !IsDamaged;
+            isGrounded &&
+            !isAttacking &&
+            !isDamaged;
 
-        IsSprinting = canSprint;
+        isSprinting = canSprint;
 
         if (IsSprinting)
             playerStatsModifer.ReduceStamina(playerStats.staminaRunReducePenalty);
@@ -64,7 +64,7 @@ public class PlayerController : PlayerMotor
 
         playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
-        IsJumping = true;
+        isJumping = true;
 
         // trigger jump animations
         if (input.sqrMagnitude < 0.1f)
@@ -78,7 +78,7 @@ public class PlayerController : PlayerMotor
         if (IsAttacking || IsDodging || playerStats.currentStamina <=0)
             return;
 
-        IsDodging = true;
+        isDodging = true;
 
         float dodgeX = 0f;
         float dodgeY = 0f;

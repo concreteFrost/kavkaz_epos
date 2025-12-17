@@ -1,44 +1,61 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAnimator : CharacterAnimator
 {
-    public override void SetAnimatorMoveSpeed(ICharacterAnimator IAnim)
+    PlayerMotor motor;
+    public void Init(Animator animator, PlayerMotor motor)
     {
-        if (animator == null || !animator.enabled) return;
+        this.animator = animator;
+        this.motor = motor;
+       
+    }
+    public override void SetAnimatorMoveSpeed()
+    {
+        if (animator == null || !animator.enabled)
+        {
+            Debug.Log("no animator found");
+            return;
+        }
 
-        animator.SetBool(AnimatorParameters.IsStrafing, IAnim.IsLockedOnTarget);
-        animator.SetBool(AnimatorParameters.IsDodging, IAnim.IsDodging);
-        animator.SetBool(AnimatorParameters.IsSprinting, IAnim.IsSprinting);
-        animator.SetBool(AnimatorParameters.IsGrounded, IAnim.IsGrounded);
-        animator.SetFloat(AnimatorParameters.GroundDistance, IAnim.GroundDistance);
-        animator.SetFloat(AnimatorParameters.InputHorizontal, IAnim.StopMove ? 0 : IAnim.HorizontalSpeed, IAnim.AnimationSmooth, Time.deltaTime);
-        animator.SetFloat(AnimatorParameters.InputVertical, IAnim.StopMove ? 0 : IAnim.VerticalSpeed, IAnim.AnimationSmooth, Time.deltaTime);
-        animator.SetFloat(AnimatorParameters.InputMagnitude, IAnim.StopMove ? 0f : IAnim.InputMagnitude, IAnim.AnimationSmooth, Time.deltaTime);
+        animator.SetBool(AnimatorParameters.IsStrafing, motor.IsLockedOnTarget);
+        animator.SetBool(AnimatorParameters.IsDodging, motor.IsDodging);
+        animator.SetBool(AnimatorParameters.IsSprinting, motor.IsSprinting);
+        animator.SetBool(AnimatorParameters.IsGrounded, motor.IsGrounded);
 
-        //animator.SetInteger(AnimatorParameters.AttackIndex)
+        animator.SetFloat(AnimatorParameters.GroundDistance, motor.GroundDistance);
 
-        //combat control
-        animator.SetBool(AnimatorParameters.IsWeaponed, IAnim.IsWeaponed);
-        animator.SetBool(AnimatorParameters.IsAttacking, IAnim.IsAttacking);
-        animator.SetBool(AnimatorParameters.IsShieldRaised, IAnim.IsShieldRaised);
-        animator.SetInteger(AnimatorParameters.AttackIndex, IAnim.AttackIndex);
-        animator.SetInteger(AnimatorParameters.WeaponType, IAnim.WeaponIndex);
+        animator.SetFloat(
+            AnimatorParameters.InputHorizontal,
+            motor.StopMove ? 0 : motor.HorizontalSpeed,
+            motor.AnimationSmooth,
+            Time.deltaTime
+        );
 
-        //damage control
-        animator.SetBool(AnimatorParameters.IsDamaged, IAnim.IsDamaged);
-        animator.SetFloat(AnimatorParameters.BalancePenalty, IAnim.BalancePenalty);
-        animator.SetBool(AnimatorParameters.IsDead, IAnim.IsDead);
+        animator.SetFloat(
+            AnimatorParameters.InputVertical,
+            motor.StopMove ? 0 : motor.VerticalSpeed,
+            motor.AnimationSmooth,
+            Time.deltaTime
+        );
+
+        animator.SetFloat(
+            AnimatorParameters.InputMagnitude,
+            motor.StopMove ? 0 : motor.InputMagnitude,
+            motor.AnimationSmooth,
+            Time.deltaTime
+        );
+
+        // combat
+        animator.SetBool(AnimatorParameters.IsWeaponed, motor.IsWeaponed);
+        animator.SetBool(AnimatorParameters.IsAttacking, motor.IsAttacking);
+        animator.SetBool(AnimatorParameters.IsShieldRaised, motor.IsShieldRaised);
+        animator.SetInteger(AnimatorParameters.AttackIndex, motor.AttackIndex);
+        animator.SetInteger(AnimatorParameters.WeaponType, motor.WeaponIndex);
+
+        // damage
+        animator.SetBool(AnimatorParameters.IsDamaged, motor.IsDamaged);
+        animator.SetFloat(AnimatorParameters.BalancePenalty, motor.BalancePenalty);
+        animator.SetBool(AnimatorParameters.IsDead, motor.IsDead);
     }
 
-    public override void UpdateAnimator(ICharacterAnimator IAnim)
-    {
-        Vector3 relativeInput = transform.InverseTransformDirection(IAnim.MoveDirection);
-        IAnim.VerticalSpeed = relativeInput.z;
-        IAnim.HorizontalSpeed = relativeInput.x;
-
-        var newInput = new Vector2(IAnim.VerticalSpeed, IAnim.HorizontalSpeed);
-
-        IAnim.InputMagnitude = Mathf.Clamp(newInput.magnitude, 0, IAnim.IsSprinting ? AnimatorConsts.runningSpeed : AnimatorConsts.walkSpeed);
-    }
 }

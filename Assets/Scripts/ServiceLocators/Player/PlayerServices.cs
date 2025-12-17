@@ -5,10 +5,10 @@ public class PlayerInputServiceProvider
     public PlayerController controller;
     public PlayerCombatController combatController;
     public PlayerInteract interact;
-    public CharacterAnimator animator;
+    public PlayerAnimator animator;
     public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, PlayerInteract interact, CharacterAnimator animator, PlayerTargetLock targetLock)
+    public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, PlayerInteract interact, PlayerAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.combatController = combatController;

@@ -56,7 +56,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.PerformDefence();
-        motor.IsShieldRaised = true;
+        motor.isShieldRaised = true;
 
     }
 
@@ -64,7 +64,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if(inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
-        motor.IsShieldRaised = false;
+        motor.isShieldRaised = false;
     }
 
     public void ThrowShield()
@@ -80,8 +80,8 @@ public class PlayerCombatController : MonoBehaviour
         totalClicks = 0;
         isInQueue = false;
        
-        motor.IsAttacking = false;
-        motor.AttackIndex = 0;   
+        motor.isAttacking = false;
+        motor.attackIndex = 0;   
     }
 
   
@@ -96,12 +96,12 @@ public class PlayerCombatController : MonoBehaviour
 
         var currentWeaponType = (int)w.WeaponData().attackSet.attackType;
         var currentAttakChain = w.WeaponData().attackSet;
-        motor.WeaponIndex = currentWeaponType;
+        motor.weaponIndex = currentWeaponType;
 
         while (true && !motor.IsShieldRaised)
         {
-            motor.IsAttacking = true;
-            motor.AttackIndex = totalClicks;
+            motor.isAttacking = true;
+            motor.attackIndex = totalClicks;
 
             var currentAttack = currentAttakChain.attackList[totalClicks];
 

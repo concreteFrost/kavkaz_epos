@@ -60,8 +60,8 @@ public class PlayerInput : MonoBehaviour
         provider.controller.ControlLocomotionType();
         provider.controller.ControlRotationType();
 
-        provider.animator.UpdateAnimator(provider.controller);
-        provider.animator.SetAnimatorMoveSpeed(provider.controller);
+        provider.controller.UpdateAnimator();
+        provider.animator.SetAnimatorMoveSpeed();
     }
 
 

@@ -5,14 +5,7 @@ public abstract class CharacterAnimator : MonoBehaviour
 {
     protected Animator animator;
 
-    public void Init(Animator animator)
-    {
-        this.animator = animator;    
-    }
-
-    public abstract void UpdateAnimator(ICharacterAnimator IAnim);
-
-    public abstract void SetAnimatorMoveSpeed(ICharacterAnimator IAnim);
+    public abstract void SetAnimatorMoveSpeed();
 }
 
 public static partial class AnimatorParameters

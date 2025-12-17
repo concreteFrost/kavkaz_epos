@@ -31,7 +31,7 @@ public class PlayerServiceLocator : MonoBehaviour
         PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatInventory,motor);
         PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(motor, statsModifier);
 
-        characterAnimator.Init(animator);
+        characterAnimator.Init(animator, motor);
         input.Init(inpurService);
         stats.Init(statsService);
         statsModifier.Init(modifierServiceProvider);

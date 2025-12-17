@@ -38,7 +38,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
         base.Die();
         input.controls.Player.Disable();
 
-        animator.IsDead = true;
+        animator.isDead = true;
 
         inventory.CurrentWeapon?.ThrowWeapon();
         inventory.ShieldWeapon?.ThrowShield();
@@ -52,7 +52,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
     {
 
         input.controls.Player.Enable();
-        animator.IsDead = false;
+        animator.isDead = false;
 
         stats.currentHealth = stats.maxHealth;
         stats.currentStamina = stats.maxStamina;
@@ -76,11 +76,11 @@ public class PlayerStatsModifier : CharacterStatsModifier
     {
         if (isDead) return;
 
-        animator.BalancePenalty = balanceDamage;
+        animator.balancePenalty = balanceDamage;
 
         if (!animator.IsShieldRaised)
         {
-            animator.IsDamaged = true;
+            animator.isDamaged = true;
         }
 
         stats.currentHealth -= damage;

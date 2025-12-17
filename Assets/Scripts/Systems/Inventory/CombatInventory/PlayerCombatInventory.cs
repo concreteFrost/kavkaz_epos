@@ -21,7 +21,7 @@ public class PlayerCombatInventory : CombatInventory
     public override void SetWeapon(IWeapon w)
     {
        CurrentWeapon = w;
-       motor.IsWeaponed = true; 
+       motor.isWeaponed = true; 
      
     }
 
@@ -34,8 +34,8 @@ public class PlayerCombatInventory : CombatInventory
     {
 
         CurrentWeapon = DefaultWeapon;
-        motor.IsAttacking = false;   
-        motor.IsWeaponed = false;    
+        motor.isAttacking = false;   
+        motor.isWeaponed = false;    
 
     }
 
@@ -45,7 +45,7 @@ public class PlayerCombatInventory : CombatInventory
         if (ShieldWeapon == null) return;
 
         ShieldWeapon = null;
-        motor.IsShieldRaised = false;
+        motor.isShieldRaised = false;
 
     }
 
