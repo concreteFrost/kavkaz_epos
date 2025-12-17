@@ -27,6 +27,8 @@ public static partial class AnimatorParameters
     public static int BalancePenalty = Animator.StringToHash("BalancePenalty");
     public static int IsDead = Animator.StringToHash("IsDead");
     public static int IsDodging = Animator.StringToHash("IsDodging");
+    public static int DodgeX = Animator.StringToHash("DodgeX");
+    public static int DodgeY = Animator.StringToHash("DodgeY");
 
 }
 

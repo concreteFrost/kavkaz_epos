@@ -25,7 +25,7 @@ public class PlayerServiceLocator : MonoBehaviour
         var uID = uniqueId.uniqueId;
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, interaction, characterAnimator, targetLock);
         PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator,stats,statsModifier,combatController);
-        PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats, statsModifier);
+        PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor,combatInventory, stats, statsModifier);
         PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(motor, combatInventory, combatController);
         PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
         PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatController, combatInventory,motor);

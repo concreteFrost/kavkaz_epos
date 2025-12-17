@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacterAirAnimData
+public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 {
     #region Inspector Variables
 
@@ -43,8 +43,10 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     #endregion
 
     #region Components
+
+    internal ICharacterCombatAnimData combatState;
+
     internal PlayerStats stats;
-    internal PlayerCombatController statsModifier;
     internal PlayerStatsModifier playerStatsModifer;
     internal Animator animator;
     internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
@@ -105,7 +107,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         animator = service.animator;
         stats = service.stats;
         playerStatsModifer = service.statsModifier;
-        statsModifier = service.combatController;
+        combatState = service.combatState;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
@@ -164,6 +166,36 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         AirControl();
     }
 
+    
+    #region State Conditions
+
+    public bool CanMoveCharacter() => isGrounded && !isJumping;
+
+    public bool CanJump() => isGrounded &&
+               GroundAngle() < slopeLimit &&
+               !isJumping &&
+               !combatState.IsAttacking &&
+               !playerStatsModifer.IsDamaged &&
+               !stopMove &&
+               stats.currentStamina > 0;
+
+    public bool CanSprint()
+    {
+        bool isMoving = input.sqrMagnitude > 0.1f;
+        bool hasStamina = stats.currentStamina > 0;
+        Vector3 localDir = transform.InverseTransformDirection(moveDirection);
+        bool isMovingForward = localDir.z > 0.1f;
+
+        return isGrounded &&
+               !combatState.IsAttacking &&
+               !playerStatsModifer.IsDamaged &&
+               isMoving &&
+               isMovingForward &&
+               hasStamina;
+    }
+
+    #endregion
+
 
     #region Locomotion
 
@@ -221,7 +253,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     private Vector3 FinalDirection(Vector3 _direction)
     {
         // если атакуем или ранены — плавно уменьшаем скорость
-        float target = (stopMove || statsModifier.isAttacking || playerStatsModifer.isDamaged || statsModifier.isDodging) ? 0f : 1f;
+        float target = (stopMove || combatState.IsAttacking || playerStatsModifer.IsDamaged || combatState.IsDodging) ? 0f : 1f;
         attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
 
         return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
@@ -238,7 +270,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     public virtual void RotateToDirection(Vector3 direction)
     {
-        if (playerStatsModifer.isDamaged) return;
+        if (playerStatsModifer.IsDamaged) return;
        
         if (rotateTarget != null)
         {
@@ -253,7 +285,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     public virtual void RotateToDirection(Vector3 direction, float rotationSpeed)
     {
-
+        if (combatState.IsAttacking) return;
         if (!jumpAndRotate && !isGrounded) return;
         direction.y = 0f;
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
@@ -263,6 +295,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     private void RotateToTarget()
     {
+
         Vector3 lookDir = rotateTarget.position - transform.position;
         lookDir.y = 0; // чтобы не задирал голову
 
@@ -347,7 +380,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         targetVelocity.y = _rigidbody.linearVelocity.y;
         _rigidbody.linearVelocity = Vector3.Lerp(_rigidbody.linearVelocity, targetVelocity, airSmooth * Time.deltaTime);
     }
-
 
     #endregion
 
@@ -444,38 +476,5 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     #endregion
 
 
-    #region States
-
-    public bool CanMoveCharacter() => isGrounded && !isJumping;
-    public bool CanDodge() => !statsModifier.isAttacking && !statsModifier.isDodging && stats.currentStamina > 0;
-
-    public bool CanJump() => isGrounded &&
-               GroundAngle() < slopeLimit &&
-               !isJumping &&
-               !statsModifier.isAttacking &&
-               !playerStatsModifer.isDamaged &&
-               !stopMove &&
-               stats.currentStamina > 0;
-
-    public bool CanSprint()
-    {
-        bool isMoving = input.sqrMagnitude > 0.1f;
-        bool hasStamina = stats.currentStamina > 0;
-        Vector3 localDir = transform.InverseTransformDirection(moveDirection);
-        bool isMovingForward = localDir.z > 0.1f;
-
-        return isGrounded &&
-               !statsModifier.isAttacking &&
-               !playerStatsModifer.isDamaged &&
-               isMoving &&
-               isMovingForward &&
-               hasStamina;
-    }
-
-    public bool CanAttack()
-    {
-        return !isJumping && isGrounded && !statsModifier.isDodging && stats.currentStamina > 0;
-    }
-    #endregion
 
 }

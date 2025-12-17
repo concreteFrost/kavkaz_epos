@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
 {
     PlayerCombatInventory inventory;
-    PlayerMotor motor;
+   
     PlayerStats stats;
     PlayerStatsModifier statsModifier;
     [SerializeField] private int totalClicks = 0;
+
+    ICharacterMovementAnimData movementState;
 
     IEnumerator currentCoroutine = null;
 
@@ -27,19 +29,28 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
     public bool IsShieldRaised { get => isShieldRaised; }
     public bool IsDodging { get => isDodging; set => isDodging = value; }
 
+    public float DodgeX { get; set; }
+    public float DodgeY { get; set; }
+
     public void Init(PlayerCombatControllerServiceProvider service)
     {
 
-        motor = service.motor;
+        movementState = service.movementState;
         inventory = service.combatInventory; 
         stats = service.stats;
         statsModifier = service.statsModifier;  
+        
     }
 
+    #region State Conditions
     private bool CanAttack()
     {
-        return !motor.isJumping && motor.isGrounded && !isDodging && stats.currentStamina > 0;
+        return !movementState.IsJumping && movementState.IsGrounded && !isDodging && stats.currentStamina > 0;
     }
+
+    public bool CanDodge() => !isAttacking && !isDodging && stats.currentStamina > 0;
+
+    #endregion
 
     public void PerformAttack()
     {
@@ -95,7 +106,7 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
         //inventory.ResetShield();
     }
 
-    public bool CanDodge() => !isAttacking && !isDodging && stats.currentStamina > 0;
+  
 
     public void Dodge(Vector2 dir)
     {
@@ -107,7 +118,7 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
         float dodgeX = 0f;
         float dodgeY = 0f;
 
-        Vector3 relativeInput = motor.GetInverseTransformDirection();
+        Vector3 relativeInput = movementState.GetInverseTransformDirection();
 
         if (relativeInput.sqrMagnitude < 0.01f)
         {
@@ -124,6 +135,9 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
         }
 
         statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
+
+        DodgeX = dodgeX;    
+        DodgeY = dodgeY;
     }
 
 

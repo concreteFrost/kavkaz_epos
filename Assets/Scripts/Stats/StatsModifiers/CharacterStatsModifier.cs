@@ -4,7 +4,7 @@ public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , IChar
 {
     protected string uniqueID;
     protected bool isDead;
-    public bool isDamaged;
+    protected bool isDamaged;
     public float balancePenalty;
     
     public bool IsDamaged { get => isDamaged; set => isDamaged = value; }

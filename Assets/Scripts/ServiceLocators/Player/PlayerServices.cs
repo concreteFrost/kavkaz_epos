@@ -32,28 +32,30 @@ public class PlayerControllerServiceProvider
     public Animator animator;
     public PlayerStats stats;
     public PlayerStatsModifier statsModifier;
-    public PlayerCombatController combatController;
-    public PlayerControllerServiceProvider(Animator animator,PlayerStats stats ,PlayerStatsModifier statsModifier, PlayerCombatController combatController)
+    public ICharacterCombatAnimData combatState;
+   
+    public PlayerControllerServiceProvider(Animator animator,PlayerStats stats ,PlayerStatsModifier statsModifier, ICharacterCombatAnimData combatState)
     {
         this.animator = animator;
         this.stats = stats;
         this.statsModifier = statsModifier;
-        this.combatController = combatController;
+        this.combatState = combatState;
     }
 }
 
 public class PlayerCombatControllerServiceProvider
 {
-    public PlayerController motor;
+    public ICharacterMovementAnimData movementState;
     public PlayerCombatInventory combatInventory;
     public PlayerStats stats;
     public PlayerStatsModifier statsModifier;   
-    public PlayerCombatControllerServiceProvider(PlayerController motor, PlayerCombatInventory combatInventory, PlayerStats stats, PlayerStatsModifier statsModifier)
+    public PlayerCombatControllerServiceProvider(ICharacterMovementAnimData movementState, PlayerCombatInventory combatInventory, PlayerStats stats, PlayerStatsModifier statsModifier)
     {
-        this.motor = motor;
+        this.movementState = movementState;
         this.combatInventory = combatInventory;
         this.stats = stats;
         this.statsModifier = statsModifier;
+      
     }
 }
 

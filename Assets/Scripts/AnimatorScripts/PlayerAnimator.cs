@@ -55,11 +55,16 @@ public class PlayerAnimator : CharacterAnimator
         animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);
         animator.SetInteger(AnimatorParameters.AttackIndex, combatController.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, combatController.WeaponIndex);
+        animator.SetFloat(AnimatorParameters.DodgeX, combatController.DodgeX);
+        animator.SetFloat(AnimatorParameters.DodgeY, combatController.DodgeY);  
 
         // damage
         animator.SetBool(AnimatorParameters.IsDamaged, playerStatsModifier.IsDamaged);
         animator.SetFloat(AnimatorParameters.BalancePenalty, playerStatsModifier.BalancePenalty);
         animator.SetBool(AnimatorParameters.IsDead, playerStatsModifier.IsDead());
+
+
+
 
     }
 
