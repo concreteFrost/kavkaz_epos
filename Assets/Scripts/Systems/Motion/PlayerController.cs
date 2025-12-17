@@ -16,25 +16,8 @@ public class PlayerController : PlayerMotor
 
     public virtual void Sprint(bool inputSprint)
     {
-        bool isMoving = input.sqrMagnitude > 0.1f;
-        bool hasStamina = playerStats.currentStamina > 0;
-
-        // локальное направление движения
-        Vector3 localDir = transform.InverseTransformDirection(moveDirection);
-        bool isMovingForward = localDir.z > 0.1f; // спринт только вперёд
-
-        bool canSprint =
-            inputSprint &&
-            isMoving &&
-            isMovingForward &&
-            hasStamina &&
-            isGrounded &&
-            !isAttacking &&
-            !isDamaged;
-
-        isSprinting = canSprint;
-
-        if (IsSprinting)
+        isSprinting = CanSprint();
+        if (isSprinting)
             playerStatsModifer.ReduceStamina(playerStats.staminaRunReducePenalty);
     }
 
@@ -51,16 +34,8 @@ public class PlayerController : PlayerMotor
     }
 
     private void Jump()
-    {
-        bool canJump =  IsGrounded &&
-               GroundAngle() < slopeLimit &&
-               !IsJumping &&
-               !IsAttacking &&
-               !IsDamaged &&
-               !StopMove &&
-               playerStats.currentStamina > 0;
-
-        if (!canJump) return;
+    {  
+        if (!CanJump()) return;
 
         playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
@@ -75,7 +50,7 @@ public class PlayerController : PlayerMotor
 
     private void Dodge(Vector2 dir)
     {
-        if (IsAttacking || IsDodging || playerStats.currentStamina <=0)
+        if (!CanDodge())
             return;
 
         isDodging = true;
@@ -106,5 +81,6 @@ public class PlayerController : PlayerMotor
     }
 
 
+   
 
 }

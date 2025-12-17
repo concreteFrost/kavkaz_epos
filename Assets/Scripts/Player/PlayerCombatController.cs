@@ -10,8 +10,6 @@ public class PlayerCombatController : MonoBehaviour
 
     IEnumerator currentCoroutine = null;
 
-    private float currentAttackTimer = 0f;
-
     bool isInQueue = false;
 
     public void Init(PlayerCombatControllerServiceProvider service)
@@ -23,7 +21,7 @@ public class PlayerCombatController : MonoBehaviour
 
     public void PerformAttack()
     {
-        if (motor.IsJumping || !motor.IsGrounded || stats.currentStamina <=0)
+        if (!motor.CanAttack())
             return;
 
         if (motor.IsShieldRaised)
@@ -84,11 +82,6 @@ public class PlayerCombatController : MonoBehaviour
         motor.attackIndex = 0;   
     }
 
-  
-    public void SetCurrentAttackTimer(float timer)
-    {
-        currentAttackTimer = timer; 
-    }
     IEnumerator AttackCoroutine()
     {
 
