@@ -24,7 +24,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(healthDamage,balanceDamage);
+            damageCollider.EnableCollider(healthDamage,balanceDamage, null);
             colliderActive = true;
         }
 

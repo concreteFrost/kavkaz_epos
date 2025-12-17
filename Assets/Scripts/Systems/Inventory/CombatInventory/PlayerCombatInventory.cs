@@ -9,7 +9,7 @@ public class PlayerCombatInventory : CombatInventory
         base.Init(service);
 
         motor = service.motor;
-        Damagable = service.stats;
+        Damagable = service.statsModifier;
 
         bareHands.SetOwner(this);
 

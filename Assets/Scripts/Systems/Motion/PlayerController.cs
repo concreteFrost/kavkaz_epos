@@ -35,7 +35,7 @@ public class PlayerController : PlayerMotor
         IsSprinting = canSprint;
 
         if (IsSprinting)
-            playerStats.ReduceStamina(playerStats.staminaRunReducePenalty);
+            playerStatsModifer.ReduceStamina(playerStats.staminaRunReducePenalty);
     }
 
 
@@ -62,7 +62,7 @@ public class PlayerController : PlayerMotor
 
         if (!canJump) return;
 
-        playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
+        playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
         jumpCounter = playerStats.jumpTimer;
         IsJumping = true;
 
@@ -99,7 +99,7 @@ public class PlayerController : PlayerMotor
             dodgeY = Mathf.Sign(relativeInput.z); 
         }
 
-        playerStats.ReduceStamina(playerStats.staminaJumpReducePenalty);
+        playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
 
         animator.SetFloat("DodgeX", dodgeX);
         animator.SetFloat("DodgeY", dodgeY);

@@ -55,7 +55,8 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     #region Internal Variables
 
     internal PlayerStats playerStats;
-
+    internal PlayerStatsModifier playerStatsModifer;
+    
     internal float moveSpeed;                           // set the current moveSpeed for the MoveCharacter method
     internal float verticalVelocity;                    // set the vertical velocity of the rigidbody
     internal float colliderRadius, colliderHeight;      // storage capsule collider extra information        
@@ -101,6 +102,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterAnimator
     {
         animator = service.animator;
         playerStats = service.stats;
+        playerStatsModifer = service.statsModifier;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
 

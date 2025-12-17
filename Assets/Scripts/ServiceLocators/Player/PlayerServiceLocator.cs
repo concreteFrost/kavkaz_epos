@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerServiceLocator : MonoBehaviour
 {
+    [SerializeField] UniqueId uniqueId;
 
     [SerializeField] Animator animator;
 
@@ -11,6 +12,7 @@ public class PlayerServiceLocator : MonoBehaviour
     
     [SerializeField] private PlayerCombatController combatController;
     [SerializeField] private PlayerStats stats;
+    [SerializeField] private PlayerStatsModifier statsModifier;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
     [SerializeField] private CharacterAnimator characterAnimator;
@@ -20,17 +22,20 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private void Awake()
     {
+        var uID = uniqueId.uniqueId;
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, interaction, characterAnimator, targetLock);
         PlayerAnimatorServiceProvider animatorService = new PlayerAnimatorServiceProvider(animator);
-        PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator, stats);
+        PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator,stats,statsModifier);
         PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats);
         PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(motor, combatInventory);
         PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
-        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(motor, stats);
+        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatInventory,motor);
+        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(motor, statsModifier);
 
         characterAnimator.Init(animatorService);
         input.Init(inpurService);
         stats.Init(statsService);
+        statsModifier.Init(modifierServiceProvider);
         motor.Init(controllerService);
 
         combatInventory.Init(combatInventoryService);

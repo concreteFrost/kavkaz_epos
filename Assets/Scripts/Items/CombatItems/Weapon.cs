@@ -42,7 +42,7 @@ public class Weapon : CombatItem, IWeapon
     {
         var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
         var balanceDamage = currentAttack.GetFinalBalanceDamage();
-        damageCollider.EnableCollider(healthDamage, balanceDamage);
+        damageCollider.EnableCollider(healthDamage, balanceDamage, AttackSource.SourceId());
     }
 
     public void CancelAttack()

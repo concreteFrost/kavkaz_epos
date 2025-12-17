@@ -9,7 +9,7 @@ public class DamageCollider : MonoBehaviour
     public bool attackInterrupted = false; // используется при обнаружении щита у цели
     protected float healthDamage;
     protected float balanceDamage;
-
+    private string owner;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -17,7 +17,7 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
-    public void EnableCollider(float _healthDamage, float _balanceDamage)
+    public void EnableCollider(float _healthDamage, float _balanceDamage, string owner)
     {
         col.enabled = true;
         healthDamage = _healthDamage;
@@ -29,6 +29,7 @@ public class DamageCollider : MonoBehaviour
         col.enabled = false;
         attackInterrupted = false;
         collectedColliders.Clear();
+        owner = null;   
     }
 
     //Метод расчета урона с учетом защиты цели
@@ -52,6 +53,11 @@ public class DamageCollider : MonoBehaviour
               ?? other.GetComponent<IDamagable>();
 
         if (damagable == null) return;
+        if(damagable.SourceId() == owner)
+        {
+            Debug.Log("hitting owner");
+            return;
+        }
 
         damagable.TakeDamage(healthDamage,balanceDamage);
     }
@@ -87,8 +93,6 @@ public class DamageCollider : MonoBehaviour
        HandleDamageCalculation(other, healthDamage);
 
     }
-
- 
 
     private void OnTriggerEnter(Collider other)
     {

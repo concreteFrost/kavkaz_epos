@@ -32,10 +32,12 @@ public class PlayerControllerServiceProvider
 {
     public Animator animator;
     public PlayerStats stats;
-    public PlayerControllerServiceProvider(Animator animator, PlayerStats stats)
+    public PlayerStatsModifier statsModifier;
+    public PlayerControllerServiceProvider(Animator animator,PlayerStats stats ,PlayerStatsModifier statsModifier)
     {
         this.animator = animator;
         this.stats = stats;
+        this.statsModifier = statsModifier;
     }
 }
 
@@ -81,11 +83,31 @@ public class PlayerStatsServiceProvider
 public class PlayerCombatInventoryServiceProvider
 {
     public PlayerController motor;
-    public PlayerStats stats;
-    public PlayerCombatInventoryServiceProvider(PlayerController motor, PlayerStats stats)
+    public PlayerStatsModifier statsModifier;
+    public PlayerCombatInventoryServiceProvider(PlayerController motor, PlayerStatsModifier stats)
     {
         this.motor = motor;
-        this.stats = stats;
+        this.statsModifier = stats;
+    }
+}
+
+public class PlayerStatsModifierServiceProvider
+{
+    public string uniqueId;
+    public PlayerStats stats;
+    public PlayerStatsUI ui;
+    public PlayerInput input;
+    public PlayerCombatInventory inventory;
+    public PlayerMotor animator;
+
+    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, PlayerCombatInventory inventory, PlayerMotor animator)
+    {
+        this.uniqueId = uniqueId; 
+        this.stats= stats;  
+        this.ui = ui;
+        this.input = input;
+        this.inventory = inventory;
+        this.animator = animator;
     }
 }
 
