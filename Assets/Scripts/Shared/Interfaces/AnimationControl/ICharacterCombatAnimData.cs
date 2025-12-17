@@ -1,10 +1,10 @@
 ﻿
 public interface ICharacterCombatAnimData
 {
-    bool IsAttacking { get; }
+    bool IsAttacking { get; set; }
     bool IsWeaponed { get; }
     int AttackIndex { get; }
     int WeaponIndex { get; }
     bool IsShieldRaised { get; }
-    bool IsDodging { get; }
+    bool IsDodging { get; set; }
 }

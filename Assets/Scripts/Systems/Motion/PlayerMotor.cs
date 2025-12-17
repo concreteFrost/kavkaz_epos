@@ -2,7 +2,6 @@
 
 public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacterCombatAnimData, ICharacterAirAnimData, ICharacterDamageAnimData
 {
-
     #region Inspector Variables
 
     [Header("camera rotation")]
@@ -102,19 +101,19 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     public float HorizontalSpeed { get=>horizontalSpeed; }
     public float GroundDistance { get=>groundDistance; }
     public bool IsLockedOnTarget { get => isLockedOnTarget; }
-    public bool IsDodging { get => isDodging; }   
+    public bool IsDodging { get => isDodging; set => isDodging = value; }   
     public bool StopMove { get=>stopMove; }
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
-    public bool IsAttacking { get => isAttacking; }
+    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsWeaponed { get=>isWeaponed; }
     public int AttackIndex { get => attackIndex; }
     public int WeaponIndex { get => weaponIndex; }
     public bool IsShieldRaised { get => isShieldRaised; }
-    public bool IsDamaged { get => isDamaged; }
+    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
     public float BalancePenalty { get => balancePenalty; }
-    public bool IsDead { get => isDead; }
+    public bool IsDead { get => isDead; set => isDead = value; }
     #endregion
 
     public void Init(PlayerControllerServiceProvider service)
@@ -325,7 +324,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     #endregion
 
     #region Jump Methods
-
     protected virtual void ControlJumpBehaviour()
     {
         if (!IsJumping) return;

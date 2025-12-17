@@ -1,7 +1,7 @@
 ﻿
 public interface ICharacterDamageAnimData
 {
-    bool IsDamaged { get; }
+    bool IsDamaged { get; set; }
     float BalancePenalty { get; }
-    bool IsDead { get; }
+    bool IsDead { get; set; }
 }

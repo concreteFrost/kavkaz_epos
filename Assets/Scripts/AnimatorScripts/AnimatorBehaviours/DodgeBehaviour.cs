@@ -1,26 +1,27 @@
 using UnityEngine;
 
-public class DeadBehaviour : StateMachineBehaviour
+public class DodgeBehaviour : StateMachineBehaviour
 {
-    ICharacterAnimator dm;
+
+    ICharacterCombatAnimData dm;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm = animator.GetComponent<ICharacterAnimator>();
-        animator.applyRootMotion = true;
+        dm = animator.GetComponent<ICharacterCombatAnimData>();
+       
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        animator.applyRootMotion = true;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm.IsDamaged = false;
         animator.applyRootMotion = false;
+        dm.IsDodging = false;   
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
