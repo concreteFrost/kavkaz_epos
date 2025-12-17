@@ -10,6 +10,8 @@ public class PlayerCombatController : MonoBehaviour
 
     IEnumerator currentCoroutine = null;
 
+    private float currentAttackTimer = 0f;
+
     bool isInQueue = false;
 
     public void Init(PlayerCombatControllerServiceProvider service)
@@ -83,6 +85,10 @@ public class PlayerCombatController : MonoBehaviour
     }
 
   
+    public void SetCurrentAttackTimer(float timer)
+    {
+        currentAttackTimer = timer; 
+    }
     IEnumerator AttackCoroutine()
     {
 
@@ -100,8 +106,6 @@ public class PlayerCombatController : MonoBehaviour
             var currentAttack = currentAttakChain.attackList[totalClicks];
 
             w.SetCurrentAttack(currentAttack);
-            //stats.ReduceStamina(currentAttack.staminaPenalty);
-
             float time = currentAttack.attackTime;
 
             yield return new WaitForSeconds(time);

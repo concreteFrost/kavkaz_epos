@@ -15,7 +15,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerStatsModifier statsModifier;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
-    [SerializeField] private CharacterAnimator characterAnimator;
+    [SerializeField] private PlayerAnimator characterAnimator;
     [SerializeField] private PlayerTargetLock targetLock;
 
     [SerializeField] private PlayerUIServiceLocator uIServiceLocator;
@@ -24,7 +24,6 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         var uID = uniqueId.uniqueId;
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, interaction, characterAnimator, targetLock);
-        PlayerAnimatorServiceProvider animatorService = new PlayerAnimatorServiceProvider(animator);
         PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator,stats,statsModifier);
         PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats);
         PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(motor, combatInventory);
@@ -32,7 +31,7 @@ public class PlayerServiceLocator : MonoBehaviour
         PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatInventory,motor);
         PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(motor, statsModifier);
 
-        characterAnimator.Init(animatorService);
+        characterAnimator.Init(animator);
         input.Init(inpurService);
         stats.Init(statsService);
         statsModifier.Init(modifierServiceProvider);

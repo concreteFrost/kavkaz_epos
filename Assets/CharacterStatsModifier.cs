@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , ICharacterStatsModifier
+public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , ICharacterStats
 {
     protected string uniqueID;
     protected bool isDead;
