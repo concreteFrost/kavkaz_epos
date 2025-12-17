@@ -24,23 +24,23 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         var uID = uniqueId.uniqueId;
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(motor, combatController, interaction, characterAnimator, targetLock);
-        PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator,stats,statsModifier);
-        PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats);
-        PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(motor, combatInventory);
+        PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator,stats,statsModifier,combatController);
+        PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(motor, combatInventory, stats, statsModifier);
+        PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(motor, combatInventory, combatController);
         PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
-        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatInventory,motor);
-        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(motor, statsModifier);
+        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatController, combatInventory,motor);
+        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(combatController, statsModifier);
 
-        characterAnimator.Init(animator, motor);
+        motor.Init(controllerService);
         input.Init(inpurService);
         stats.Init(statsService);
         statsModifier.Init(modifierServiceProvider);
-        motor.Init(controllerService);
 
         combatInventory.Init(combatInventoryService);
         combatController.Init(combatControllerService);
         interaction.Init(interactionService);
 
+        characterAnimator.Init(animator, motor, combatController, statsModifier);
         targetLock.Init(motor, uIServiceLocator.GetLockOnTargetUI()); 
        
     }

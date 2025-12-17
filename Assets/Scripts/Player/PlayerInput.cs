@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -123,7 +124,15 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpPressed)
         {
-            provider.controller.HandleJumpOrDodge(dir);
+            if (provider.controller.isLockedOnTarget)
+            {
+                provider.combatController.Dodge(dir);
+            }
+            else
+            {
+                provider.controller.Jump();
+            }
+                
         }
         jumpPressed = false; // consume press
     }

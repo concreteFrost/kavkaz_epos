@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour, ICollector 
 {
     PlayerMotor animator;
+    PlayerCombatController combatController;
     PlayerCombatInventory attackSource;
 
     private IPickable pickable { get; set; }=null;
@@ -12,12 +13,13 @@ public class PlayerInteract : MonoBehaviour, ICollector
     { 
         animator = service.motor;  
         attackSource = service.combatInventory;
+        combatController = service.combatController;
     }
 
     public void Interact()
     {
         // ѕредотвращаем взаимодействие во врем€ атаки
-        if (animator.IsAttacking)
+        if (combatController.isAttacking)
             return;
 
         if (pickable != null)

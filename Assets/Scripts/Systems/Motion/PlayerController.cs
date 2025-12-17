@@ -18,27 +18,15 @@ public class PlayerController : PlayerMotor
     {
         isSprinting = CanSprint();
         if (isSprinting)
-            playerStatsModifer.ReduceStamina(playerStats.staminaRunReducePenalty);
+            playerStatsModifer.ReduceStamina(stats.staminaRunReducePenalty);
     }
 
-
-    public void HandleJumpOrDodge(Vector2 dir)
-    {
-        if (IsLockedOnTarget)
-        {
-            Dodge(dir);
-            return;
-        }
-
-        Jump();
-    }
-
-    private void Jump()
+    public void Jump()
     {  
         if (!CanJump()) return;
 
-        playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
-        jumpCounter = playerStats.jumpTimer;
+        playerStatsModifer.ReduceStamina(stats.staminaJumpReducePenalty);
+        jumpCounter = stats.jumpTimer;
         isJumping = true;
 
         // trigger jump animations
@@ -48,37 +36,37 @@ public class PlayerController : PlayerMotor
             animator.CrossFadeInFixedTime("JumpMove", .2f);
     }
 
-    private void Dodge(Vector2 dir)
-    {
-        if (!CanDodge())
-            return;
+    //private void Dodge(Vector2 dir)
+    //{
+    //    if (!CanDodge())
+    //        return;
 
-        isDodging = true;
+    //    combatController.isDodging = true;
 
-        float dodgeX = 0f;
-        float dodgeY = 0f;
+    //    float dodgeX = 0f;
+    //    float dodgeY = 0f;
 
-        Vector3 relativeInput = GetInverseTransformDirection();
+    //    Vector3 relativeInput = GetInverseTransformDirection();
 
-        if (relativeInput.sqrMagnitude < 0.01f)
-        {
-            // без движения — всегда назад
-            dodgeY = -1f;
-        }
-        else if (Mathf.Abs(relativeInput.x) > Mathf.Abs(relativeInput.z)) //
-        {
-            dodgeX = Mathf.Sign(relativeInput.x);
-        }
-        else
-        {
-            dodgeY = Mathf.Sign(relativeInput.z); 
-        }
+    //    if (relativeInput.sqrMagnitude < 0.01f)
+    //    {
+    //        // без движения — всегда назад
+    //        dodgeY = -1f;
+    //    }
+    //    else if (Mathf.Abs(relativeInput.x) > Mathf.Abs(relativeInput.z)) //
+    //    {
+    //        dodgeX = Mathf.Sign(relativeInput.x);
+    //    }
+    //    else
+    //    {
+    //        dodgeY = Mathf.Sign(relativeInput.z); 
+    //    }
 
-        playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
+    //    playerStatsModifer.ReduceStamina(playerStats.staminaJumpReducePenalty);
 
-        animator.SetFloat("DodgeX", dodgeX);
-        animator.SetFloat("DodgeY", dodgeY);
-    }
+    //    animator.SetFloat("DodgeX", dodgeX);
+    //    animator.SetFloat("DodgeY", dodgeY);
+    //}
 
 
    

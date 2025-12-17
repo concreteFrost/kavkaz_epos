@@ -7,6 +7,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
     PlayerStatsUI ui;
     PlayerInput input;
     PlayerCombatInventory inventory;
+    PlayerCombatController combatController;
     PlayerMotor animator;
 
     public void Init(PlayerStatsModifierServiceProvider provider)
@@ -15,6 +16,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
         ui = provider.ui;
         input = provider.input;
         inventory = provider.inventory;
+        combatController = provider.combatController;
         animator = provider.animator;
         uniqueID = provider.uniqueId;
 
@@ -38,8 +40,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
         base.Die();
         input.controls.Player.Disable();
 
-        animator.isDead = true;
-
         inventory.CurrentWeapon?.ThrowWeapon();
         inventory.ShieldWeapon?.ThrowShield();
         inventory.ResetWeapon();
@@ -52,7 +52,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
     {
 
         input.controls.Player.Enable();
-        animator.isDead = false;
+
 
         stats.currentHealth = stats.maxHealth;
         stats.currentStamina = stats.maxStamina;
@@ -76,11 +76,11 @@ public class PlayerStatsModifier : CharacterStatsModifier
     {
         if (isDead) return;
 
-        animator.balancePenalty = balanceDamage;
+        balancePenalty = balanceDamage;
 
-        if (!animator.IsShieldRaised)
+        if (!combatController.isShieldRaised)
         {
-            animator.isDamaged = true;
+            isDamaged = true;
         }
 
         stats.currentHealth -= damage;
@@ -113,7 +113,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
             return;
 
         // Если игрок атакует, бежит, катится и т.п. — можно тоже отключать реген (если нужно)
-        if (animator != null && animator.IsAttacking)
+        if (animator != null && combatController.isAttacking)
             return;
 
         // Считаем таймер

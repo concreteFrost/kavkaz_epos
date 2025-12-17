@@ -1,14 +1,13 @@
 public class PlayerCombatInventory : CombatInventory
 {
-    PlayerMotor motor;
-
+    PlayerCombatController combatController;
     public BareHandsWeapon bareHands;
 
     public override void Init(PlayerCombatInventoryServiceProvider service)
     {
         base.Init(service);
 
-        motor = service.motor;
+        combatController = service.combatController;
         Damagable = service.statsModifier;
 
         bareHands.SetOwner(this);
@@ -21,7 +20,7 @@ public class PlayerCombatInventory : CombatInventory
     public override void SetWeapon(IWeapon w)
     {
        CurrentWeapon = w;
-       motor.isWeaponed = true; 
+       combatController.isWeaponed = true; 
      
     }
 
@@ -34,8 +33,8 @@ public class PlayerCombatInventory : CombatInventory
     {
 
         CurrentWeapon = DefaultWeapon;
-        motor.isAttacking = false;   
-        motor.isWeaponed = false;    
+        combatController.isAttacking = false;   
+        combatController.isWeaponed = false;    
 
     }
 
@@ -45,7 +44,7 @@ public class PlayerCombatInventory : CombatInventory
         if (ShieldWeapon == null) return;
 
         ShieldWeapon = null;
-        motor.isShieldRaised = false;
+        combatController.isShieldRaised = false;
 
     }
 

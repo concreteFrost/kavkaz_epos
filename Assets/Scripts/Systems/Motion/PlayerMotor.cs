@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacterCombatAnimData, ICharacterAirAnimData, ICharacterDamageAnimData
+public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacterAirAnimData
 {
     #region Inspector Variables
 
@@ -43,7 +43,8 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     #endregion
 
     #region Components
-    internal PlayerStats playerStats;
+    internal PlayerStats stats;
+    internal PlayerCombatController statsModifier;
     internal PlayerStatsModifier playerStatsModifer;
     internal Animator animator;
     internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
@@ -53,9 +54,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     #endregion
 
     #region Internal Variables
-
-    internal int attackIndex = 0;
-    internal int weaponIndex = 0;
 
     internal float inputMagnitude;
     internal float groundDistance;
@@ -67,7 +65,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     internal float colliderRadius, colliderHeight;      // storage capsule collider extra information        
     internal float heightReached;                       // max height that character reached in air;
     internal float jumpCounter;                         // used to count the routine to reset the jump
-    internal float balancePenalty;
+  
     internal RaycastHit groundHit;                      // raycast to hit the ground 
 
     protected Transform rotateTarget;                    // used as a generic reference for the camera.transform
@@ -80,13 +78,8 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     internal bool isSprinting;
     internal bool isJumping;
     internal bool isGrounded;
-    internal bool isAttacking;
-    internal bool isDamaged;
-    internal bool isDodging;
     internal bool isLockedOnTarget;
-    internal bool isWeaponed;
-    internal bool isShieldRaised;
-    internal bool isDead;
+    public bool isHanging;
 
     private float attackSlow = 1f;// used to know the direction you're moving 
 
@@ -99,28 +92,20 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     public float InputMagnitude { get => inputMagnitude;  }
     public float VerticalSpeed { get=>verticalSpeed ;  }
     public float HorizontalSpeed { get=>horizontalSpeed; }
-    public float GroundDistance { get=>groundDistance; }
     public bool IsLockedOnTarget { get => isLockedOnTarget; }
-    public bool IsDodging { get => isDodging; set => isDodging = value; }   
+    public float GroundDistance { get=>groundDistance; }
     public bool StopMove { get=>stopMove; }
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
-    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
-    public bool IsWeaponed { get=>isWeaponed; }
-    public int AttackIndex { get => attackIndex; }
-    public int WeaponIndex { get => weaponIndex; }
-    public bool IsShieldRaised { get => isShieldRaised; }
-    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
-    public float BalancePenalty { get => balancePenalty; }
-    public bool IsDead { get => isDead; set => isDead = value; }
     #endregion
 
     public void Init(PlayerControllerServiceProvider service)
     {
         animator = service.animator;
-        playerStats = service.stats;
+        stats = service.stats;
         playerStatsModifer = service.statsModifier;
+        statsModifier = service.combatController;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
@@ -147,7 +132,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
         // rigidbody info
         _rigidbody = GetComponent<Rigidbody>();
-
         // capsule collider info
         _capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -160,15 +144,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         isSprinting = true;
     }
 
-    public virtual void UpdateMotor()
-    {
-        CheckGround();
-        CheckSlopeLimit();
-        ControlJumpBehaviour();
-        AirControl();
-    }
-
-
     private void OnAnimatorMove()
     {
 
@@ -179,6 +154,16 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         }
 
     }
+
+
+    public virtual void UpdateMotor()
+    {
+        CheckGround();
+        CheckSlopeLimit();
+        ControlJumpBehaviour();
+        AirControl();
+    }
+
 
     #region Locomotion
 
@@ -201,7 +186,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     public virtual void ControlLocomotionType()
     {
-        SetControllerMoveSpeed(playerStats);
+        SetControllerMoveSpeed(stats);
         MoveCharacter(moveDirection);
     }
 
@@ -215,7 +200,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         // calculate input smooth
         inputSmooth = Vector3.Lerp(inputSmooth, input, (movementSmooth) * Time.deltaTime);
 
-        if (!isGrounded || isJumping) return;
+        if (!CanMoveCharacter()) return;
 
         _direction.y = 0;
         _direction.x = Mathf.Clamp(_direction.x, -1f, 1f);
@@ -236,7 +221,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
     private Vector3 FinalDirection(Vector3 _direction)
     {
         // если атакуем или ранены — плавно уменьшаем скорость
-        float target = (stopMove || isAttacking || isDamaged || isDodging) ? 0f : 1f;
+        float target = (stopMove || statsModifier.isAttacking || playerStatsModifer.isDamaged || statsModifier.isDodging) ? 0f : 1f;
         attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
 
         return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
@@ -253,7 +238,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     public virtual void RotateToDirection(Vector3 direction)
     {
-        if (isDamaged) return;
+        if (playerStatsModifer.isDamaged) return;
        
         if (rotateTarget != null)
         {
@@ -336,13 +321,13 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
         }
         // apply extra force to the jump height   
         var vel = _rigidbody.linearVelocity;
-        vel.y = playerStats.jumpHeight;
+        vel.y = stats.jumpHeight;
         _rigidbody.linearVelocity = vel;
     }
 
     public virtual void AirControl()
     {
-        if (isGrounded && !isJumping) return;
+        if (CanMoveCharacter()) return;
         if (transform.position.y > heightReached) heightReached = transform.position.y;
         inputSmooth = Vector3.Lerp(inputSmooth, input, airSmooth * Time.deltaTime);
 
@@ -460,26 +445,28 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
 
     #region States
-    public bool CanDodge() => !isAttacking && !isDodging && playerStats.currentStamina > 0;
+
+    public bool CanMoveCharacter() => isGrounded && !isJumping;
+    public bool CanDodge() => !statsModifier.isAttacking && !statsModifier.isDodging && stats.currentStamina > 0;
 
     public bool CanJump() => isGrounded &&
                GroundAngle() < slopeLimit &&
                !isJumping &&
-               !isAttacking &&
-               !isDamaged &&
+               !statsModifier.isAttacking &&
+               !playerStatsModifer.isDamaged &&
                !stopMove &&
-               playerStats.currentStamina > 0;
+               stats.currentStamina > 0;
 
     public bool CanSprint()
     {
         bool isMoving = input.sqrMagnitude > 0.1f;
-        bool hasStamina = playerStats.currentStamina > 0;
+        bool hasStamina = stats.currentStamina > 0;
         Vector3 localDir = transform.InverseTransformDirection(moveDirection);
         bool isMovingForward = localDir.z > 0.1f;
 
-        return isSprinting = isGrounded &&
-               !isAttacking &&
-               !isDamaged &&
+        return isGrounded &&
+               !statsModifier.isAttacking &&
+               !playerStatsModifer.isDamaged &&
                isMoving &&
                isMovingForward &&
                hasStamina;
@@ -487,7 +474,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData, ICharacter
 
     public bool CanAttack()
     {
-        return !isJumping && isGrounded && !isDodging && playerStats.currentStamina > 0;
+        return !isJumping && isGrounded && !statsModifier.isDodging && stats.currentStamina > 0;
     }
     #endregion
 

@@ -7,8 +7,7 @@ public class DodgeBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm = animator.GetComponent<ICharacterCombatAnimData>();
-       
+        dm = animator.GetComponentInChildren<ICharacterCombatAnimData>(); 
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,7 +20,8 @@ public class DodgeBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.applyRootMotion = false;
-        dm.IsDodging = false;   
+        dm.IsDodging = false;
+        Debug.Log("exit");
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

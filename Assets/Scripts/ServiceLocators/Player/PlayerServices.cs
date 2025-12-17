@@ -11,8 +11,7 @@ public class PlayerInputServiceProvider
     public PlayerInputServiceProvider(PlayerController controller, PlayerCombatController combatController, PlayerInteract interact, PlayerAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
-        this.combatController = combatController;
-      
+        this.combatController = combatController;  
         this.interact = interact;
         this.animator = animator;
         this.targetLock = targetLock;
@@ -33,11 +32,13 @@ public class PlayerControllerServiceProvider
     public Animator animator;
     public PlayerStats stats;
     public PlayerStatsModifier statsModifier;
-    public PlayerControllerServiceProvider(Animator animator,PlayerStats stats ,PlayerStatsModifier statsModifier)
+    public PlayerCombatController combatController;
+    public PlayerControllerServiceProvider(Animator animator,PlayerStats stats ,PlayerStatsModifier statsModifier, PlayerCombatController combatController)
     {
         this.animator = animator;
         this.stats = stats;
         this.statsModifier = statsModifier;
+        this.combatController = combatController;
     }
 }
 
@@ -46,11 +47,13 @@ public class PlayerCombatControllerServiceProvider
     public PlayerController motor;
     public PlayerCombatInventory combatInventory;
     public PlayerStats stats;
-    public PlayerCombatControllerServiceProvider(PlayerController motor, PlayerCombatInventory combatInventory, PlayerStats stats)
+    public PlayerStatsModifier statsModifier;   
+    public PlayerCombatControllerServiceProvider(PlayerController motor, PlayerCombatInventory combatInventory, PlayerStats stats, PlayerStatsModifier statsModifier)
     {
         this.motor = motor;
         this.combatInventory = combatInventory;
         this.stats = stats;
+        this.statsModifier = statsModifier;
     }
 }
 
@@ -58,10 +61,12 @@ public class PlayerInteractServiceProvider
 {
     public PlayerController motor;
     public PlayerCombatInventory combatInventory;
-    public PlayerInteractServiceProvider(PlayerController motor, PlayerCombatInventory combatInventory)
+    public PlayerCombatController combatController;
+    public PlayerInteractServiceProvider(PlayerController motor, PlayerCombatInventory combatInventory, PlayerCombatController combatController)
     {
         this.motor = motor;
         this.combatInventory = combatInventory;
+        this.combatController = combatController;
     }
 }
 
@@ -82,11 +87,11 @@ public class PlayerStatsServiceProvider
 
 public class PlayerCombatInventoryServiceProvider
 {
-    public PlayerController motor;
+    public PlayerCombatController combatController;
     public PlayerStatsModifier statsModifier;
-    public PlayerCombatInventoryServiceProvider(PlayerController motor, PlayerStatsModifier stats)
+    public PlayerCombatInventoryServiceProvider(PlayerCombatController combatController, PlayerStatsModifier stats)
     {
-        this.motor = motor;
+        this.combatController = combatController;
         this.statsModifier = stats;
     }
 }
@@ -97,14 +102,16 @@ public class PlayerStatsModifierServiceProvider
     public PlayerStats stats;
     public PlayerStatsUI ui;
     public PlayerInput input;
+    public PlayerCombatController combatController;
     public PlayerCombatInventory inventory;
     public PlayerMotor animator;
 
-    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, PlayerCombatInventory inventory, PlayerMotor animator)
+    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input,PlayerCombatController combatController, PlayerCombatInventory inventory, PlayerMotor animator)
     {
         this.uniqueId = uniqueId; 
         this.stats= stats;  
         this.ui = ui;
+        this.combatController=combatController; 
         this.input = input;
         this.inventory = inventory;
         this.animator = animator;

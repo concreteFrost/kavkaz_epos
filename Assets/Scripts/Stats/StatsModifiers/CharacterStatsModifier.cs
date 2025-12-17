@@ -1,9 +1,14 @@
 using UnityEngine;
 
-public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , ICharacterStats
+public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , ICharacterStats, ICharacterDamageAnimData
 {
     protected string uniqueID;
     protected bool isDead;
+    public bool isDamaged;
+    public float balancePenalty;
+    
+    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
+    public float BalancePenalty { get => balancePenalty; }
 
     public virtual void Die()
     {

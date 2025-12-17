@@ -1,37 +1,59 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerCombatController : MonoBehaviour
+public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
 {
+    PlayerCombatInventory inventory;
     PlayerMotor motor;
-    PlayerCombatInventory inventory;  
     PlayerStats stats;
+    PlayerStatsModifier statsModifier;
     [SerializeField] private int totalClicks = 0;
 
     IEnumerator currentCoroutine = null;
 
     bool isInQueue = false;
 
+    internal bool isAttacking;
+    internal int attackIndex = 0;
+    internal int weaponIndex = 0;
+    internal bool isShieldRaised;
+    internal bool isDodging;
+    internal bool isWeaponed;
+
+    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
+    public bool IsWeaponed { get => isWeaponed; }
+    public int AttackIndex { get => attackIndex; }
+    public int WeaponIndex { get => weaponIndex; }
+    public bool IsShieldRaised { get => isShieldRaised; }
+    public bool IsDodging { get => isDodging; set => isDodging = value; }
+
     public void Init(PlayerCombatControllerServiceProvider service)
     {
+
         motor = service.motor;
         inventory = service.combatInventory; 
         stats = service.stats;
+        statsModifier = service.statsModifier;  
+    }
+
+    private bool CanAttack()
+    {
+        return !motor.isJumping && motor.isGrounded && !isDodging && stats.currentStamina > 0;
     }
 
     public void PerformAttack()
     {
-        if (!motor.CanAttack())
+        if (!CanAttack())
             return;
 
-        if (motor.IsShieldRaised)
+        if (isShieldRaised)
         {
             ResetCombo();
             return;
         }
 
         // ставим атаку в очередь
-        if (motor.IsAttacking)
+        if (isAttacking)
         {
             isInQueue = true;
             return;
@@ -54,7 +76,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.PerformDefence();
-        motor.isShieldRaised = true;
+        isShieldRaised = true;
 
     }
 
@@ -62,7 +84,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if(inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
-        motor.isShieldRaised = false;
+        isShieldRaised = false;
     }
 
     public void ThrowShield()
@@ -73,13 +95,45 @@ public class PlayerCombatController : MonoBehaviour
         //inventory.ResetShield();
     }
 
+    public bool CanDodge() => !isAttacking && !isDodging && stats.currentStamina > 0;
+
+    public void Dodge(Vector2 dir)
+    {
+        if (!CanDodge())
+            return;
+
+        isDodging = true;
+
+        float dodgeX = 0f;
+        float dodgeY = 0f;
+
+        Vector3 relativeInput = motor.GetInverseTransformDirection();
+
+        if (relativeInput.sqrMagnitude < 0.01f)
+        {
+            // без движения — всегда назад
+            dodgeY = -1f;
+        }
+        else if (Mathf.Abs(relativeInput.x) > Mathf.Abs(relativeInput.z)) //
+        {
+            dodgeX = Mathf.Sign(relativeInput.x);
+        }
+        else
+        {
+            dodgeY = Mathf.Sign(relativeInput.z);
+        }
+
+        statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
+    }
+
+
     void ResetCombo()
     {
         totalClicks = 0;
         isInQueue = false;
        
-        motor.isAttacking = false;
-        motor.attackIndex = 0;   
+        isAttacking = false;
+        attackIndex = 0;   
     }
 
     IEnumerator AttackCoroutine()
@@ -89,12 +143,12 @@ public class PlayerCombatController : MonoBehaviour
 
         var currentWeaponType = (int)w.WeaponData().attackSet.attackType;
         var currentAttakChain = w.WeaponData().attackSet;
-        motor.weaponIndex = currentWeaponType;
+        weaponIndex = currentWeaponType;
 
-        while (true && !motor.IsShieldRaised)
+        while (true && !isShieldRaised)
         {
-            motor.isAttacking = true;
-            motor.attackIndex = totalClicks;
+            isAttacking = true;
+            attackIndex = totalClicks;
 
             var currentAttack = currentAttakChain.attackList[totalClicks];
 

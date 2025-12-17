@@ -3,10 +3,14 @@
 public class PlayerAnimator : CharacterAnimator
 {
     PlayerMotor motor;
-    public void Init(Animator animator, PlayerMotor motor)
+    PlayerCombatController combatController;
+    PlayerStatsModifier playerStatsModifier;    
+    public void Init(Animator animator, PlayerMotor motor, PlayerCombatController combatController, PlayerStatsModifier playerStatsModifier)
     {
         this.animator = animator;
         this.motor = motor;
+        this.combatController = combatController;
+        this.playerStatsModifier = playerStatsModifier; 
        
     }
     public override void SetAnimatorMoveSpeed()
@@ -18,7 +22,7 @@ public class PlayerAnimator : CharacterAnimator
         }
 
         animator.SetBool(AnimatorParameters.IsStrafing, motor.IsLockedOnTarget);
-        animator.SetBool(AnimatorParameters.IsDodging, motor.IsDodging);
+        animator.SetBool(AnimatorParameters.IsDodging, combatController.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, motor.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, motor.IsGrounded);
 
@@ -46,16 +50,17 @@ public class PlayerAnimator : CharacterAnimator
         );
 
         // combat
-        animator.SetBool(AnimatorParameters.IsWeaponed, motor.IsWeaponed);
-        animator.SetBool(AnimatorParameters.IsAttacking, motor.IsAttacking);
-        animator.SetBool(AnimatorParameters.IsShieldRaised, motor.IsShieldRaised);
-        animator.SetInteger(AnimatorParameters.AttackIndex, motor.AttackIndex);
-        animator.SetInteger(AnimatorParameters.WeaponType, motor.WeaponIndex);
+        animator.SetBool(AnimatorParameters.IsWeaponed, combatController.IsWeaponed);
+        animator.SetBool(AnimatorParameters.IsAttacking, combatController.IsAttacking);
+        animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);
+        animator.SetInteger(AnimatorParameters.AttackIndex, combatController.AttackIndex);
+        animator.SetInteger(AnimatorParameters.WeaponType, combatController.WeaponIndex);
 
         // damage
-        animator.SetBool(AnimatorParameters.IsDamaged, motor.IsDamaged);
-        animator.SetFloat(AnimatorParameters.BalancePenalty, motor.BalancePenalty);
-        animator.SetBool(AnimatorParameters.IsDead, motor.IsDead);
+        animator.SetBool(AnimatorParameters.IsDamaged, playerStatsModifier.IsDamaged);
+        animator.SetFloat(AnimatorParameters.BalancePenalty, playerStatsModifier.BalancePenalty);
+        animator.SetBool(AnimatorParameters.IsDead, playerStatsModifier.IsDead());
+
     }
 
 }
