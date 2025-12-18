@@ -1,9 +1,10 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    PlayerInputServiceProvider provider;
+
+    PlayerController controller;
+    PlayerAnimator animator;
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
@@ -49,40 +50,36 @@ public class PlayerInput : MonoBehaviour
         controls.Player.Interaction.performed += ctx => interactPressed = true;
         cameraMain = Camera.main;
 
-
     }
+
+    public void Init(PlayerInputServiceProvider serviceProvider)
+    {
+        controller = serviceProvider.controller;
+        animator = serviceProvider.animator;
+    }
+
 
     protected virtual void OnEnable() => controls.Enable();
     protected virtual void OnDisable() => controls.Disable();
 
     protected virtual void FixedUpdate()
     {
+        Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y);
 
-        provider.controller.ControlLocomotionType();
-        provider.controller.ControlRotationType();
+        controller.MoveCharacter(moveDir);
+        controller.RotateCharacter(moveDir);    
 
-        provider.controller.UpdateAnimator();
-        provider.animator.SetAnimatorMoveSpeed();
+        controller.UpdateAnimator();
+        animator.SetAnimatorMoveSpeed();
     }
-
 
     protected virtual void Update()
     {
 
         InputHandle();
-        provider.controller.UpdateMotor();
+        controller.UpdateMotor();
 
     }
-
-    public void Init(PlayerInputServiceProvider serviceProvider)
-    {
-        provider = serviceProvider;
-    }
-
-    //public virtual void OnAnimatorMove()
-    //{
-    //    characterController.ControlAnimatorRootMotion();
-    //}
 
 
     protected virtual void InputHandle()
@@ -90,7 +87,7 @@ public class PlayerInput : MonoBehaviour
         MoveInput();
 
         SprintInput();
-        JumpInput(moveInput);
+        JumpInput();
 
         AttackInput();
         BlockInput();
@@ -109,30 +106,21 @@ public class PlayerInput : MonoBehaviour
 
     public virtual void MoveInput()
     {
-        provider.controller.input.x = moveInput.x;
-        provider.controller.input.z = moveInput.y;
+        controller.UpdateInput(moveInput);
     }
 
 
     protected virtual void SprintInput()
     {
-        provider.controller.Sprint(sprintHeld);
+        controller.Sprint(sprintHeld);
     }
 
 
-    protected virtual void JumpInput(Vector2 dir)
+    protected virtual void JumpInput()
     {
         if (jumpPressed)
         {
-            if (provider.controller.isLockedOnTarget)
-            {
-                provider.combatController.Dodge(dir);
-            }
-            else
-            {
-                provider.controller.Jump();
-            }
-                
+            controller.HandleJumpOrDodge(moveInput);      
         }
         jumpPressed = false; // consume press
     }
@@ -146,9 +134,9 @@ public class PlayerInput : MonoBehaviour
         if (attackPressed)
         {
             if (throwHeld)
-                provider.combatController.ThrowWeapon();
+                controller.ThrowWeapon();
             else
-                provider.combatController.PerformAttack();
+                controller.PerformAttack();
 
             attackPressed = false;
         }
@@ -160,13 +148,13 @@ public class PlayerInput : MonoBehaviour
         if (blockHeld)
         {
             if (throwHeld)
-                provider.combatController.ThrowShield();
+                controller.ThrowShield();
             else
-                provider.combatController.PerformBlock();
+                controller.PerformBlock();
         }
         else
         {
-            provider.combatController.CancelBlock();
+            controller.CancelBlock();
         }
 
     }
@@ -176,11 +164,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (lockOnTargetPressed)
         {
-            provider.targetLock.SetLockTarget();
+            controller.SetLockTarget();
             lockOnTargetPressed = false;
         }
 
-        provider.targetLock.SwitchTarget(lookInput.x);
+        controller.SwitchTarget(lookInput.x);
     }
 
     #endregion
@@ -190,7 +178,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (interactPressed)
         {
-            provider.interact.Interact();
+            controller.Interact();
             interactPressed = false;
         }
     }
@@ -210,11 +198,6 @@ public class PlayerInput : MonoBehaviour
                 //provider.controller.rotateTarget = cameraMain.transform;
             }
         }
-
-        if (cameraMain)
-            provider.controller.UpdateMoveDirection();
-
-
     }
     #endregion
 }

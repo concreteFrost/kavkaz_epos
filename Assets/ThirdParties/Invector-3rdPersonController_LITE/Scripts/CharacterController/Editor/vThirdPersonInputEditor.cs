@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof(PlayerController), true)]
+[CustomEditor(typeof(PlayerMotor), true)]
 public class vThirdPersonInputEditor : Editor
 {
     GUISkin skin;

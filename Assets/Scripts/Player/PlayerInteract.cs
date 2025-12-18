@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour, ICollector 
 {
-    PlayerMotor animator;
-    PlayerCombatController combatController;
+
     PlayerCombatInventory attackSource;
 
+    /// <summary>
+    /// Предмет для поднятия
+    /// </summary>
     private IPickable pickable { get; set; }=null;
+
+    /// <summary>
+    /// Проверяется в OnTriggerEnter 
+    /// </summary>
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
     public void Init(PlayerInteractServiceProvider service)
     { 
-        animator = service.motor;  
         attackSource = service.combatInventory;
-        combatController = service.combatController;
     }
-
     public void Interact()
     {
-        // Предотвращаем взаимодействие во время атаки
-        if (combatController.isAttacking)
-            return;
 
         if (pickable != null)
         {

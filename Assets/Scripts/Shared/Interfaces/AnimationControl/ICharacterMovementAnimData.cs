@@ -9,11 +9,15 @@ public interface ICharacterMovementAnimData
     bool IsSprinting { get; }
     bool StopMove { get; }
     float AnimationSmooth {  get; }
-    public bool IsLockedOnTarget {  get; }
+    public bool IsLockedOnTarget { get; set; }
 
     public Vector3 GetInverseTransformDirection();
 
     bool IsGrounded { get; }
     float GroundDistance { get; }
     bool IsJumping { get; }
+
+    public bool IsDodging { get; set; }
+    public float DodgeX {  get; set; }
+    public float DodgeY { get; set; }
 }

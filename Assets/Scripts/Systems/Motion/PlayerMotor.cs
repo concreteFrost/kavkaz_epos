@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 {
@@ -6,9 +7,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 
     [Header("camera rotation")]
     [Tooltip("Rotation speed of the character")]
-    public float rotationSpeed = 16f;
-    [Tooltip("Rotate with the Camera forward when standing idle")]
-    public bool rotateWithCamera = false;
+    public float rotationSpeed = 8f;
 
     [Header("animator smooth speed")]
     [Range(1f, 20f)]
@@ -44,10 +43,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 
     #region Components
 
-    internal ICharacterCombatAnimData combatState;
-
-    internal PlayerStats stats;
-    internal PlayerStatsModifier playerStatsModifer;
     internal Animator animator;
     internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
     internal PhysicsMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics;         // create PhysicMaterial for the Rigidbody
@@ -67,10 +62,12 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     internal float colliderRadius, colliderHeight;      // storage capsule collider extra information        
     internal float heightReached;                       // max height that character reached in air;
     internal float jumpCounter;                         // used to count the routine to reset the jump
+    internal float dodgeX;
+    internal float dodgeY;  
   
     internal RaycastHit groundHit;                      // raycast to hit the ground 
 
-    protected Transform rotateTarget;                    // used as a generic reference for the camera.transform
+    internal Transform rotateTarget;                    
     internal Vector3 input;                             // generate raw input for the controller
     internal Vector3 colliderCenter;                    // storage the center of the capsule collider info                
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
@@ -79,11 +76,12 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     internal bool stopMove;
     internal bool isSprinting;
     internal bool isJumping;
-    internal bool isGrounded;
+    internal bool isGrounded = true;
     internal bool isLockedOnTarget;
-    public bool isHanging;
+    internal bool isDodging;
+    internal bool isHanging;
 
-    private float attackSlow = 1f;// used to know the direction you're moving 
+    internal float attackSlow = 1f;// used to know the direction you're moving 
 
     #endregion
 
@@ -94,20 +92,20 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     public float InputMagnitude { get => inputMagnitude;  }
     public float VerticalSpeed { get=>verticalSpeed ;  }
     public float HorizontalSpeed { get=>horizontalSpeed; }
-    public bool IsLockedOnTarget { get => isLockedOnTarget; }
+    public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     public float GroundDistance { get=>groundDistance; }
     public bool StopMove { get=>stopMove; }
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
+    public bool IsDodging { get => isDodging; set => isDodging = value; }
+    public float DodgeX { get => dodgeX; set => dodgeX = value; }
+    public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
 
     public void Init(PlayerControllerServiceProvider service)
     {
         animator = service.animator;
-        stats = service.stats;
-        playerStatsModifer = service.statsModifier;
-        combatState = service.combatState;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
@@ -148,7 +146,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 
     private void OnAnimatorMove()
     {
-
         if (animator.applyRootMotion)
         {
             _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
@@ -157,54 +154,28 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 
     }
 
-
-    public virtual void UpdateMotor()
-    {
-        CheckGround();
-        CheckSlopeLimit();
-        ControlJumpBehaviour();
-        AirControl();
-    }
-
-    
-    #region State Conditions
-
-    public bool CanMoveCharacter() => isGrounded && !isJumping;
-
-    public bool CanJump() => isGrounded &&
-               GroundAngle() < slopeLimit &&
-               !isJumping &&
-               !combatState.IsAttacking &&
-               !playerStatsModifer.IsDamaged &&
-               !stopMove &&
-               stats.currentStamina > 0;
-
-    public bool CanSprint()
-    {
-        bool isMoving = input.sqrMagnitude > 0.1f;
-        bool hasStamina = stats.currentStamina > 0;
-        Vector3 localDir = transform.InverseTransformDirection(moveDirection);
-        bool isMovingForward = localDir.z > 0.1f;
-
-        return isGrounded &&
-               !combatState.IsAttacking &&
-               !playerStatsModifer.IsDamaged &&
-               isMoving &&
-               isMovingForward &&
-               hasStamina;
-    }
-
-    #endregion
-
-
-    #region Locomotion
-
-    public virtual void UpdateMoveDirection()
+    private void Update()
     {
         moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
     }
 
-    public void UpdateAnimator()
+
+    public virtual void UpdateMotor(float jumpHeight)
+    {
+        CheckGround();
+        CheckSlopeLimit();
+        ControlJumpBehaviour(jumpHeight);
+        AirControl();
+    }
+
+    
+
+    #region Locomotion
+
+    /// <summary>
+    /// Обновляет анимацию ДВИЖЕНИЯ
+    /// </summary>
+    public void UpdateAnimatorLocomotion()
     {
 
         Vector3 relativeInput = transform.InverseTransformDirection(moveDirection);
@@ -216,99 +187,78 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
         inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorConsts.runningSpeed : AnimatorConsts.walkSpeed);
     }
 
-    public virtual void ControlLocomotionType()
+
+    public virtual void MoveCharacter(Vector3 direction)
     {
-        SetControllerMoveSpeed(stats);
-        MoveCharacter(moveDirection);
+        // сглаживаем ввод
+        inputSmooth = Vector3.Lerp(
+            inputSmooth,
+            input,
+            movementSmooth * Time.deltaTime
+        );
+
+        direction.y = 0f;
+        direction = Vector3.ClampMagnitude(direction, 1f);
+
+        Vector3 velocity = direction * moveSpeed;
+        velocity.y = _rigidbody.linearVelocity.y;
+
+        _rigidbody.linearVelocity = velocity;
     }
 
-    public virtual void SetControllerMoveSpeed(CharacterStats stats)
+    public void Dodge(Vector2 dir)
     {
-        moveSpeed = Mathf.Lerp(moveSpeed, isSprinting ? stats.runningSpeed : stats.walkSpeed, movementSmooth * Time.deltaTime);
+
+        isDodging = true;
+
+        float _dodgeX = 0f;
+        float _dodgeY = 0f;
+
+        Vector3 relativeInput = GetInverseTransformDirection();
+
+        if (relativeInput.sqrMagnitude < 0.01f)
+        {
+            // без движения — всегда назад
+            _dodgeY = -1f;
+        }
+        else if (Mathf.Abs(relativeInput.x) > Mathf.Abs(relativeInput.z)) //
+        {
+            _dodgeX = Mathf.Sign(relativeInput.x);
+        }
+        else
+        {
+            _dodgeY = Mathf.Sign(relativeInput.z);
+        }
+
+        //statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
+
+        this.dodgeX = _dodgeX;
+        this.dodgeY = _dodgeY;
     }
 
-    public virtual void MoveCharacter(Vector3 _direction)
-    {
-        // calculate input smooth
-        inputSmooth = Vector3.Lerp(inputSmooth, input, (movementSmooth) * Time.deltaTime);
 
-        if (!CanMoveCharacter()) return;
-
-        _direction.y = 0;
-        _direction.x = Mathf.Clamp(_direction.x, -1f, 1f);
-        _direction.z = Mathf.Clamp(_direction.z, -1f, 1f);
-        // limit the input
-        if (_direction.magnitude > 1f)
-            _direction.Normalize();
-
-
-        Vector3 targetPosition = _rigidbody.position + FinalDirection(_direction);
-        Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
-
-        bool useVerticalVelocity = true;
-        if (useVerticalVelocity) targetVelocity.y = _rigidbody.linearVelocity.y;
-        _rigidbody.linearVelocity = targetVelocity;
-    }
-
-    private Vector3 FinalDirection(Vector3 _direction)
-    {
-        // если атакуем или ранены — плавно уменьшаем скорость
-        float target = (stopMove || combatState.IsAttacking || playerStatsModifer.IsDamaged || combatState.IsDodging) ? 0f : 1f;
-        attackSlow = Mathf.Lerp(attackSlow, target, Time.deltaTime * 10f);
-
-        return _direction * (moveSpeed * attackSlow) * Time.deltaTime;
-    }
 
     #endregion
 
     #region Rotation
-    public virtual void ControlRotationType()
-    {
-        Vector3 dir = (rotateWithCamera && input == Vector3.zero) && rotateTarget ? rotateTarget.forward : moveDirection;
-        RotateToDirection(dir);
-    }
-
     public virtual void RotateToDirection(Vector3 direction)
     {
-        if (playerStatsModifer.IsDamaged) return;
-       
-        if (rotateTarget != null)
-        {
-            RotateToTarget();
-            return;
-        }
-
-        // обычная логика если нет lock-on
-        RotateToDirection(direction, rotationSpeed);
-    }
-
-
-    public virtual void RotateToDirection(Vector3 direction, float rotationSpeed)
-    {
-        if (combatState.IsAttacking) return;
-        if (!jumpAndRotate && !isGrounded) return;
         direction.y = 0f;
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, .1f);
-        Quaternion _newRotation = Quaternion.LookRotation(desiredForward);
-        transform.rotation = _newRotation;
+        if (direction.sqrMagnitude < 0.001f) return;
+
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, 0.1f);
+        transform.rotation = Quaternion.LookRotation(desiredForward);
     }
 
-    private void RotateToTarget()
+    public virtual void RotateToTarget(Vector3 targetPosition)
     {
-
-        Vector3 lookDir = rotateTarget.position - transform.position;
-        lookDir.y = 0; // чтобы не задирал голову
-
-        if (lookDir.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRot,
-                rotationSpeed * Time.deltaTime
-            );
-        }
+        Vector3 lookDir = targetPosition - transform.position;
+        lookDir.y = 0f;
+        
+        Quaternion targetRot = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
     }
+
 
     #endregion
 
@@ -342,9 +292,23 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     #endregion
 
     #region Jump Methods
-    protected virtual void ControlJumpBehaviour()
+
+    public void Jump(float jumpTimer)
     {
-        if (!IsJumping) return;
+
+        jumpCounter = jumpTimer;
+        isJumping = true;
+
+        // trigger jump animations
+        if (input.sqrMagnitude < 0.1f)
+            animator.CrossFadeInFixedTime("Jump", 0.1f);
+        else
+            animator.CrossFadeInFixedTime("JumpMove", .2f);
+    }
+
+    protected virtual void ControlJumpBehaviour(float jumpHeight)
+    {
+        if (!isJumping) return;
 
         jumpCounter -= Time.deltaTime;
         if (jumpCounter <= 0)
@@ -354,13 +318,13 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
         }
         // apply extra force to the jump height   
         var vel = _rigidbody.linearVelocity;
-        vel.y = stats.jumpHeight;
+        vel.y = jumpHeight;
         _rigidbody.linearVelocity = vel;
     }
 
     public virtual void AirControl()
     {
-        if (CanMoveCharacter()) return;
+        //return if cant move character
         if (transform.position.y > heightReached) heightReached = transform.position.y;
         inputSmooth = Vector3.Lerp(inputSmooth, input, airSmooth * Time.deltaTime);
 

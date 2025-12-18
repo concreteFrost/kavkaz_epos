@@ -1653,8 +1653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockableDummy
   lockPoint: {fileID: 126208573}
-  maxDistance: 0
-  speed: 0
+  maxDistance: 1
+  speed: 1
 --- !u!1 &54823125
 GameObject:
   m_ObjectHideFlags: 0
@@ -7506,9 +7506,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123405c4cf015d146aa993452ea77bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  targetSwitchThreshold: 45
+  currentTarget: {fileID: 0}
   checkTargetRadius: 5
   targetResetDistance: 7
+  targetSwitchThreshold: 45
   img: {fileID: 1176097203}
 --- !u!1 &285278805
 GameObject:
@@ -23080,7 +23081,7 @@ Transform:
   m_GameObject: {fileID: 1003801326}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.44708025, z: -0, w: 0.89449394}
-  m_LocalPosition: {x: 15.15, y: 4.91, z: -0.27}
+  m_LocalPosition: {x: 22.61, y: 0.21, z: 5.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31054,7 +31055,8 @@ GameObject:
   - component: {fileID: 1406799235}
   - component: {fileID: 1406799239}
   - component: {fileID: 1406799237}
-  - component: {fileID: 1406799238}
+  - component: {fileID: 1406799240}
+  - component: {fileID: 1406799241}
   - component: {fileID: 1406799232}
   - component: {fileID: 1406799231}
   m_Layer: 6
@@ -31168,7 +31170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
   uniqueId: {fileID: 1406799239}
   animator: {fileID: 1406799235}
-  motor: {fileID: 1406799238}
+  playerState: {fileID: 1406799240}
+  motor: {fileID: 1406799241}
   input: {fileID: 767894241}
   combatController: {fileID: 283042083}
   stats: {fileID: 1058200530}
@@ -31178,35 +31181,6 @@ MonoBehaviour:
   characterAnimator: {fileID: 246753602}
   targetLock: {fileID: 283042084}
   uIServiceLocator: {fileID: 952277881}
---- !u!114 &1406799238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406799230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a5bee6f02f9f24f90cf5425c68535f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  rotationSpeed: 16
-  rotateWithCamera: 0
-  movementSmooth: 6
-  animationSmooth: 0.2
-  jumpWithRigidbodyForce: 0
-  jumpAndRotate: 1
-  airSpeed: 5
-  airSmooth: 6
-  extraGravity: -10
-  limitFallVelocity: -15
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 129
-  groundMinDistance: 0.25
-  groundMaxDistance: 0.5
-  slopeLimit: 45
-  isHanging: 1
 --- !u!114 &1406799239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31220,6 +31194,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
   uniqueId: uid_7a7a5203-7894-4259-907b-24a61f9000dd
+--- !u!114 &1406799240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406799230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94dfdc19dd8038747879554ae7181d7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerState
+--- !u!114 &1406799241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406799230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48d1ae311144a342a2d14e9f90d667d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
+  rotationSpeed: 8
+  movementSmooth: 7
+  animationSmooth: 0.2
+  jumpWithRigidbodyForce: 0
+  jumpAndRotate: 1
+  airSpeed: 5
+  airSmooth: 6
+  extraGravity: -10
+  limitFallVelocity: -15
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 129
+  groundMinDistance: 0.25
+  groundMaxDistance: 0.5
+  slopeLimit: 45
 --- !u!1 &1408811980
 GameObject:
   m_ObjectHideFlags: 0
@@ -35837,7 +35850,7 @@ Transform:
   m_GameObject: {fileID: 1665655478}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00010380257, y: 0.99979967, z: 0.005689765, w: -0.019193055}
-  m_LocalPosition: {x: 29.872456, y: -21.429796, z: -14.069077}
+  m_LocalPosition: {x: 29.983, y: -21.463, z: -11.18}
   m_LocalScale: {x: 1.5000001, y: 1.5000002, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:

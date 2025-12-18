@@ -22,7 +22,7 @@ public class PlayerAnimator : CharacterAnimator
         }
 
         animator.SetBool(AnimatorParameters.IsStrafing, motor.IsLockedOnTarget);
-        animator.SetBool(AnimatorParameters.IsDodging, combatController.IsDodging);
+        animator.SetBool(AnimatorParameters.IsDodging, motor.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, motor.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, motor.IsGrounded);
 
@@ -49,23 +49,23 @@ public class PlayerAnimator : CharacterAnimator
             Time.deltaTime
         );
 
+        animator.SetFloat(AnimatorParameters.DodgeX, motor.DodgeX);
+        animator.SetFloat(AnimatorParameters.DodgeY, motor.DodgeY);
+
         // combat
         animator.SetBool(AnimatorParameters.IsWeaponed, combatController.IsWeaponed);
         animator.SetBool(AnimatorParameters.IsAttacking, combatController.IsAttacking);
         animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);
         animator.SetInteger(AnimatorParameters.AttackIndex, combatController.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, combatController.WeaponIndex);
-        animator.SetFloat(AnimatorParameters.DodgeX, combatController.DodgeX);
-        animator.SetFloat(AnimatorParameters.DodgeY, combatController.DodgeY);  
+
 
         // damage
         animator.SetBool(AnimatorParameters.IsDamaged, playerStatsModifier.IsDamaged);
         animator.SetFloat(AnimatorParameters.BalancePenalty, playerStatsModifier.BalancePenalty);
         animator.SetBool(AnimatorParameters.IsDead, playerStatsModifier.IsDead());
 
-
-
-
     }
+
 
 }

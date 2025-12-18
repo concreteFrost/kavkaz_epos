@@ -67,9 +67,9 @@ namespace Invector.vCharacterController
 
             charObj = EditorGUILayout.ObjectField("FBX Model", charObj, typeof(GameObject), true, GUILayout.ExpandWidth(true)) as GameObject;
 
-            if (GUI.changed && charObj != null && charObj.GetComponent<PlayerController>() == null)
+            if (GUI.changed && charObj != null && charObj.GetComponent<PlayerMotor>() == null)
                 humanoidpreview = Editor.CreateEditor(charObj);
-            if (charObj != null && charObj.GetComponent<PlayerController>() != null)
+            if (charObj != null && charObj.GetComponent<PlayerMotor>() != null)
                 EditorGUILayout.HelpBox("This gameObject already contains the component vThirdPersonController", MessageType.Warning);
 
             controller = EditorGUILayout.ObjectField("Animator Controller: ", controller, typeof(RuntimeAnimatorController), false) as RuntimeAnimatorController;            
@@ -104,7 +104,7 @@ namespace Invector.vCharacterController
 
         bool CanCreate()
         {
-            return isValidAvatar && isHuman && charObj != null && charObj.GetComponent<PlayerController>() == null;
+            return isValidAvatar && isHuman && charObj != null && charObj.GetComponent<PlayerMotor>() == null;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Invector.vCharacterController
             if (!_ThirdPerson)
                 return;          
             _ThirdPerson.name = "vBasicController_" + charObj.gameObject.name;
-            _ThirdPerson.AddComponent<PlayerController>();
+            _ThirdPerson.AddComponent<PlayerMotor>();
             _ThirdPerson.AddComponent<PlayerInput>();
 
             var rigidbody = _ThirdPerson.AddComponent<Rigidbody>();
