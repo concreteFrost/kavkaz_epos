@@ -9,8 +9,6 @@ public interface ICharacterMovementAnimData
     bool IsSprinting { get; }
     bool StopMove { get; }
     float AnimationSmooth {  get; }
-    public bool IsLockedOnTarget { get; set; }
-
     public Vector3 GetInverseTransformDirection();
 
     bool IsGrounded { get; }

@@ -4,16 +4,18 @@ public class PlayerAnimator : CharacterAnimator
 {
     PlayerMotor motor;
     PlayerCombatController combatController;
-    PlayerStatsModifier playerStatsModifier;    
-    public void Init(Animator animator, PlayerMotor motor, PlayerCombatController combatController, PlayerStatsModifier playerStatsModifier)
+    PlayerStatsModifier playerStatsModifier;  
+    PlayerTargetLock targetLock;
+    public void Init(PlayerAnimatorServiceProvider provider)
     {
-        this.animator = animator;
-        this.motor = motor;
-        this.combatController = combatController;
-        this.playerStatsModifier = playerStatsModifier; 
+        this.animator = provider.animator;
+        this.motor = provider.motor;
+        this.combatController = provider.combatController;
+        this.playerStatsModifier = provider.statsModifier; 
+        this.targetLock = provider.targetLock;
        
     }
-    public override void SetAnimatorMoveSpeed()
+    public override void UpdateAnimatorParameters()
     {
         if (animator == null || !animator.enabled)
         {
@@ -21,7 +23,7 @@ public class PlayerAnimator : CharacterAnimator
             return;
         }
 
-        animator.SetBool(AnimatorParameters.IsStrafing, motor.IsLockedOnTarget);
+        
         animator.SetBool(AnimatorParameters.IsDodging, motor.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, motor.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, motor.IsGrounded);
@@ -64,6 +66,9 @@ public class PlayerAnimator : CharacterAnimator
         animator.SetBool(AnimatorParameters.IsDamaged, playerStatsModifier.IsDamaged);
         animator.SetFloat(AnimatorParameters.BalancePenalty, playerStatsModifier.BalancePenalty);
         animator.SetBool(AnimatorParameters.IsDead, playerStatsModifier.IsDead());
+
+        //target lock
+        animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);
 
     }
 

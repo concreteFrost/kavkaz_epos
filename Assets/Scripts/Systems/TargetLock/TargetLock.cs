@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class TargetLock : MonoBehaviour
+public abstract class TargetLock : MonoBehaviour, ITargetLocker
 {
     /// <summary>
     /// —брасывает цель на рассто€нии или при потери цели
@@ -16,6 +16,10 @@ public abstract class TargetLock : MonoBehaviour
     [SerializeField] protected float targetResetDistance = 15f;
 
     protected bool wasTargetSearched = false;
+
+    public bool IsLockedOnTarget { get => currentTarget != null; }
+
+    public abstract void SetLockedTarget();
 
     protected virtual void CalculateDistanceToTarget()
     {
@@ -34,7 +38,7 @@ public abstract class TargetLock : MonoBehaviour
         wasTargetSearched = false;
     }
 
-    public abstract Transform GetLockedTarget();
+    public abstract Transform TryGetLockedTarget();
 
     protected Transform CheckNearestTarget()
     {
@@ -68,5 +72,7 @@ public abstract class TargetLock : MonoBehaviour
         var min = objectsDistances.OrderBy((x) => x.Value).FirstOrDefault().Key;
         return min.GetTargetTransform();
     }
+
+
 
 }

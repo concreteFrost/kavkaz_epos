@@ -5,7 +5,7 @@ public abstract class CharacterAnimator : MonoBehaviour
 {
     protected Animator animator;
 
-    public abstract void SetAnimatorMoveSpeed();
+    public abstract void UpdateAnimatorParameters();
 }
 
 public static partial class AnimatorParameters

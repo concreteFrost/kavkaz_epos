@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,18 +6,8 @@ public class PlayerController : MonoBehaviour
     PlayerCombatController combatController;
     PlayerStatsModifier statsModifier;
     PlayerStats stats;
-    PlayerTargetLock targetLock;
     PlayerInteract interact;
 
-    private void OnEnable()
-    {
-        PlayerTargetLock.OnTargetLost += OnTargetLost;
-    }
-
-    private void OnDisable()
-    {
-        PlayerTargetLock.OnTargetLost -= OnTargetLost;  
-    }
 
     public void Init(PlayerStateServiceProvider provider)
     {
@@ -26,7 +15,6 @@ public class PlayerController : MonoBehaviour
         statsModifier = provider.statsModifier;
         combatController = provider.combatController;
         stats = provider.stats;
-        targetLock = provider.targetLock;
         interact = provider.interact;
     }
 
@@ -110,23 +98,7 @@ public class PlayerController : MonoBehaviour
         locomotion.RotateToDirection(locomotion.MoveDirection);
     }
 
-    /// <summary>
-    /// Контроль прыжка или отскока (если есть цель)
-    /// </summary>
-    /// <param name="dir">Направление ввода</param>
-    public void HandleJumpOrDodge(Vector3 dir)
-    {
-        if (locomotion.IsLockedOnTarget)
-        {
-            Dodge(dir);
-            return;
-
-        }
-        Jump();
-
-    }
-
-    private void Dodge(Vector3 dir)
+    public void Dodge(Vector3 dir)
     {
         if (!combatController.IsAttacking && !locomotion.IsDodging && stats.currentStamina > 0)
         {
@@ -135,7 +107,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Jump()
+    public void Jump()
     {
         bool canJump = locomotion.IsGrounded &&
                  locomotion.GroundAngle() < locomotion.slopeLimit &&
@@ -183,62 +155,15 @@ public class PlayerController : MonoBehaviour
 
     #region Target Lock
 
-    /// <summary>
-    /// Следит за потерей цели
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="source"></param>
-    private void OnTargetLost(Transform target, Transform source)
+    public void SetLockTarget(Transform target)
     {
-        var ownTarget = target.GetInstanceID() == targetLock.currentTarget.GetInstanceID()
-            && source.GetInstanceID() == transform.GetInstanceID();
-        if (ownTarget)
-        {
-            ResetLockTarget();
-        }
-            
-    }
-
-    public void SetLockTarget()
-    {
-        if(targetLock.currentTarget != null)
-        {
-            ResetLockTarget();
-            return;
-
-        }
-        var target = targetLock.GetLockedTarget();
-
-        if (target == null) return;
-
         locomotion.rotateTarget = target;
-        locomotion.IsLockedOnTarget = true;
     }
 
     public void ResetLockTarget()
     {
        
-        targetLock.ResetLockTarget();
         locomotion.rotateTarget = null;
-        locomotion.IsLockedOnTarget = false;
-    }
-
-    /// <summary>
-    /// Смена фокуса цели
-    /// </summary>
-    /// <param name="mouseX">Ось Х (мышь или стик)</param>
-    public void SwitchTarget(float mouseX)
-    {
-        if (locomotion.rotateTarget == null)
-            return;
-
-        var closest = targetLock.SwitchTarget(mouseX);
-
-        if (closest != null)
-        {
-            locomotion.rotateTarget = closest;
-            locomotion.IsLockedOnTarget = true;
-        }
     }
 
     #endregion
