@@ -5,7 +5,7 @@ public class PlayerTargetLock : TargetLock
 {
 
     LockOnTargetUI lockOnTargetUI;    
-    
+   
     /// <summary>
     /// Ввод мыши по оси Х при котором цель сбрасывается
     /// </summary>
@@ -13,28 +13,50 @@ public class PlayerTargetLock : TargetLock
 
     [SerializeField] private Image img;
 
+    PlayerController controller;
+    PlayerStatsModifier statsModifier;
+
+    public void Init(PlayerTargetLockServiceProvider provider)
+    {   
+        this.lockOnTargetUI = provider.lockOnTargetUI;
+        this.controller = provider.controller;
+        this.targetSeeker = controller.transform;
+        this.statsModifier = provider.statsModifier; 
+    }
+
     private void Update()
     {
         if (currentTarget == null) return;
-
-        lockOnTargetUI.CalculateImagePosition();
-
-        CalculateDistanceToTarget();
-
+        if (statsModifier.IsDead())
+        {
+            ResetLockTarget();
+            return;
+        }
+        TrackTargetDistance();
     }
 
-    public void Init(LockOnTargetUI _lockOnTargetUI, Transform transform)
+    public void TrackTargetDistance()
     {
-        targetSeeker = transform;
-        lockOnTargetUI = _lockOnTargetUI;
+        lockOnTargetUI.CalculateImagePosition();
+        CalculateDistanceToTarget();
     }
 
+    public override void SetLockedTarget()
+    {
+        var t = TryGetLockedTarget();
+
+        if (t != null)
+        {
+            lockOnTargetUI.SetTarget(t.GetTargetTransform());
+            controller.SetLockTarget(t.GetTargetTransform());
+        }
+    }
 
     protected override void CalculateDistanceToTarget()
     {
         base.CalculateDistanceToTarget();
     }
-    public override Transform GetLockedTarget()
+    public override ITargetLockable TryGetLockedTarget()
     {
         wasTargetSearched = !wasTargetSearched;
 
@@ -50,7 +72,7 @@ public class PlayerTargetLock : TargetLock
         if(nearest != null)
         {
             currentTarget = CheckNearestTarget();
-            lockOnTargetUI.SetTarget(currentTarget);
+            lockOnTargetUI.SetTarget(currentTarget.GetTargetTransform());
 
             return nearest;
         }
@@ -62,10 +84,11 @@ public class PlayerTargetLock : TargetLock
     {
        base.ResetLockTarget();
        lockOnTargetUI.ResetTarget();
+       controller.ResetLockTarget();
     }
 
 
-    public Transform SwitchTarget(float mouseX)
+    public ITargetLockable SwitchTarget(float mouseX)
     {
         if (currentTarget == null) return null;
         if (Mathf.Abs(mouseX) < targetSwitchThreshold) return null;
@@ -73,11 +96,11 @@ public class PlayerTargetLock : TargetLock
         Camera cam = Camera.main;
 
         Vector3 currentScreen =
-            cam.WorldToScreenPoint(currentTarget.position);
+            cam.WorldToScreenPoint(currentTarget.GetTargetTransform().position);
 
         var colliders = Physics.OverlapSphere(targetSeeker.position, checkTargetRadius);
 
-        Transform bestTarget = null;
+        ITargetLockable bestTarget = null;
         float bestDeltaX = float.MaxValue;
 
         foreach (var col in colliders)
@@ -85,10 +108,10 @@ public class PlayerTargetLock : TargetLock
             if (!col.TryGetComponent<ITargetLockable>(out var lockable))
                 continue;
 
-            Transform target = lockable.GetTargetTransform();
+            ITargetLockable target = lockable;
             if (target == currentTarget) continue;
 
-            Vector3 screenPos = cam.WorldToScreenPoint(target.position);
+            Vector3 screenPos = cam.WorldToScreenPoint(target.GetTargetTransform().position);
 
             float deltaX = screenPos.x - currentScreen.x;
 
@@ -109,7 +132,8 @@ public class PlayerTargetLock : TargetLock
         {
             currentTarget = bestTarget;
             //state.SetLockTarget(currentTarget);
-            lockOnTargetUI.SetTarget(currentTarget);
+            lockOnTargetUI.SetTarget(currentTarget.GetTargetTransform());
+            controller.SetLockTarget(currentTarget.GetTargetTransform());
         }
 
         return currentTarget;

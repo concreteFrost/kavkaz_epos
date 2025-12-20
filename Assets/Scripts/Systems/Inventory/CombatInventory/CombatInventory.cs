@@ -33,7 +33,7 @@ public abstract class CombatInventory : MonoBehaviour , IAttackSource
 
     public virtual void Init(PlayerCombatInventoryServiceProvider service)
     {
-        sourceId = GetInstanceID().ToString(); 
+        sourceId = service.sourceId;
     }
 
 

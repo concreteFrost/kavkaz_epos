@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
 
     PlayerController controller;
+    PlayerTargetLock targetLock;
     PlayerAnimator animator;
     private Camera cameraMain;
 
@@ -56,6 +58,7 @@ public class PlayerInput : MonoBehaviour
     {
         controller = serviceProvider.controller;
         animator = serviceProvider.animator;
+        targetLock = serviceProvider.targetLock;
     }
 
 
@@ -70,15 +73,13 @@ public class PlayerInput : MonoBehaviour
         controller.RotateCharacter(moveDir);    
 
         controller.UpdateAnimator();
-        animator.SetAnimatorMoveSpeed();
+        animator.UpdateAnimatorParameters();
     }
 
     protected virtual void Update()
     {
-
         InputHandle();
         controller.UpdateMotor();
-
     }
 
 
@@ -120,7 +121,15 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpPressed)
         {
-            controller.HandleJumpOrDodge(moveInput);      
+            if (targetLock.IsLockedOnTarget)
+            {
+                controller.Dodge(moveInput);
+                
+            }
+            else
+            {
+                controller.Jump();
+            }    
         }
         jumpPressed = false; // consume press
     }
@@ -164,11 +173,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (lockOnTargetPressed)
         {
-            controller.SetLockTarget();
+            targetLock.SetLockedTarget();
             lockOnTargetPressed = false;
         }
 
-        controller.SwitchTarget(lookInput.x);
+        targetLock.SwitchTarget(lookInput.x);
     }
 
     #endregion

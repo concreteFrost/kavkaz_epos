@@ -40,7 +40,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
         base.Die();
         input.controls.Player.Disable();
 
-        inventory.CurrentWeapon?.ThrowWeapon();
+        inventory.CurrentWeapon?.DropWeapon();
         inventory.ShieldWeapon?.ThrowShield();
         inventory.ResetWeapon();
 

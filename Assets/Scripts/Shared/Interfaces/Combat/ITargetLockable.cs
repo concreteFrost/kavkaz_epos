@@ -3,5 +3,9 @@ using UnityEngine;
 
 public interface ITargetLockable
 {
-	public Transform GetTargetTransform();
+	Transform GetTargetTransform();
+
+	bool IsActive();
+
+	void SetTargetActive(bool active);	
 }

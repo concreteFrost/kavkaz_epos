@@ -8,20 +8,35 @@ public class AttackBehaviour : StateMachineBehaviour
     public bool attackEnabled = false;
     public bool attackDisabled = false;
 
-    CombatInventory inv;
+    IAttackSource inv;
     ICharacterStats stats;
+    ICharacterCombatAnimData combatAnimData;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        inv = animator.GetComponentInChildren<CombatInventory>();
+        inv = animator.GetComponentInChildren<IAttackSource>();
         stats = animator.GetComponentInChildren<ICharacterStats>();
-        stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
+        combatAnimData = animator.GetComponentInChildren<ICharacterCombatAnimData>();
+        //stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
         animator.applyRootMotion = true;
+        combatAnimData.BlockRotation = true;
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+        if (!animator.applyRootMotion)
+        {
+            animator.applyRootMotion = true;
+        }
+
+        //if (!combatAnimData.BlockRotation)
+        //{
+        //    combatAnimData.BlockRotation = true;
+        //}
+
         float t = stateInfo.normalizedTime;
 
         if (!attackEnabled & t >= enableTime)
@@ -35,7 +50,7 @@ public class AttackBehaviour : StateMachineBehaviour
         if (attackEnabled & t >= disableTime)
         {
             inv.CurrentWeapon.CancelAttack();
-
+           
             attackEnabled = false;
         }
 
@@ -46,6 +61,7 @@ public class AttackBehaviour : StateMachineBehaviour
     {
         attackEnabled = false;
         attackDisabled = false;
+        combatAnimData.BlockRotation = false;
         inv.CurrentWeapon.CancelAttack();
         animator.applyRootMotion = false;
     }

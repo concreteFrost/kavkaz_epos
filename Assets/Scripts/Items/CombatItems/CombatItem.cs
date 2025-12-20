@@ -3,7 +3,7 @@ using UnityEngine;
 public class CombatItem : Item
 {
 
-    Rigidbody rb;
+    protected Rigidbody rb;
     Collider physicsCollider;
 
     public float breakdownThreshold;

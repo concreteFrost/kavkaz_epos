@@ -4,7 +4,6 @@ using UnityEngine;
 [System.Serializable]
 public class Attack
 {
-    public float attackTime = 1f;
     public float healthDamageMultiplier;
     public float balanceDamageMultiplier;
     public float staminaPenalty;

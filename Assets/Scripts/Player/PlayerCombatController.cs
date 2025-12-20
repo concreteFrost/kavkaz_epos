@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
 {
     PlayerCombatInventory inventory;
-   
+    Animator anim;
     [SerializeField] private int totalClicks = 0;
 
     IEnumerator currentCoroutine = null;
@@ -16,6 +16,7 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
     internal int weaponIndex = 0;
     internal bool isShieldRaised;
     internal bool isWeaponed;
+    internal bool canThrowWeapon = true;
 
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsWeaponed { get => isWeaponed; }
@@ -23,9 +24,13 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
     public int WeaponIndex { get => weaponIndex; }
     public bool IsShieldRaised { get => isShieldRaised; }
 
+    public bool BlockRotation { get; set; }
+
     public void Init(PlayerCombatControllerServiceProvider service)
     {
-        inventory = service.combatInventory; 
+       
+        inventory = service.combatInventory;
+        anim = service.animator;
     }
 
     public void PerformAttack()
@@ -51,8 +56,10 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
     }
 
     public void ThrowWeapon()
-    {   
-        inventory.CurrentWeapon.ThrowWeapon();
+    {
+        if (isAttacking) return;
+        ResetCombo();
+        inventory.CurrentWeapon.ThrowWeapon(transform,20);
         //inventory.ResetWeapon();    
     }
 
@@ -74,6 +81,7 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
 
     public void ThrowShield()
     {
+        if (isAttacking) return;
         if (inventory.ShieldWeapon == null) return;
 
         inventory.ShieldWeapon.ThrowShield();
@@ -86,7 +94,9 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
         isInQueue = false;
        
         isAttacking = false;
-        attackIndex = 0;   
+        attackIndex = 0;
+
+        canThrowWeapon = true;
     }
 
     IEnumerator AttackCoroutine()
@@ -101,18 +111,18 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
         while (true && !isShieldRaised)
         {
             isAttacking = true;
+            canThrowWeapon = false;
             attackIndex = totalClicks;
 
             var currentAttack = currentAttakChain.attackList[totalClicks];
 
             w.SetCurrentAttack(currentAttack);
-            float time = currentAttack.attackTime;
+            float time = anim.GetCurrentAnimatorStateInfo(2).length;
 
             yield return new WaitForSeconds(time);
 
             if (isInQueue)
-            {
-                   
+            {   
                 totalClicks++;
 
                 isInQueue = false;

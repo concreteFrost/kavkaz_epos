@@ -22,6 +22,7 @@ public class DamageCollider : MonoBehaviour
         col.enabled = true;
         healthDamage = _healthDamage;
         balanceDamage = _balanceDamage;
+        this.owner = owner;
     }
 
     public void DisableCollider()
@@ -53,13 +54,13 @@ public class DamageCollider : MonoBehaviour
               ?? other.GetComponent<IDamagable>();
 
         if (damagable == null) return;
-        if(damagable.SourceId() == owner)
+        if(damagable.SourceId() != owner)
         {
-            Debug.Log("hitting owner");
+            damagable.TakeDamage(healthDamage, balanceDamage);
+            Debug.Log(damagable);
             return;
         }
 
-        damagable.TakeDamage(healthDamage,balanceDamage);
     }
 
     //Метод обработки расчета урона с учетом защиты цели 
@@ -83,12 +84,11 @@ public class DamageCollider : MonoBehaviour
         if (attackInterrupted)
             return;
 
-
         //Если цель уже была поражена этой атакой, то не наносим урон повторно
         if (collectedColliders.Contains(other))
             return;
 
-        collectedColliders.Add(other);
+       collectedColliders.Add(other);
 
        HandleDamageCalculation(other, healthDamage);
 
