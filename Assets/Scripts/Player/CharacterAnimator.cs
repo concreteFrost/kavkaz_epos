@@ -1,11 +1,11 @@
 ﻿
 using UnityEngine;
 
-public abstract class CharacterAnimator : MonoBehaviour 
+public abstract class CharacterAnimator : MonoBehaviour
 {
     protected Animator animator;
 
-    public abstract void SetAnimatorMoveSpeed();
+    public abstract void UpdateAnimatorParameters();
 }
 
 public static partial class AnimatorParameters
@@ -31,4 +31,3 @@ public static partial class AnimatorParameters
     public static int DodgeY = Animator.StringToHash("DodgeY");
 
 }
-

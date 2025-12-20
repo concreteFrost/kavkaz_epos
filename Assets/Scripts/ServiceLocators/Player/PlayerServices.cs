@@ -1,22 +1,19 @@
 ﻿using UnityEngine;
 
-
 public class PlayerStateServiceProvider
 {
     public PlayerMotor controller;
     public PlayerCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public PlayerStats stats;
-    public PlayerTargetLock targetLock;
     public PlayerInteract interact;
 
-    public PlayerStateServiceProvider(PlayerMotor controller, PlayerCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerTargetLock targetLock, PlayerInteract interact)
+    public PlayerStateServiceProvider(PlayerMotor controller, PlayerCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
     {
         this.controller = controller;
         this.combatController = combatController;
         this.statsModifier = statsModifier;
         this.stats = stats;
-        this.targetLock = targetLock;
         this.interact = interact;
     }
 }
@@ -26,26 +23,38 @@ public class PlayerInputServiceProvider
 
     public PlayerController controller;
     public PlayerAnimator animator;
+    public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller,  PlayerAnimator animator)
+    public PlayerInputServiceProvider(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.animator = animator;
+        this.targetLock = targetLock;
     }
 }
 
 public class PlayerAnimatorServiceProvider
 {
     public Animator animator;
-    public PlayerAnimatorServiceProvider(Animator animator)
+    public PlayerMotor motor;
+    public PlayerCombatController combatController;
+    public PlayerStatsModifier statsModifier;
+    public PlayerTargetLock targetLock;
+    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, PlayerCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
     {
         this.animator = animator;
+        this.motor = motor;
+        this.combatController = combatController;
+        this.statsModifier = statsModifier;
+        this.targetLock = targetLock;
     }
+
 }
 
 public class PlayerControllerServiceProvider
 {
     public Animator animator;
+
 
     public PlayerControllerServiceProvider(Animator animator)
     {
@@ -97,7 +106,7 @@ public class PlayerCombatInventoryServiceProvider
     public PlayerCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public string sourceId;
-    
+
     public PlayerCombatInventoryServiceProvider(PlayerCombatController combatController, PlayerStatsModifier stats, string sourceId)
     {
         this.combatController = combatController;
@@ -114,9 +123,8 @@ public class PlayerStatsModifierServiceProvider
     public PlayerInput input;
     public PlayerCombatController combatController;
     public PlayerCombatInventory inventory;
-    public PlayerMotor animator;
 
-    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, PlayerCombatController combatController, PlayerCombatInventory inventory, PlayerMotor animator)
+    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, PlayerCombatController combatController, PlayerCombatInventory inventory)
     {
         this.uniqueId = uniqueId;
         this.stats = stats;
@@ -124,9 +132,21 @@ public class PlayerStatsModifierServiceProvider
         this.combatController = combatController;
         this.input = input;
         this.inventory = inventory;
-        this.animator = animator;
     }
 }
 
+public class PlayerTargetLockServiceProvider
+{
+    public LockOnTargetUI lockOnTargetUI;
+    public PlayerController controller;
+    public PlayerStatsModifier statsModifier;
+
+    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
+    {
+        this.lockOnTargetUI = lockOnTargetUI;
+        this.controller = controller;
+        this.statsModifier = statsModifier;
+    }
+}
 
 

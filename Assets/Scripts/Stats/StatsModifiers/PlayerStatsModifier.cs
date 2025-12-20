@@ -8,7 +8,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
     PlayerInput input;
     PlayerCombatInventory inventory;
     PlayerCombatController combatController;
-    PlayerMotor animator;
 
     public void Init(PlayerStatsModifierServiceProvider provider)
     {
@@ -17,7 +16,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
         input = provider.input;
         inventory = provider.inventory;
         combatController = provider.combatController;
-        animator = provider.animator;
         uniqueID = provider.uniqueId;
 
         ui.Init(stats);
@@ -52,7 +50,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
     {
 
         input.controls.Player.Enable();
-
 
         stats.currentHealth = stats.maxHealth;
         stats.currentStamina = stats.maxStamina;
@@ -113,7 +110,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
             return;
 
         // Если игрок атакует, бежит, катится и т.п. — можно тоже отключать реген (если нужно)
-        if (animator != null && combatController.isAttacking)
+        if (combatController.isAttacking)
             return;
 
         // Считаем таймер

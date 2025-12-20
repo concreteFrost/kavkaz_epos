@@ -8,8 +8,7 @@ public class Weapon : CombatItem, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    [SerializeField] private float minStopVelocity = 1f;
-    [SerializeField] private float checkDelay = 0.05f;
+    private float minStopVelocity = 1.7f;
 
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
