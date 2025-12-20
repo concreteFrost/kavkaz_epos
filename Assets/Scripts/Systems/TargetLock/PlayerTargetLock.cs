@@ -5,7 +5,7 @@ public class PlayerTargetLock : TargetLock
 {
 
     LockOnTargetUI lockOnTargetUI;    
-   
+    
     /// <summary>
     /// Ввод мыши по оси Х при котором цель сбрасывается
     /// </summary>
@@ -13,50 +13,28 @@ public class PlayerTargetLock : TargetLock
 
     [SerializeField] private Image img;
 
-    PlayerController controller;
-    PlayerStatsModifier statsModifier;
-
-    public void Init(PlayerTargetLockServiceProvider provider)
-    {   
-        this.lockOnTargetUI = provider.lockOnTargetUI;
-        this.controller = provider.controller;
-        this.targetSeeker = controller.transform;
-        this.statsModifier = provider.statsModifier; 
-    }
-
     private void Update()
     {
         if (currentTarget == null) return;
-        if (statsModifier.IsDead())
-        {
-            ResetLockTarget();
-            return;
-        }
-        TrackTargetDistance();
-    }
 
-    public void TrackTargetDistance()
-    {
         lockOnTargetUI.CalculateImagePosition();
+
         CalculateDistanceToTarget();
+
     }
 
-    public override void SetLockedTarget()
+    public void Init(LockOnTargetUI _lockOnTargetUI, Transform transform)
     {
-        var t = TryGetLockedTarget();
-
-        if (t != null)
-        {
-            lockOnTargetUI.SetTarget(t);
-            controller.SetLockTarget(t);
-        }
+        targetSeeker = transform;
+        lockOnTargetUI = _lockOnTargetUI;
     }
+
 
     protected override void CalculateDistanceToTarget()
     {
         base.CalculateDistanceToTarget();
     }
-    public override Transform TryGetLockedTarget()
+    public override Transform GetLockedTarget()
     {
         wasTargetSearched = !wasTargetSearched;
 
@@ -84,7 +62,6 @@ public class PlayerTargetLock : TargetLock
     {
        base.ResetLockTarget();
        lockOnTargetUI.ResetTarget();
-       controller.ResetLockTarget();
     }
 
 
@@ -133,7 +110,6 @@ public class PlayerTargetLock : TargetLock
             currentTarget = bestTarget;
             //state.SetLockTarget(currentTarget);
             lockOnTargetUI.SetTarget(currentTarget);
-            controller.SetLockTarget(currentTarget);
         }
 
         return currentTarget;

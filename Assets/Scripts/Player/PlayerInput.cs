@@ -4,7 +4,6 @@ public class PlayerInput : MonoBehaviour
 {
 
     PlayerController controller;
-    PlayerTargetLock targetLock;
     PlayerAnimator animator;
     private Camera cameraMain;
 
@@ -57,7 +56,6 @@ public class PlayerInput : MonoBehaviour
     {
         controller = serviceProvider.controller;
         animator = serviceProvider.animator;
-        targetLock = serviceProvider.targetLock;
     }
 
 
@@ -72,13 +70,15 @@ public class PlayerInput : MonoBehaviour
         controller.RotateCharacter(moveDir);    
 
         controller.UpdateAnimator();
-        animator.UpdateAnimatorParameters();
+        animator.SetAnimatorMoveSpeed();
     }
 
     protected virtual void Update()
     {
+
         InputHandle();
         controller.UpdateMotor();
+
     }
 
 
@@ -120,13 +120,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpPressed)
         {
-            if (targetLock.IsLockedOnTarget)
-            {
-                controller.Dodge(moveInput);
-                return;
-            }
-
-            controller.Jump();
+            controller.HandleJumpOrDodge(moveInput);      
         }
         jumpPressed = false; // consume press
     }
@@ -170,11 +164,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (lockOnTargetPressed)
         {
-            targetLock.SetLockedTarget();
+            controller.SetLockTarget();
             lockOnTargetPressed = false;
         }
 
-        targetLock.SwitchTarget(lookInput.x);
+        controller.SwitchTarget(lookInput.x);
     }
 
     #endregion

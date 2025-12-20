@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
 {
@@ -76,7 +77,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     internal bool isSprinting;
     internal bool isJumping;
     internal bool isGrounded = true;
-
+    internal bool isLockedOnTarget;
     internal bool isDodging;
     internal bool isHanging;
 
@@ -91,12 +92,12 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     public float InputMagnitude { get => inputMagnitude;  }
     public float VerticalSpeed { get=>verticalSpeed ;  }
     public float HorizontalSpeed { get=>horizontalSpeed; }
+    public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     public float GroundDistance { get=>groundDistance; }
     public bool StopMove { get=>stopMove; }
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
-
     public bool IsDodging { get => isDodging; set => isDodging = value; }
     public float DodgeX { get => dodgeX; set => dodgeX = value; }
     public float DodgeY { get => dodgeY; set => dodgeY = value; }

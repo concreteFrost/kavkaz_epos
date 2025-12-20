@@ -1,12 +1,13 @@
 using UnityEngine;
 
+
 public class PlayerServiceLocator : MonoBehaviour
 {
     [SerializeField] UniqueId uniqueId;
 
     [SerializeField] Animator animator;
 
-    [SerializeField] PlayerController controller;
+    [SerializeField] PlayerController playerState;
 
     [SerializeField] private PlayerMotor motor;
     [SerializeField] private PlayerInput input;
@@ -24,18 +25,16 @@ public class PlayerServiceLocator : MonoBehaviour
     private void Awake()
     {
         var uID = uniqueId.uniqueId;
-        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(controller, characterAnimator,targetLock);
+        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(playerState, characterAnimator);
         PlayerControllerServiceProvider controllerService = new PlayerControllerServiceProvider(animator);
         PlayerCombatControllerServiceProvider combatControllerService = new PlayerCombatControllerServiceProvider(combatInventory);
-        PlayerAnimatorServiceProvider animatorServiceProvider = new PlayerAnimatorServiceProvider(animator, motor, combatController, statsModifier, targetLock);
         PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(combatInventory);
         PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
-        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatController, combatInventory);
+        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID,stats,uIServiceLocator.GetPlayerStatsUI(), input,combatController, combatInventory,motor);
         PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(combatController, statsModifier);
-        PlayerStateServiceProvider stateServiceProvider = new PlayerStateServiceProvider(motor, combatController, statsModifier, stats, interaction);
-        PlayerTargetLockServiceProvider targetLockServiceProvider = new PlayerTargetLockServiceProvider(uIServiceLocator.GetLockOnTargetUI(), controller, statsModifier);
+        PlayerStateServiceProvider stateServiceProvider = new PlayerStateServiceProvider(motor, combatController, statsModifier, stats, targetLock, interaction);
 
-        controller.Init(stateServiceProvider); 
+        playerState.Init(stateServiceProvider); 
         motor.Init(controllerService);
         input.Init(inpurService);
         stats.Init(statsService);
@@ -45,9 +44,10 @@ public class PlayerServiceLocator : MonoBehaviour
         combatController.Init(combatControllerService);
         interaction.Init(interactionService);
 
-        characterAnimator.Init(animatorServiceProvider);
-        targetLock.Init(targetLockServiceProvider); 
+        characterAnimator.Init(animator, motor, combatController, statsModifier);
+        targetLock.Init(uIServiceLocator.GetLockOnTargetUI(), transform); 
        
     }
+
 
 }
