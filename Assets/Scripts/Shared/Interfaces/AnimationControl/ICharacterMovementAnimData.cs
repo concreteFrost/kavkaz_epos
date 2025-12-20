@@ -6,6 +6,9 @@ public interface ICharacterMovementAnimData
     Vector3 MoveDirection { get; }
     float VerticalSpeed { get; }
     float HorizontalSpeed { get; }
+
+    bool ApplyRootMotion { get; set; }
+
     bool IsSprinting { get; }
     bool StopMove { get; }
     float AnimationSmooth {  get; }

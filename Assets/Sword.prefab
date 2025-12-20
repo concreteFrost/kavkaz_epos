@@ -49,12 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9252a1d4d7e6904392a41e72f835335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  pickableType: 1
   interactionCollder: {fileID: 1249627329746634573}
+  breakdownThreshold: 0
   weaponSO: {fileID: 11400000, guid: 2a3539e6ed02535438b35f4e1bb7c5df, type: 2}
   damageCollider: {fileID: 6596508924225042948}
-  damageAmount: 0
-  breakdownThreshold: 0
 --- !u!65 &5586387104702930198
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -130,7 +128,7 @@ Transform:
   m_GameObject: {fileID: 3366594387873492907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.018, z: 0}
+  m_LocalPosition: {x: 0, y: 0.825, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -156,7 +154,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.13
-  m_Height: 1
+  m_Height: 1.3
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6596508924225042948
@@ -172,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   collectedColliders: []
+  attackInterrupted: 0
 --- !u!1 &4902979136545494141
 GameObject:
   m_ObjectHideFlags: 0

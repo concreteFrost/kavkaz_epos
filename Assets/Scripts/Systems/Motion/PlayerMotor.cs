@@ -38,6 +38,10 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     [Tooltip("Max angle to walk")]
     [Range(30, 80)] public float slopeLimit = 45f;
 
+    [Header("- Root Motion")]
+    [Tooltip("Проверяет дистанцию до обьекта во время использования applyRootMotion")]
+    public float distanceToObstacle;
+
     #endregion
 
     #region Components
@@ -93,6 +97,9 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     public float HorizontalSpeed { get=>horizontalSpeed; }
     public float GroundDistance { get=>groundDistance; }
     public bool StopMove { get=>stopMove; }
+
+    public bool ApplyRootMotion { get; set; }
+
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
@@ -147,8 +154,22 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     {
         if (animator.applyRootMotion)
         {
-            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+            
             _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
+
+            RaycastHit hit;
+
+            //центр игрока
+            var center = transform.TransformPoint(colliderCenter);
+
+            //Если есть приграда то игнорировать движение вперед
+            if (Physics.Raycast(center,_rigidbody.transform.forward,out hit, distanceToObstacle))
+            {
+                return;
+            }
+
+            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+
         }
 
     }
@@ -166,7 +187,6 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
         ControlJumpBehaviour(jumpHeight);
         AirControl();
     }
-
     
 
     #region Locomotion

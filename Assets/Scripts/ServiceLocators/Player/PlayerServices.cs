@@ -65,9 +65,12 @@ public class PlayerControllerServiceProvider
 public class PlayerCombatControllerServiceProvider
 {
     public PlayerCombatInventory combatInventory;
-    public PlayerCombatControllerServiceProvider(PlayerCombatInventory combatInventory)
+    public Animator animator;
+
+    public PlayerCombatControllerServiceProvider(PlayerCombatInventory combatInventory, Animator animator)
     {
         this.combatInventory = combatInventory;
+        this.animator = animator;
     }
 }
 
@@ -102,10 +105,13 @@ public class PlayerCombatInventoryServiceProvider
 {
     public PlayerCombatController combatController;
     public PlayerStatsModifier statsModifier;
-    public PlayerCombatInventoryServiceProvider(PlayerCombatController combatController, PlayerStatsModifier stats)
+    public string sourceId;
+    
+    public PlayerCombatInventoryServiceProvider(PlayerCombatController combatController, PlayerStatsModifier stats, string sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;
+        this.sourceId = sourceId;
     }
 }
 

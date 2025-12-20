@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     PlayerStats stats;
     PlayerInteract interact;
 
-
     public void Init(PlayerStateServiceProvider provider)
     {
         locomotion = provider.controller;
@@ -82,8 +81,11 @@ public class PlayerController : MonoBehaviour
     public virtual void RotateCharacter(Vector3 input)
     {
         // input нулевой → не вращаемся
-        if (input.sqrMagnitude < 0.01f && !combatController.IsAttacking)
+        if (input.sqrMagnitude < 0.01f)
             return;
+
+        if (combatController.BlockRotation) return; 
+
         // нельзя вращаться при атаке, повреждении, или если запрещено вращение в воздухе
         if (statsModifier.IsDamaged || (!locomotion.jumpAndRotate && !locomotion.IsGrounded))
             return;
@@ -103,7 +105,6 @@ public class PlayerController : MonoBehaviour
         if (!combatController.IsAttacking && !locomotion.IsDodging && stats.currentStamina > 0)
         {
             locomotion.Dodge(dir);
-
         }
     }
 

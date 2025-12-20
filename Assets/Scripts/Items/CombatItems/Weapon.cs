@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Weapon : CombatItem, IWeapon
@@ -6,6 +7,9 @@ public class Weapon : CombatItem, IWeapon
     private Attack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
+
+    [SerializeField] private float minStopVelocity = 1f;
+    [SerializeField] private float checkDelay = 0.05f;
 
     #region IWeapon variables
     public WeaponSO WeaponData() => weaponSO;
@@ -77,21 +81,68 @@ public class Weapon : CombatItem, IWeapon
         if(breakdownThreshold <= 0)
         {
             AttackSource.ResetWeapon();
-            ThrowWeapon();    
+            DropWeapon();   
         }
     }
 
-    public void ThrowWeapon()
+    public void DropWeapon()
     {
-
         ResetParent();
         ToggleInteraction(true);
 
         damageCollider.DisableCollider();
         AttackSource.ResetWeapon();
         AttackSource = null;
+    }
+
+    public void ThrowWeapon(Transform from, float force)
+    {
+
+
+        ResetParent();
+        ToggleInteraction(true);
+
+        AttackSource.ResetWeapon();
+        AttackSource = null;
+
+        rb.AddForce(from.forward * force, ForceMode.Impulse);
+ 
+        StartCoroutine(ThrowCoroutine(0.1f)); 
+        StartCoroutine(DisableColliderWhenStopped());
 
     }
 
-   
+    IEnumerator ThrowCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay); //задержка чтобы не попадать по владельцу оружия
+
+        var healthDamage = weaponSO.GetBaseDamage();
+        var balanceDamage = 0.1f;
+        damageCollider.EnableCollider(healthDamage,balanceDamage,null);
+
+        yield return null;
+    }
+
+    IEnumerator DisableColliderWhenStopped()
+    {
+        // ждём, пока оружие реально начнёт двигаться
+        yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.1f);
+        Debug.Log("weapon flying");
+
+        while (true)
+        {
+            if (rb.linearVelocity.magnitude < minStopVelocity)
+            {
+                damageCollider.DisableCollider();
+                Debug.Log("weapon landed");
+                yield break;
+            }
+
+            yield return null;
+        }
+
+
+    }
+
+
 }

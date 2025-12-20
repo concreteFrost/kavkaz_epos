@@ -1,16 +1,11 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public abstract class TargetLock : MonoBehaviour, ITargetLocker
 {
-    /// <summary>
-    /// —брасывает цель на рассто€нии или при потери цели
-    /// </summary>
-    public static Action<Transform, Transform> OnTargetLost;
     protected Transform targetSeeker;
-    public Transform currentTarget;
+    public ITargetLockable currentTarget;
 
     [SerializeField] protected float checkTargetRadius = 10f;
     [SerializeField] protected float targetResetDistance = 15f;
@@ -23,11 +18,15 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
 
     protected virtual void CalculateDistanceToTarget()
     {
-        var dist = Vector3.Distance(targetSeeker.position, currentTarget.position);
+        if (!currentTarget.IsActive())
+        {
+            ResetLockTarget();
+            return;
+        }
+        var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetTargetTransform().position);
 
         if (dist > targetResetDistance)
         {
-            OnTargetLost?.Invoke(currentTarget, targetSeeker);
             ResetLockTarget();
         }
     }
@@ -38,9 +37,9 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
         wasTargetSearched = false;
     }
 
-    public abstract Transform TryGetLockedTarget();
+    public abstract ITargetLockable TryGetLockedTarget();
 
-    protected Transform CheckNearestTarget()
+    protected ITargetLockable CheckNearestTarget()
     {
         var targets = Physics.OverlapSphere(targetSeeker.position, checkTargetRadius);
 
@@ -52,7 +51,7 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
         return null;
     }
 
-    protected Transform GetNearestTarget(Collider[] targets)
+    protected ITargetLockable GetNearestTarget(Collider[] targets)
     {
         Dictionary<ITargetLockable, float> objectsDistances = new Dictionary<ITargetLockable, float>();
 
@@ -70,7 +69,7 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
         if (objectsDistances.Count == 0) return null;
 
         var min = objectsDistances.OrderBy((x) => x.Value).FirstOrDefault().Key;
-        return min.GetTargetTransform();
+        return min;
     }
 
 

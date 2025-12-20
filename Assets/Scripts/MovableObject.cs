@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class LockableDummy : MonoBehaviour, ITargetLockable
+public class MovableObject : MonoBehaviour
 {
-	[SerializeField] private Transform lockPoint;
-    public Transform GetTargetTransform()=> lockPoint;
 
     [SerializeField] private float maxDistance;
     Vector3 startingPos;
 
     [SerializeField] private float speed = 5f;
 
+
     void Start()
     {
         startingPos = transform.position;   
-       
     }
 
     private void Update()

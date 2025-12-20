@@ -11,15 +11,8 @@ public class WeaponDamageCollider : DamageCollider
 
     protected override void HandleCollision(Collider other)
     {
-        if (attackInterrupted)
-            return;
-
-
-        if (collectedColliders.Contains(other))
-            return;
-
+        base.HandleCollision(other);
         weaponOwner.ReduceDurability(weaponOwner.WeaponData().GetBreakdownPenalty());
 
-        HandleDamageCalculation(other, healthDamage);   
     }
 }

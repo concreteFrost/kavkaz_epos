@@ -43,6 +43,13 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     public void PerformAttack()
     {
+
+        if(currentAttack == null)
+        {
+            Debug.Log("no current attack assigned");
+            return;
+
+        }
         var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
         var balanceDamage = currentAttack.GetFinalBalanceDamage();
         damageCollider.EnableCollider(healthDamage, balanceDamage, AttackSource.SourceId());
@@ -53,7 +60,12 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
         AttackSource = source;  
     }
 
-    public void ThrowWeapon()
+    public void DropWeapon()
+    {
+        //без имплементации
+    }
+
+    public void ThrowWeapon(Transform from, float force)
     {
         //без имплементации
     }
