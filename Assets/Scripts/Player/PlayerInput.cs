@@ -54,7 +54,7 @@ public class PlayerInput : MonoBehaviour
 
     }
 
-    public void Init(PlayerInputServices serviceProvider)
+    public void Init(PlayerInputServiceProvider serviceProvider)
     {
         controller = serviceProvider.controller;
         animator = serviceProvider.animator;

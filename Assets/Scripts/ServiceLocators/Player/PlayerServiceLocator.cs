@@ -24,16 +24,16 @@ public class PlayerServiceLocator : MonoBehaviour
     private void Awake()
     {
         var uID = uniqueId.uniqueId;
-        PlayerInputServices inpurService = new PlayerInputServices(controller, characterAnimator, targetLock);
-        PlayerControllerServices controllerService = new PlayerControllerServices(animator);
+        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(controller, characterAnimator, targetLock);
+        HumanoidMotorServices controllerService = new HumanoidMotorServices(animator);
         HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, animator);
-        PlayerAnimatorServices animatorServiceProvider = new PlayerAnimatorServices(animator, motor, combatController, statsModifier, targetLock);
-        PlayerInteractServices interactionService = new PlayerInteractServices(combatInventory);
-        PlayerStatsServices statsService = new PlayerStatsServices(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
-        PlayerStatsModifierServices modifierServiceProvider = new PlayerStatsModifierServices(uID, stats, uIServiceLocator.GetPlayerStatsUI(), input, combatController, combatInventory);
-        PlayerCombatInventoryServices combatInventoryService = new PlayerCombatInventoryServices(combatController, statsModifier, uID);
-        PlayerStateServices stateServiceProvider = new PlayerStateServices(motor, combatController, statsModifier, stats, interaction);
-        PlayerTargetLockServices targetLockServiceProvider = new PlayerTargetLockServices(uIServiceLocator.GetLockOnTargetUI(), controller, statsModifier);
+        PlayerAnimatorServiceProvider animatorServiceProvider = new PlayerAnimatorServiceProvider(animator, motor, combatController, statsModifier, targetLock);
+        PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(combatInventory);
+        PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
+        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID, stats, uIServiceLocator.GetPlayerStatsUI(), input, combatController, combatInventory);
+        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(combatController, statsModifier, uID);
+        PlayerStateService stateServiceProvider = new PlayerStateService(motor, combatController, statsModifier, stats, interaction);
+        PlayerTargetLockServiceProvider targetLockServiceProvider = new PlayerTargetLockServiceProvider(uIServiceLocator.GetLockOnTargetUI(), controller, statsModifier);
 
         controller.Init(stateServiceProvider);
         motor.Init(controllerService);

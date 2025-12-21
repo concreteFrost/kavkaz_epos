@@ -10,7 +10,7 @@ public interface ICharacterMovementAnimData
     bool ApplyRootMotion { get; set; }
 
     bool IsSprinting { get; }
-    bool StopMove { get; }
+    bool StopMove { get; set; }
     float AnimationSmooth {  get; }
     public bool IsLockedOnTarget { get; set; }
 

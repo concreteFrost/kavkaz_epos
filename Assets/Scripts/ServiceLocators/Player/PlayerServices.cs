@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerStateServices
+public class PlayerStateService
 {
     public PlayerMotor controller;
     public HumanoidCombatController combatController;
@@ -8,7 +8,7 @@ public class PlayerStateServices
     public PlayerStats stats;
     public PlayerInteract interact;
 
-    public PlayerStateServices(PlayerMotor controller,HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
+    public PlayerStateService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
     {
         this.controller = controller;
         this.combatController = combatController;
@@ -18,14 +18,14 @@ public class PlayerStateServices
     }
 }
 
-public class PlayerInputServices
+public class PlayerInputServiceProvider
 {
 
     public PlayerController controller;
     public PlayerAnimator animator;
     public PlayerTargetLock targetLock;
 
-    public PlayerInputServices(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
+    public PlayerInputServiceProvider(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.animator = animator;
@@ -33,14 +33,14 @@ public class PlayerInputServices
     }
 }
 
-public class PlayerAnimatorServices
+public class PlayerAnimatorServiceProvider
 {
     public Animator animator;
     public PlayerMotor motor;
     public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public PlayerTargetLock targetLock;
-    public PlayerAnimatorServices(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
+    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
     {
         this.animator = animator;
         this.motor = motor;
@@ -51,35 +51,38 @@ public class PlayerAnimatorServices
 
 }
 
-public class PlayerControllerServices
+public class PlayerControllerServiceProvider
 {
     public Animator animator;
 
-    public PlayerControllerServices(Animator animator)
+
+    public PlayerControllerServiceProvider(Animator animator)
     {
         this.animator = animator;
     }
 }
 
 
-public class PlayerInteractServices
+
+public class PlayerInteractServiceProvider
 {
 
     public PlayerCombatInventory combatInventory;
 
-    public PlayerInteractServices(PlayerCombatInventory combatInventory)
+    public PlayerInteractServiceProvider(PlayerCombatInventory combatInventory)
     {
         this.combatInventory = combatInventory;
+
     }
 }
 
-public class PlayerStatsServices
+public class PlayerStatsServiceProvider
 {
     public PlayerCombatInventory combatInventory;
     public PlayerMotor motor;
     public PlayerStatsUI playerStatsUI;
     public PlayerInput input;
-    public PlayerStatsServices(PlayerCombatInventory combatInventory, PlayerMotor motor, PlayerStatsUI playerStatsUI, PlayerInput input)
+    public PlayerStatsServiceProvider(PlayerCombatInventory combatInventory, PlayerMotor motor, PlayerStatsUI playerStatsUI, PlayerInput input)
     {
         this.combatInventory = combatInventory;
         this.motor = motor;
@@ -88,13 +91,13 @@ public class PlayerStatsServices
     }
 }
 
-public class PlayerCombatInventoryServices
+public class PlayerCombatInventoryServiceProvider
 {
     public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public string sourceId;
 
-    public PlayerCombatInventoryServices(HumanoidCombatController combatController, PlayerStatsModifier stats, string sourceId)
+    public PlayerCombatInventoryServiceProvider(HumanoidCombatController combatController, PlayerStatsModifier stats, string sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;
@@ -102,7 +105,7 @@ public class PlayerCombatInventoryServices
     }
 }
 
-public class PlayerStatsModifierServices
+public class PlayerStatsModifierServiceProvider
 {
     public string uniqueId;
     public PlayerStats stats;
@@ -111,7 +114,7 @@ public class PlayerStatsModifierServices
     public HumanoidCombatController combatController;
     public PlayerCombatInventory inventory;
 
-    public PlayerStatsModifierServices(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, HumanoidCombatController combatController, PlayerCombatInventory inventory)
+    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, HumanoidCombatController combatController, PlayerCombatInventory inventory)
     {
         this.uniqueId = uniqueId;
         this.stats = stats;
@@ -122,13 +125,13 @@ public class PlayerStatsModifierServices
     }
 }
 
-public class PlayerTargetLockServices
+public class PlayerTargetLockServiceProvider
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
     public PlayerStatsModifier statsModifier;
 
-    public PlayerTargetLockServices(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
+    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;

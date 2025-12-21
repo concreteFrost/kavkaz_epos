@@ -12,3 +12,13 @@ public class HumanoidCombatControllerServices
         this.animator = animator;
     }
 }
+
+public class HumanoidMotorServices
+{
+    public Animator animator;
+
+    public HumanoidMotorServices(Animator animator)
+    {
+        this.animator = animator;
+    }
+}

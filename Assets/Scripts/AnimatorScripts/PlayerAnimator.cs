@@ -6,7 +6,7 @@ public class PlayerAnimator : HumanoidAnimator
     HumanoidCombatController combatController;
     PlayerStatsModifier playerStatsModifier;
     PlayerTargetLock targetLock;
-    public void Init(PlayerAnimatorServices provider)
+    public void Init(PlayerAnimatorServiceProvider provider)
     {
         this.animator = provider.animator;
         this.motor = provider.motor;
@@ -60,6 +60,7 @@ public class PlayerAnimator : HumanoidAnimator
         animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);
         animator.SetInteger(AnimatorParameters.AttackIndex, combatController.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, combatController.WeaponIndex);
+        animator.SetBool(AnimatorParameters.IsThrowingWeapon, combatController.IsThrowingWeapon);   
 
 
         // damage

@@ -4,11 +4,12 @@ public class DamagedBehaviour : StateMachineBehaviour
 {
 
     ICharacterDamageAnimData dm;
-    public float damagedLength;
+    ICharacterMovementAnimData motor;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         dm = animator.GetComponentInChildren<ICharacterDamageAnimData>();
+        motor = animator.GetComponent<ICharacterMovementAnimData>();
         animator.applyRootMotion = true;
     }
 
@@ -17,7 +18,12 @@ public class DamagedBehaviour : StateMachineBehaviour
     {
         float t = stateInfo.normalizedTime;
 
-        if(t > damagedLength)
+        if (!motor.StopMove)
+        {
+            motor.StopMove = true;  
+        }
+
+        if(t > 0.9f)
         {
             dm.IsDamaged = false;
         }
@@ -26,7 +32,8 @@ public class DamagedBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm.IsDamaged = false;
+       motor.StopMove = false;
+       dm.IsDamaged = false;
        animator.applyRootMotion = false;
     }
 

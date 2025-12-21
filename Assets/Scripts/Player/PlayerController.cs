@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     PlayerStats stats;
     PlayerInteract interact;
 
-    public void Init(PlayerStateServices provider)
+    public void Init(PlayerStateService provider)
     {
         locomotion = provider.controller;
         statsModifier = provider.statsModifier;
@@ -50,13 +50,7 @@ public class PlayerController : MonoBehaviour
             : stats.walkSpeed;
 
         // ↓ здесь живёт вся логика замедлений
-        float targetMultiplier =
-            (locomotion.StopMove ||
-             combatController.IsAttacking ||
-             statsModifier.IsDamaged ||
-            locomotion.IsDodging)
-            ? 0f
-            : 1f;
+        float targetMultiplier = (locomotion.StopMove || locomotion.isHighSlope) ? 0f : 1f;
 
         locomotion.attackSlow = Mathf.Lerp(
             locomotion.attackSlow,
@@ -87,7 +81,7 @@ public class PlayerController : MonoBehaviour
         if (combatController.BlockRotation) return; 
 
         // нельзя вращаться при атаке, повреждении, или если запрещено вращение в воздухе
-        if (statsModifier.IsDamaged || (!locomotion.jumpAndRotate && !locomotion.IsGrounded))
+        if (!locomotion.jumpAndRotate && !locomotion.IsGrounded)
             return;
 
         // lock-on активен → вращаем к цели
@@ -102,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     public void Dodge(Vector3 dir)
     {
-        if (!combatController.IsAttacking && !locomotion.IsDodging && stats.currentStamina > 0)
+        if (!locomotion.StopMove && !locomotion.IsDodging && stats.currentStamina > 0)
         {
             locomotion.Dodge(dir);
         }
@@ -113,8 +107,6 @@ public class PlayerController : MonoBehaviour
         bool canJump = locomotion.IsGrounded &&
                  locomotion.GroundAngle() < locomotion.slopeLimit &&
                  !locomotion.IsJumping &&
-                 !combatController.IsAttacking &&
-                 !statsModifier.IsDamaged &&
                  !locomotion.StopMove &&
                  stats.currentStamina > 0;
 
@@ -203,7 +195,7 @@ public class PlayerController : MonoBehaviour
     public void Interact()
     {
         //не взаимодействуем если игрок атакует
-        if (combatController.isAttacking) return;
+        if (locomotion.StopMove) return;
 
         interact.Interact();        
     }

@@ -16,14 +16,14 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
     internal int weaponIndex = 0;
     internal bool isShieldRaised;
     internal bool isWeaponed;
-    internal bool canThrowWeapon = true;
+    internal bool isThrowingWeapon;
 
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsWeaponed { get => isWeaponed; }
     public int AttackIndex { get => attackIndex; }
     public int WeaponIndex { get => weaponIndex; }
     public bool IsShieldRaised { get => isShieldRaised; }
-
+    public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
     public bool BlockRotation { get; set; }
 
     public void Init(HumanoidCombatControllerServices service)
@@ -58,8 +58,12 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
     public void ThrowWeapon()
     {
         if (isAttacking) return;
+        if (isThrowingWeapon) return;
+        
         ResetCombo();
-        inventory.CurrentWeapon.ThrowWeapon(transform,20);
+
+        isThrowingWeapon = true;
+        //inventory.CurrentWeapon.ThrowWeapon(transform,20);
         //inventory.ResetWeapon();    
     }
 
@@ -96,7 +100,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
         isAttacking = false;
         attackIndex = 0;
 
-        canThrowWeapon = true;
+
     }
 
     IEnumerator AttackCoroutine()
@@ -111,7 +115,6 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
         while (true && !isShieldRaised)
         {
             isAttacking = true;
-            canThrowWeapon = false;
             attackIndex = totalClicks;
 
             var currentAttack = currentAttakChain.attackList[totalClicks];
@@ -126,7 +129,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
                 totalClicks++;
 
                 isInQueue = false;
-                if (totalClicks > currentAttakChain.attackList.Count-1) // сбрасываем цепочку на начало
+                if (totalClicks == currentAttakChain.attackList.Count) // сбрасываем цепочку на начало
                     break;
             }
             else // если нет атак в очереди то сбрасываем на начало

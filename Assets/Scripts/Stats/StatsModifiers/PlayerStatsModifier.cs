@@ -9,7 +9,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
     PlayerCombatInventory inventory;
     HumanoidCombatController combatController;
 
-    public void Init(PlayerStatsModifierServices provider)
+    public void Init(PlayerStatsModifierServiceProvider provider)
     {
         stats = provider.stats;
         ui = provider.ui;
@@ -93,7 +93,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
 
     #endregion
 
-    #region Stamina Control
     public override void ReduceStamina(float amount)
     {
         stats.currentStamina -= amount;
@@ -127,6 +126,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
 
         ui.UpdateStaminaSlider(stats.currentStamina);
     }
-    #endregion
+
 
 }

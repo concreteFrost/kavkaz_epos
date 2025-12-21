@@ -15,7 +15,7 @@ public class PlayerInteract : MonoBehaviour, ICollector
     /// </summary>
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
-    public void Init(PlayerInteractServices service)
+    public void Init(PlayerInteractServiceProvider service)
     { 
         attackSource = service.combatInventory;
     }

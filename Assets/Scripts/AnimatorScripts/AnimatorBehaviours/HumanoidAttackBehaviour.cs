@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AttackBehaviour : StateMachineBehaviour
+public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
     public float enableTime = 0.3f;
     public float disableTime = 0.6f;
@@ -11,13 +11,16 @@ public class AttackBehaviour : StateMachineBehaviour
     IAttackSource inv;
     ICharacterStats stats;
     ICharacterCombatAnimData combatAnimData;
+    ICharacterMovementAnimData motor;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
         stats = animator.GetComponentInChildren<ICharacterStats>();
         combatAnimData = animator.GetComponentInChildren<ICharacterCombatAnimData>();
-        //stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
+        motor = animator.GetComponent<ICharacterMovementAnimData>();
+ 
+        stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
         animator.applyRootMotion = true;
         combatAnimData.BlockRotation = true;
 
@@ -31,6 +34,8 @@ public class AttackBehaviour : StateMachineBehaviour
         {
             animator.applyRootMotion = true;
         }
+
+        if(!motor.StopMove) motor.StopMove = true;
 
         //if (!combatAnimData.BlockRotation)
         //{
@@ -49,8 +54,7 @@ public class AttackBehaviour : StateMachineBehaviour
 
         if (attackEnabled & t >= disableTime)
         {
-            inv.CurrentWeapon.CancelAttack();
-           
+            inv.CurrentWeapon.CancelAttack();  
             attackEnabled = false;
         }
 
@@ -59,6 +63,7 @@ public class AttackBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        motor.StopMove = false;
         attackEnabled = false;
         attackDisabled = false;
         combatAnimData.BlockRotation = false;
