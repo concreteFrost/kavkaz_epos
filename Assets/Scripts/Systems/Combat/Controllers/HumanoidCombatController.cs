@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
+public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
 {
-    PlayerCombatInventory inventory;
+    IAttackSource inventory;
     Animator anim;
-    [SerializeField] private int totalClicks = 0;
+    private int totalClicks = 0;
 
     IEnumerator currentCoroutine = null;
 
@@ -26,7 +26,7 @@ public class PlayerCombatController : MonoBehaviour , ICharacterCombatAnimData
 
     public bool BlockRotation { get; set; }
 
-    public void Init(PlayerCombatControllerServiceProvider service)
+    public void Init(HumanoidCombatControllerServices service)
     {
        
         inventory = service.combatInventory;

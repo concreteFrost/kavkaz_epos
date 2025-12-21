@@ -1,10 +1,9 @@
 ﻿
 using UnityEngine;
 
-public abstract class CharacterAnimator : MonoBehaviour
+public abstract class HumanoidAnimator : MonoBehaviour
 {
     protected Animator animator;
-
     public abstract void UpdateAnimatorParameters();
 }
 

@@ -110,7 +110,7 @@ public class PlayerMotor : MonoBehaviour, ICharacterMovementAnimData
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
 
-    public void Init(PlayerControllerServiceProvider service)
+    public void Init(PlayerControllerServices service)
     {
         animator = service.animator;
 

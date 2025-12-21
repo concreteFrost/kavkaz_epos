@@ -5,8 +5,7 @@ public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , IChar
     protected string uniqueID;
     protected bool isDead;
     protected bool isDamaged;
-    public float balancePenalty;
-    
+    public float balancePenalty;  
     public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
     public float BalancePenalty { get => balancePenalty; }
 
@@ -25,7 +24,6 @@ public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , IChar
         //
     }
 
-    protected abstract void ResetBalance();
     public abstract void ReduceStamina(float amount);
     public abstract void HandleStaminaRegen();
 

@@ -57,7 +57,7 @@ public class DamageCollider : MonoBehaviour
         if(damagable.SourceId() != owner)
         {
             damagable.TakeDamage(healthDamage, balanceDamage);
-            Debug.Log(damagable);
+            //Debug.Log(damagable); 
             return;
         }
 

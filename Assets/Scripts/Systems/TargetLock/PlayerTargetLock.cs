@@ -16,7 +16,7 @@ public class PlayerTargetLock : TargetLock
     PlayerController controller;
     PlayerStatsModifier statsModifier;
 
-    public void Init(PlayerTargetLockServiceProvider provider)
+    public void Init(PlayerTargetLockServices provider)
     {   
         this.lockOnTargetUI = provider.lockOnTargetUI;
         this.controller = provider.controller;

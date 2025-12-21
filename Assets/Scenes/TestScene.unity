@@ -7294,9 +7294,8 @@ GameObject:
   m_Component:
   - component: {fileID: 283042082}
   - component: {fileID: 283042083}
-  - component: {fileID: 283042084}
   m_Layer: 0
-  m_Name: Combat
+  m_Name: PlayerCombat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7326,26 +7325,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 283042081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 751599900ffd9bb4ca98d2ba26dbf34a, type: 3}
+  m_Script: {fileID: 11500000, guid: 70acc924bbc041943bc66616a54ffe54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
-  totalClicks: 0
---- !u!114 &283042084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283042081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 123405c4cf015d146aa993452ea77bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  checkTargetRadius: 5
-  targetResetDistance: 7
-  targetSwitchThreshold: 45
-  img: {fileID: 1176097203}
 --- !u!1 &285278805
 GameObject:
   m_ObjectHideFlags: 0
@@ -17137,7 +17119,7 @@ GameObject:
   - component: {fileID: 767894240}
   - component: {fileID: 767894241}
   m_Layer: 0
-  m_Name: Input
+  m_Name: PlayerInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22907,7 +22889,7 @@ GameObject:
   - component: {fileID: 1058200530}
   - component: {fileID: 1058200531}
   m_Layer: 0
-  m_Name: Stats
+  m_Name: PlayerStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23829,7 +23811,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1102659059}
   m_Layer: 0
-  m_Name: CameraFollowTarget
+  m_Name: PlayerCameraFollowTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23848,7 +23830,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1826188431}
+  m_Father: {fileID: 1406799236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1109691214
 PrefabInstance:
@@ -29544,6 +29526,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394028225}
   m_Mesh: {fileID: 4300000, guid: 82d677cc46649fa4cb8988583aaa1623, type: 3}
+--- !u!1 &1396265654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1396265655}
+  - component: {fileID: 1396265656}
+  m_Layer: 0
+  m_Name: PlayerTargetLock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1396265655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396265654}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1826188431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1396265656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396265654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 123405c4cf015d146aa993452ea77bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  checkTargetRadius: 5
+  targetResetDistance: 7
+  targetSwitchThreshold: 45
+  img: {fileID: 1176097203}
 --- !u!1 &1398641661
 GameObject:
   m_ObjectHideFlags: 0
@@ -29918,6 +29948,7 @@ Transform:
   - {fileID: 83044932}
   - {fileID: 1161969245}
   - {fileID: 1826188431}
+  - {fileID: 1102659059}
   m_Father: {fileID: 1003801327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1406799237
@@ -29943,7 +29974,7 @@ MonoBehaviour:
   interaction: {fileID: 2033193984}
   combatInventory: {fileID: 2117511200}
   characterAnimator: {fileID: 246753602}
-  targetLock: {fileID: 283042084}
+  targetLock: {fileID: 1396265656}
   uIServiceLocator: {fileID: 952277881}
 --- !u!114 &1406799239
 MonoBehaviour:
@@ -38072,7 +38103,7 @@ Transform:
   - {fileID: 283042082}
   - {fileID: 2117511199}
   - {fileID: 2033193983}
-  - {fileID: 1102659059}
+  - {fileID: 1396265655}
   m_Father: {fileID: 1406799236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1830345283
@@ -43691,7 +43722,7 @@ GameObject:
   - component: {fileID: 2117511199}
   - component: {fileID: 2117511200}
   m_Layer: 0
-  m_Name: CombatInventory
+  m_Name: PlayerCombatInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

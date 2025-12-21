@@ -3,12 +3,12 @@
 public class PlayerController : MonoBehaviour
 {
     PlayerMotor locomotion;
-    PlayerCombatController combatController;
+    HumanoidCombatController combatController;
     PlayerStatsModifier statsModifier;
     PlayerStats stats;
     PlayerInteract interact;
 
-    public void Init(PlayerStateServiceProvider provider)
+    public void Init(PlayerStateServices provider)
     {
         locomotion = provider.controller;
         statsModifier = provider.statsModifier;

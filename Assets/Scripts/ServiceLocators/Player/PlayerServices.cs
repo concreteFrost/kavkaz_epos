@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class PlayerStateServiceProvider
+public class PlayerStateServices
 {
     public PlayerMotor controller;
-    public PlayerCombatController combatController;
+    public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public PlayerStats stats;
     public PlayerInteract interact;
 
-    public PlayerStateServiceProvider(PlayerMotor controller, PlayerCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
+    public PlayerStateServices(PlayerMotor controller,HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
     {
         this.controller = controller;
         this.combatController = combatController;
@@ -18,14 +18,14 @@ public class PlayerStateServiceProvider
     }
 }
 
-public class PlayerInputServiceProvider
+public class PlayerInputServices
 {
 
     public PlayerController controller;
     public PlayerAnimator animator;
     public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
+    public PlayerInputServices(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.animator = animator;
@@ -33,14 +33,14 @@ public class PlayerInputServiceProvider
     }
 }
 
-public class PlayerAnimatorServiceProvider
+public class PlayerAnimatorServices
 {
     public Animator animator;
     public PlayerMotor motor;
-    public PlayerCombatController combatController;
+    public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public PlayerTargetLock targetLock;
-    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, PlayerCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
+    public PlayerAnimatorServices(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
     {
         this.animator = animator;
         this.motor = motor;
@@ -51,48 +51,35 @@ public class PlayerAnimatorServiceProvider
 
 }
 
-public class PlayerControllerServiceProvider
+public class PlayerControllerServices
 {
     public Animator animator;
 
-
-    public PlayerControllerServiceProvider(Animator animator)
+    public PlayerControllerServices(Animator animator)
     {
         this.animator = animator;
     }
 }
 
-public class PlayerCombatControllerServiceProvider
-{
-    public PlayerCombatInventory combatInventory;
-    public Animator animator;
 
-    public PlayerCombatControllerServiceProvider(PlayerCombatInventory combatInventory, Animator animator)
-    {
-        this.combatInventory = combatInventory;
-        this.animator = animator;
-    }
-}
-
-public class PlayerInteractServiceProvider
+public class PlayerInteractServices
 {
 
     public PlayerCombatInventory combatInventory;
 
-    public PlayerInteractServiceProvider(PlayerCombatInventory combatInventory)
+    public PlayerInteractServices(PlayerCombatInventory combatInventory)
     {
         this.combatInventory = combatInventory;
-
     }
 }
 
-public class PlayerStatsServiceProvider
+public class PlayerStatsServices
 {
     public PlayerCombatInventory combatInventory;
     public PlayerMotor motor;
     public PlayerStatsUI playerStatsUI;
     public PlayerInput input;
-    public PlayerStatsServiceProvider(PlayerCombatInventory combatInventory, PlayerMotor motor, PlayerStatsUI playerStatsUI, PlayerInput input)
+    public PlayerStatsServices(PlayerCombatInventory combatInventory, PlayerMotor motor, PlayerStatsUI playerStatsUI, PlayerInput input)
     {
         this.combatInventory = combatInventory;
         this.motor = motor;
@@ -101,13 +88,13 @@ public class PlayerStatsServiceProvider
     }
 }
 
-public class PlayerCombatInventoryServiceProvider
+public class PlayerCombatInventoryServices
 {
-    public PlayerCombatController combatController;
+    public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public string sourceId;
 
-    public PlayerCombatInventoryServiceProvider(PlayerCombatController combatController, PlayerStatsModifier stats, string sourceId)
+    public PlayerCombatInventoryServices(HumanoidCombatController combatController, PlayerStatsModifier stats, string sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;
@@ -115,16 +102,16 @@ public class PlayerCombatInventoryServiceProvider
     }
 }
 
-public class PlayerStatsModifierServiceProvider
+public class PlayerStatsModifierServices
 {
     public string uniqueId;
     public PlayerStats stats;
     public PlayerStatsUI ui;
     public PlayerInput input;
-    public PlayerCombatController combatController;
+    public HumanoidCombatController combatController;
     public PlayerCombatInventory inventory;
 
-    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, PlayerCombatController combatController, PlayerCombatInventory inventory)
+    public PlayerStatsModifierServices(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, HumanoidCombatController combatController, PlayerCombatInventory inventory)
     {
         this.uniqueId = uniqueId;
         this.stats = stats;
@@ -135,13 +122,13 @@ public class PlayerStatsModifierServiceProvider
     }
 }
 
-public class PlayerTargetLockServiceProvider
+public class PlayerTargetLockServices
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
     public PlayerStatsModifier statsModifier;
 
-    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
+    public PlayerTargetLockServices(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;

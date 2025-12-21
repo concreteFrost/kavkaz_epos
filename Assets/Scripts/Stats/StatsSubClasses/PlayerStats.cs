@@ -2,7 +2,7 @@
 public class PlayerStats : CharacterStats
 {
 
-    public void Init(PlayerStatsServiceProvider provider)
+    public void Init(PlayerStatsServices provider)
     {
         base.InitializeStats();
 

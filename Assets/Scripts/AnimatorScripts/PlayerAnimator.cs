@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimator : CharacterAnimator
+public class PlayerAnimator : HumanoidAnimator
 {
     PlayerMotor motor;
-    PlayerCombatController combatController;
+    HumanoidCombatController combatController;
     PlayerStatsModifier playerStatsModifier;
     PlayerTargetLock targetLock;
-    public void Init(PlayerAnimatorServiceProvider provider)
+    public void Init(PlayerAnimatorServices provider)
     {
         this.animator = provider.animator;
         this.motor = provider.motor;

@@ -1,9 +1,9 @@
 public class PlayerCombatInventory : CombatInventory
 {
-    PlayerCombatController combatController;
+    HumanoidCombatController combatController;
     public BareHandsWeapon bareHands;
 
-    public override void Init(PlayerCombatInventoryServiceProvider service)
+    public override void Init(PlayerCombatInventoryServices service)
     {
         base.Init(service);
 
