@@ -5,10 +5,11 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
     [Header("- Rotation")]
     [Tooltip("Rotation speed of the character")]
     public float rotationSpeed = 8f;
+    public float blockedRotationSpeed = 1.5f;
 
     [Header("animator smooth speed")]
     [Range(1f, 20f)]
-    public float movementSmooth = 6f;
+    public float movementSmooth = 10f;
     [Range(0f, 1f)]
     public float animationSmooth = 0.2f;
 
@@ -77,9 +78,7 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
     internal bool isLockedOnTarget;
     internal bool isDodging;
     internal bool isHanging;
-
-    internal float attackSlow = 1f;// used to know the direction you're moving 
-
+    internal bool isRotationBlocked = false;    
     internal bool stopMove;
 
 
@@ -90,6 +89,8 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
     public float InputMagnitude { get => inputMagnitude; }
     public float VerticalSpeed { get => verticalSpeed; }
     public float HorizontalSpeed { get => horizontalSpeed; }
+
+    public bool BlockRotation { get => isRotationBlocked; set => isRotationBlocked = value; }
     public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     public float GroundDistance { get => groundDistance; }
     public bool StopMove { get => stopMove; set => stopMove = value; }
@@ -234,17 +235,22 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
         direction.y = 0f;
         if (direction.sqrMagnitude < 0.001f) return;
 
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, rotationSpeed * Time.deltaTime, 0.1f);
+        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
+
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, finalRotation * Time.deltaTime, 0.1f);
         transform.rotation = Quaternion.LookRotation(desiredForward);
     }
 
-    public virtual void RotateToTarget(Vector3 targetPosition)
+    public virtual void RotateToTarget(Vector3 targetPosition )
     {
         Vector3 lookDir = targetPosition - transform.position;
         lookDir.y = 0f;
 
         Quaternion targetRot = Quaternion.LookRotation(lookDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+
+        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, finalRotation * Time.deltaTime);
     }
 
 

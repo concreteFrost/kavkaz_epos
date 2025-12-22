@@ -18,11 +18,11 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         inv = animator.GetComponentInChildren<IAttackSource>();
         stats = animator.GetComponentInChildren<ICharacterStats>();
         combatAnimData = animator.GetComponentInChildren<ICharacterCombatAnimData>();
-        motor = animator.GetComponent<ICharacterMovementAnimData>();
+        motor = animator.GetComponent<ICharacterMovementAnimData>();    
  
         stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
         animator.applyRootMotion = true;
-        combatAnimData.BlockRotation = true;
+        //combatAnimData.BlockRotation = true;
 
     }
 
@@ -35,12 +35,10 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
             animator.applyRootMotion = true;
         }
 
-        if(!motor.StopMove) motor.StopMove = true;
-
-        //if (!combatAnimData.BlockRotation)
-        //{
-        //    combatAnimData.BlockRotation = true;
-        //}
+        if (!motor.BlockRotation)
+        {
+           motor.BlockRotation = true;
+        }
 
         float t = stateInfo.normalizedTime;
 
@@ -63,10 +61,9 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        motor.StopMove = false;
         attackEnabled = false;
         attackDisabled = false;
-        combatAnimData.BlockRotation = false;
+        motor.BlockRotation = false;
         inv.CurrentWeapon.CancelAttack();
         animator.applyRootMotion = false;
     }

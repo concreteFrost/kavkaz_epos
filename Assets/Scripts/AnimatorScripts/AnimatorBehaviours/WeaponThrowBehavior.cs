@@ -19,7 +19,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
         damage = animator.GetComponentInChildren<ICharacterDamageAnimData>();   
 
         animator.applyRootMotion = true;
-        combat.BlockRotation = true;
+        motor.BlockRotation = true;
 
     }
 
@@ -51,7 +51,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
         motor.StopMove = false;
         
         combat.IsThrowingWeapon = false;
-        combat.BlockRotation = false;
+        motor.BlockRotation = false;
         animator.applyRootMotion = false;
     }
 

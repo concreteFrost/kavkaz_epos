@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
     PlayerStats stats;
     PlayerInteract interact;
 
+    PlayerActionGuards actionGuards;
+
     private void Update()
     {
-         UpdateMotor();
+        UpdateMotor();
     }
 
     private void FixedUpdate()
@@ -25,6 +27,10 @@ public class PlayerController : MonoBehaviour
         combatController = provider.combatController;
         stats = provider.stats;
         interact = provider.interact;
+
+        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier);
+
+
     }
 
     public void MoveAndRotate(Vector3 dir)
@@ -58,25 +64,20 @@ public class PlayerController : MonoBehaviour
     /// <param name="dir">Направление ввода</param>
     private void MoveCharacter(Vector3 dir)
     {
-        bool canMove = locomotion.IsGrounded && !locomotion.IsJumping;
-        if (!canMove) return;
+        if (!actionGuards.CanMove())
+        {
+            locomotion.inputSmooth = Vector2.zero;
+            return;
+        }
 
         float baseSpeed = locomotion.IsSprinting
             ? stats.runningSpeed
             : stats.walkSpeed;
 
-        // ↓ здесь живёт вся логика замедлений
-        float targetMultiplier = (locomotion.StopMove || locomotion.isHighSlope) ? 0f : 1f;
-
-        locomotion.attackSlow = Mathf.Lerp(
-            locomotion.attackSlow,
-            targetMultiplier,
-            Time.deltaTime * 10f
-        );
 
         locomotion.moveSpeed = Mathf.Lerp(
             locomotion.moveSpeed,
-            baseSpeed * locomotion.attackSlow,
+            baseSpeed,
             locomotion.movementSmooth * Time.deltaTime
         );
 
@@ -90,19 +91,14 @@ public class PlayerController : MonoBehaviour
     /// <param name="input">Направление ввода</param>
     private void RotateCharacter(Vector3 input)
     {
-        // input нулевой → не вращаемся
-        if (input.sqrMagnitude < 0.01f)
-            return;
 
-        if (combatController.BlockRotation) return; 
+        if (!actionGuards.CanRotate(input)) return;
 
-        // нельзя вращаться при атаке, повреждении, или если запрещено вращение в воздухе
-        if (!locomotion.jumpAndRotate && !locomotion.IsGrounded)
-            return;
-
+        
         // lock-on активен → вращаем к цели
         if (locomotion.rotateTarget != null)
         {
+         
             locomotion.RotateToTarget(locomotion.rotateTarget.position);
             return;
         }
@@ -112,46 +108,24 @@ public class PlayerController : MonoBehaviour
 
     public void Dodge(Vector3 dir)
     {
-        if (!locomotion.StopMove && !locomotion.IsDodging && stats.currentStamina > 0)
-        {
-            locomotion.Dodge(dir);
-        }
+        if (!actionGuards.CanDodge()) return;
+
+        locomotion.Dodge(dir);
+
     }
 
     public void Jump()
     {
-        bool canJump = locomotion.IsGrounded &&
-                 locomotion.GroundAngle() < locomotion.slopeLimit &&
-                 !locomotion.IsJumping &&
-                 !locomotion.StopMove &&
-                 stats.currentStamina > 0;
+        if (!actionGuards.CanJump()) return;
 
-        locomotion.isJumping = canJump;
-
-        if (locomotion.isJumping)
-        {
-            locomotion.Jump(stats.jumpTimer);
-            statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
-        }
+        locomotion.Jump(stats.jumpTimer);
+        statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
     }
 
     public void Sprint(bool sprintHeld)
     {
-        bool isMoving = locomotion.input.sqrMagnitude > 0.1f;
-        bool hasStamina = stats.currentStamina > 0;
-        Vector3 localDir = transform.InverseTransformDirection(locomotion.MoveDirection);
-        bool isMovingForward = localDir.z > 0.1f;
 
-        bool canSprint =
-                sprintHeld &&
-                locomotion.IsGrounded &&
-                !combatController.IsAttacking &&
-                !statsModifier.IsDamaged &&
-                isMoving &&
-                isMovingForward &&
-                hasStamina;
-
-        locomotion.isSprinting = canSprint;
+        locomotion.isSprinting = actionGuards.CanSprint(sprintHeld);
 
         if (locomotion.isSprinting)
         {
@@ -171,7 +145,6 @@ public class PlayerController : MonoBehaviour
 
     public void ResetLockTarget()
     {
-       
         locomotion.rotateTarget = null;
     }
 
@@ -180,22 +153,27 @@ public class PlayerController : MonoBehaviour
     #region Combat
     public void PerformAttack()
     {
-        if (!locomotion.IsJumping && locomotion.IsGrounded && !locomotion.IsDodging && stats.currentStamina > 0)
-        {
-            combatController.PerformAttack();
-        }
+        if (!actionGuards.CanAttack()) return;
+
+        combatController.PerformAttack();
+
     }
     public void ThrowWeapon()
     {
+        if (!actionGuards.CanThrowWeapon()) return;
+
         combatController.ThrowWeapon();
     }
     public void ThrowShield()
     {
+        if (!actionGuards.CanThrowWeapon()) return;
+
         combatController.ThrowShield();
     }
 
     public void PerformBlock()
     {
+        if (!actionGuards.CanBlock()) return;
         combatController.PerformBlock();
     }
 
@@ -213,7 +191,7 @@ public class PlayerController : MonoBehaviour
         //не взаимодействуем если игрок атакует
         if (locomotion.StopMove) return;
 
-        interact.Interact();        
+        interact.Interact();
     }
     #endregion
 }

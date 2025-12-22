@@ -6,7 +6,5 @@ public interface ICharacterCombatAnimData
     int AttackIndex { get; }
     int WeaponIndex { get; }
     bool IsShieldRaised { get; }
-    bool BlockRotation { get; set; }
-
     bool IsThrowingWeapon { get; set; }
 }

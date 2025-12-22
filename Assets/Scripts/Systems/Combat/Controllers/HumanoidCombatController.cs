@@ -24,7 +24,6 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
     public int WeaponIndex { get => weaponIndex; }
     public bool IsShieldRaised { get => isShieldRaised; }
     public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
-    public bool BlockRotation { get; set; }
 
     public void Init(HumanoidCombatControllerServices service)
     {
@@ -57,9 +56,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
 
     public void ThrowWeapon()
     {
-        if (isAttacking) return;
-        if (isThrowingWeapon) return;
-        
+
         ResetCombo();
 
         isThrowingWeapon = true;
@@ -85,7 +82,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
 
     public void ThrowShield()
     {
-        if (isAttacking) return;
+
         if (inventory.ShieldWeapon == null) return;
 
         inventory.ShieldWeapon.ThrowShield();

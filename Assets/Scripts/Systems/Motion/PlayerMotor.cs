@@ -19,6 +19,7 @@ public class PlayerMotor : HumanoidMotor, ICharacterMovementAnimData
 
     public override void MoveCharacter(Vector3 direction)
     {
+
         // сглаживаем ввод
         inputSmooth = Vector3.Lerp(
             inputSmooth,
