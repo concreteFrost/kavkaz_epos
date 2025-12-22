@@ -8,6 +8,16 @@ public class PlayerController : MonoBehaviour
     PlayerStats stats;
     PlayerInteract interact;
 
+    private void Update()
+    {
+         UpdateMotor();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateAnimator();
+    }
+
     public void Init(PlayerStateService provider)
     {
         locomotion = provider.controller;
@@ -17,6 +27,12 @@ public class PlayerController : MonoBehaviour
         interact = provider.interact;
     }
 
+    public void MoveAndRotate(Vector3 dir)
+    {
+        MoveCharacter(dir);
+        RotateCharacter(dir);
+    }
+
 
     public void UpdateInput(Vector2 input)
     {
@@ -24,12 +40,12 @@ public class PlayerController : MonoBehaviour
         locomotion.input.z = input.y;
     }
 
-    public void UpdateMotor()
+    private void UpdateMotor()
     {
         locomotion.UpdateMotor(stats.jumpHeight);
     }
 
-    public void UpdateAnimator()
+    private void UpdateAnimator()
     {
         locomotion.UpdateAnimatorLocomotion();
     }
@@ -40,7 +56,7 @@ public class PlayerController : MonoBehaviour
     /// Наземное движение
     /// </summary>
     /// <param name="dir">Направление ввода</param>
-    public void MoveCharacter(Vector3 dir)
+    private void MoveCharacter(Vector3 dir)
     {
         bool canMove = locomotion.IsGrounded && !locomotion.IsJumping;
         if (!canMove) return;
@@ -72,7 +88,7 @@ public class PlayerController : MonoBehaviour
     /// Поворот персонажа в сторону ввода или в сторону цели
     /// </summary>
     /// <param name="input">Направление ввода</param>
-    public virtual void RotateCharacter(Vector3 input)
+    private void RotateCharacter(Vector3 input)
     {
         // input нулевой → не вращаемся
         if (input.sqrMagnitude < 0.01f)

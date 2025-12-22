@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -69,17 +68,13 @@ public class PlayerInput : MonoBehaviour
     {
         Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y);
 
-        controller.MoveCharacter(moveDir);
-        controller.RotateCharacter(moveDir);    
-
-        controller.UpdateAnimator();
+        controller.MoveAndRotate(moveDir);   
         animator.UpdateAnimatorParameters();
     }
 
     protected virtual void Update()
     {
         InputHandle();
-        controller.UpdateMotor();
     }
 
 
@@ -96,11 +91,6 @@ public class PlayerInput : MonoBehaviour
 
         InteractionInput();
 
-    }
-
-    private void LateUpdate()
-    {
-        CameraInput();
     }
 
     #region Motion Inputs
@@ -193,20 +183,5 @@ public class PlayerInput : MonoBehaviour
     }
     #endregion
 
-    #region Camera Inputs
-
-    protected virtual void CameraInput()
-    {
-        if (!cameraMain)
-        {
-            if (!Camera.main)
-                Debug.Log("Missing MainCamera");
-            else
-            {
-                cameraMain = Camera.main;
-                //provider.controller.rotateTarget = cameraMain.transform;
-            }
-        }
-    }
-    #endregion
+  
 }
