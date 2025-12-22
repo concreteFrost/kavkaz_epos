@@ -78,7 +78,6 @@ public class PlayerActionGuards
 
         if (stats.currentStamina <= 0) return false;
 
-
         return true;
     }
 

@@ -20590,7 +20590,7 @@ Transform:
   m_GameObject: {fileID: 921239158}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.000002324581}
-  m_LocalPosition: {x: 21.654, y: 2.43, z: 3.79}
+  m_LocalPosition: {x: 21.654, y: 2.43, z: 6.973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30014,11 +30014,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
   rotationSpeed: 8
-  movementSmooth: 7
+  blockedRotationSpeed: 1.5
+  movementSmooth: 10
   animationSmooth: 0.2
-  jumpWithRigidbodyForce: 0
-  jumpAndRotate: 1
-  airSpeed: 5
+  airSpeed: 80
   airSmooth: 6
   extraGravity: -10
   limitFallVelocity: -15
@@ -30029,6 +30028,7 @@ MonoBehaviour:
   groundMaxDistance: 0.5
   slopeLimit: 45
   distanceToObstacle: 0.8
+  isHighSlope: 0
 --- !u!1 &1408811980
 GameObject:
   m_ObjectHideFlags: 0

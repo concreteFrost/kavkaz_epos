@@ -66,9 +66,7 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        Vector3 moveDir = new Vector3(moveInput.x, 0f, moveInput.y);
-
-        controller.MoveAndRotate(moveDir);   
+       
         animator.UpdateAnimatorParameters();
     }
 
@@ -80,7 +78,9 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void InputHandle()
     {
-        MoveInput();
+        Vector3 moveDir = new Vector3(moveInput.x,0, moveInput.y);
+
+        controller.MoveAndRotate(moveDir);
 
         SprintInput();
         JumpInput();
@@ -95,10 +95,6 @@ public class PlayerInput : MonoBehaviour
 
     #region Motion Inputs
 
-    public virtual void MoveInput()
-    {
-        controller.UpdateInput(moveInput);
-    }
 
 
     protected virtual void SprintInput()

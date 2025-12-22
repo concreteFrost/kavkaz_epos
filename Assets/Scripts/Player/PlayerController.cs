@@ -40,12 +40,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void UpdateInput(Vector2 input)
-    {
-        locomotion.input.x = input.x;
-        locomotion.input.z = input.y;
-    }
-
     private void UpdateMotor()
     {
         locomotion.UpdateMotor(stats.jumpHeight);
@@ -66,7 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanMove())
         {
-            locomotion.inputSmooth = Vector2.zero;
+            locomotion.StopMovement();
             return;
         }
 
@@ -94,7 +88,6 @@ public class PlayerController : MonoBehaviour
 
         if (!actionGuards.CanRotate(input)) return;
 
-        
         // lock-on активен → вращаем к цели
         if (locomotion.rotateTarget != null)
         {
@@ -103,7 +96,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         // иначе — вращаемся по движению игрока
-        locomotion.RotateToDirection(locomotion.MoveDirection);
+        locomotion.RotateToDirection(input);
     }
 
     public void Dodge(Vector3 dir)
