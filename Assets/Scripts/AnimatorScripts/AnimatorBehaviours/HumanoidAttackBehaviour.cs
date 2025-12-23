@@ -9,16 +9,16 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     public bool attackDisabled = false;
 
     IAttackSource inv;
-    ICharacterStats stats;
+    ICharacterStatsModifier stats;
     ICharacterCombatAnimData combatAnimData;
-    ICharacterMovementAnimData motor;
+    IHumanoidMovementAnimData motor;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
-        stats = animator.GetComponentInChildren<ICharacterStats>();
+        stats = animator.GetComponentInChildren<ICharacterStatsModifier>();
         combatAnimData = animator.GetComponentInChildren<ICharacterCombatAnimData>();
-        motor = animator.GetComponent<ICharacterMovementAnimData>();    
+        motor = animator.GetComponent<IHumanoidMovementAnimData>();    
  
         stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
         animator.applyRootMotion = true;

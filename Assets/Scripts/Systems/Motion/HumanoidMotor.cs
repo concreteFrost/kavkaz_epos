@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
+public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
 {
     [Header("- Rotation")]
     [Tooltip("Rotation speed of the character")]
@@ -46,7 +46,6 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
 
     #endregion
 
-
     internal float inputMagnitude;
     internal float groundDistance;
 
@@ -75,8 +74,6 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
     internal bool isDodging;
     internal bool isHanging;
     internal bool isRotationBlocked = false;    
-    internal bool stopMove;
-
 
     #region ICharacterAnimData
     public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
@@ -85,11 +82,9 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
     public float InputMagnitude { get => inputMagnitude; }
     public float VerticalSpeed { get => verticalSpeed; }
     public float HorizontalSpeed { get => horizontalSpeed; }
-
     public bool BlockRotation { get => isRotationBlocked; set => isRotationBlocked = value; }
     public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     public float GroundDistance { get => groundDistance; }
-    public bool StopMove { get => stopMove; set => stopMove = value; }
     public bool ApplyRootMotion { get; set; }
     public bool IsSprinting { get => isSprinting; }
     public bool IsJumping { get => isJumping; }
@@ -120,7 +115,6 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
             _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
 
         }
-
     }
 
     public virtual void Init(HumanoidMotorServices service)
@@ -164,16 +158,10 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
         isSprinting = true;
     }
 
-    #region Abstract Methods
-
-    public abstract void UpdateMotor(float jumpHeight);
-    public abstract void MoveCharacter(Vector3 direction);
-
-    #endregion
-
     /// <summary>
     /// Обновляет анимацию ДВИЖЕНИЯ
     /// </summary>
+
     public void UpdateAnimatorLocomotion()
     {
         Vector3 relativeInput = transform.InverseTransformDirection(moveDirection);
@@ -185,7 +173,39 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
         inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorConsts.runningSpeed : AnimatorConsts.walkSpeed);
     }
 
+    #region Abstract Methods
 
+    public abstract void UpdateMotor(float jumpHeight);
+    public abstract void MoveCharacter(Vector3 direction);
+    public abstract void StopMovement();
+
+    #endregion
+
+    #region Rotation
+    public virtual void RotateToDirection(Vector3 direction)
+    {
+        direction.y = 0f;
+        if (direction.sqrMagnitude < 0.001f) return;
+
+        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
+
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, finalRotation * Time.deltaTime, 0.1f);
+        transform.rotation = Quaternion.LookRotation(desiredForward);
+    }
+
+    public virtual void RotateToTarget(Vector3 targetPosition)
+    {
+        Vector3 lookDir = targetPosition - transform.position;
+        lookDir.y = 0f;
+
+        Quaternion targetRot = Quaternion.LookRotation(lookDir);
+
+        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, finalRotation * Time.deltaTime);
+    }
+
+    #endregion
 
     #region Dodge
     public void Dodge(Vector2 dir)
@@ -220,38 +240,155 @@ public abstract class HumanoidMotor : MonoBehaviour, ICharacterMovementAnimData
 
     #endregion
 
-    #region Rotation
-    public virtual void RotateToDirection(Vector3 direction)
+    #region Jump
+    public virtual void Jump(float jumpTimer)
     {
-        direction.y = 0f;
-        if (direction.sqrMagnitude < 0.001f) return;
+        jumpCounter = jumpTimer;
+        isJumping = true;
 
-        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
-
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, direction.normalized, finalRotation * Time.deltaTime, 0.1f);
-        transform.rotation = Quaternion.LookRotation(desiredForward);
+        // trigger jump animations
+        if (input.sqrMagnitude < 0.1f)
+            animator.CrossFadeInFixedTime("Jump", 0.1f);
+        else
+            animator.CrossFadeInFixedTime("JumpMove", .2f);
     }
 
-    public virtual void RotateToTarget(Vector3 targetPosition )
+    protected virtual void ControlJumpBehaviour(float jumpHeight)
     {
-        Vector3 lookDir = targetPosition - transform.position;
-        lookDir.y = 0f;
+        if (!isJumping) return;
 
-        Quaternion targetRot = Quaternion.LookRotation(lookDir);
+        jumpCounter -= Time.deltaTime;
+        if (jumpCounter <= 0)
+        {
+            jumpCounter = 0;
+            isJumping = false;
+        }
+        // apply extra force to the jump height   
+        var vel = _rigidbody.linearVelocity;
+        vel.y = jumpHeight;
+        _rigidbody.linearVelocity = vel;
+    }
 
-        float finalRotation = isRotationBlocked ? blockedRotationSpeed : rotationSpeed;
+    public virtual void AirControl()
+    {
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, finalRotation * Time.deltaTime);
+        if (isGrounded) return;
+
+        //return if cant move character
+        if (transform.position.y > heightReached) heightReached = transform.position.y;
+
+
+        moveDirection.y = 0;
+        moveDirection.x = Mathf.Clamp(moveDirection.x, -1f, 1f);
+        moveDirection.z = Mathf.Clamp(moveDirection.z, -1f, 1f);
+
+        Vector3 targetPosition = _rigidbody.position + (moveDirection * airSpeed) * Time.deltaTime;
+        Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
+
+        targetVelocity.y = _rigidbody.linearVelocity.y;
+        _rigidbody.linearVelocity = Vector3.Lerp(_rigidbody.linearVelocity, targetVelocity, airSmooth * Time.deltaTime);
     }
 
 
     #endregion
 
-   
+    #region Ground Check                
+    protected virtual void CheckGround()
+    {
+        CheckGroundDistance();
+        ControlMaterialPhysics();
+
+        if (groundDistance <= groundMinDistance)
+        {
+            isGrounded = true;
+            if (!IsJumping && groundDistance > 0.05f)
+                _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
+
+            heightReached = transform.position.y;
+        }
+        else
+        {
+            if (GroundDistance >= groundMaxDistance)
+            {
+                // set IsGrounded to false 
+                isGrounded = false;
+                // check vertical velocity
+                verticalVelocity = _rigidbody.linearVelocity.y;
+                // apply extra gravity when falling
+                if (!IsJumping)
+                {
+                    _rigidbody.AddForce(transform.up * extraGravity * Time.deltaTime, ForceMode.VelocityChange);
+                }
+            }
+            else if (!IsJumping)
+            {
+                _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
+            }
+        }
+    }
+
+    protected virtual void ControlMaterialPhysics()
+    {
+        // change the physics material to very slip when not grounded
+        _capsuleCollider.material = (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
+
+        if (IsGrounded && input == Vector3.zero)
+            _capsuleCollider.material = maxFrictionPhysics;
+        else if (IsGrounded && input != Vector3.zero)
+            _capsuleCollider.material = frictionPhysics;
+        else
+            _capsuleCollider.material = slippyPhysics;
+    }
+
+    protected virtual void CheckGroundDistance()
+    {
+        if (_capsuleCollider != null)
+        {
+            // radius of the SphereCast
+            float radius = _capsuleCollider.radius * 0.9f;
+            var dist = 10f;
+            // ray for RayCast
+            Ray ray2 = new Ray(transform.position + new Vector3(0, colliderHeight / 2, 0), Vector3.down);
+            // raycast for check the ground distance
+            if (Physics.Raycast(ray2, out groundHit, (colliderHeight / 2) + dist, groundLayer) && !groundHit.collider.isTrigger)
+                dist = transform.position.y - groundHit.point.y;
+            // sphere cast around the base of the capsule to check the ground distance
+            if (dist >= groundMinDistance)
+            {
+                Vector3 pos = transform.position + Vector3.up * (_capsuleCollider.radius);
+                Ray ray = new Ray(pos, -Vector3.up);
+                if (Physics.SphereCast(ray, radius, out groundHit, _capsuleCollider.radius + groundMaxDistance, groundLayer) && !groundHit.collider.isTrigger)
+                {
+                    Physics.Linecast(groundHit.point + (Vector3.up * 0.1f), groundHit.point + Vector3.down * 0.15f, out groundHit, groundLayer);
+                    float newDist = transform.position.y - groundHit.point.y;
+                    if (dist > newDist) dist = newDist;
+                }
+            }
+            groundDistance = (float)System.Math.Round(dist, 2);
+        }
+    }
+
+    public virtual float GroundAngle()
+    {
+        var groundAngle = Vector3.Angle(groundHit.normal, Vector3.up);
+        return groundAngle;
+    }
+
+    public virtual float GroundAngleFromDirection()
+    {
+        var dir = input.magnitude > 0 ? (transform.right * input.x + transform.forward * input.z).normalized : transform.forward;
+        var movementAngle = Vector3.Angle(dir, groundHit.normal) - 90;
+        return movementAngle;
+    }
+
+    #endregion
 
 
 
-   
+
+
+
+
 
 
 

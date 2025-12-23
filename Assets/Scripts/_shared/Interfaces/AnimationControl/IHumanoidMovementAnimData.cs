@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface ICharacterMovementAnimData
+public interface IHumanoidMovementAnimData
 {
     float InputMagnitude { get; }
     Vector3 MoveDirection { get; }
@@ -10,12 +10,10 @@ public interface ICharacterMovementAnimData
     bool ApplyRootMotion { get; set; }
 
     bool IsSprinting { get; }
-    bool StopMove { get; set; }
+    //bool StopMove { get; set; }
     float AnimationSmooth {  get; }
     public bool IsLockedOnTarget { get; set; }
-
     public Vector3 GetInverseTransformDirection();
-
     bool IsGrounded { get; }
     float GroundDistance { get; }
     bool IsJumping { get; }

@@ -3,11 +3,11 @@ using UnityEngine;
 public class DamagedBehaviour : StateMachineBehaviour
 {
 
-    ICharacterDamageAnimData dm;
+    IHumanoidDamageAnimData dm;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm = animator.GetComponentInChildren<ICharacterDamageAnimData>();
+        dm = animator.GetComponentInChildren<IHumanoidDamageAnimData>();
         animator.applyRootMotion = true;
     }
 

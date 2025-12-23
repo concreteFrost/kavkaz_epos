@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
         actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier);
 
-
     }
 
     public void MoveAndRotate(Vector3 dir)
@@ -182,7 +181,7 @@ public class PlayerController : MonoBehaviour
     public void Interact()
     {
         //не взаимодействуем если игрок атакует
-        if (locomotion.StopMove) return;
+        if (!actionGuards.CanInteract()) return;
 
         interact.Interact();
     }

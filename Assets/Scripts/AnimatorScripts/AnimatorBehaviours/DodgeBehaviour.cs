@@ -3,12 +3,12 @@ using UnityEngine;
 public class DodgeBehaviour : StateMachineBehaviour
 {
 
-    ICharacterMovementAnimData motor;
+    IHumanoidMovementAnimData motor;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        motor = animator.GetComponent<ICharacterMovementAnimData>();
-        motor.StopMove = true;
+        motor = animator.GetComponent<IHumanoidMovementAnimData>();
+    
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -16,14 +16,13 @@ public class DodgeBehaviour : StateMachineBehaviour
     {
        
         animator.applyRootMotion = true;
-        if (!motor.StopMove) motor.StopMove = true;
+       
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.applyRootMotion = false;
-        motor.StopMove = false; 
         motor.IsDodging = false;
     }
 

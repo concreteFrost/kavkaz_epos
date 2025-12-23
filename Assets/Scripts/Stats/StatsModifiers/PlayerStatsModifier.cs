@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerStatsModifier : CharacterStatsModifier
+public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimData
 {
     PlayerStats stats;
     PlayerStatsUI ui;
     PlayerInput input;
     PlayerCombatInventory inventory;
     HumanoidCombatController combatController;
+
+ 
+    public float balancePenalty;
+
+    #region ICharacterDamageAnimData Contract
+    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
+    public float BalancePenalty { get => balancePenalty; }
+    #endregion
 
     public void Init(PlayerStatsModifierServiceProvider provider)
     {
@@ -71,7 +79,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
     #region Health Control
     public override void TakeDamage(float damage, float balanceDamage)
     {
-        if (isDead) return;
+        if (isDead || !canTakeAnotherDamage) return;
 
         balancePenalty = balanceDamage;
 
@@ -84,11 +92,19 @@ public class PlayerStatsModifier : CharacterStatsModifier
         stats.currentHealth = Mathf.Clamp(stats.currentHealth, 0f, stats.maxHealth);
 
         ui.UpdateHealthSlider(stats.currentHealth);
+        StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown)); 
 
         if (stats.currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    IEnumerator DamageCooldownCoroutine(float delay)
+    {
+        canTakeAnotherDamage = false;
+        yield return new WaitForSeconds(delay);
+        canTakeAnotherDamage = true;
     }
 
     #endregion
@@ -102,7 +118,6 @@ public class PlayerStatsModifier : CharacterStatsModifier
 
         stats.staminaRegenTimer = 0f;
     }
-
     public override void HandleStaminaRegen()
     {
         // Если стамина полная, ничего не делать
@@ -126,6 +141,7 @@ public class PlayerStatsModifier : CharacterStatsModifier
 
         ui.UpdateStaminaSlider(stats.currentStamina);
     }
+
 
 
 }

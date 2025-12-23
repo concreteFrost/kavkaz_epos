@@ -2,14 +2,14 @@
 
 public class PlayerAnimator : HumanoidAnimator
 {
-    PlayerMotor motor;
+    PlayerMotor locomotion;
     HumanoidCombatController combatController;
     PlayerStatsModifier playerStatsModifier;
     PlayerTargetLock targetLock;
     public void Init(PlayerAnimatorServiceProvider provider)
     {
         this.animator = provider.animator;
-        this.motor = provider.motor;
+        this.locomotion = provider.motor;
         this.combatController = provider.combatController;
         this.playerStatsModifier = provider.statsModifier;
         this.targetLock = provider.targetLock;
@@ -23,36 +23,36 @@ public class PlayerAnimator : HumanoidAnimator
             return;
         }
 
+        //locomotion
+        animator.SetBool(AnimatorParameters.IsDodging, locomotion.IsDodging);
+        animator.SetBool(AnimatorParameters.IsSprinting, locomotion.IsSprinting);
+        animator.SetBool(AnimatorParameters.IsGrounded, locomotion.IsGrounded);
 
-        animator.SetBool(AnimatorParameters.IsDodging, motor.IsDodging);
-        animator.SetBool(AnimatorParameters.IsSprinting, motor.IsSprinting);
-        animator.SetBool(AnimatorParameters.IsGrounded, motor.IsGrounded);
-
-        animator.SetFloat(AnimatorParameters.GroundDistance, motor.GroundDistance);
+        animator.SetFloat(AnimatorParameters.GroundDistance, locomotion.GroundDistance);
 
         animator.SetFloat(
             AnimatorParameters.InputHorizontal,
-            motor.StopMove ? 0 : motor.HorizontalSpeed,
-            motor.AnimationSmooth,
+            locomotion.HorizontalSpeed,
+            locomotion.AnimationSmooth,
             Time.deltaTime
         );
 
         animator.SetFloat(
             AnimatorParameters.InputVertical,
-            motor.StopMove ? 0 : motor.VerticalSpeed,
-            motor.AnimationSmooth,
+            locomotion.VerticalSpeed,
+            locomotion.AnimationSmooth,
             Time.deltaTime
         );
 
         animator.SetFloat(
             AnimatorParameters.InputMagnitude,
-            motor.StopMove ? 0 : motor.InputMagnitude,
-            motor.AnimationSmooth,
+            locomotion.InputMagnitude,
+            locomotion.AnimationSmooth,
             Time.deltaTime
         );
 
-        animator.SetFloat(AnimatorParameters.DodgeX, motor.DodgeX);
-        animator.SetFloat(AnimatorParameters.DodgeY, motor.DodgeY);
+        animator.SetFloat(AnimatorParameters.DodgeX, locomotion.DodgeX);
+        animator.SetFloat(AnimatorParameters.DodgeY, locomotion.DodgeY);
 
         // combat
         animator.SetBool(AnimatorParameters.IsWeaponed, combatController.IsWeaponed);
