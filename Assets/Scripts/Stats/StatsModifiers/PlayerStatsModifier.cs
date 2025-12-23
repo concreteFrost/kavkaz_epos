@@ -9,7 +9,6 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
     PlayerCombatInventory inventory;
     HumanoidCombatController combatController;
 
- 
     public float balancePenalty;
 
     #region ICharacterDamageAnimData Contract

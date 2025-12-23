@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
+public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovement
 {
     [Header("- Rotation")]
     [Tooltip("Rotation speed of the character")]
@@ -41,7 +41,7 @@ public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
 
     internal Animator animator;
     internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
-    internal PhysicsMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics;         // create PhysicMaterial for the Rigidbody
+    internal PhysicsMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics, hangPhysics;         // create PhysicMaterial for the Rigidbody
     internal CapsuleCollider _capsuleCollider;                                          // access CapsuleCollider information
 
     #endregion
@@ -73,7 +73,7 @@ public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
     internal bool isLockedOnTarget;
     internal bool isDodging;
     internal bool isHanging;
-    internal bool isRotationBlocked = false;    
+    internal bool isRotationBlocked = false;
 
     #region ICharacterAnimData
     public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
@@ -93,29 +93,6 @@ public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
     public float DodgeX { get => dodgeX; set => dodgeX = value; }
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
-
-    private void OnAnimatorMove()
-    {
-        if (animator.applyRootMotion)
-        {
-
-            _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
-
-            RaycastHit hit;
-
-            //центр игрока
-            var center = transform.TransformPoint(colliderCenter);
-
-            //Если есть приграда то игнорировать движение вперед
-            if (Physics.Raycast(center, _rigidbody.transform.forward, out hit, distanceToObstacle))
-            {
-                return;
-            }
-
-            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
-
-        }
-    }
 
     public virtual void Init(HumanoidMotorServices service)
     {
@@ -154,9 +131,34 @@ public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
         colliderRadius = GetComponent<CapsuleCollider>().radius;
         colliderHeight = GetComponent<CapsuleCollider>().height;
 
-        isGrounded = true;
-        isSprinting = true;
+        _rigidbody.WakeUp();
     }
+
+
+    public void UseRootMotion()
+    {
+        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
+        _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+       
+    }
+
+    public void UseRootMotionWithObstacles()
+    {
+        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
+
+        RaycastHit hit;
+
+        //центр игрока
+        var center = transform.TransformPoint(colliderCenter);
+
+        //Если есть приграда то игнорировать движение вперед
+        if (!Physics.Raycast(center, _rigidbody.transform.forward, out hit, distanceToObstacle))
+        {
+            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+        }
+           
+    }
+
 
     /// <summary>
     /// Обновляет анимацию ДВИЖЕНИЯ
@@ -180,6 +182,8 @@ public abstract class HumanoidMotor : MonoBehaviour, IHumanoidMovementAnimData
     public abstract void StopMovement();
 
     #endregion
+
+
 
     #region Rotation
     public virtual void RotateToDirection(Vector3 direction)

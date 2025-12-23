@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class PlayerMotor : HumanoidMotor, IHumanoidMovementAnimData
+public class PlayerMotor : HumanoidMotor
 {
 
     public bool isHighSlope = false;
+
     public override void Init(HumanoidMotorServices service)
     {
         base.Init(service);
@@ -109,6 +111,34 @@ public class PlayerMotor : HumanoidMotor, IHumanoidMovementAnimData
         isHighSlope = false;
     }
 
+    #endregion
+
+    #region Attach
+
+    public void AttachTo(Vector3 point, Vector3 normal)
+    {
+       
+        // Поворачиваем персонажа к стене
+        Quaternion targetRotation = Quaternion.LookRotation(-normal, Vector3.up);
+        _rigidbody.rotation = targetRotation;
+
+        Vector3 offset = normal.normalized * 0.22f;
+
+        //_rigidbody.position = new Vector3(point.x, _rigidbody.position.y, point.z - offset.z);
+
+        //StartCoroutine(AttachCoroutine(point));
+
+        // Отключаем гравитацию, чтобы Root Motion сам управлял движением
+        _rigidbody.useGravity = false;
+        _rigidbody.Sleep();
+    }
+
+    public void Detach()
+    {
+        _rigidbody.WakeUp();
+        _rigidbody.useGravity = true;
+        //_rigidbody.useGravity = false;
+    }
     #endregion
 
 }

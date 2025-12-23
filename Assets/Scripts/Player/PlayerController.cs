@@ -7,17 +7,37 @@ public class PlayerController : MonoBehaviour
     PlayerStatsModifier statsModifier;
     PlayerStats stats;
     PlayerInteract interact;
+    PlayerClimbing climbing;
 
     PlayerActionGuards actionGuards;
 
     private void Update()
     {
         UpdateMotor();
+        TryClimb();
+
     }
 
     private void FixedUpdate()
     {
         UpdateAnimator();
+    }
+
+    private void OnAnimatorMove()
+    {
+        
+        if (locomotion.animator.applyRootMotion)
+        {
+            if (!climbing.IsClimbing)
+            {
+                locomotion.UseRootMotionWithObstacles();
+            }
+            else
+            {
+                locomotion.UseRootMotion();
+            }
+
+        }
     }
 
     public void Init(PlayerStateService provider)
@@ -27,8 +47,9 @@ public class PlayerController : MonoBehaviour
         combatController = provider.combatController;
         stats = provider.stats;
         interact = provider.interact;
+        climbing = provider.climbing;
 
-        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier);
+        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier, climbing);
 
     }
 
@@ -38,9 +59,10 @@ public class PlayerController : MonoBehaviour
         RotateCharacter(dir);
     }
 
-
     private void UpdateMotor()
     {
+        if (!actionGuards.CanUseMotor()) return;
+
         locomotion.UpdateMotor(stats.jumpHeight);
     }
 
@@ -90,7 +112,7 @@ public class PlayerController : MonoBehaviour
         // lock-on активен → вращаем к цели
         if (locomotion.rotateTarget != null)
         {
-         
+
             locomotion.RotateToTarget(locomotion.rotateTarget.position);
             return;
         }
@@ -177,7 +199,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Interaction
-
     public void Interact()
     {
         //не взаимодействуем если игрок атакует
@@ -185,5 +206,32 @@ public class PlayerController : MonoBehaviour
 
         interact.Interact();
     }
+    #endregion
+
+    #region Climbing
+
+    void TryClimb()
+    {
+
+        if (!actionGuards.CanEnterClimb()) return;
+
+        if (climbing.climbDetector.TryGetClimbable(out var surface, out var hit))
+        {
+
+            actionGuards.SetMode(PlayerMode.Climbing);
+            climbing.EnterClimb(hit.normal);
+            locomotion.AttachTo(hit.point, hit.normal);
+
+        }
+    }
+
+    public void ExitClimb()
+    {
+        
+        locomotion.Detach();
+        climbing.ExitClimb();
+        actionGuards.SetMode(PlayerMode.Locomotion);
+    }
+
     #endregion
 }

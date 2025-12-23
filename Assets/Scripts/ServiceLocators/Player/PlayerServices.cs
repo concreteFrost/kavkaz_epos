@@ -7,14 +7,16 @@ public class PlayerStateService
     public PlayerStatsModifier statsModifier;
     public PlayerStats stats;
     public PlayerInteract interact;
+    public PlayerClimbing climbing;
 
-    public PlayerStateService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact)
+    public PlayerStateService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing)
     {
         this.controller = controller;
         this.combatController = combatController;
         this.statsModifier = statsModifier;
         this.stats = stats;
         this.interact = interact;
+        this.climbing = climbing;
     }
 }
 
@@ -40,13 +42,15 @@ public class PlayerAnimatorServiceProvider
     public HumanoidCombatController combatController;
     public PlayerStatsModifier statsModifier;
     public PlayerTargetLock targetLock;
-    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
+    public PlayerClimbing climbing;
+    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock, PlayerClimbing climbing)
     {
         this.animator = animator;
         this.motor = motor;
         this.combatController = combatController;
         this.statsModifier = statsModifier;
         this.targetLock = targetLock;
+        this.climbing = climbing;
     }
 
 }

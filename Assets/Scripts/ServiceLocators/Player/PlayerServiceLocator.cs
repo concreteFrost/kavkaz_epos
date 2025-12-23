@@ -9,6 +9,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] PlayerController controller;
 
     [SerializeField] private PlayerMotor motor;
+    [SerializeField] private PlayerClimbing climbing;
     [SerializeField] private PlayerInput input;
 
     [SerializeField] private HumanoidCombatController combatController;
@@ -27,12 +28,12 @@ public class PlayerServiceLocator : MonoBehaviour
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(controller, characterAnimator, targetLock);
         HumanoidMotorServices controllerService = new HumanoidMotorServices(animator);
         HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, animator);
-        PlayerAnimatorServiceProvider animatorServiceProvider = new PlayerAnimatorServiceProvider(animator, motor, combatController, statsModifier, targetLock);
+        PlayerAnimatorServiceProvider animatorServiceProvider = new PlayerAnimatorServiceProvider(animator, motor, combatController, statsModifier, targetLock, climbing);
         PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(combatInventory);
         PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
         PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID, stats, uIServiceLocator.GetPlayerStatsUI(), input, combatController, combatInventory);
         PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(combatController, statsModifier, uID);
-        PlayerStateService stateServiceProvider = new PlayerStateService(motor, combatController, statsModifier, stats, interaction);
+        PlayerStateService stateServiceProvider = new PlayerStateService(motor, combatController, statsModifier, stats, interaction, climbing);
         PlayerTargetLockServiceProvider targetLockServiceProvider = new PlayerTargetLockServiceProvider(uIServiceLocator.GetLockOnTargetUI(), controller, statsModifier);
 
         controller.Init(stateServiceProvider);

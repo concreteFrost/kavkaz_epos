@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IHumanoidMovementAnimData
+public interface IHumanoidMovement
 {
     float InputMagnitude { get; }
     Vector3 MoveDirection { get; }

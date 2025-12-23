@@ -5,18 +5,16 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 
     IAttackSource inv;
     ICharacterCombatAnimData combat;
-    IHumanoidMovementAnimData motor;
-    IHumanoidDamageAnimData damage;    
-   
-  
+    IHumanoidMovement motor;
+    bool weaponThrowed = false;
+    
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        motor = animator.GetComponent<IHumanoidMovementAnimData>();
+        motor = animator.GetComponent<IHumanoidMovement>();
 
         inv = animator.GetComponentInChildren<IAttackSource>();
-        combat = animator.GetComponentInChildren<ICharacterCombatAnimData>();
-        damage = animator.GetComponentInChildren<IHumanoidDamageAnimData>();   
+        combat = animator.GetComponentInChildren<ICharacterCombatAnimData>(); 
 
         animator.applyRootMotion = true;
         motor.BlockRotation = true;
@@ -31,23 +29,22 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
-        if (t >= 0.4f && t<=0.5f && !damage.IsDamaged )
+        if (t >= 0.5f && !weaponThrowed)
         {
 
             inv.CurrentWeapon.ThrowWeapon(animator.transform, 20f);
             inv.ResetWeapon();
             combat.IsThrowingWeapon = false;
+            weaponThrowed = true;
             
         }
-
-       
 
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        weaponThrowed = false;
         combat.IsThrowingWeapon = false;
         motor.BlockRotation = false;
         animator.applyRootMotion = false;

@@ -1,4 +1,3 @@
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public enum PlayerMode
@@ -12,6 +11,7 @@ public class PlayerActionGuards
     readonly HumanoidCombatController combat;
     readonly PlayerStats stats;
     readonly PlayerStatsModifier statsModifier;
+    readonly PlayerClimbing climbing;
 
     PlayerMode mode;
 
@@ -20,16 +20,33 @@ public class PlayerActionGuards
         HumanoidCombatController combat,
         PlayerStats stats,
         PlayerStatsModifier statsModifier,
+        PlayerClimbing climbing,
         PlayerMode initialMode = PlayerMode.Locomotion)
     {
         this.locomotion = locomotion;
         this.combat = combat;
         this.stats = stats;
         this.statsModifier = statsModifier;
+        this.climbing = climbing;
         this.mode = initialMode;
     }
 
     public PlayerMode Mode => mode;
+    public void SetMode(PlayerMode _mode) => mode = _mode;  
+
+    public bool CanUseMotor()
+    {
+        if(mode != PlayerMode.Locomotion) return false; 
+
+        return true;
+    }
+
+    public bool CanUseRootMotion()
+    {
+        if (climbing.IsClimbing) return false;
+
+        return true;
+    }
 
     public bool CanMove()
     {
@@ -161,6 +178,29 @@ public class PlayerActionGuards
         if(mode != PlayerMode.Locomotion) return false;
 
         if(combat.isAttacking) return false;
+
+        return true;
+    }
+
+    public bool CanEnterClimb()
+    {
+        if(locomotion.isGrounded) return false; 
+
+        if(climbing.IsClimbing) return false;
+
+        if (statsModifier.IsDamaged) return false;
+
+        if (statsModifier.IsDead()) return false;
+
+
+        return true;
+    }
+
+    public bool CanClimb()
+    {
+        if (statsModifier.IsDamaged) return false;
+
+        if (statsModifier.IsDead()) return false;
 
         return true;
     }

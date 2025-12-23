@@ -6,6 +6,7 @@ public class PlayerAnimator : HumanoidAnimator
     HumanoidCombatController combatController;
     PlayerStatsModifier playerStatsModifier;
     PlayerTargetLock targetLock;
+    PlayerClimbing climbing;
     public void Init(PlayerAnimatorServiceProvider provider)
     {
         this.animator = provider.animator;
@@ -13,6 +14,7 @@ public class PlayerAnimator : HumanoidAnimator
         this.combatController = provider.combatController;
         this.playerStatsModifier = provider.statsModifier;
         this.targetLock = provider.targetLock;
+        this.climbing = provider.climbing;  
 
     }
     public override void UpdateAnimatorParameters()
@@ -70,6 +72,10 @@ public class PlayerAnimator : HumanoidAnimator
 
         //target lock
         animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);
+
+        //climbing
+        animator.SetBool(AnimatorParameters.IsClimbing, climbing.IsClimbing);
+
 
     }
 
