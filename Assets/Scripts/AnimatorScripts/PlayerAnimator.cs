@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimator : HumanoidAnimator
+public class PlayerAnimator : BaseHumanoidAnimator
 {
     PlayerMotor locomotion;
     HumanoidCombatController combatController;
@@ -24,7 +24,7 @@ public class PlayerAnimator : HumanoidAnimator
             Debug.Log("no animator found");
             return;
         }
-
+       
         //locomotion
         animator.SetBool(AnimatorParameters.IsDodging, locomotion.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, locomotion.IsSprinting);

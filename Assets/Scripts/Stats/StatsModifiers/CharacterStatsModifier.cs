@@ -21,7 +21,7 @@ public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , IChar
     }
     public bool IsDead() => isDead;
     public string SourceId() => uniqueID;
-    public abstract void TakeDamage(float damage, float balanceDamage);
+    public abstract void TakeDamage(float damage, float balanceDamage, IAttackSource source);
     #endregion
 
     #region ICharacterStatsModifier Contract

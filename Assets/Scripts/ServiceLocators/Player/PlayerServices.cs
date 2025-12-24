@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class PlayerStateService
+
+public class PlayerControllerService
 {
     public PlayerMotor controller;
     public HumanoidCombatController combatController;
@@ -9,7 +10,7 @@ public class PlayerStateService
     public PlayerInteract interact;
     public PlayerClimbing climbing;
 
-    public PlayerStateService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing)
+    public PlayerControllerService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing)
     {
         this.controller = controller;
         this.combatController = combatController;
@@ -18,6 +19,7 @@ public class PlayerStateService
         this.interact = interact;
         this.climbing = climbing;
     }
+
 }
 
 public class PlayerInputServiceProvider
@@ -58,15 +60,11 @@ public class PlayerAnimatorServiceProvider
 public class PlayerControllerServiceProvider
 {
     public Animator animator;
-
-
     public PlayerControllerServiceProvider(Animator animator)
     {
         this.animator = animator;
     }
 }
-
-
 
 public class PlayerInteractServiceProvider
 {

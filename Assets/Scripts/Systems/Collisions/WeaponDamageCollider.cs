@@ -4,7 +4,7 @@ public class WeaponDamageCollider : DamageCollider
 {
     public IWeapon weaponOwner; // Ссылка на оружие, состояние которого будет уменьшаться
 
-    public void SetWeapon(IWeapon _weapon)
+    public void SetWeapon(IWeapon _weapon, IAttackSource source)
     {
         weaponOwner = _weapon;
     }

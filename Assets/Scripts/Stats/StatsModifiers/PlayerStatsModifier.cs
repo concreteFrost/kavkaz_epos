@@ -34,7 +34,7 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            TakeDamage(20, UnityEngine.Random.Range(0, 1f));
+            TakeDamage(20, UnityEngine.Random.Range(0, 1f),null);
         }
 
     }
@@ -76,7 +76,7 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
     #endregion
 
     #region Health Control
-    public override void TakeDamage(float damage, float balanceDamage)
+    public override void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         if (isDead || !canTakeAnotherDamage) return;
 

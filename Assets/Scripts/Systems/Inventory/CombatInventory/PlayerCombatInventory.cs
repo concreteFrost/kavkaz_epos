@@ -1,4 +1,4 @@
-public class PlayerCombatInventory : CombatInventory
+public class PlayerCombatInventory : BaseCombatInventory
 {
     HumanoidCombatController combatController;
     public BareHandsWeapon bareHands;
@@ -8,7 +8,6 @@ public class PlayerCombatInventory : CombatInventory
         base.Init(service);
 
         combatController = service.combatController;
-        Damagable = service.statsModifier;
 
         bareHands.SetOwner(this);
 

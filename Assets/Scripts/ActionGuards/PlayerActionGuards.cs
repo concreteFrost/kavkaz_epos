@@ -87,6 +87,8 @@ public class PlayerActionGuards
 
         if (locomotion.IsJumping) return false;
 
+        if(combat.isAttacking) return false;
+
         if (locomotion.GroundAngle() >= locomotion.slopeLimit) return false;
 
         if (stats.currentStamina <= 0) return false;

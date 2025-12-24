@@ -58,10 +58,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
     {
 
         ResetCombo();
-
-        isThrowingWeapon = true;
-        //inventory.CurrentWeapon.ThrowWeapon(transform,20);
-        //inventory.ResetWeapon();    
+        isThrowingWeapon = true; 
     }
 
 
@@ -117,6 +114,7 @@ public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
             var currentAttack = currentAttakChain.attackList[totalClicks];
 
             w.SetCurrentAttack(currentAttack);
+
             float time = anim.GetCurrentAnimatorStateInfo(2).length;
 
             yield return new WaitForSeconds(time);

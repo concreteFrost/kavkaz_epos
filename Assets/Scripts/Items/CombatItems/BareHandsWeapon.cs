@@ -4,7 +4,10 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField] private WeaponSO weaponSO;
     private Attack currentAttack;
-   
+    
+    /// <summary>
+    /// Источник атаки
+    /// </summary>
     public IAttackSource AttackSource { get; set; }
 
     [SerializeField] private WeaponDamageCollider damageCollider;
@@ -34,7 +37,7 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     private void Init()
     {
-        damageCollider.SetWeapon(this);
+        damageCollider.SetWeapon(this, AttackSource);
     }
     public void CancelAttack()
     {

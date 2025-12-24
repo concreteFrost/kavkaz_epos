@@ -14,8 +14,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     #region IDamagable Contract
     public bool IsDead() => isDead;
     public string SourceId() => selfId;
-    public float Health() => currentHealth;
-    public void TakeDamage(float damage, float balanceDamage)
+    public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         if(isDead) return;  
         currentHealth -= damage;
@@ -27,12 +26,6 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public virtual void Init()
-    {
-        selfId = GetInstanceID().ToString();
-        mat = GetComponent<MeshRenderer>();
-        defaultCol = mat.material.color;
-    }
 
     public virtual void Die()
     {
@@ -47,6 +40,12 @@ public class DamagableObject : MonoBehaviour, IDamagable
         Init();
     }
 
+    public virtual void Init()
+    {
+        selfId = GetInstanceID().ToString();
+        mat = GetComponent<MeshRenderer>();
+        defaultCol = mat.material.color;
+    }
     IEnumerator DamageCoroutine()
     {
         

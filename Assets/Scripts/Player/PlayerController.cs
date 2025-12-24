@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        
+
         if (locomotion.animator.applyRootMotion)
         {
             if (!climbing.IsClimbing)
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Init(PlayerStateService provider)
+    public void Init(PlayerControllerService provider)
     {
         locomotion = provider.controller;
         statsModifier = provider.statsModifier;
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         climbing = provider.climbing;
 
         actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier, climbing);
+        climbing.Init(locomotion, actionGuards);
 
     }
 
@@ -70,7 +71,6 @@ public class PlayerController : MonoBehaviour
     {
         locomotion.UpdateAnimatorLocomotion();
     }
-
 
     #region Locomotion
     /// <summary>
@@ -212,25 +212,14 @@ public class PlayerController : MonoBehaviour
 
     void TryClimb()
     {
-
         if (!actionGuards.CanEnterClimb()) return;
 
-        if (climbing.climbDetector.TryGetClimbable(out var surface, out var hit))
-        {
-
-            actionGuards.SetMode(PlayerMode.Climbing);
-            climbing.EnterClimb(hit.normal);
-            locomotion.AttachTo(hit.point, hit.normal);
-
-        }
+        climbing.TryToClimb();
     }
 
     public void ExitClimb()
     {
-        
-        locomotion.Detach();
         climbing.ExitClimb();
-        actionGuards.SetMode(PlayerMode.Locomotion);
     }
 
     #endregion

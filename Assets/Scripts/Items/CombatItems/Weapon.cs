@@ -21,6 +21,9 @@ public class Weapon : CombatItem, IWeapon
     public Attack GetCurrentAttack() => currentAttack;
     #endregion
 
+    /// <summary>
+    /// Источник атаки
+    /// </summary>
     public IAttackSource AttackSource { get; set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,7 +40,7 @@ public class Weapon : CombatItem, IWeapon
        
         breakdownThreshold = 100f;
     
-        damageCollider.SetWeapon(this);
+        damageCollider.SetWeapon(this, AttackSource);
      
     }
 

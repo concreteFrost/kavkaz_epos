@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerMotor : HumanoidMotor
+public class PlayerMotor : BaseHumanoidMotor
 {
-
-    public bool isHighSlope = false;
 
     public override void Init(HumanoidMotorServices service)
     {
@@ -21,6 +18,8 @@ public class PlayerMotor : HumanoidMotor
     }
 
     #region Movement
+
+   
     public override void MoveCharacter(Vector3 direction)
     {
         if (direction.sqrMagnitude > 1f)
@@ -115,24 +114,30 @@ public class PlayerMotor : HumanoidMotor
 
     #region Attach
 
-    public void AttachTo(Vector3 point, Vector3 normal)
+    /// <summary>
+    /// Прикрепляет тело к цели
+    /// </summary>
+    /// <param name="normal"></param>
+    public void AttachTo(Vector3 normal)
     {
-       
-        // Поворачиваем персонажа к стене
+
+        //поворачиваем игрока в сторону стены
         Quaternion targetRotation = Quaternion.LookRotation(-normal, Vector3.up);
-        _rigidbody.rotation = targetRotation;
+        transform.rotation = targetRotation;    
+        
+        Vector3 finalPosition = transform.position;
 
-        Vector3 offset = normal.normalized * 0.22f;
-
-        //_rigidbody.position = new Vector3(point.x, _rigidbody.position.y, point.z - offset.z);
-
-        //StartCoroutine(AttachCoroutine(point));
+        transform.position = finalPosition; 
 
         // Отключаем гравитацию, чтобы Root Motion сам управлял движением
         _rigidbody.useGravity = false;
         _rigidbody.Sleep();
     }
 
+    
+    /// <summary>
+    /// Открепляет тело от цели и возобновляет поведение rigidbody
+    /// </summary>
     public void Detach()
     {
         _rigidbody.WakeUp();

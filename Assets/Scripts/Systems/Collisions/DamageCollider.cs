@@ -33,7 +33,10 @@ public class DamageCollider : MonoBehaviour
         owner = null;   
     }
 
-    //ћетод расчета урона с учетом защиты цели
+    /// <summary>
+    /// –асчет урона с учетом защиты цели
+    /// </summary>
+    /// <param name="other"></param>
     protected float DamageReductionAmount(Collider other)
     {
         if (other.GetComponent<DefenceCollider>() != null)
@@ -47,7 +50,11 @@ public class DamageCollider : MonoBehaviour
         return 0;
     }
 
-    //ћетод нанесени€ урона цели
+    /// <summary>
+    /// Ќанесение урона по цели
+    /// </summary>
+    /// <param name="other"></param>
+    /// <param name="_healthDamage"></param>
     protected void PerformDamage(Collider other , float _healthDamage)
     {
         var damagable = other.GetComponentInChildren<IDamagable>()
@@ -63,7 +70,11 @@ public class DamageCollider : MonoBehaviour
 
     }
 
-    //ћетод обработки расчета урона с учетом защиты цели 
+    /// <summary>
+    /// ќбработка расчета урона с учетом защиты цели 
+    /// </summary>
+    /// <param name="other"></param>
+    /// <param name="_healthDamage"></param>
     protected void HandleDamageCalculation(Collider other, float _healthDamage)
     {
         float finalDamage = DamageReductionAmount(other);
@@ -77,7 +88,10 @@ public class DamageCollider : MonoBehaviour
         PerformDamage(other, finalDamage);
     }
 
-    //ћетод обработки столкновени€ коллайдера урона с целью
+    /// <summary>
+    /// ќбработка столкновени€ коллайдера урона с целью
+    /// </summary>
+    /// <param name="other"></param>
     protected virtual void HandleCollision(Collider other)
     {
         //≈сли атака была прервана щитом, то не наносим урон
