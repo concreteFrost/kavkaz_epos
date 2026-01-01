@@ -131,7 +131,7 @@ namespace Invector.vCharacterController
                 return;          
             _ThirdPerson.name = "vBasicController_" + charObj.gameObject.name;
             _ThirdPerson.AddComponent<PlayerMotor>();
-            _ThirdPerson.AddComponent<PlayerInput>();
+            //_ThirdPerson.AddComponent<PlayerInput>();
 
             var rigidbody = _ThirdPerson.AddComponent<Rigidbody>();
             var collider = _ThirdPerson.AddComponent<CapsuleCollider>();

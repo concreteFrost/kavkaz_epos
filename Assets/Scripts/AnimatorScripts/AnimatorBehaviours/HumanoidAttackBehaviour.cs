@@ -2,69 +2,58 @@ using UnityEngine;
 
 public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
-    public float hitStart = 0.3f;
-    public float hitEnd = 0.6f;
+
 
     IAttackSource inv;
-    ICharacterStatsModifier stats;
-    HumanoidCombatController combatAnimData;
+    ICharacterCombatAnimData combatAnimData;
     IHumanoidMovement motor;
 
     bool hitActive = false;
-    bool recoveryTriggered = false;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
-        //stats = animator.GetComponentInChildren<ICharacterStatsModifier>();
         combatAnimData = animator.GetComponentInChildren<HumanoidCombatController>();
         motor = animator.GetComponent<IHumanoidMovement>();
 
-        //stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
-
         animator.applyRootMotion = true;
-        
         hitActive = false;
-        recoveryTriggered = false;
 
-        combatAnimData.StartAttack();
+        // блокируем вращение персонажа во время атаки
+        motor.BlockRotation = true;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!motor.BlockRotation) motor.BlockRotation = true;
-        if (!animator.applyRootMotion) animator.applyRootMotion = true;
+        float t = stateInfo.normalizedTime % 1f;
 
-        float t = stateInfo.normalizedTime;
-
-        // включаем hitbox
-        if (!hitActive && t >= hitStart)
+        // включаем/выключаем хитбокс
+        if (!hitActive && t >= combatAnimData.CurrentAttack().hitStartFrame)
         {
-            inv.CurrentWeapon.PerformAttack();
+            inv.CurrentWeapon.PerformAttack(); // активируем хитбокс
             hitActive = true;
         }
 
-        // отключаем hitbox
-        if (hitActive && t >= hitEnd)
+        if (hitActive && t >= combatAnimData.CurrentAttack().hitEndFrame)
         {
-            inv.CurrentWeapon.CancelAttack();
+            inv.CurrentWeapon.CancelAttack(); // деактивируем хитбокс
             hitActive = false;
-        }
-
-        // открываем recovery window
-        if (!recoveryTriggered && t >= 0.7f)
-        {
-            combatAnimData.EndAttack();
-            recoveryTriggered = true;
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+        animator.speed = 1f;
+
         inv.CurrentWeapon.CancelAttack();
-        motor.BlockRotation = false;
         animator.applyRootMotion = false;
-        hitActive = false;
-        recoveryTriggered = false;
+        motor.BlockRotation = false;
+
+        // уведомляем контроллер, что атака завершена
+        combatAnimData.EndAttack();
+
+        // проверяем очередь нажатий
+        ((HumanoidCombatController)combatAnimData).TryStartNextAttackFromQueue();
     }
 }

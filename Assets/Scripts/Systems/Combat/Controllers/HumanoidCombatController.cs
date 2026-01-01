@@ -2,33 +2,45 @@
 
 public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
 {
+
+    //ссылки
     IAttackSource inventory;
+    Animator animator;
+    AnimatorOverrideController overrideController;
+    [HideInInspector] public Attack currentAttack;
 
     // состояние
     internal bool isAttacking;
-    internal bool attackFired = false;
     internal bool isShieldRaised;
     internal bool isThrowingWeapon;
-    public int attackIndex = 0;
-    public int weaponIndex = 0;
+    internal int attackIndex = 0;
     internal bool isWeaponed;
 
     // буфер ввода для комбо
     internal float lastAttackInputTime = -10f;
-    public float attackBufferTime = 0.35f; // время, чтобы продолжить комбо
+    public float attackBufferTime = 0.35f; // время прожатия для продолжения комбо
+
+    // очередь нажатий
+    internal bool queuedAttack = false;
 
     // ================= свойства =================
+ 
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
-    public int AttackIndex { get => attackIndex; }
-    public int WeaponIndex { get => weaponIndex; }
     public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
     public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
+    public Attack CurrentAttack() => currentAttack;
 
     // ================= INIT =================
     public void Init(HumanoidCombatControllerServices service)
     {
         inventory = service.combatInventory;
+        animator = service.animator;
+
+        // создаём один общий OverrideController
+        overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = overrideController;
+
         ResetCombo();
     }
 
@@ -36,11 +48,18 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     public void PerformAttack()
     {
         if (isShieldRaised) return;
-       
-        lastAttackInputTime = Time.time;
 
-        weaponIndex = (int)inventory.CurrentWeapon.WeaponData().weaponType;
-        isAttacking = true;
+        lastAttackInputTime = Time.time;
+       
+        // если уже атакуем — ставим в очередь
+        if (isAttacking)
+        {
+            queuedAttack = true;
+            return;
+        }
+
+        // иначе запускаем атаку сразу
+        StartNextAttack();
     }
 
     public void PerformBlock()
@@ -69,23 +88,29 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
         inventory.ShieldWeapon.ThrowShield();
     }
 
-    // ================= комбо =================
-    public void StartAttack()
+    // ================= КОМБО =================
+    internal void StartNextAttack()
     {
+        var weapon = inventory.CurrentWeapon;
+        var attackSet = weapon.WeaponData().attackSet;
 
-        var w = inventory.CurrentWeapon;
-        var attackSet = w.WeaponData().attackSet;
-
-        if (attackIndex >= attackSet.attackList.Count-1)
+        if (attackIndex >= attackSet.attackList.Count)
         {
             ResetCombo();
             return;
         }
 
         isAttacking = true;
-        var attack = attackSet.attackList[attackIndex];
-        w.SetCurrentAttack(attack);
-       
+
+        currentAttack = attackSet.attackList[attackIndex];
+        weapon.SetCurrentAttack(currentAttack);
+
+
+        var animationName = "Attack_" + attackIndex;
+        overrideController[animationName] = currentAttack.clip;
+        animator.CrossFade(animationName, 0.2f, 2); // слой комбо
+
+        animator.speed = currentAttack.animationSpeed;
 
         attackIndex++;
     }
@@ -93,12 +118,24 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     public void EndAttack()
     {
         isAttacking = false;
-        attackFired = false;
 
-        // проверка буфера ввода
-        if (Time.time - lastAttackInputTime > attackBufferTime)
+        // проверяем буфер ввода
+        if (Time.time - lastAttackInputTime <= attackBufferTime)
+        {
+            TryStartNextAttackFromQueue();
+        }
+        else
         {
             ResetCombo();
+        }
+    }
+
+    internal void TryStartNextAttackFromQueue()
+    {
+        if (queuedAttack)
+        {
+            queuedAttack = false;
+            StartNextAttack();
         }
     }
 
@@ -106,5 +143,7 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     {
         attackIndex = 0;
         isAttacking = false;
+        queuedAttack = false;
+        currentAttack = null;
     }
 }

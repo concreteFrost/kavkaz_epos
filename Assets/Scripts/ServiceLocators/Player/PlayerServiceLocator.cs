@@ -17,13 +17,16 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerStatsModifier statsModifier;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
-    [SerializeField] private PlayerAnimator characterAnimator;
+   
     [SerializeField] private PlayerTargetLock targetLock;
 
     [SerializeField] private PlayerUIServiceLocator uIServiceLocator;
 
+    [SerializeField] private PlayerAnimator characterAnimator = new PlayerAnimator();
+
     private void Awake()
     {
+        
         var uID = uniqueId.uniqueId;
         PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(controller, characterAnimator, targetLock);
         HumanoidMotorServices controllerService = new HumanoidMotorServices(animator);

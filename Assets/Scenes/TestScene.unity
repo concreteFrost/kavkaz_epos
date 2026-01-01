@@ -6489,50 +6489,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 239945801}
   m_Mesh: {fileID: 4300000, guid: 82d677cc46649fa4cb8988583aaa1623, type: 3}
---- !u!1 &246753600
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 246753601}
-  - component: {fileID: 246753602}
-  m_Layer: 0
-  m_Name: PlayerAnimator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &246753601
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246753600}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1826188431}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &246753602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246753600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 178dafe5039a9404db760e903b79458c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
 --- !u!1 &247269094
 GameObject:
   m_ObjectHideFlags: 0
@@ -7572,9 +7528,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70acc924bbc041943bc66616a54ffe54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
-  attackIndex: 0
-  weaponIndex: 0
   attackBufferTime: 0.35
+  currentAttack:
+    healthDamageMultiplier: 0
+    balanceDamageMultiplier: 0
+    staminaPenalty: 0
+    clip: {fileID: 0}
+    animationSpeed: 1
+    hitStartFrame: 0
+    hitEndFrame: 0
 --- !u!1 &285278805
 GameObject:
   m_ObjectHideFlags: 0
@@ -30493,7 +30455,6 @@ MonoBehaviour:
   statsModifier: {fileID: 1058200531}
   interaction: {fileID: 2033193984}
   combatInventory: {fileID: 2117511200}
-  characterAnimator: {fileID: 246753602}
   targetLock: {fileID: 1396265656}
   uIServiceLocator: {fileID: 952277881}
 --- !u!114 &1406799239
@@ -38995,7 +38956,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 246753601}
   - {fileID: 767894240}
   - {fileID: 1058200529}
   - {fileID: 283042082}

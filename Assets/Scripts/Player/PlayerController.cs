@@ -8,14 +8,12 @@ public class PlayerController : MonoBehaviour
     PlayerStats stats;
     PlayerInteract interact;
     PlayerClimbing climbing;
-
     PlayerActionGuards actionGuards;
 
     private void Update()
     {
         UpdateMotor();
         TryClimb();
-
     }
 
     private void FixedUpdate()
