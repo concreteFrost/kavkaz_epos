@@ -25,20 +25,27 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+      
+        var weapon = inv.CurrentWeapon;
+        var attack = weapon.CurrentAttack();
+
+        if (attack == null) return;
+
         float t = stateInfo.normalizedTime % 1f;
 
-        // включаем/выключаем хитбокс
-        if (!hitActive && t >= combatAnimData.CurrentAttack().hitStartFrame)
+        if (!hitActive && t >= attack.hitStartFrame)
         {
-            inv.CurrentWeapon.PerformAttack(); // активируем хитбокс
+            weapon.PerformAttack();
             hitActive = true;
         }
 
-        if (hitActive && t >= combatAnimData.CurrentAttack().hitEndFrame)
+        if (hitActive && t >= attack.hitEndFrame)
         {
-            inv.CurrentWeapon.CancelAttack(); // деактивируем хитбокс
+            weapon.CancelAttack();
             hitActive = false;
         }
+
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -47,6 +54,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         animator.speed = 1f;
 
         inv.CurrentWeapon.CancelAttack();
+
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
 

@@ -9,7 +9,7 @@ public interface IWeapon
     public void DropWeapon();
     public void ThrowWeapon(Transform from, float force);
     public void ReduceDurability(float amount);
-    public void SetCurrentAttack(Attack attack);
-    public Attack GetCurrentAttack();
+    public void SelectAttack(int index);
+    public Attack CurrentAttack();
 
 }

@@ -5,6 +5,5 @@ public interface ICharacterCombatAnimData
     bool IsWeaponed { get; set; }
     bool IsShieldRaised { get; }
     bool IsThrowingWeapon { get; set; }
-    Attack CurrentAttack();
     void EndAttack();
 }

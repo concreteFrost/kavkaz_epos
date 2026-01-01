@@ -12,16 +12,33 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    #region IWeapon Variables
+    int currentAttackIndex = 0;
+
+    #region IWeapon Contract
     public WeaponSO WeaponData() => weaponSO;
+
+    public Attack CurrentAttack() => currentAttack;
 
     public void SetCurrentAttack(Attack attack)
     {
         currentAttack = attack;
     }
 
-    public Attack GetCurrentAttack() => currentAttack;
+    public void SelectAttack(int index)
+    {
+        var list = weaponSO.attackSet.attackList;
 
+        if (index < 0 || index >= list.Count)
+        {
+            currentAttackIndex = 0;
+        }
+        else
+        {
+            currentAttackIndex = index;
+        }
+
+        currentAttack = list[currentAttackIndex];
+    }
 
     #endregion
 

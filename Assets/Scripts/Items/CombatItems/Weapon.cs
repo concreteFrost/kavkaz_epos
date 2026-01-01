@@ -10,15 +10,28 @@ public class Weapon : CombatItem, IWeapon
 
     private float minStopVelocity = 1.7f;
 
-    #region IWeapon variables
-    public WeaponSO WeaponData() => weaponSO;
+    int currentAttackIndex = 0;
 
-    public void SetCurrentAttack(Attack attack)
+    #region IWeapon Contract
+    public WeaponSO WeaponData() => weaponSO;
+    public Attack CurrentAttack() => currentAttack;
+
+    public void SelectAttack(int index)
     {
-        currentAttack = attack;
+        var list = weaponSO.attackSet.attackList;
+
+        if (index < 0 || index >= list.Count)
+        {
+            currentAttackIndex = 0;
+        }
+        else
+        {
+            currentAttackIndex = index;
+        }
+
+        currentAttack = list[currentAttackIndex];
     }
 
-    public Attack GetCurrentAttack() => currentAttack;
     #endregion
 
     /// <summary>
@@ -46,9 +59,19 @@ public class Weapon : CombatItem, IWeapon
 
     public void PerformAttack()
     {
-        var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
-        var balanceDamage = currentAttack.GetFinalBalanceDamage();
-        damageCollider.EnableCollider(healthDamage, balanceDamage, AttackSource.SourceId());
+        if (currentAttack == null) return;
+
+        var healthDamage =
+            currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
+
+        var balanceDamage =
+            currentAttack.GetFinalBalanceDamage();
+
+        damageCollider.EnableCollider(
+            healthDamage,
+            balanceDamage,
+            AttackSource.SourceId()
+        );
     }
 
     public void CancelAttack()

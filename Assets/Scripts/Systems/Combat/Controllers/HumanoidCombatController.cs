@@ -7,7 +7,6 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     IAttackSource inventory;
     Animator animator;
     AnimatorOverrideController overrideController;
-    [HideInInspector] public Attack currentAttack;
 
     // состояние
     internal bool isAttacking;
@@ -29,7 +28,6 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
     public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
     public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
-    public Attack CurrentAttack() => currentAttack;
 
     // ================= INIT =================
     public void Init(HumanoidCombatControllerServices service)
@@ -100,18 +98,17 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
             return;
         }
 
+        weapon.SelectAttack(attackIndex);
+
+        var attack = weapon.CurrentAttack();
+
+        var stateName = "Attack_" + attackIndex;
+        overrideController[stateName] = attack.clip;
+
+        animator.speed = attack.animationSpeed;
+        animator.CrossFade(stateName, 0.15f, 2);
+
         isAttacking = true;
-
-        currentAttack = attackSet.attackList[attackIndex];
-        weapon.SetCurrentAttack(currentAttack);
-
-
-        var animationName = "Attack_" + attackIndex;
-        overrideController[animationName] = currentAttack.clip;
-        animator.CrossFade(animationName, 0.2f, 2); // слой комбо
-
-        animator.speed = currentAttack.animationSpeed;
-
         attackIndex++;
     }
 
@@ -144,6 +141,6 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
         attackIndex = 0;
         isAttacking = false;
         queuedAttack = false;
-        currentAttack = null;
+        
     }
 }
