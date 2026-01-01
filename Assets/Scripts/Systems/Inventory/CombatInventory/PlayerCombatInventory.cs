@@ -19,7 +19,7 @@ public class PlayerCombatInventory : BaseCombatInventory
     public override void SetWeapon(IWeapon w)
     {
        CurrentWeapon = w;
-       combatController.isWeaponed = true; 
+       combatController.IsWeaponed = true; 
      
     }
 
@@ -32,8 +32,8 @@ public class PlayerCombatInventory : BaseCombatInventory
     {
 
         CurrentWeapon = DefaultWeapon;
-        combatController.isAttacking = false;   
-        combatController.isWeaponed = false;    
+        combatController.IsAttacking = false;   
+        combatController.IsWeaponed = false;    
 
     }
 
@@ -43,7 +43,7 @@ public class PlayerCombatInventory : BaseCombatInventory
         if (ShieldWeapon == null) return;
 
         ShieldWeapon = null;
-        combatController.isShieldRaised = false;
+        combatController.IsShieldRaised = false;
 
     }
 

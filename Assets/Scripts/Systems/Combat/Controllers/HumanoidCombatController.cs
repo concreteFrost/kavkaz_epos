@@ -1,143 +1,110 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HumanoidCombatController : MonoBehaviour , ICharacterCombatAnimData
+public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
 {
     IAttackSource inventory;
-    Animator anim;
-    private int totalClicks = 0;
 
-    IEnumerator currentCoroutine = null;
-
-    bool isInQueue = false;
-
+    // состояние
     internal bool isAttacking;
-    internal int attackIndex = 0;
-    internal int weaponIndex = 0;
+    internal bool attackFired = false;
     internal bool isShieldRaised;
-    internal bool isWeaponed;
     internal bool isThrowingWeapon;
+    public int attackIndex = 0;
+    public int weaponIndex = 0;
+    internal bool isWeaponed;
 
+    // буфер ввода для комбо
+    internal float lastAttackInputTime = -10f;
+    public float attackBufferTime = 0.35f; // время, чтобы продолжить комбо
+
+    // ================= свойства =================
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
-    public bool IsWeaponed { get => isWeaponed; }
+    public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
     public int AttackIndex { get => attackIndex; }
     public int WeaponIndex { get => weaponIndex; }
-    public bool IsShieldRaised { get => isShieldRaised; }
+    public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
     public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
 
+    // ================= INIT =================
     public void Init(HumanoidCombatControllerServices service)
     {
-       
         inventory = service.combatInventory;
-        anim = service.animator;
+        ResetCombo();
     }
 
+    // ================= INPUT =================
     public void PerformAttack()
     {
+        if (isShieldRaised) return;
+       
+        lastAttackInputTime = Time.time;
 
-        if (isShieldRaised)
-        {
-            ResetCombo();
-            return;
-        }
-
-        // ставим атаку в очередь
-        if (isAttacking)
-        {
-            isInQueue = true;
-            return;
-        }
-
-        // начало цепочки атак
-        totalClicks = 0;
-        currentCoroutine = AttackCoroutine();
-        StartCoroutine(currentCoroutine);
+        weaponIndex = (int)inventory.CurrentWeapon.WeaponData().weaponType;
+        isAttacking = true;
     }
-
-    public void ThrowWeapon()
-    {
-
-        ResetCombo();
-        isThrowingWeapon = true; 
-    }
-
 
     public void PerformBlock()
     {
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.PerformDefence();
         isShieldRaised = true;
-
     }
 
     public void CancelBlock()
     {
-        if(inventory.ShieldWeapon == null) return;
+        if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
         isShieldRaised = false;
     }
 
+    public void ThrowWeapon()
+    {
+        ResetCombo();
+        isThrowingWeapon = true;
+    }
+
     public void ThrowShield()
     {
-
         if (inventory.ShieldWeapon == null) return;
-
         inventory.ShieldWeapon.ThrowShield();
-        //inventory.ResetShield();
+    }
+
+    // ================= комбо =================
+    public void StartAttack()
+    {
+
+        var w = inventory.CurrentWeapon;
+        var attackSet = w.WeaponData().attackSet;
+
+        if (attackIndex >= attackSet.attackList.Count-1)
+        {
+            ResetCombo();
+            return;
+        }
+
+        isAttacking = true;
+        var attack = attackSet.attackList[attackIndex];
+        w.SetCurrentAttack(attack);
+       
+
+        attackIndex++;
+    }
+
+    public void EndAttack()
+    {
+        isAttacking = false;
+        attackFired = false;
+
+        // проверка буфера ввода
+        if (Time.time - lastAttackInputTime > attackBufferTime)
+        {
+            ResetCombo();
+        }
     }
 
     void ResetCombo()
     {
-        totalClicks = 0;
-        isInQueue = false;
-       
-        isAttacking = false;
         attackIndex = 0;
-
-
+        isAttacking = false;
     }
-
-    IEnumerator AttackCoroutine()
-    {
-
-        var w = inventory.CurrentWeapon;
-
-        var currentWeaponType = (int)w.WeaponData().attackSet.attackType;
-        var currentAttakChain = w.WeaponData().attackSet;
-        weaponIndex = currentWeaponType;
-
-        while (true && !isShieldRaised)
-        {
-            isAttacking = true;
-            attackIndex = totalClicks;
-
-            var currentAttack = currentAttakChain.attackList[totalClicks];
-
-            w.SetCurrentAttack(currentAttack);
-
-            float time = anim.GetCurrentAnimatorStateInfo(2).length;
-
-            yield return new WaitForSeconds(time);
-
-            if (isInQueue)
-            {   
-                totalClicks++;
-
-                isInQueue = false;
-                if (totalClicks == currentAttakChain.attackList.Count) // сбрасываем цепочку на начало
-                    break;
-            }
-            else // если нет атак в очереди то сбрасываем на начало
-            {
-                
-                break;
-            }
-        }
-
-        ResetCombo();
-
-        currentCoroutine = null;
-    }
-
-   
 }

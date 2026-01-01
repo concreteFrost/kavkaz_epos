@@ -60,7 +60,7 @@ public class PlayerActionGuards
 
         if (combat.IsAttacking) return false;
 
-        if(combat.isThrowingWeapon) return false;
+        if(combat.IsThrowingWeapon) return false;
 
 
         return true;
@@ -87,7 +87,7 @@ public class PlayerActionGuards
 
         if (locomotion.IsJumping) return false;
 
-        if(combat.isAttacking) return false;
+        if(combat.IsAttacking) return false;
 
         if (locomotion.GroundAngle() >= locomotion.slopeLimit) return false;
 
@@ -154,7 +154,7 @@ public class PlayerActionGuards
 
         if(statsModifier.IsDamaged) return false;
 
-        if(combat.isAttacking) return false;
+        if(combat.IsAttacking) return false;
 
         if(!locomotion.IsGrounded) return false;    
 
@@ -168,7 +168,7 @@ public class PlayerActionGuards
 
         if (statsModifier.IsDamaged) return false;
 
-        if(combat.isAttacking)  return false;
+        if(combat.IsAttacking)  return false;
 
         if (stats.currentStamina <= 0) return false;
 
@@ -179,7 +179,7 @@ public class PlayerActionGuards
     {
         if(mode != PlayerMode.Locomotion) return false;
 
-        if(combat.isAttacking) return false;
+        if(combat.IsAttacking) return false;
 
         return true;
     }

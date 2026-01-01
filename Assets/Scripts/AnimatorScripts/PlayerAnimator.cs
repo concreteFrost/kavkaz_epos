@@ -62,7 +62,13 @@ public class PlayerAnimator : BaseHumanoidAnimator
         animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);
         animator.SetInteger(AnimatorParameters.AttackIndex, combatController.AttackIndex);
         animator.SetInteger(AnimatorParameters.WeaponType, combatController.WeaponIndex);
-        animator.SetBool(AnimatorParameters.IsThrowingWeapon, combatController.IsThrowingWeapon);   
+        animator.SetBool(AnimatorParameters.IsThrowingWeapon, combatController.IsThrowingWeapon);
+
+        if (combatController.IsAttacking && !combatController.attackFired)
+        {
+            animator.SetTrigger("Attack");
+            combatController.attackFired = true; // помечаем, что триггер уже поставлен
+        }
 
 
         // damage

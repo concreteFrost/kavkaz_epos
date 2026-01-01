@@ -8,6 +8,8 @@ public class Attack
     public float balanceDamageMultiplier;
     public float staminaPenalty;
 
+    public AnimationClip clip;
+
     public float GetFinalHealthDamage(float baseDamage)
     {
         return baseDamage + (baseDamage * healthDamageMultiplier);
@@ -24,5 +26,4 @@ public class AttackSO : ScriptableObject
 {
     public List<Attack> attackList;
     public float maxComboDelay = 1.3f;
-    public AttackType attackType;
 }

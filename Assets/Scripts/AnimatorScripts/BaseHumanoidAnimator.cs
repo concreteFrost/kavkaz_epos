@@ -30,5 +30,5 @@ public static partial class AnimatorParameters
     public static int DodgeX = Animator.StringToHash("DodgeX");
     public static int DodgeY = Animator.StringToHash("DodgeY");
     public static int IsClimbing = Animator.StringToHash("IsClimbing");
-
+    public static int Attack = Animator.StringToHash("Attack");
 }

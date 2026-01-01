@@ -2,81 +2,69 @@ using UnityEngine;
 
 public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
-    public float enableTime = 0.3f;
-    public float disableTime = 0.6f;
-
-    public bool attackEnabled = false;
-    public bool attackDisabled = false;
+    public float hitStart = 0.3f;
+    public float hitEnd = 0.6f;
 
     IAttackSource inv;
     ICharacterStatsModifier stats;
-    ICharacterCombatAnimData combatAnimData;
+    HumanoidCombatController combatAnimData;
     IHumanoidMovement motor;
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+
+    bool hitActive = false;
+    bool recoveryTriggered = false;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
-        stats = animator.GetComponentInChildren<ICharacterStatsModifier>();
-        combatAnimData = animator.GetComponentInChildren<ICharacterCombatAnimData>();
-        motor = animator.GetComponent<IHumanoidMovement>();    
- 
-        stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
-        animator.applyRootMotion = true;
-        //combatAnimData.BlockRotation = true;
+        //stats = animator.GetComponentInChildren<ICharacterStatsModifier>();
+        combatAnimData = animator.GetComponentInChildren<HumanoidCombatController>();
+        motor = animator.GetComponent<IHumanoidMovement>();
 
+        //stats.ReduceStamina(inv.CurrentWeapon.GetCurrentAttack().staminaPenalty);
+
+        animator.applyRootMotion = true;
+        
+        hitActive = false;
+        recoveryTriggered = false;
+
+        combatAnimData.StartAttack();
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-        if (!animator.applyRootMotion)
-        {
-            animator.applyRootMotion = true;
-        }
-
-        if (!motor.BlockRotation)
-        {
-           motor.BlockRotation = true;
-        }
+        if (!motor.BlockRotation) motor.BlockRotation = true;
+        if (!animator.applyRootMotion) animator.applyRootMotion = true;
 
         float t = stateInfo.normalizedTime;
 
-        if (!attackEnabled & t >= enableTime)
+        // включаем hitbox
+        if (!hitActive && t >= hitStart)
         {
-           
             inv.CurrentWeapon.PerformAttack();
-           
-            attackEnabled = true;
+            hitActive = true;
         }
 
-        if (attackEnabled & t >= disableTime)
+        // отключаем hitbox
+        if (hitActive && t >= hitEnd)
         {
-            inv.CurrentWeapon.CancelAttack();  
-            attackEnabled = false;
+            inv.CurrentWeapon.CancelAttack();
+            hitActive = false;
         }
 
+        // открываем recovery window
+        if (!recoveryTriggered && t >= 0.7f)
+        {
+            combatAnimData.EndAttack();
+            recoveryTriggered = true;
+        }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        attackEnabled = false;
-        attackDisabled = false;
-        motor.BlockRotation = false;
         inv.CurrentWeapon.CancelAttack();
+        motor.BlockRotation = false;
         animator.applyRootMotion = false;
+        hitActive = false;
+        recoveryTriggered = false;
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

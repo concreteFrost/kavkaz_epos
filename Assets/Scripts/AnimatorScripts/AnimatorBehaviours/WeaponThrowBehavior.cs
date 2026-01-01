@@ -29,12 +29,12 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
-        if (t >= 0.5f && !weaponThrowed)
+        if (t >= 0.35f && !weaponThrowed)
         {
 
             inv.CurrentWeapon.ThrowWeapon(animator.transform, 20f);
             inv.ResetWeapon();
-            combat.IsThrowingWeapon = false;
+          
             weaponThrowed = true;
             
         }

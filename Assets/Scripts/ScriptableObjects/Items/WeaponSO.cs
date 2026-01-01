@@ -12,6 +12,8 @@ public class WeaponSO : ItemSO
     [Tooltip("Определяет может ли игрок брать другое оружие поверх этого")]
     public bool canOverride = false;
 
+    public WeaponType weaponType;
+
     [Header("Базовый урон")]
     [Tooltip("Сырой урон без мультипликаторов")]
     [SerializeField] private float baseDamage;

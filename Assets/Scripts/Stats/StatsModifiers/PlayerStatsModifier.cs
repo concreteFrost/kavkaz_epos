@@ -82,7 +82,7 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
 
         balancePenalty = balanceDamage;
 
-        if (!combatController.isShieldRaised)
+        if (!combatController.IsShieldRaised)
         {
             isDamaged = true;
         }
@@ -124,7 +124,7 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
             return;
 
         // Если игрок атакует, бежит, катится и т.п. — можно тоже отключать реген (если нужно)
-        if (combatController.isAttacking)
+        if (combatController.IsAttacking)
             return;
 
         // Считаем таймер
