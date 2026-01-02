@@ -8,14 +8,7 @@ public class Attack
     public float balanceDamageMultiplier;
     public float staminaPenalty;
 
-    [Header("Animation settings")]
-    public AnimationClip clip;
-
-    [Tooltip("—корость проигрывани€ анимации дл€ этой атаки")]
-    public float animationSpeed = 1f;
-
-    public float hitStartFrame;
-    public float hitEndFrame;   
+    public AnimationInfoSO animationInfo;
 
     public float GetFinalHealthDamage(float baseDamage)
     {

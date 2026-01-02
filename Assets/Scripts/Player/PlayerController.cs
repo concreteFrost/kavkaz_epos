@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     PlayerInteract interact;
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
+    Animator animator;
 
     private void Update()
     {
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     public void Init(PlayerControllerService provider)
     {
+
+        animator = provider.animator;
         locomotion = provider.controller;
         statsModifier = provider.statsModifier;
         combatController = provider.combatController;
@@ -48,7 +51,7 @@ public class PlayerController : MonoBehaviour
         climbing = provider.climbing;
 
         actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier, climbing);
-        climbing.Init(locomotion, actionGuards);
+        climbing.Init(locomotion, actionGuards,animator );
 
     }
 

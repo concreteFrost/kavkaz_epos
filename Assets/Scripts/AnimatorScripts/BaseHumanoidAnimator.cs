@@ -17,10 +17,6 @@ public static partial class AnimatorParameters
     public static int IsSprinting = Animator.StringToHash("IsSprinting");
     public static int GroundDistance = Animator.StringToHash("GroundDistance");
     public static int IsWeaponed = Animator.StringToHash("IsWeaponed");
-    public static int IsAttacking = Animator.StringToHash("IsAttacking");
-    public static int AttackIndex = Animator.StringToHash("AttackIndex");
-    public static int WeaponType = Animator.StringToHash("WeaponType");
-    public static int HasShield = Animator.StringToHash("HasShield");
     public static int IsShieldRaised = Animator.StringToHash("IsShieldRaised");
     public static int IsDamaged = Animator.StringToHash("IsDamaged");
     public static int BalancePenalty = Animator.StringToHash("BalancePenalty");

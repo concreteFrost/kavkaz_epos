@@ -124,8 +124,8 @@ public class PlayerStatsModifier : CharacterStatsModifier, IHumanoidDamageAnimDa
             return;
 
         // Если игрок атакует, бежит, катится и т.п. — можно тоже отключать реген (если нужно)
-        if (combatController.IsAttacking)
-            return;
+        //if (combatController.IsAttacking)
+        //    return;
 
         // Считаем таймер
         stats.staminaRegenTimer += Time.deltaTime;

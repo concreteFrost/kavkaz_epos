@@ -2,6 +2,7 @@
 
 public interface IHumanoidMovement
 {
+    bool StopMove { get; set; }
     float InputMagnitude { get; }
     Vector3 MoveDirection { get; }
     float VerticalSpeed { get; }
@@ -10,7 +11,8 @@ public interface IHumanoidMovement
     bool ApplyRootMotion { get; set; }
 
     bool IsSprinting { get; }
-    //bool StopMove { get; set; }
+   
+    
     float AnimationSmooth {  get; }
     public bool IsLockedOnTarget { get; set; }
     public Vector3 GetInverseTransformDirection();

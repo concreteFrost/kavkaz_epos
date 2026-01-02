@@ -52,16 +52,13 @@ public class PlayerActionGuards
     {
         if (mode != PlayerMode.Locomotion) return false;
 
-        if(locomotion.isHighSlope) return false;
+        if (locomotion.StopMove) return false;
+
+        if (locomotion.isHighSlope) return false;
 
         if (statsModifier.IsDamaged) return false;
 
         if (locomotion.IsDodging) return false;
-
-        if (combat.IsAttacking) return false;
-
-        if(combat.IsThrowingWeapon) return false;
-
 
         return true;
     }
@@ -87,7 +84,7 @@ public class PlayerActionGuards
 
         if (locomotion.IsJumping) return false;
 
-        if(combat.IsAttacking) return false;
+        if (locomotion.StopMove) return false;
 
         if (locomotion.GroundAngle() >= locomotion.slopeLimit) return false;
 
@@ -104,7 +101,7 @@ public class PlayerActionGuards
 
         if (locomotion.IsDodging) return false;
 
-        if(combat.IsAttacking) return false;
+        if (locomotion.StopMove) return false;
 
         if (stats.currentStamina <= 0) return false;
 
@@ -120,7 +117,7 @@ public class PlayerActionGuards
 
         if (!locomotion.IsGrounded) return false;
 
-        if (combat.IsAttacking) return false;
+        if (locomotion.StopMove) return false;
 
         if (statsModifier.IsDamaged) return false;
 
@@ -154,9 +151,9 @@ public class PlayerActionGuards
 
         if(statsModifier.IsDamaged) return false;
 
-        if(combat.IsAttacking) return false;
+        if (locomotion.StopMove) return false;
 
-        if(!locomotion.IsGrounded) return false;    
+        if (!locomotion.IsGrounded) return false;    
 
         return true;
 
@@ -168,7 +165,7 @@ public class PlayerActionGuards
 
         if (statsModifier.IsDamaged) return false;
 
-        if(combat.IsAttacking)  return false;
+        if (locomotion.StopMove) return false;
 
         if (stats.currentStamina <= 0) return false;
 
@@ -179,7 +176,7 @@ public class PlayerActionGuards
     {
         if(mode != PlayerMode.Locomotion) return false;
 
-        if(combat.IsAttacking) return false;
+        if (locomotion.StopMove) return false;
 
         return true;
     }

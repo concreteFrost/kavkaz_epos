@@ -5,9 +5,6 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
     [SerializeField] private WeaponSO weaponSO;
     private Attack currentAttack;
     
-    /// <summary>
-    /// Источник атаки
-    /// </summary>
     public IAttackSource AttackSource { get; set; }
 
     [SerializeField] private WeaponDamageCollider damageCollider;
@@ -19,10 +16,7 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     public Attack CurrentAttack() => currentAttack;
 
-    public void SetCurrentAttack(Attack attack)
-    {
-        currentAttack = attack;
-    }
+    public void SetCurrentAttack(Attack attack) => currentAttack = attack;  
 
     public void SelectAttack(int index)
     {

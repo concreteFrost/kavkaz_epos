@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class Weapon : CombatItem, IWeapon
 {
-    public WeaponSO weaponSO;
+    [SerializeField] private WeaponSO weaponSO;
     private Attack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
+    public IAttackSource AttackSource { get; set; }
 
     private float minStopVelocity = 1.7f;
 
@@ -15,7 +16,6 @@ public class Weapon : CombatItem, IWeapon
     #region IWeapon Contract
     public WeaponSO WeaponData() => weaponSO;
     public Attack CurrentAttack() => currentAttack;
-
     public void SelectAttack(int index)
     {
         var list = weaponSO.attackSet.attackList;
@@ -31,13 +31,8 @@ public class Weapon : CombatItem, IWeapon
 
         currentAttack = list[currentAttackIndex];
     }
-
     #endregion
 
-    /// <summary>
-    /// Источник атаки
-    /// </summary>
-    public IAttackSource AttackSource { get; set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

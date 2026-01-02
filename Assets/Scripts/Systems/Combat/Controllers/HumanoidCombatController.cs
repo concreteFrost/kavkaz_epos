@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
+public class HumanoidCombatController : MonoBehaviour, ICharacterCombatData
 {
 
     //ссылки
@@ -11,7 +11,6 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     // состояние
     internal bool isAttacking;
     internal bool isShieldRaised;
-    internal bool isThrowingWeapon;
     internal int attackIndex = 0;
     internal bool isWeaponed;
 
@@ -24,17 +23,16 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
 
     // ================= свойства =================
  
-    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
     public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
-    public bool IsThrowingWeapon { get => isThrowingWeapon; set => isThrowingWeapon = value; }
+
 
     // ================= INIT =================
     public void Init(HumanoidCombatControllerServices service)
     {
         inventory = service.combatInventory;
         animator = service.animator;
-
+       
         // создаём один общий OverrideController
         overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = overrideController;
@@ -77,7 +75,8 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     public void ThrowWeapon()
     {
         ResetCombo();
-        isThrowingWeapon = true;
+        //isThrowingWeapon = true;
+        animator.CrossFade("Throw weapon", .15f, 2);
     }
 
     public void ThrowShield()
@@ -98,16 +97,21 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
             return;
         }
 
+        //выбираем атаку из списка
         weapon.SelectAttack(attackIndex);
 
         var attack = weapon.CurrentAttack();
 
+        //назначаем атаку на плейсхолдер
         var stateName = "Attack_" + attackIndex;
-        overrideController[stateName] = attack.clip;
+        overrideController[stateName] = attack.animationInfo.clip;
 
-        animator.speed = attack.animationSpeed;
+        animator.speed = attack.animationInfo.animationSpeed;
+
+        //делаем плавный переход на Attack_[index]
         animator.CrossFade(stateName, 0.15f, 2);
 
+        //movement.StopMove = true;
         isAttacking = true;
         attackIndex++;
     }
@@ -115,6 +119,7 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
     public void EndAttack()
     {
         isAttacking = false;
+        //movement.StopMove = false;  
 
         // проверяем буфер ввода
         if (Time.time - lastAttackInputTime <= attackBufferTime)
@@ -127,7 +132,7 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatAnimData
         }
     }
 
-    internal void TryStartNextAttackFromQueue()
+    public void TryStartNextAttackFromQueue()
     {
         if (queuedAttack)
         {

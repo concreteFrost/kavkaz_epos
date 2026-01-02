@@ -3,30 +3,33 @@ using UnityEngine;
 public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
 
-
     IAttackSource inv;
-    ICharacterCombatAnimData combatAnimData;
+    ICharacterCombatData combatAnimData;
     IHumanoidMovement motor;
+    ICharacterStatsModifier statsModifier;
 
     bool hitActive = false;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
-        combatAnimData = animator.GetComponentInChildren<HumanoidCombatController>();
+        combatAnimData = animator.GetComponentInChildren<ICharacterCombatData>();
         motor = animator.GetComponent<IHumanoidMovement>();
+        statsModifier = animator.GetComponentInChildren<ICharacterStatsModifier>();
+
+        statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
 
         animator.applyRootMotion = true;
         hitActive = false;
 
         // блокируем вращение персонажа во время атаки
         motor.BlockRotation = true;
+        motor.StopMove = true;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-      
         var weapon = inv.CurrentWeapon;
         var attack = weapon.CurrentAttack();
 
@@ -34,13 +37,13 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime % 1f;
 
-        if (!hitActive && t >= attack.hitStartFrame)
+        if (!hitActive && t >= attack.animationInfo.hitStartFrame)
         {
             weapon.PerformAttack();
             hitActive = true;
         }
 
-        if (hitActive && t >= attack.hitEndFrame)
+        if (hitActive && t >= attack.animationInfo.hitEndFrame)
         {
             weapon.CancelAttack();
             hitActive = false;
@@ -52,6 +55,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     {
 
         animator.speed = 1f;
+        motor.StopMove = false;
 
         inv.CurrentWeapon.CancelAttack();
 
@@ -62,6 +66,6 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         combatAnimData.EndAttack();
 
         // проверяем очередь нажатий
-        ((HumanoidCombatController)combatAnimData).TryStartNextAttackFromQueue();
+        combatAnimData.TryStartNextAttackFromQueue();
     }
 }

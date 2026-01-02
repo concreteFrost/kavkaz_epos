@@ -4,7 +4,6 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 {
 
     IAttackSource inv;
-    ICharacterCombatAnimData combat;
     IHumanoidMovement motor;
     bool weaponThrowed = false;
     
@@ -12,12 +11,11 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor = animator.GetComponent<IHumanoidMovement>();
-
         inv = animator.GetComponentInChildren<IAttackSource>();
-        combat = animator.GetComponentInChildren<ICharacterCombatAnimData>(); 
 
         animator.applyRootMotion = true;
         motor.BlockRotation = true;
+        motor.StopMove = true;
 
     }
 
@@ -29,7 +27,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
-        if (t >= 0.35f && !weaponThrowed)
+        if (t >= 0.4f && !weaponThrowed)
         {
 
             inv.CurrentWeapon.ThrowWeapon(animator.transform, 20f);
@@ -45,7 +43,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         weaponThrowed = false;
-        combat.IsThrowingWeapon = false;
+        motor.StopMove = false;
         motor.BlockRotation = false;
         animator.applyRootMotion = false;
     }

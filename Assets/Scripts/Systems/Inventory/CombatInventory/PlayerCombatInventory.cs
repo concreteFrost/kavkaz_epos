@@ -32,7 +32,7 @@ public class PlayerCombatInventory : BaseCombatInventory
     {
 
         CurrentWeapon = DefaultWeapon;
-        combatController.IsAttacking = false;   
+        //combatController.IsAttacking = false;   
         combatController.IsWeaponed = false;    
 
     }

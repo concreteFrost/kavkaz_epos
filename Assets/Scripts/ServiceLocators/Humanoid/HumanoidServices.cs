@@ -10,6 +10,7 @@ public class HumanoidCombatControllerServices
     {
         this.combatInventory = combatInventory;
         this.animator = animator;
+      
     }
 }
 

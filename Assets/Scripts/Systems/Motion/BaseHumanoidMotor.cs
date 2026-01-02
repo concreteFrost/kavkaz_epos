@@ -67,6 +67,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
     internal Vector3 moveDirection;
 
+    internal bool stopMove = false;
     internal bool isSprinting;
     internal bool isJumping;
     internal bool isGrounded = true;
@@ -75,7 +76,8 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     internal bool isHanging;
     internal bool isRotationBlocked = false;
 
-    #region ICharacterAnimData
+    #region IHumanoidMovement Contract
+    public bool StopMove { get => stopMove; set => stopMove = value; }  
     public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
     public Vector3 MoveDirection { get => moveDirection; }
     public float AnimationSmooth { get => animationSmooth; }
