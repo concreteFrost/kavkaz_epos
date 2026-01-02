@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public class HealthModel
 {
@@ -26,5 +25,11 @@ public class HealthModel
 
         if (Current == 0)
             Depleted?.Invoke();
+    }
+
+    public void ResetHealth(float max)
+    {
+        Current = max;
+        Changed?.Invoke(Current);   
     }
 }

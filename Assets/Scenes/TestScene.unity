@@ -6177,6 +6177,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234060896}
   m_Mesh: {fileID: 4300000, guid: dee2cc7c00fcd6b4f90719f3660798f8, type: 3}
+--- !u!1 &234798048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 234798049}
+  - component: {fileID: 234798050}
+  m_Layer: 0
+  m_Name: PlayerDamageController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &234798049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234798048}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1826188431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234798050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234798048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe995522b5bbb141a0f574dfbbe7f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageController
+  maxDamageCooldown: 1
 --- !u!1 &237095169
 GameObject:
   m_ObjectHideFlags: 0
@@ -21546,9 +21591,8 @@ GameObject:
   - component: {fileID: 952277880}
   - component: {fileID: 952277879}
   - component: {fileID: 952277878}
-  - component: {fileID: 952277881}
   m_Layer: 0
-  m_Name: PlayerCanvas
+  m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21638,20 +21682,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &952277881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952277876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06da88ec5ad511844aa19eaa39f5e938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  playerStatsUI: {fileID: 1741785710}
-  lockOnTargetUI: {fileID: 1176097206}
 --- !u!1 &955728101
 GameObject:
   m_ObjectHideFlags: 0
@@ -23333,13 +23363,12 @@ MonoBehaviour:
   runningSpeed: 0
   jumpHeight: 0
   jumpTimer: 0
-  currentHealth: 0
   maxHealth: 0
-  currentStamina: 0
   maxStamina: 0
   staminaRunReducePenalty: 0.02
   staminaJumpReducePenalty: 10
-  staminaRegenDelay: 2
+  staminaMinRegenDelay: 2
+  staminaMaxRegenDelay: 5
   staminaRegenRate: 12
   staminaRegenTimer: 0
   currentBalance: 0
@@ -23352,11 +23381,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1058200528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d8f0cb4a4b7fa4fb242f8dbcf017b5, type: 3}
+  m_Script: {fileID: 11500000, guid: c090bf502dc2f2a4bbb2ca2b08762808, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsModifier
-  maxDamageCooldown: 1
-  balancePenalty: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
+  stats: {fileID: 0}
 --- !u!1 &1065868769
 GameObject:
   m_ObjectHideFlags: 0
@@ -30320,10 +30348,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1406799236}
   - component: {fileID: 1406799235}
-  - component: {fileID: 1406799239}
   - component: {fileID: 1406799237}
   - component: {fileID: 1406799240}
   - component: {fileID: 1406799241}
+  - component: {fileID: 1406799239}
   - component: {fileID: 1406799232}
   - component: {fileID: 1406799231}
   m_Layer: 6
@@ -30443,12 +30471,14 @@ MonoBehaviour:
   climbing: {fileID: 182297210}
   input: {fileID: 767894241}
   combatController: {fileID: 283042083}
+  damageController: {fileID: 234798050}
   stats: {fileID: 1058200530}
-  statsModifier: {fileID: 1058200531}
+  statsController: {fileID: 1058200531}
   interaction: {fileID: 2033193984}
   combatInventory: {fileID: 2117511200}
   targetLock: {fileID: 1396265656}
-  uIServiceLocator: {fileID: 952277881}
+  playerStatsUI: {fileID: 1741785710}
+  lockOnTargetUI: {fileID: 1176097206}
 --- !u!114 &1406799239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38955,6 +38985,7 @@ Transform:
   - {fileID: 2033193983}
   - {fileID: 1396265655}
   - {fileID: 182297209}
+  - {fileID: 234798049}
   m_Father: {fileID: 1406799236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1829674227

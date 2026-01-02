@@ -4,7 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     PlayerMotor locomotion;
     HumanoidCombatController combatController;
-    PlayerStatsController statsModifier;
+    PlayerDamageController damageController;
+    PlayerStatsController statsController;
+    
     PlayerStats stats;
     PlayerInteract interact;
     PlayerClimbing climbing;
@@ -44,13 +46,14 @@ public class PlayerController : MonoBehaviour
 
         animator = provider.animator;
         locomotion = provider.controller;
-        statsModifier = provider.statsModifier;
+        damageController = provider.damageController;
         combatController = provider.combatController;
         stats = provider.stats;
         interact = provider.interact;
         climbing = provider.climbing;
+        statsController = provider.statsController;
 
-        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, statsModifier, climbing);
+        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing);
         climbing.Init(locomotion, actionGuards,animator );
 
     }
@@ -134,7 +137,7 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanJump()) return;
 
         locomotion.Jump(stats.jumpTimer);
-        statsModifier.ReduceStamina(stats.staminaJumpReducePenalty);
+        statsController.ReduceStamina(stats.staminaJumpReducePenalty);
     }
 
     public void Sprint(bool sprintHeld)
@@ -144,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
         if (locomotion.isSprinting)
         {
-            statsModifier.ReduceStamina(stats.staminaRunReducePenalty);
+            statsController.ReduceStamina(stats.staminaRunReducePenalty);
         }
 
     }

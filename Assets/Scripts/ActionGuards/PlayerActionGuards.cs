@@ -10,7 +10,7 @@ public class PlayerActionGuards
     readonly PlayerMotor locomotion;
     readonly HumanoidCombatController combat;
     readonly PlayerStats stats;
-    readonly PlayerStatsController statsModifier;
+    readonly PlayerDamageController statsModifier;
     readonly PlayerClimbing climbing;
 
     PlayerMode mode;
@@ -19,7 +19,7 @@ public class PlayerActionGuards
         PlayerMotor locomotion,
         HumanoidCombatController combat,
         PlayerStats stats,
-        PlayerStatsController statsModifier,
+        PlayerDamageController statsModifier,
         PlayerClimbing climbing,
         PlayerMode initialMode = PlayerMode.Locomotion)
     {
@@ -105,7 +105,6 @@ public class PlayerActionGuards
 
         if (stats.Stamina.Current <= 0) return false;
 
-
         return true;
     }
 
@@ -140,7 +139,6 @@ public class PlayerActionGuards
         if (!locomotion.IsGrounded) return false;
 
         if (stats.Stamina.Current <= 0) return false;
-
 
         return true;
     }
@@ -190,7 +188,6 @@ public class PlayerActionGuards
         if (statsModifier.IsDamaged) return false;
 
         if (statsModifier.IsDead()) return false;
-
 
         return true;
     }

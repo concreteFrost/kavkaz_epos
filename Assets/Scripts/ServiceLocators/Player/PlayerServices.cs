@@ -1,37 +1,47 @@
 ﻿using UnityEngine;
 
-
-public class PlayerControllerService
+public struct PlayerControllerService
 {
     public PlayerMotor controller;
     public HumanoidCombatController combatController;
-    public PlayerStatsController statsModifier;
+    public PlayerDamageController damageController;
+    public PlayerStatsController statsController;
     public PlayerStats stats;
     public PlayerInteract interact;
     public PlayerClimbing climbing;
     public Animator animator;
 
-    public PlayerControllerService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsController statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing, Animator animator)
+    public PlayerControllerService(
+        PlayerMotor controller,
+        HumanoidCombatController combatController,
+        PlayerDamageController damageController,
+        PlayerStats stats,
+        PlayerStatsController statsModifier,
+        PlayerInteract interact,
+        PlayerClimbing climbing,
+        Animator animator)
     {
         this.controller = controller;
         this.combatController = combatController;
-        this.statsModifier = statsModifier;
+        this.damageController = damageController;
         this.stats = stats;
         this.interact = interact;
         this.climbing = climbing;
         this.animator = animator;
+        this.statsController = statsModifier;
     }
-
 }
 
-public class PlayerInputServiceProvider
+public struct PlayerInputService
 {
-
     public PlayerController controller;
     public PlayerAnimator animator;
     public PlayerTargetLock targetLock;
 
-    public PlayerInputServiceProvider(PlayerController controller, PlayerAnimator animator, PlayerTargetLock targetLock)
+    public PlayerInputService(
+        PlayerController controller,
+        PlayerAnimator animator,
+        PlayerTargetLock targetLock)
     {
         this.controller = controller;
         this.animator = animator;
@@ -39,69 +49,50 @@ public class PlayerInputServiceProvider
     }
 }
 
-public class PlayerAnimatorServiceProvider
+public struct PlayerAnimatorService
 {
     public Animator animator;
     public PlayerMotor motor;
     public HumanoidCombatController combatController;
-    public PlayerStatsController statsModifier;
+    public PlayerDamageController damageController;
     public PlayerTargetLock targetLock;
-   
-    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsController statsModifier, PlayerTargetLock targetLock)
+
+    public PlayerAnimatorService(
+        Animator animator,
+        PlayerMotor motor,
+        HumanoidCombatController combatController,
+        PlayerTargetLock targetLock,
+        PlayerDamageController damageController)
     {
         this.animator = animator;
         this.motor = motor;
         this.combatController = combatController;
-        this.statsModifier = statsModifier;
         this.targetLock = targetLock;
-       
-    }
-
-}
-
-public class PlayerControllerServiceProvider
-{
-    public Animator animator;
-    public PlayerControllerServiceProvider(Animator animator)
-    {
-        this.animator = animator;
+        this.damageController = damageController;
     }
 }
 
-public class PlayerInteractServiceProvider
-{
 
-    public PlayerCombatInventory combatInventory;
-
-    public PlayerInteractServiceProvider(PlayerCombatInventory combatInventory)
-    {
-        this.combatInventory = combatInventory;
-
-    }
-}
-
-public class PlayerStatsServiceProvider
+public struct PlayerInteractService
 {
     public PlayerCombatInventory combatInventory;
-    public PlayerMotor motor;
-    public PlayerStatsUI playerStatsUI;
-    public PlayerInput input;
-    public PlayerStatsServiceProvider(PlayerCombatInventory combatInventory, PlayerMotor motor, PlayerStatsUI playerStatsUI, PlayerInput input)
+
+    public PlayerInteractService(PlayerCombatInventory combatInventory)
     {
         this.combatInventory = combatInventory;
-        this.motor = motor;
-        this.playerStatsUI = playerStatsUI;
-        this.input = input;
     }
 }
 
-public class PlayerCombatInventoryServiceProvider
+public struct PlayerCombatInventoryService
 {
     public HumanoidCombatController combatController;
     public PlayerStatsController statsModifier;
     public string sourceId;
 
-    public PlayerCombatInventoryServiceProvider(HumanoidCombatController combatController, PlayerStatsController stats, string sourceId)
+    public PlayerCombatInventoryService(
+        HumanoidCombatController combatController,
+        PlayerStatsController stats,
+        string sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;
@@ -109,38 +100,51 @@ public class PlayerCombatInventoryServiceProvider
     }
 }
 
-public class PlayerStatsModifierServiceProvider
+public struct PlayerStatsService
 {
-    public string uniqueId;
-    public PlayerStats stats;
-    public PlayerStatsUI ui;
+    public PlayerCombatInventory combatInventory;
+    public PlayerMotor motor;
     public PlayerInput input;
-    public HumanoidCombatController combatController;
-    public PlayerCombatInventory inventory;
 
-    public PlayerStatsModifierServiceProvider(string uniqueId, PlayerStats stats, PlayerStatsUI ui, PlayerInput input, HumanoidCombatController combatController, PlayerCombatInventory inventory)
+    public PlayerStatsService(
+        PlayerCombatInventory combatInventory,
+        PlayerMotor motor,
+        PlayerInput input)
     {
-        this.uniqueId = uniqueId;
-        this.stats = stats;
-        this.ui = ui;
-        this.combatController = combatController;
+        this.combatInventory = combatInventory;
+        this.motor = motor;
         this.input = input;
-        this.inventory = inventory;
     }
 }
 
-public class PlayerTargetLockServiceProvider
+
+public struct PlayerStatsControllerService
+{
+    public PlayerStats stats;
+
+    public PlayerStatsControllerService(PlayerStats stats)
+    {
+        this.stats = stats;
+    }
+}
+
+public struct PlayerTargetLockService
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
-    public PlayerStatsController statsModifier;
+    public PlayerDamageController damageController;
 
-    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsController statsModifier)
+    public PlayerTargetLockService(
+        LockOnTargetUI lockOnTargetUI,
+        PlayerController controller,
+        PlayerDamageController damageController)
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;
-        this.statsModifier = statsModifier;
+        this.damageController = damageController;
     }
 }
+
+
 
 

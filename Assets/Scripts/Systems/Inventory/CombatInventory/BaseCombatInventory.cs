@@ -40,7 +40,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
     /// </summary>
     public List<string> targetsToIgnore = new List<string>();
 
-    public virtual void Init(PlayerCombatInventoryServiceProvider service)
+    public virtual void Init(PlayerCombatInventoryService service)
     {
         sourceId = service.sourceId;
     }

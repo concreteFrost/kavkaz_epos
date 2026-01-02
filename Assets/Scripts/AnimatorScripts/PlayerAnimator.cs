@@ -4,19 +4,18 @@ public class PlayerAnimator : BaseHumanoidAnimator
 {
     PlayerMotor locomotion;
     HumanoidCombatController combatController;
-    PlayerStatsController playerStatsModifier;
+    PlayerDamageController damageController;
     PlayerTargetLock targetLock;
-
-    public void Init(PlayerAnimatorServiceProvider provider)
+ 
+    public void Init(PlayerAnimatorService provider)
     {
         this.animator = provider.animator;
         this.locomotion = provider.motor;
         this.combatController = provider.combatController;
-        this.playerStatsModifier = provider.statsModifier;
         this.targetLock = provider.targetLock;
-       
-
+        this.damageController = provider.damageController;
     }
+
     public override void UpdateAnimatorParameters()
     {
         if (animator == null || !animator.enabled)
@@ -64,9 +63,9 @@ public class PlayerAnimator : BaseHumanoidAnimator
         //animator.SetBool(AnimatorParameters.IsThrowingWeapon, combatController.IsThrowingWeapon);
 
         // damage
-        animator.SetBool(AnimatorParameters.IsDamaged, playerStatsModifier.IsDamaged);
-        animator.SetFloat(AnimatorParameters.BalancePenalty, playerStatsModifier.BalancePenalty);
-        animator.SetBool(AnimatorParameters.IsDead, playerStatsModifier.IsDead());
+        animator.SetBool(AnimatorParameters.IsDamaged,damageController.IsDamaged);
+        animator.SetFloat(AnimatorParameters.BalancePenalty, damageController.BalancePenalty);
+        animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
 
         //target lock
         animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);

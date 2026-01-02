@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlayerServiceLocator : MonoBehaviour
 {
-    [SerializeField] UniqueId uniqueId;
 
+    #region CORE
+    [Header("CORE")]
+    [SerializeField] UniqueId uniqueId;
     [SerializeField] Animator animator;
 
     [SerializeField] PlayerController controller;
@@ -13,52 +15,72 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerInput input;
 
     [SerializeField] private HumanoidCombatController combatController;
+    [SerializeField] private PlayerDamageController damageController;   
     [SerializeField] private PlayerStats stats;
-    [SerializeField] private PlayerStatsController statsModifier;
+    [SerializeField] private PlayerStatsController statsController;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
    
     [SerializeField] private PlayerTargetLock targetLock;
 
-    [SerializeField] private PlayerUIServiceLocator uIServiceLocator;
-
     [SerializeField] private PlayerAnimator characterAnimator = new PlayerAnimator();
+
+    #endregion
+
+    #region UI
+    [Header("UI")]
+    [SerializeField] private PlayerStatsUI playerStatsUI;
+    [SerializeField] private LockOnTargetUI lockOnTargetUI;
+
+
+    #endregion
 
     private void Awake()
     {
         
+        CoreInit();
+        UiInit();
+    }
+
+    void CoreInit()
+    {
         var uID = uniqueId.uniqueId;
-        
-        PlayerInputServiceProvider inpurService = new PlayerInputServiceProvider(controller, characterAnimator, targetLock);
+
+        PlayerInputService inpurService = new PlayerInputService(controller, characterAnimator, targetLock);
         input.Init(inpurService);
 
-        PlayerControllerService stateServiceProvider = new PlayerControllerService(motor, combatController, statsModifier, stats, interaction, climbing, animator);
+        PlayerControllerService stateServiceProvider = new PlayerControllerService(motor, combatController, damageController, stats, statsController, interaction, climbing, animator);
         controller.Init(stateServiceProvider);
 
         HumanoidMotorServices controllerService = new HumanoidMotorServices(animator);
         motor.Init(controllerService);
 
-        PlayerStatsServiceProvider statsService = new PlayerStatsServiceProvider(combatInventory, motor, uIServiceLocator.GetPlayerStatsUI(), input);
+        PlayerStatsService statsService = new PlayerStatsService(combatInventory, motor, input);
         stats.Init(statsService);
 
-        PlayerStatsModifierServiceProvider modifierServiceProvider = new PlayerStatsModifierServiceProvider(uID, stats, uIServiceLocator.GetPlayerStatsUI(), input, combatController, combatInventory);
-        statsModifier.Init(modifierServiceProvider);
+        PlayerStatsControllerService modifierServiceProvider = new PlayerStatsControllerService(stats);
+        statsController.Init(modifierServiceProvider);
 
         HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, animator);
         combatController.Init(combatControllerService);
 
-        PlayerAnimatorServiceProvider animatorServiceProvider = new PlayerAnimatorServiceProvider(animator, motor, combatController, statsModifier, targetLock);
+        PlayerAnimatorService animatorServiceProvider = new PlayerAnimatorService(animator, motor, combatController, targetLock, damageController);
         characterAnimator.Init(animatorServiceProvider);
 
-        PlayerInteractServiceProvider interactionService = new PlayerInteractServiceProvider(combatInventory);
+        PlayerInteractService interactionService = new PlayerInteractService(combatInventory);
         interaction.Init(interactionService);
 
-        PlayerCombatInventoryServiceProvider combatInventoryService = new PlayerCombatInventoryServiceProvider(combatController, statsModifier, uID);
+        PlayerCombatInventoryService combatInventoryService = new PlayerCombatInventoryService(combatController, statsController, uID);
         combatInventory.Init(combatInventoryService);
 
-        PlayerTargetLockServiceProvider targetLockServiceProvider = new PlayerTargetLockServiceProvider(uIServiceLocator.GetLockOnTargetUI(), controller, statsModifier);
+        PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController);
         targetLock.Init(targetLockServiceProvider);
 
+        damageController.Init(statsController, stats, combatController, combatInventory, input, uID);
     }
 
+    void UiInit()
+    {
+        playerStatsUI.Init(stats);
+    }
 }

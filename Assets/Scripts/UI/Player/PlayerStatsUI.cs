@@ -10,17 +10,32 @@ public class PlayerStatsUI : MonoBehaviour
     IEnumerator healthCoroutine;
     IEnumerator staminaCoroutine;
 
+    PlayerStats stats;
+
     [SerializeField] private float sliderUpdateSpeed = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+
     public void Init(PlayerStats playerStats)
     {
-        healthSlider.maxValue = playerStats.maxHealth;
-        healthSlider.value = playerStats.Health.Current;
+        stats = playerStats;
 
-        staminaSlider.maxValue = playerStats.maxStamina;  
-        staminaSlider.value = playerStats.Stamina.Current;   
+        healthSlider.maxValue = stats.maxHealth;
+        healthSlider.value = stats.Health.Current;
+
+        staminaSlider.maxValue = stats.maxStamina;  
+        staminaSlider.value = stats.Stamina.Current;
+
+        stats.Health.Changed += UpdateHealthSlider;
+        stats.Stamina.Changed += UpdateStaminaSlider;
     }
+
+    private void OnDisable()
+    {
+        stats.Health.Changed -= UpdateHealthSlider;
+        stats.Stamina.Changed -= UpdateStaminaSlider;
+    }
+
 
     public void UpdateHealthSlider(float value)
     {

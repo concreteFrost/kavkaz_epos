@@ -5,7 +5,6 @@ public interface IDamagable
     public abstract void TakeDamage(float damage, float balanceDamage, IAttackSource source=null);   
     public void Die();
     public bool IsDead();
-
     bool IsDamaged { get; set; }
     float BalancePenalty { get; set; }
 }

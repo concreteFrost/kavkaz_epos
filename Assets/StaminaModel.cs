@@ -24,6 +24,9 @@ public class StaminaModel
         MaxRegenDelay = maxRegenDelay;
         RegenRate = rate;
 
+        DefaultRegenDelay = MinRegenDelay;
+        DefaultRegenRate = RegenRate;
+
         RegenTimer = 0;
         
     }
@@ -52,6 +55,12 @@ public class StaminaModel
 
         Current = Mathf.Clamp(Current,0, Max);  
 
+        Changed?.Invoke(Current);   
+    }
+
+    public void ResetStamina(float max)
+    {
+        Current = max;
         Changed?.Invoke(Current);   
     }
 

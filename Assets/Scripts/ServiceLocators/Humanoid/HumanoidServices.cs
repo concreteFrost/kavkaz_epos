@@ -1,20 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HumanoidCombatControllerServices
+public struct HumanoidCombatControllerServices
 {
     public IAttackSource combatInventory;
     public Animator animator;
 
-    public HumanoidCombatControllerServices(IAttackSource combatInventory, Animator animator)
+    public HumanoidCombatControllerServices(
+        IAttackSource combatInventory,
+        Animator animator)
     {
         this.combatInventory = combatInventory;
         this.animator = animator;
-      
     }
 }
 
-public class HumanoidMotorServices
+public struct HumanoidMotorServices
 {
     public Animator animator;
 
@@ -23,3 +23,4 @@ public class HumanoidMotorServices
         this.animator = animator;
     }
 }
+

@@ -14,20 +14,20 @@ public class PlayerTargetLock : TargetLock
     [SerializeField] private Image img;
 
     PlayerController controller;
-    PlayerStatsController statsModifier;
+    PlayerDamageController damageController;
 
-    public void Init(PlayerTargetLockServiceProvider provider)
+    public void Init(PlayerTargetLockService provider)
     {   
         this.lockOnTargetUI = provider.lockOnTargetUI;
         this.controller = provider.controller;
         this.targetSeeker = controller.transform;
-        this.statsModifier = provider.statsModifier; 
+        this.damageController = provider.damageController; 
     }
 
     private void Update()
     {
         if (currentTarget == null) return;
-        if (statsModifier.IsDead())
+        if (damageController.IsDead())
         {
             ResetLockTarget();
             return;
