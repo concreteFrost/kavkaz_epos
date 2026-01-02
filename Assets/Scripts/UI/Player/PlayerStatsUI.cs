@@ -16,10 +16,10 @@ public class PlayerStatsUI : MonoBehaviour
     public void Init(PlayerStats playerStats)
     {
         healthSlider.maxValue = playerStats.maxHealth;
-        healthSlider.value = playerStats.currentHealth;
+        healthSlider.value = playerStats.Health.Current;
 
         staminaSlider.maxValue = playerStats.maxStamina;  
-        staminaSlider.value = playerStats.currentStamina;   
+        staminaSlider.value = playerStats.Stamina.Current;   
     }
 
     public void UpdateHealthSlider(float value)

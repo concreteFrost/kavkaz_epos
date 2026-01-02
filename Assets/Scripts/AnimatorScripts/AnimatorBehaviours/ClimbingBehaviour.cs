@@ -12,7 +12,7 @@ public class ClimbingBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //включаем root motion с задержкой
-        if (stateInfo.normalizedTime > 0.2f)
+        if (stateInfo.normalizedTime > 0.15f)
         {
             animator.applyRootMotion = true;
         }

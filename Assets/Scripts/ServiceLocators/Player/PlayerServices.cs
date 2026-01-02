@@ -5,13 +5,13 @@ public class PlayerControllerService
 {
     public PlayerMotor controller;
     public HumanoidCombatController combatController;
-    public PlayerStatsModifier statsModifier;
+    public PlayerStatsController statsModifier;
     public PlayerStats stats;
     public PlayerInteract interact;
     public PlayerClimbing climbing;
     public Animator animator;
 
-    public PlayerControllerService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing, Animator animator)
+    public PlayerControllerService(PlayerMotor controller, HumanoidCombatController combatController, PlayerStatsController statsModifier, PlayerStats stats, PlayerInteract interact, PlayerClimbing climbing, Animator animator)
     {
         this.controller = controller;
         this.combatController = combatController;
@@ -44,10 +44,10 @@ public class PlayerAnimatorServiceProvider
     public Animator animator;
     public PlayerMotor motor;
     public HumanoidCombatController combatController;
-    public PlayerStatsModifier statsModifier;
+    public PlayerStatsController statsModifier;
     public PlayerTargetLock targetLock;
    
-    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsModifier statsModifier, PlayerTargetLock targetLock)
+    public PlayerAnimatorServiceProvider(Animator animator, PlayerMotor motor, HumanoidCombatController combatController, PlayerStatsController statsModifier, PlayerTargetLock targetLock)
     {
         this.animator = animator;
         this.motor = motor;
@@ -98,10 +98,10 @@ public class PlayerStatsServiceProvider
 public class PlayerCombatInventoryServiceProvider
 {
     public HumanoidCombatController combatController;
-    public PlayerStatsModifier statsModifier;
+    public PlayerStatsController statsModifier;
     public string sourceId;
 
-    public PlayerCombatInventoryServiceProvider(HumanoidCombatController combatController, PlayerStatsModifier stats, string sourceId)
+    public PlayerCombatInventoryServiceProvider(HumanoidCombatController combatController, PlayerStatsController stats, string sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;
@@ -133,9 +133,9 @@ public class PlayerTargetLockServiceProvider
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
-    public PlayerStatsModifier statsModifier;
+    public PlayerStatsController statsModifier;
 
-    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsModifier statsModifier)
+    public PlayerTargetLockServiceProvider(LockOnTargetUI lockOnTargetUI, PlayerController controller, PlayerStatsController statsModifier)
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;

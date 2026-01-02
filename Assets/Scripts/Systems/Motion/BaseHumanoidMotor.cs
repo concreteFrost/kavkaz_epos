@@ -173,7 +173,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
 
         var newInput = new Vector2(verticalSpeed, horizontalSpeed);
 
-        inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorConsts.runningSpeed : AnimatorConsts.walkSpeed);
+        inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorParameters.runningSpeed : AnimatorParameters.walkSpeed);
     }
 
     #region Abstract Methods

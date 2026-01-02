@@ -4,7 +4,7 @@ public class PlayerAnimator : BaseHumanoidAnimator
 {
     PlayerMotor locomotion;
     HumanoidCombatController combatController;
-    PlayerStatsModifier playerStatsModifier;
+    PlayerStatsController playerStatsModifier;
     PlayerTargetLock targetLock;
 
     public void Init(PlayerAnimatorServiceProvider provider)

@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     PlayerMotor locomotion;
     HumanoidCombatController combatController;
-    PlayerStatsModifier statsModifier;
+    PlayerStatsController statsModifier;
     PlayerStats stats;
     PlayerInteract interact;
     PlayerClimbing climbing;

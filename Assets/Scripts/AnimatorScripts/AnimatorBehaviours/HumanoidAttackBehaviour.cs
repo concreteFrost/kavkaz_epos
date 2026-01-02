@@ -4,7 +4,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
 
     IAttackSource inv;
-    ICharacterCombatData combatAnimData;
+    IHumanoidCombat combatAnimData;
     IHumanoidMovement motor;
     ICharacterStatsModifier statsModifier;
 
@@ -13,11 +13,15 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<IAttackSource>();
-        combatAnimData = animator.GetComponentInChildren<ICharacterCombatData>();
+        combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
         statsModifier = animator.GetComponentInChildren<ICharacterStatsModifier>();
 
-        statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
+        if(inv.CurrentWeapon != null)
+        {
+            statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
+        }
+        
 
         animator.applyRootMotion = true;
         hitActive = false;

@@ -31,8 +31,7 @@ public class PlayerCombatInventory : BaseCombatInventory
     public override void ResetWeapon()
     {
 
-        CurrentWeapon = DefaultWeapon;
-        //combatController.IsAttacking = false;   
+        CurrentWeapon = DefaultWeapon;  
         combatController.IsWeaponed = false;    
 
     }

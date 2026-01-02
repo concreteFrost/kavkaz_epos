@@ -14,7 +14,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private PlayerStats stats;
-    [SerializeField] private PlayerStatsModifier statsModifier;
+    [SerializeField] private PlayerStatsController statsModifier;
     [SerializeField] private PlayerInteract interaction;
     [SerializeField] private PlayerCombatInventory combatInventory;
    

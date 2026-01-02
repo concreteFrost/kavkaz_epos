@@ -33,6 +33,9 @@ public class DamagableObject : MonoBehaviour, IDamagable
         gameObject.SetActive(false);    
     }
 
+    public bool IsDamaged { get; set; }
+    public float BalancePenalty {  get; set; }   
+
     #endregion
 
     private void Awake()

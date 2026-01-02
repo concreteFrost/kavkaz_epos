@@ -14,7 +14,7 @@ public class PlayerTargetLock : TargetLock
     [SerializeField] private Image img;
 
     PlayerController controller;
-    PlayerStatsModifier statsModifier;
+    PlayerStatsController statsModifier;
 
     public void Init(PlayerTargetLockServiceProvider provider)
     {   

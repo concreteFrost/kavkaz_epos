@@ -14,15 +14,16 @@ public abstract class CharacterStats : MonoBehaviour
     public float jumpTimer;
 
     [Header("health")]
-    public float currentHealth;
+    public HealthModel Health;
     public float maxHealth;
 
     [Header("stamina")]
-    public float currentStamina;
+    public StaminaModel Stamina;
     public float maxStamina;
     public float staminaRunReducePenalty = 0.03f;
     public float staminaJumpReducePenalty = 2f;
-    public float staminaRegenDelay = 5f;
+    public float staminaMinRegenDelay = 2f;
+    public float staminaMaxRegenDelay = 5f;
     public float staminaRegenRate = 0.1f;
     public float staminaRegenTimer = 0.0f;
 
@@ -36,11 +37,11 @@ public abstract class CharacterStats : MonoBehaviour
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 
-        currentHealth = statsSO.health;
-        maxHealth = currentHealth;
+        Health = new HealthModel(statsSO.health);
+        maxHealth = Health.Current;
 
-        currentStamina = statsSO.stamina;
-        maxStamina = currentStamina;    
+        Stamina = new StaminaModel(statsSO.stamina, staminaMinRegenDelay, staminaMaxRegenDelay, staminaRegenRate);
+        maxStamina = Stamina.Current;    
 
     }
 

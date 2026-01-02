@@ -1,27 +1,26 @@
 using UnityEngine;
 
-public abstract class CharacterStatsModifier : MonoBehaviour, IDamagable , ICharacterStatsModifier
+public abstract class CharacterStatsController : MonoBehaviour, IDamagable , ICharacterStatsModifier
 {
     protected string uniqueID;
 
     protected bool isDead;
 
     #region Damage variables
-
     protected bool isDamaged;
     protected bool canTakeAnotherDamage = true;
+    protected float balancePenalty;
+  
     [SerializeField] protected float maxDamageCooldown = 1f; //предотвращает повторное получение урона
     #endregion
 
-
     #region IDamagable Contract
-    public virtual void Die()
-    {
-        isDead = true; 
-    }
+    public abstract void Die();
     public bool IsDead() => isDead;
     public string SourceId() => uniqueID;
     public abstract void TakeDamage(float damage, float balanceDamage, IAttackSource source);
+    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
+    public float BalancePenalty { get => balancePenalty; set => balancePenalty=value; }
     #endregion
 
     #region ICharacterStatsModifier Contract

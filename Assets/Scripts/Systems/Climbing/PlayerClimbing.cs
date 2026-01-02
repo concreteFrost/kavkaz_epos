@@ -28,7 +28,7 @@ public class PlayerClimbing : MonoBehaviour, IClimber
     public void EnterClimb(Vector3 normal)
     {
         actionGuards.SetMode(PlayerMode.Climbing);
-        animator.CrossFade("Climb Up", 0.2f, 4);
+        animator.CrossFade("Climb Up", AnimatorParameters.transitionSpeed, AnimatorParameters.climbLayer);
         IsClimbing = true;
         motor.AttachTo(normal);
     }

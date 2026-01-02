@@ -147,14 +147,14 @@ public class Weapon : CombatItem, IWeapon
     {
         // ждём, пока оружие реально начнёт двигаться
         yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.1f);
-        Debug.Log("weapon flying");
+       
 
         while (true)
         {
             if (rb.linearVelocity.magnitude < minStopVelocity)
             {
                 damageCollider.DisableCollider();
-                Debug.Log("weapon landed");
+               
                 yield break;
             }
 

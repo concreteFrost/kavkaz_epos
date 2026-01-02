@@ -10,7 +10,7 @@ public class PlayerActionGuards
     readonly PlayerMotor locomotion;
     readonly HumanoidCombatController combat;
     readonly PlayerStats stats;
-    readonly PlayerStatsModifier statsModifier;
+    readonly PlayerStatsController statsModifier;
     readonly PlayerClimbing climbing;
 
     PlayerMode mode;
@@ -19,7 +19,7 @@ public class PlayerActionGuards
         PlayerMotor locomotion,
         HumanoidCombatController combat,
         PlayerStats stats,
-        PlayerStatsModifier statsModifier,
+        PlayerStatsController statsModifier,
         PlayerClimbing climbing,
         PlayerMode initialMode = PlayerMode.Locomotion)
     {
@@ -88,7 +88,7 @@ public class PlayerActionGuards
 
         if (locomotion.GroundAngle() >= locomotion.slopeLimit) return false;
 
-        if (stats.currentStamina <= 0) return false;
+        if (stats.Stamina.Current <= 0) return false;
 
         return true;
     }
@@ -103,7 +103,7 @@ public class PlayerActionGuards
 
         if (locomotion.StopMove) return false;
 
-        if (stats.currentStamina <= 0) return false;
+        if (stats.Stamina.Current <= 0) return false;
 
 
         return true;
@@ -121,7 +121,7 @@ public class PlayerActionGuards
 
         if (statsModifier.IsDamaged) return false;
 
-        if (stats.currentStamina <= 0) return false;
+        if (stats.Stamina.Current <= 0) return false;
 
         Vector3 localDir = locomotion.transform.InverseTransformDirection(locomotion.MoveDirection);
         bool isMovingForward = localDir.z > 0.1f;
@@ -139,7 +139,7 @@ public class PlayerActionGuards
 
         if (!locomotion.IsGrounded) return false;
 
-        if (stats.currentStamina <= 0) return false;
+        if (stats.Stamina.Current <= 0) return false;
 
 
         return true;
@@ -167,7 +167,7 @@ public class PlayerActionGuards
 
         if (locomotion.StopMove) return false;
 
-        if (stats.currentStamina <= 0) return false;
+        if (stats.Stamina.Current <= 0) return false;
 
         return true;
     }

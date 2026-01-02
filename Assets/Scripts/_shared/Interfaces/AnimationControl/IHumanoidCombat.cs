@@ -1,5 +1,5 @@
 ﻿
-public interface ICharacterCombatData
+public interface IHumanoidCombat
 {
     //bool IsAttacking { get; set; }
     bool IsWeaponed { get; set; }

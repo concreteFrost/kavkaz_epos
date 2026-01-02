@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HumanoidCombatController : MonoBehaviour, ICharacterCombatData
+public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 {
 
     //ссылки
@@ -76,7 +76,7 @@ public class HumanoidCombatController : MonoBehaviour, ICharacterCombatData
     {
         ResetCombo();
         //isThrowingWeapon = true;
-        animator.CrossFade("Throw weapon", .15f, 2);
+        animator.CrossFade("Throw weapon", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 
     public void ThrowShield()
