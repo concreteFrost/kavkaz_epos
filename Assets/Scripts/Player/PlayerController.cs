@@ -3,12 +3,12 @@
 public class PlayerController : MonoBehaviour
 {
     PlayerMotor locomotion;
-    HumanoidCombatController combatController;
-    PlayerDamageController damageController;
-    PlayerStatsController statsController;
+    IHumanoidCombat combatController;
+    IDamagable damageController;
+    ICharacterStatsModifier statsController;
     
-    PlayerStats stats;
-    PlayerInteract interact;
+    CharacterStats stats;
+    ICollector interact;
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
     Animator animator;

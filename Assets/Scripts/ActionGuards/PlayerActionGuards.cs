@@ -8,19 +8,19 @@ public enum PlayerMode
 public class PlayerActionGuards
 {
     readonly PlayerMotor locomotion;
-    readonly HumanoidCombatController combat;
-    readonly PlayerStats stats;
-    readonly PlayerDamageController statsModifier;
-    readonly PlayerClimbing climbing;
+    readonly IHumanoidCombat combat;
+    readonly CharacterStats stats;
+    readonly IDamagable statsModifier;
+    readonly IClimber climbing;
 
     PlayerMode mode;
 
     public PlayerActionGuards(
         PlayerMotor locomotion,
-        HumanoidCombatController combat,
-        PlayerStats stats,
-        PlayerDamageController statsModifier,
-        PlayerClimbing climbing,
+        IHumanoidCombat combat,
+        CharacterStats stats,
+        IDamagable statsModifier,
+        IClimber climbing,
         PlayerMode initialMode = PlayerMode.Locomotion)
     {
         this.locomotion = locomotion;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CharacterStats : MonoBehaviour
+public class CharacterStats : MonoBehaviour
 {
 
     public BaseCharacterStatsSO statsSO;
@@ -24,8 +24,7 @@ public abstract class CharacterStats : MonoBehaviour
     public float staminaJumpReducePenalty = 2f;
     public float staminaMinRegenDelay = 2f;
     public float staminaMaxRegenDelay = 5f;
-    public float staminaRegenRate = 0.1f;
-    public float staminaRegenTimer = 0.0f;
+    public float staminaRegenRate = 15f;
 
     [Header("balance")]
     public float currentBalance = 0f;
@@ -43,6 +42,11 @@ public abstract class CharacterStats : MonoBehaviour
         Stamina = new StaminaModel(statsSO.stamina, staminaMinRegenDelay, staminaMaxRegenDelay, staminaRegenRate);
         maxStamina = Stamina.Current;    
 
+    }
+
+    public void Init()
+    {
+        InitializeStats();
     }
 
 

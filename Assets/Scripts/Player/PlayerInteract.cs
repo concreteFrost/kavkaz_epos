@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour, ICollector 
 {
 
-    PlayerCombatInventory attackSource;
+    IAttackSource attackSource;
 
     /// <summary>
     /// Предмет для поднятия
@@ -15,7 +15,7 @@ public class PlayerInteract : MonoBehaviour, ICollector
     /// </summary>
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
-    public void Init(PlayerInteractService service)
+    public void Init(HumanoidInteractService service)
     { 
         attackSource = service.combatInventory;
     }

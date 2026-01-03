@@ -70,6 +70,6 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         combatAnimData.EndAttack();
 
         // проверяем очередь нажатий
-        combatAnimData.TryStartNextAttackFromQueue();
+        //combatAnimData.TryStartNextAttackFromQueue();
     }
 }

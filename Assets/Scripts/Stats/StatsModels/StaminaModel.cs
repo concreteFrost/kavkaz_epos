@@ -49,12 +49,14 @@ public class StaminaModel
         
         RegenTimer += Time.deltaTime;
        
-        if (RegenTimer < _r) return;
+        if (RegenTimer < MinRegenDelay) return;
 
         Current += RegenRate * Time.deltaTime;
 
-        Current = Mathf.Clamp(Current,0, Max);  
+        Debug.Log(Current);
+        Current = Mathf.Clamp(Current,0, Max);
 
+        
         Changed?.Invoke(Current);   
     }
 

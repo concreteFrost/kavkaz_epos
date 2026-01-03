@@ -7,8 +7,8 @@ public class PlayerDamageController : MonoBehaviour, IDamagable
     IHumanoidCombat combatController;
     IAttackSource inventory;
     
-    PlayerStatsController statsController;
-    PlayerStats stats;
+    CharacterStatsController statsController;
+    CharacterStats stats;
     PlayerInput input;
     
     protected string uniqueID;
@@ -30,7 +30,7 @@ public class PlayerDamageController : MonoBehaviour, IDamagable
     public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
     #endregion
 
-    public void Init(PlayerStatsController statsController,PlayerStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
+    public void Init(CharacterStatsController statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
         this.uniqueID = uniqueID; 
         this.statsController = statsController;

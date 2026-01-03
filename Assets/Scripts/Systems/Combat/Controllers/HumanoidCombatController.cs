@@ -130,6 +130,8 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
         {
             ResetCombo();
         }
+
+        //TryStartNextAttackFromQueue();
     }
 
     public void TryStartNextAttackFromQueue()

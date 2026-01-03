@@ -10,13 +10,12 @@ public class PlayerStatsUI : MonoBehaviour
     IEnumerator healthCoroutine;
     IEnumerator staminaCoroutine;
 
-    PlayerStats stats;
+    CharacterStats stats;
 
     [SerializeField] private float sliderUpdateSpeed = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
-    public void Init(PlayerStats playerStats)
+    public void Init(CharacterStats playerStats)
     {
         stats = playerStats;
 

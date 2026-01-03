@@ -3,21 +3,22 @@
 public struct PlayerControllerService
 {
     public PlayerMotor controller;
-    public HumanoidCombatController combatController;
-    public PlayerDamageController damageController;
-    public PlayerStatsController statsController;
-    public PlayerStats stats;
-    public PlayerInteract interact;
-    public PlayerClimbing climbing;
+    public CharacterStats stats;
     public Animator animator;
+
+    public IHumanoidCombat combatController;
+    public IDamagable damageController;
+    public ICharacterStatsModifier statsController;
+    public ICollector interact;
+    public PlayerClimbing climbing;
 
     public PlayerControllerService(
         PlayerMotor controller,
-        HumanoidCombatController combatController,
-        PlayerDamageController damageController,
-        PlayerStats stats,
-        PlayerStatsController statsModifier,
-        PlayerInteract interact,
+        IHumanoidCombat combatController,
+        IDamagable damageController,
+        CharacterStats stats,
+        ICharacterStatsModifier statsModifier,
+        ICollector interact,
         PlayerClimbing climbing,
         Animator animator)
     {
@@ -53,16 +54,16 @@ public struct PlayerAnimatorService
 {
     public Animator animator;
     public PlayerMotor motor;
-    public HumanoidCombatController combatController;
-    public PlayerDamageController damageController;
+    public IHumanoidCombat combatController;
+    public IDamagable damageController;
     public PlayerTargetLock targetLock;
 
     public PlayerAnimatorService(
         Animator animator,
         PlayerMotor motor,
-        HumanoidCombatController combatController,
+        IHumanoidCombat combatController,
         PlayerTargetLock targetLock,
-        PlayerDamageController damageController)
+        IDamagable damageController)
     {
         this.animator = animator;
         this.motor = motor;
@@ -73,75 +74,41 @@ public struct PlayerAnimatorService
 }
 
 
-public struct PlayerInteractService
-{
-    public PlayerCombatInventory combatInventory;
-
-    public PlayerInteractService(PlayerCombatInventory combatInventory)
-    {
-        this.combatInventory = combatInventory;
-    }
-}
-
-public struct PlayerCombatInventoryService
-{
-    public HumanoidCombatController combatController;
-    public PlayerStatsController statsModifier;
-    public string sourceId;
-
-    public PlayerCombatInventoryService(
-        HumanoidCombatController combatController,
-        PlayerStatsController stats,
-        string sourceId)
-    {
-        this.combatController = combatController;
-        this.statsModifier = stats;
-        this.sourceId = sourceId;
-    }
-}
-
-public struct PlayerStatsService
-{
-    public PlayerCombatInventory combatInventory;
-    public PlayerMotor motor;
-    public PlayerInput input;
-
-    public PlayerStatsService(
-        PlayerCombatInventory combatInventory,
-        PlayerMotor motor,
-        PlayerInput input)
-    {
-        this.combatInventory = combatInventory;
-        this.motor = motor;
-        this.input = input;
-    }
-}
-
-
-public struct PlayerStatsControllerService
-{
-    public PlayerStats stats;
-
-    public PlayerStatsControllerService(PlayerStats stats)
-    {
-        this.stats = stats;
-    }
-}
-
 public struct PlayerTargetLockService
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
-    public PlayerDamageController damageController;
+    public IDamagable damageController;
 
     public PlayerTargetLockService(
         LockOnTargetUI lockOnTargetUI,
         PlayerController controller,
-        PlayerDamageController damageController)
+        IDamagable damageController)
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;
         this.damageController = damageController;
+    }
+}
+
+public struct PlayerDamageControllerServices
+{
+    public ICharacterStatsModifier statsController;
+    public CharacterStats stats;
+    public PlayerInput input;
+
+    public IHumanoidCombat combatController;
+    public IAttackSource attackSource;
+
+    public PlayerDamageControllerServices(ICharacterStatsModifier statsController, CharacterStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
+    {
+        this.statsController = statsController;
+        this.stats = stats;
+        this.input = input;
+  
+        this.attackSource = attackSource;
+        this.combatController = combatController;
+
     }
 }
 

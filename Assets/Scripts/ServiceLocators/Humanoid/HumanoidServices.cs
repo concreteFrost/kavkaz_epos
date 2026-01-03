@@ -24,3 +24,42 @@ public struct HumanoidMotorServices
     }
 }
 
+
+public struct HumanoidInteractService
+{
+    public IAttackSource combatInventory;
+
+    public HumanoidInteractService(IAttackSource combatInventory)
+    {
+        this.combatInventory = combatInventory;
+    }
+}
+
+public struct HumanoidCombatInventoryService
+{
+    public IHumanoidCombat combatController;
+    public ICharacterStatsModifier statsModifier;
+    public string sourceId;
+
+    public HumanoidCombatInventoryService(
+        IHumanoidCombat combatController,
+        ICharacterStatsModifier stats,
+        string sourceId)
+    {
+        this.combatController = combatController;
+        this.statsModifier = stats;
+        this.sourceId = sourceId;
+    }
+}
+
+
+public struct HumanoidStatsControllerService
+{
+    public CharacterStats stats;
+
+    public HumanoidStatsControllerService(CharacterStats stats)
+    {
+        this.stats = stats;
+    }
+}
+

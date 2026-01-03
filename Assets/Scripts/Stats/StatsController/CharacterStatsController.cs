@@ -1,9 +1,12 @@
-﻿
-public class PlayerStatsController : CharacterStatsController
+
+using UnityEngine;
+
+public class CharacterStatsController : MonoBehaviour, ICharacterStatsModifier
 {
+
     public CharacterStats stats;
 
-    public void Init(PlayerStatsControllerService provider)
+    public void Init(HumanoidStatsControllerService provider)
     {
         stats = provider.stats;
     }
@@ -28,13 +31,14 @@ public class PlayerStatsController : CharacterStatsController
     #endregion
 
     #region Stamina Control
-    public override void ReduceStamina(float amount)
+    public void ReduceStamina(float amount)
     {
         stats.Stamina.Reduce(amount);
     }
-    public override void HandleStaminaRegen()
+    public void HandleStaminaRegen()
     {
         stats.Stamina.Regen();
     }
+
     #endregion
 }

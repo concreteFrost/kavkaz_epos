@@ -3,7 +3,12 @@ public interface IHumanoidCombat
 {
     //bool IsAttacking { get; set; }
     bool IsWeaponed { get; set; }
-    bool IsShieldRaised { get; }
+    bool IsShieldRaised { get; set; }
     void EndAttack();
-    void TryStartNextAttackFromQueue();
+    void PerformAttack();
+    void PerformBlock();
+    void CancelBlock();
+    void ThrowWeapon();
+    void ThrowShield();
+
 }
