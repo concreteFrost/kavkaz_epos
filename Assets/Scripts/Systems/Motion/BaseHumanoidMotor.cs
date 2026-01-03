@@ -29,21 +29,13 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     [Tooltip("Distance to became not grounded")]
     public float groundMinDistance = 0.25f;
     public float groundMaxDistance = 0.5f;
-    [Tooltip("Max angle to walk")]
-    [Range(30, 80)] public float slopeLimit = 45f;
-    internal bool isHighSlope = false; //предотвращает движение если угол наклона выше
 
     [Header("- Root Motion")]
     [Tooltip("Проверяет дистанцию до обьекта во время использования applyRootMotion")]
-    public float distanceToObstacle;
+    public float distanceToObstacle = 0.8f;
 
     #region Components
-
     internal Animator animator;
-    internal PhysicsMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics, hangPhysics;         // create PhysicMaterial for the Rigidbody
-    internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
-    internal CapsuleCollider _capsuleCollider;                                          // access CapsuleCollider information
-
     #endregion
 
     internal float inputMagnitude;
@@ -68,12 +60,12 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     internal Vector3 moveDirection;
 
     internal bool stopMove = false;
-    internal bool isSprinting;
-    internal bool isJumping;
+    public bool isSprinting;
+    public bool isJumping;
     internal bool isGrounded = true;
-    internal bool isLockedOnTarget;
-    internal bool isDodging;
-    internal bool isHanging;
+    public bool isLockedOnTarget;
+    public bool isDodging;
+   
     internal bool isRotationBlocked = false;
 
     #region IHumanoidMovement Contract
@@ -96,76 +88,11 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
 
-    public virtual void Init(HumanoidMotorServices service)
-    {
-        animator = service.animator;
-
-        animator.updateMode = AnimatorUpdateMode.Fixed;
-
-        // slides the character through walls and edges
-        frictionPhysics = new PhysicsMaterial();
-        frictionPhysics.name = "frictionPhysics";
-        frictionPhysics.staticFriction = .25f;
-        frictionPhysics.dynamicFriction = .25f;
-        frictionPhysics.frictionCombine = PhysicsMaterialCombine.Multiply;
-
-        // prevents the collider from slipping on ramps
-        maxFrictionPhysics = new PhysicsMaterial();
-        maxFrictionPhysics.name = "maxFrictionPhysics";
-        maxFrictionPhysics.staticFriction = 1f;
-        maxFrictionPhysics.dynamicFriction = 1f;
-        maxFrictionPhysics.frictionCombine = PhysicsMaterialCombine.Maximum;
-
-        // air physics 
-        slippyPhysics = new PhysicsMaterial();
-        slippyPhysics.name = "slippyPhysics";
-        slippyPhysics.staticFriction = 0f;
-        slippyPhysics.dynamicFriction = 0f;
-        slippyPhysics.frictionCombine = PhysicsMaterialCombine.Minimum;
-
-        // rigidbody info
-        _rigidbody = GetComponent<Rigidbody>();
-        // capsule collider info
-        _capsuleCollider = GetComponent<CapsuleCollider>();
-
-        // save your collider preferences 
-        colliderCenter = GetComponent<CapsuleCollider>().center;
-        colliderRadius = GetComponent<CapsuleCollider>().radius;
-        colliderHeight = GetComponent<CapsuleCollider>().height;
-
-        _rigidbody.WakeUp();
-    }
-
-
-    public void UseRootMotion()
-    {
-        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
-        _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
-       
-    }
-
-    public void UseRootMotionWithObstacles()
-    {
-        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
-
-        RaycastHit hit;
-
-        //центр игрока
-        var center = transform.TransformPoint(colliderCenter);
-
-        //Если есть приграда то игнорировать движение вперед
-        if (!Physics.Raycast(center, _rigidbody.transform.forward, out hit, distanceToObstacle))
-        {
-            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
-        }
-           
-    }
-
 
     /// <summary>
     /// Обновляет анимацию ДВИЖЕНИЯ
     /// </summary>
-    public void UpdateAnimatorLocomotion()
+    public virtual void UpdateAnimatorLocomotion()
     {
         Vector3 relativeInput = transform.InverseTransformDirection(moveDirection);
         verticalSpeed = relativeInput.z;
@@ -177,6 +104,10 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     }
 
     #region Abstract Methods
+
+    public abstract void Init(Animator anim);
+    public abstract void UseRootMotion();
+    public abstract void UseRootMotionWithObstacles();
 
     /// <summary>
     /// Основной метод обновления состояния движения персонажа.
@@ -191,7 +122,6 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     /// </summary>
     /// <param name="direction">Направление</param>
     public abstract void MoveCharacter(Vector3 direction);
-
 
     /// <summary>
     /// Полностью останавливает движение персонажа
@@ -241,7 +171,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     /// Уклоняет персонажа относительно направления ввода
     /// </summary>
     /// <param name="dir">Направление ввода</param>
-    public void Dodge(Vector2 dir)
+    public virtual void Dodge(Vector2 dir)
     {
 
         isDodging = true;
@@ -297,21 +227,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     /// Также задаёт вертикальную скорость Rigidbody для достижения указанной высоты прыжка.
     /// </summary>
     /// <param name="jumpHeight">Высота прыжка, которая будет применена к вертикальной скорости Rigidbody.</param>
-    protected virtual void ControlJumpBehaviour(float jumpHeight)
-    {
-        if (!isJumping) return;
-
-        jumpCounter -= Time.deltaTime;
-        if (jumpCounter <= 0)
-        {
-            jumpCounter = 0;
-            isJumping = false;
-        }
-        // apply extra force to the jump height   
-        var vel = _rigidbody.linearVelocity;
-        vel.y = jumpHeight;
-        _rigidbody.linearVelocity = vel;
-    }
+    protected abstract void ControlJumpBehaviour(float jumpHeight);
 
     /// <summary>
     /// Управляет движением персонажа в воздухе (air control).
@@ -319,28 +235,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     /// пока он находится в воздухе, плавно интерполируя текущую скорость к целевой.
     /// Также отслеживает максимальную достигнутую высоту прыжка.
     /// </summary>
-    public virtual void AirControl()
-    {
-        if (isGrounded) return;
-
-        // обновляем максимальную высоту прыжка
-        if (transform.position.y > heightReached) heightReached = transform.position.y;
-
-        // нормализуем направление движения по горизонтали
-        moveDirection.y = 0;
-        moveDirection.x = Mathf.Clamp(moveDirection.x, -1f, 1f);
-        moveDirection.z = Mathf.Clamp(moveDirection.z, -1f, 1f);
-
-        // рассчитываем целевую позицию и скорость
-        Vector3 targetPosition = _rigidbody.position + (moveDirection * airSpeed) * Time.deltaTime;
-        Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
-
-        // сохраняем вертикальную скорость и плавно применяем целевую скорость
-        targetVelocity.y = _rigidbody.linearVelocity.y;
-        _rigidbody.linearVelocity = Vector3.Lerp(_rigidbody.linearVelocity, targetVelocity, airSmooth * Time.deltaTime);
-    }
-
-
+    public abstract void AirControl();
     #endregion
 
     #region Ground Check                
@@ -351,108 +246,21 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     /// и применяет дополнительную силу гравитации при необходимости.
     /// Обновляет флаг <c>isGrounded</c> и максимальную достигнутую высоту <c>heightReached</c>.
     /// </summary>
-    protected virtual void CheckGround()
-    {
-        CheckGroundDistance();
-        ControlMaterialPhysics();
-
-        if (groundDistance <= groundMinDistance)
-        {
-            isGrounded = true;
-            if (!IsJumping && groundDistance > 0.05f)
-                _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
-
-            heightReached = transform.position.y;
-        }
-        else
-        {
-            if (GroundDistance >= groundMaxDistance)
-            {
-                isGrounded = false;
-                verticalVelocity = _rigidbody.linearVelocity.y;
-                if (!IsJumping)
-                {
-                    _rigidbody.AddForce(transform.up * extraGravity * Time.deltaTime, ForceMode.VelocityChange);
-                }
-            }
-            else if (!IsJumping)
-            {
-                _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
-            }
-        }
-    }
+    protected abstract void CheckGround();
 
     /// <summary>
     /// Контролирует физический материал коллайдера персонажа в зависимости от того,
     /// стоит ли персонаж на земле, угла поверхности и наличия движения.
     /// Меняет материал на скользкий, стандартный или максимальное трение.
     /// </summary>
-    protected virtual void ControlMaterialPhysics()
-    {
-        _capsuleCollider.material = (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
 
-        if (IsGrounded && input == Vector3.zero)
-            _capsuleCollider.material = maxFrictionPhysics;
-        else if (IsGrounded && input != Vector3.zero)
-            _capsuleCollider.material = frictionPhysics;
-        else
-            _capsuleCollider.material = slippyPhysics;
-    }
 
     /// <summary>
     /// Рассчитывает расстояние до поверхности земли под персонажем.
     /// Использует RayCast и SphereCast для точного определения дистанции.
     /// Обновляет значение <c>groundDistance</c>.
     /// </summary>
-    protected virtual void CheckGroundDistance()
-    {
-        if (_capsuleCollider != null)
-        {
-            float radius = _capsuleCollider.radius * 0.9f;
-            var dist = 10f;
-
-            Ray ray2 = new Ray(transform.position + new Vector3(0, colliderHeight / 2, 0), Vector3.down);
-
-            if (Physics.Raycast(ray2, out groundHit, (colliderHeight / 2) + dist, groundLayer) && !groundHit.collider.isTrigger)
-                dist = transform.position.y - groundHit.point.y;
-
-            if (dist >= groundMinDistance)
-            {
-                Vector3 pos = transform.position + Vector3.up * (_capsuleCollider.radius);
-                Ray ray = new Ray(pos, -Vector3.up);
-                if (Physics.SphereCast(ray, radius, out groundHit, _capsuleCollider.radius + groundMaxDistance, groundLayer) && !groundHit.collider.isTrigger)
-                {
-                    Physics.Linecast(groundHit.point + (Vector3.up * 0.1f), groundHit.point + Vector3.down * 0.15f, out groundHit, groundLayer);
-                    float newDist = transform.position.y - groundHit.point.y;
-                    if (dist > newDist) dist = newDist;
-                }
-            }
-            groundDistance = (float)System.Math.Round(dist, 2);
-        }
-    }
-
-    /// <summary>
-    /// Возвращает угол наклона поверхности под персонажем в градусах.
-    /// Рассчитывается как угол между нормалью поверхности и вектором вверх.
-    /// </summary>
-    /// <returns>Угол наклона поверхности под персонажем в градусах.</returns>
-    public virtual float GroundAngle()
-    {
-        var groundAngle = Vector3.Angle(groundHit.normal, Vector3.up);
-        return groundAngle;
-    }
-
-    /// <summary>
-    /// Возвращает угол наклона поверхности относительно направления движения персонажа.
-    /// Полезно для расчета скольжения по склону или корректировки движения.
-    /// </summary>
-    /// <returns>Угол между направлением движения и нормалью поверхности, смещённый на 90 градусов.</returns>
-    public virtual float GroundAngleFromDirection()
-    {
-        var dir = input.magnitude > 0 ? (transform.right * input.x + transform.forward * input.z).normalized : transform.forward;
-        var movementAngle = Vector3.Angle(dir, groundHit.normal) - 90;
-        return movementAngle;
-    }
+    protected abstract void CheckGroundDistance();
 
     #endregion
 

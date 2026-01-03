@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanDodge()) return;
 
         locomotion.Dodge(dir);
+        statsController.ReduceStamina(stats.staminaJumpReducePenalty);
 
     }
 

@@ -14,13 +14,36 @@ public struct HumanoidCombatControllerServices
     }
 }
 
-public struct HumanoidMotorServices
+//public struct HumanoidMotorServices
+//{
+//    public Animator animator;
+
+//    public HumanoidMotorServices(Animator animator)
+//    {
+//        this.animator = animator;
+//    }
+//}
+
+public struct HumanoidAnimatorService
 {
     public Animator animator;
+    public IHumanoidMovement motor;
+    public IHumanoidCombat combatController;
+    public IDamagable damageController;
+    public ITargetLocker targetLock;
 
-    public HumanoidMotorServices(Animator animator)
+    public HumanoidAnimatorService(
+        Animator animator,
+        IHumanoidMovement motor,
+        IHumanoidCombat combatController,
+        ITargetLocker targetLock,
+        IDamagable damageController)
     {
         this.animator = animator;
+        this.motor = motor;
+        this.combatController = combatController;
+        this.targetLock = targetLock;
+        this.damageController = damageController;
     }
 }
 

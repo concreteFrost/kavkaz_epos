@@ -7,7 +7,7 @@ public class PlayerAnimator : BaseHumanoidAnimator
     IDamagable damageController;
     ITargetLocker targetLock;
  
-    public void Init(PlayerAnimatorService provider)
+    public void Init(HumanoidAnimatorService provider)
     {
         this.animator = provider.animator;
         this.locomotion = provider.motor;
