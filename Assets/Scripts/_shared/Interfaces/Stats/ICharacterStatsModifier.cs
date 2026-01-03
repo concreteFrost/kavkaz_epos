@@ -1,6 +1,9 @@
 
 public interface ICharacterStatsModifier
 {
-    public abstract void ReduceStamina(float amount);
-    public abstract void HandleStaminaRegen();
+    void ResetAllStats();
+    void ReduceHealth(float amount);
+    void ReduceStamina(float amount);
+    void HandleStaminaRegen();
+
 }

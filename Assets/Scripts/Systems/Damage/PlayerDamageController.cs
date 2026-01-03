@@ -1,13 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-
 public class PlayerDamageController : MonoBehaviour, IDamagable
 {
     IHumanoidCombat combatController;
     IAttackSource inventory;
     
-    CharacterStatsController statsController;
+    ICharacterStatsModifier statsController;
     CharacterStats stats;
     PlayerInput input;
     
@@ -30,7 +29,7 @@ public class PlayerDamageController : MonoBehaviour, IDamagable
     public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
     #endregion
 
-    public void Init(CharacterStatsController statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
+    public void Init(ICharacterStatsModifier statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
         this.uniqueID = uniqueID; 
         this.statsController = statsController;

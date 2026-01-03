@@ -24,7 +24,6 @@ public struct HumanoidMotorServices
     }
 }
 
-
 public struct HumanoidInteractService
 {
     public IAttackSource combatInventory;
@@ -51,7 +50,6 @@ public struct HumanoidCombatInventoryService
         this.sourceId = sourceId;
     }
 }
-
 
 public struct HumanoidStatsControllerService
 {
