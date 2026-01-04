@@ -1,22 +1,26 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class HumanoidAIController : MonoBehaviour
 {
     HumanoidAIMotor aiMotor;
     HumanoidAIAnimator aIAnimator;
     Animator animator;
+    ICharacterStatsModifier statsController;
+    CharacterStats stats;
 
-    Vector3 defaultPosition;
-
-    public void Init(HumanoidAIMotor motor, Animator animator, HumanoidAIAnimator aIAnimator)
+    public void Init(HumanoidAIMotor motor, 
+        Animator animator, 
+        HumanoidAIAnimator aIAnimator,
+        CharacterStats stats,
+        ICharacterStatsModifier statsModifier
+        )
     {
         this.aiMotor = motor;
         this.animator = animator;
         this.aIAnimator = aIAnimator;
+        this.stats = stats;
+        this.statsController = statsModifier;
 
-        defaultPosition = transform.position;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -28,14 +32,27 @@ public class HumanoidAIController : MonoBehaviour
         ControlSpeed();
         ControlRotation();
 
-
+        if(animator.applyRootMotion == false)
+        {
+            animator.applyRootMotion = true;
+        }
     }
 
-    private void OnAnimatorMove()
+    private void OnAnimatorIK(int layerIndex)
     {
-        aiMotor.UseRootMotion();
+        if (aiMotor.rotateTarget == null) return;
 
+        // Target position
+        Vector3 lookPos = aiMotor.rotateTarget.position;
+
+        // Вес IK: тело+голова+глаза
+        animator.SetLookAtWeight(1f, 0.5f, 1f, 0.5f, 0.5f);
+
+        // Устанавливаем точку взгляда
+        animator.SetLookAtPosition(lookPos);
     }
+
+
 
     private void UpdateMotor()
     {
@@ -48,14 +65,13 @@ public class HumanoidAIController : MonoBehaviour
         aIAnimator.UpdateAnimatorParameters();
     }
 
-    //Тестовые функции
+    #region Movement and Rotation
     private void ControlSpeed()
     {
 
-
         float baseSpeed = aiMotor.IsSprinting
-            ? 7
-            : 3;
+            ? stats.runningSpeed
+            : stats.walkSpeed;
 
 
         aiMotor.moveSpeed = Mathf.Lerp(
@@ -87,5 +103,21 @@ public class HumanoidAIController : MonoBehaviour
         aiMotor.RotateToDirection(dir);
 
     }
+
+    #endregion
+
+    #region Target Lock
+
+    public void SetLockTarget(Transform target)
+    {
+        aiMotor.rotateTarget = target;
+    }
+
+    public void ResetLockTarget()
+    {
+        aiMotor.rotateTarget = null;
+    }
+
+    #endregion
 
 }

@@ -14,6 +14,8 @@ public class HumanoidAITesterEditor : Editor
         GUILayout.Space(10);
         GUILayout.Label("AI Test Controls", EditorStyles.boldLabel);
 
+        tester.aiMotor.isSprinting = (EditorGUILayout.Toggle("isRunning", tester.aiMotor.isSprinting));
+
         if (GUILayout.Button("Move To Target"))
         {
             tester.MoveToTarget();
@@ -24,6 +26,19 @@ public class HumanoidAITesterEditor : Editor
             tester.MoveToDefaultPosition();
         }
 
-        tester.aiMotor.isSprinting = (EditorGUILayout.Toggle("isRunning", tester.aiMotor.isSprinting));
+        if(GUILayout.Button("Lock Target"))
+        {
+            tester.SetLockOnTarget();
+        }
+
+        if(GUILayout.Button("Reset Target"))
+        {
+            tester.ResetLockTarget();   
+        }
+
+      
+        
+        
+
     }
 }

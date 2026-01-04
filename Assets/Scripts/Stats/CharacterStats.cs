@@ -29,6 +29,10 @@ public class CharacterStats : MonoBehaviour
     [Header("balance")]
     public float currentBalance = 0f;
 
+    [Header("stats debug")]
+    public float d_stamina;
+    public float d_health;
+
     protected void InitializeStats()
     {
         walkSpeed = statsSO.walkSpeed;
@@ -47,6 +51,12 @@ public class CharacterStats : MonoBehaviour
     public void Init()
     {
         InitializeStats();
+    }
+
+    private void Update()
+    {
+        d_stamina = Stamina.Current;
+        d_health = Health.Current;  
     }
 
 

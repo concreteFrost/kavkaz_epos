@@ -3,11 +3,15 @@ using UnityEngine;
 public class HumanoidAIAnimator : BaseHumanoidAnimator
 {
     IHumanoidMovement movement;
+    ITargetLocker targetLocker;
+    IDamagable damagable;
 
-    public void Init(IHumanoidMovement movement, Animator anim)
+    public void Init(Animator anim, IHumanoidMovement movement, ITargetLocker targetLocker, IDamagable damagable)
     {
         this.movement = movement;   
         this.animator = anim;
+        this.targetLocker = targetLocker;
+        this.damagable = damagable;
     }
 
     public override void UpdateAnimatorParameters()
@@ -19,5 +23,7 @@ public class HumanoidAIAnimator : BaseHumanoidAnimator
         }
 
         UpdateLocomotionState(movement);
+        UpdateDamageState(damagable);
+        UpdateTargetLockState(targetLocker);
     }
 }

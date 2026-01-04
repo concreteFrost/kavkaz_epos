@@ -1,33 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerDamageController : MonoBehaviour, IDamagable
+public class PlayerDamageController : BaseDamageController
 {
     IHumanoidCombat combatController;
     IAttackSource inventory;
     
-    ICharacterStatsModifier statsController;
-    CharacterStats stats;
     PlayerInput input;
     
-    protected string uniqueID;
-
-    protected bool isDead;
-
-    #region Damage variables
-    protected bool isDamaged;
     protected bool canTakeAnotherDamage = true;
-    protected float balancePenalty;
 
-    [SerializeField] protected float maxDamageCooldown = 1f; //предотвращает повторное получение урона
-    #endregion
-
-    #region IDamagable Contract
-    public bool IsDead() => isDead;
-    public string SourceId() => uniqueID;
-    public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
-    public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
-    #endregion
 
     public void Init(ICharacterStatsModifier statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
@@ -55,7 +37,7 @@ public class PlayerDamageController : MonoBehaviour, IDamagable
         }
     }
 
-    public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    public override void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         if (isDead || !canTakeAnotherDamage) return;
 
@@ -78,7 +60,7 @@ public class PlayerDamageController : MonoBehaviour, IDamagable
     }
 
 
-    public void Die()
+    public override void Die()
     {
         isDead = true;
 

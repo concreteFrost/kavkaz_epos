@@ -48,7 +48,7 @@ public class Weapon : CombatItem, IWeapon
        
         breakdownThreshold = 100f;
     
-        damageCollider.SetWeapon(this, AttackSource);
+        damageCollider.SetWeapon(this);
      
     }
 

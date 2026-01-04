@@ -48,7 +48,7 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     private void Init()
     {
-        damageCollider.SetWeapon(this, AttackSource);
+        damageCollider.SetWeapon(this);
     }
     public void CancelAttack()
     {

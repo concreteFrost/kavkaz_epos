@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
+public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
 {
     [Header("- Rotation")]
     [Tooltip("Rotation speed of the character")]
@@ -106,6 +106,7 @@ public abstract class BaseHumanoidMotor : MonoBehaviour, IHumanoidMovement
     #region Abstract Methods
 
     public abstract void Init(Animator anim);
+
     public abstract void UseRootMotion();
     public abstract void UseRootMotionWithObstacles();
 

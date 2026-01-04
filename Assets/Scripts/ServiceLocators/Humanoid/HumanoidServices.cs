@@ -24,6 +24,22 @@ public struct HumanoidCombatControllerServices
 //    }
 //}
 
+public struct CharacterTargetLockService
+{
+
+    public HumanoidAIController controller;
+    public IDamagable damageController;
+
+    public CharacterTargetLockService(
+        
+        HumanoidAIController controller,
+        IDamagable damageController)
+    {
+        this.controller = controller;
+        this.damageController = damageController;
+    }
+}
+
 public struct HumanoidAnimatorService
 {
     public Animator animator;
@@ -77,7 +93,6 @@ public struct HumanoidCombatInventoryService
 public struct HumanoidStatsControllerService
 {
     public CharacterStats stats;
-
     public HumanoidStatsControllerService(CharacterStats stats)
     {
         this.stats = stats;

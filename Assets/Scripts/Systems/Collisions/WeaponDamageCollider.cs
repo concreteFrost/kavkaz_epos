@@ -2,17 +2,20 @@ using UnityEngine;
 
 public class WeaponDamageCollider : DamageCollider
 {
-    public IWeapon weaponOwner; // Ссылка на оружие, состояние которого будет уменьшаться
+    public IWeapon weaponOwner;
 
-    public void SetWeapon(IWeapon _weapon, IAttackSource source)
+    public void SetWeapon(IWeapon weapon)
     {
-        weaponOwner = _weapon;
+        weaponOwner = weapon;
     }
 
-    protected override void HandleCollision(Collider other)
+    protected override void ApplyDamage(IDamagable target)
     {
-        base.HandleCollision(other);
-        weaponOwner.ReduceDurability(weaponOwner.WeaponData().GetBreakdownPenalty());
+        base.ApplyDamage(target);
 
+
+        weaponOwner.ReduceDurability(
+            weaponOwner.WeaponData().GetBreakdownPenalty()
+        );
     }
 }

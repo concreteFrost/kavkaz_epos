@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class PlayerTargetLock : TargetLock
 {
-
     LockOnTargetUI lockOnTargetUI;    
    
     /// <summary>

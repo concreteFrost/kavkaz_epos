@@ -7,7 +7,7 @@ public class AnimatorParameters
     public const float walkSpeed = 0.5f;
     public const float runningSpeed = 1f;
     public const float sprintSpeed = 1.5f;
-    public const float transitionSpeed = 0.15f;
+    public const float transitionSpeed = 0.2f;
 
     public const int motionLayer = 0;
     public const int combatLayer = 2;

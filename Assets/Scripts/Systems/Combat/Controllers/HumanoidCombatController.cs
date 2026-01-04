@@ -109,7 +109,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
         animator.speed = attack.animationInfo.animationSpeed;
 
         //делаем плавный переход на Attack_[index]
-        animator.CrossFade(stateName, 0.15f, 2);
+        animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, 2);
 
         //movement.StopMove = true;
         isAttacking = true;

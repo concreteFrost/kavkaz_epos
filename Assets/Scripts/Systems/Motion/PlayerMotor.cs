@@ -12,7 +12,7 @@ public class PlayerMotor : BaseHumanoidMotor
 
     public override void Init(Animator anim)
     {
-        animator = anim;    
+        animator = anim;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
 
@@ -52,33 +52,36 @@ public class PlayerMotor : BaseHumanoidMotor
 
     public override void UseRootMotion()
     {
-        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
-        _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+        Debug.Log("using root motion");
+        //_rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
+        //_rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
     }
 
     public override void UseRootMotionWithObstacles()
     {
-        _rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
 
-        RaycastHit hit;
+        Debug.Log("using root motion with obstacles");
+        //_rigidbody.MoveRotation(animator.deltaRotation * _rigidbody.rotation);
 
-        //центр игрока
-        var center = transform.TransformPoint(colliderCenter);
+        //RaycastHit hit;
 
-        //Если есть приграда то игнорировать движение вперед
-        if (!Physics.Raycast(center, _rigidbody.transform.forward, out hit, distanceToObstacle))
-        {
-            _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
-        }
+        ////центр игрока
+        //var center = transform.TransformPoint(colliderCenter);
+
+        ////Если есть приграда то игнорировать движение вперед
+        //if (!Physics.Raycast(center, _rigidbody.transform.forward, out hit, distanceToObstacle))
+        //{
+        //    _rigidbody.MovePosition(_rigidbody.position + animator.deltaPosition);
+        //}
     }
 
     public override void UpdateMotor(float jumpHeight)
     {
-        
+
         CheckGround();
         ControlJumpBehaviour(jumpHeight);
         AirControl();
-        CheckSlopeLimit();  
+        CheckSlopeLimit();
     }
 
     #region Movement
@@ -132,7 +135,7 @@ public class PlayerMotor : BaseHumanoidMotor
 
     public override void Jump(float jumpTimer)
     {
-        base.Jump(jumpTimer);   
+        base.Jump(jumpTimer);
     }
 
     protected override void ControlJumpBehaviour(float jumpHeight)
@@ -316,18 +319,18 @@ public class PlayerMotor : BaseHumanoidMotor
 
         //поворачиваем игрока в сторону стены
         Quaternion targetRotation = Quaternion.LookRotation(-normal, Vector3.up);
-        transform.rotation = targetRotation;    
-        
+        transform.rotation = targetRotation;
+
         Vector3 finalPosition = transform.position;
 
-        transform.position = finalPosition; 
+        transform.position = finalPosition;
 
         // Отключаем гравитацию, чтобы Root Motion сам управлял движением
         _rigidbody.useGravity = false;
         _rigidbody.Sleep();
     }
 
-    
+
     /// <summary>
     /// Открепляет тело от цели и возобновляет поведение rigidbody
     /// </summary>

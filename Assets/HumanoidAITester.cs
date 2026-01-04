@@ -1,10 +1,11 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class HumanoidAITester : MonoBehaviour
 {
     public HumanoidAIMotor aiMotor;
+    public HumanoidAIController controller; 
+    public CharacterTargetLock characterTargetLock;
     public Transform targetPoint;
 
     private bool isMovingToTarget;
@@ -21,12 +22,12 @@ public class HumanoidAITester : MonoBehaviour
     void Update()
     {
         if (aiMotor == null) return;
+        if (!aiMotor.agent.enabled) return; 
 
         if (isMovingToTarget) MoveToTarget();
         if (isMovingToDefault) MoveToDefaultPosition();
 
     }
-
 
     public void MoveToTarget()
     {
@@ -69,6 +70,18 @@ public class HumanoidAITester : MonoBehaviour
             
         }
        
+    }
+
+    public void SetLockOnTarget()
+    {
+        if (targetPoint == null) return;
+        characterTargetLock.SetLockedTarget();
+
+    }
+
+    public void ResetLockTarget()
+    {
+        characterTargetLock.ResetLockTarget();  
     }
 
 }

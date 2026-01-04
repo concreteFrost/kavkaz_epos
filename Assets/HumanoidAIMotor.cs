@@ -1,4 +1,4 @@
-using TMPro;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,10 +10,15 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         animator = anim;
         animator.updateMode = AnimatorUpdateMode.Fixed;
-        animator.applyRootMotion = false;
+        animator.applyRootMotion = true;
+        animationSmooth = 0.5f;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
+        agent.angularSpeed = 0;
+        agent.acceleration = 50f;
+        agent.stoppingDistance = 0;
+        agent.autoBraking = true;
     }
 
     public override void AirControl()
@@ -50,6 +55,12 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         agent.SetDestination(direction);
     }
 
+    public override void RotateToTarget(Vector3 targetPosition)
+    {
+        if (moveDirection.sqrMagnitude < 0.1f) return;
+        base.RotateToTarget(targetPosition);    
+    }
+
     public override void StopMovement()
     {
         moveDirection = Vector3.zero;
@@ -68,9 +79,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void UseRootMotion()
     {
-        //agent.updatePosition = false;
-        //transform.position += animator.deltaPosition;
-        //agent.nextPosition = transform.position; // синхронизируем NavMesh с визуальной позицией
+
     }
 
     public override void UseRootMotionWithObstacles()

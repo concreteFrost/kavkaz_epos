@@ -3,117 +3,104 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
-    Collider col;
-    public List<Collider> collectedColliders = new List<Collider>();
+    protected Collider damageCollider;
 
-    public bool attackInterrupted = false; // используется при обнаружении щита у цели
+    protected readonly HashSet<Collider> hitColliders = new();
+
     protected float healthDamage;
     protected float balanceDamage;
-    private string owner;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    protected string ownerId;
+
+    protected bool attackInterrupted;
+
+    protected virtual void Awake()
     {
-        col = GetComponent<Collider>();
+        damageCollider = GetComponent<Collider>();
         DisableCollider();
     }
 
-    public void EnableCollider(float _healthDamage, float _balanceDamage, string owner)
+    public virtual void EnableCollider(float health, float balance, string owner)
     {
-        col.enabled = true;
-        healthDamage = _healthDamage;
-        balanceDamage = _balanceDamage;
-        this.owner = owner;
-    }
+        healthDamage = health;
+        balanceDamage = balance;
+        ownerId = owner;
 
-    public void DisableCollider()
-    {
-        col.enabled = false;
         attackInterrupted = false;
-        collectedColliders.Clear();
-        owner = null;   
+        hitColliders.Clear();
+
+        damageCollider.enabled = true;
     }
 
-    /// <summary>
-    /// Расчет урона с учетом защиты цели
-    /// </summary>
-    /// <param name="other"></param>
-    protected float DamageReductionAmount(Collider other)
+    public virtual void DisableCollider()
     {
-        if (other.GetComponent<DefenceCollider>() != null)
-        {
-            var defence = other.GetComponent<DefenceCollider>();
-
-            float finalDamage = defence.CalculateDamage(healthDamage,balanceDamage);
-            return finalDamage;
-        }
-
-        return 0;
+        damageCollider.enabled = false;
+        attackInterrupted = false;
+        hitColliders.Clear();
+        ownerId = null;
     }
 
-    /// <summary>
-    /// Нанесение урона по цели
-    /// </summary>
-    /// <param name="other"></param>
-    /// <param name="_healthDamage"></param>
-    protected void PerformDamage(Collider other , float _healthDamage)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        var damagable = other.GetComponentInChildren<IDamagable>()
-              ?? other.GetComponent<IDamagable>();
-
-        if (damagable == null) return;
-        if(damagable.SourceId() != owner)
-        {
-            damagable.TakeDamage(healthDamage, balanceDamage);
-            //Debug.Log(damagable); 
-            return;
-        }
-
-    }
-
-    /// <summary>
-    /// Обработка расчета урона с учетом защиты цели 
-    /// </summary>
-    /// <param name="other"></param>
-    /// <param name="_healthDamage"></param>
-    protected void HandleDamageCalculation(Collider other, float _healthDamage)
-    {
-        float finalDamage = DamageReductionAmount(other);
-
-        if (DamageReductionAmount(other) > 0) //щит сработал
-        {
-            attackInterrupted = true;
-            return;
-        }
-
-        PerformDamage(other, finalDamage);
-    }
-
-    /// <summary>
-    /// Обработка столкновения коллайдера урона с целью
-    /// </summary>
-    /// <param name="other"></param>
-    protected virtual void HandleCollision(Collider other)
-    {
-        //Если атака была прервана щитом, то не наносим урон
-        if (attackInterrupted)
-            return;
-
-        //Если цель уже была поражена этой атакой, то не наносим урон повторно
-        if (collectedColliders.Contains(other))
-            return;
-
-       collectedColliders.Add(other);
-
-       HandleDamageCalculation(other, healthDamage);
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
+       
         HandleCollision(other);
     }
 
+    protected virtual void HandleCollision(Collider other)
+    {
+        if (attackInterrupted)
+            return;
+
+        if (!TryGetDamagable(other, out var damagable))
+            return;
+
+        // ХОЗЯИН — полностью игнорируется
+        if (IsOwner(damagable))
+            return;
+
+        // Повторное попадание
+        if (!hitColliders.Add(other))
+            return;
+
+        // Защита (щит)
+        if (TryHandleDefence(other))
+            return;
+
+        ApplyDamage(damagable);
+    }
 
 
+    // ---------- Damage ----------
 
+    protected virtual void ApplyDamage(IDamagable target)
+    {
+        target.TakeDamage(healthDamage, balanceDamage);
+    }
+
+    // ---------- Defence ----------
+
+    protected bool TryHandleDefence(Collider other)
+    {
+        if (!other.TryGetComponent(out DefenceCollider defence))
+            return false;
+
+        defence.CalculateDamage(healthDamage, balanceDamage);
+        attackInterrupted = true;
+        return true;
+    }
+
+    // ---------- Utils ----------
+
+    protected bool TryGetDamagable(Collider other, out IDamagable damagable)
+    {
+        damagable = other.GetComponentInChildren<IDamagable>()
+                  ?? other.GetComponent<IDamagable>();
+
+        return damagable != null;
+    }
+
+    protected bool IsOwner(IDamagable damagable)
+    {
+        return !string.IsNullOrEmpty(ownerId) &&
+               damagable.SourceId() == ownerId;
+    }
 }

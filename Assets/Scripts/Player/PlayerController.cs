@@ -24,22 +24,6 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();
     }
 
-    private void OnAnimatorMove()
-    {
-
-        if (locomotion.animator.applyRootMotion)
-        {
-            if (!climbing.IsClimbing)
-            {
-                locomotion.UseRootMotionWithObstacles();
-            }
-            else
-            {
-                locomotion.UseRootMotion();
-            }
-
-        }
-    }
 
     public void Init(PlayerControllerService provider)
     {

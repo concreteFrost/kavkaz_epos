@@ -41,6 +41,7 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
 
     protected ITargetLockable CheckNearestTarget()
     {
+        
         var targets = Physics.OverlapSphere(targetSeeker.position, checkTargetRadius);
 
         if (targets.Length > 0)
