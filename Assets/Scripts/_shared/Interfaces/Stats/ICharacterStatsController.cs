@@ -1,5 +1,5 @@
 
-public interface ICharacterStatsModifier
+public interface ICharacterStatsController
 {
     void ResetAllStats();
     void ReduceHealth(float amount);

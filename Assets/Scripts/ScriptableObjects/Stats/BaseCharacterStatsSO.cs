@@ -22,4 +22,9 @@ public class BaseCharacterStatsSO : ScriptableObject
     [Tooltip("Add Extra jump height, if you want to jump only with Root Motion leave the value with 0.")]
     public float jumpHeight = 4f;
 
+    [Header("Target Lock")]
+
+    public float targetCheckDistance = 5f;
+    public float targetResetDistance = 7f;
+
 }

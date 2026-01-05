@@ -36,6 +36,11 @@ public class HumanoidAITesterEditor : Editor
             tester.ResetLockTarget();   
         }
 
+        if (GUILayout.Button("Dodge"))
+        {
+            tester.Dodge();
+        }
+
       
         
         

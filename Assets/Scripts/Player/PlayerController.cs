@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     PlayerMotor locomotion;
     IHumanoidCombat combatController;
     IDamagable damageController;
-    ICharacterStatsModifier statsController;
+    ICharacterStatsController statsController;
     
     CharacterStats stats;
     ICollector interact;

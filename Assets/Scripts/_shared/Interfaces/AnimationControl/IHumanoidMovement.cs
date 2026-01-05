@@ -11,10 +11,8 @@ public interface IHumanoidMovement
     bool ApplyRootMotion { get; set; }
 
     bool IsSprinting { get; }
-   
     
     float AnimationSmooth {  get; }
-    public bool IsLockedOnTarget { get; set; }
     public Vector3 GetInverseTransformDirection();
     bool IsGrounded { get; }
     float GroundDistance { get; }

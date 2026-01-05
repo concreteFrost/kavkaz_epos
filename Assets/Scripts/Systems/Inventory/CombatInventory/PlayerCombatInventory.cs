@@ -14,6 +14,9 @@ public class PlayerCombatInventory : BaseCombatInventory
         DefaultWeapon = bareHands;
         CurrentWeapon = DefaultWeapon;
 
+        targetsToIgnore.Add(CharacterType.Player);
+        targetsToIgnore.Add(CharacterType.FriendlyNPC);
+
     }
 
     public override void SetWeapon(IWeapon w)

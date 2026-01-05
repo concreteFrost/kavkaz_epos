@@ -17,7 +17,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         agent.updateRotation = false;
         agent.angularSpeed = 0;
         agent.acceleration = 50f;
-        agent.stoppingDistance = 0;
+        agent.stoppingDistance = 0.5f;
         agent.autoBraking = true;
     }
 
@@ -112,4 +112,29 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         //ожидает
     }
+
+    public override void Dodge(Vector2 dir)
+    {
+        isDodging = true;
+
+        float _dodgeX = 0f;
+        float _dodgeY = 0f;
+
+        if (dir.sqrMagnitude < 0.01f)
+        {
+            _dodgeY = -1f;
+        }
+        else if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            _dodgeX = Mathf.Sign(dir.x);
+        }
+        else
+        {
+            _dodgeY = Mathf.Sign(dir.y);
+        }
+
+        dodgeX = _dodgeX;
+        dodgeY = _dodgeY;
+    }
+
 }

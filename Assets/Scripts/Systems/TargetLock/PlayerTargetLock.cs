@@ -20,7 +20,8 @@ public class PlayerTargetLock : TargetLock
         this.lockOnTargetUI = provider.lockOnTargetUI;
         this.controller = provider.controller;
         this.targetSeeker = controller.transform;
-        this.damageController = provider.damageController; 
+        this.damageController = provider.damageController;
+        this.stats = provider.stats;    
     }
 
     private void Update()
@@ -97,7 +98,7 @@ public class PlayerTargetLock : TargetLock
         Vector3 currentScreen =
             cam.WorldToScreenPoint(currentTarget.GetTargetTransform().position);
 
-        var colliders = Physics.OverlapSphere(targetSeeker.position, checkTargetRadius);
+        var colliders = Physics.OverlapSphere(targetSeeker.position, stats.GetTargetCheckDistance());
 
         ITargetLockable bestTarget = null;
         float bestDeltaX = float.MaxValue;

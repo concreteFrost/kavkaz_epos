@@ -67,13 +67,14 @@ public class PlayerServiceLocator : MonoBehaviour
         HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory);
         interaction.Init(interactionService);
 
-        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(combatController, statsController, uID);
-        combatInventory.Init(combatInventoryService);
 
-        PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController);
+        PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController,stats);
         targetLock.Init(targetLockServiceProvider);
 
         damageController.Init(statsController, stats, combatController, combatInventory, input, uID);
+
+        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(combatController, statsController, (int)damageController.CharacterType);
+        combatInventory.Init(combatInventoryService);
     }
 
     void UiInit()

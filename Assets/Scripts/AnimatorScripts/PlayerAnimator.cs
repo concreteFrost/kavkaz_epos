@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimator : BaseHumanoidAnimator
+public class PlayerAnimator : BaseHumanoidAnimatorController
 {
     IHumanoidMovement locomotion;
     IHumanoidCombat combatController;

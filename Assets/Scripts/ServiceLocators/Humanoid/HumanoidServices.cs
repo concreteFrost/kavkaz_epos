@@ -1,5 +1,26 @@
 ﻿using UnityEngine;
 
+
+public struct HumanoidControllerService
+{
+    public Animator animator;
+
+    public HumanoidAIMotor aiMotor;
+    public HumanoidAIAnimatorController aiAnimatorController;
+   
+    public ICharacterStatsController statsController;
+    public CharacterStats stats;
+
+    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController, CharacterStats stats)
+    {
+        this.animator = animator;
+        this.aiMotor = aIMotor;
+        this.aiAnimatorController = aIAnimator;   
+        this.statsController = statsController;
+        this.stats = stats;
+    }
+}
+
 public struct HumanoidCombatControllerServices
 {
     public IAttackSource combatInventory;
@@ -14,29 +35,23 @@ public struct HumanoidCombatControllerServices
     }
 }
 
-//public struct HumanoidMotorServices
-//{
-//    public Animator animator;
-
-//    public HumanoidMotorServices(Animator animator)
-//    {
-//        this.animator = animator;
-//    }
-//}
 
 public struct CharacterTargetLockService
 {
 
     public HumanoidAIController controller;
     public IDamagable damageController;
+    public CharacterStats stats;
 
     public CharacterTargetLockService(
         
         HumanoidAIController controller,
-        IDamagable damageController)
+        IDamagable damageController,
+        CharacterStats stats)
     {
         this.controller = controller;
         this.damageController = damageController;
+        this.stats = stats;
     }
 }
 
@@ -76,13 +91,13 @@ public struct HumanoidInteractService
 public struct HumanoidCombatInventoryService
 {
     public IHumanoidCombat combatController;
-    public ICharacterStatsModifier statsModifier;
-    public string sourceId;
+    public ICharacterStatsController statsModifier;
+    public int sourceId;
 
     public HumanoidCombatInventoryService(
         IHumanoidCombat combatController,
-        ICharacterStatsModifier stats,
-        string sourceId)
+        ICharacterStatsController stats,
+        int sourceId)
     {
         this.combatController = combatController;
         this.statsModifier = stats;

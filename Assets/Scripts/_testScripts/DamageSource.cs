@@ -1,4 +1,6 @@
+
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DamageSource : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class DamageSource : MonoBehaviour
     private float healthDamage = 10f;
     private float balanceDamage = 0.1f;
 
+    public List<CharacterType> objectsToIgnore = new List<CharacterType>(); 
+
     void Start()
     {
         defaultCooldown = cooldown;
@@ -24,7 +28,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(healthDamage,balanceDamage, null);
+            damageCollider.EnableCollider(healthDamage,balanceDamage, objectsToIgnore);
             colliderActive = true;
         }
 

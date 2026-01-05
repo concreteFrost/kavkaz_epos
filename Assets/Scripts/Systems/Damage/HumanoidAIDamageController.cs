@@ -8,7 +8,7 @@ public class HumanoidAIDamageController : BaseDamageController
 {
     NavMeshAgent agent;
     CapsuleCollider col;
-	public void Init(ICharacterStatsModifier statsModifier, CharacterStats stats, NavMeshAgent agent,CapsuleCollider col,  string uniqueID)
+	public void Init(ICharacterStatsController statsModifier, CharacterStats stats, NavMeshAgent agent,CapsuleCollider col,  string uniqueID)
 	{
 		this.statsController = statsModifier;
 		this.stats =stats;
@@ -17,6 +17,7 @@ public class HumanoidAIDamageController : BaseDamageController
 		this.uniqueID =uniqueID;
 
         stats.Health.Depleted += Die;
+
 
 	}
 

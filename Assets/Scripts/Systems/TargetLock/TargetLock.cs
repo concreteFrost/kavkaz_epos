@@ -7,11 +7,9 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
     protected Transform targetSeeker;
     public ITargetLockable currentTarget;
 
-    [SerializeField] protected float checkTargetRadius = 10f;
-    [SerializeField] protected float targetResetDistance = 15f;
+    protected CharacterStats stats;
 
     protected bool wasTargetSearched = false;
-
     public bool IsLockedOnTarget { get => currentTarget != null; }
 
     public abstract void SetLockedTarget();
@@ -25,8 +23,9 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
         }
         var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetTargetTransform().position);
 
-        if (dist > targetResetDistance)
+        if (dist > stats.GetTargetResetDistance())
         {
+            
             ResetLockTarget();
         }
     }
@@ -42,7 +41,7 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
     protected ITargetLockable CheckNearestTarget()
     {
         
-        var targets = Physics.OverlapSphere(targetSeeker.position, checkTargetRadius);
+        var targets = Physics.OverlapSphere(targetSeeker.position, stats.GetTargetCheckDistance());
 
         if (targets.Length > 0)
         {
@@ -62,7 +61,7 @@ public abstract class TargetLock : MonoBehaviour, ITargetLocker
             {
                 float distance = Vector3.Distance(targetSeeker.position, lockable.GetTargetTransform().position);
 
-                if (distance < checkTargetRadius)
+                if (distance < stats.GetTargetCheckDistance())
                     objectsDistances.Add(lockable, distance);
             }
         }

@@ -1,11 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public abstract class BaseDamageController : MonoBehaviour, IDamagable
 {
-    protected ICharacterStatsModifier statsController;
+    protected ICharacterStatsController statsController;
     protected CharacterStats stats;
+
+    public CharacterType characterType;  
 
     protected string uniqueID;
 
@@ -24,6 +25,8 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public string SourceId() => uniqueID;
     public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
     public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
+
+    public CharacterType CharacterType { get=>characterType; set => characterType = value; }
     #endregion
 
    

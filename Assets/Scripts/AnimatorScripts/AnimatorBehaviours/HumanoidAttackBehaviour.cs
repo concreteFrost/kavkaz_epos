@@ -6,7 +6,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     IAttackSource inv;
     IHumanoidCombat combatAnimData;
     IHumanoidMovement motor;
-    ICharacterStatsModifier statsModifier;
+    ICharacterStatsController statsModifier;
 
     bool hitActive = false;
 
@@ -15,7 +15,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         inv = animator.GetComponentInChildren<IAttackSource>();
         combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
-        statsModifier = animator.GetComponentInChildren<ICharacterStatsModifier>();
+        statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
 
         if(inv.CurrentWeapon != null)
         {

@@ -7,9 +7,9 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
     [SerializeField] protected Transform leftHand;
 
     #region IAttackSource Contract
-    public string SourceId() => sourceId;
+    public int SourceId() => sourceId;
 
-    public List<string> TargetsToIgnoreIDs { get => targetsToIgnore; set => targetsToIgnore = value; }
+    public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
 
     public Transform GetRightHand() => rightHand;
     public Transform GetLeftHand() => leftHand;
@@ -28,17 +28,18 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 
     public IShield ShieldWeapon { get; set; } = null;
 
+
     #endregion
 
     /// <summary>
     /// Уникальный идентификатор нападающего
     /// </summary>
-    private string sourceId; 
+    private int sourceId; 
 
     /// <summary>
     /// Цели для игнорирования во время атаки
     /// </summary>
-    public List<string> targetsToIgnore = new List<string>();
+    public List<CharacterType> targetsToIgnore = new List<CharacterType>();
 
     public virtual void Init(HumanoidCombatInventoryService service)
     {

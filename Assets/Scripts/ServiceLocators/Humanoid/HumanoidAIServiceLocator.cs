@@ -10,27 +10,31 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIController controller;
     [SerializeField] private CharacterStats stats;
     [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private CharacterTargetLock targetLock;
-    [SerializeField] private HumanoidAIAnimator animatorController = new HumanoidAIAnimator();
+    [SerializeField] private HumanoidAITargetLock targetLock;
+    [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
-
+    [SerializeField] private HumanoidCombatController combatController;
+ 
 
     private void Awake()
     {
         string uid = uniqueId.uniqueId;
 
-        animatorController.Init(animator, motor, targetLock, damageController);
         stats.Init();
+        motor.Init(animator);
 
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,targetLock,damageController);
+        animatorController.Init(animatorService);
+       
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
         statsController.Init(service);
 
-        motor.Init(animator);
-        controller.Init(motor, animator, animatorController, stats, statsController);
+        HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController, statsController, stats);
+        controller.Init(controllerService);
 
         damageController.Init(statsController, stats,motor.agent,capsuleCollider, uid);
 
-        CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController);
+        CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController, stats);
         targetLock.Init(targetLockService);
     }
 }

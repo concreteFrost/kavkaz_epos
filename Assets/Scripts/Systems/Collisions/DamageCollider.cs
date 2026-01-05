@@ -9,7 +9,7 @@ public class DamageCollider : MonoBehaviour
 
     protected float healthDamage;
     protected float balanceDamage;
-    protected string ownerId;
+    List<CharacterType> objectsToIgnore;
 
     protected bool attackInterrupted;
 
@@ -19,11 +19,11 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
-    public virtual void EnableCollider(float health, float balance, string owner)
+    public virtual void EnableCollider(float health, float balance, List<CharacterType> targetsToIgnore)
     {
         healthDamage = health;
         balanceDamage = balance;
-        ownerId = owner;
+        objectsToIgnore = targetsToIgnore;
 
         attackInterrupted = false;
         hitColliders.Clear();
@@ -36,7 +36,7 @@ public class DamageCollider : MonoBehaviour
         damageCollider.enabled = false;
         attackInterrupted = false;
         hitColliders.Clear();
-        ownerId = null;
+        objectsToIgnore = null;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -54,7 +54,7 @@ public class DamageCollider : MonoBehaviour
             return;
 
         // ’ќ«я»Ќ Ч полностью игнорируетс€
-        if (IsOwner(damagable))
+        if (NotInTargetList(damagable))
             return;
 
         // ѕовторное попадание
@@ -98,9 +98,11 @@ public class DamageCollider : MonoBehaviour
         return damagable != null;
     }
 
-    protected bool IsOwner(IDamagable damagable)
+    protected bool NotInTargetList(IDamagable damagable)
     {
-        return !string.IsNullOrEmpty(ownerId) &&
-               damagable.SourceId() == ownerId;
+        if(objectsToIgnore == null) return false;
+        if(objectsToIgnore.Count == 0) return false;    
+        return objectsToIgnore.Contains(damagable.CharacterType);
+
     }
 }

@@ -5,6 +5,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 {
     private bool isDead;
 
+    public CharacterType characterType;
+
     [SerializeField] float currentHealth = 30;
     [SerializeField] string selfId;
 
@@ -12,6 +14,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     MeshRenderer mat;
 
     #region IDamagable Contract
+    public CharacterType CharacterType { get => characterType; set => characterType = value; }
     public bool IsDead() => isDead;
     public string SourceId() => selfId;
     public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
@@ -48,6 +51,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
         selfId = GetInstanceID().ToString();
         mat = GetComponent<MeshRenderer>();
         defaultCol = mat.material.color;
+
+        characterType = CharacterType.Object;
     }
     IEnumerator DamageCoroutine()
     {

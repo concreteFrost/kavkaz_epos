@@ -7,12 +7,12 @@ public interface IAttackSource
     /// Ќазначает источник атаки дл€ предотвращени€ попадани€ по самому себе
     /// </summary>
     /// <returns></returns>
-    public string SourceId(); 
+    public int SourceId(); 
 
     /// <summary>
     /// ÷ели которые стоит игнорировать. Ќапример дружественные NPC или же цели того же класса
     /// </summary>
-    public List<string> TargetsToIgnoreIDs { get; set; }
+    public List<CharacterType> TargetsToIgnore { get; set; }
 
     /// <summary>
     /// »значальное оружие

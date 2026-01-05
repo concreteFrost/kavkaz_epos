@@ -63,7 +63,6 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public bool isSprinting;
     public bool isJumping;
     internal bool isGrounded = true;
-    public bool isLockedOnTarget;
     public bool isDodging;
    
     internal bool isRotationBlocked = false;
@@ -77,7 +76,6 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float VerticalSpeed { get => verticalSpeed; }
     public float HorizontalSpeed { get => horizontalSpeed; }
     public bool BlockRotation { get => isRotationBlocked; set => isRotationBlocked = value; }
-    public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     public float GroundDistance { get => groundDistance; }
     public bool ApplyRootMotion { get; set; }
     public bool IsSprinting { get => isSprinting; }

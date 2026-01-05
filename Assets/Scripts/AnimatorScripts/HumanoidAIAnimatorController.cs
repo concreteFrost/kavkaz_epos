@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class HumanoidAIAnimator : BaseHumanoidAnimator
+public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
 {
     IHumanoidMovement movement;
     ITargetLocker targetLocker;
     IDamagable damagable;
 
-    public void Init(Animator anim, IHumanoidMovement movement, ITargetLocker targetLocker, IDamagable damagable)
+    public void Init(HumanoidAnimatorService service)
     {
-        this.movement = movement;   
-        this.animator = anim;
-        this.targetLocker = targetLocker;
-        this.damagable = damagable;
+        this.movement = service.motor;   
+        this.animator = service.animator;
+        this.targetLocker = service.targetLock;
+        this.damagable = service.damageController;
     }
 
     public override void UpdateAnimatorParameters()

@@ -65,7 +65,7 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.EnableCollider(
             healthDamage,
             balanceDamage,
-            AttackSource.SourceId()
+            AttackSource.TargetsToIgnore
         );
     }
 

@@ -4867,6 +4867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe995522b5bbb141a0f574dfbbe7f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageController
+  characterType: 0
   maxDamageCooldown: 1
 --- !u!1 &237095169
 GameObject:
@@ -17160,6 +17161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4f33a3c78d0b040856c25d63e8c66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockableDamagableObject
+  characterType: 0
   currentHealth: 30
   selfId: 
 --- !u!1 &900092598
@@ -18049,6 +18051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd247fe11c2afb4bbbf26a6876db943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
+  characterType: 2
   maxDamageCooldown: 1
 --- !u!4 &949397461
 Transform:
@@ -19701,6 +19704,8 @@ MonoBehaviour:
   staminaMaxRegenDelay: 5
   staminaRegenRate: 15
   currentBalance: 0
+  targetCheckDistance: 0
+  targetResetDistance: 0
   d_stamina: 0
   d_health: 0
 --- !u!1 &1065868769
@@ -25584,8 +25589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123405c4cf015d146aa993452ea77bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  checkTargetRadius: 5
-  targetResetDistance: 7
   targetSwitchThreshold: 45
   img: {fileID: 1176097203}
 --- !u!1 &1398641661
@@ -26010,7 +26013,6 @@ MonoBehaviour:
   distanceToObstacle: 0.8
   isSprinting: 0
   isJumping: 0
-  isLockedOnTarget: 0
   isDodging: 0
   slopeLimit: 45
 --- !u!95 &1406799242
@@ -31551,11 +31553,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1742475988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8860febc9b2a5c47a752a3cb3bbe8c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 56ebf0b1aa01244499cf0c8864dc676c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterTargetLock
-  checkTargetRadius: 10
-  targetResetDistance: 15
+  currentTarget: {fileID: 0}
+  targetType: 0
 --- !u!1 &1742514600
 GameObject:
   m_ObjectHideFlags: 0
@@ -34668,7 +34670,7 @@ Transform:
   m_GameObject: {fileID: 1862491714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.14, y: 0.56, z: 6.45}
+  m_LocalPosition: {x: 18.76, y: 0.48, z: 7.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34686,6 +34688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4f33a3c78d0b040856c25d63e8c66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockableDamagableObject
+  characterType: 0
   currentHealth: 30
   selfId: 
 --- !u!1 &1865699218
@@ -36110,6 +36113,8 @@ MonoBehaviour:
   staminaMaxRegenDelay: 5
   staminaRegenRate: 15
   currentBalance: 0
+  targetCheckDistance: 0
+  targetResetDistance: 0
   d_stamina: 0
   d_health: 0
 --- !u!850595691 &1959531398
@@ -39006,7 +39011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
   rightHand: {fileID: 1409208696}
   leftHand: {fileID: 1096975475}
-  targetsToIgnore: []
+  targetsToIgnore: 
   bareHands: {fileID: 2036490962}
 --- !u!1 &2131420861
 GameObject:
@@ -41334,7 +41339,7 @@ NavMeshAgent:
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 0
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -41354,7 +41359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rotationSpeed: 6
+  rotationSpeed: 4
   blockedRotationSpeed: 1.5
   movementSmooth: 1
   animationSmooth: 0.2
@@ -41370,7 +41375,6 @@ MonoBehaviour:
   distanceToObstacle: 0.8
   isSprinting: 0
   isJumping: 0
-  isLockedOnTarget: 0
   isDodging: 0
   agent: {fileID: 0}
 --- !u!114 &6393974812609036922
@@ -41394,6 +41398,7 @@ MonoBehaviour:
   statsController: {fileID: 1957759288}
   targetLock: {fileID: 1742475990}
   damageController: {fileID: 949397460}
+  combatController: {fileID: 0}
 --- !u!114 &6393974812609036924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41408,7 +41413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAITester
   aiMotor: {fileID: 6393974812609036921}
   controller: {fileID: 1467910345}
-  characterTargetLock: {fileID: 1742475990}
+  targetLock: {fileID: 1742475990}
   targetPoint: {fileID: 1862491718}
 --- !u!95 &6393974812609036925
 Animator:
@@ -42544,8 +42549,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1406799236}
+  - {fileID: 6048376749856331981}
   - {fileID: 1690282357}
   - {fileID: 1374581468}
   - {fileID: 1389062801}
-  - {fileID: 6048376749856331981}
   - {fileID: 1862491718}

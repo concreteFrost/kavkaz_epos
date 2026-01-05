@@ -11,7 +11,7 @@ public class PlayerDamageController : BaseDamageController
     protected bool canTakeAnotherDamage = true;
 
 
-    public void Init(ICharacterStatsModifier statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
+    public void Init(ICharacterStatsController statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
         this.uniqueID = uniqueID; 
         this.statsController = statsController;
@@ -21,6 +21,8 @@ public class PlayerDamageController : BaseDamageController
         this.stats = stats;
 
         stats.Health.Depleted += Die;
+
+        characterType = CharacterType.Player;
     }
 
 

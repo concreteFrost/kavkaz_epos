@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class CharacterStatsController : MonoBehaviour, ICharacterStatsModifier
+public class CharacterStatsController : MonoBehaviour, ICharacterStatsController
 {
 
     public CharacterStats stats;

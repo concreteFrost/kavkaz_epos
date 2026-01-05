@@ -3,24 +3,18 @@ using UnityEngine;
 public class HumanoidAIController : MonoBehaviour
 {
     HumanoidAIMotor aiMotor;
-    HumanoidAIAnimator aIAnimator;
+    HumanoidAIAnimatorController aIAnimator;
     Animator animator;
-    ICharacterStatsModifier statsController;
+    ICharacterStatsController statsController;
     CharacterStats stats;
 
-    public void Init(HumanoidAIMotor motor, 
-        Animator animator, 
-        HumanoidAIAnimator aIAnimator,
-        CharacterStats stats,
-        ICharacterStatsModifier statsModifier
-        )
+    public void Init(HumanoidControllerService service)
     {
-        this.aiMotor = motor;
-        this.animator = animator;
-        this.aIAnimator = aIAnimator;
-        this.stats = stats;
-        this.statsController = statsModifier;
-
+        this.animator = service.animator;
+        this.aiMotor = service.aiMotor;
+        this.aIAnimator = service.aiAnimatorController;
+        this.statsController = service.statsController;
+        this.stats = service.stats; 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -37,21 +31,6 @@ public class HumanoidAIController : MonoBehaviour
             animator.applyRootMotion = true;
         }
     }
-
-    private void OnAnimatorIK(int layerIndex)
-    {
-        if (aiMotor.rotateTarget == null) return;
-
-        // Target position
-        Vector3 lookPos = aiMotor.rotateTarget.position;
-
-        // Вес IK: тело+голова+глаза
-        animator.SetLookAtWeight(1f, 0.5f, 1f, 0.5f, 0.5f);
-
-        // Устанавливаем точку взгляда
-        animator.SetLookAtPosition(lookPos);
-    }
-
 
 
     private void UpdateMotor()

@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public abstract class BaseHumanoidAnimator 
+public abstract class BaseHumanoidAnimatorController 
 {
     protected Animator animator;
     public abstract void UpdateAnimatorParameters();

@@ -29,6 +29,10 @@ public class CharacterStats : MonoBehaviour
     [Header("balance")]
     public float currentBalance = 0f;
 
+    [Header("target lock")]
+    public float targetCheckDistance = 0f;
+    public float targetResetDistance = 0f;
+
     [Header("stats debug")]
     public float d_stamina;
     public float d_health;
@@ -44,7 +48,10 @@ public class CharacterStats : MonoBehaviour
         maxHealth = Health.Current;
 
         Stamina = new StaminaModel(statsSO.stamina, staminaMinRegenDelay, staminaMaxRegenDelay, staminaRegenRate);
-        maxStamina = Stamina.Current;    
+        maxStamina = Stamina.Current;
+
+        targetCheckDistance = statsSO.targetCheckDistance;
+        targetResetDistance = statsSO.targetResetDistance;
 
     }
 
@@ -58,6 +65,11 @@ public class CharacterStats : MonoBehaviour
         d_stamina = Stamina.Current;
         d_health = Health.Current;  
     }
+
+    #region Target Lock
+    public float GetTargetCheckDistance() => statsSO.targetCheckDistance;
+    public float GetTargetResetDistance() => statsSO.targetResetDistance;   
+    #endregion
 
 
 }

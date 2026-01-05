@@ -8,7 +8,7 @@ public struct PlayerControllerService
 
     public IHumanoidCombat combatController;
     public IDamagable damageController;
-    public ICharacterStatsModifier statsController;
+    public ICharacterStatsController statsController;
     public ICollector interact;
     public PlayerClimbing climbing;
 
@@ -17,7 +17,7 @@ public struct PlayerControllerService
         IHumanoidCombat combatController,
         IDamagable damageController,
         CharacterStats stats,
-        ICharacterStatsModifier statsModifier,
+        ICharacterStatsController statsModifier,
         ICollector interact,
         PlayerClimbing climbing,
         Animator animator)
@@ -55,28 +55,32 @@ public struct PlayerTargetLockService
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
     public IDamagable damageController;
+    public CharacterStats stats;
 
     public PlayerTargetLockService(
         LockOnTargetUI lockOnTargetUI,
         PlayerController controller,
-        IDamagable damageController)
+        IDamagable damageController,
+        CharacterStats stats
+        )
     {
         this.lockOnTargetUI = lockOnTargetUI;
         this.controller = controller;
         this.damageController = damageController;
+        this.stats= stats;  
     }
 }
 
 public struct PlayerDamageControllerServices
 {
-    public ICharacterStatsModifier statsController;
+    public ICharacterStatsController statsController;
     public CharacterStats stats;
     public PlayerInput input;
 
     public IHumanoidCombat combatController;
     public IAttackSource attackSource;
 
-    public PlayerDamageControllerServices(ICharacterStatsModifier statsController, CharacterStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
+    public PlayerDamageControllerServices(ICharacterStatsController statsController, CharacterStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
     {
         this.statsController = statsController;
         this.stats = stats;
