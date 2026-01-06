@@ -23,6 +23,11 @@ public class PlayerDamageController : BaseDamageController
         stats.Health.Depleted += Die;
 
         characterType = CharacterType.Player;
+
+        if(aimPosition == null)
+        {
+            Debug.Log("no aim position assigned");
+        }
     }
 
 

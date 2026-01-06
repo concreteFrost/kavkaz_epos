@@ -15,27 +15,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     #region IDamagable Contract
     public CharacterType CharacterType { get => characterType; set => characterType = value; }
+    public Transform GetAimTransform() => transform;
+    public Transform GetOrigin() => transform;
     public bool IsDead() => isDead;
     public string SourceId() => selfId;
-    public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
-    {
-        if(isDead) return;  
-        currentHealth -= damage;
-        StartCoroutine(DamageCoroutine());
-
-        if (currentHealth <= 0) { 
-        
-            Die();
-        }
-    }
-
-
-    public virtual void Die()
-    {
-        isDead = true;
-        gameObject.SetActive(false);    
-    }
-
+   
     public bool IsDamaged { get; set; }
     public float BalancePenalty {  get; set; }   
 
@@ -54,6 +38,27 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
         characterType = CharacterType.Object;
     }
+
+    public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    {
+        if (isDead) return;
+        currentHealth -= damage;
+        StartCoroutine(DamageCoroutine());
+
+        if (currentHealth <= 0)
+        {
+
+            Die();
+        }
+    }
+
+
+    public virtual void Die()
+    {
+        isDead = true;
+        gameObject.SetActive(false);
+    }
+
     IEnumerator DamageCoroutine()
     {
         
@@ -75,8 +80,6 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
 
         mat.material.color = defaultCol;
-
-        
 
     }
 }

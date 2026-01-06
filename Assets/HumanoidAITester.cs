@@ -77,11 +77,11 @@ public class HumanoidAITester : MonoBehaviour
 
     public void SetLockOnTarget()
     {
-        var t =  targetLock.CheckNearestTarget();
+        //var t =  targetLock.CheckNearestTarget();
 
-        Debug.Log(t);
-        if(t != null) 
-        controller.SetLockTarget(t);
+        //Debug.Log(t);
+        //if(t != null) 
+        //controller.SetLockTarget(t);
 
     }
 

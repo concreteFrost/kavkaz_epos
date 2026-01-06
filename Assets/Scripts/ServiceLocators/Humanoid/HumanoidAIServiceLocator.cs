@@ -35,6 +35,6 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         damageController.Init(statsController, stats,motor.agent,capsuleCollider, uid);
 
         CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController, stats);
-        targetLock.Init(targetLockService);
+        targetLock.Init();
     }
 }

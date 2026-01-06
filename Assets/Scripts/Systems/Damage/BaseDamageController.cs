@@ -3,10 +3,13 @@
 
 public abstract class BaseDamageController : MonoBehaviour, IDamagable
 {
+
     protected ICharacterStatsController statsController;
     protected CharacterStats stats;
 
-    public CharacterType characterType;  
+    public CharacterType characterType;
+
+    [SerializeField] protected Transform aimPosition;
 
     protected string uniqueID;
 
@@ -27,10 +30,12 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
 
     public CharacterType CharacterType { get=>characterType; set => characterType = value; }
+
+    public Transform GetAimTransform()=> aimPosition;
+    public Transform GetOrigin() => transform;
     #endregion
 
    
-
     public virtual void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         if (isDead) return;
