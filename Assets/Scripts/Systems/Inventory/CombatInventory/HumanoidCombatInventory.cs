@@ -1,4 +1,4 @@
-public class PlayerCombatInventory : BaseCombatInventory
+public class HumanoidCombatInventory : BaseCombatInventory
 {
     IHumanoidCombat combatController;
     public BareHandsWeapon bareHands;
@@ -14,8 +14,8 @@ public class PlayerCombatInventory : BaseCombatInventory
         DefaultWeapon = bareHands;
         CurrentWeapon = DefaultWeapon;
 
-        targetsToIgnore.Add(CharacterType.Player);
-        targetsToIgnore.Add(CharacterType.FriendlyNPC);
+        //targetsToIgnore.Add(CharacterType.Player);
+        //targetsToIgnore.Add(CharacterType.FriendlyNPC);
 
     }
 

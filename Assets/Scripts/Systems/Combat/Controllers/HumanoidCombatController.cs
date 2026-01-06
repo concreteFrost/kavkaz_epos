@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 {
 
     //ссылки
-    IAttackSource inventory;
+    private IAttackSource inventory;
     Animator animator;
     AnimatorOverrideController overrideController;
+
+    public event Action OnAttackEnd; // для ИИ чтобы знать когда закончилась атака и начать новую
 
     // состояние
     internal bool isAttacking;
@@ -119,6 +122,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     public void EndAttack()
     {
         isAttacking = false;
+        OnAttackEnd?.Invoke();
         //movement.StopMove = false;  
 
         // проверяем буфер ввода

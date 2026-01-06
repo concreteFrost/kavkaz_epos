@@ -1,32 +1,37 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class HumanoidAITester : MonoBehaviour
 {
     public HumanoidAIMotor aiMotor;
-    public HumanoidAIController controller; 
+    public HumanoidAIController controller;
     public HumanoidAITargetLock targetLock;
+    public HumanoidCombatController combatController;
+    public HumanoidCombatInventory inventory;
+    public Animator anim;
     public Transform targetPoint;
 
     private bool isMovingToTarget;
     private bool isMovingToDefault;
+    private bool isComboRunning;
 
     Vector3 defaultPosition;
 
     private void Start()
     {
-        defaultPosition = transform.position;   
+        defaultPosition = transform.position;
     }
 
 
     void Update()
     {
         if (aiMotor == null) return;
-        if (!aiMotor.agent.enabled) return; 
+        if (!aiMotor.agent.enabled) return;
 
         if (isMovingToTarget) MoveToTarget();
         if (isMovingToDefault) MoveToDefaultPosition();
-        
+
 
     }
 
@@ -58,8 +63,8 @@ public class HumanoidAITester : MonoBehaviour
 
     public void MoveToDefaultPosition()
     {
-        isMovingToDefault=true;
-        isMovingToTarget=false;
+        isMovingToDefault = true;
+        isMovingToTarget = false;
 
         aiMotor.MoveCharacter(defaultPosition);
         controller.ResetLockTarget();
@@ -70,9 +75,9 @@ public class HumanoidAITester : MonoBehaviour
         {
             aiMotor.StopMovement();
             isMovingToDefault = false;
-            
+
         }
-       
+
     }
 
     public void SetLockOnTarget()
@@ -87,7 +92,7 @@ public class HumanoidAITester : MonoBehaviour
 
     public void ResetLockTarget()
     {
-       controller.ResetLockTarget();  
+        controller.ResetLockTarget();
     }
 
     public void Dodge()
@@ -121,5 +126,48 @@ public class HumanoidAITester : MonoBehaviour
         aiMotor.Dodge(fromTarget);
 
     }
+
+    public void SingleAttack()
+    {
+        combatController.PerformAttack();
+    }
+
+    public void Combo()
+    {
+        if (isComboRunning) return;
+
+        int punchesCount = Random.RandomRange(3, 7);
+        StartCoroutine(ComboSampleCoroutine(punchesCount));
+    }
+
+    IEnumerator ComboSampleCoroutine(int punchesCount)
+    {
+        isComboRunning = true;
+        int executedAttacks = 0;
+
+        Debug.Log(punchesCount);
+
+        void OnAttackEnd()
+        {
+            executedAttacks++;
+        }
+
+        combatController.OnAttackEnd += OnAttackEnd;
+
+        // первый инпут
+        SingleAttack();
+
+        while (executedAttacks < punchesCount-1)
+        {
+            // ждём окно буфера
+            yield return new WaitForSeconds(combatController.attackBufferTime * 0.9f);
+
+            SingleAttack();
+        }
+
+        combatController.OnAttackEnd -= OnAttackEnd;
+        isComboRunning = false;
+    }
+
 
 }

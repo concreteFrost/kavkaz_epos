@@ -14,6 +14,8 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidCombatController combatController;
+    [SerializeField] private HumanoidCombatInventory combatInventory;
+
  
 
     private void Awake()
@@ -36,5 +38,13 @@ public class HumanoidAIServiceLocator : MonoBehaviour
 
         CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController, stats);
         targetLock.Init();
+
+        HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animator);
+
+        combatController.Init(combatControllerServices);
+
+        HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, statsController, (int)damageController.CharacterType); 
+        combatInventory.Init(combatInventoryServices);
+
     }
 }

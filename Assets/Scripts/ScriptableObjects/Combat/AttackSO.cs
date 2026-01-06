@@ -19,6 +19,11 @@ public class Attack
     {
         return balanceDamageMultiplier;
     }
+
+    public float GetClipDuration(Animator animator)
+    {
+        return animationInfo.clip.length / Mathf.Max(animator.speed, 0.0001f);
+    }
 }
 
 

@@ -41,6 +41,15 @@ public class HumanoidAITesterEditor : Editor
             tester.Dodge();
         }
 
+        if(GUILayout.Button("Single Attack"))
+        {
+            tester.SingleAttack();  
+        }
+
+        if (GUILayout.Button("Combo"))
+        {
+            tester.Combo();
+        }
       
         
         
