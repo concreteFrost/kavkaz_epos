@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerInteract : MonoBehaviour, ICollector 
+public class CharacterInteract : MonoBehaviour, ICollector 
 {
 
     IAttackSource attackSource;

@@ -5,6 +5,7 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
     IHumanoidMovement movement;
     ITargetLocker targetLocker;
     IDamagable damagable;
+    IHumanoidCombat attackSource;
 
     public void Init(HumanoidAnimatorService service)
     {
@@ -12,6 +13,7 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
         this.animator = service.animator;
         this.targetLocker = service.targetLock;
         this.damagable = service.damageController;
+        this.attackSource = service.combatController;
     }
 
     public override void UpdateAnimatorParameters()
@@ -25,5 +27,6 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
         UpdateLocomotionState(movement);
         UpdateDamageState(damagable);
         UpdateTargetLockState(targetLocker);
+        UpdateCombatState(attackSource);    
     }
 }

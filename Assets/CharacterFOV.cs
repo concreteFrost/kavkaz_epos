@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class HumanoidAITargetLock : MonoBehaviour, ITargetLocker
+public class CharacterFOV : MonoBehaviour, ITargetLocker
 {
     public IDamagable currentTarget;
 
@@ -29,20 +30,13 @@ public class HumanoidAITargetLock : MonoBehaviour, ITargetLocker
         isLookingForTargets = true;
     }
 
-    private void Update()
-    {
-        if (!isLookingForTargets) return;
-
-        CheckTargets(); //убрать и перенести в состо€ни€
-
-    }
 
     #region Search
 
     /// <summary>
     /// ѕровер€ет наличие целей в заданом радиусе
     /// </summary>
-    private void CheckTargets()
+    public void CheckTargets()
     {
 
         if(eyes == null)
@@ -72,13 +66,12 @@ public class HumanoidAITargetLock : MonoBehaviour, ITargetLocker
 
         }
     }
-
     /// <summary>
     /// ѕровер€ет видна ли цель и нет ли прип€тствий
     /// </summary>
     /// <param name="targetTransform"></param>
     /// <returns></returns>
-    private bool IsTargetVisible(IDamagable targetTransform)
+    public bool IsTargetVisible(IDamagable targetTransform)
     {
 
         IDamagable targetLockable = targetTransform;
@@ -94,12 +87,12 @@ public class HumanoidAITargetLock : MonoBehaviour, ITargetLocker
 
     #endregion
 
-
     #region Target State
     private void SetCurrentTarget(IDamagable target)
     {
         //currentTarget = target.TargetToAim;
         currentTarget = target;
+        isLockedOnTarget = true;
         //Debug.Log(currentTarget);
 
     }
@@ -107,6 +100,7 @@ public class HumanoidAITargetLock : MonoBehaviour, ITargetLocker
     public void ResetCurrentTarget()
     {
         currentTarget = null;   
+        isLockedOnTarget = false;
     }
     #endregion
 

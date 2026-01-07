@@ -6,15 +6,21 @@ public class HumanoidAITester : MonoBehaviour
 {
     public HumanoidAIMotor aiMotor;
     public HumanoidAIController controller;
-    public HumanoidAITargetLock targetLock;
+    public CharacterFOV targetLock;
     public HumanoidCombatController combatController;
     public HumanoidCombatInventory inventory;
+    public CharacterInteract interaction;
     public Animator anim;
     public Transform targetPoint;
 
     private bool isMovingToTarget;
     private bool isMovingToDefault;
     private bool isComboRunning;
+    private Weapon targetWeapon;
+    private Shield targetShield;
+
+    public float weaponCheckRadius = 15f;
+
 
     Vector3 defaultPosition;
 
@@ -32,10 +38,13 @@ public class HumanoidAITester : MonoBehaviour
         if (isMovingToTarget) MoveToTarget();
         if (isMovingToDefault) MoveToDefaultPosition();
 
+        if (targetWeapon != null) GoToWeapon();
+        if(targetShield != null) GoToShield();  
+
 
     }
 
-
+    #region Movement
     public void MoveToTarget()
     {
         isMovingToTarget = true;
@@ -60,7 +69,6 @@ public class HumanoidAITester : MonoBehaviour
         }
     }
 
-
     public void MoveToDefaultPosition()
     {
         isMovingToDefault = true;
@@ -78,21 +86,6 @@ public class HumanoidAITester : MonoBehaviour
 
         }
 
-    }
-
-    public void SetLockOnTarget()
-    {
-        //var t =  targetLock.CheckNearestTarget();
-
-        //Debug.Log(t);
-        //if(t != null) 
-        //controller.SetLockTarget(t);
-
-    }
-
-    public void ResetLockTarget()
-    {
-        controller.ResetLockTarget();
     }
 
     public void Dodge()
@@ -127,6 +120,27 @@ public class HumanoidAITester : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Target Lock
+
+    public void SetLockOnTarget()
+    {
+        //var t =  targetLock.CheckNearestTarget();
+
+        //Debug.Log(t);
+        //if(t != null) 
+        //controller.SetLockTarget(t);
+
+    }
+
+    public void ResetLockTarget()
+    {
+        controller.ResetLockTarget();
+    }
+
+    #endregion
+    #region Combat
     public void SingleAttack()
     {
         combatController.PerformAttack();
@@ -136,14 +150,27 @@ public class HumanoidAITester : MonoBehaviour
     {
         if (isComboRunning) return;
 
-        int punchesCount = Random.RandomRange(3, 7);
-        StartCoroutine(ComboSampleCoroutine(punchesCount));
+        bool willThrowWeapon = Random.value > 0.9f;
+
+        if (willThrowWeapon)
+        {
+            combatController.ThrowWeapon();
+        }
+        else
+        {
+
+            int punchesCount = Random.RandomRange(3, 7);
+            StartCoroutine(ComboSampleCoroutine(punchesCount));
+        }
+
     }
 
     IEnumerator ComboSampleCoroutine(int punchesCount)
     {
         isComboRunning = true;
         int executedAttacks = 0;
+
+        
 
         Debug.Log(punchesCount);
 
@@ -156,18 +183,144 @@ public class HumanoidAITester : MonoBehaviour
 
         // первый инпут
         SingleAttack();
+      
+           
 
         while (executedAttacks < punchesCount-1)
         {
             // ждём окно буфера
             yield return new WaitForSeconds(combatController.attackBufferTime * 0.9f);
-
             SingleAttack();
         }
 
         combatController.OnAttackEnd -= OnAttackEnd;
         isComboRunning = false;
     }
+
+    #endregion
+
+    #region Interaction
+
+    public void FindWeapon()
+    {
+        isMovingToDefault = false;
+        isMovingToTarget = false;
+        targetShield = null;
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, weaponCheckRadius);
+
+        foreach (Collider col in cols) { 
+        
+            if(col.GetComponent<Weapon>() != null){
+
+                var weapon = col.GetComponent<Weapon>();
+
+                if(weapon.AttackSource == null)
+                {
+                    targetWeapon = weapon;
+                    Debug.Log("found weapon");
+                }
+                    
+                
+            }
+        }
+        
+    }
+
+    public void FindWShield()
+    {
+        isMovingToDefault = false;
+        isMovingToTarget = false;
+        targetWeapon = null;    
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, weaponCheckRadius);
+
+        foreach (Collider col in cols)
+        {
+
+            if (col.GetComponent<Shield>() != null)
+            {
+
+                var weapon = col.GetComponent<Shield>();
+
+                if (weapon.AttackSource == null)
+                {
+                    targetShield = weapon;
+                    Debug.Log("found weapon");
+                }
+
+
+            }
+        }
+
+    }
+
+    private void GoToWeapon()
+    {
+        if (targetWeapon == null) aiMotor.StopMovement();
+        if (targetWeapon.AttackSource != null) aiMotor.StopMovement();
+
+        Debug.Log("going to weapon");
+
+        if (NavMesh.SamplePosition(targetWeapon.transform.position, out var hit, 1f, NavMesh.AllAreas))
+        {
+            aiMotor.MoveCharacter(targetWeapon.transform.position);
+
+            
+            float distance = Vector3.Distance(transform.position, targetWeapon.transform.position);
+
+        
+
+            if (distance < 0.5f)
+            {
+                aiMotor.StopMovement();
+                interaction.Interact();
+                targetWeapon = null;
+            }
+        }
+        else
+        {
+            Debug.Log("path is invalid");
+            aiMotor.StopMovement();
+            targetWeapon = null;
+        }
+
+    }
+
+    private void GoToShield()
+    {
+        if (targetShield == null) aiMotor.StopMovement();
+        if (targetShield.AttackSource != null) aiMotor.StopMovement();
+
+        Debug.Log("going to shield");
+
+        if (NavMesh.SamplePosition(targetShield.transform.position, out var hit, 1f, NavMesh.AllAreas))
+        {
+            aiMotor.MoveCharacter(targetShield.transform.position);
+
+
+            float distance = Vector3.Distance(transform.position, targetShield.transform.position);
+
+            
+
+            if (distance < 0.5f)
+            {
+                aiMotor.StopMovement();
+                interaction.Interact();
+                targetShield = null;
+            }
+        }
+        else
+        {
+            Debug.Log("path is invalid");
+            aiMotor.StopMovement();
+            targetShield = null;
+        }
+
+    }
+
+
+    #endregion
 
 
 }

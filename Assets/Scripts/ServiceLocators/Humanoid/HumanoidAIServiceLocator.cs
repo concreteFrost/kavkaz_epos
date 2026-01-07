@@ -10,13 +10,17 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIController controller;
     [SerializeField] private CharacterStats stats;
     [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private HumanoidAITargetLock targetLock;
+    [SerializeField] private CharacterFOV targetLock;
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
+    [SerializeField] private CharacterInteract interaction;
+    [SerializeField] private HumanoidAIBrain brain;
 
- 
+    [Header("states")]
+    [SerializeField] private EnemyIdleState idle;
+
 
     private void Awake()
     {
@@ -45,6 +49,13 @@ public class HumanoidAIServiceLocator : MonoBehaviour
 
         HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, statsController, (int)damageController.CharacterType); 
         combatInventory.Init(combatInventoryServices);
+
+        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory);
+        interaction.Init(interactService);
+
+        HumanoidAIContext context = new HumanoidAIContext(transform,motor,controller,combatController,combatInventory,targetLock,interaction,null);
+        brain.InitContext(context);
+        brain.InitBehaviours(idle);
 
     }
 }

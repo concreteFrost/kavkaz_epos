@@ -16,6 +16,8 @@ public class HumanoidAITesterEditor : Editor
 
         tester.aiMotor.isSprinting = (EditorGUILayout.Toggle("isRunning", tester.aiMotor.isSprinting));
 
+        GUILayout.Label("Movement", EditorStyles.boldLabel);
+
         if (GUILayout.Button("Move To Target"))
         {
             tester.MoveToTarget();
@@ -26,7 +28,15 @@ public class HumanoidAITesterEditor : Editor
             tester.MoveToDefaultPosition();
         }
 
-        if(GUILayout.Button("Lock Target"))
+        if (GUILayout.Button("Dodge"))
+        {
+            tester.Dodge();
+        }
+
+        GUILayout.Space(10);
+        GUILayout.Label("Target Lock", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Lock Target"))
         {
             tester.SetLockOnTarget();
         }
@@ -36,12 +46,11 @@ public class HumanoidAITesterEditor : Editor
             tester.ResetLockTarget();   
         }
 
-        if (GUILayout.Button("Dodge"))
-        {
-            tester.Dodge();
-        }
+        GUILayout.Space(10);
+        GUILayout.Label("Combat", EditorStyles.boldLabel);
 
-        if(GUILayout.Button("Single Attack"))
+
+        if (GUILayout.Button("Single Attack"))
         {
             tester.SingleAttack();  
         }
@@ -50,9 +59,22 @@ public class HumanoidAITesterEditor : Editor
         {
             tester.Combo();
         }
-      
-        
-        
+
+        GUILayout.Space(10);
+        GUILayout.Label("Interaction", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Find Weapon"))
+        {
+            tester.FindWeapon();    
+        }
+
+        if (GUILayout.Button("Find Shield"))
+        {
+            tester.FindWShield();
+        }
+
+
+
 
     }
 }
