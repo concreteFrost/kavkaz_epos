@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public interface IDamagable
@@ -15,4 +16,6 @@ public interface IDamagable
 
     public Transform GetAimTransform();
     public Transform GetOrigin();
+
+    public event Action<IAttackSource> DamageTaken;
 }

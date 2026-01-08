@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 public abstract class BaseDamageController : MonoBehaviour, IDamagable
@@ -33,9 +34,13 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
 
     public Transform GetAimTransform()=> aimPosition;
     public Transform GetOrigin() => transform;
+
+    public event Action<IAttackSource> DamageTaken;
     #endregion
 
-   
+
+
+
     public virtual void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         if (isDead) return;
@@ -49,7 +54,10 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
         //    isDamaged = true;
         //}
 
+
+        
         statsController.ReduceHealth(damage);
+        DamageTaken?.Invoke(source);
         //StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown));
 
     }

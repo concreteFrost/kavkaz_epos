@@ -3216,6 +3216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 171636549}
+  - component: {fileID: 171636550}
   m_Layer: 0
   m_Name: Patrol
   m_TagString: Untagged
@@ -3238,6 +3239,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330102337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &171636550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171636548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72b3507ed2c98fa4aaa9305aac80f12c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrolState
+  maxDestinationRadius: 10
+  maxWalks: 3
+  currWalks: 0
 --- !u!1 &172836621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5404,9 +5420,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 250838554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 596a848887a164340a130d826327ce7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d3e9d9163c1cf34793c5a39852b9cbd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIBrain
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  idle: {fileID: 1683758533}
+  patrol: {fileID: 171636550}
+  chase: {fileID: 1683758533}
+  attack: {fileID: 1683758533}
 --- !u!1 &252684972
 GameObject:
   m_ObjectHideFlags: 0
@@ -16244,6 +16264,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828723177}
   m_Mesh: {fileID: 4300000, guid: dee2cc7c00fcd6b4f90719f3660798f8, type: 3}
+--- !u!1 &830316481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 830316483}
+  - component: {fileID: 830316482}
+  m_Layer: 0
+  m_Name: LockFrame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &830316482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830316481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76233b1355a44e34282c2a2472ed38c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!4 &830316483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830316481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.20332, y: 0, z: 12.09972}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &835523764
 GameObject:
   m_ObjectHideFlags: 0
@@ -18439,7 +18503,7 @@ Transform:
   m_GameObject: {fileID: 949397459}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.357, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19662,7 +19726,7 @@ Transform:
   m_GameObject: {fileID: 1016591090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.357, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30766,6 +30830,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013a40053efc8a346a4a02866ef33142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyIdleState
+  currIdleTime: 0
+  maxIdleTime: 0
 --- !u!4 &1683758534
 Transform:
   m_ObjectHideFlags: 0
@@ -32185,7 +32251,7 @@ GameObject:
   - component: {fileID: 1742475989}
   - component: {fileID: 1742475990}
   m_Layer: 0
-  m_Name: AITargetLock
+  m_Name: AIFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32216,16 +32282,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1742475988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56ebf0b1aa01244499cf0c8864dc676c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6449bb35cb23b3245b9edf1cd8cc3beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterTargetLock
+  fovDataSO: {fileID: 11400000, guid: c4c7ef9c49f846b4fab4e994137f98a4, type: 2}
   eyes: {fileID: 42050705}
-  viewRadius: 15
-  viewAngle: 45
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 129
-  targetType: 0
   objectsToScan: 00000000
 --- !u!1 &1742514600
 GameObject:
@@ -35246,6 +35307,7 @@ GameObject:
   - component: {fileID: 1862491716}
   - component: {fileID: 1862491715}
   - component: {fileID: 1862491719}
+  - component: {fileID: 1862491720}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -35339,7 +35401,7 @@ Transform:
   m_GameObject: {fileID: 1862491714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.76, y: 0.48, z: 7.36}
+  m_LocalPosition: {x: 24.89, y: 0.48, z: 7.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35360,6 +35422,22 @@ MonoBehaviour:
   characterType: 3
   currentHealth: 30
   selfId: 
+--- !u!208 &1862491720
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862491714}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1865699218
 GameObject:
   m_ObjectHideFlags: 0
@@ -36750,8 +36828,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957759287}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.35000038, y: 0.21, z: 2.79}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36769,7 +36847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2593b2954c574d348864ec78582b9711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  statsSO: {fileID: 11400000, guid: 418f940625940fc4dbd9b6df858adb35, type: 2}
+  statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
   walkSpeed: 0
   runningSpeed: 0
   jumpHeight: 0
@@ -41886,7 +41964,7 @@ Transform:
   m_GameObject: {fileID: 6393974812609036919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 25.01, y: 0, z: 9.82}
+  m_LocalPosition: {x: 28.19, y: 0, z: 9.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42068,13 +42146,12 @@ MonoBehaviour:
   controller: {fileID: 1467910345}
   stats: {fileID: 1957759290}
   statsController: {fileID: 1957759288}
-  targetLock: {fileID: 1742475990}
+  fov: {fileID: 1742475990}
   damageController: {fileID: 949397460}
   combatController: {fileID: 1031901239}
   combatInventory: {fileID: 1679420315}
   interaction: {fileID: 262746903}
   brain: {fileID: 250838556}
-  idle: {fileID: 1683758533}
 --- !u!114 &6393974812609036924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43235,3 +43312,4 @@ SceneRoots:
   - {fileID: 1374581468}
   - {fileID: 1389062801}
   - {fileID: 1862491718}
+  - {fileID: 830316483}

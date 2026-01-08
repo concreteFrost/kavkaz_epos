@@ -6,7 +6,7 @@ public class HumanoidAITester : MonoBehaviour
 {
     public HumanoidAIMotor aiMotor;
     public HumanoidAIController controller;
-    public CharacterFOV targetLock;
+    public AIFov targetLock;
     public HumanoidCombatController combatController;
     public HumanoidCombatInventory inventory;
     public CharacterInteract interaction;
@@ -75,7 +75,7 @@ public class HumanoidAITester : MonoBehaviour
         isMovingToTarget = false;
 
         aiMotor.MoveCharacter(defaultPosition);
-        controller.ResetLockTarget();
+        aiMotor.ResetLockTarget();
 
         float distance = Vector3.Distance(defaultPosition, transform.position);
 
@@ -136,7 +136,7 @@ public class HumanoidAITester : MonoBehaviour
 
     public void ResetLockTarget()
     {
-        controller.ResetLockTarget();
+        aiMotor.ResetLockTarget();
     }
 
     #endregion

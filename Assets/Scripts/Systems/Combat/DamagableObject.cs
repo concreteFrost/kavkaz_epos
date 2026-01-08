@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -21,7 +22,9 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public string SourceId() => selfId;
    
     public bool IsDamaged { get; set; }
-    public float BalancePenalty {  get; set; }   
+    public float BalancePenalty {  get; set; }
+
+    public event Action<IAttackSource> DamageTaken;
 
     #endregion
 

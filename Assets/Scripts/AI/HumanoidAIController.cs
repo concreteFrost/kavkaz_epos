@@ -5,7 +5,7 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAIMotor aiMotor;
     HumanoidAIAnimatorController aIAnimator;
     Animator animator;
-    ICharacterStatsController statsController;
+    //ICharacterStatsController statsController;
     CharacterStats stats;
 
     public void Init(HumanoidControllerService service)
@@ -13,7 +13,7 @@ public class HumanoidAIController : MonoBehaviour
         this.animator = service.animator;
         this.aiMotor = service.aiMotor;
         this.aIAnimator = service.aiAnimatorController;
-        this.statsController = service.statsController;
+        //this.statsController = service.statsController;
         this.stats = service.stats; 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,16 +48,16 @@ public class HumanoidAIController : MonoBehaviour
     private void ControlSpeed()
     {
 
-        float baseSpeed = aiMotor.IsSprinting
-            ? stats.runningSpeed
-            : stats.walkSpeed;
+        //float baseSpeed = aiMotor.IsSprinting
+        //    ? stats.runningSpeed
+        //    : stats.walkSpeed;
 
 
-        aiMotor.moveSpeed = Mathf.Lerp(
-            aiMotor.moveSpeed,
-            baseSpeed,
-            aiMotor.movementSmooth * Time.deltaTime
-        );
+        //aiMotor.moveSpeed = Mathf.Lerp(
+        //    aiMotor.moveSpeed,
+        //    baseSpeed,
+        //    aiMotor.movementSmooth * Time.deltaTime
+        //);
 
         aiMotor.agent.speed = aiMotor.moveSpeed;
     }
@@ -85,18 +85,6 @@ public class HumanoidAIController : MonoBehaviour
 
     #endregion
 
-    #region Target Lock
 
-    public void SetLockTarget(Transform target)
-    {
-        aiMotor.rotateTarget = target;
-    }
-
-    public void ResetLockTarget()
-    {
-        aiMotor.rotateTarget = null;
-    }
-
-    #endregion
 
 }

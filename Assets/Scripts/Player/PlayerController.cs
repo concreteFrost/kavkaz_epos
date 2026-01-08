@@ -158,6 +158,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanAttack()) return;
 
+      
+
         combatController.PerformAttack();
 
     }

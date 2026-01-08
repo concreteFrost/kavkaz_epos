@@ -115,6 +115,7 @@ public class PlayerMotor : BaseHumanoidMotor
 
     public override void StopMovement()
     {
+       
         // обнуляем вход и сглаженный ввод
         //input = Vector3.zero;
         inputSmooth = Vector3.zero;

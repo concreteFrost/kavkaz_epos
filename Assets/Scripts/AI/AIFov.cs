@@ -1,25 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class CharacterFOV : MonoBehaviour, ITargetLocker
+public class AIFov : MonoBehaviour, ITargetLocker
 {
+    [SerializeField] FovDataSO fovDataSO;
+    [SerializeField] Transform eyes;
+
     public IDamagable currentTarget;
 
-    [SerializeField] Transform eyes;
-    [SerializeField] private float viewRadius = 20f;
-    [SerializeField] private float viewAngle = 70f;
-
     //float cullingDistance = 100f; // задает радиус отключения поиска
-
-    public LayerMask obstacleMask;
 
     #region ILockableContract
     private bool isLockedOnTarget = false;
     public bool IsLockedOnTarget { get => isLockedOnTarget; set => isLockedOnTarget = value; }
     #endregion
 
-    public CharacterType targetType;
     public List<CharacterType> objectsToScan = new List<CharacterType>(); // обьекты интереса
 
     bool isLookingForTargets = true;
@@ -29,8 +24,6 @@ public class CharacterFOV : MonoBehaviour, ITargetLocker
         currentTarget = null;
         isLookingForTargets = true;
     }
-
-
     #region Search
 
     /// <summary>
@@ -44,7 +37,7 @@ public class CharacterFOV : MonoBehaviour, ITargetLocker
             Debug.Log("no eyes assigned. field of view is not working");
             return; 
         }
-        Collider[] colliders = Physics.OverlapSphere(eyes.position, viewRadius);
+        Collider[] colliders = Physics.OverlapSphere(eyes.position, fovDataSO.viewRadius);
 
         foreach (Collider collider in colliders)
         {
@@ -79,10 +72,10 @@ public class CharacterFOV : MonoBehaviour, ITargetLocker
         Vector3 directionToTarget = (targetLockable.GetAimTransform().position - eyes.position).normalized;
         float distanceToTarget = Vector3.Distance(eyes.position, targetLockable.GetAimTransform().position);
 
-        if (distanceToTarget > viewRadius) return false;
-        if (Vector3.Angle(eyes.forward, directionToTarget) > viewAngle / 2) return false;
+        if (distanceToTarget > fovDataSO.viewRadius) return false;
+        if (Vector3.Angle(eyes.forward, directionToTarget) > fovDataSO.viewAngle / 2) return false;
 
-        return !Physics.Raycast(eyes.position, directionToTarget, distanceToTarget, obstacleMask);
+        return !Physics.Raycast(eyes.position, directionToTarget, distanceToTarget, fovDataSO.obstacleMask);
     }
 
     #endregion
@@ -116,15 +109,15 @@ public class CharacterFOV : MonoBehaviour, ITargetLocker
         if (eyes == null) return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(eyes.position, viewRadius);
+        Gizmos.DrawWireSphere(eyes.position, fovDataSO.viewRadius);
 
         Vector3 forward = eyes.forward;
-        float halfAngle = viewAngle / 2;
+        float halfAngle = fovDataSO.viewAngle / 2;
         Quaternion leftRotation = Quaternion.Euler(0, -halfAngle, 0);
         Quaternion rightRotation = Quaternion.Euler(0, halfAngle, 0);
 
-        Vector3 leftBoundary = leftRotation * forward * viewRadius;
-        Vector3 rightBoundary = rightRotation * forward * viewRadius;
+        Vector3 leftBoundary = leftRotation * forward * fovDataSO.viewRadius;
+        Vector3 rightBoundary = rightRotation * forward * fovDataSO.viewRadius;
 
         Gizmos.DrawRay(eyes.position, leftBoundary);
         Gizmos.DrawRay(eyes.position, rightBoundary);

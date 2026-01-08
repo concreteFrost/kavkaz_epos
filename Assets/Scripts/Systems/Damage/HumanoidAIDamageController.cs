@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,8 @@ public class HumanoidAIDamageController : BaseDamageController
 {
     NavMeshAgent agent;
     CapsuleCollider col;
+
+    
 	public void Init(ICharacterStatsController statsModifier, CharacterStats stats, NavMeshAgent agent,CapsuleCollider col,  string uniqueID)
 	{
 		this.statsController = statsModifier;
@@ -32,6 +35,7 @@ public class HumanoidAIDamageController : BaseDamageController
     public override void TakeDamage(float damage, float balanceDamage, IAttackSource source)
     {
         base.TakeDamage(damage, balanceDamage, source);
+
      
     }
 

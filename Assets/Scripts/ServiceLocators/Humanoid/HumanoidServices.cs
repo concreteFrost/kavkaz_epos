@@ -114,3 +114,31 @@ public struct HumanoidStatsControllerService
     }
 }
 
+public struct SimpleHumanoidBrainContext
+{
+    public Vector3 permamentPosition;
+
+    public Transform self;
+    public HumanoidAIMotor motor;
+    public HumanoidAIController controller;
+    public IDamagable damageController;
+
+}
+
+public struct EnemyBrainContext
+{
+    public Vector3 permamentPosition;
+
+    public Transform self;
+    public HumanoidAIMotor motor;
+    public HumanoidAIController controller;
+    public CharacterStats stats;
+    public IDamagable damageController;
+
+    public HumanoidCombatController combat;
+    public HumanoidCombatInventory inventory;
+    public AIFov fov;
+    public CharacterInteract interact;
+
+}
+

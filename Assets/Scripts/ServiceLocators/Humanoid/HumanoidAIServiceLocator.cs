@@ -10,16 +10,13 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIController controller;
     [SerializeField] private CharacterStats stats;
     [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private CharacterFOV targetLock;
+    [SerializeField] private AIFov fov;
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private CharacterInteract interaction;
-    [SerializeField] private HumanoidAIBrain brain;
-
-    [Header("states")]
-    [SerializeField] private EnemyIdleState idle;
+    [SerializeField] private EnemyBrain brain;
 
 
     private void Awake()
@@ -29,7 +26,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         stats.Init();
         motor.Init(animator);
 
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,targetLock,damageController);
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,fov,damageController);
         animatorController.Init(animatorService);
        
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
@@ -41,7 +38,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         damageController.Init(statsController, stats,motor.agent,capsuleCollider, uid);
 
         CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController, stats);
-        targetLock.Init();
+        fov.Init();
 
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animator);
 
@@ -53,9 +50,22 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         HumanoidInteractService interactService = new HumanoidInteractService(combatInventory);
         interaction.Init(interactService);
 
-        HumanoidAIContext context = new HumanoidAIContext(transform,motor,controller,combatController,combatInventory,targetLock,interaction,null);
-        brain.InitContext(context);
-        brain.InitBehaviours(idle);
+        EnemyBrainContext brainContext = new EnemyBrainContext()
+        {
+            permamentPosition = transform.position,
+            self = transform,
+            motor = motor,
+            controller = controller,
+            stats = stats,
+            damageController = damageController,
+            combat = combatController,
+            inventory = combatInventory,
+            fov = fov,
+            interact = interaction
+        };
+
+        brain.Init(brainContext);
+ 
 
     }
 }

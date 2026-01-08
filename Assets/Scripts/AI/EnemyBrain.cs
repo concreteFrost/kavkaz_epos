@@ -1,0 +1,76 @@
+using Mono.Cecil;
+using UnityEngine;
+
+public enum AIStateResult
+{
+    None = 0,
+    Idle = 1,
+    Patrol = 2,
+    Chase = 3,
+    Attack = 4
+}
+
+public class EnemyBrain : MonoBehaviour
+{
+    EnemyBrainContext context;
+
+    internal AIStateMachine stateMachine = new AIStateMachine();
+
+    [SerializeField] private AIState<EnemyBrainContext> idle;
+    [SerializeField] private AIState<EnemyBrainContext> patrol;
+    [SerializeField] private AIState<EnemyBrainContext> chase;
+    [SerializeField] private AIState<EnemyBrainContext> attack;
+
+
+    public void Init(EnemyBrainContext context)
+    {
+        this.context = context; 
+        idle.Init(context);
+        patrol.Init(context);
+        chase.Init(context);    
+        attack.Init(context);
+
+        stateMachine.ChangeState(idle);
+
+        context.damageController.DamageTaken +=OnDamageTaken;
+        
+    }
+
+    private void OnDisable()
+    {
+        context.damageController.DamageTaken -=OnDamageTaken;   
+    }
+
+    void Update()
+    {
+        if (context.damageController.IsDead())
+        {
+            stateMachine.ForceExit();
+            return;
+        }
+        stateMachine.Run();
+
+        switch (stateMachine.CurrentState.Run())
+        {
+            case AIStateResult.Idle:
+                stateMachine.ChangeState(idle);
+                break;
+            case AIStateResult.Patrol:
+                stateMachine.ChangeState(patrol);
+                break;
+            case AIStateResult.Chase:
+                stateMachine.ChangeState(chase);
+                break;
+            case AIStateResult.Attack:
+                stateMachine.ChangeState(attack);
+                break;
+        }
+    }
+
+    private void OnDamageTaken(IAttackSource source) {
+
+        
+        Debug.Log("damage taken");
+        //stateMachine.ChangeState(attack);
+    }
+}
