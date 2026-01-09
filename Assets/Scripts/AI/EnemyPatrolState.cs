@@ -11,6 +11,10 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
     public override void Enter()
     {
+
+        context.fov.ResetTarget();
+        context.motor.ResetSprint();    
+
         if(currWalks >= maxWalks)
         {
             destination = context.permamentPosition;
@@ -48,10 +52,9 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
         if(context.fov.currentTarget != null)
         {
-            if (!context.fov.IsTargetVisible())
-            {
-                context.fov.ResetTarget();  
-            }
+
+            return AIStateResult.Chase;
+
         }
             
 

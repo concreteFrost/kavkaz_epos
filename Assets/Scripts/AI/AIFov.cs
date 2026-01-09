@@ -35,7 +35,7 @@ public class AIFov
 
             if (lockable != null)
             {
-                bool isTarget = IsTarget(lockable) && IsTargetVisible(lockable, viewRadius, viewAngle);
+                bool isTarget = IsTarget(lockable) && IsTargetVisible(lockable.GetAimTransform(), viewRadius, viewAngle);
 
                 if (isTarget) return lockable;
             }
@@ -61,13 +61,12 @@ public class AIFov
     /// </summary>
     /// <param name="targetTransform"></param>
     /// <returns></returns>
-    public bool IsTargetVisible(IDamagable targetTransform, float viewRadius, float viewAngle)
+    public bool IsTargetVisible(Transform targetTransform, float viewRadius, float viewAngle)
     {
 
-        IDamagable targetLockable = targetTransform;
-
-        Vector3 directionToTarget = (targetLockable.GetAimTransform().position - eyes.position).normalized;
-        float distanceToTarget = Vector3.Distance(eyes.position, targetLockable.GetAimTransform().position);
+       
+        Vector3 directionToTarget = (targetTransform.position - eyes.position).normalized;
+        float distanceToTarget = Vector3.Distance(eyes.position, targetTransform.position);
 
         if (distanceToTarget > viewRadius) return false;
         if (Vector3.Angle(eyes.forward, directionToTarget) > viewAngle / 2) return false;

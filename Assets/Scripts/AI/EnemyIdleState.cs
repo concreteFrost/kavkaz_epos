@@ -9,6 +9,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     {
         var stats = context.stats.statsSO as HumanoidCharacterStatsSO;
         context.motor.StopMovement();
+        context.motor.ResetSprint();
         context.fov.ResetTarget();  
 
         maxIdleTime = Random.Range((float)stats.minIdleStationary, (float)stats.maxIdleStationary);

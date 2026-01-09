@@ -68,6 +68,17 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     }
 
+    public void ResetSpeed()
+    {
+        moveDirection = Vector3.zero;
+        inputMagnitude = 0f;
+    }
+
+    public void ResetSprint()
+    {
+        isSprinting = false;
+    }
+
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
         if (!agent.isActiveAndEnabled || !agent.hasPath)

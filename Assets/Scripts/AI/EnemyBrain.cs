@@ -1,4 +1,5 @@
 using Mono.Cecil;
+using UnityEditor;
 using UnityEngine;
 
 public enum AIStateResult
@@ -16,10 +17,14 @@ public class EnemyBrain : MonoBehaviour
 
     internal AIStateMachine stateMachine = new AIStateMachine();
 
+    public AIState<EnemyBrainContext> currentState;
+
     [SerializeField] private AIState<EnemyBrainContext> idle;
     [SerializeField] private AIState<EnemyBrainContext> patrol;
     [SerializeField] private AIState<EnemyBrainContext> chase;
     [SerializeField] private AIState<EnemyBrainContext> attack;
+
+   
 
 
     public void Init(EnemyBrainContext context)
@@ -65,6 +70,8 @@ public class EnemyBrain : MonoBehaviour
                 stateMachine.ChangeState(attack);
                 break;
         }
+
+        currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
 
     private void OnDamageTaken(IAttackSource source) {

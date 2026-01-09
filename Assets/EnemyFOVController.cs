@@ -9,7 +9,6 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     HumanoidAIMotor motor;
     AIFov fov;
     
-
     private bool isLockedOnTarget = false;  
     public bool IsLockedOnTarget { get => isLockedOnTarget; set=>isLockedOnTarget = value; }
 
@@ -23,6 +22,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public void CheckTargets()
     {
+
         var potentialTarget = fov.PotentialTarget(fovDataSO.viewRadius, fovDataSO.viewAngle);
 
         if (potentialTarget == null)
@@ -37,8 +37,8 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     public void SetTarget(IDamagable target)
     {
         currentTarget = target;
-        motor.SetLockTarget(currentTarget.GetAimTransform());
-        isLockedOnTarget = true;
+        //motor.SetLockTarget(currentTarget.GetAimTransform());
+        //isLockedOnTarget = true;
     }
 
     public void ResetTarget()
@@ -46,18 +46,16 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         if (currentTarget != null)
         {
             currentTarget = null;
-            motor.ResetLockTarget();
-            isLockedOnTarget = false;
+            //motor.ResetLockTarget();
+            //isLockedOnTarget = false;
            
         }
        
     }
 
-    public bool IsTargetVisible()
+    public bool IsTargetVisible(Transform target)
     {
-        if (currentTarget == null) return false;
-
-        return fov.IsTargetVisible(currentTarget, fovDataSO.viewRadius, fovDataSO.viewAngle);
+        return fov.IsTargetVisible(target, fovDataSO.viewRadius, fovDataSO.viewAngle);
     }
 
     private void OnDrawGizmosSelected()
