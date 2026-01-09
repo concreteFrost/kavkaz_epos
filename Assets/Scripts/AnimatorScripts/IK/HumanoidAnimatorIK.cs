@@ -16,7 +16,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
     {
         float target = aiMotor.rotateTarget != null ? weight : 0;
        
-        currLookWeight = Mathf.SmoothDamp(currLookWeight, target, ref weightVelocity, 0.1f);
+        currLookWeight = Mathf.SmoothDamp(currLookWeight, target, ref weightVelocity, 0.2f);
         
         // Target position
         Vector3 lookPos = aiMotor.rotateTarget != null ? aiMotor.rotateTarget.position : Vector3.zero;

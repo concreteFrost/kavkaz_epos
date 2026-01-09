@@ -10,7 +10,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIController controller;
     [SerializeField] private CharacterStats stats;
     [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private AIFov fov;
+    [SerializeField] private EnemyFOVController fovController;
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidCombatController combatController;
@@ -26,7 +26,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         stats.Init();
         motor.Init(animator);
 
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,fov,damageController);
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,fovController,damageController);
         animatorController.Init(animatorService);
        
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
@@ -34,11 +34,6 @@ public class HumanoidAIServiceLocator : MonoBehaviour
 
         HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController, statsController, stats);
         controller.Init(controllerService);
-
-        damageController.Init(statsController, stats,motor.agent,capsuleCollider, uid);
-
-        CharacterTargetLockService targetLockService = new CharacterTargetLockService(controller, damageController, stats);
-        fov.Init();
 
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animator);
 
@@ -50,6 +45,10 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         HumanoidInteractService interactService = new HumanoidInteractService(combatInventory);
         interaction.Init(interactService);
 
+        damageController.Init(statsController, stats, motor.agent, capsuleCollider, uid);
+
+        fovController.Init(motor);
+
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {
             permamentPosition = transform.position,
@@ -60,7 +59,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
             damageController = damageController,
             combat = combatController,
             inventory = combatInventory,
-            fov = fov,
+            fov = fovController,
             interact = interaction
         };
 

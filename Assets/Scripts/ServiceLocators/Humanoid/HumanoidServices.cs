@@ -137,7 +137,7 @@ public struct EnemyBrainContext
 
     public HumanoidCombatController combat;
     public HumanoidCombatInventory inventory;
-    public AIFov fov;
+    public EnemyFOVController fov;
     public CharacterInteract interact;
 
 }

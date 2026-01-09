@@ -32,13 +32,13 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     public void SetLockTarget(Transform target)
     {
         rotateTarget = target;
-        Debug.Log("target set");
+        
     }
 
     public void ResetLockTarget()
     {
         rotateTarget = null;
-        Debug.Log("target reset");
+       
     }
     #endregion
 

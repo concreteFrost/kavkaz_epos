@@ -40,8 +40,20 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (context.motor.HasReachedDestination())
             return AIStateResult.Idle;
 
-        //if (context.fov.currentTarget != null)
-        //    return AIStateResult.Chase;
+        
+        if(context.fov.currentTarget == null)
+        {
+            context.fov.CheckTargets(); 
+        }
+
+        if(context.fov.currentTarget != null)
+        {
+            if (!context.fov.IsTargetVisible())
+            {
+                context.fov.ResetTarget();  
+            }
+        }
+            
 
         return AIStateResult.None;
     }

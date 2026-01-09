@@ -6,7 +6,7 @@ public class HumanoidAITester : MonoBehaviour
 {
     public HumanoidAIMotor aiMotor;
     public HumanoidAIController controller;
-    public AIFov targetLock;
+    public EnemyFOVController targetLock;
     public HumanoidCombatController combatController;
     public HumanoidCombatInventory inventory;
     public CharacterInteract interaction;

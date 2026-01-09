@@ -9,8 +9,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     {
         var stats = context.stats.statsSO as HumanoidCharacterStatsSO;
         context.motor.StopMovement();
-        context.fov.ResetCurrentTarget();   
-        context.motor.ResetLockTarget();
+        context.fov.ResetTarget();  
 
         maxIdleTime = Random.Range((float)stats.minIdleStationary, (float)stats.maxIdleStationary);
         currIdleTime = 0;
@@ -36,7 +35,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
         if (context.fov.currentTarget != null)
         {
-            context.motor.SetLockTarget(context.fov.currentTarget.GetAimTransform());
+            
             return AIStateResult.Patrol;
             //return AIStateResult.Chase;
         }
