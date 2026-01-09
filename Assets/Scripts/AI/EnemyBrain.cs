@@ -24,9 +24,6 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> chase;
     [SerializeField] private AIState<EnemyBrainContext> attack;
 
-   
-
-
     public void Init(EnemyBrainContext context)
     {
         this.context = context; 

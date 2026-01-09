@@ -46,7 +46,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     #region Rotation Control
     public override void RotateToTarget(Vector3 targetPosition)
     {
-        if (moveDirection.sqrMagnitude < 0.1f) return;
+        //if (moveDirection.sqrMagnitude < 0.1f) return;
         base.RotateToTarget(targetPosition);    
     }
 

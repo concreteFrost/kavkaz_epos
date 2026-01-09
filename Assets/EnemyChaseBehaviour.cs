@@ -61,7 +61,7 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
         }
         else
         {
-            motor.ResetSpeed();
+            return AIStateResult.Attack;
         }
 
         motor.isSprinting = distanceToTarget > stats.distanceToRun;

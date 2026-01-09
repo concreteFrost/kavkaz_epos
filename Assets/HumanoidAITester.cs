@@ -159,7 +159,7 @@ public class HumanoidAITester : MonoBehaviour
         else
         {
 
-            int punchesCount = Random.RandomRange(3, 7);
+            int punchesCount = Random.Range(3, 7);
             StartCoroutine(ComboSampleCoroutine(punchesCount));
         }
 

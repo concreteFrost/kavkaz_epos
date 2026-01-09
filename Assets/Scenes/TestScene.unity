@@ -1134,7 +1134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 42050705}
   m_Layer: 0
-  m_Name: Eyes
+  m_Name: FOVEyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,12 +1148,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42050704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.645, z: 0.343}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.021281853, z: 0.3575677}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1742475989}
+  m_Father: {fileID: 1275111728951928356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &54823125
 GameObject:
@@ -5423,10 +5423,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e9d9163c1cf34793c5a39852b9cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  currentState: {fileID: 0}
   idle: {fileID: 1683758533}
   patrol: {fileID: 171636550}
-  chase: {fileID: 1683758533}
-  attack: {fileID: 1683758533}
+  chase: {fileID: 876810000}
+  attack: {fileID: 735191971}
 --- !u!1 &252684972
 GameObject:
   m_ObjectHideFlags: 0
@@ -14640,6 +14641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 735191970}
+  - component: {fileID: 735191971}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -14662,6 +14664,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330102337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735191971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735191969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb40ba58ce8fef045bf849daee8692af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
+  maxCombatDistance: 8
+  attackDistance: 1.5
+  currCombatCooldown: 0
+  maxCombatCooldown: 0
+  isComboRunning: 0
 --- !u!4 &736421142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4189110302819256863, guid: 2e555bf4102c9d34fa22b0de077ec051, type: 3}
@@ -17092,6 +17111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 876809999}
+  - component: {fileID: 876810000}
   m_Layer: 0
   m_Name: Chase
   m_TagString: Untagged
@@ -17114,6 +17134,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330102337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876810000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876809998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064d2177922fcc84f8fdefa07ac92e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyChaseBehaviour
+  lostTargetTimer: 0
+  cantReachTimer: 0
 --- !u!1 &877291723
 GameObject:
   m_ObjectHideFlags: 0
@@ -26568,7 +26602,7 @@ Transform:
   m_GameObject: {fileID: 1406799230}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.25, y: 0.21, z: 3.81}
+  m_LocalPosition: {x: 27.33, y: 0.21, z: 3.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26634,7 +26668,7 @@ MonoBehaviour:
   blockedRotationSpeed: 1.5
   movementSmooth: 10
   animationSmooth: 0.2
-  airSpeed: 60
+  airSpeed: 10
   airSmooth: 6
   extraGravity: -10
   limitFallVelocity: -15
@@ -32269,8 +32303,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 42050705}
+  m_Children: []
   m_Father: {fileID: 1052229243}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1742475990
@@ -32282,12 +32315,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1742475988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6449bb35cb23b3245b9edf1cd8cc3beb, type: 3}
+  m_Script: {fileID: 11500000, guid: 00f1e49e32b0f9745abc2e2aec64d2f5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterTargetLock
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFOVController
   fovDataSO: {fileID: 11400000, guid: c4c7ef9c49f846b4fab4e994137f98a4, type: 2}
   eyes: {fileID: 42050705}
-  objectsToScan: 00000000
 --- !u!1 &1742514600
 GameObject:
   m_ObjectHideFlags: 0
@@ -40595,6 +40627,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 42050705}
   - {fileID: 6021287353783442166}
   - {fileID: 7515966325087867185}
   - {fileID: 15246570464927690}
@@ -42146,7 +42179,7 @@ MonoBehaviour:
   controller: {fileID: 1467910345}
   stats: {fileID: 1957759290}
   statsController: {fileID: 1957759288}
-  fov: {fileID: 1742475990}
+  fovController: {fileID: 1742475990}
   damageController: {fileID: 949397460}
   combatController: {fileID: 1031901239}
   combatInventory: {fileID: 1679420315}
