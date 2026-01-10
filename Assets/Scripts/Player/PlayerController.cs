@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     IHumanoidCombat combatController;
     IDamagable damageController;
     ICharacterStatsController statsController;
-    
+    ITargetLocker targetLocker;
     CharacterStats stats;
     ICollector interact;
     PlayerClimbing climbing;
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
         UpdateMotor();
         TryClimb();
     }
@@ -36,8 +37,9 @@ public class PlayerController : MonoBehaviour
         interact = provider.interact;
         climbing = provider.climbing;
         statsController = provider.statsController;
+        targetLocker = provider.locker;
 
-        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing);
+        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing,targetLocker);
         climbing.Init(locomotion, actionGuards,animator );
 
     }
@@ -128,9 +130,9 @@ public class PlayerController : MonoBehaviour
     public void Sprint(bool sprintHeld)
     {
 
-        locomotion.isSprinting = actionGuards.CanSprint(sprintHeld);
+        locomotion.IsSprinting = actionGuards.CanSprint(sprintHeld);
 
-        if (locomotion.isSprinting)
+        if (locomotion.IsSprinting)
         {
             statsController.ReduceStamina(stats.staminaRunReducePenalty);
         }

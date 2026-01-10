@@ -14,7 +14,7 @@ public class HumanoidAITesterEditor : Editor
         GUILayout.Space(10);
         GUILayout.Label("AI Test Controls", EditorStyles.boldLabel);
 
-        tester.aiMotor.isSprinting = (EditorGUILayout.Toggle("isRunning", tester.aiMotor.isSprinting));
+        tester.aiMotor.IsSprinting = (EditorGUILayout.Toggle("isRunning", tester.aiMotor.IsSprinting));
 
         GUILayout.Label("Movement", EditorStyles.boldLabel);
 

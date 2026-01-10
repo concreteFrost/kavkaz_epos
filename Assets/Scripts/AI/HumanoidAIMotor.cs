@@ -17,7 +17,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         agent.updateRotation = false;
         agent.angularSpeed = 0;
         agent.acceleration = 50f;
-        agent.stoppingDistance = 0.5f;
+        agent.stoppingDistance = 1f;
         agent.autoBraking = true;
     }
 
@@ -72,6 +72,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         moveDirection = Vector3.zero;
         inputMagnitude = 0f;
+       
     }
 
     public void ResetSprint()

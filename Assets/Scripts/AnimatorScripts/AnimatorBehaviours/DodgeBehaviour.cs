@@ -8,6 +8,7 @@ public class DodgeBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor = animator.GetComponent<IHumanoidMovement>();
+        motor.StopMove = true;
     
     }
 
@@ -16,7 +17,14 @@ public class DodgeBehaviour : StateMachineBehaviour
     {
        
         animator.applyRootMotion = true;
-       
+
+        float t = stateInfo.normalizedTime % 1f;
+
+        if(t > 0.9f)
+        {
+            motor.IsDodging = false;
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -25,6 +33,7 @@ public class DodgeBehaviour : StateMachineBehaviour
         animator.applyRootMotion = false;
         Debug.Log("exit dodge");
         motor.IsDodging = false;
+        motor.StopMove = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

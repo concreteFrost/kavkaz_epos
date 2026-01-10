@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
   health: 100
   stamina: 1
-  walkSpeed: 0
-  runningSpeed: 0
+  walkSpeed: 1
+  runningSpeed: 3
   sprintSpeed: 6
   jumpTimer: 0.3
   jumpHeight: 4
@@ -23,3 +23,11 @@ MonoBehaviour:
   targetResetDistance: 7
   minIdleStationary: 5
   maxIdleStationary: 15
+  distanceToStop: 2
+  distanceToRun: 3
+  maxCantReachTimer: 7
+  maxLostTargetTimer: 10
+  maxChaseDistance: 17
+  maxCombatDistance: 8
+  attackDistance: 1.2
+  dodgeChanceMultiplier: 0.3

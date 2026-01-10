@@ -11,7 +11,7 @@ public class AnimatorParameters
 
     public const int motionLayer = 0;
     public const int combatLayer = 2;
-    public const int climbLayer = 4;
+    public const int climbLayer = 5;
 
 
     public static int InputHorizontal = Animator.StringToHash("InputHorizontal");

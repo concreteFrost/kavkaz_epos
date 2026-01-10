@@ -1,31 +1,52 @@
+
 using UnityEngine;
 
 public class HumanoidAnimatorIK : MonoBehaviour
 {
-    public HumanoidAIMotor aiMotor;
+    
     public Animator animator;
+    private HumanoidAIMotor aiMotor;
+    private CharacterStats stats;
 
     private float currLookWeight;
     private float weightVelocity;
     public float weight=2;
     public float headWeight=0.3f;
     public float bodyWeight=0.1f;
-    
+
+    Vector3 lastLookPos;
+
+    public void Init(HumanoidAIMotor motor, CharacterStats stats)
+    {
+        this.aiMotor = motor;   
+        this.stats = stats; 
+    }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        float target = aiMotor.rotateTarget != null ? weight : 0;
-       
-        currLookWeight = Mathf.SmoothDamp(currLookWeight, target, ref weightVelocity, 0.2f);
-        
-        // Target position
-        Vector3 lookPos = aiMotor.rotateTarget != null ? aiMotor.rotateTarget.position : Vector3.zero;
+        bool hasTarget = aiMotor.rotateTarget != null;
+        float targetWeight = hasTarget ? weight : 0f;
 
-        // Вес IK: тело+голова+глаза
-        animator.SetLookAtWeight(currLookWeight,bodyWeight,headWeight);
+        currLookWeight = Mathf.SmoothDamp(
+            currLookWeight,
+            targetWeight,
+            ref weightVelocity,
+            0.2f
+        );
 
-        // Устанавливаем точку взгляда
-        animator.SetLookAtPosition(lookPos);
+        if (hasTarget)
+        {
+            lastLookPos = aiMotor.rotateTarget.position;
+        }
+
+        animator.SetLookAtWeight(currLookWeight, bodyWeight, headWeight);
+
+        if (currLookWeight > 0.001f)
+        {
+            animator.SetLookAtPosition(lastLookPos);
+        }
+ 
+
     }
 
 }

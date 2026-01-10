@@ -14,6 +14,18 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public IDamagable currentTarget;
 
+
+    private void Update()
+    {
+        if(currentTarget != null)
+        {
+            if (currentTarget.IsDead())
+            {
+                ResetTarget();
+            }
+        }
+    }
+
     public void Init(HumanoidAIMotor motor)
     {
         this.motor = motor;
@@ -37,20 +49,22 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     public void SetTarget(IDamagable target)
     {
         currentTarget = target;
+        //motor.SetLockTarget(target.GetAimTransform());
         //motor.SetLockTarget(currentTarget.GetAimTransform());
         //isLockedOnTarget = true;
     }
 
+    public void AssignTargetToMotor()
+    {
+        if (currentTarget == null) return;
+        motor.SetLockTarget(currentTarget.GetAimTransform());
+    }
+
     public void ResetTarget()
     {
-        if (currentTarget != null)
-        {
-            currentTarget = null;
-            //motor.ResetLockTarget();
-            //isLockedOnTarget = false;
-           
-        }
-       
+        currentTarget = null;
+        motor.ResetLockTarget();    
+
     }
 
     public bool IsTargetVisible(Transform target)

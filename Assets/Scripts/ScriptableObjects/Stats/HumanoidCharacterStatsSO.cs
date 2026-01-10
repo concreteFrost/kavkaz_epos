@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HumanoidCharacterStatsSO", menuName = "Scriptable Systems/Character/Stats/Humanoid")]
@@ -18,4 +19,12 @@ public class HumanoidCharacterStatsSO : BaseCharacterStatsSO
     public float maxCantReachTimer = 7f;
     public float maxLostTargetTimer = 10f;
     public float maxChaseDistance = 17f;
+
+    [Header("Combat")]
+    public float maxCombatDistance = 8f;
+    public float attackDistance = 1.3f;
+
+    [RangeAttribute(0, 1f)]
+    public float dodgeChanceMultiplier = 0.15f;
+
 }

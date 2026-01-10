@@ -1,5 +1,3 @@
-using Mono.Cecil;
-using UnityEditor;
 using UnityEngine;
 
 public enum AIStateResult
@@ -8,7 +6,9 @@ public enum AIStateResult
     Idle = 1,
     Patrol = 2,
     Chase = 3,
-    Attack = 4
+    Attack = 4,
+    Wait = 5,
+    MoveToStartPosition = 6,
 }
 
 public class EnemyBrain : MonoBehaviour
@@ -23,6 +23,8 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> patrol;
     [SerializeField] private AIState<EnemyBrainContext> chase;
     [SerializeField] private AIState<EnemyBrainContext> attack;
+    [SerializeField] private AIState<EnemyBrainContext> wait;
+    [SerializeField] private AIState<EnemyBrainContext> moveToStart;
 
     public void Init(EnemyBrainContext context)
     {
@@ -31,6 +33,8 @@ public class EnemyBrain : MonoBehaviour
         patrol.Init(context);
         chase.Init(context);    
         attack.Init(context);
+        wait.Init(context);
+        moveToStart.Init(context);
 
         stateMachine.ChangeState(idle);
 
@@ -66,6 +70,12 @@ public class EnemyBrain : MonoBehaviour
             case AIStateResult.Attack:
                 stateMachine.ChangeState(attack);
                 break;
+            case AIStateResult.Wait:
+                stateMachine.ChangeState(wait);
+                break;
+            case AIStateResult.MoveToStartPosition:
+                stateMachine.ChangeState(moveToStart);
+                break;
         }
 
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
@@ -75,6 +85,8 @@ public class EnemyBrain : MonoBehaviour
 
         
         Debug.Log("damage taken");
+
+      
         //stateMachine.ChangeState(attack);
     }
 }

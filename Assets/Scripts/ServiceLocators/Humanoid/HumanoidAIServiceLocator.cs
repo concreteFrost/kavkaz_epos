@@ -5,6 +5,7 @@ public class HumanoidAIServiceLocator : MonoBehaviour
     [SerializeField] UniqueId uniqueId;
 
     [SerializeField] private Animator animator;
+    [SerializeField] private HumanoidAnimatorIK ik;
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private HumanoidAIMotor motor;
     [SerializeField] private HumanoidAIController controller;
@@ -25,6 +26,8 @@ public class HumanoidAIServiceLocator : MonoBehaviour
 
         stats.Init();
         motor.Init(animator);
+
+        ik.Init(motor, stats);
 
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,fovController,damageController);
         animatorController.Init(animatorService);

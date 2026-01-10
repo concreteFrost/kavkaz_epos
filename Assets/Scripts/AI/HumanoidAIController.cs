@@ -14,7 +14,7 @@ public class HumanoidAIController : MonoBehaviour
         this.aiMotor = service.aiMotor;
         this.aIAnimator = service.aiAnimatorController;
         //this.statsController = service.statsController;
-        this.stats = service.stats; 
+        this.stats = service.stats;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -26,7 +26,7 @@ public class HumanoidAIController : MonoBehaviour
         ControlSpeed();
         ControlRotation();
 
-        if(animator.applyRootMotion == false)
+        if (animator.applyRootMotion == false)
         {
             animator.applyRootMotion = true;
         }
@@ -47,18 +47,18 @@ public class HumanoidAIController : MonoBehaviour
     #region Movement and Rotation
     private void ControlSpeed()
     {
+        if (aiMotor.StopMove)
+        {
+            aiMotor.agent.speed = 0;
+            return;
+        }
 
-        //float baseSpeed = aiMotor.IsSprinting
-        //    ? stats.runningSpeed
-        //    : stats.walkSpeed;
+        // выбираем нужную скорость по статам
+        aiMotor.moveSpeed = aiMotor.IsSprinting && !aiMotor.IsDodging
+            ? stats.runningSpeed
+            : stats.walkSpeed;
 
-
-        //aiMotor.moveSpeed = Mathf.Lerp(
-        //    aiMotor.moveSpeed,
-        //    baseSpeed,
-        //    aiMotor.movementSmooth * Time.deltaTime
-        //);
-
+        // передаём скорость агенту (NavMeshAgent)
         aiMotor.agent.speed = aiMotor.moveSpeed;
     }
 

@@ -17,11 +17,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
        
     }
 
-    public override void Exit()
-    {
-        currIdleTime = 0;
-    }   
-
     public override AIStateResult Run()
     {
         currIdleTime += Time.deltaTime;
@@ -37,12 +32,18 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         if (context.fov.currentTarget != null)
         {
             
-            return AIStateResult.Patrol;
-            //return AIStateResult.Chase;
+            return AIStateResult.Chase;
         }
 
         return AIStateResult.None;
     }
 
-    
+
+    public override void Exit()
+    {
+
+    }
+
+
+
 }

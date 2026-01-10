@@ -12,6 +12,7 @@ public class PlayerActionGuards
     readonly CharacterStats stats;
     readonly IDamagable statsModifier;
     readonly IClimber climbing;
+    readonly ITargetLocker locker;
 
     PlayerMode mode;
 
@@ -21,6 +22,7 @@ public class PlayerActionGuards
         CharacterStats stats,
         IDamagable statsModifier,
         IClimber climbing,
+        ITargetLocker locker,
         PlayerMode initialMode = PlayerMode.Locomotion)
     {
         this.locomotion = locomotion;
@@ -28,6 +30,7 @@ public class PlayerActionGuards
         this.stats = stats;
         this.statsModifier = statsModifier;
         this.climbing = climbing;
+        this.locker = locker;
         this.mode = initialMode;
     }
 
@@ -113,6 +116,8 @@ public class PlayerActionGuards
         if (!sprintHeld) return false;
      
         if (mode != PlayerMode.Locomotion) return false;
+
+        if (locker.IsLockedOnTarget) return false;
 
         if (!locomotion.IsGrounded) return false;
 

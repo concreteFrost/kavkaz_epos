@@ -35,7 +35,7 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
         var stats = context.stats.statsSO as HumanoidCharacterStatsSO;
 
         if (cantReachTimer > stats.maxCantReachTimer)
-            return AIStateResult.Patrol;
+            return AIStateResult.Wait;
 
         // 3. цель потеряна из виду
         bool isTargetVisible = fov.IsTargetVisible(fov.currentTarget.GetAimTransform());
@@ -51,7 +51,7 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
         if (distanceToTarget > stats.maxChaseDistance)
         {
             Debug.Log("target is too far");
-            return AIStateResult.Patrol;
+            return AIStateResult.MoveToStartPosition;
         }
 
         // 4.2 движение
@@ -64,19 +64,16 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
             return AIStateResult.Attack;
         }
 
-        motor.isSprinting = distanceToTarget > stats.distanceToRun;
+        motor.IsSprinting = distanceToTarget > stats.distanceToRun;
 
         return AIStateResult.None;
     }
 
 
 
-
-
     public override void Exit()
     {
-        chaseTarget = null;
-        
+
 
     }
 

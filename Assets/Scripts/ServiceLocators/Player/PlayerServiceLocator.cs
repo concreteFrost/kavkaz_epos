@@ -52,7 +52,7 @@ public class PlayerServiceLocator : MonoBehaviour
         PlayerInputService inpurService = new PlayerInputService(controller, characterAnimator, targetLock);
         input.Init(inpurService);
 
-        PlayerControllerService stateServiceProvider = new PlayerControllerService(motor, combatController, damageController, stats, statsController, interaction, climbing, animator);
+        PlayerControllerService stateServiceProvider = new PlayerControllerService(motor, combatController, damageController, stats, statsController, interaction, targetLock, climbing, animator);
         controller.Init(stateServiceProvider);
 
         HumanoidStatsControllerService modifierServiceProvider = new HumanoidStatsControllerService(stats);

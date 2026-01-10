@@ -10,7 +10,7 @@ public interface IHumanoidMovement
     bool BlockRotation { get; set; } 
     bool ApplyRootMotion { get; set; }
 
-    bool IsSprinting { get; }
+    bool IsSprinting { get; set; }
     
     float AnimationSmooth {  get; }
     public Vector3 GetInverseTransformDirection();

@@ -10,6 +10,7 @@ public struct PlayerControllerService
     public IDamagable damageController;
     public ICharacterStatsController statsController;
     public ICollector interact;
+    public ITargetLocker locker;
     public PlayerClimbing climbing;
 
     public PlayerControllerService(
@@ -19,6 +20,7 @@ public struct PlayerControllerService
         CharacterStats stats,
         ICharacterStatsController statsModifier,
         ICollector interact,
+        ITargetLocker locker,
         PlayerClimbing climbing,
         Animator animator)
     {
@@ -29,6 +31,7 @@ public struct PlayerControllerService
         this.interact = interact;
         this.climbing = climbing;
         this.animator = animator;
+        this.locker = locker;   
         this.statsController = statsModifier;
     }
 }
