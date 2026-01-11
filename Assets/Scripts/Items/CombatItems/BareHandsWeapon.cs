@@ -36,10 +36,7 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     #endregion
 
-    public void ReduceDurability(float amount) 
-    {
-        //без имплементации
-    }
+   
 
     private void Start()
     {
@@ -48,7 +45,8 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     private void Init()
     {
-        damageCollider.SetWeapon(this);
+        damageCollider.SetWeapon(this,AttackSource.SourcePosition() );
+        
     }
     public void CancelAttack()
     {
@@ -84,5 +82,10 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
         //без имплементации
     }
 
-   
+    public void ReduceDurability(float amount)
+    {
+        //без имплементации
+    }
+
+
 }

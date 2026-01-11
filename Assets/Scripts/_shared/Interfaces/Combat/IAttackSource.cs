@@ -7,7 +7,13 @@ public interface IAttackSource
     /// Ќазначает источник атаки дл€ предотвращени€ попадани€ по самому себе
     /// </summary>
     /// <returns></returns>
-    public int SourceId(); 
+    public int SourceId();
+
+    /// <summary>
+    /// ”казывает на источник атаки
+    /// </summary>
+    /// <returns></returns>
+    public Transform SourcePosition();
 
     /// <summary>
     /// ÷ели которые стоит игнорировать. Ќапример дружественные NPC или же цели того же класса

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+public class HumanoidStats : MonoBehaviour
 {
 
-    public BaseCharacterStatsSO statsSO;
+    public HumanoidStatsSO statsSO;
 
     [Header("movement speed")]
     public float walkSpeed;
@@ -17,21 +17,19 @@ public class CharacterStats : MonoBehaviour
     public HealthModel Health;
     public float maxHealth;
 
+
     [Header("stamina")]
     public StaminaModel Stamina;
     public float maxStamina;
     public float staminaRunReducePenalty = 0.03f;
-    public float staminaJumpReducePenalty = 2f;
+    public float staminaJumpReducePenalty = 7f;
+    public float staminaDodgeReducePenalty = 10f;
     public float staminaMinRegenDelay = 2f;
-    public float staminaMaxRegenDelay = 5f;
+    public float staminaMaxRegenDelay = 6f;
     public float staminaRegenRate = 15f;
 
     [Header("balance")]
     public float currentBalance = 0f;
-
-    [Header("target lock")]
-    public float targetCheckDistance = 0f;
-    public float targetResetDistance = 0f;
 
     [Header("stats debug")]
     public float d_stamina;
@@ -50,9 +48,6 @@ public class CharacterStats : MonoBehaviour
         Stamina = new StaminaModel(statsSO.stamina, staminaMinRegenDelay, staminaMaxRegenDelay, staminaRegenRate);
         maxStamina = Stamina.Current;
 
-        targetCheckDistance = statsSO.targetCheckDistance;
-        targetResetDistance = statsSO.targetResetDistance;
-
     }
 
     public void Init()
@@ -66,10 +61,6 @@ public class CharacterStats : MonoBehaviour
         d_health = Health.Current;  
     }
 
-    #region Target Lock
-    public float GetTargetCheckDistance() => statsSO.targetCheckDistance;
-    public float GetTargetResetDistance() => statsSO.targetResetDistance;   
-    #endregion
 
 
 }

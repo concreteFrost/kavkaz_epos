@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterStatsController : MonoBehaviour, ICharacterStatsController
 {
 
-    public CharacterStats stats;
+    public HumanoidStats stats;
 
     public void Init(HumanoidStatsControllerService provider)
     {

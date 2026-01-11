@@ -5,26 +5,21 @@ public class BaseCharacterStatsSO : ScriptableObject
 {
 
     [Header("Health")]
-    public float health = 1f;
+    public float health = 100f;
 
     [Header("Stamina")]
-    public float stamina = 1f;  
+    public float stamina = 100f;  
 
     [Header ("Speed")]
-    public float walkSpeed = 2f;
-    public float runningSpeed = 4f;
-    public float sprintSpeed = 6f;
+    public float walkSpeed = 1f;
+    public float runningSpeed = 3f;
 
-    [Header ("Jump")]
-
+    [Header("Jump")]
     [Tooltip("How much time the character will be jumping")]
     public float jumpTimer = 0.3f;
     [Tooltip("Add Extra jump height, if you want to jump only with Root Motion leave the value with 0.")]
     public float jumpHeight = 4f;
 
-    [Header("Target Lock")]
 
-    public float targetCheckDistance = 5f;
-    public float targetResetDistance = 7f;
 
 }

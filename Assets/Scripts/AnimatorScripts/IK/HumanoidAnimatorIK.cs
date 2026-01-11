@@ -6,7 +6,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
     
     public Animator animator;
     private HumanoidAIMotor aiMotor;
-    private CharacterStats stats;
+    private HumanoidStats stats;
 
     private float currLookWeight;
     private float weightVelocity;
@@ -16,7 +16,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
 
     Vector3 lastLookPos;
 
-    public void Init(HumanoidAIMotor motor, CharacterStats stats)
+    public void Init(HumanoidAIMotor motor, HumanoidStats stats)
     {
         this.aiMotor = motor;   
         this.stats = stats; 

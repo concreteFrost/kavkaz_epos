@@ -6,7 +6,7 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
 {
 
     protected ICharacterStatsController statsController;
-    protected CharacterStats stats;
+    protected HumanoidStats stats;
 
     public CharacterType characterType;
 
@@ -35,19 +35,18 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public Transform GetAimTransform()=> aimPosition;
     public Transform GetOrigin() => transform;
 
-    public event Action<IAttackSource> DamageTaken;
+    public event Action<Transform> DamageTaken;
     #endregion
 
 
-
-
-    public virtual void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    public virtual void TakeDamage(float damage, float balanceDamage, Transform source)
     {
         if (isDead) return;
 
         balancePenalty = balanceDamage;
 
         isDamaged = true;
+
 
         //if (!combatController.IsShieldRaised)
         //{

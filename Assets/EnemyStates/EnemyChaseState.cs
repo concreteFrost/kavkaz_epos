@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
+public class EnemyChaseState : AIState<EnemyBrainContext>
 {
-    [SerializeField] private float lostTargetTimer = 0f;
-    [SerializeField] private float cantReachTimer = 0f;
-
     Transform chaseTarget;
+    EnemyStateTracker tracker;
+    CharacterBehaviourStatsSO stats;
+
 
     public override void Enter()
     {
-
-        lostTargetTimer = 0f;
-        cantReachTimer = 0f;
-
+        tracker = context.stateTracker;
+        stats = tracker.stats;
+        tracker.ResetChaseState();
         chaseTarget = context.fov.currentTarget.GetOrigin();
     }
 
@@ -20,6 +19,7 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
     {
         var fov = context.fov;
         var motor = context.motor;
+        var tracker = context.stateTracker;
         Transform self = context.self;
 
         // 1. нет цели
@@ -27,34 +27,31 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
 
         Transform target = chaseTarget;
+       
 
         // 2. цель недостижима
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
-        cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
+        tracker.UpdateCantReachTimer(canReach);
 
-        var stats = context.stats.statsSO as HumanoidCharacterStatsSO;
-
-        if (cantReachTimer > stats.maxCantReachTimer)
+        if (tracker.cantReachTimer > stats.maxCantReachTimer)
             return AIStateResult.Wait;
 
-        // 3. цель потеряна из виду
-        bool isTargetVisible = fov.IsTargetVisible(fov.currentTarget.GetAimTransform());
-        lostTargetTimer = isTargetVisible ? 0f : lostTargetTimer + Time.deltaTime;
+        // 3. цель потеряна
+        bool isTargetVisible = fov.IsTargetVisible(
+            fov.currentTarget.GetAimTransform()
+        );
+        tracker.UpdateLostTargetTimer(isTargetVisible);
 
-        if (lostTargetTimer > stats.maxLostTargetTimer)
+        if (tracker.lostTargetTimer > stats.maxLostTargetTimer)
             return AIStateResult.Patrol;
 
         // 4. дистанция
-        float distanceToTarget = Vector3.Distance(self.position, target.position);
+        float distanceToTarget =
+            Vector3.Distance(self.position, target.position);
 
-        // 4.1 цель слишком далеко
         if (distanceToTarget > stats.maxChaseDistance)
-        {
-            Debug.Log("target is too far");
             return AIStateResult.MoveToStartPosition;
-        }
 
-        // 4.2 движение
         if (distanceToTarget > stats.distanceToStop)
         {
             motor.MoveCharacter(target.position);
@@ -69,13 +66,5 @@ public class EnemyChaseBehaviour : AIState<EnemyBrainContext>
         return AIStateResult.None;
     }
 
-
-
-    public override void Exit()
-    {
-
-
-    }
-
-
+    public override void Exit() { }
 }

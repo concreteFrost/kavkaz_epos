@@ -1,12 +1,10 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HumanoidCharacterStatsSO", menuName = "Scriptable Systems/Character/Stats/Humanoid")]
-public class HumanoidCharacterStatsSO : BaseCharacterStatsSO
+[CreateAssetMenu(fileName = "Character Behaviour Stats", menuName = "Scriptable Systems/Character/Behaviour Stats/Character Behaviour Stats")]
+public class CharacterBehaviourStatsSO : ScriptableObject
 {
-    [Header("Behaviours")]
-    [Header("Idle")]
 
+    [Header("Idle")]
     [RangeAttribute(3, 6)]
     public int minIdleStationary;
 
@@ -19,6 +17,7 @@ public class HumanoidCharacterStatsSO : BaseCharacterStatsSO
     public float maxCantReachTimer = 7f;
     public float maxLostTargetTimer = 10f;
     public float maxChaseDistance = 17f;
+    public float maxWaitTimer = 7f;
 
     [Header("Combat")]
     public float maxCombatDistance = 8f;
@@ -26,5 +25,4 @@ public class HumanoidCharacterStatsSO : BaseCharacterStatsSO
 
     [RangeAttribute(0, 1f)]
     public float dodgeChanceMultiplier = 0.15f;
-
 }

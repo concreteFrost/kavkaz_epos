@@ -5,9 +5,17 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 {
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;
+    public BareHandsWeapon bareHands;
+
+    private Transform sourcePosition;
+
+    protected IHumanoidCombat combatController;
+  
 
     #region IAttackSource Contract
     public int SourceId() => sourceId;
+
+    public Transform SourcePosition() => sourcePosition;    
 
     public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
 
@@ -44,6 +52,17 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
     public virtual void Init(HumanoidCombatInventoryService service)
     {
         sourceId = service.sourceId;
+        sourcePosition = service.sourcePosition;
+
+        Debug.Log(sourcePosition);
+        combatController = service.combatController;
+
+        bareHands.SetOwner(this);
+
+        DefaultWeapon = bareHands;
+        CurrentWeapon = DefaultWeapon;
+
+
     }
 
 

@@ -1,37 +1,53 @@
 using UnityEngine;
 
-public class HumanoidAIServiceLocator : MonoBehaviour
+public class EnemyServiceLocator : MonoBehaviour
 {
     [SerializeField] UniqueId uniqueId;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private HumanoidAnimatorIK ik;
+  
     [SerializeField] private CapsuleCollider capsuleCollider;
+
+    [SerializeField] private CharacterStatsController statsController;
+    [SerializeField] private CharacterInteract interaction;
+
+    [SerializeField] private HumanoidAnimatorIK ik;
     [SerializeField] private HumanoidAIMotor motor;
     [SerializeField] private HumanoidAIController controller;
-    [SerializeField] private CharacterStats stats;
-    [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private EnemyFOVController fovController;
+    
+    [SerializeField] private HumanoidStats stats;
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
-    [SerializeField] private CharacterInteract interaction;
-    [SerializeField] private EnemyBrain brain;
+  
 
+    [SerializeField] private EnemyFOVController fovController;
+    [SerializeField] private EnemyBrain brain;
+    [SerializeField] private EnemyStateTracker stateTracker;
+
+    string uid;
+ 
 
     private void Awake()
     {
-        string uid = uniqueId.uniqueId;
+        uid = uniqueId.uniqueId;
 
+        CoreInit();
+        BrainInit();    
+    }
+
+    public void CoreInit()
+    {
         stats.Init();
         motor.Init(animator);
 
         ik.Init(motor, stats);
+        fovController.Init(motor);
 
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,motor,combatController,fovController,damageController);
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, motor, combatController, fovController, damageController);
         animatorController.Init(animatorService);
-       
+
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
         statsController.Init(service);
 
@@ -39,19 +55,21 @@ public class HumanoidAIServiceLocator : MonoBehaviour
         controller.Init(controllerService);
 
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animator);
-
         combatController.Init(combatControllerServices);
 
-        HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, statsController, (int)damageController.CharacterType); 
+        HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryServices);
 
         HumanoidInteractService interactService = new HumanoidInteractService(combatInventory);
         interaction.Init(interactService);
 
-        damageController.Init(statsController, stats, motor.agent, capsuleCollider, uid);
+        HumanoidDamageControllerService damageService = new HumanoidDamageControllerService(motor,statsController, stats, motor.agent, capsuleCollider, uid);
+        damageController.Init(damageService);
+    }
 
-        fovController.Init(motor);
-
+    public void BrainInit()
+    {
+        
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {
             permamentPosition = transform.position,
@@ -63,11 +81,10 @@ public class HumanoidAIServiceLocator : MonoBehaviour
             combat = combatController,
             inventory = combatInventory,
             fov = fovController,
-            interact = interaction
+            interact = interaction,
+            stateTracker = stateTracker
         };
 
         brain.Init(brainContext);
- 
-
     }
 }

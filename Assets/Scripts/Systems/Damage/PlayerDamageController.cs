@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerDamageController : BaseDamageController
 {
+    IHumanoidMovement motor;
     IHumanoidCombat combatController;
     IAttackSource inventory;
     
@@ -11,8 +12,9 @@ public class PlayerDamageController : BaseDamageController
     protected bool canTakeAnotherDamage = true;
 
 
-    public void Init(ICharacterStatsController statsController,CharacterStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
+    public void Init(IHumanoidMovement motor, ICharacterStatsController statsController,HumanoidStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
+        this.motor = motor; 
         this.uniqueID = uniqueID; 
         this.statsController = statsController;
         this.combatController = combatController;
@@ -44,9 +46,9 @@ public class PlayerDamageController : BaseDamageController
         }
     }
 
-    public override void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    public override void TakeDamage(float damage, float balanceDamage, Transform source)
     {
-        if (isDead || !canTakeAnotherDamage) return;
+        if (isDead || !canTakeAnotherDamage || motor.IsDodging) return;
 
         balancePenalty = balanceDamage;
 

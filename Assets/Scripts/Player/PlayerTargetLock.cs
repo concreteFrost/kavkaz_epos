@@ -11,15 +11,15 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     protected Transform targetSeeker;
     public IDamagable currentTarget;
 
-    protected CharacterStats stats;
-
     protected bool wasTargetSearched = false;
     public bool IsLockedOnTarget { get => currentTarget != null; }
 
     /// <summary>
     /// Ввод мыши по оси Х при котором цель сбрасывается
     /// </summary>
-    [SerializeField] float targetSwitchThreshold = 45f;
+    private float targetSwitchThreshold = 45f;
+    private float targetCheckDistance = 5f;
+    private float targetResetDistance = 7f;
 
     [SerializeField] private Image img;
 
@@ -33,7 +33,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         this.controller = provider.controller;
         this.targetSeeker = controller.transform;
         this.damageController = provider.damageController;
-        this.stats = provider.stats;    
+  
 
         self = CharacterType.Player;    
     }
@@ -75,7 +75,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         }
         var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetOrigin().position);
 
-        if (dist > stats.GetTargetResetDistance())
+        if (dist > targetResetDistance)
         {
             ResetLockTarget();
         }
@@ -118,7 +118,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
             float distance = Vector3.Distance(targetSeeker.position, lockable.GetOrigin().position);
  
-            if (distance < stats.GetTargetCheckDistance() && lockable.CharacterType != self)
+            if (distance < targetCheckDistance && lockable.CharacterType != self)
             {
                 
                 objectsDistances.Add(lockable, distance);
@@ -136,7 +136,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     protected IDamagable CheckNearestTarget()
     {
 
-        var targets = Physics.OverlapSphere(targetSeeker.position, stats.GetTargetCheckDistance());
+        var targets = Physics.OverlapSphere(targetSeeker.position, targetCheckDistance);
 
         if (targets.Length > 0)
         {
@@ -166,7 +166,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         Vector3 currentScreen =
             cam.WorldToScreenPoint(currentTarget.GetAimTransform().position);
 
-        var colliders = Physics.OverlapSphere(targetSeeker.position, stats.GetTargetCheckDistance());
+        var colliders = Physics.OverlapSphere(targetSeeker.position, targetCheckDistance);
 
         IDamagable bestTarget = null;
         float bestDeltaX = float.MaxValue;

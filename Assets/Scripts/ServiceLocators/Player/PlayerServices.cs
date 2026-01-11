@@ -3,7 +3,7 @@
 public struct PlayerControllerService
 {
     public PlayerMotor controller;
-    public CharacterStats stats;
+    public HumanoidStats stats;
     public Animator animator;
 
     public IHumanoidCombat combatController;
@@ -17,7 +17,7 @@ public struct PlayerControllerService
         PlayerMotor controller,
         IHumanoidCombat combatController,
         IDamagable damageController,
-        CharacterStats stats,
+        HumanoidStats stats,
         ICharacterStatsController statsModifier,
         ICollector interact,
         ITargetLocker locker,
@@ -58,13 +58,13 @@ public struct PlayerTargetLockService
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
     public IDamagable damageController;
-    public CharacterStats stats;
+    public HumanoidStats stats;
 
     public PlayerTargetLockService(
         LockOnTargetUI lockOnTargetUI,
         PlayerController controller,
         IDamagable damageController,
-        CharacterStats stats
+        HumanoidStats stats
         )
     {
         this.lockOnTargetUI = lockOnTargetUI;
@@ -77,13 +77,13 @@ public struct PlayerTargetLockService
 public struct PlayerDamageControllerServices
 {
     public ICharacterStatsController statsController;
-    public CharacterStats stats;
+    public HumanoidStats stats;
     public PlayerInput input;
 
     public IHumanoidCombat combatController;
     public IAttackSource attackSource;
 
-    public PlayerDamageControllerServices(ICharacterStatsController statsController, CharacterStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
+    public PlayerDamageControllerServices(ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
     {
         this.statsController = statsController;
         this.stats = stats;

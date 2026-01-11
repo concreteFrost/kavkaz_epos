@@ -11,7 +11,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         animator = anim;
         animator.updateMode = AnimatorUpdateMode.Fixed;
         animator.applyRootMotion = true;
-        animationSmooth = 0.5f;
+        animationSmooth = 0.25f;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;

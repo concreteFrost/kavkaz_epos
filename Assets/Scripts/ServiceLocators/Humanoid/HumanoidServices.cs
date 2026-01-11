@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 
 public struct HumanoidControllerService
@@ -9,9 +10,9 @@ public struct HumanoidControllerService
     public HumanoidAIAnimatorController aiAnimatorController;
    
     public ICharacterStatsController statsController;
-    public CharacterStats stats;
+    public HumanoidStats stats;
 
-    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController, CharacterStats stats)
+    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController, HumanoidStats stats)
     {
         this.animator = animator;
         this.aiMotor = aIMotor;
@@ -35,19 +36,41 @@ public struct HumanoidCombatControllerServices
     }
 }
 
+public struct HumanoidDamageControllerService
+{
+    public IHumanoidMovement motor;
+    public ICharacterStatsController statsModifier;
+    public HumanoidStats stats;
+    public NavMeshAgent agent;
+    public CapsuleCollider col;
+
+    public string uniqueID;
+
+    public HumanoidDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    {
+        this.motor = motor;
+        this.statsModifier = statsController;
+        this.stats = stats; 
+        this.agent = agent;
+        this.col = col;
+        this.uniqueID = uniqueID;
+
+    }
+}
+
 
 public struct CharacterTargetLockService
 {
 
     public HumanoidAIController controller;
     public IDamagable damageController;
-    public CharacterStats stats;
+    public HumanoidStats stats;
 
     public CharacterTargetLockService(
         
         HumanoidAIController controller,
         IDamagable damageController,
-        CharacterStats stats)
+        HumanoidStats stats)
     {
         this.controller = controller;
         this.damageController = damageController;
@@ -91,24 +114,27 @@ public struct HumanoidInteractService
 public struct HumanoidCombatInventoryService
 {
     public IHumanoidCombat combatController;
-    public ICharacterStatsController statsModifier;
+    //public ICharacterStatsController statsModifier;
+    public Transform sourcePosition;
     public int sourceId;
 
     public HumanoidCombatInventoryService(
         IHumanoidCombat combatController,
-        ICharacterStatsController stats,
+        //ICharacterStatsController stats,
+        Transform sourcePosition,
         int sourceId)
     {
         this.combatController = combatController;
-        this.statsModifier = stats;
+        this.sourcePosition = sourcePosition;   
+        //this.statsModifier = stats;
         this.sourceId = sourceId;
     }
 }
 
 public struct HumanoidStatsControllerService
 {
-    public CharacterStats stats;
-    public HumanoidStatsControllerService(CharacterStats stats)
+    public HumanoidStats stats;
+    public HumanoidStatsControllerService(HumanoidStats stats)
     {
         this.stats = stats;
     }
@@ -132,12 +158,13 @@ public struct EnemyBrainContext
     public Transform self;
     public HumanoidAIMotor motor;
     public HumanoidAIController controller;
-    public CharacterStats stats;
+    public HumanoidStats stats;
     public IDamagable damageController;
 
     public HumanoidCombatController combat;
     public HumanoidCombatInventory inventory;
     public EnemyFOVController fov;
+    public EnemyStateTracker stateTracker;  
     public CharacterInteract interact;
 
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
+    protected Transform source;
+
     protected Collider damageCollider;
 
     protected readonly HashSet<Collider> hitColliders = new();
@@ -73,7 +75,7 @@ public class DamageCollider : MonoBehaviour
 
     protected virtual void ApplyDamage(IDamagable target)
     {
-        target.TakeDamage(healthDamage, balanceDamage);
+        target.TakeDamage(healthDamage, balanceDamage,source);
     }
 
     // ---------- Defence ----------

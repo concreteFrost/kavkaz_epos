@@ -9,7 +9,7 @@ public class PlayerActionGuards
 {
     readonly PlayerMotor locomotion;
     readonly IHumanoidCombat combat;
-    readonly CharacterStats stats;
+    readonly HumanoidStats stats;
     readonly IDamagable statsModifier;
     readonly IClimber climbing;
     readonly ITargetLocker locker;
@@ -19,7 +19,7 @@ public class PlayerActionGuards
     public PlayerActionGuards(
         PlayerMotor locomotion,
         IHumanoidCombat combat,
-        CharacterStats stats,
+        HumanoidStats stats,
         IDamagable statsModifier,
         IClimber climbing,
         ITargetLocker locker,

@@ -6,7 +6,7 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAIAnimatorController aIAnimator;
     Animator animator;
     //ICharacterStatsController statsController;
-    CharacterStats stats;
+    HumanoidStats stats;
 
     public void Init(HumanoidControllerService service)
     {

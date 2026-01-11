@@ -3251,9 +3251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b3507ed2c98fa4aaa9305aac80f12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrolState
-  maxDestinationRadius: 10
-  maxWalks: 3
-  currWalks: 0
 --- !u!1 &172836621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5389,6 +5386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 250838555}
   - component: {fileID: 250838556}
+  - component: {fileID: 250838557}
   m_Layer: 0
   m_Name: Brain
   m_TagString: Untagged
@@ -5408,7 +5406,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 330102337}
   m_Father: {fileID: 429240209}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &250838556
@@ -5424,12 +5423,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   currentState: {fileID: 0}
+  stateTracker: {fileID: 250838557}
   idle: {fileID: 1683758533}
   patrol: {fileID: 171636550}
   chase: {fileID: 876810000}
   attack: {fileID: 735191971}
   wait: {fileID: 581168901}
   moveToStart: {fileID: 1414190424}
+--- !u!114 &250838557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250838554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d3b4acd695cc44aa84d07bb3898a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStateTracker
+  stats: {fileID: 11400000, guid: f72509af69e8c4541a2809aa4d598944, type: 2}
+  currIdleTime: 0
+  maxIdleTime: 0
+  maxDestinationRadius: 10
+  maxWalks: 3
+  currWalks: 0
+  lostTargetTimer: 0
+  cantReachTimer: 0
+  currCombatCooldown: 0
+  maxCombatCooldown: 0
+  isComboRunning: 0
+  lastDamageTime: -10
+  damageCounter: 0
+  currentDodgeChance: 0
 --- !u!1 &252684972
 GameObject:
   m_ObjectHideFlags: 0
@@ -7217,7 +7243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 330102337}
   m_Layer: 0
-  m_Name: Behaviours
+  m_Name: States
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7231,7 +7257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330102336}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7242,7 +7268,7 @@ Transform:
   - {fileID: 735191970}
   - {fileID: 581168900}
   - {fileID: 1414190425}
-  m_Father: {fileID: 429240209}
+  m_Father: {fileID: 250838555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &331674193
 GameObject:
@@ -9255,7 +9281,6 @@ Transform:
   m_Children:
   - {fileID: 1052229243}
   - {fileID: 250838555}
-  - {fileID: 330102337}
   m_Father: {fileID: 6048376749856331981}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &429407074
@@ -11140,9 +11165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e8c685a5809e042abcbb98bcb3e1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  lostTargetTimer: 0
-  cantReachTimer: 0
-  maxWaitTimer: 7
 --- !u!1 &581714257
 GameObject:
   m_ObjectHideFlags: 0
@@ -14727,8 +14749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb40ba58ce8fef045bf849daee8692af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
-  lastDamageTime: -10
-  currentDodgeChance: 1
+  comboDistanceOffset: 0.2
+  dodgeCounterResetTimer: 5
 --- !u!4 &736421142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4189110302819256863, guid: 2e555bf4102c9d34fa22b0de077ec051, type: 3}
@@ -17194,8 +17216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064d2177922fcc84f8fdefa07ac92e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChaseBehaviour
-  lostTargetTimer: 0
-  cantReachTimer: 0
 --- !u!1 &877291723
 GameObject:
   m_ObjectHideFlags: 0
@@ -20357,10 +20377,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1058200528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2593b2954c574d348864ec78582b9711, type: 3}
+  m_Script: {fileID: 11500000, guid: db3ea566b2bfa10479040b4df5704aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  statsSO: {fileID: 11400000, guid: 04e0212bbf3dfce4ab9f0ea541554968, type: 2}
+  statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   walkSpeed: 0
   runningSpeed: 0
   jumpHeight: 0
@@ -20368,13 +20388,12 @@ MonoBehaviour:
   maxHealth: 0
   maxStamina: 0
   staminaRunReducePenalty: 0.03
-  staminaJumpReducePenalty: 2
+  staminaJumpReducePenalty: 7
+  staminaDodgeReducePenalty: 10
   staminaMinRegenDelay: 2
-  staminaMaxRegenDelay: 5
+  staminaMaxRegenDelay: 6
   staminaRegenRate: 15
   currentBalance: 0
-  targetCheckDistance: 0
-  targetResetDistance: 0
   d_stamina: 0
   d_health: 0
 --- !u!1 &1065868769
@@ -26304,7 +26323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123405c4cf015d146aa993452ea77bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  targetSwitchThreshold: 45
   img: {fileID: 1176097203}
 --- !u!1 &1398641661
 GameObject:
@@ -30922,8 +30940,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
   rightHand: {fileID: 1046126763}
   leftHand: {fileID: 241871594}
-  targetsToIgnore: 02000000
   bareHands: {fileID: 1135249190}
+  targetsToIgnore: 02000000
 --- !u!1 &1683758532
 GameObject:
   m_ObjectHideFlags: 0
@@ -30953,8 +30971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013a40053efc8a346a4a02866ef33142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyIdleState
-  currIdleTime: 0
-  maxIdleTime: 0
 --- !u!4 &1683758534
 Transform:
   m_ObjectHideFlags: 0
@@ -36965,7 +36981,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1957759287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2593b2954c574d348864ec78582b9711, type: 3}
+  m_Script: {fileID: 11500000, guid: db3ea566b2bfa10479040b4df5704aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
@@ -36977,12 +36993,11 @@ MonoBehaviour:
   maxStamina: 0
   staminaRunReducePenalty: 0.03
   staminaJumpReducePenalty: 2
+  staminaDodgeReducePenalty: 10
   staminaMinRegenDelay: 2
-  staminaMaxRegenDelay: 5
+  staminaMaxRegenDelay: 6
   staminaRegenRate: 15
   currentBalance: 0
-  targetCheckDistance: 0
-  targetResetDistance: 0
   d_stamina: 0
   d_health: 0
 --- !u!850595691 &1959531398
@@ -39879,8 +39894,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
   rightHand: {fileID: 1409208696}
   leftHand: {fileID: 1096975475}
-  targetsToIgnore: 0000000001000000
   bareHands: {fileID: 2036490962}
+  targetsToIgnore: 0000000001000000
 --- !u!1 &2131420861
 GameObject:
   m_ObjectHideFlags: 0
@@ -42085,7 +42100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6393974812609036919}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: -0.029590523, z: -0, w: 0.99956214}
   m_LocalPosition: {x: 28.19, y: 0, z: 9.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -42093,7 +42108,7 @@ Transform:
   - {fileID: 1408931292}
   - {fileID: 429240209}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.391, z: 0}
 --- !u!4 &6121189202717713738
 Transform:
   m_ObjectHideFlags: 0
@@ -42182,8 +42197,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6048376749856331981}
-  - component: {fileID: 6393974812609036921}
   - component: {fileID: 6393974812609036922}
+  - component: {fileID: 6393974812609036921}
   - component: {fileID: 6393974812609036928}
   - component: {fileID: 6393974812609036927}
   - component: {fileID: 6393974812609036920}
@@ -42233,7 +42248,7 @@ MonoBehaviour:
   rotationSpeed: 4
   blockedRotationSpeed: 1.5
   movementSmooth: 1
-  animationSmooth: 0.2
+  animationSmooth: 1
   airSpeed: 5
   airSmooth: 6
   extraGravity: -10
@@ -42259,18 +42274,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIServiceLocator
   uniqueId: {fileID: 6393974812609036927}
   animator: {fileID: 6393974812609036925}
-  ik: {fileID: 6393974812609036928}
   capsuleCollider: {fileID: 6393974812609036926}
+  statsController: {fileID: 1957759288}
+  interaction: {fileID: 262746903}
+  ik: {fileID: 6393974812609036928}
   motor: {fileID: 6393974812609036921}
   controller: {fileID: 1467910345}
   stats: {fileID: 1957759290}
-  statsController: {fileID: 1957759288}
-  fovController: {fileID: 1742475990}
   damageController: {fileID: 949397460}
   combatController: {fileID: 1031901239}
   combatInventory: {fileID: 1679420315}
-  interaction: {fileID: 262746903}
+  fovController: {fileID: 1742475990}
   brain: {fileID: 250838556}
+  stateTracker: {fileID: 250838557}
 --- !u!95 &6393974812609036925
 Animator:
   serializedVersion: 7

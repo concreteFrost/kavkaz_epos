@@ -43,18 +43,24 @@ public class StaminaModel
 
     public void Regen()
     {
-        if(Current >= Max) return;
+        if (Current >= Max)
+        {
+            Current = Max;
+            return;
+        }
 
-        float _r = Current <= 0 ? MaxRegenDelay : MinRegenDelay;
-        
+        float regenDelay =
+            Current <= 0.1f ? MaxRegenDelay : MinRegenDelay;
+
         RegenTimer += Time.deltaTime;
-       
-        if (RegenTimer < MinRegenDelay) return;
+
+        if (RegenTimer < regenDelay)
+            return;
 
         Current += RegenRate * Time.deltaTime;
-        Current = Mathf.Clamp(Current,0, Max);
+        Current = Mathf.Clamp(Current, 0, Max);
 
-        Changed?.Invoke(Current);   
+        Changed?.Invoke(Current);
     }
 
     public void ResetStamina(float max)

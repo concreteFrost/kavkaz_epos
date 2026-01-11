@@ -1,18 +1,10 @@
 public class HumanoidCombatInventory : BaseCombatInventory
 {
-    IHumanoidCombat combatController;
-    public BareHandsWeapon bareHands;
+   
 
     public override void Init(HumanoidCombatInventoryService service)
     {
         base.Init(service);
-
-        combatController = service.combatController;
-
-        bareHands.SetOwner(this);
-
-        DefaultWeapon = bareHands;
-        CurrentWeapon = DefaultWeapon;
 
         //targetsToIgnore.Add(CharacterType.Player);
         //targetsToIgnore.Add(CharacterType.FriendlyNPC);

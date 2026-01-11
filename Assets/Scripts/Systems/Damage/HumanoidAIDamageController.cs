@@ -8,15 +8,16 @@ public class HumanoidAIDamageController : BaseDamageController
 {
     NavMeshAgent agent;
     CapsuleCollider col;
+    IHumanoidMovement motor;
 
-    
-	public void Init(ICharacterStatsController statsModifier, CharacterStats stats, NavMeshAgent agent,CapsuleCollider col,  string uniqueID)
+	public void Init(HumanoidDamageControllerService service)
 	{
-		this.statsController = statsModifier;
-		this.stats =stats;
-        this.agent = agent; 
-        this.col = col; 
-		this.uniqueID =uniqueID;
+        this.motor = service.motor;
+		this.statsController = service.statsModifier;
+		this.stats =service.stats;
+        this.agent = service.agent; 
+        this.col = service.col; 
+		this.uniqueID =service.uniqueID;
 
         stats.Health.Depleted += Die;
 
@@ -32,8 +33,10 @@ public class HumanoidAIDamageController : BaseDamageController
         stats.Health.Depleted -= Die;   
     }
 
-    public override void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    public override void TakeDamage(float damage, float balanceDamage, Transform source)
     {
+        if (motor.IsDodging) return;
+
         base.TakeDamage(damage, balanceDamage, source);
 
      

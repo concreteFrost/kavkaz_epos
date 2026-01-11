@@ -31,7 +31,6 @@ public class DodgeBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.applyRootMotion = false;
-        Debug.Log("exit dodge");
         motor.IsDodging = false;
         motor.StopMove = false;
     }

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     IDamagable damageController;
     ICharacterStatsController statsController;
     ITargetLocker targetLocker;
-    CharacterStats stats;
+    HumanoidStats stats;
     ICollector interact;
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanDodge()) return;
 
         locomotion.Dodge(dir);
-        statsController.ReduceStamina(stats.staminaJumpReducePenalty);
+        statsController.ReduceStamina(stats.staminaDodgeReducePenalty);
 
     }
 

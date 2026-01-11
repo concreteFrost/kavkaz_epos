@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 {
-    [SerializeField] private float lostTargetTimer = 0f;
-    [SerializeField] private float cantReachTimer = 0f;
-    [SerializeField] private float maxWaitTimer = 3f;
 
+    EnemyStateTracker tracker;
     Transform chaseTarget;
 
     public override void Enter()
     {
+        tracker = context.stateTracker;
 
-        cantReachTimer = 0f;
+        tracker.ResetChaseState();  
         chaseTarget = context.fov.currentTarget.GetOrigin();
 
         context.motor.StopMovement();
@@ -31,14 +30,14 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
         if (!canReach)
         {
-            cantReachTimer += Time.deltaTime;
+            tracker.UpdateCantReachTimer(canReach);
         }
         else
         {
             return AIStateResult.Chase;
         }
 
-        if(cantReachTimer >= maxWaitTimer)
+        if(tracker.cantReachTimer >= tracker.stats.maxWaitTimer)
         {
             Debug.Log("cant reach, return to idle");
             return AIStateResult.MoveToStartPosition;

@@ -19,6 +19,9 @@ public class EnemyBrain : MonoBehaviour
 
     public AIState<EnemyBrainContext> currentState;
 
+    [SerializeField] EnemyStateTracker stateTracker;    
+
+    [Header("Behaviours")]
     [SerializeField] private AIState<EnemyBrainContext> idle;
     [SerializeField] private AIState<EnemyBrainContext> patrol;
     [SerializeField] private AIState<EnemyBrainContext> chase;
@@ -29,6 +32,7 @@ public class EnemyBrain : MonoBehaviour
     public void Init(EnemyBrainContext context)
     {
         this.context = context; 
+       
         idle.Init(context);
         patrol.Init(context);
         chase.Init(context);    
@@ -37,15 +41,10 @@ public class EnemyBrain : MonoBehaviour
         moveToStart.Init(context);
 
         stateMachine.ChangeState(idle);
-
-        context.damageController.DamageTaken +=OnDamageTaken;
         
     }
 
-    private void OnDisable()
-    {
-        context.damageController.DamageTaken -=OnDamageTaken;   
-    }
+
 
     void Update()
     {
@@ -81,12 +80,4 @@ public class EnemyBrain : MonoBehaviour
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
 
-    private void OnDamageTaken(IAttackSource source) {
-
-        
-        Debug.Log("damage taken");
-
-      
-        //stateMachine.ChangeState(attack);
-    }
 }

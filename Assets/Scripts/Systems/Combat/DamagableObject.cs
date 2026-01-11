@@ -20,11 +20,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public Transform GetOrigin() => transform;
     public bool IsDead() => isDead;
     public string SourceId() => selfId;
-   
     public bool IsDamaged { get; set; }
     public float BalancePenalty {  get; set; }
 
-    public event Action<IAttackSource> DamageTaken;
+    public event Action<Transform> DamageTaken;
 
     #endregion
 
@@ -42,7 +41,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
         characterType = CharacterType.Object;
     }
 
-    public void TakeDamage(float damage, float balanceDamage, IAttackSource source)
+    public void TakeDamage(float damage, float balanceDamage,Transform source=null)
     {
         if (isDead) return;
         currentHealth -= damage;
