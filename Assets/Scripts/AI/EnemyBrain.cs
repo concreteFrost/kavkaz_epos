@@ -14,12 +14,11 @@ public enum AIStateResult
 public class EnemyBrain : MonoBehaviour
 {
     EnemyBrainContext context;
+    EnemyDamageHandler damageHandler;
 
     internal AIStateMachine stateMachine = new AIStateMachine();
 
     public AIState<EnemyBrainContext> currentState;
-
-    [SerializeField] EnemyStateTracker stateTracker;    
 
     [Header("Behaviours")]
     [SerializeField] private AIState<EnemyBrainContext> idle;
@@ -41,9 +40,14 @@ public class EnemyBrain : MonoBehaviour
         moveToStart.Init(context);
 
         stateMachine.ChangeState(idle);
-        
+
+        damageHandler = new EnemyDamageHandler(context);            
     }
 
+    private void OnDisable()
+    {
+        damageHandler.Dispose();
+    }
 
 
     void Update()

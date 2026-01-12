@@ -54,7 +54,6 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
         sourceId = service.sourceId;
         sourcePosition = service.sourcePosition;
 
-        Debug.Log(sourcePosition);
         combatController = service.combatController;
 
         bareHands.SetOwner(this);

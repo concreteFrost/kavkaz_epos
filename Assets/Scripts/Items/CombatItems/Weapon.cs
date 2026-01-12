@@ -48,7 +48,7 @@ public class Weapon : CombatItem, IWeapon
        
         breakdownThreshold = 100f;
     
-        damageCollider.SetWeapon(this, null);
+        damageCollider.SetWeaponData(this);
      
     }
 
@@ -86,9 +86,12 @@ public class Weapon : CombatItem, IWeapon
             return;
 
         AttackSource = target;
-       
+        damageCollider.SetWeaponData(this);
+        damageCollider.SetDamageSource(AttackSource.SourcePosition());
+
         AssignParent(target.GetRightHand());
         ToggleInteraction(false);
+
         
         target.SetWeapon(this); 
 
@@ -108,28 +111,32 @@ public class Weapon : CombatItem, IWeapon
     public void DropWeapon()
     {
         ResetParent();
+        ResetOwner();
         ToggleInteraction(true);
 
-        damageCollider.DisableCollider();
-        AttackSource.ResetWeapon();
-        AttackSource = null;
+       
     }
 
     public void ThrowWeapon(Transform from, float force)
     {
-
-
         ResetParent();
+        ResetOwner();
         ToggleInteraction(true);
 
-        AttackSource.ResetWeapon();
-        AttackSource = null;
+        ResetOwner();
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
  
         StartCoroutine(ThrowCoroutine(0.1f)); 
         StartCoroutine(DisableColliderWhenStopped());
 
+    }
+
+    private void ResetOwner()
+    {
+        AttackSource.ResetWeapon();
+        AttackSource = null;
+        damageCollider.SetDamageSource(null);
     }
 
     IEnumerator ThrowCoroutine(float delay)

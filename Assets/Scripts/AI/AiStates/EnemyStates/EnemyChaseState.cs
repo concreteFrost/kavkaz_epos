@@ -13,6 +13,8 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         stats = tracker.stats;
         tracker.ResetChaseState();
         chaseTarget = context.fov.currentTarget.GetOrigin();
+
+        context.motor.IsSprinting = true;
     }
 
     public override AIStateResult Run()
@@ -61,7 +63,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
             return AIStateResult.Attack;
         }
 
-        motor.IsSprinting = distanceToTarget > stats.distanceToRun;
+        //motor.IsSprinting = distanceToTarget > stats.distanceToRun;
 
         return AIStateResult.None;
     }

@@ -4,6 +4,8 @@ public class EnemyStateTracker : MonoBehaviour
 {
     public CharacterBehaviourStatsSO stats;
 
+
+
     [Header("Idle state")]
     public float currIdleTime;
     public float maxIdleTime;
@@ -27,6 +29,13 @@ public class EnemyStateTracker : MonoBehaviour
     public float lastDamageTime = -10f;
     public int damageCounter;
     public float currentDodgeChance;
+
+
+    [Header("Interuption Reaction")]
+    public Vector3 interruptionDir;
+    float interruptionTimer=0;
+    float maxInterruptionTimer = 2f;
+    public bool isInterrupted = false;
 
 
     #region Idle State
@@ -98,12 +107,11 @@ public class EnemyStateTracker : MonoBehaviour
     }
 
     public void RegisterDamage(
-        float dodgeChanceMultiplier
     )
     {
         lastDamageTime = Time.time;
         damageCounter++;
-        currentDodgeChance = damageCounter * dodgeChanceMultiplier;
+        currentDodgeChance = damageCounter * stats.dodgeChanceMultiplier;
     }
 
     public void UpdateDodgeCooldown(float resetTime)
@@ -117,4 +125,33 @@ public class EnemyStateTracker : MonoBehaviour
 
     #endregion
 
+
+    #region Interruption
+    
+    public void Interrupt(Vector3 dir)
+    {
+        interruptionDir = dir;
+        isInterrupted = true;
+        interruptionTimer = 0f;
+    }
+
+    public void UpdateInterruption()
+    {
+        interruptionTimer += Time.deltaTime;    
+
+        if(interruptionTimer >= maxInterruptionTimer)
+        {
+            ResetInterruption();
+        }
+    }
+
+    public void ResetInterruption()
+    {
+        isInterrupted = false;
+        interruptionTimer = 0f;
+        interruptionDir = Vector3.zero;
+    }
+
+    public bool IsInterrupted() => isInterrupted;
+    #endregion
 }

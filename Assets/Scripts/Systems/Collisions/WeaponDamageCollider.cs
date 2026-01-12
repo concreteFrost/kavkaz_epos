@@ -4,11 +4,14 @@ public class WeaponDamageCollider : DamageCollider
 {
     public IWeapon weaponData;
 
-    public void SetWeapon(IWeapon weapon, Transform source)
+    public void SetWeaponData(IWeapon weapon)
     {
-        weaponData = weapon;
-        this.source = source;  
-        
+        weaponData = weapon; 
+    }
+
+    public void SetDamageSource(Transform source)
+    {
+        this.source = source;
     }
 
     protected override void ApplyDamage(IDamagable target)

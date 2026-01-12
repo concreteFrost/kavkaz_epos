@@ -1,20 +1,13 @@
-using System.Collections;
-using UnityEngine;
 
 public class EnemyIdleState : AIState<EnemyBrainContext>
 {
 
     EnemyStateTracker stateTracker;
 
-    Coroutine interruptedCoroutine;
-
-
     public override void Enter()
     {
 
         stateTracker = context.stateTracker;
-
-        interruptedCoroutine = null;
 
         context.motor.StopMovement();
         context.motor.ResetSprint();
@@ -22,8 +15,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
         stateTracker.SetMaxIdleTime();
         stateTracker.ResetIdleState();
-
-        context.damageController.DamageTaken += OnDamageTaken;
+        stateTracker.ResetInterruption();
 
     }
 
@@ -38,8 +30,13 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
             return AIStateResult.Chase;
         }
 
-        if (interruptedCoroutine != null) return AIStateResult.None;
-
+        //поворачиваемся в сторону цели если получили урон
+        if (stateTracker.IsInterrupted())
+        {
+            context.motor.RotateToTarget(context.stateTracker.interruptionDir);
+            stateTracker.UpdateInterruption();
+            return AIStateResult.None;
+        }
 
         stateTracker.UpdateCurrentIdleTime();
 
@@ -55,32 +52,10 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-        context.damageController.DamageTaken -= OnDamageTaken;
-        interruptedCoroutine = null;
-    }
 
-    private void OnDamageTaken(Transform attackSource = null)
-    {
-
-        if (attackSource == null) return;
-
-        interruptedCoroutine = StartCoroutine(TurnCoroutine(attackSource.position));
 
     }
 
-    private IEnumerator TurnCoroutine(Vector3 dir)
-    {
-        float elapsed = 0f;
 
-        while (elapsed < 1f)
-        {
-            elapsed += Time.deltaTime;
-            context.motor.RotateToTarget(dir);
-
-            yield return null;
-        }
-
-        interruptedCoroutine = null;
-    }
 
 }

@@ -15,16 +15,13 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     EnemyStateTracker tracker;
     CharacterBehaviourStatsSO stats;
 
-
-
     public override void Enter()
     {
+
         tracker = context.stateTracker;
         tracker.ResetAttackState();
 
         stats = context.stateTracker.stats;
-
-        context.damageController.DamageTaken += OnDamageTaken;
 
         comboCoroutine = null;
 
@@ -108,11 +105,9 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             comboCoroutine = null;
         }
 
-        context.damageController.DamageTaken -= OnDamageTaken;
     }
 
     // ===== Combat logic =====
-
     private IEnumerator CombatDecision(Transform target, bool willAttack)
     {
         if (willAttack)
@@ -178,12 +173,5 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         tracker.isComboRunning = false;
     }
 
-    // ===== Damage reaction =====
-
-    private void OnDamageTaken(Transform source)
-    {
-        context.stateTracker.RegisterDamage(
-            stats.dodgeChanceMultiplier
-        );
-    }
+   
 }
