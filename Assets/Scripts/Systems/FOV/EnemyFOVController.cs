@@ -49,22 +49,32 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     public void SetTarget(IDamagable target)
     {
         currentTarget = target;
-        //motor.SetLockTarget(target.GetAimTransform());
-        //motor.SetLockTarget(currentTarget.GetAimTransform());
         //isLockedOnTarget = true;
     }
 
-    public void AssignTargetToMotor()
+    public void ToggleMotorRotateTarget(bool canLock)
     {
-        if (currentTarget == null) return;
-        motor.SetLockTarget(currentTarget.GetAimTransform());
+        if (canLock)
+        {
+            motor.SetLockTarget(currentTarget.GetAimTransform());
+        }
+        else
+        {
+            motor.ResetLockTarget();    
+        }
     }
 
     public void ResetTarget()
     {
         currentTarget = null;
-        motor.ResetLockTarget();    
+        motor.ResetLockTarget(); 
+        isLockedOnTarget = false;
 
+    }
+
+    public void SetLockedOnTarget(bool isLocked)
+    {
+        isLockedOnTarget = isLocked;    
     }
 
     public bool IsTargetVisible(Transform target)

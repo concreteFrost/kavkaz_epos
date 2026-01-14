@@ -14,6 +14,7 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
         chaseTarget = context.fov.currentTarget.GetOrigin();
 
         context.motor.StopMovement();
+        context.fov.ToggleMotorRotateTarget(true);
     }
 
     public override AIStateResult Run()

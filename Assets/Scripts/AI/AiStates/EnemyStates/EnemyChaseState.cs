@@ -14,6 +14,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         tracker.ResetChaseState();
         chaseTarget = context.fov.currentTarget.GetOrigin();
 
+         
         context.motor.IsSprinting = true;
     }
 

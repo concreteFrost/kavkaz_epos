@@ -28,7 +28,6 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (context.fov.currentTarget == null)
             return;
 
-        context.fov.AssignTargetToMotor();
         target = context.fov.currentTarget.GetOrigin();
     }
 
@@ -53,6 +52,8 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         // 4. дистанция
         distance = Vector3.Distance(self.position, target.position);
 
+        fov.ToggleMotorRotateTarget(distance < 2f);
+
         motor.IsSprinting = distance > stats.distanceToRun;
 
         bool canReach = NavAgentUtils.HasCompletePath(
@@ -63,6 +64,8 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         // 5. цель недостижима
         if (!canReach && distance > stats.attackDistance)
             return AIStateResult.Wait;
+
+       
 
         // 6. цель вышла из боевой дистанции
         if (distance > stats.maxCombatDistance)
@@ -104,6 +107,8 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             StopCoroutine(comboCoroutine);
             comboCoroutine = null;
         }
+
+        
 
     }
 
