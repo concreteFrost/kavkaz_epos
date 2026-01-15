@@ -1,61 +1,52 @@
-
 public class EnemyIdleState : AIState<EnemyBrainContext>
 {
-
-    EnemyStateTracker stateTracker;
+    private EnemyStateTracker stateTracker;
 
     public override void Enter()
     {
-
         stateTracker = context.stateTracker;
 
+        // в idle всегда гарантированно гасим любое предыдущее движение
         context.motor.StopMovement();
         context.motor.ResetSprint();
+
+        // сбрасываем цель — idle не удерживает агрессию
         context.fov.ResetTarget();
 
+        // инициализация таймеров и флагов состояния покоя
         stateTracker.SetMaxIdleTime();
         stateTracker.ResetIdleState();
         stateTracker.ResetInterruption();
-
     }
 
     public override AIStateResult Run()
     {
-
-        //проверям цели в любом случае
+        // ищем потенциальные цели
         context.fov.CheckTargets();
 
+        // переходим в погоню если цель найдена
         if (context.fov.currentTarget != null)
-        {
             return AIStateResult.Chase;
-        }
 
-        //поворачиваемся в сторону цели если получили урон
+        // реакция на полученный урон без смены состояния
         if (stateTracker.IsInterrupted())
         {
-            context.motor.RotateToTarget(context.stateTracker.interruptionDir);
+            context.motor.RotateToTarget(stateTracker.GetInterruptionDirection());
             stateTracker.UpdateInterruption();
             return AIStateResult.None;
         }
 
+        
         stateTracker.UpdateCurrentIdleTime();
 
-        if (stateTracker.currIdleTime > stateTracker.maxIdleTime)
-        {
-
+        if (stateTracker.HasIdleTimeFinished())
             return AIStateResult.Patrol;
-        }
 
         return AIStateResult.None;
     }
 
-
     public override void Exit()
     {
         stateTracker.ResetIdleState();
-
     }
-
-
-
 }

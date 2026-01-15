@@ -23,7 +23,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
         if (NavAgentUtils.TryGetRandomReachablePoint(
                 context.self.position,
-                tracker.maxDestinationRadius,
+                tracker.GetMaxPatrolRadius(),
                 10,
                 out destination))
         {
@@ -45,7 +45,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         {
             tracker.UpdateInterruption();
             context.motor.StopMovement();
-            context.motor.RotateToTarget(context.stateTracker.interruptionDir);
+            context.motor.RotateToTarget(context.stateTracker.GetInterruptionDirection());
             return AIStateResult.None;
         }
 

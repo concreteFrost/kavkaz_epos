@@ -26,6 +26,7 @@ public class EnemyDamageHandler
 
         tracker.InterruptStrafeState(); 
 
+       
         if (attackSource == null) return;
 
         //idle, patrol

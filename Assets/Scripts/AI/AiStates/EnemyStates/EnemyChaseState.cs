@@ -39,7 +39,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
         tracker.UpdateCantReachTimer(canReach);
 
-        if (tracker.cantReachTimer > stats.maxCantReachTimer)
+        if (tracker.HasCantReachTimerExceeded())
             return AIStateResult.Wait;
 
         // 3. цель потеряна
@@ -48,7 +48,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         );
         tracker.UpdateLostTargetTimer(isTargetVisible);
 
-        if (tracker.lostTargetTimer > stats.maxLostTargetTimer)
+        if (tracker.HasLostTargetTimerExceeded())
             return AIStateResult.Patrol;
 
         // 4. дистанция

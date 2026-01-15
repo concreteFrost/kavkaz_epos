@@ -74,19 +74,14 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         // гарантированно останавливаем корутину
         StopStrafeCoroutine();
 
-        // снимаем поворот на цель
         motor.ResetLockTarget();
-
-        // выключаем режим стрейфа
         motor.SetStrafe(false);
-
-        // снимаем лок цели в FOV
         fov.ToggleLockState(false);
     }
 
     private void StopStrafeCoroutine()
     {
-        // безопасный останов корутины
+       
         if (strafeCoroutine == null)
             return;
 
@@ -96,13 +91,13 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
 
     private IEnumerator StrafeCoroutine()
     {
-        // случайно выбираем сторону стрейфа
+        
         bool isRight = Random.value > 0.5f;
 
         float elapsed = 0f;
         const float maxStrafeTime = 3f;
 
-        // двигаемся боком, пока не истечёт время или не потеряем цель
+        
         while (elapsed < maxStrafeTime && fov.currentTarget != null)
         {
             Vector3 selfPos = context.self.position;

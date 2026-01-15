@@ -80,7 +80,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return AIStateResult.Chase;
 
         //если идёт комбо — не вмешиваемся
-        if (tracker.isComboRunning)
+        if (tracker.IsComboRuning())
             return AIStateResult.None;
 
         //подходим к цели
@@ -96,7 +96,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (comboCoroutine == null)
         {
 
-            bool willAttack = Random.value > tracker.currentDodgeChance;
+            bool willAttack = Random.value > tracker.GetDodgeChance();
             comboCoroutine = StartCoroutine(
                 CombatDecision(target, willAttack)
             );
@@ -147,8 +147,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         motor.IsDodging = true;
 
-        tracker.damageCounter = 0;
-        tracker.currentDodgeChance = 0f;
+        tracker.ResetDodgeChance();
 
         Vector3 fromTarget =
             (context.self.position - target.position).normalized;
@@ -164,7 +163,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         var tracker = context.stateTracker;
         var combat = context.combat;
 
-        tracker.isComboRunning = true;
+        tracker.SetComboRunning(true);
 
         int executedAttacks = 0;
 
@@ -185,7 +184,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         combat.OnAttackEnd -= OnAttackEnd;
 
-        tracker.isComboRunning = false;
+        tracker.SetComboRunning(false);
     }
 
 

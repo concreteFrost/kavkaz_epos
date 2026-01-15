@@ -5,28 +5,26 @@ public class EnemyStateTracker : MonoBehaviour
     public CharacterBehaviourStatsSO stats;
 
     [Header("Idle state")]
-    public float currIdleTime=0;
-    public float maxIdleTime;
+    [SerializeField] private float currIdleTime=0;
+    [SerializeField] private float maxIdleTime;
 
     [Header("Patrol state")]
-    public float maxDestinationRadius = 10f;
-    public int maxWalks = 3;
-    public int currWalks = 0;
+    [SerializeField] private int currWalks = 0;
 
     [Header("Target chase state")]
-    public float lostTargetTimer;
-    public float cantReachTimer;
+    [SerializeField] private float lostTargetTimer;
+    [SerializeField] private float cantReachTimer;
 
     [Header("Combat state")]
     // combat
-    public float currCombatCooldown;
-    public float maxCombatCooldown;
-    public bool isComboRunning;
+    [SerializeField] private float currCombatCooldown;
+    [SerializeField] private float maxCombatCooldown;
+    [SerializeField] private bool isComboRunning;
 
     // dodge
-    public float lastDamageTime = -10f;
-    public int damageCounter;
-    public float currentDodgeChance;
+    [SerializeField] private float lastDamageTime = -10f;
+    [SerializeField] private int damageCounter;
+    [SerializeField] private float currentDodgeChance;
 
     [Header("Wait state")]
     public float waitTimer = 0f;
@@ -37,10 +35,10 @@ public class EnemyStateTracker : MonoBehaviour
 
 
     [Header("Interuption Reaction")]
-    public Vector3 interruptionDir;
+    private Vector3 interruptionDir;
     private float interruptionTimer=0;
     private float maxInterruptionTimer = 2f;
-    public bool isInterrupted = false;
+    private bool isInterrupted = false;
 
 
     #region Idle State
@@ -56,17 +54,49 @@ public class EnemyStateTracker : MonoBehaviour
     {
         currIdleTime = 0;
     }
+
+    public bool HasIdleTimeFinished() => currIdleTime >= maxIdleTime;
     #endregion
 
     #region Patrol State
-    public bool HasReachedMaxWalks() => currWalks >= maxWalks;
+    public bool HasReachedMaxWalks() => currWalks >stats.maxPatrolAttempts;
 
     public void IncrementWalks() => currWalks++;
 
-    public void ResetPatrol()
+    public void ResetPatrol() => currWalks = 0;
+
+    public float GetMaxPatrolRadius() => stats.maxDestiantionRadius;
+    #endregion
+
+    #region Idle and Patrol Interruption
+
+    public Vector2 GetInterruptionDirection() => interruptionDir;
+
+    public void Interrupt(Vector3 dir)
     {
-        currWalks = 0;
+        interruptionDir = dir;
+        isInterrupted = true;
+        interruptionTimer = 0f;
     }
+
+    public void UpdateInterruption()
+    {
+        interruptionTimer += Time.deltaTime;
+
+        if (interruptionTimer >= maxInterruptionTimer)
+        {
+            ResetInterruption();
+        }
+    }
+
+    public void ResetInterruption()
+    {
+        isInterrupted = false;
+        interruptionTimer = 0f;
+        interruptionDir = Vector3.zero;
+    }
+
+    public bool IsInterrupted() => isInterrupted;
     #endregion
 
     #region Target Chase State
@@ -78,6 +108,9 @@ public class EnemyStateTracker : MonoBehaviour
 
     public void UpdateLostTargetTimer(bool isVisible) => lostTargetTimer = isVisible ? 0f : lostTargetTimer + Time.deltaTime;
     public void UpdateCantReachTimer(bool canReach)=> cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
+
+    public bool HasCantReachTimerExceeded() => cantReachTimer > stats.maxCantReachTimer;
+    public bool HasLostTargetTimerExceeded()=>lostTargetTimer > stats.maxLostTargetTimer;   
 
     #endregion
 
@@ -110,6 +143,8 @@ public class EnemyStateTracker : MonoBehaviour
         currentDodgeChance = damageCounter * stats.dodgeChanceMultiplier;
     }
 
+    public float GetDodgeChance() => currentDodgeChance;
+
     public void UpdateDodgeCooldown(float resetTime)
     {
         if (Time.time - lastDamageTime > resetTime)
@@ -118,6 +153,16 @@ public class EnemyStateTracker : MonoBehaviour
             currentDodgeChance = 0f;
         }
     }
+
+    public void ResetDodgeChance()
+    {
+        damageCounter = 0;
+        currentDodgeChance = 0f;    
+    }
+
+    public bool IsComboRuning() => isComboRunning;
+
+    public void SetComboRunning(bool runing)=> isComboRunning = runing;
 
     #endregion
 
@@ -148,32 +193,4 @@ public class EnemyStateTracker : MonoBehaviour
     #endregion
 
 
-    #region Interruption
-
-    public void Interrupt(Vector3 dir)
-    {
-        interruptionDir = dir;
-        isInterrupted = true;
-        interruptionTimer = 0f;
-    }
-
-    public void UpdateInterruption()
-    {
-        interruptionTimer += Time.deltaTime;    
-
-        if(interruptionTimer >= maxInterruptionTimer)
-        {
-            ResetInterruption();
-        }
-    }
-
-    public void ResetInterruption()
-    {
-        isInterrupted = false;
-        interruptionTimer = 0f;
-        interruptionDir = Vector3.zero;
-    }
-
-    public bool IsInterrupted() => isInterrupted;
-    #endregion
 }

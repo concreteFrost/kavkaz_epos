@@ -11,6 +11,10 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [RangeAttribute(6, 20)]
     public int maxIdleStationary;
 
+    [Header("Patrol")]
+    public float maxDestiantionRadius = 10f;
+    public int maxPatrolAttempts = 3;
+
     [Header("Chase")]
     public float distanceToStop = 2f;
     public float distanceToRun = 5f;
