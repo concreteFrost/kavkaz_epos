@@ -14,11 +14,11 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
         fov = context.fov;
         motor = context.motor;
 
-        tracker.ResetChaseState();  
-        chaseTarget = context.fov.currentTarget.GetOrigin();
+        tracker.ResetWaitState();    
+        chaseTarget =fov.currentTarget.GetOrigin();
 
         motor.StopMovement();
-        
+        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
     }
 
     public override AIStateResult Run()
@@ -34,14 +34,14 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
         if (!canReach)
         {
-            tracker.UpdateCantReachTimer(canReach);
+            tracker.UpdateWaitTimer(canReach);
         }
         else
         {
             return AIStateResult.Chase;
         }
 
-        if(tracker.cantReachTimer >= tracker.stats.maxWaitTimer)
+        if(tracker.waitTimer >= tracker.stats.maxWaitTimer)
         {
             Debug.Log("cant reach, return to idle");
             return AIStateResult.MoveToStartPosition;
@@ -55,6 +55,8 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
     public override void Exit()
     {
         chaseTarget = null;
+        motor.ResetLockTarget();
+        
     }
 
 }

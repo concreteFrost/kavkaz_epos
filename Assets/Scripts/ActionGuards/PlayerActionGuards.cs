@@ -12,7 +12,7 @@ public class PlayerActionGuards
     readonly HumanoidStats stats;
     readonly IDamagable statsModifier;
     readonly IClimber climbing;
-    readonly ITargetLocker locker;
+    //readonly ITargetLocker locker;
 
     PlayerMode mode;
 
@@ -30,7 +30,7 @@ public class PlayerActionGuards
         this.stats = stats;
         this.statsModifier = statsModifier;
         this.climbing = climbing;
-        this.locker = locker;
+        //this.locker = locker;
         this.mode = initialMode;
     }
 
@@ -117,7 +117,7 @@ public class PlayerActionGuards
      
         if (mode != PlayerMode.Locomotion) return false;
 
-        if (locker.IsLockedOnTarget) return false;
+        if (locomotion.IsStrafing) return false;
 
         if (!locomotion.IsGrounded) return false;
 

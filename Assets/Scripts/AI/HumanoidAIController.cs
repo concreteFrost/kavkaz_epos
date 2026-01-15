@@ -49,16 +49,29 @@ public class HumanoidAIController : MonoBehaviour
     {
         if (aiMotor.StopMove)
         {
-            aiMotor.agent.speed = 0;
+            aiMotor.agent.speed = 0f;
             return;
         }
 
-        // выбираем нужную скорость по статам
-        aiMotor.moveSpeed = aiMotor.IsSprinting && !aiMotor.IsDodging
-            ? stats.runningSpeed
-            : stats.walkSpeed;
+        if (aiMotor.IsDodging)
+        {
+            aiMotor.agent.speed = 0f;
+            return;
+        }
 
-        // передаём скорость агенту (NavMeshAgent)
+        if (aiMotor.IsStrafing)
+        {
+            aiMotor.moveSpeed = stats.strafeSpeed;
+        }
+        else if (aiMotor.IsSprinting)
+        {
+            aiMotor.moveSpeed = stats.runningSpeed;
+        }
+        else
+        {
+            aiMotor.moveSpeed = stats.walkSpeed;
+        }
+
         aiMotor.agent.speed = aiMotor.moveSpeed;
     }
 

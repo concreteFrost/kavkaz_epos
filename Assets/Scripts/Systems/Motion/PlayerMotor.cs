@@ -130,6 +130,11 @@ public class PlayerMotor : BaseHumanoidMotor
         _rigidbody.linearVelocity = velocity;
     }
 
+    public override void SetStrafe(bool isStrafing)
+    {
+        base.isStrafing = isStrafing;   
+    }
+
     #endregion
 
     #region Jump Methods

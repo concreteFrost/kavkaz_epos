@@ -107,15 +107,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpPressed)
         {
-            if (targetLock.IsLockedOnTarget)
-            {
-                controller.Dodge(moveInput);
-                
-            }
-            else
-            {
-                controller.Jump();
-            }    
+            controller.HandleJumpOrDodge(moveInput);
         }
         jumpPressed = false; // consume press
     }

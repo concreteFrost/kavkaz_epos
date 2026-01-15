@@ -125,6 +125,18 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         agent.SetDestination(direction);
     }
 
+    public void MoveLocal(Vector3 direction)
+    {
+        
+
+        Vector3 velocity =
+            direction.normalized * agent.speed * Time.deltaTime;
+
+        agent.Move(velocity);
+
+        moveDirection = direction.normalized; // для анимации
+    }
+
     public override void Dodge(Vector2 dir)
     {
         isDodging = true;
@@ -147,6 +159,12 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         dodgeX = _dodgeX;
         dodgeY = _dodgeY;
+    }
+
+    public override void SetStrafe(bool isStrafing)
+    {
+        base.isSprinting = false;
+        base.isStrafing = isStrafing;
     }
     #endregion
 

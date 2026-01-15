@@ -30,6 +30,9 @@ public class EnemyStateTracker : MonoBehaviour
     public int damageCounter;
     public float currentDodgeChance;
 
+    [Header("Wait state")]
+    public float waitTimer = 0f;
+
 
     [Header("Interuption Reaction")]
     public Vector3 interruptionDir;
@@ -81,6 +84,11 @@ public class EnemyStateTracker : MonoBehaviour
         cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
     }
 
+    public void SetCantReachToMax()
+    {
+        cantReachTimer = stats.maxCantReachTimer;
+    }
+
     #endregion
 
     #region Combat State
@@ -125,9 +133,27 @@ public class EnemyStateTracker : MonoBehaviour
 
     #endregion
 
+    #region Target Wait State
+    public void UpdateWaitTimer(bool canReach) {
+        waitTimer = canReach ? 0f: waitTimer + Time.deltaTime;
+    }
+
+    public void ResetWaitState()
+    {
+        waitTimer = 0f;
+    }
+
+    public void InterruptWait()
+    {
+        Debug.Log("wait interrupted");
+        waitTimer = stats.maxWaitTimer;
+    }
+
+    #endregion
+
 
     #region Interruption
-    
+
     public void Interrupt(Vector3 dir)
     {
         interruptionDir = dir;

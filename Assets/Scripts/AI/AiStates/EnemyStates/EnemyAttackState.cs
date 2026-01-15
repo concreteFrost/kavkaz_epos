@@ -37,7 +37,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-       
+
         var self = context.self;
 
         //цель потеряна
@@ -55,7 +55,14 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         distance = Vector3.Distance(self.position, target.position);
 
         //изменения поведения вращения к цели
-     
+        if (distance < 2f)
+        {
+            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+        }
+        else
+        {
+            motor.ResetLockTarget();
+        }
 
         motor.IsSprinting = distance > stats.distanceToRun;
 
@@ -88,7 +95,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         if (comboCoroutine == null)
         {
-            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+
             bool willAttack = Random.value > tracker.currentDodgeChance;
             comboCoroutine = StartCoroutine(
                 CombatDecision(target, willAttack)
@@ -96,7 +103,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         }
         else
         {
-            motor.ResetLockTarget();
+
             motor.StopMovement();
         }
 
@@ -181,5 +188,5 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         tracker.isComboRunning = false;
     }
 
-   
+
 }

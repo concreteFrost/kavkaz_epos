@@ -27,7 +27,7 @@ public class PlayerAnimator : BaseHumanoidAnimatorController
         UpdateLocomotionState(locomotion);
         UpdateCombatState(combatController);
         UpdateDamageState(damageController);    
-        UpdateTargetLockState(targetLock);
+        //UpdateTargetLockState(targetLock);
 
 
     }

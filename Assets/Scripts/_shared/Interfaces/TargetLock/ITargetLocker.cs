@@ -1,4 +1,4 @@
 public interface ITargetLocker
 {
-    bool IsLockedOnTarget { get; }
+    //bool IsLockedOnTarget { get; }
 }

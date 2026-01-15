@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         locomotion.RotateToDirection(input);
     }
 
-    public void Dodge(Vector3 dir)
+    private void Dodge(Vector3 dir)
     {
         if (!actionGuards.CanDodge()) return;
 
@@ -119,12 +119,23 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void Jump()
+    private void Jump()
     {
         if (!actionGuards.CanJump()) return;
 
         locomotion.Jump(stats.jumpTimer);
         statsController.ReduceStamina(stats.staminaJumpReducePenalty);
+    }
+
+    public void HandleJumpOrDodge(Vector3 dir)
+    {
+        if (locomotion.IsStrafing)
+        {
+            Dodge(dir);
+            return;
+        }
+
+        Jump();
     }
 
     public void Sprint(bool sprintHeld)
@@ -139,6 +150,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void SetStrafe(bool isStrafing)
+    {
+        locomotion.SetStrafe(isStrafing);
+    }
+
     #endregion
 
     #region Target Lock
@@ -146,11 +162,13 @@ public class PlayerController : MonoBehaviour
     public void SetLockTarget(Transform target)
     {
         locomotion.rotateTarget = target;
+        //locomotion.IsStrafing = true;
     }
 
     public void ResetLockTarget()
     {
         locomotion.rotateTarget = null;
+        //locomotion.IsStrafing= false;   
     }
 
     #endregion

@@ -8,6 +8,7 @@ public class HumanoidStats : MonoBehaviour
     [Header("movement speed")]
     public float walkSpeed;
     public float runningSpeed;
+    public float strafeSpeed;
 
     [Header("jumping")]
     public float jumpHeight;
@@ -39,6 +40,7 @@ public class HumanoidStats : MonoBehaviour
     {
         walkSpeed = statsSO.walkSpeed;
         runningSpeed = statsSO.runningSpeed;
+        strafeSpeed = statsSO.strafeSpeed;  
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 

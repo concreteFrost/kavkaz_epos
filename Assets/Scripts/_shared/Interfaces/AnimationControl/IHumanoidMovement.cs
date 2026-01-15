@@ -11,6 +11,8 @@ public interface IHumanoidMovement
     bool ApplyRootMotion { get; set; }
 
     bool IsSprinting { get; set; }
+
+    bool IsStrafing { get; set; }
     
     float AnimationSmooth {  get; }
     public Vector3 GetInverseTransformDirection();

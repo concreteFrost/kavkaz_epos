@@ -13,6 +13,7 @@ public class BaseCharacterStatsSO : ScriptableObject
     [Header ("Speed")]
     public float walkSpeed = 1f;
     public float runningSpeed = 3f;
+    public float strafeSpeed = 0f;  
 
     [Header("Jump")]
     [Tooltip("How much time the character will be jumping")]

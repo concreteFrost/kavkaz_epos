@@ -37,6 +37,8 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetFloat(AnimatorParameters.DodgeX, locomotion.DodgeX);
         animator.SetFloat(AnimatorParameters.DodgeY, locomotion.DodgeY);
 
+        animator.SetBool(AnimatorParameters.IsStrafing, locomotion.IsStrafing);
+
     }
 
     protected void UpdateCombatState(IHumanoidCombat combatController)
@@ -52,10 +54,10 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
     }
 
-    protected void UpdateTargetLockState(ITargetLocker targetLock)
-    {
-        animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);
-    }
+    //protected void UpdateTargetLockState(ITargetLocker targetLock)
+    //{
+    //    animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);
+    //}
 }
 
 

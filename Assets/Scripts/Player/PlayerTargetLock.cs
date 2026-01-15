@@ -12,7 +12,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     public IDamagable currentTarget;
 
     protected bool wasTargetSearched = false;
-    public bool IsLockedOnTarget { get => currentTarget != null; }
+    //public bool IsLockedOnTarget { get => currentTarget != null; }
 
     /// <summary>
     /// Ввод мыши по оси Х при котором цель сбрасывается
@@ -34,7 +34,6 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         this.targetSeeker = controller.transform;
         this.damageController = provider.damageController;
   
-
         self = CharacterType.Player;    
     }
 
@@ -63,6 +62,8 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         {   
             lockOnTargetUI.SetTarget(t.GetAimTransform());
             controller.SetLockTarget(t.GetAimTransform());
+            controller.SetStrafe(true);
+
         }
     }
 
@@ -71,6 +72,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         if (currentTarget.IsDead())
         {
             ResetLockTarget();
+
             return;
         }
         var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetOrigin().position);
@@ -78,6 +80,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         if (dist > targetResetDistance)
         {
             ResetLockTarget();
+
         }
     }
 
@@ -152,6 +155,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         wasTargetSearched = false;
         lockOnTargetUI.ResetTarget();
         controller.ResetLockTarget();
+        controller.SetStrafe(false);
        
     }
 

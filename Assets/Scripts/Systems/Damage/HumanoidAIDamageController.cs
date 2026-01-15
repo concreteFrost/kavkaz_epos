@@ -28,6 +28,14 @@ public class HumanoidAIDamageController : BaseDamageController
 
 	}
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            TakeDamage(10, 0.4f, null);
+        }
+    }
+
     private void OnDisable()
     {
         stats.Health.Depleted -= Die;   

@@ -17,15 +17,18 @@ public class EnemyDamageHandler
 
     private void OnDamageTaken(Transform attackSource)
     {
+        var tracker = context.stateTracker;
+        //combat
+        tracker.RegisterDamage();
+
+        //wait 
+        tracker.InterruptWait();
+
         if (attackSource == null) return;
 
-        var tracker = context.stateTracker;
         //idle, patrol
         tracker.Interrupt(attackSource.position); 
-
-        //combat
-
-        tracker.RegisterDamage();
+ 
     }
 
 

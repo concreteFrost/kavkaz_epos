@@ -64,6 +64,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     protected bool isJumping;
     internal bool isGrounded = true;
     protected bool isDodging;
+    protected bool isStrafing;
    
     internal bool isRotationBlocked = false;
 
@@ -79,6 +80,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float GroundDistance { get => groundDistance; }
     public bool ApplyRootMotion { get; set; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
+    public bool IsStrafing { get => isStrafing; set => isStrafing = value; }   
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; }
     public bool IsDodging { get => isDodging; set => isDodging = value; }
@@ -86,6 +88,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
 
+    public abstract void Init(Animator anim);
 
     /// <summary>
     /// Обновляет анимацию ДВИЖЕНИЯ
@@ -101,12 +104,11 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
         inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorParameters.runningSpeed : AnimatorParameters.walkSpeed);
     }
 
-    #region Abstract Methods
-
-    public abstract void Init(Animator anim);
-
+ 
     public abstract void UseRootMotion();
     public abstract void UseRootMotionWithObstacles();
+
+    #region Movement
 
     /// <summary>
     /// Основной метод обновления состояния движения персонажа.
@@ -126,6 +128,8 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     /// Полностью останавливает движение персонажа
     /// </summary>
     public abstract void StopMovement();
+
+    public abstract void SetStrafe(bool isStrafing);
 
     #endregion
 
