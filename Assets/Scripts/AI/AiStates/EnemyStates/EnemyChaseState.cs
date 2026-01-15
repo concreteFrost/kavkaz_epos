@@ -5,24 +5,28 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
     Transform chaseTarget;
     EnemyStateTracker tracker;
     CharacterBehaviourStatsSO stats;
+    EnemyFOVController fov;
+    HumanoidAIMotor motor;
 
 
     public override void Enter()
     {
+        fov = context.fov;
         tracker = context.stateTracker;
         stats = tracker.stats;
-        tracker.ResetChaseState();
-        chaseTarget = context.fov.currentTarget.GetOrigin();
+        motor = context.motor;
 
-         
+        tracker.ResetChaseState();
+        motor.ResetPath();
+        
+        chaseTarget = context.fov.currentTarget.GetOrigin();
+ 
         context.motor.IsSprinting = true;
     }
 
     public override AIStateResult Run()
     {
-        var fov = context.fov;
-        var motor = context.motor;
-        var tracker = context.stateTracker;
+
         Transform self = context.self;
 
         // 1. нет цели
@@ -31,7 +35,6 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         Transform target = chaseTarget;
        
-
         // 2. цель недостижима
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
         tracker.UpdateCantReachTimer(canReach);

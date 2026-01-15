@@ -13,16 +13,20 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     private float distance;
 
     EnemyStateTracker tracker;
+    EnemyFOVController fov;
     CharacterBehaviourStatsSO stats;
+    HumanoidAIMotor motor;
+
 
     public override void Enter()
     {
 
+        fov = context.fov;
         tracker = context.stateTracker;
-        tracker.ResetAttackState();
-
         stats = context.stateTracker.stats;
+        motor = context.motor;
 
+        tracker.ResetAttackState();
         comboCoroutine = null;
 
         if (context.fov.currentTarget == null)
@@ -33,26 +37,25 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-        var fov = context.fov;
-        var motor = context.motor;
+       
         var self = context.self;
-        var tracker = context.stateTracker;
 
-        // 1. цель потеряна
+        //цель потеряна
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        // 2. во время доджа ничего не делаем
+        //во время доджа ничего не делаем
         if (motor.IsDodging)
             return AIStateResult.None;
 
-        // 3. обновление восстановления доджа
+        //обновление восстановления доджа
         tracker.UpdateDodgeCooldown(dodgeCounterResetTimer);
 
-        // 4. дистанция
+        //дистанция
         distance = Vector3.Distance(self.position, target.position);
 
-        fov.ToggleMotorRotateTarget(distance < 2f);
+        //изменения поведения вращения к цели
+     
 
         motor.IsSprinting = distance > stats.distanceToRun;
 
@@ -61,21 +64,19 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             target.position
         );
 
-        // 5. цель недостижима
+        //цель недостижима
         if (!canReach && distance > stats.attackDistance)
             return AIStateResult.Wait;
 
-       
-
-        // 6. цель вышла из боевой дистанции
+        //цель вышла из боевой дистанции
         if (distance > stats.maxCombatDistance)
             return AIStateResult.Chase;
 
-        // 7. если идёт комбо — не вмешиваемся
+        //если идёт комбо — не вмешиваемся
         if (tracker.isComboRunning)
             return AIStateResult.None;
 
-        // 8. подходим к цели
+        //подходим к цели
         if (distance > stats.attackDistance)
         {
             motor.MoveCharacter(target.position);
@@ -87,6 +88,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         if (comboCoroutine == null)
         {
+            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
             bool willAttack = Random.value > tracker.currentDodgeChance;
             comboCoroutine = StartCoroutine(
                 CombatDecision(target, willAttack)
@@ -94,6 +96,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         }
         else
         {
+            motor.ResetLockTarget();
             motor.StopMovement();
         }
 
@@ -108,7 +111,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             comboCoroutine = null;
         }
 
-        
+        motor.ResetLockTarget();
 
     }
 

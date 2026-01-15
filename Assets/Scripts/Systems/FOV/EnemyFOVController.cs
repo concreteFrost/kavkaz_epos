@@ -6,7 +6,6 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     [SerializeField] FovDataSO fovDataSO;
     [SerializeField] Transform eyes;
 
-    HumanoidAIMotor motor;
     AIFov fov;
     
     private bool isLockedOnTarget = false;  
@@ -26,9 +25,9 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         }
     }
 
-    public void Init(HumanoidAIMotor motor)
+    public void Init()
     {
-        this.motor = motor;
+      
         fov = new AIFov(eyes, fovDataSO.objectsToScan, fovDataSO.obstacleMask);
     }
 
@@ -46,41 +45,29 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         SetTarget(potentialTarget);
     }
 
+    public bool IsTargetVisible(Transform target)
+    {
+        return fov.IsTargetVisible(target, fovDataSO.viewRadius, fovDataSO.viewAngle);
+    }
+
+    #region Current Target State Control
     public void SetTarget(IDamagable target)
     {
         currentTarget = target;
-        //isLockedOnTarget = true;
-    }
-
-    public void ToggleMotorRotateTarget(bool canLock)
-    {
-        if (canLock)
-        {
-            motor.SetLockTarget(currentTarget.GetAimTransform());
-        }
-        else
-        {
-            motor.ResetLockTarget();    
-        }
     }
 
     public void ResetTarget()
     {
         currentTarget = null;
-        motor.ResetLockTarget(); 
         isLockedOnTarget = false;
 
     }
 
-    public void SetLockedOnTarget(bool isLocked)
+    public void ToggleLockState(bool isLocked)
     {
-        isLockedOnTarget = isLocked;    
+        isLockedOnTarget = isLocked;
     }
-
-    public bool IsTargetVisible(Transform target)
-    {
-        return fov.IsTargetVisible(target, fovDataSO.viewRadius, fovDataSO.viewAngle);
-    }
+    #endregion
 
     private void OnDrawGizmosSelected()
     {

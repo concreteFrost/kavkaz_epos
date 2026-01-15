@@ -5,22 +5,25 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
     EnemyStateTracker tracker;
     Transform chaseTarget;
+    EnemyFOVController fov;
+    HumanoidAIMotor motor;
 
     public override void Enter()
     {
         tracker = context.stateTracker;
+        fov = context.fov;
+        motor = context.motor;
 
         tracker.ResetChaseState();  
         chaseTarget = context.fov.currentTarget.GetOrigin();
 
-        context.motor.StopMovement();
-        context.fov.ToggleMotorRotateTarget(true);
+        motor.StopMovement();
+        
     }
 
     public override AIStateResult Run()
     {
-        var fov = context.fov;
-        var motor = context.motor;
+       
         Transform self = context.self;
 
         // 1. нет цели

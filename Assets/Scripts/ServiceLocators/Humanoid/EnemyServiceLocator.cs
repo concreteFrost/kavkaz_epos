@@ -43,7 +43,7 @@ public class EnemyServiceLocator : MonoBehaviour
         motor.Init(animator);
 
         ik.Init(motor, stats);
-        fovController.Init(motor);
+        fovController.Init();
 
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, motor, combatController, fovController, damageController);
         animatorController.Init(animatorService);

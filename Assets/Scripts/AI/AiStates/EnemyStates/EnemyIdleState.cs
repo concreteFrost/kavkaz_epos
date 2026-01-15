@@ -52,7 +52,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-
+        stateTracker.ResetIdleState();
 
     }
 

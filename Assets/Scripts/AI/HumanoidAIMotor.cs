@@ -80,6 +80,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         isSprinting = false;
     }
 
+    public void ResetPath()
+    {
+        agent.ResetPath();
+    }
+
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
         if (!agent.isActiveAndEnabled || !agent.hasPath)

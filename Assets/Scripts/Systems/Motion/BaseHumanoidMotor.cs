@@ -53,7 +53,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
 
     internal RaycastHit groundHit;                      // raycast to hit the ground 
 
-    internal Transform rotateTarget;
+    public Transform rotateTarget;
     internal Vector3 input;                             // generate raw input for the controller
     internal Vector3 colliderCenter;                    // storage the center of the capsule collider info                
     internal Vector3 inputSmooth;                       // generate smooth input based on the inputSmooth value       
