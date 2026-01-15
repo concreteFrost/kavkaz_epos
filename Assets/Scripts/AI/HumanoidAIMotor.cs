@@ -6,22 +6,44 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 {
     [HideInInspector] public NavMeshAgent agent;
 
+    //public override void Init(Animator anim)
+    //{
+    //    animator = anim;
+    //    animator.updateMode = AnimatorUpdateMode.Fixed;
+    //    animator.applyRootMotion = true;
+    //    animationSmooth = 0.25f;
+
+    //    agent = GetComponent<NavMeshAgent>();
+    //    agent.updateRotation = false;
+    //    agent.angularSpeed = 0;
+    //    agent.acceleration = 50f;
+    //    agent.stoppingDistance = 1f;
+    //    agent.autoBraking = true;
+    //}
+
     public override void Init(Animator anim)
     {
         animator = anim;
-        animator.updateMode = AnimatorUpdateMode.Fixed;
-        animator.applyRootMotion = true;
-        animationSmooth = 0.25f;
 
+        // Animator
+        animator.updateMode = AnimatorUpdateMode.Normal;
+        animator.applyRootMotion = false;
+        animationSmooth = 0.2f;
+
+        // NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.angularSpeed = 0;
-        agent.acceleration = 50f;
-        agent.stoppingDistance = 1f;
-        agent.autoBraking = true;
-    }
 
-  
+        agent.updatePosition = true;
+        agent.updateRotation = false; // поворот контролируешь сам
+
+        agent.angularSpeed = 0f;       // чтобы агент не крутил
+        agent.acceleration = 80f;      // отзывчивость
+        agent.stoppingDistance = 0.8f;
+        agent.autoBraking = true;
+
+        agent.obstacleAvoidanceType =
+            ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+    }
 
     public override void UpdateAnimatorLocomotion()
     {

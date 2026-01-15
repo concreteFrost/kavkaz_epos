@@ -3,92 +3,125 @@ using UnityEngine;
 
 public class EnemyStrafeState : AIState<EnemyBrainContext>
 {
-    Transform chaseTarget;
-    EnemyStateTracker tracker;
-    CharacterBehaviourStatsSO stats;
-    EnemyFOVController fov;
-    HumanoidAIMotor motor;
+    // ссылки на контекст
+    private EnemyStateTracker tracker;
+    private EnemyFOVController fov;
+    private HumanoidAIMotor motor;
 
-    Coroutine strafeCoroutine;
-
-    public Vector3 strafeDir;
-
+    // корутина стрейфа
+    private Coroutine strafeCoroutine;
 
     public override void Enter()
     {
+       
         fov = context.fov;
         tracker = context.stateTracker;
-        stats = tracker.stats;
         motor = context.motor;
 
-        fov.ToggleLockState(true);
+        // без цели стрейф не имеет смысла
+        if (fov.currentTarget == null)
+            return;
+
+        // сбрасываем и инициализируем таймеры состояния стрейфа
+        tracker.ResetStrafeState();
+        tracker.SetNewMaxInStrafeTime();
+
+        // полностью останавливаем обычное перемещение
         motor.StopMovement();
-        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+
+        // включаем режим стрейфа (влияет на скорость / анимации)
         motor.SetStrafe(true);
+
+        // фиксируем поворот тела на цель
+        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+
+        // сообщаем FOV, что цель сейчас залочена
+        fov.ToggleLockState(true);
     }
 
     public override AIStateResult Run()
     {
-
-
+        
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
+        // обновляем время, проведённое в стрейфе
+        tracker.UpdateTimeInStrafeState();
 
+        // стрейф длился достаточно — переходим в погоню
+        if (tracker.IsStrafeTimeFinished())
+            return AIStateResult.Chase;
+
+        // проверяем дистанцию до цели
+        float distance = Vector3.Distance(
+            context.self.position,
+            fov.currentTarget.GetOrigin().position
+        );
+
+        // цель ушла слишком далеко — стрейф больше не имеет смысла
+        if (tracker.IsStrafeTargetFar(distance))
+            return AIStateResult.Chase;
+
+        // запускаем корутину стрейфа один раз
         if (strafeCoroutine == null)
-        {
             strafeCoroutine = StartCoroutine(StrafeCoroutine());
-
-            return AIStateResult.None;
-        }
 
         return AIStateResult.None;
     }
 
     public override void Exit()
     {
-        //throw new System.NotImplementedException();
+        // гарантированно останавливаем корутину
+        StopStrafeCoroutine();
 
-        if (strafeCoroutine != null)
-        {
-            StopCoroutine(strafeCoroutine);
-            strafeCoroutine = null;
-        }
-
+        // снимаем поворот на цель
         motor.ResetLockTarget();
-        motor.SetStrafe(false);
-        fov.ToggleLockState(false);
 
+        // выключаем режим стрейфа
+        motor.SetStrafe(false);
+
+        // снимаем лок цели в FOV
+        fov.ToggleLockState(false);
     }
 
-    IEnumerator StrafeCoroutine()
+    private void StopStrafeCoroutine()
     {
+        // безопасный останов корутины
+        if (strafeCoroutine == null)
+            return;
+
+        StopCoroutine(strafeCoroutine);
+        strafeCoroutine = null;
+    }
+
+    private IEnumerator StrafeCoroutine()
+    {
+        // случайно выбираем сторону стрейфа
         bool isRight = Random.value > 0.5f;
 
         float elapsed = 0f;
-        float maxStrafeTime = 3f;
+        const float maxStrafeTime = 3f;
 
+        // двигаемся боком, пока не истечёт время или не потеряем цель
         while (elapsed < maxStrafeTime && fov.currentTarget != null)
         {
             Vector3 selfPos = context.self.position;
             Vector3 targetPos = fov.currentTarget.GetOrigin().position;
 
-            // направление НА цель
+            // направление от врага к цели
             Vector3 toTarget = (targetPos - selfPos).normalized;
 
-            // перпендикуляр в плоскости XZ
+            // боковое направление в плоскости XZ
             Vector3 strafeDir = Vector3.Cross(Vector3.up, toTarget).normalized;
 
-            // выбор стороны
-            Vector3 finalDir = isRight ? strafeDir : -strafeDir;
-
-            // локальное движение без pathfinding
-            motor.MoveLocal(finalDir);
+            // движение в выбранную сторону
+            motor.MoveLocal(isRight ? strafeDir : -strafeDir);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
+        // корутина завершена — разрешаем перезапуск
         strafeCoroutine = null;
     }
 }

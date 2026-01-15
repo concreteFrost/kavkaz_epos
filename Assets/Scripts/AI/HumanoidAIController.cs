@@ -26,10 +26,10 @@ public class HumanoidAIController : MonoBehaviour
         ControlSpeed();
         ControlRotation();
 
-        if (animator.applyRootMotion == false)
-        {
-            animator.applyRootMotion = true;
-        }
+        //if (animator.applyRootMotion == false)
+        //{
+        //    animator.applyRootMotion = true;
+        //}
     }
 
 

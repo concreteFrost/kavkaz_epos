@@ -25,4 +25,13 @@ public class CharacterBehaviourStatsSO : ScriptableObject
 
     [RangeAttribute(0, 1f)]
     public float dodgeChanceMultiplier = 0.15f;
+
+    [Header("Strafe")]
+    public float maxTargetDistanceInStrafe = 10f;
+
+    [RangeAttribute(3, 7)]
+    public int minTimeInStrafeState=7;
+
+    [RangeAttribute(7, 12)]
+    public int maxTimeInStrafeState=12;
 }

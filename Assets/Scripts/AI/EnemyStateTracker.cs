@@ -4,10 +4,8 @@ public class EnemyStateTracker : MonoBehaviour
 {
     public CharacterBehaviourStatsSO stats;
 
-
-
     [Header("Idle state")]
-    public float currIdleTime;
+    public float currIdleTime=0;
     public float maxIdleTime;
 
     [Header("Patrol state")]
@@ -33,11 +31,15 @@ public class EnemyStateTracker : MonoBehaviour
     [Header("Wait state")]
     public float waitTimer = 0f;
 
+    [Header("Strafe state")]
+    [SerializeField] private float timeInStrafeState = 0f;
+    [SerializeField] private float maxTimeInStrafeState;
+
 
     [Header("Interuption Reaction")]
     public Vector3 interruptionDir;
-    float interruptionTimer=0;
-    float maxInterruptionTimer = 2f;
+    private float interruptionTimer=0;
+    private float maxInterruptionTimer = 2f;
     public bool isInterrupted = false;
 
 
@@ -74,20 +76,8 @@ public class EnemyStateTracker : MonoBehaviour
         cantReachTimer = 0f;
     }
 
-    public void UpdateLostTargetTimer(bool isVisible)
-    {
-        lostTargetTimer = isVisible ? 0f : lostTargetTimer + Time.deltaTime;
-    }
-
-    public void UpdateCantReachTimer(bool canReach)
-    {
-        cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
-    }
-
-    public void SetCantReachToMax()
-    {
-        cantReachTimer = stats.maxCantReachTimer;
-    }
+    public void UpdateLostTargetTimer(bool isVisible) => lostTargetTimer = isVisible ? 0f : lostTargetTimer + Time.deltaTime;
+    public void UpdateCantReachTimer(bool canReach)=> cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
 
     #endregion
 
@@ -103,10 +93,8 @@ public class EnemyStateTracker : MonoBehaviour
         currentDodgeChance = 0f;
     }
 
-    public void UpdateCombatCooldown()
-    {
-        currCombatCooldown += Time.deltaTime;
-    }
+    public void UpdateCombatCooldown() => currCombatCooldown += Time.deltaTime;
+
 
     public void ResetCombatCooldown(float min, float max)
     {
@@ -134,20 +122,28 @@ public class EnemyStateTracker : MonoBehaviour
     #endregion
 
     #region Target Wait State
-    public void UpdateWaitTimer(bool canReach) {
-        waitTimer = canReach ? 0f: waitTimer + Time.deltaTime;
-    }
+    public void UpdateWaitTimer(bool canReach) => waitTimer = canReach ? 0f : waitTimer + Time.deltaTime;
 
-    public void ResetWaitState()
-    {
-        waitTimer = 0f;
-    }
+    public void ResetWaitState()=> waitTimer = 0f;
 
-    public void InterruptWait()
-    {
-        Debug.Log("wait interrupted");
-        waitTimer = stats.maxWaitTimer;
-    }
+    public void InterruptWait()=> waitTimer = stats.maxWaitTimer;
+
+    #endregion
+
+    #region Strafe State
+
+    public void UpdateTimeInStrafeState() => timeInStrafeState += Time.deltaTime;
+
+    public void SetNewMaxInStrafeTime() => maxTimeInStrafeState = Random.Range(stats.minTimeInStrafeState, stats.maxTimeInStrafeState);
+
+    public void ResetStrafeState()=> timeInStrafeState = 0f; 
+
+    public void InterruptStrafeState() => timeInStrafeState = maxTimeInStrafeState;
+
+    public bool IsStrafeTimeFinished() => timeInStrafeState >= maxTimeInStrafeState;
+
+    public bool IsStrafeTargetFar(float dist) => dist > stats.maxTargetDistanceInStrafe;
+
 
     #endregion
 
