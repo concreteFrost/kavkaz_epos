@@ -9,12 +9,12 @@ public enum AIStateResult
     Attack = 4,
     Wait = 5,
     MoveToStartPosition = 6,
+    Strafe = 7,
 }
 
 public class EnemyBrain : MonoBehaviour
 {
     EnemyBrainContext context;
-    EnemyDamageHandler damageHandler;
 
     internal AIStateMachine stateMachine = new AIStateMachine();
 
@@ -25,9 +25,11 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> patrol;
     [SerializeField] private AIState<EnemyBrainContext> chase;
     [SerializeField] private AIState<EnemyBrainContext> attack;
+    [SerializeField] private AIState<EnemyBrainContext> strafe;
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
-
+ 
+ 
     public void Init(EnemyBrainContext context)
     {
         this.context = context; 
@@ -36,17 +38,12 @@ public class EnemyBrain : MonoBehaviour
         patrol.Init(context);
         chase.Init(context);    
         attack.Init(context);
+        strafe.Init(context);   
         wait.Init(context);
         moveToStart.Init(context);
 
         stateMachine.ChangeState(idle);
-
-        damageHandler = new EnemyDamageHandler(context);            
-    }
-
-    private void OnDisable()
-    {
-        damageHandler.Dispose();
+   
     }
 
 
@@ -72,6 +69,9 @@ public class EnemyBrain : MonoBehaviour
                 break;
             case AIStateResult.Attack:
                 stateMachine.ChangeState(attack);
+                break;
+            case AIStateResult.Strafe:
+                stateMachine.ChangeState(strafe);
                 break;
             case AIStateResult.Wait:
                 stateMachine.ChangeState(wait);

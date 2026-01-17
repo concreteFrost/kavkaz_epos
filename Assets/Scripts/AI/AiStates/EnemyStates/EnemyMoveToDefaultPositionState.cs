@@ -4,16 +4,25 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
 {
 
     private Vector3 destination;
+    EnemyFOVController fov;
+    HumanoidAIMotor motor;
 
     public override void Enter()
     {
-
-        context.fov.ResetTarget();
+        fov = context.fov;
+        motor = context.motor;
+        
+        fov.ResetTarget();
         context.motor.ResetSprint();
 
+      
+
+        motor.StopMovement();
+
         destination = context.permamentPosition;
-        context.motor.MoveCharacter(destination);
-        context.motor.IsSprinting = true;
+        motor.MoveCharacter(destination);
+
+        motor.IsSprinting = true;
 
         context.fov.ResetTarget();
     }
@@ -32,6 +41,12 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
 
 
+        //fov.CheckTargets(); 
+
+        //if(fov.currentTarget != null)
+        //{
+        //    return AIStateResult.Chase;
+        //}
 
         return AIStateResult.None;
     }

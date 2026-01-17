@@ -9,16 +9,9 @@ public class EnemyStateTracker : MonoBehaviour
     public EnemyPatrolHandler patrolHandler;
     public EnemyChaseHandler chaseHandler;  
     public EnemyPassiveInterruptionHandler interruptionTracker;
-    public EnemyCombatHandler combatHandler;    
-
-
-    [Header("Wait state")]
-    public float waitTimer = 0f;
-
-    [Header("Strafe state")]
-    [SerializeField] private float timeInStrafeState = 0f;
-    [SerializeField] private float maxTimeInStrafeState;
-
+    public EnemyCombatHandler combatHandler; 
+    public EnemyWaitForTargetHandler waitForTargetHandler;
+    public EnemyStrafeHandler strafeHandler;    
 
     public void Init(HumanoidAIDamageController damageController)
     {
@@ -31,6 +24,12 @@ public class EnemyStateTracker : MonoBehaviour
         combatHandler = new EnemyCombatHandler(stats);
         this.damageController.DamageTaken += combatHandler.OnDamageTaken;
 
+        waitForTargetHandler = new EnemyWaitForTargetHandler(stats);
+        this.damageController.DamageTaken += waitForTargetHandler.OnDamageTaken;
+
+        strafeHandler = new EnemyStrafeHandler(stats);
+        this.damageController.DamageTaken += strafeHandler.OnDamageTaken;
+
         interruptionTracker = new EnemyPassiveInterruptionHandler();
         this.damageController.DamageTaken += interruptionTracker.OnDamageTaken;
 
@@ -40,52 +39,9 @@ public class EnemyStateTracker : MonoBehaviour
     {
         damageController.DamageTaken -=interruptionTracker.OnDamageTaken;
         damageController.DamageTaken -=combatHandler.OnDamageTaken; 
+        damageController.DamageTaken -=waitForTargetHandler.OnDamageTaken;
+        damageController.DamageTaken -=strafeHandler.OnDamageTaken;
     }
-
-    public void OnDamageTaken(Transform attackSource)
-    {
-        //var tracker = context.stateTracker;
-        ////combat
-        //tracker.RegisterDamage();
-
-        ////wait 
-        //tracker.InterruptWait();
-
-        //tracker.InterruptStrafeState();
-
-
-        //if (attackSource == null) return;
-
-        //idle, patrol
-        //interruptionTracker.Interrupt(attackSource.position);
-
-    }
- 
-    #region Target Wait State
-    public void UpdateWaitTimer(bool canReach) => waitTimer = canReach ? 0f : waitTimer + Time.deltaTime;
-
-    public void ResetWaitState()=> waitTimer = 0f;
-
-    public void InterruptWait()=> waitTimer = stats.maxWaitTimer;
-
-    #endregion
-
-    #region Strafe State
-
-    public void UpdateTimeInStrafeState() => timeInStrafeState += Time.deltaTime;
-
-    public void SetNewMaxInStrafeTime() => maxTimeInStrafeState = Random.Range(stats.minTimeInStrafeState, stats.maxTimeInStrafeState);
-
-    public void ResetStrafeState()=> timeInStrafeState = 0f; 
-
-    public void InterruptStrafeState() => timeInStrafeState = maxTimeInStrafeState;
-
-    public bool IsStrafeTimeFinished() => timeInStrafeState >= maxTimeInStrafeState;
-
-    public bool IsStrafeTargetFar(float dist) => dist > stats.maxTargetDistanceInStrafe;
-
-
-    #endregion
 
 
 }

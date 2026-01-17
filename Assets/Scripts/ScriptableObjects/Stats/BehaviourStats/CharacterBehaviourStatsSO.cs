@@ -38,4 +38,8 @@ public class CharacterBehaviourStatsSO : ScriptableObject
 
     [RangeAttribute(7, 12)]
     public int maxTimeInStrafeState=12;
+
+    [Header("Decision Chances")]
+    public float strafeChance = .2f;
+    public float attackChance = .8f;
 }

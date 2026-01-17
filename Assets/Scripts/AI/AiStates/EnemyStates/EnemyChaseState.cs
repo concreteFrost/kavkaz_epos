@@ -3,12 +3,10 @@ using UnityEngine;
 public class EnemyChaseState : AIState<EnemyBrainContext>
 {
 
-
     EnemyFOVController fov;
     HumanoidAIMotor motor;
 
     EnemyChaseHandler chaseHandler;
-
 
     public override void Enter()
     {
@@ -29,7 +27,11 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         // 1. нет цели
         if (fov.currentTarget == null)
+        {
+            Debug.Log("i lossttt");
             return AIStateResult.Idle;
+        }
+            
 
         Transform target = context.fov.currentTarget.GetOrigin();
        
@@ -58,7 +60,13 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
-            return AIStateResult.Attack;
+            var decision = chaseHandler.GetNextDecision();
+
+            if (decision == ChaseTransition.Strafe)
+                return AIStateResult.Strafe;
+
+            if(decision == ChaseTransition.Attack)
+                return AIStateResult.Attack;
         }
         else
         {

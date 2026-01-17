@@ -3,19 +3,18 @@ using UnityEngine;
 public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 {
 
-    EnemyStateTracker tracker;
-    Transform chaseTarget;
+    EnemyWaitForTargetHandler handler;
+
     EnemyFOVController fov;
     HumanoidAIMotor motor;
 
     public override void Enter()
     {
-        tracker = context.stateTracker;
+        handler = context.stateTracker.waitForTargetHandler;
         fov = context.fov;
         motor = context.motor;
 
-        tracker.ResetWaitState();    
-        chaseTarget =fov.currentTarget.GetOrigin();
+        handler.ResetWaitState();    
 
         motor.StopMovement();
         motor.SetLockTarget(fov.currentTarget.GetAimTransform());
@@ -30,18 +29,20 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, chaseTarget.position);
+        Transform target = fov.currentTarget.GetOrigin();   
+
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
 
         if (!canReach)
         {
-            tracker.UpdateWaitTimer(canReach);
+            handler.UpdateWaitTimer(canReach);
         }
         else
         {
             return AIStateResult.Chase;
         }
 
-        if(tracker.waitTimer >= tracker.stats.maxWaitTimer)
+        if(handler.HasWaitTimerExceeded())
         {
             Debug.Log("cant reach, return to idle");
             return AIStateResult.MoveToStartPosition;
@@ -54,7 +55,7 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-        chaseTarget = null;
+        //fov.ResetTarget();
         motor.ResetLockTarget();
         
     }

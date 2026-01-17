@@ -151,7 +151,7 @@ public struct SimpleHumanoidBrainContext
 
 }
 
-public struct EnemyBrainContext
+public class EnemyBrainContext
 {
     public Vector3 permamentPosition;
 

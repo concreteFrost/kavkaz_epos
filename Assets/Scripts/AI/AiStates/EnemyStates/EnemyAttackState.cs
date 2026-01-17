@@ -6,12 +6,10 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     // runtime
     private Coroutine comboCoroutine;
-    private Transform target;
     private float distance;
 
     EnemyFOVController fov;
     EnemyCombatHandler combatHandler;
-   
 
     HumanoidAIMotor motor;
 
@@ -30,7 +28,8 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (context.fov.currentTarget == null)
             return;
 
-        target = context.fov.currentTarget.GetOrigin();
+        
+        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
     }
 
     public override AIStateResult Run()
@@ -40,7 +39,13 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         //цель потеряна
         if (fov.currentTarget == null)
+        {
+            Debug.Log("lost target");
             return AIStateResult.Idle;
+        }
+            
+
+        var target = context.fov.currentTarget.GetOrigin();
 
         //во время доджа ничего не делаем
         if (motor.IsDodging)
@@ -53,14 +58,14 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         distance = Vector3.Distance(self.position, target.position);
 
         //изменения поведения вращения к цели
-        if (distance < 2f)
-        {
-            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
-        }
-        else
-        {
-            motor.ResetLockTarget();
-        }
+        //if (distance < 2f)
+        //{
+        //    motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+        //}
+        //else
+        //{
+        //    motor.ResetLockTarget();
+        //}
 
         motor.IsSprinting = combatHandler.IsRunningDistance(distance);
 
@@ -88,22 +93,29 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return AIStateResult.None;
         }
 
+
         // 9. боевое решение
         combatHandler.UpdateCombatCooldown();
 
         if (comboCoroutine == null)
         {
 
-            bool willAttack = Random.value > combatHandler.GetDodgeChance();
-            comboCoroutine = StartCoroutine(
-                CombatDecision(target, willAttack)
-            );
-        }
-        else
-        {
+            switch (combatHandler.GetNextDecision(distance))
+            {
+                case CombatTransition.Attack:
+                    comboCoroutine = StartCoroutine(ComboCoroutine());
+                    break;
+                case CombatTransition.Dodge:
+                    comboCoroutine = StartCoroutine(DodgeCoroutine(target));
+                    break;
+                case CombatTransition.Strafe:
+                    return AIStateResult.Strafe;
+                  
+            }
 
             motor.StopMovement();
         }
+      
 
         return AIStateResult.None;
     }
@@ -120,23 +132,15 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     }
 
-    // ===== Combat logic =====
-    private IEnumerator CombatDecision(Transform target, bool willAttack)
+    private void FinishCombatAction()
     {
-        if (willAttack)
-        {
-            int punches = Random.Range(1, 5);
-            yield return ComboCoroutine(punches);
-        }
-        else
-        {
-            yield return DodgeCoroutine(target);
-        }
-
-        comboCoroutine = null;
-
+       
         combatHandler.ResetCombatCooldown(0.5f, 1f);
+        comboCoroutine = null;
     }
+
+    // ===== Combat logic =====
+
 
     private IEnumerator DodgeCoroutine(Transform target)
     {
@@ -154,11 +158,15 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         while (motor.IsDodging)
             yield return null;
+
+        FinishCombatAction();
+
+
     }
 
-    private IEnumerator ComboCoroutine(int punchesCount)
+    private IEnumerator ComboCoroutine()
     {
-
+        int punchesCount = Random.Range(1, 5);
         var combat = context.combat;
 
         combatHandler.SetComboRunning(true);
@@ -183,6 +191,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         combat.OnAttackEnd -= OnAttackEnd;
 
         combatHandler.SetComboRunning(false);
+        FinishCombatAction();
     }
 
 

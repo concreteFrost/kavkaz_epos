@@ -816,6 +816,7 @@ MonoBehaviour:
   patrol: {fileID: 5661406851048797350}
   chase: {fileID: 3722448300313843976}
   attack: {fileID: 6328830628369100066}
+  strafe: {fileID: 7862004739333372196}
   wait: {fileID: 8492868800182727254}
   moveToStart: {fileID: 7708052255930036535}
 --- !u!114 &1484899375234347330
@@ -850,9 +851,12 @@ MonoBehaviour:
     currentDodgeChance: 0
     comboDistanceOffset: 0
     dodgeCounterResetTimer: 0
-  waitTimer: 0
-  timeInStrafeState: 0
-  maxTimeInStrafeState: 0
+  waitForTargetHandler:
+    stats: {fileID: 0}
+    waitTimer: 0
+  strafeHandler:
+    timeInStrafeState: 0
+    maxTimeInStrafeState: 0
 --- !u!1 &2022958127897882022
 GameObject:
   m_ObjectHideFlags: 0

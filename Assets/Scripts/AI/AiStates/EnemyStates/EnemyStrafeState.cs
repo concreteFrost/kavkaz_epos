@@ -4,7 +4,8 @@ using UnityEngine;
 public class EnemyStrafeState : AIState<EnemyBrainContext>
 {
     // ссылки на контекст
-    private EnemyStateTracker tracker;
+    private EnemyStrafeHandler handler;
+
     private EnemyFOVController fov;
     private HumanoidAIMotor motor;
 
@@ -15,7 +16,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
     {
        
         fov = context.fov;
-        tracker = context.stateTracker;
+        handler = context.stateTracker.strafeHandler;
         motor = context.motor;
 
         // без цели стрейф не имеет смысла
@@ -23,8 +24,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
             return;
 
         // сбрасываем и инициализируем таймеры состо€ни€ стрейфа
-        tracker.ResetStrafeState();
-        tracker.SetNewMaxInStrafeTime();
+        handler.ResetStrafeState();
+        handler.SetNewMaxInStrafeTime();
 
         // полностью останавливаем обычное перемещение
         motor.StopMovement();
@@ -46,10 +47,10 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
 
         // обновл€ем врем€, проведЄнное в стрейфе
-        tracker.UpdateTimeInStrafeState();
+        handler.UpdateTimeInStrafeState();
 
         // стрейф длилс€ достаточно Ч переходим в погоню
-        if (tracker.IsStrafeTimeFinished())
+        if (handler.IsStrafeTimeFinished())
             return AIStateResult.Chase;
 
         // провер€ем дистанцию до цели
@@ -59,8 +60,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         );
 
         // цель ушла слишком далеко Ч стрейф больше не имеет смысла
-        if (tracker.IsStrafeTargetFar(distance))
-            return AIStateResult.Chase;
+        if (handler.IsStrafeTargetFar(distance))
+            return AIStateResult.Attack;
 
         // запускаем корутину стрейфа один раз
         if (strafeCoroutine == null)

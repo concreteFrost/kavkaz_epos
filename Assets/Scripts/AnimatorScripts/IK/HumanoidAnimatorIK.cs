@@ -6,7 +6,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
     
     public Animator animator;
     private HumanoidAIMotor aiMotor;
-    private HumanoidStats stats;
+    //private HumanoidStats stats;
 
     private float currLookWeight;
     private float weightVelocity;
@@ -19,7 +19,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
     public void Init(HumanoidAIMotor motor, HumanoidStats stats)
     {
         this.aiMotor = motor;   
-        this.stats = stats; 
+        //this.stats = stats; 
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -31,7 +31,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
             currLookWeight,
             targetWeight,
             ref weightVelocity,
-            0.2f
+            0.5f
         );
 
         if (hasTarget)

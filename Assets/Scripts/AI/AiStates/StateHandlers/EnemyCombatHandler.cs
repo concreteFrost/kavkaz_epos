@@ -1,6 +1,14 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum CombatTransition
+{
+    Attack = 0,
+    Strafe = 1,
+    FindWeapon = 2,
+    Dodge =3
+}
+
 [System.Serializable]
 public class EnemyCombatHandler
 {
@@ -80,6 +88,7 @@ public class EnemyCombatHandler
 
     #endregion
 
+
     #region Damage Handler
     public void RegisterDamage()
     {
@@ -93,6 +102,54 @@ public class EnemyCombatHandler
         RegisterDamage();
     }
     #endregion
+
+
+    public CombatTransition GetNextDecision(float dist)
+    {
+        float attackWeight = GetAttackWeight(dist);
+        float dodgeWeight = GetDodgeWeight(dist);
+        float strafeWeight = GetStrafeWeight(dist);
+
+        float sum = attackWeight + dodgeWeight + strafeWeight;
+        
+        if (sum <= 0f)
+            return CombatTransition.Attack;
+
+        float roll = Random.value * sum;
+
+        if (roll < attackWeight)
+            return CombatTransition.Attack;
+
+        roll -= attackWeight;
+
+        if (roll < dodgeWeight)
+            return CombatTransition.Dodge;
+
+        return CombatTransition.Strafe;
+    }
+
+    private float GetAttackWeight(float dist)
+    {
+        if (!IsInAttackRange(dist))
+            return 0f;
+
+        if (isComboRunning)
+            return 0f;
+
+        return stats.attackChance;
+    }
+
+    private float GetDodgeWeight(float dist)
+    {
+
+        return currentDodgeChance;
+    }
+
+    private float GetStrafeWeight(float dist)
+    {
+        return stats.strafeChance;
+    }
+
 
 
 
