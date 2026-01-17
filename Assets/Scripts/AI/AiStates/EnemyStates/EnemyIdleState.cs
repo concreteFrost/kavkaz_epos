@@ -1,10 +1,14 @@
 public class EnemyIdleState : AIState<EnemyBrainContext>
 {
-    private EnemyStateTracker stateTracker;
+
+    private EnemyIdleHandler idleTracker;
+    private EnemyPassiveInterruptionHandler interruptionTracker;
 
     public override void Enter()
     {
-        stateTracker = context.stateTracker;
+      
+        idleTracker = context.stateTracker.idleHandler;
+        interruptionTracker = context.stateTracker.interruptionTracker;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
         context.motor.StopMovement();
@@ -14,9 +18,9 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         context.fov.ResetTarget();
 
         // инициализация таймеров и флагов состояния покоя
-        stateTracker.SetMaxIdleTime();
-        stateTracker.ResetIdleState();
-        stateTracker.ResetInterruption();
+        idleTracker.SetMaxIdleTime();
+        idleTracker.ResetIdleState();
+        interruptionTracker.ResetInterruption();
     }
 
     public override AIStateResult Run()
@@ -29,17 +33,17 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
             return AIStateResult.Chase;
 
         // реакция на полученный урон без смены состояния
-        if (stateTracker.IsInterrupted())
+        if (interruptionTracker.IsInterrupted())
         {
-            context.motor.RotateToTarget(stateTracker.GetInterruptionDirection());
-            stateTracker.UpdateInterruption();
+            context.motor.RotateToTarget(interruptionTracker.GetInterruptionDirection());
+            interruptionTracker.UpdateInterruption();
             return AIStateResult.None;
         }
 
-        
-        stateTracker.UpdateCurrentIdleTime();
 
-        if (stateTracker.HasIdleTimeFinished())
+        idleTracker.UpdateCurrentIdleTime();
+
+        if (idleTracker.HasIdleTimeFinished())
             return AIStateResult.Patrol;
 
         return AIStateResult.None;
@@ -47,6 +51,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-        stateTracker.ResetIdleState();
+        idleTracker.ResetIdleState();
     }
 }

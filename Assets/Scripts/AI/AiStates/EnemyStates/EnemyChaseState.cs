@@ -2,25 +2,23 @@ using UnityEngine;
 
 public class EnemyChaseState : AIState<EnemyBrainContext>
 {
-    Transform chaseTarget;
-    EnemyStateTracker tracker;
-    CharacterBehaviourStatsSO stats;
+
+
     EnemyFOVController fov;
     HumanoidAIMotor motor;
+
+    EnemyChaseHandler chaseHandler;
 
 
     public override void Enter()
     {
         fov = context.fov;
-        tracker = context.stateTracker;
-        stats = tracker.stats;
         motor = context.motor;
+        chaseHandler = context.stateTracker.chaseHandler;
 
-        tracker.ResetChaseState();
+        chaseHandler.ResetChaseState();
         motor.ResetPath();
-        
-        chaseTarget = context.fov.currentTarget.GetOrigin();
- 
+         
         context.motor.IsSprinting = true;
     }
 
@@ -33,38 +31,39 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        Transform target = chaseTarget;
+        Transform target = context.fov.currentTarget.GetOrigin();
        
         // 2. цель недостижима
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
-        tracker.UpdateCantReachTimer(canReach);
+        chaseHandler.UpdateCantReachTimer(canReach);
 
-        if (tracker.HasCantReachTimerExceeded())
+        if (chaseHandler.HasCantReachTimerExceeded())
             return AIStateResult.Wait;
 
         // 3. цель потеряна
         bool isTargetVisible = fov.IsTargetVisible(
             fov.currentTarget.GetAimTransform()
         );
-        tracker.UpdateLostTargetTimer(isTargetVisible);
+        chaseHandler.UpdateLostTargetTimer(isTargetVisible);
 
-        if (tracker.HasLostTargetTimerExceeded())
+        if (chaseHandler.HasLostTargetTimerExceeded())
             return AIStateResult.Patrol;
 
         // 4. дистанция
         float distanceToTarget =
             Vector3.Distance(self.position, target.position);
 
-        if (distanceToTarget > stats.maxChaseDistance)
+        if (chaseHandler.IsTargetFar(distanceToTarget))
             return AIStateResult.MoveToStartPosition;
 
-        if (distanceToTarget > stats.distanceToStop)
+        if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
-            motor.MoveCharacter(target.position);
+            return AIStateResult.Attack;
         }
         else
         {
-            return AIStateResult.Attack;
+            motor.MoveCharacter(target.position);
+           
         }
 
         //motor.IsSprinting = distanceToTarget > stats.distanceToRun;

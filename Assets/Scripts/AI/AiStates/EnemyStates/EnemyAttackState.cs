@@ -3,18 +3,16 @@ using UnityEngine;
 
 public class EnemyAttackState : AIState<EnemyBrainContext>
 {
-    // локальные параметры состояния
-    [SerializeField] private float comboDistanceOffset = 0.2f;
-    [SerializeField] private float dodgeCounterResetTimer = 5f;
 
     // runtime
     private Coroutine comboCoroutine;
     private Transform target;
     private float distance;
 
-    EnemyStateTracker tracker;
     EnemyFOVController fov;
-    CharacterBehaviourStatsSO stats;
+    EnemyCombatHandler combatHandler;
+   
+
     HumanoidAIMotor motor;
 
 
@@ -22,11 +20,11 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     {
 
         fov = context.fov;
-        tracker = context.stateTracker;
-        stats = context.stateTracker.stats;
-        motor = context.motor;
 
-        tracker.ResetAttackState();
+        motor = context.motor;
+        combatHandler = context.stateTracker.combatHandler;
+
+        combatHandler.ResetAttackState();
         comboCoroutine = null;
 
         if (context.fov.currentTarget == null)
@@ -49,7 +47,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return AIStateResult.None;
 
         //обновление восстановления доджа
-        tracker.UpdateDodgeCooldown(dodgeCounterResetTimer);
+        combatHandler.UpdateDodgeCooldown();
 
         //дистанция
         distance = Vector3.Distance(self.position, target.position);
@@ -64,7 +62,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             motor.ResetLockTarget();
         }
 
-        motor.IsSprinting = distance > stats.distanceToRun;
+        motor.IsSprinting = combatHandler.IsRunningDistance(distance);
 
         bool canReach = NavAgentUtils.HasCompletePath(
             self.position,
@@ -72,31 +70,31 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         );
 
         //цель недостижима
-        if (!canReach && distance > stats.attackDistance)
+        if (!canReach && !combatHandler.IsInAttackRange(distance))
             return AIStateResult.Wait;
 
         //цель вышла из боевой дистанции
-        if (distance > stats.maxCombatDistance)
+        if (!combatHandler.IsComboDistance(distance))
             return AIStateResult.Chase;
 
         //если идёт комбо — не вмешиваемся
-        if (tracker.IsComboRuning())
+        if (combatHandler.IsComboRuning())
             return AIStateResult.None;
 
         //подходим к цели
-        if (distance > stats.attackDistance)
+        if (!combatHandler.IsInAttackRange(distance))
         {
             motor.MoveCharacter(target.position);
             return AIStateResult.None;
         }
 
         // 9. боевое решение
-        tracker.UpdateCombatCooldown();
+        combatHandler.UpdateCombatCooldown();
 
         if (comboCoroutine == null)
         {
 
-            bool willAttack = Random.value > tracker.GetDodgeChance();
+            bool willAttack = Random.value > combatHandler.GetDodgeChance();
             comboCoroutine = StartCoroutine(
                 CombatDecision(target, willAttack)
             );
@@ -137,7 +135,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         comboCoroutine = null;
 
-        context.stateTracker.ResetCombatCooldown(0.5f, 1f);
+        combatHandler.ResetCombatCooldown(0.5f, 1f);
     }
 
     private IEnumerator DodgeCoroutine(Transform target)
@@ -147,7 +145,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         motor.IsDodging = true;
 
-        tracker.ResetDodgeChance();
+        combatHandler.ResetDodgeChance();
 
         Vector3 fromTarget =
             (context.self.position - target.position).normalized;
@@ -160,10 +158,10 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     private IEnumerator ComboCoroutine(int punchesCount)
     {
-        var tracker = context.stateTracker;
+
         var combat = context.combat;
 
-        tracker.SetComboRunning(true);
+        combatHandler.SetComboRunning(true);
 
         int executedAttacks = 0;
 
@@ -174,7 +172,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         combat.PerformAttack();
 
         while (executedAttacks < punchesCount - 1 &&
-               distance <= stats.attackDistance + comboDistanceOffset)
+               distance <= combatHandler.GetAttackDistanceWithOffset())
         {
             yield return new WaitForSeconds(
                 combat.attackBufferTime * 0.9f
@@ -184,7 +182,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         combat.OnAttackEnd -= OnAttackEnd;
 
-        tracker.SetComboRunning(false);
+        combatHandler.SetComboRunning(false);
     }
 
 

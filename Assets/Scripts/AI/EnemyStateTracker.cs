@@ -3,28 +3,14 @@ using UnityEngine;
 public class EnemyStateTracker : MonoBehaviour
 {
     public CharacterBehaviourStatsSO stats;
+    private HumanoidAIDamageController damageController;
 
-    [Header("Idle state")]
-    [SerializeField] private float currIdleTime=0;
-    [SerializeField] private float maxIdleTime;
+    public EnemyIdleHandler idleHandler;
+    public EnemyPatrolHandler patrolHandler;
+    public EnemyChaseHandler chaseHandler;  
+    public EnemyPassiveInterruptionHandler interruptionTracker;
+    public EnemyCombatHandler combatHandler;    
 
-    [Header("Patrol state")]
-    [SerializeField] private int currWalks = 0;
-
-    [Header("Target chase state")]
-    [SerializeField] private float lostTargetTimer;
-    [SerializeField] private float cantReachTimer;
-
-    [Header("Combat state")]
-    // combat
-    [SerializeField] private float currCombatCooldown;
-    [SerializeField] private float maxCombatCooldown;
-    [SerializeField] private bool isComboRunning;
-
-    // dodge
-    [SerializeField] private float lastDamageTime = -10f;
-    [SerializeField] private int damageCounter;
-    [SerializeField] private float currentDodgeChance;
 
     [Header("Wait state")]
     public float waitTimer = 0f;
@@ -34,138 +20,47 @@ public class EnemyStateTracker : MonoBehaviour
     [SerializeField] private float maxTimeInStrafeState;
 
 
-    [Header("Interuption Reaction")]
-    private Vector3 interruptionDir;
-    private float interruptionTimer=0;
-    private float maxInterruptionTimer = 2f;
-    private bool isInterrupted = false;
-
-
-    #region Idle State
-    public void UpdateCurrentIdleTime() => currIdleTime += Time.deltaTime;
-
-    public void SetMaxIdleTime() =>
-        maxIdleTime = Random.Range(
-            (float)stats.minIdleStationary,
-            (float)stats.maxIdleStationary
-        );
-
-    public void ResetIdleState()
+    public void Init(HumanoidAIDamageController damageController)
     {
-        currIdleTime = 0;
+        this.damageController = damageController;
+
+        idleHandler = new EnemyIdleHandler(stats);
+        patrolHandler = new EnemyPatrolHandler(stats);
+        chaseHandler = new EnemyChaseHandler(stats);    
+
+        combatHandler = new EnemyCombatHandler(stats);
+        this.damageController.DamageTaken += combatHandler.OnDamageTaken;
+
+        interruptionTracker = new EnemyPassiveInterruptionHandler();
+        this.damageController.DamageTaken += interruptionTracker.OnDamageTaken;
+
     }
 
-    public bool HasIdleTimeFinished() => currIdleTime >= maxIdleTime;
-    #endregion
-
-    #region Patrol State
-    public bool HasReachedMaxWalks() => currWalks >stats.maxPatrolAttempts;
-
-    public void IncrementWalks() => currWalks++;
-
-    public void ResetPatrol() => currWalks = 0;
-
-    public float GetMaxPatrolRadius() => stats.maxDestiantionRadius;
-    #endregion
-
-    #region Idle and Patrol Interruption
-
-    public Vector2 GetInterruptionDirection() => interruptionDir;
-
-    public void Interrupt(Vector3 dir)
+    private void OnDisable()
     {
-        interruptionDir = dir;
-        isInterrupted = true;
-        interruptionTimer = 0f;
+        damageController.DamageTaken -=interruptionTracker.OnDamageTaken;
+        damageController.DamageTaken -=combatHandler.OnDamageTaken; 
     }
 
-    public void UpdateInterruption()
+    public void OnDamageTaken(Transform attackSource)
     {
-        interruptionTimer += Time.deltaTime;
+        //var tracker = context.stateTracker;
+        ////combat
+        //tracker.RegisterDamage();
 
-        if (interruptionTimer >= maxInterruptionTimer)
-        {
-            ResetInterruption();
-        }
+        ////wait 
+        //tracker.InterruptWait();
+
+        //tracker.InterruptStrafeState();
+
+
+        //if (attackSource == null) return;
+
+        //idle, patrol
+        //interruptionTracker.Interrupt(attackSource.position);
+
     }
-
-    public void ResetInterruption()
-    {
-        isInterrupted = false;
-        interruptionTimer = 0f;
-        interruptionDir = Vector3.zero;
-    }
-
-    public bool IsInterrupted() => isInterrupted;
-    #endregion
-
-    #region Target Chase State
-    public void ResetChaseState()
-    {
-        lostTargetTimer = 0f;
-        cantReachTimer = 0f;
-    }
-
-    public void UpdateLostTargetTimer(bool isVisible) => lostTargetTimer = isVisible ? 0f : lostTargetTimer + Time.deltaTime;
-    public void UpdateCantReachTimer(bool canReach)=> cantReachTimer = canReach ? 0f : cantReachTimer + Time.deltaTime;
-
-    public bool HasCantReachTimerExceeded() => cantReachTimer > stats.maxCantReachTimer;
-    public bool HasLostTargetTimerExceeded()=>lostTargetTimer > stats.maxLostTargetTimer;   
-
-    #endregion
-
-    #region Combat State
-
-    public void ResetAttackState()
-    {
-        currCombatCooldown = 0f;
-        maxCombatCooldown = 0f;
-        isComboRunning = false;
-
-        damageCounter = 0;
-        currentDodgeChance = 0f;
-    }
-
-    public void UpdateCombatCooldown() => currCombatCooldown += Time.deltaTime;
-
-
-    public void ResetCombatCooldown(float min, float max)
-    {
-        currCombatCooldown = 0f;
-        maxCombatCooldown = Random.Range(min, max);
-    }
-
-    public void RegisterDamage(
-    )
-    {
-        lastDamageTime = Time.time;
-        damageCounter++;
-        currentDodgeChance = damageCounter * stats.dodgeChanceMultiplier;
-    }
-
-    public float GetDodgeChance() => currentDodgeChance;
-
-    public void UpdateDodgeCooldown(float resetTime)
-    {
-        if (Time.time - lastDamageTime > resetTime)
-        {
-            damageCounter = 0;
-            currentDodgeChance = 0f;
-        }
-    }
-
-    public void ResetDodgeChance()
-    {
-        damageCounter = 0;
-        currentDodgeChance = 0f;    
-    }
-
-    public bool IsComboRuning() => isComboRunning;
-
-    public void SetComboRunning(bool runing)=> isComboRunning = runing;
-
-    #endregion
-
+ 
     #region Target Wait State
     public void UpdateWaitTimer(bool canReach) => waitTimer = canReach ? 0f : waitTimer + Time.deltaTime;
 

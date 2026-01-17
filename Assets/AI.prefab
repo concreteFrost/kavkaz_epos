@@ -811,8 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e9d9163c1cf34793c5a39852b9cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  currentState: {fileID: 0}
-  stateTracker: {fileID: 1484899375234347330}
+  currentState: {fileID: 6328830628369100066}
   idle: {fileID: 1705327704385733016}
   patrol: {fileID: 5661406851048797350}
   chase: {fileID: 3722448300313843976}
@@ -832,19 +831,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateTracker
   stats: {fileID: 11400000, guid: f72509af69e8c4541a2809aa4d598944, type: 2}
-  currIdleTime: 0
-  maxIdleTime: 0
-  maxDestinationRadius: 10
-  maxWalks: 3
-  currWalks: 0
-  lostTargetTimer: 0
-  cantReachTimer: 0
-  currCombatCooldown: 0
-  maxCombatCooldown: 0
-  isComboRunning: 0
-  lastDamageTime: -10
-  damageCounter: 0
-  currentDodgeChance: 0
+  idleHandler:
+    currIdleTime: 0
+    maxIdleTime: 0
+  patrolHandler:
+    currWalks: 0
+  chaseHandler:
+    lostTargetTimer: 0
+    cantReachTimer: 0
+  interruptionTracker:
+    isInterrupted: 0
+  combatHandler:
+    currCombatCooldown: 0
+    maxCombatCooldown: 0
+    isComboRunning: 0
+    lastDamageTime: 0
+    damageCounter: 0
+    currentDodgeChance: 0
+    comboDistanceOffset: 0
+    dodgeCounterResetTimer: 0
+  waitTimer: 0
+  timeInStrafeState: 0
+  maxTimeInStrafeState: 0
 --- !u!1 &2022958127897882022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,6 +1239,50 @@ Transform:
   - {fileID: 8991015056501999258}
   m_Father: {fileID: 4898785535206227356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3523168803721500728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7744564309427215782}
+  - component: {fileID: 7862004739333372196}
+  m_Layer: 0
+  m_Name: Strafe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7744564309427215782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523168803721500728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5189708402915210472}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7862004739333372196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523168803721500728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aac61576b4842142b1c304516815fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStrafeState
 --- !u!1 &3787417905947732967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,7 +1410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4056036553005472657}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.029590523, z: -0, w: 0.99956214}
+  m_LocalRotation: {x: 0, y: -0.029587727, z: 0, w: 0.99956226}
   m_LocalPosition: {x: 28.19, y: 0, z: 9.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1420,6 +1472,7 @@ MonoBehaviour:
   groundMinDistance: 0.25
   groundMaxDistance: 0.5
   distanceToObstacle: 0.8
+  rotateTarget: {fileID: 0}
   agent: {fileID: 0}
 --- !u!114 &2559199199728796724
 MonoBehaviour:
@@ -1735,8 +1788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb40ba58ce8fef045bf849daee8692af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
-  comboDistanceOffset: 0.2
-  dodgeCounterResetTimer: 5
 --- !u!1 &4454317708599281350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2100,7 @@ MonoBehaviour:
   statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
   walkSpeed: 0
   runningSpeed: 0
+  strafeSpeed: 0
   jumpHeight: 0
   jumpTimer: 0
   maxHealth: 0
@@ -2459,6 +2511,7 @@ Transform:
   - {fileID: 7770084946754144700}
   - {fileID: 4425266562414492300}
   - {fileID: 5665880747894585861}
+  - {fileID: 7744564309427215782}
   m_Father: {fileID: 8991015056501999258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5897869586640567615

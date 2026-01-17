@@ -3,32 +3,35 @@ using UnityEngine;
 public class EnemyPatrolState : AIState<EnemyBrainContext>
 {
     private Vector3 destination;
-    EnemyStateTracker tracker;
+
+    EnemyPatrolHandler patrolStateTracker;
+    EnemyPassiveInterruptionHandler passiveInterruptionTracker;
 
     public override void Enter()
     {
         context.fov.ResetTarget();
         context.motor.ResetSprint();
 
-        tracker = context.stateTracker;
+        patrolStateTracker = context.stateTracker.patrolHandler;
+        passiveInterruptionTracker = context.stateTracker.interruptionTracker;
 
-        if (tracker.HasReachedMaxWalks())
+        if (patrolStateTracker.HasReachedMaxWalks())
         {
             destination = context.permamentPosition;
             context.motor.MoveCharacter(destination);
 
-            tracker.ResetPatrol();
+            patrolStateTracker.ResetPatrol();
             return;
         }
 
         if (NavAgentUtils.TryGetRandomReachablePoint(
                 context.self.position,
-                tracker.GetMaxPatrolRadius(),
+                patrolStateTracker.GetMaxPatrolRadius(),
                 10,
                 out destination))
         {
             context.motor.MoveCharacter(destination);
-            tracker.IncrementWalks();
+            patrolStateTracker.IncrementWalks();
         }
 
     }
@@ -41,11 +44,11 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (context.fov.currentTarget != null)
             return AIStateResult.Chase;
 
-        if (tracker.IsInterrupted())
+        if (passiveInterruptionTracker.IsInterrupted())
         {
-            tracker.UpdateInterruption();
+            passiveInterruptionTracker.UpdateInterruption();
             context.motor.StopMovement();
-            context.motor.RotateToTarget(context.stateTracker.GetInterruptionDirection());
+            context.motor.RotateToTarget(passiveInterruptionTracker.GetInterruptionDirection());
             return AIStateResult.None;
         }
 

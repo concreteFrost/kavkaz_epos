@@ -17,7 +17,7 @@ public class CharacterBehaviourStatsSO : ScriptableObject
 
     [Header("Chase")]
     public float distanceToStop = 2f;
-    public float distanceToRun = 5f;
+    public float distanceToRun = 3f;
     public float maxCantReachTimer = 7f;
     public float maxLostTargetTimer = 10f;
     public float maxChaseDistance = 17f;

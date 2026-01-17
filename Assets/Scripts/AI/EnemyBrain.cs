@@ -31,7 +31,7 @@ public class EnemyBrain : MonoBehaviour
     public void Init(EnemyBrainContext context)
     {
         this.context = context; 
-       
+
         idle.Init(context);
         patrol.Init(context);
         chase.Init(context);    
