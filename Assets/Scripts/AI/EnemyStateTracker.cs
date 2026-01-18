@@ -13,7 +13,7 @@ public class EnemyStateTracker : MonoBehaviour
     public EnemyWaitForTargetHandler waitForTargetHandler;
     public EnemyStrafeHandler strafeHandler;    
 
-    public void Init(HumanoidAIDamageController damageController)
+    public void Init(HumanoidAIDamageController damageController, HumanoidStats statsInfo)
     {
         this.damageController = damageController;
 
@@ -21,7 +21,7 @@ public class EnemyStateTracker : MonoBehaviour
         patrolHandler = new EnemyPatrolHandler(stats);
         chaseHandler = new EnemyChaseHandler(stats);    
 
-        combatHandler = new EnemyCombatHandler(stats);
+        combatHandler = new EnemyCombatHandler(stats, statsInfo);
         this.damageController.DamageTaken += combatHandler.OnDamageTaken;
 
         waitForTargetHandler = new EnemyWaitForTargetHandler(stats);

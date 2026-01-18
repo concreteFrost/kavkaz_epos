@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyChaseState : AIState<EnemyBrainContext>
@@ -7,12 +8,14 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
     HumanoidAIMotor motor;
 
     EnemyChaseHandler chaseHandler;
+    EnemyCombatHandler combatHandler;   
 
     public override void Enter()
     {
         fov = context.fov;
         motor = context.motor;
         chaseHandler = context.stateTracker.chaseHandler;
+        combatHandler = context.stateTracker.combatHandler;
 
         chaseHandler.ResetChaseState();
         motor.ResetPath();
@@ -37,10 +40,16 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
        
         // 2. цель недостижима
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
-        chaseHandler.UpdateCantReachTimer(canReach);
 
-        if (chaseHandler.HasCantReachTimerExceeded())
+        if (!canReach)
+        {
             return AIStateResult.Wait;
+        }
+        
+        //chaseHandler.UpdateCantReachTimer(canReach);
+
+        //if (chaseHandler.HasCantReachTimerExceeded())
+        //    return AIStateResult.Wait;
 
         // 3. цель потеряна
         bool isTargetVisible = fov.IsTargetVisible(
@@ -60,13 +69,14 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
-            var decision = chaseHandler.GetNextDecision();
+            switch (combatHandler.GetNextDecision())
+            {
+                case CombatTransition.Attack:
+                    return AIStateResult.Attack;
+                case CombatTransition.Strafe:
+                    return AIStateResult.Strafe;
 
-            if (decision == ChaseTransition.Strafe)
-                return AIStateResult.Strafe;
-
-            if(decision == ChaseTransition.Attack)
-                return AIStateResult.Attack;
+            }
         }
         else
         {

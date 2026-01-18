@@ -22,7 +22,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         motor = context.motor;
         combatHandler = context.stateTracker.combatHandler;
 
-        combatHandler.ResetAttackState();
+        combatHandler.ResetCombatState();
         comboCoroutine = null;
 
         if (context.fov.currentTarget == null)
@@ -34,88 +34,70 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-
         var self = context.self;
+        var targetEntity = fov.currentTarget;
 
-        //цель потеряна
-        if (fov.currentTarget == null)
+        // 1. Цель потеряна
+        if (targetEntity == null)
         {
             Debug.Log("lost target");
             return AIStateResult.Idle;
         }
-            
 
-        var target = context.fov.currentTarget.GetOrigin();
+        var target = targetEntity.GetOrigin();
 
-        //во время доджа ничего не делаем
+        // 2. Если враг в додже — не делаем ничего
         if (motor.IsDodging)
             return AIStateResult.None;
 
-        //обновление восстановления доджа
+        // Обновляем кулдаун для следующего шанса на Dodge
         combatHandler.UpdateDodgeCooldown();
 
-        //дистанция
+        // 3. Дистанция до цели
         distance = Vector3.Distance(self.position, target.position);
 
-        //изменения поведения вращения к цели
-        //if (distance < 2f)
-        //{
-        //    motor.SetLockTarget(fov.currentTarget.GetAimTransform());
-        //}
-        //else
-        //{
-        //    motor.ResetLockTarget();
-        //}
-
+        // 4. Спринт, если нужно отдаляться
         motor.IsSprinting = combatHandler.IsRunningDistance(distance);
 
-        bool canReach = NavAgentUtils.HasCompletePath(
-            self.position,
-            target.position
-        );
-
-        //цель недостижима
+        // 5. Проверка доступности пути к цели
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
         if (!canReach && !combatHandler.IsInAttackRange(distance))
             return AIStateResult.Wait;
 
-        //цель вышла из боевой дистанции
-        if (!combatHandler.IsComboDistance(distance))
+        // 6. Если цель вышла из боевой дистанции — преследуем
+        if (!combatHandler.IsCombatDistance(distance))
             return AIStateResult.Chase;
 
-        //если идёт комбо — не вмешиваемся
-        if (combatHandler.IsComboRuning())
+        // 7. Если идёт комбо — не вмешиваемся
+        if (comboCoroutine != null)
             return AIStateResult.None;
 
-        //подходим к цели
+        // 8. Подходим к цели, если ещё не в атаке
         if (!combatHandler.IsInAttackRange(distance))
         {
             motor.MoveCharacter(target.position);
             return AIStateResult.None;
         }
 
-
-        // 9. боевое решение
-        combatHandler.UpdateCombatCooldown();
-
-        if (comboCoroutine == null)
+        // 9. Проверяем возможность атаки (учитываем кулдаун и другие ограничения)
+        bool canAttack = combatHandler.CanAttack();
+        if (!canAttack)
         {
-
-            switch (combatHandler.GetNextDecision(distance))
-            {
-                case CombatTransition.Attack:
-                    comboCoroutine = StartCoroutine(ComboCoroutine());
-                    break;
-                case CombatTransition.Dodge:
-                    comboCoroutine = StartCoroutine(DodgeCoroutine(target));
-                    break;
-                case CombatTransition.Strafe:
-                    return AIStateResult.Strafe;
-                  
-            }
-
             motor.StopMovement();
+            combatHandler.UpdateCombatCooldown();
+            return AIStateResult.None;
         }
-      
+
+        // 10. Боевой выбор: атака или стрейф
+        switch (combatHandler.GetNextDecision())
+        {
+            case CombatTransition.Attack:
+                HandleAttack(target);
+                break;
+
+            case CombatTransition.Strafe:
+                return AIStateResult.Strafe;
+        }
 
         return AIStateResult.None;
     }
@@ -135,12 +117,24 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     private void FinishCombatAction()
     {
        
-        combatHandler.ResetCombatCooldown(0.5f, 1f);
+        combatHandler.ResetCombatCooldown(0.2f, 1f);
         comboCoroutine = null;
     }
 
     // ===== Combat logic =====
+    private void HandleAttack(Transform target)
+    {
+        var roll = Random.value;
 
+        if(roll < combatHandler.GetDodgeChance())
+        {
+            comboCoroutine = StartCoroutine(DodgeCoroutine(target));
+        }
+        else
+        {
+            comboCoroutine = StartCoroutine(ComboCoroutine());
+        }
+    }
 
     private IEnumerator DodgeCoroutine(Transform target)
     {
@@ -169,7 +163,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         int punchesCount = Random.Range(1, 5);
         var combat = context.combat;
 
-        combatHandler.SetComboRunning(true);
+        //combatHandler.SetComboRunning(true);
 
         int executedAttacks = 0;
 
@@ -190,7 +184,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         combat.OnAttackEnd -= OnAttackEnd;
 
-        combatHandler.SetComboRunning(false);
+        //combatHandler.SetComboRunning(false);
         FinishCombatAction();
     }
 

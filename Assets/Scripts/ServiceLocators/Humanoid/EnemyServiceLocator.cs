@@ -69,7 +69,7 @@ public class EnemyServiceLocator : MonoBehaviour
 
     public void BrainInit()
     {
-        stateTracker.Init(damageController);
+        stateTracker.Init(damageController, stats);
 
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {

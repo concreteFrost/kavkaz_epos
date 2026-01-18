@@ -1,14 +1,17 @@
 public class EnemyIdleState : AIState<EnemyBrainContext>
 {
 
-    private EnemyIdleHandler idleTracker;
+    private EnemyIdleHandler idleHandler;
+    private EnemyCombatHandler combatHandler;
     private EnemyPassiveInterruptionHandler interruptionTracker;
 
     public override void Enter()
     {
       
-        idleTracker = context.stateTracker.idleHandler;
+        idleHandler = context.stateTracker.idleHandler;
         interruptionTracker = context.stateTracker.interruptionTracker;
+
+        combatHandler = context.stateTracker.combatHandler;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
         context.motor.StopMovement();
@@ -18,9 +21,12 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         context.fov.ResetTarget();
 
         // инициализация таймеров и флагов состояния покоя
-        idleTracker.SetMaxIdleTime();
-        idleTracker.ResetIdleState();
+        idleHandler.SetMaxIdleTime();
+        idleHandler.ResetIdleState();
         interruptionTracker.ResetInterruption();
+
+        //сбрасываем данные комбата
+        combatHandler.ResetCombatState();   
     }
 
     public override AIStateResult Run()
@@ -41,9 +47,9 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         }
 
 
-        idleTracker.UpdateCurrentIdleTime();
+        idleHandler.UpdateCurrentIdleTime();
 
-        if (idleTracker.HasIdleTimeFinished())
+        if (idleHandler.HasIdleTimeFinished())
             return AIStateResult.Patrol;
 
         return AIStateResult.None;
@@ -51,6 +57,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-        idleTracker.ResetIdleState();
+        idleHandler.ResetIdleState();
     }
 }

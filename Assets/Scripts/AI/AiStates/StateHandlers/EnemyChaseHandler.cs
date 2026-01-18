@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public enum ChaseTransition
-{
-    Attack = 0,
-    Strafe = 1
-}
+//public enum ChaseTransition
+//{
+//    Attack = 0,
+//    Strafe = 1
+//}
 
 [System.Serializable]
 public class EnemyChaseHandler
@@ -37,15 +37,15 @@ public class EnemyChaseHandler
 
     public bool IsCloseToAttack(float dist) => dist <= stats.distanceToStop;
 
-    public ChaseTransition GetNextDecision()
-    {
-        float roll = Random.value;
+    //public ChaseTransition GetNextDecision()
+    //{
+    //    float roll = Random.value;
 
-        if (roll < stats.strafeChance)
-            return ChaseTransition.Strafe;
+    //    if (roll < stats.strafeChance)
+    //        return ChaseTransition.Strafe;
 
-        return ChaseTransition.Attack;
-    }
+    //    return ChaseTransition.Attack;
+    //}
 
     #endregion
 }
