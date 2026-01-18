@@ -1,13 +1,12 @@
 using UnityEngine;
 
-public class BareHandsWeapon : MonoBehaviour, IWeapon
+public class BareHandsWeapon : IWeapon
 {
-    [SerializeField] private WeaponSO weaponSO;
-    private Attack currentAttack;
-    
-    public IAttackSource AttackSource { get; set; }
+    private WeaponSO weaponSO;
+    private WeaponDamageCollider damageCollider;
 
-    [SerializeField] private WeaponDamageCollider damageCollider;
+    private Attack currentAttack;
+    public IAttackSource AttackSource { get; set; }
 
     int currentAttackIndex = 0;
 
@@ -36,17 +35,20 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
 
     #endregion
 
-   
+    //private void Start()
+    //{
+    //    Init();
+    //}
 
-    private void Start()
+    public void Init(WeaponSO weaponSO, WeaponDamageCollider damageCollider, IAttackSource source)
     {
-        Init();
-    }
+        this.weaponSO = weaponSO;
+        this.damageCollider = damageCollider;  
+        
+        this.AttackSource = source; 
 
-    private void Init()
-    {
-        damageCollider.SetWeaponData(this);
-        damageCollider.SetDamageSource(AttackSource.SourcePosition());
+        this.damageCollider.SetWeaponData(this);
+        this.damageCollider.SetDamageSource(AttackSource.SourcePosition());
         
     }
     public void CancelAttack()
@@ -68,10 +70,6 @@ public class BareHandsWeapon : MonoBehaviour, IWeapon
         damageCollider.EnableCollider(healthDamage, balanceDamage, AttackSource.TargetsToIgnore);
     }
 
-    public void SetOwner(IAttackSource source)
-    {
-        AttackSource = source;  
-    }
 
     public void DropWeapon()
     {

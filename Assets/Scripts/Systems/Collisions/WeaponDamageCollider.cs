@@ -6,7 +6,7 @@ public class WeaponDamageCollider : DamageCollider
 
     public void SetWeaponData(IWeapon weapon)
     {
-        weaponData = weapon; 
+        weaponData = weapon;
     }
 
     public void SetDamageSource(Transform source)
@@ -16,7 +16,7 @@ public class WeaponDamageCollider : DamageCollider
 
     protected override void ApplyDamage(IDamagable target)
     {
-       
+
         base.ApplyDamage(target);
 
         weaponData.ReduceDurability(

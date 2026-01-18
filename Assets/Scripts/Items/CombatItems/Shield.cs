@@ -33,6 +33,7 @@ public class Shield : CombatItem, IShield
     public void PerformDefence()
     {
         defenceCollider.EnableCollider();
+        //Debug.Log("on defence");
     }
 
     public void CancelDefence()

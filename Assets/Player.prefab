@@ -706,6 +706,7 @@ MonoBehaviour:
   groundMinDistance: 0.25
   groundMaxDistance: 0.5
   distanceToObstacle: 0.8
+  rotateTarget: {fileID: 0}
   slopeLimit: 45
 --- !u!114 &1162499973470532957
 MonoBehaviour:
@@ -719,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_7a7a5203-7894-4259-907b-24a61f9000dd
+  uniqueId: uid_9783b26c-a1dd-402b-9798-63e8132ef384
 --- !u!54 &821100503953075412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1416,52 +1417,6 @@ Transform:
   - {fileID: 505668093016439431}
   m_Father: {fileID: 6065493795048708756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2456112701373396419
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8126197272541492681}
-  - component: {fileID: 6946717845371622257}
-  m_Layer: 0
-  m_Name: PlayerBareHands
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8126197272541492681
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456112701373396419}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8241324328691476925}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6946717845371622257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2456112701373396419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90ce3689bed1b8419dacd0e101e9295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BareHandsWeapon
-  weaponSO: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-  damageCollider: {fileID: 1006584062323535723}
 --- !u!1 &3063700519727666812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,6 +3512,7 @@ MonoBehaviour:
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   walkSpeed: 0
   runningSpeed: 0
+  strafeSpeed: 0
   jumpHeight: 0
   jumpTimer: 0
   maxHealth: 0
@@ -3988,8 +3944,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8126197272541492681}
+  m_Children: []
   m_Father: {fileID: 5848560018931718496}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4574909741016711461
@@ -4006,8 +3961,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
   rightHand: {fileID: 8409285499856481286}
   leftHand: {fileID: 8098127902209935896}
-  bareHands: {fileID: 6946717845371622257}
   targetsToIgnore: 0000000001000000
+  barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
+  barehandDamageCollider: {fileID: 1006584062323535723}
 --- !u!1 &9059656156223377828
 GameObject:
   m_ObjectHideFlags: 0

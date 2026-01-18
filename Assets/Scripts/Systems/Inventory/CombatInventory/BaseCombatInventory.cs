@@ -5,7 +5,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 {
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;
-    public BareHandsWeapon bareHands;
+
 
     private Transform sourcePosition;
 
@@ -56,10 +56,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 
         combatController = service.combatController;
 
-        bareHands.SetOwner(this);
-
-        DefaultWeapon = bareHands;
-        CurrentWeapon = DefaultWeapon;
+      
 
 
     }

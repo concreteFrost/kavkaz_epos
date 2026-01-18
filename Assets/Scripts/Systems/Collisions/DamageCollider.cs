@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
@@ -21,6 +21,20 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
+    private void Update()
+    {
+        if (!damageCollider || !damageCollider.enabled)
+            return;
+
+        Vector3 size = damageCollider.bounds.size;
+        float radius = Mathf.Max(size.x, size.y, size.z) * 0.5f;
+
+        Collider[] hits = Physics.OverlapSphere(damageCollider.bounds.center, radius);
+
+        foreach (var col in hits)
+            HandleCollision(col);
+    }
+
     public virtual void EnableCollider(float health, float balance, List<CharacterType> targetsToIgnore)
     {
         healthDamage = health;
@@ -41,11 +55,13 @@ public class DamageCollider : MonoBehaviour
         objectsToIgnore = null;
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-       
-        HandleCollision(other);
-    }
+    //protected virtual void OnTriggerEnter(Collider other)
+    //{
+
+    //    HandleCollision(other);
+    //}
+
+
 
     protected virtual void HandleCollision(Collider other)
     {
@@ -55,17 +71,13 @@ public class DamageCollider : MonoBehaviour
         if (!TryGetDamagable(other, out var damagable))
             return;
 
-        // ХОЗЯИН — полностью игнорируется
+
         if (NotInTargetList(damagable))
             return;
 
-        // Повторное попадание
         if (!hitColliders.Add(other))
             return;
 
-        // Защита (щит)
-        if (TryHandleDefence(other))
-            return;
 
         ApplyDamage(damagable);
     }
@@ -75,22 +87,10 @@ public class DamageCollider : MonoBehaviour
 
     protected virtual void ApplyDamage(IDamagable target)
     {
-        target.TakeDamage(healthDamage, balanceDamage,source);
+        target.TakeDamage(healthDamage, balanceDamage, source);
     }
 
     // ---------- Defence ----------
-
-    protected bool TryHandleDefence(Collider other)
-    {
-        if (!other.TryGetComponent(out DefenceCollider defence))
-            return false;
-
-        defence.CalculateDamage(healthDamage, balanceDamage);
-        attackInterrupted = true;
-        return true;
-    }
-
-    // ---------- Utils ----------
 
     protected bool TryGetDamagable(Collider other, out IDamagable damagable)
     {
@@ -102,8 +102,8 @@ public class DamageCollider : MonoBehaviour
 
     protected bool NotInTargetList(IDamagable damagable)
     {
-        if(objectsToIgnore == null) return false;
-        if(objectsToIgnore.Count == 0) return false;    
+        if (objectsToIgnore == null) return false;
+        if (objectsToIgnore.Count == 0) return false;
         return objectsToIgnore.Contains(damagable.CharacterType);
 
     }

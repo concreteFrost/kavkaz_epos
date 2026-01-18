@@ -155,8 +155,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1017867897509102987}
+  m_Children: []
   m_Father: {fileID: 515555489032476068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1581375581796468103
@@ -173,8 +172,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
   rightHand: {fileID: 5591928551287878927}
   leftHand: {fileID: 1935654885825902513}
-  bareHands: {fileID: 2746696960393524988}
   targetsToIgnore: 02000000
+  barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
+  barehandDamageCollider: {fileID: 1771482036007076022}
 --- !u!1 &501888900448401070
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,12 +845,13 @@ MonoBehaviour:
   combatHandler:
     currCombatCooldown: 0
     maxCombatCooldown: 0
-    isComboRunning: 0
+    currAttackChance: 0
     lastDamageTime: 0
     damageCounter: 0
     currentDodgeChance: 0
     comboDistanceOffset: 0
     dodgeCounterResetTimer: 0
+    currStrafeChance: 0
   waitForTargetHandler:
     stats: {fileID: 0}
     waitTimer: 0
@@ -1506,7 +1507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_33db90e7-4d31-44a3-9e63-4973a4c47059
+  uniqueId: uid_0b5a5b78-2720-401a-a2ac-6e1b6fec2e3c
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2226,52 +2227,6 @@ Transform:
   - {fileID: 4973859239637992484}
   m_Father: {fileID: 3660129141409865854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5240693056519482121
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1017867897509102987}
-  - component: {fileID: 2746696960393524988}
-  m_Layer: 0
-  m_Name: BareHandsWeapon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1017867897509102987
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5240693056519482121}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7343011536571795400}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2746696960393524988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5240693056519482121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90ce3689bed1b8419dacd0e101e9295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BareHandsWeapon
-  weaponSO: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-  damageCollider: {fileID: 1771482036007076022}
 --- !u!1 &5371651044867248668
 GameObject:
   m_ObjectHideFlags: 0

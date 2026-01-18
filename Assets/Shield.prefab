@@ -164,10 +164,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shield
   interactionCollder: {fileID: 7463870308691895986}
+  breakdownThreshold: 0
   shieldSO: {fileID: 11400000, guid: 1feb83e5356c87a4382a907b433ce869, type: 2}
   defenceCollider: {fileID: 6268282904979441766}
-  breakdownThreshold: 0
-  defenceBonus: 0
 --- !u!1 &4258747628330075431
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +219,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.99830234, z: 0.09}
+  m_Size: {x: 0.86, y: 0.99830234, z: 0.09}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6268282904979441766
 MonoBehaviour:

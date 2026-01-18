@@ -1,6 +1,13 @@
+using UnityEngine;
+
 public class HumanoidCombatInventory : BaseCombatInventory
 {
-   
+    [Header("Bare Hands Settings")]
+
+    private BareHandsWeapon bareHands;
+    [SerializeField] private WeaponSO barehandsData;
+    [SerializeField] private WeaponDamageCollider barehandDamageCollider;
+    
 
     public override void Init(HumanoidCombatInventoryService service)
     {
@@ -8,6 +15,19 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
         //targetsToIgnore.Add(CharacterType.Player);
         //targetsToIgnore.Add(CharacterType.FriendlyNPC);
+
+        InitializeBarehands();  
+
+        DefaultWeapon = bareHands;
+        CurrentWeapon = DefaultWeapon;
+
+    }
+
+    private void InitializeBarehands()
+    {
+
+        bareHands = new BareHandsWeapon();
+        bareHands.Init(barehandsData, barehandDamageCollider, this);
 
     }
 

@@ -48,17 +48,19 @@ public class PlayerDamageController : BaseDamageController
 
     public override void TakeDamage(float damage, float balanceDamage, Transform source)
     {
-        if (isDead || !canTakeAnotherDamage || motor.IsDodging) return;
+        if (isDead || isDamaged || motor.IsDodging) return;
 
         balancePenalty = balanceDamage;
 
-        if (!combatController.IsShieldRaised)
+        isDamaged = balancePenalty > 0f;
+
+        if (isDamaged)
         {
-            isDamaged = true;
+            StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown));
         }
 
         statsController.ReduceHealth(damage);   
-        StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown));
+      
 
     }
     IEnumerator DamageCooldownCoroutine(float delay)

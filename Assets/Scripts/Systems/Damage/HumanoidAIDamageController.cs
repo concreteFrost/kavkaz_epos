@@ -45,7 +45,6 @@ public class HumanoidAIDamageController : BaseDamageController
     {
         if (motor.IsDodging) return;
 
-        Debug.Log(source);
         base.TakeDamage(damage, balanceDamage, source);
 
      
