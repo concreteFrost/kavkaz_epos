@@ -104,10 +104,12 @@ public struct HumanoidAnimatorService
 public struct HumanoidInteractService
 {
     public IAttackSource combatInventory;
+    public IDamagable owner;
 
-    public HumanoidInteractService(IAttackSource combatInventory)
+    public HumanoidInteractService(IAttackSource combatInventory, IDamagable owner)
     {
         this.combatInventory = combatInventory;
+        this.owner = owner;
     }
 }
 

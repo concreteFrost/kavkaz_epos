@@ -7,7 +7,8 @@ public class Weapon : CombatItem, IWeapon
     private Attack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
-    public IAttackSource AttackSource { get; set; }
+    
+    public ICollector Owner;
 
     private float minStopVelocity = 1.7f;
 
@@ -65,7 +66,7 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.EnableCollider(
             healthDamage,
             balanceDamage,
-            AttackSource.TargetsToIgnore
+            Owner.AttackSource.TargetsToIgnore
         );
     }
 
@@ -73,7 +74,7 @@ public class Weapon : CombatItem, IWeapon
     {
         damageCollider.DisableCollider();
     }
-    public override void PickUp(IAttackSource target)
+    public override void PickUp(ICollector target)
     {
 
         if(breakdownThreshold <= 0)
@@ -82,18 +83,19 @@ public class Weapon : CombatItem, IWeapon
             return;
         }
 
-        if (!target.CurrentWeapon.WeaponData().canOverride)
+        if (!target.AttackSource.CurrentWeapon.WeaponData().canOverride)
             return;
 
-        AttackSource = target;
-        damageCollider.SetWeaponData(this);
-        damageCollider.SetDamageSource(AttackSource.SourcePosition());
+        Owner = target;
 
-        AssignParent(target.GetRightHand());
+        damageCollider.SetWeaponData(this);
+        damageCollider.SetDamageSource(Owner.AttackSource.SourcePosition());
+
+        AssignParent(Owner.AttackSource.GetRightHand());
         ToggleInteraction(false);
 
         
-        target.SetWeapon(this); 
+        target.AttackSource.SetWeapon(this); 
 
     }
 
@@ -103,7 +105,7 @@ public class Weapon : CombatItem, IWeapon
 
         if(breakdownThreshold <= 0)
         {
-            AttackSource.ResetWeapon();
+            Owner.AttackSource.ResetWeapon();
             DropWeapon();   
         }
     }
@@ -121,21 +123,20 @@ public class Weapon : CombatItem, IWeapon
     {
         ResetParent();
         ResetOwner();
-        ToggleInteraction(true);
 
-        ResetOwner();
+        ToggleInteraction(true);
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
  
-        StartCoroutine(ThrowCoroutine(0.1f)); 
+        StartCoroutine(ThrowCoroutine(0.2f)); 
         StartCoroutine(DisableColliderWhenStopped());
 
     }
 
     private void ResetOwner()
     {
-        AttackSource.ResetWeapon();
-        AttackSource = null;
+        Owner.AttackSource.ResetWeapon();
+        Owner = null;
         damageCollider.SetDamageSource(null);
     }
 

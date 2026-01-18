@@ -5,7 +5,7 @@ public abstract class Item : MonoBehaviour, IPickable
 
     public bool IsPicked { get; set; }
 
-    public abstract void PickUp(IAttackSource s);
+    public abstract void PickUp(ICollector s);
 
     public ItemSO ItemData { get; set; }
 

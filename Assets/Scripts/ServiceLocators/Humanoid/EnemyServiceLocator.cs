@@ -60,7 +60,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryServices);
 
-        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory);
+        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory, damageController);
         interaction.Init(interactService);
 
         HumanoidDamageControllerService damageService = new HumanoidDamageControllerService(motor,statsController, stats, motor.agent, capsuleCollider, uid);

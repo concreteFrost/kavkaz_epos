@@ -64,7 +64,7 @@ public class PlayerServiceLocator : MonoBehaviour
         HumanoidAnimatorService animatorServiceProvider = new HumanoidAnimatorService(animator, motor, combatController, targetLock, damageController);
         characterAnimator.Init(animatorServiceProvider);
 
-        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory);
+        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController);
         interaction.Init(interactionService);
 
         PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController,stats);

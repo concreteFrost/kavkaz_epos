@@ -3,7 +3,7 @@ using UnityEngine;
 public class InventoryItem : Item
 {
     public ItemSO itemSO;
-    public override void PickUp(IAttackSource s)
+    public override void PickUp(ICollector s)
     {
         interactionCollder.DisableCollider();
         gameObject.SetActive(false);

@@ -45,9 +45,29 @@ public class DefenceCollider : MonoBehaviour
 
         float finalHealth = healthDamage * Shield.ShieldData().defenceBonus;
 
-        Debug.Log(finalHealth);
-
         return new DefenceOutcome(finalHealth, 0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<DamageCollider>() != null)
+        {
+            var damageCollider = other.GetComponent<DamageCollider>();
+
+            damageCollider.attackInterrupted = true;
+            
+            if(Shield.Owner != null)
+            {
+
+                var damagable = Shield.Owner.Damagable;
+
+                if (damagable.IsDamaged) return;
+
+                var outcomeDamage = ProcessDamage(damageCollider.healthDamage, damageCollider.balanceDamage);
+
+                damagable.TakeDamage(outcomeDamage.healthDamage, outcomeDamage.balanceDamage, null);
+            }
+        }
     }
 
 }

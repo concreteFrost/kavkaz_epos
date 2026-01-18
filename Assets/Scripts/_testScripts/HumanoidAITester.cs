@@ -215,7 +215,7 @@ public class HumanoidAITester : MonoBehaviour
 
                 var weapon = col.GetComponent<Weapon>();
 
-                if(weapon.AttackSource == null)
+                if(weapon.Owner.AttackSource == null)
                 {
                     targetWeapon = weapon;
                     Debug.Log("found weapon");
@@ -243,7 +243,7 @@ public class HumanoidAITester : MonoBehaviour
 
                 var weapon = col.GetComponent<Shield>();
 
-                if (weapon.AttackSource == null)
+                if (weapon.Owner.AttackSource == null)
                 {
                     targetShield = weapon;
                     Debug.Log("found weapon");
@@ -258,7 +258,7 @@ public class HumanoidAITester : MonoBehaviour
     private void GoToWeapon()
     {
         if (targetWeapon == null) aiMotor.StopMovement();
-        if (targetWeapon.AttackSource != null) aiMotor.StopMovement();
+        if (targetWeapon.Owner.AttackSource != null) aiMotor.StopMovement();
 
         Debug.Log("going to weapon");
 
@@ -290,7 +290,7 @@ public class HumanoidAITester : MonoBehaviour
     private void GoToShield()
     {
         if (targetShield == null) aiMotor.StopMovement();
-        if (targetShield.AttackSource != null) aiMotor.StopMovement();
+        if (targetShield.Owner.AttackSource != null) aiMotor.StopMovement();
 
         Debug.Log("going to shield");
 

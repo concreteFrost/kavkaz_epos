@@ -8,13 +8,12 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 
 
     private Transform sourcePosition;
-
+    
     protected IHumanoidCombat combatController;
   
 
     #region IAttackSource Contract
     public int SourceId() => sourceId;
-
     public Transform SourcePosition() => sourcePosition;    
 
     public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
@@ -53,11 +52,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
     {
         sourceId = service.sourceId;
         sourcePosition = service.sourcePosition;
-
         combatController = service.combatController;
-
-      
-
 
     }
 

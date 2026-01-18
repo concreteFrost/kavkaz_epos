@@ -9,11 +9,11 @@ public class DamageCollider : MonoBehaviour
 
     protected readonly HashSet<Collider> hitColliders = new();
 
-    protected float healthDamage;
-    protected float balanceDamage;
+    [HideInInspector] public float healthDamage;
+    [HideInInspector] public float balanceDamage;
     List<CharacterType> objectsToIgnore;
 
-    protected bool attackInterrupted;
+    [HideInInspector] public bool attackInterrupted;
 
     protected virtual void Awake()
     {

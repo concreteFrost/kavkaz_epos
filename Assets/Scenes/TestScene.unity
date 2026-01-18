@@ -15125,37 +15125,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 837186242}
   m_Mesh: {fileID: 4300000, guid: dee2cc7c00fcd6b4f90719f3660798f8, type: 3}
---- !u!1 &844372365
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 844372366}
-  m_Layer: 0
-  m_Name: damagable
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &844372366
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844372365}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.7408, y: -22.94182, z: -19.89089}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1389062801}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &868203780
 GameObject:
   m_ObjectHideFlags: 0
@@ -23240,7 +23209,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1313727507}
-  - {fileID: 844372366}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1398641661
@@ -26867,10 +26835,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shield
       objectReference: {fileID: 0}
-    - target: {fileID: 6054064764918884102, guid: a4eeebd9c5ca0074e84540908371adde, type: 3}
-      propertyPath: pickableType
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7047170653988915332, guid: a4eeebd9c5ca0074e84540908371adde, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7904167
@@ -26881,7 +26845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7047170653988915332, guid: a4eeebd9c5ca0074e84540908371adde, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -31.4
+      value: -27.29
       objectReference: {fileID: 0}
     - target: {fileID: 7047170653988915332, guid: a4eeebd9c5ca0074e84540908371adde, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35256,6 +35220,10 @@ PrefabInstance:
     - target: {fileID: 18204287337618311, guid: 2fbcd6a407fa90649bc48475f9c77871, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 3366594387873492907, guid: 2fbcd6a407fa90649bc48475f9c77871, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5408012577201723460, guid: 2fbcd6a407fa90649bc48475f9c77871, type: 3}
       propertyPath: m_LocalPosition.x

@@ -14,7 +14,7 @@ public class CombatItem : Item
         physicsCollider = GetComponent<Collider>();
     }
 
-    public override void PickUp(IAttackSource s) // заглушка
+    public override void PickUp(ICollector s) // заглушка
     {
         throw new System.NotImplementedException();
     }

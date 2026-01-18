@@ -5,11 +5,10 @@ public class Shield : CombatItem, IShield
     public ShieldSO shieldSO;
 
     [SerializeField] private DefenceCollider defenceCollider;
-    public IAttackSource AttackSource { get; set; } = null;
 
     #region IShield Variables
+    public ICollector Owner { get;  set; }   
     public ShieldSO ShieldData()=>shieldSO;
-
     #endregion
 
     void Start()
@@ -33,15 +32,17 @@ public class Shield : CombatItem, IShield
     public void PerformDefence()
     {
         defenceCollider.EnableCollider();
+
         //Debug.Log("on defence");
     }
 
     public void CancelDefence()
     {
         defenceCollider.DisableCollider();
+ 
     }
 
-    public override void PickUp(IAttackSource s)
+    public override void PickUp(ICollector collector)
     {
 
         if(breakdownThreshold <= 0)
@@ -50,11 +51,13 @@ public class Shield : CombatItem, IShield
             return;
         }
 
-        AttackSource = s;   
+        Owner = collector;
 
-        AssignParent(AttackSource.GetLeftHand());   
+        AssignParent(Owner.AttackSource.GetLeftHand());   
         ToggleInteraction(false);
-        s.SetShield(this);
+        collector.AttackSource.SetShield(this);
+
+       
 
     }
 
@@ -64,7 +67,7 @@ public class Shield : CombatItem, IShield
 
         if (breakdownThreshold <= 0)
         {
-            AttackSource.ResetShield(); 
+
             ThrowShield();
         }
     }
@@ -74,7 +77,9 @@ public class Shield : CombatItem, IShield
         ResetParent();
         ToggleInteraction(true);
 
-        AttackSource.ResetShield();
-        AttackSource = null;
+        Owner.AttackSource.ResetShield();
+        Owner = null;
+
+
     }
 }

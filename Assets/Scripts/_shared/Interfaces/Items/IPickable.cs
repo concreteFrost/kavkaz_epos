@@ -12,5 +12,5 @@ public interface IPickable
 
     public ItemSO ItemData {  get; set; }   
 
-    public abstract void PickUp(IAttackSource attackSource);
+    public abstract void PickUp(ICollector attackSource);
 }
