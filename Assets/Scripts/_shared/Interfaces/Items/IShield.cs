@@ -2,6 +2,7 @@
 public interface IShield
 {
     ICollector Owner { get; set; }
+
     public ShieldSO ShieldData();
 
     public void ReduceDurability(float amount);

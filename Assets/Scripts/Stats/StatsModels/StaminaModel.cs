@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
+[System.Serializable]   
 public class StaminaModel
 {
-    public float Current { get; set; }
+    public float Current;
     public float Max { get; }
     public float RegenTimer { get; private set; }
     public float MinRegenDelay { get; private set; }

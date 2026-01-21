@@ -3,14 +3,14 @@ using UnityEngine;
 
 public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 {
+    [SerializeField] protected CombatInventorySO starterSet;
+
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;
-
 
     private Transform sourcePosition;
     
     protected IHumanoidCombat combatController;
-  
 
     #region IAttackSource Contract
     public int SourceId() => sourceId;
@@ -54,6 +54,44 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
         sourcePosition = service.sourcePosition;
         combatController = service.combatController;
 
+    }
+
+    public IWeapon GetStarterWeapon(ICollector collector)
+    {
+        if (starterSet == null) return null;
+
+        if(starterSet.initialWeapon != null)
+        {
+            GameObject go = Instantiate(starterSet.initialWeapon);
+
+            Weapon weapon = go.GetComponent<Weapon>();
+
+            weapon.Init(weapon.ItemData);
+            weapon.PickUp(collector);
+
+            return weapon;  
+        }
+
+        return null;
+    }
+
+    public IShield GetStarterShield(ICollector collector)
+    {
+        if (starterSet == null) return null;
+
+        if (starterSet.initialShield != null)
+        {
+            GameObject go = Instantiate(starterSet.initialShield);
+
+            Shield shield = go.GetComponent<Shield>();  
+
+            shield.Init(shield.ItemData);   
+            shield.PickUp(collector);   
+
+            return shield;  
+        }
+
+        return null;
     }
 
 

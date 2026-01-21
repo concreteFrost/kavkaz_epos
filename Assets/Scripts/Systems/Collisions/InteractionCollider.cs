@@ -6,14 +6,9 @@ public class InteractionCollider : MonoBehaviour
     ICollector collector;
     IPickable pickable;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        col = GetComponent<Collider>(); 
-    }
-
     public void Init(IPickable item)
     {
+        col = GetComponent<Collider>();
         pickable = item;    
     }
    

@@ -46,6 +46,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
+        context.combat.PerformBlock();
+
         // обновляем время, проведённое в стрейфе
         handler.UpdateTimeInStrafeState();
 
@@ -78,6 +80,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         motor.ResetLockTarget();
         motor.SetStrafe(false);
         fov.ToggleLockState(false);
+
+        context.combat.CancelBlock();
     }
 
     private void StopStrafeCoroutine()

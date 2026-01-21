@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
+  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
   rightHand: {fileID: 5591928551287878927}
   leftHand: {fileID: 1935654885825902513}
   targetsToIgnore: 02000000
@@ -1179,6 +1180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
+  healthDamage: 0
+  balanceDamage: 0
+  attackInterrupted: 0
 --- !u!1 &3069098352318718036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,7 +1511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_0b5a5b78-2720-401a-a2ac-6e1b6fec2e3c
+  uniqueId: uid_efa9d18d-0b32-41af-a25a-2aa9a7ca1523
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0

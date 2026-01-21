@@ -70,9 +70,11 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
     public void CancelBlock()
     {
+        isShieldRaised = false;
+
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
-        isShieldRaised = false;
+      
     }
 
     public void ThrowWeapon()

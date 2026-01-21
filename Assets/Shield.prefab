@@ -176,9 +176,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3892892996187040265}
-  - component: {fileID: 6135738271347796028}
   - component: {fileID: 6268282904979441766}
-  m_Layer: 2
+  - component: {fileID: 7562784532389186465}
+  m_Layer: 0
   m_Name: DefenceCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,8 +200,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7047170653988915332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6135738271347796028
-BoxCollider:
+--- !u!114 &6268282904979441766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4258747628330075431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88a46fd1347eb274b93da172f2d4e22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenceCollider
+--- !u!135 &7562784532389186465
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -219,20 +231,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.86, y: 0.99830234, z: 0.09}
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6268282904979441766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4258747628330075431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88a46fd1347eb274b93da172f2d4e22e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DefenceCollider
 --- !u!1001 &2907503581148464619
 PrefabInstance:
   m_ObjectHideFlags: 0

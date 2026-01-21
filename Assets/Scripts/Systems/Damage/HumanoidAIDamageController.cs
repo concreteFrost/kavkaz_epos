@@ -30,10 +30,10 @@ public class HumanoidAIDamageController : BaseDamageController
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            TakeDamage(10, 0.4f, null);
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    TakeDamage(10, 1, null);
+        //}
     }
 
     private void OnDisable()
@@ -41,7 +41,7 @@ public class HumanoidAIDamageController : BaseDamageController
         stats.Health.Depleted -= Die;   
     }
 
-    public override void TakeDamage(float damage, float balanceDamage, Transform source)
+    public override void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
     {
         if (motor.IsDodging) return;
 

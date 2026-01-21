@@ -13,8 +13,7 @@ public abstract class Item : MonoBehaviour, IPickable
 
     [SerializeField] protected InteractionCollider interactionCollder;
 
-
-    protected virtual void Init(ItemSO itemData)
+    public virtual void Init(ItemSO itemData)
     {
         ItemData = itemData;    
 

@@ -36,19 +36,18 @@ public class Weapon : CombatItem, IWeapon
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        Init(weaponSO);
-    }
+    //void Start()
+    //{
+    //    Init(weaponSO);
+    //}
 
-    protected override void Init(ItemSO itemData)
+    public override void Init(ItemSO itemData)
     {
 
         base.Init(itemData);
+
         ToggleInteraction(true);
        
-        breakdownThreshold = 100f;
-    
         damageCollider.SetWeaponData(this);
      
     }
@@ -82,9 +81,6 @@ public class Weapon : CombatItem, IWeapon
             Debug.Log("this weapon is broken");
             return;
         }
-
-        if (!target.AttackSource.CurrentWeapon.WeaponData().canOverride)
-            return;
 
         Owner = target;
 
@@ -145,8 +141,8 @@ public class Weapon : CombatItem, IWeapon
         yield return new WaitForSeconds(delay); //задержка чтобы не попадать по владельцу оружия
 
         var healthDamage = weaponSO.GetBaseDamage();
-        var balanceDamage = 0.1f;
-        damageCollider.EnableCollider(healthDamage,balanceDamage,null);
+        
+        damageCollider.EnableCollider(healthDamage,BalanceDamageType.High,null);
 
         yield return null;
     }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 
 public class HumanoidCombatInventory : BaseCombatInventory
@@ -16,10 +17,14 @@ public class HumanoidCombatInventory : BaseCombatInventory
         //targetsToIgnore.Add(CharacterType.Player);
         //targetsToIgnore.Add(CharacterType.FriendlyNPC);
 
-        InitializeBarehands();  
-
+        InitializeBarehands();
         DefaultWeapon = bareHands;
-        CurrentWeapon = DefaultWeapon;
+
+        CurrentWeapon = GetStarterWeapon(service.collector) ?? DefaultWeapon;
+
+        ShieldWeapon = GetStarterShield(service.collector) ?? null;
+        
+        
 
     }
 

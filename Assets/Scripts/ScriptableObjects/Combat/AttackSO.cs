@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attack
 {
     public float healthDamageMultiplier;
-    public float balanceDamageMultiplier;
+    public BalanceDamageType balanceDamageMultiplier = BalanceDamageType.Low;
     public float staminaPenalty;
 
     public AnimationInfoSO animationInfo;
@@ -15,7 +15,7 @@ public class Attack
         return baseDamage + (baseDamage * healthDamageMultiplier);
     }
 
-    public float GetFinalBalanceDamage()
+    public BalanceDamageType GetFinalBalanceDamage()
     {
         return balanceDamageMultiplier;
     }

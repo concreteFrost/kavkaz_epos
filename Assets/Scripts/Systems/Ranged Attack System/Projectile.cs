@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour, IProjectile
         if (other.GetComponent<IDamagable>() != null)
         {
             var damagable = other.GetComponent<IDamagable>();
-            damagable.TakeDamage(data.damage,0.1f, null);
+            damagable.TakeDamage(data.damage,BalanceDamageType.Low, null);
 
         }
 

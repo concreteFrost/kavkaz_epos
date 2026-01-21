@@ -4,20 +4,31 @@ public class CombatItem : Item
 {
 
     protected Rigidbody rb;
-    Collider physicsCollider;
+    protected Collider physicsCollider;
 
     public float breakdownThreshold;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        physicsCollider = GetComponent<Collider>();
-    }
+    //private void Awake()
+    //{
+    //    rb = GetComponent<Rigidbody>();
+    //    physicsCollider = GetComponent<Collider>();
+    //    breakdownThreshold = 100;
+    //}
 
     public override void PickUp(ICollector s) // заглушка
     {
-        throw new System.NotImplementedException();
+       
     }
+
+    public override void Init(ItemSO itemData)
+    {
+        base.Init(itemData);
+
+        rb = GetComponent<Rigidbody>();
+        physicsCollider = GetComponent<Collider>();
+        breakdownThreshold = 100;
+    }
+
 
     protected void ToggleInteraction(bool canInteract)
     {

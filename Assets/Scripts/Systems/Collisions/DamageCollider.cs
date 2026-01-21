@@ -10,7 +10,7 @@ public class DamageCollider : MonoBehaviour
     protected readonly HashSet<Collider> hitColliders = new();
 
     [HideInInspector] public float healthDamage;
-    [HideInInspector] public float balanceDamage;
+    [HideInInspector] public BalanceDamageType balanceDamage;
     List<CharacterType> objectsToIgnore;
 
     [HideInInspector] public bool attackInterrupted;
@@ -21,28 +21,21 @@ public class DamageCollider : MonoBehaviour
         DisableCollider();
     }
 
-    private void Update()
+
+    private void OnTriggerStay(Collider other)
     {
-        if (!damageCollider || !damageCollider.enabled)
-            return;
-
-        Vector3 size = damageCollider.bounds.size;
-        float radius = Mathf.Max(size.x, size.y, size.z) * 0.5f;
-
-        Collider[] hits = Physics.OverlapSphere(damageCollider.bounds.center, radius);
-
-        foreach (var col in hits)
-            HandleCollision(col);
+        HandleCollision(other);
     }
 
-    public virtual void EnableCollider(float health, float balance, List<CharacterType> targetsToIgnore)
+
+    public virtual void EnableCollider(float health, BalanceDamageType balance, List<CharacterType> targetsToIgnore)
     {
         healthDamage = health;
         balanceDamage = balance;
         objectsToIgnore = targetsToIgnore;
 
         attackInterrupted = false;
-        hitColliders.Clear();
+        //hitColliders.Clear();
 
         damageCollider.enabled = true;
     }
@@ -55,22 +48,25 @@ public class DamageCollider : MonoBehaviour
         objectsToIgnore = null;
     }
 
-    //protected virtual void OnTriggerEnter(Collider other)
-    //{
-
-    //    HandleCollision(other);
-    //}
-
-
-
     protected virtual void HandleCollision(Collider other)
     {
-        if (attackInterrupted)
+        if (attackInterrupted) return;
+
+        // Проверка, есть ли щит в зоне
+        var defence = other.GetComponent<DefenceCollider>();
+        if (defence != null)
+        {
+            var owner = defence.Shield.Owner.Damagable;
+
+            if (NotInTargetList(owner)) return;
+
+            defence.ProcessDamage(healthDamage, balanceDamage, source);
+            attackInterrupted = true; // Удар прерван щитом
             return;
+        }
 
         if (!TryGetDamagable(other, out var damagable))
             return;
-
 
         if (NotInTargetList(damagable))
             return;
@@ -78,8 +74,8 @@ public class DamageCollider : MonoBehaviour
         if (!hitColliders.Add(other))
             return;
 
-
         ApplyDamage(damagable);
+        attackInterrupted = true;
     }
 
 

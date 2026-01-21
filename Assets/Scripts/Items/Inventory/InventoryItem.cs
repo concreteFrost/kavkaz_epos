@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class InventoryItem : Item
 {
@@ -17,7 +16,7 @@ public class InventoryItem : Item
     }
 
     // Update is called once per frame
-    protected override void Init( ItemSO itemData)
+    public override void Init(ItemSO itemData)
     {
         base.Init(itemData);    
     }

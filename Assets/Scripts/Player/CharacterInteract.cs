@@ -23,7 +23,7 @@ public class CharacterInteract : MonoBehaviour, ICollector
     public void Interact()
     {
 
-        if (pickable != null)
+        if (pickable != null && AttackSource.CurrentWeapon.WeaponData().canOverride)
         {
             pickable.PickUp(this);  
         }

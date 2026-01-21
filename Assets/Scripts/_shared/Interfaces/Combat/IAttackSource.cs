@@ -35,6 +35,7 @@ public interface IAttackSource
     /// </summary>
     public IShield ShieldWeapon { get; set; }
 
+
     /// <summary>
     /// Назначение текущего оружия
     /// </summary>

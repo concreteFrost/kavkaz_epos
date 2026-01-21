@@ -8,12 +8,13 @@ public class PlayerDamageController : BaseDamageController
     IAttackSource inventory;
     
     PlayerInput input;
-    
+
     protected bool canTakeAnotherDamage = true;
 
 
     public void Init(IHumanoidMovement motor, ICharacterStatsController statsController,HumanoidStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
     {
+
         this.motor = motor; 
         this.uniqueID = uniqueID; 
         this.statsController = statsController;
@@ -42,34 +43,25 @@ public class PlayerDamageController : BaseDamageController
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            TakeDamage(20, UnityEngine.Random.Range(0, 1f), null);
+            BalanceDamageType balanceDamage =
+       (BalanceDamageType)UnityEngine.Random.Range(1, 4);
+            TakeDamage(20, balanceDamage, null);
         }
     }
 
-    public override void TakeDamage(float damage, float balanceDamage, Transform source)
+    public override void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
     {
         if (isDead || isDamaged || motor.IsDodging) return;
 
-        balancePenalty = balanceDamage;
 
-        isDamaged = balancePenalty > 0f;
+        BalancePenalty = balanceDamage;
 
-        if (isDamaged)
-        {
-            StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown));
-        }
+        isDamaged = true;
 
         statsController.ReduceHealth(damage);   
       
 
     }
-    IEnumerator DamageCooldownCoroutine(float delay)
-    {
-        canTakeAnotherDamage = false;
-        yield return new WaitForSeconds(delay);
-        canTakeAnotherDamage = true;
-    }
-
 
     public override void Die()
     {

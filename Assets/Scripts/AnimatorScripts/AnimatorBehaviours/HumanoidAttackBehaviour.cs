@@ -34,6 +34,8 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
+        if (!animator.applyRootMotion) animator.applyRootMotion = true;
+
         var weapon = inv.CurrentWeapon;
         var attack = weapon.CurrentAttack();
 

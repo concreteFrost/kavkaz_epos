@@ -40,7 +40,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         // 1. Цель потеряна
         if (targetEntity == null)
         {
-            Debug.Log("lost target");
+           
             return AIStateResult.Idle;
         }
 
@@ -76,21 +76,29 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (!combatHandler.IsInAttackRange(distance))
         {
             motor.MoveCharacter(target.position);
+            context.combat.PerformBlock();
             return AIStateResult.None;
         }
 
+
+
         // 9. Проверяем возможность атаки (учитываем кулдаун и другие ограничения)
         bool canAttack = combatHandler.CanAttack();
+
         if (!canAttack)
         {
             motor.StopMovement();
             combatHandler.UpdateCombatCooldown();
+
             return AIStateResult.None;
         }
+
+        context.combat.CancelBlock();
 
         // 10. Боевой выбор: атака или стрейф
         switch (combatHandler.GetNextDecision())
         {
+
             case CombatTransition.Attack:
                 HandleAttack(target);
                 break;
@@ -110,6 +118,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             comboCoroutine = null;
         }
 
+        context.combat.CancelBlock();
         motor.ResetLockTarget();
 
     }

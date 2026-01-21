@@ -9,6 +9,7 @@ public enum WeaponType
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Scriptable Systems/Items/Weapons/WeaponSO")]
 public class WeaponSO : ItemSO 
 {
+
     [Tooltip("Определяет может ли игрок брать другое оружие поверх этого")]
     public bool canOverride = false;
 

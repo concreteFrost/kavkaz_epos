@@ -12,7 +12,6 @@ public class DamageSource : MonoBehaviour
     bool colliderActive = false;
 
     private float healthDamage = 10f;
-    private float balanceDamage = 0.1f;
 
     public List<CharacterType> objectsToIgnore = new List<CharacterType>(); 
 
@@ -28,7 +27,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(healthDamage,balanceDamage, objectsToIgnore);
+            damageCollider.EnableCollider(healthDamage,BalanceDamageType.Low, objectsToIgnore);
             colliderActive = true;
         }
 

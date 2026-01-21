@@ -21,9 +21,9 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public bool IsDead() => isDead;
     public string SourceId() => selfId;
     public bool IsDamaged { get; set; }
-    public float BalancePenalty {  get; set; }
+    public BalanceDamageType BalancePenalty {  get; set; }
 
-    public event Action<Transform> DamageTaken;
+    public event Action<Transform> DamageTaken = null;
 
     #endregion
 
@@ -41,7 +41,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
         characterType = CharacterType.Object;
     }
 
-    public void TakeDamage(float damage, float balanceDamage,Transform source=null)
+    public void TakeDamage(float damage, BalanceDamageType balanceDamage,Transform source=null)
     {
         if (isDead) return;
         currentHealth -= damage;

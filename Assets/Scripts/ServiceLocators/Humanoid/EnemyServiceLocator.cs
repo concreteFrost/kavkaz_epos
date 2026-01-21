@@ -48,6 +48,9 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, motor, combatController, fovController, damageController);
         animatorController.Init(animatorService);
 
+        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory, damageController);
+        interaction.Init(interactService);
+
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
         statsController.Init(service);
 
@@ -57,11 +60,8 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animator);
         combatController.Init(combatControllerServices);
 
-        HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController, transform, (int)damageController.CharacterType);
+        HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(combatController,interaction, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryServices);
-
-        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory, damageController);
-        interaction.Init(interactService);
 
         HumanoidDamageControllerService damageService = new HumanoidDamageControllerService(motor,statsController, stats, motor.agent, capsuleCollider, uid);
         damageController.Init(damageService);

@@ -19,7 +19,7 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     #region Damage variables
     protected bool isDamaged;
     //protected bool canTakeAnotherDamage = true;
-    protected float balancePenalty;
+
 
     [SerializeField] protected float maxDamageCooldown = 1f; //предотвращает повторное получение урона
     #endregion
@@ -28,7 +28,7 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public bool IsDead() => isDead;
     public string SourceId() => uniqueID;
     public bool IsDamaged { get => isDamaged; set => isDamaged = value; }
-    public float BalancePenalty { get => balancePenalty; set => balancePenalty = value; }
+    public BalanceDamageType BalancePenalty { get ; set ; }
 
     public CharacterType CharacterType { get=>characterType; set => characterType = value; }
 
@@ -39,11 +39,11 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     #endregion
 
 
-    public virtual void TakeDamage(float damage, float balanceDamage, Transform source)
+    public virtual void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
     {
         if (isDead) return;
 
-        balancePenalty = balanceDamage;
+        BalancePenalty = balanceDamage;
 
         isDamaged = true;
 

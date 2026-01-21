@@ -1,8 +1,9 @@
 ﻿using System;
 
+[System.Serializable]
 public class HealthModel
 {
-    public float Current { get; set; }
+    public float Current;
     public float Max { get; }
 
     public event Action<float> Changed;

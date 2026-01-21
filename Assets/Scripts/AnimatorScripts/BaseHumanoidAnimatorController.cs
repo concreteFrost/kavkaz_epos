@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public abstract class BaseHumanoidAnimatorController 
+public abstract class BaseHumanoidAnimatorController
 {
     protected Animator animator;
     public abstract void UpdateAnimatorParameters();
@@ -50,9 +50,15 @@ public abstract class BaseHumanoidAnimatorController
     protected void UpdateDamageState(IDamagable damageController)
     {
         animator.SetBool(AnimatorParameters.IsDamaged, damageController.IsDamaged);
-        animator.SetFloat(AnimatorParameters.BalancePenalty, damageController.BalancePenalty);
+        animator.SetInteger(
+    AnimatorParameters.BalancePenalty,
+    (int)damageController.BalancePenalty
+);
+
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
     }
+
+
 
     //protected void UpdateTargetLockState(ITargetLocker targetLock)
     //{

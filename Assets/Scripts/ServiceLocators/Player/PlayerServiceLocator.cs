@@ -52,6 +52,9 @@ public class PlayerServiceLocator : MonoBehaviour
         PlayerInputService inpurService = new PlayerInputService(controller, characterAnimator, targetLock);
         input.Init(inpurService);
 
+        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController);
+        interaction.Init(interactionService);
+
         PlayerControllerService stateServiceProvider = new PlayerControllerService(motor, combatController, damageController, stats, statsController, interaction, targetLock, climbing, animator);
         controller.Init(stateServiceProvider);
 
@@ -64,15 +67,12 @@ public class PlayerServiceLocator : MonoBehaviour
         HumanoidAnimatorService animatorServiceProvider = new HumanoidAnimatorService(animator, motor, combatController, targetLock, damageController);
         characterAnimator.Init(animatorServiceProvider);
 
-        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController);
-        interaction.Init(interactionService);
-
         PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController,stats);
         targetLock.Init(targetLockServiceProvider);
 
         damageController.Init(motor,statsController, stats, combatController, combatInventory, input, uID);
 
-        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(combatController, transform, (int)damageController.CharacterType);
+        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(combatController,interaction, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryService);
     }
 

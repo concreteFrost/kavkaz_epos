@@ -1,28 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public struct DefenceOutcome
-{
-    public float healthDamage;
-    public float balanceDamage;
-
-    public DefenceOutcome(float healthDamage, float balanceDamage)
-    {
-        this.healthDamage = healthDamage;
-        this.balanceDamage = balanceDamage;
-    }
-}
 
 public class DefenceCollider : MonoBehaviour
 {
     Collider col;
-    IShield Shield;
+    public IShield Shield;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    public void Init()
     {
         col = GetComponent<Collider>();
         DisableCollider();
     }
+
 
     public void SetShieldData(IShield shield)
     {
@@ -31,6 +23,7 @@ public class DefenceCollider : MonoBehaviour
 
     public void EnableCollider()
     {
+    
         col.enabled = true;
     }
 
@@ -39,35 +32,21 @@ public class DefenceCollider : MonoBehaviour
         col.enabled = false;
     }
 
-    public DefenceOutcome ProcessDamage(float healthDamage, float balanceDamage)
+
+    public void ProcessDamage(float healthDamage, BalanceDamageType balanceDamage, Transform source)
     {
+
         Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
 
         float finalHealth = healthDamage * Shield.ShieldData().defenceBonus;
+        BalanceDamageType finalBalance = BalanceDamageType.Blocked;
 
-        return new DefenceOutcome(finalHealth, 0f);
+        Shield.Owner.Damagable.TakeDamage(finalHealth, finalBalance, source);
+
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<DamageCollider>() != null)
-        {
-            var damageCollider = other.GetComponent<DamageCollider>();
+   
 
-            damageCollider.attackInterrupted = true;
-            
-            if(Shield.Owner != null)
-            {
 
-                var damagable = Shield.Owner.Damagable;
-
-                if (damagable.IsDamaged) return;
-
-                var outcomeDamage = ProcessDamage(damageCollider.healthDamage, damageCollider.balanceDamage);
-
-                damagable.TakeDamage(outcomeDamage.healthDamage, outcomeDamage.balanceDamage, null);
-            }
-        }
-    }
 
 }

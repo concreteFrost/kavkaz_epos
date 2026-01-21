@@ -116,17 +116,20 @@ public struct HumanoidInteractService
 public struct HumanoidCombatInventoryService
 {
     public IHumanoidCombat combatController;
+    public ICollector collector;
     //public ICharacterStatsController statsModifier;
     public Transform sourcePosition;
     public int sourceId;
 
     public HumanoidCombatInventoryService(
         IHumanoidCombat combatController,
+        ICollector collector,
         //ICharacterStatsController stats,
         Transform sourcePosition,
         int sourceId)
     {
         this.combatController = combatController;
+        this.collector = collector;
         this.sourcePosition = sourcePosition;   
         //this.statsModifier = stats;
         this.sourceId = sourceId;
