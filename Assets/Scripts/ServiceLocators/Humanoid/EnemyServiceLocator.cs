@@ -42,7 +42,7 @@ public class EnemyServiceLocator : MonoBehaviour
         stats.Init();
         motor.Init(animator);
 
-        ik.Init(motor, stats);
+        ik.Init(motor, stats,damageController);
         fovController.Init();
 
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, motor, combatController, fovController, damageController);
@@ -54,7 +54,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
         statsController.Init(service);
 
-        HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController, statsController, stats);
+        HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController, statsController,damageController, stats);
         controller.Init(controllerService);
 
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animatorController);

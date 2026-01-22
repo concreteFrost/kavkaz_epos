@@ -148,7 +148,7 @@ public class Weapon : CombatItem, IWeapon
 
         var healthDamage = weaponSO.GetBaseDamage();
         
-        damageCollider.EnableCollider(healthDamage,BalanceDamageType.High,null);
+        damageCollider.EnableCollider(healthDamage,BalanceDamageType.Extreme,null);
 
         yield return null;
     }

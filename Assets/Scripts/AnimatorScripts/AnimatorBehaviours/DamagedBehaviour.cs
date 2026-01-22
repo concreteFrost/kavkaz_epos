@@ -4,17 +4,21 @@ public class DamagedBehaviour : StateMachineBehaviour
 {
 
     IDamagable dm;
+   
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         dm = animator.GetComponentInChildren<IDamagable>();
+    
         animator.applyRootMotion = true;
-        
+    
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+       
+        if(!dm.IsDamaged) dm.IsDamaged = true;  
 
         if (animator.applyRootMotion == false) 
             animator.applyRootMotion = true;
@@ -32,6 +36,7 @@ public class DamagedBehaviour : StateMachineBehaviour
     {
        dm.IsDamaged = false;
        animator.applyRootMotion = false;
+      
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -6,6 +6,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
     
     public Animator animator;
     private HumanoidAIMotor aiMotor;
+    private IDamagable damageController;
     //private HumanoidStats stats;
 
     private float currLookWeight;
@@ -16,9 +17,10 @@ public class HumanoidAnimatorIK : MonoBehaviour
 
     Vector3 lastLookPos;
 
-    public void Init(HumanoidAIMotor motor, HumanoidStats stats)
+    public void Init(HumanoidAIMotor motor, HumanoidStats stats, IDamagable damageController)
     {
         this.aiMotor = motor;   
+        this.damageController = damageController;
         //this.stats = stats; 
     }
 
@@ -34,7 +36,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
             0.5f
         );
 
-        if (hasTarget)
+        if (hasTarget && !damageController.IsDamaged)
         {
             lastLookPos = aiMotor.rotateTarget.position;
         }

@@ -8,16 +8,19 @@ public struct HumanoidControllerService
 
     public HumanoidAIMotor aiMotor;
     public HumanoidAIAnimatorController aiAnimatorController;
-   
+
+    public IDamagable damageController;
+
     public ICharacterStatsController statsController;
     public HumanoidStats stats;
 
-    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController, HumanoidStats stats)
+    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController,IDamagable damageController , HumanoidStats stats)
     {
         this.animator = animator;
         this.aiMotor = aIMotor;
         this.aiAnimatorController = aIAnimator;   
         this.statsController = statsController;
+        this.damageController = damageController;
         this.stats = stats;
     }
 }
@@ -39,7 +42,7 @@ public struct HumanoidCombatControllerServices
 
 public struct HumanoidDamageControllerService
 {
-    public IHumanoidMovement motor;
+    public HumanoidAIMotor motor;
     public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
     public NavMeshAgent agent;
@@ -47,7 +50,7 @@ public struct HumanoidDamageControllerService
 
     public string uniqueID;
 
-    public HumanoidDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageControllerService(HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
     {
         this.motor = motor;
         this.statsModifier = statsController;
