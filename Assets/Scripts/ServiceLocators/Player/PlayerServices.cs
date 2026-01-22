@@ -39,12 +39,12 @@ public struct PlayerControllerService
 public struct PlayerInputService
 {
     public PlayerController controller;
-    public PlayerAnimator animator;
+    public PlayerAnimatorController animator;
     public PlayerTargetLock targetLock;
 
     public PlayerInputService(
         PlayerController controller,
-        PlayerAnimator animator,
+        PlayerAnimatorController animator,
         PlayerTargetLock targetLock)
     {
         this.controller = controller;

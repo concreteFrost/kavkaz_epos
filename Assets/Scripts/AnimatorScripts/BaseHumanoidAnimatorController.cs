@@ -4,7 +4,27 @@ using UnityEngine;
 public abstract class BaseHumanoidAnimatorController
 {
     protected Animator animator;
+    protected AnimatorOverrideController overrideController;
+
+    protected IHumanoidMovement movement;
+    protected ITargetLocker targetLocker;
+    protected IDamagable damagable;
+    protected IHumanoidCombat attackSource;
     public abstract void UpdateAnimatorParameters();
+
+    public virtual void Init(HumanoidAnimatorService service)
+    {
+
+        this.animator = service.animator;
+
+        overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = overrideController;
+
+        this.movement = service.motor;
+        this.targetLocker = service.targetLock;
+        this.damagable = service.damageController;
+        this.attackSource = service.combatController;
+    }
 
     protected void UpdateLocomotionState(IHumanoidMovement locomotion)
     {
@@ -56,6 +76,27 @@ public abstract class BaseHumanoidAnimatorController
 );
 
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
+    }
+
+    public void OverrideAttack(Attack attack, int attackIndex)
+    {
+        var stateName = "Attack_" + attackIndex;
+        overrideController[stateName] = attack.animationInfo.clip;
+
+        animator.speed = attack.animationInfo.animationSpeed;
+
+        animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
+    }
+
+    public void OverrideArmed(IWeapon w)
+    {
+        overrideController["Armed"] = w.WeaponData().idleAnimation;
+        animator.CrossFade("Armed", AnimatorParameters.transitionSpeed, AnimatorParameters.armedLayer);
+    }
+
+    public void PerformThrow()
+    {
+        animator.CrossFade("Throw weapon", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 
 

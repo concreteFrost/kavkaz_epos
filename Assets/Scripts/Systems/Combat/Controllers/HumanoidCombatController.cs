@@ -6,8 +6,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
     //ссылки
     private IAttackSource inventory;
-    Animator animator;
-    AnimatorOverrideController overrideController;
+    private BaseHumanoidAnimatorController animatorController;
 
     public event Action OnAttackEnd; // для ИИ чтобы знать когда закончилась атака и начать новую
 
@@ -34,11 +33,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     public void Init(HumanoidCombatControllerServices service)
     {
         inventory = service.combatInventory;
-        animator = service.animator;
-       
-        // создаём один общий OverrideController
-        overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        animator.runtimeAnimatorController = overrideController;
+        this.animatorController = service.animatorController;
 
         ResetCombo();
     }
@@ -81,7 +76,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     {
         ResetCombo();
         //isThrowingWeapon = true;
-        animator.CrossFade("Throw weapon", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
+        animatorController.PerformThrow();
     }
 
     public void ThrowShield()
@@ -107,16 +102,8 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
         var attack = weapon.CurrentAttack();
 
-        //назначаем атаку на плейсхолдер
-        var stateName = "Attack_" + attackIndex;
-        overrideController[stateName] = attack.animationInfo.clip;
-
-        animator.speed = attack.animationInfo.animationSpeed;
-
-        //делаем плавный переход на Attack_[index]
-        animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, 2);
-
-        //movement.StopMove = true;
+        animatorController.OverrideAttack(attack, attackIndex);
+        
         isAttacking = true;
         attackIndex++;
     }

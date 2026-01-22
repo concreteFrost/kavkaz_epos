@@ -7,7 +7,6 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
     [SerializeField] private WeaponSO barehandsData;
     [SerializeField] private WeaponDamageCollider barehandDamageCollider;
-    
 
     public override void Init(HumanoidCombatInventoryService service)
     {
@@ -17,12 +16,12 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
         DefaultWeapon = InitializeBarehands();
 
-        CurrentWeapon = GetStarterWeapon(service.collector) ?? DefaultWeapon;
+        SetWeapon(GetStarterWeapon(service.collector) ?? DefaultWeapon);
         ShieldWeapon = GetStarterShield(service.collector) ?? null;
-        
+
     }
 
-    
+
 
     private IWeapon InitializeBarehands()
     {
@@ -36,21 +35,24 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
     public override void SetWeapon(IWeapon w)
     {
-       CurrentWeapon = w;
-       combatController.IsWeaponed = true; 
-     
+        CurrentWeapon = w;
+        combatController.IsWeaponed = true;
+
+        animatorController.OverrideArmed(w);
+
     }
 
     public override void SetShield(IShield w)
     {
-        ShieldWeapon = w;        
+        ShieldWeapon = w;
+
     }
 
     public override void ResetWeapon()
     {
 
-        CurrentWeapon = DefaultWeapon;  
-        combatController.IsWeaponed = false;    
+        CurrentWeapon = DefaultWeapon;
+        combatController.IsWeaponed = false;
 
     }
 

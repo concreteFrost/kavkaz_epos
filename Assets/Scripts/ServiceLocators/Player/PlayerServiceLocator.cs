@@ -23,7 +23,7 @@ public class PlayerServiceLocator : MonoBehaviour
    
     [SerializeField] private PlayerTargetLock targetLock;
 
-    [SerializeField] private PlayerAnimator characterAnimator = new PlayerAnimator();
+    [SerializeField] private PlayerAnimatorController characterAnimator = new PlayerAnimatorController();
 
     #endregion
 
@@ -61,7 +61,7 @@ public class PlayerServiceLocator : MonoBehaviour
         HumanoidStatsControllerService modifierServiceProvider = new HumanoidStatsControllerService(stats);
         statsController.Init(modifierServiceProvider);
 
-        HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, animator);
+        HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, characterAnimator);
         combatController.Init(combatControllerService);
 
         HumanoidAnimatorService animatorServiceProvider = new HumanoidAnimatorService(animator, motor, combatController, targetLock, damageController);
@@ -72,7 +72,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         damageController.Init(motor,statsController, stats, combatController, combatInventory, input, uID);
 
-        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(combatController,interaction, transform, (int)damageController.CharacterType);
+        HumanoidCombatInventoryService combatInventoryService = new HumanoidCombatInventoryService(characterAnimator,combatController,interaction, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryService);
     }
 

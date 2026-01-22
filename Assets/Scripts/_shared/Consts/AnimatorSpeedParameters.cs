@@ -7,12 +7,13 @@ public class AnimatorParameters
     public const float walkSpeed = 0.5f;
     public const float runningSpeed = 1f;
     public const float sprintSpeed = 1.5f;
+    
     public const float transitionSpeed = 0.2f;
 
     public const int motionLayer = 0;
+    public const int armedLayer = 1;
     public const int combatLayer = 2;
     public const int climbLayer = 5;
-
 
     public static int InputHorizontal = Animator.StringToHash("InputHorizontal");
     public static int InputVertical = Animator.StringToHash("InputVertical");

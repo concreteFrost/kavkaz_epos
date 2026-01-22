@@ -26,6 +26,9 @@ public class WeaponSO : ItemSO
     [Header("Набор атак")]
     public AttackSO attackSet;
 
+    [Header("Idle анимация оружия")]
+    public AnimationClip idleAnimation;
+
     public float GetBreakdownPenalty() {
         if (breakdownPenalty == 0) return 0.001f;
 

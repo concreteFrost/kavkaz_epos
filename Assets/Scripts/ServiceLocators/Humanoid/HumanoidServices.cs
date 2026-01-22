@@ -25,14 +25,15 @@ public struct HumanoidControllerService
 public struct HumanoidCombatControllerServices
 {
     public IAttackSource combatInventory;
-    public Animator animator;
+    public BaseHumanoidAnimatorController animatorController;
 
     public HumanoidCombatControllerServices(
         IAttackSource combatInventory,
-        Animator animator)
+        BaseHumanoidAnimatorController animatorController   
+       )
     {
         this.combatInventory = combatInventory;
-        this.animator = animator;
+        this.animatorController = animatorController;
     }
 }
 
@@ -115,6 +116,7 @@ public struct HumanoidInteractService
 
 public struct HumanoidCombatInventoryService
 {
+    public BaseHumanoidAnimatorController animatorController;
     public IHumanoidCombat combatController;
     public ICollector collector;
     //public ICharacterStatsController statsModifier;
@@ -122,12 +124,14 @@ public struct HumanoidCombatInventoryService
     public int sourceId;
 
     public HumanoidCombatInventoryService(
+       BaseHumanoidAnimatorController animatorController,
         IHumanoidCombat combatController,
         ICollector collector,
         //ICharacterStatsController stats,
         Transform sourcePosition,
         int sourceId)
     {
+        this.animatorController = animatorController;   
         this.combatController = combatController;
         this.collector = collector;
         this.sourcePosition = sourcePosition;   

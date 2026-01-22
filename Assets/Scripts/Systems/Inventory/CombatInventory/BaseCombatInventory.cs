@@ -8,6 +8,8 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;
 
+    protected BaseHumanoidAnimatorController animatorController;
+
     private Transform sourcePosition;
     
     protected IHumanoidCombat combatController;
@@ -55,6 +57,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
         sourceId = service.sourceId;
         sourcePosition = service.sourcePosition;
         combatController = service.combatController;
+        animatorController =service.animatorController;
 
     }
 

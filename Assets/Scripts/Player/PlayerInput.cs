@@ -5,7 +5,7 @@ public class PlayerInput : MonoBehaviour
 
     PlayerController controller;
     PlayerTargetLock targetLock;
-    PlayerAnimator animator;
+    PlayerAnimatorController animator;
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
