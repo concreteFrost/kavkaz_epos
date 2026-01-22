@@ -12,4 +12,6 @@ public interface IShield
     public void CancelDefence();
 
     public void ThrowShield();
+
+    public void AssignToOwner(ICollector owner);
 }

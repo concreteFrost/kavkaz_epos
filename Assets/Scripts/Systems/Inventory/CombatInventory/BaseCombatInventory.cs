@@ -35,6 +35,8 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
 
     public IShield ShieldWeapon { get; set; } = null;
 
+    public bool CanPickWeapon() => CurrentWeapon.WeaponData().canOverride;
+
 
     #endregion
 
@@ -67,7 +69,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
             Weapon weapon = go.GetComponent<Weapon>();
 
             weapon.Init(weapon.ItemData);
-            weapon.PickUp(collector);
+            weapon.AssignToOwner(collector);
 
             return weapon;  
         }
@@ -86,7 +88,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
             Shield shield = go.GetComponent<Shield>();  
 
             shield.Init(shield.ItemData);   
-            shield.PickUp(collector);   
+            shield.AssignToOwner(collector);   
 
             return shield;  
         }

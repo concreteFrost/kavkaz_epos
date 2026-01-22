@@ -86,5 +86,10 @@ public class BareHandsWeapon : IWeapon
         //без имплементации
     }
 
+    public void AssignToOwner(ICollector source)
+    {
+        //без имплементации
+    }
+
 
 }

@@ -115,6 +115,28 @@ public class EnemyCombatHandler
     }
     #endregion
 
+    #region Defence Handler
+    public void ToggleShield(bool willRaise, IAttackSource inventory, IHumanoidCombat combatController)
+    {
+        if (inventory.ShieldWeapon == null && combatController.IsShieldRaised)
+        {
+            combatController.CancelBlock();
+            return;
+
+        }
+        if (willRaise)
+        {
+            combatController.PerformBlock();
+        }
+        else
+        {
+            combatController.CancelBlock();
+        }
+
+    }
+
+    #endregion
+
 
     public CombatTransition GetNextDecision()
     {

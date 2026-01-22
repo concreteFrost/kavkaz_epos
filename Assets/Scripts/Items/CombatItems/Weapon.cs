@@ -75,13 +75,20 @@ public class Weapon : CombatItem, IWeapon
     }
     public override void PickUp(ICollector target)
     {
+        if (!target.AttackSource.CanPickWeapon()) return;
 
         if(breakdownThreshold <= 0)
         {
             Debug.Log("this weapon is broken");
             return;
         }
+        
+        AssignToOwner(target);  
 
+    }
+
+    public void AssignToOwner(ICollector target)
+    {
         Owner = target;
 
         damageCollider.SetWeaponData(this);
@@ -90,9 +97,8 @@ public class Weapon : CombatItem, IWeapon
         AssignParent(Owner.AttackSource.GetRightHand());
         ToggleInteraction(false);
 
-        
-        target.AttackSource.SetWeapon(this); 
 
+        target.AttackSource.SetWeapon(this);
     }
 
     public void ReduceDurability(float amount)

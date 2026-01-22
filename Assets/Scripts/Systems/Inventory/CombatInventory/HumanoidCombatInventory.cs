@@ -5,7 +5,6 @@ public class HumanoidCombatInventory : BaseCombatInventory
 {
     [Header("Bare Hands Settings")]
 
-    private BareHandsWeapon bareHands;
     [SerializeField] private WeaponSO barehandsData;
     [SerializeField] private WeaponDamageCollider barehandDamageCollider;
     
@@ -14,25 +13,24 @@ public class HumanoidCombatInventory : BaseCombatInventory
     {
         base.Init(service);
 
-        //targetsToIgnore.Add(CharacterType.Player);
-        //targetsToIgnore.Add(CharacterType.FriendlyNPC);
-
         InitializeBarehands();
-        DefaultWeapon = bareHands;
+
+        DefaultWeapon = InitializeBarehands();
 
         CurrentWeapon = GetStarterWeapon(service.collector) ?? DefaultWeapon;
-
         ShieldWeapon = GetStarterShield(service.collector) ?? null;
         
-        
-
     }
 
-    private void InitializeBarehands()
+    
+
+    private IWeapon InitializeBarehands()
     {
 
-        bareHands = new BareHandsWeapon();
+        var bareHands = new BareHandsWeapon();
         bareHands.Init(barehandsData, barehandDamageCollider, this);
+
+        return bareHands;
 
     }
 

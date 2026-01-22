@@ -11,6 +11,9 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     EnemyFOVController fov;
     EnemyCombatHandler combatHandler;
 
+    HumanoidCombatInventory inventory;
+    HumanoidCombatController combatController;
+
     HumanoidAIMotor motor;
 
 
@@ -21,6 +24,8 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         motor = context.motor;
         combatHandler = context.stateTracker.combatHandler;
+        combatController = context.combat;
+        inventory = context.inventory;
 
         combatHandler.ResetCombatState();
         comboCoroutine = null;
@@ -76,10 +81,11 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (!combatHandler.IsInAttackRange(distance))
         {
             motor.MoveCharacter(target.position);
-            context.combat.PerformBlock();
+
+            //поднимаем щит на подходе к цели
+            combatHandler.ToggleShield(true, inventory, combatController);
             return AIStateResult.None;
         }
-
 
 
         // 9. Проверяем возможность атаки (учитываем кулдаун и другие ограничения)
@@ -93,7 +99,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return AIStateResult.None;
         }
 
-        context.combat.CancelBlock();
+        combatHandler.ToggleShield(false, inventory, combatController);
 
         // 10. Боевой выбор: атака или стрейф
         switch (combatHandler.GetNextDecision())
@@ -118,10 +124,11 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             comboCoroutine = null;
         }
 
-        context.combat.CancelBlock();
+        combatHandler.ToggleShield(false,inventory,combatController);
         motor.ResetLockTarget();
 
     }
+
 
     private void FinishCombatAction()
     {

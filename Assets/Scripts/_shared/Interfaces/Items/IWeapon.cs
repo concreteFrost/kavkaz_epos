@@ -49,4 +49,6 @@ public interface IWeapon
     /// <returns></returns>
     public Attack CurrentAttack();
 
+    public void AssignToOwner(ICollector collecter);
+
 }

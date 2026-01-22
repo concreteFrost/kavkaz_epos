@@ -70,4 +70,5 @@ public interface IAttackSource
     /// <returns></returns>
     public Transform GetLeftHand();
 
+    public bool CanPickWeapon();
 }
