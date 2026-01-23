@@ -6,21 +6,7 @@ using System.Collections;
 public class HumanoidAIMotor : BaseHumanoidMotor
 {
     [HideInInspector] public NavMeshAgent agent;
-
-    //public override void Init(Animator anim)
-    //{
-    //    animator = anim;
-    //    animator.updateMode = AnimatorUpdateMode.Fixed;
-    //    animator.applyRootMotion = true;
-    //    animationSmooth = 0.25f;
-
-    //    agent = GetComponent<NavMeshAgent>();
-    //    agent.updateRotation = false;
-    //    agent.angularSpeed = 0;
-    //    agent.acceleration = 50f;
-    //    agent.stoppingDistance = 1f;
-    //    agent.autoBraking = true;
-    //}
+    [HideInInspector] public HumanoidAgentController agentController;
 
     public override void Init(Animator anim)
     {
@@ -46,6 +32,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
             ObstacleAvoidanceType.LowQualityObstacleAvoidance;
 
         isGrounded = true;
+
+        agentController = new HumanoidAgentController();
+        agentController.Init(agent,animator);
+
+
     }
 
     public override void UpdateAnimatorLocomotion()
@@ -85,11 +76,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     #region Agent Control
     public override void StopMovement()
     {
-        if (!agent.isActiveAndEnabled) return;
-
+       
+        agentController.StopAgent();
         moveDirection = Vector3.zero;
         inputMagnitude = 0f;
-        agent.ResetPath();
+       
 
     }
 
@@ -105,76 +96,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         isSprinting = false;
     }
 
-    public void ResetPath()
-    {
-        agent.ResetPath();
-    }
-
-    public bool HasReachedDestination(float tolerance = 0.1f)
-    {
-        if (!agent.isActiveAndEnabled || !agent.hasPath)
-            return true; // если агент не активен или путь пустой, считаем, что достиг
-
-        // оставшееся расстояние
-        float remaining = agent.remainingDistance;
-
-        // NavMeshAgent может выдавать Infinity в некоторых случаях, проверяем
-        if (float.IsInfinity(remaining))
-            return false;
-
-        // считаем, что достиг, если осталось меньше stoppingDistance + tolerance
-        return remaining <= agent.stoppingDistance + tolerance;
-    }
-
-    IEnumerator TraverseOffMeshLink(OffMeshLinkData data)
-    {
-        agent.updatePosition = false;
-        agent.updateRotation = false;
-        agent.isStopped = true;
-
-        isJumping = true;
-        isGrounded = false;
-
-        Vector3 start = transform.position;
-        Vector3 end = data.endPos;
-
-        yield return JumpParabola(start, end, 1.2f);
-
-        agent.Warp(end);
-        agent.CompleteOffMeshLink();
-
-        agent.isStopped = false;
-        agent.updatePosition = true;
-
-        isJumping = false;
-        isGrounded = true;
-    }
-
-    IEnumerator JumpParabola(Vector3 start, Vector3 end, float height)
-    {
-        float t = 0f;
-        float duration = 0.6f;
-
-        animator.CrossFadeInFixedTime("Jump", 0.1f);
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime / duration;
-
-            float yOffset = 4f * height * t * (1 - t);
-            Vector3 pos = Vector3.Lerp(start, end, t);
-            pos.y += yOffset;
-
-            transform.position = pos;
-
-            yield return null;
-        }
-
-        transform.position = end;
-    }
-
-
-
     #endregion
 
     #region Motor Control
@@ -183,11 +104,9 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         CheckGround();
         AirControl();
+        ControlJumpBehaviour(jumpHeight);
 
-        if (agent.isOnOffMeshLink)
-        {
-            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData));
-        }
+       
 
     }
 
@@ -283,9 +202,56 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     #endregion
 
     #region Jump Control
+
+    IEnumerator TraverseOffMeshLink(OffMeshLinkData data)
+    {
+        agentController.SetStartJump();
+
+        isJumping = true;
+        isGrounded = false;
+
+        Vector3 start = transform.position;
+        Vector3 end = data.endPos;
+
+        yield return JumpParabola(start, end, 1.2f);
+
+        agentController.FinishJump(end);
+
+        isJumping = false;
+        isGrounded = true;
+    }
+
+    IEnumerator JumpParabola(Vector3 start, Vector3 end, float height)
+    {
+        float t = 0f;
+        float duration = 0.6f;
+
+        animator.CrossFadeInFixedTime("Jump", 0.1f);
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+
+            float yOffset = 4f * height * t * (1 - t);
+            Vector3 pos = Vector3.Lerp(start, end, t);
+            pos.y += yOffset;
+
+            transform.position = pos;
+
+            yield return null;
+        }
+
+        transform.position = end;
+    }
+
+
     protected override void ControlJumpBehaviour(float jumpHeight)
     {
-        //ожидает
+        if (agent.isOnOffMeshLink)
+        {
+            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData));
+        }
+
     }
 
     public override void AirControl()

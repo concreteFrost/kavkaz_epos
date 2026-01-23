@@ -56,7 +56,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
             return AIStateResult.Idle;
 
-        if (context.motor.HasReachedDestination())
+        if (context.motor.agentController.HasReachedDestination())
             return AIStateResult.Idle;
 
 
