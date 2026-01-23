@@ -37,7 +37,7 @@ public class HumanoidAIController : MonoBehaviour
 
     private void UpdateMotor()
     {
-        aiMotor.UpdateMotor(4f); // присвоить нормальное значение прыжка
+        aiMotor.UpdateMotor(stats.jumpHeight); // присвоить нормальное значение прыжка
     }
 
     private void UpdateAnimator()
@@ -57,8 +57,7 @@ public class HumanoidAIController : MonoBehaviour
             return;
         }
 
-
-        if (aiMotor.IsStrafing)
+        else if (aiMotor.IsStrafing)
         {
             aiMotor.moveSpeed = stats.strafeSpeed;
         }
@@ -79,9 +78,6 @@ public class HumanoidAIController : MonoBehaviour
         if (damageController.IsDamaged) return;
 
         if (aiMotor.inputMagnitude == 0) return;
-
-        if (!aiMotor.isGrounded) return;
-
        
         if (aiMotor.rotateTarget != null)
         {

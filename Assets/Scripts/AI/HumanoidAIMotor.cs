@@ -106,19 +106,15 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         AirControl();
         ControlJumpBehaviour(jumpHeight);
 
-       
-
     }
 
     public override void MoveCharacter(Vector3 direction)
     {
-
         // направление дл€ визуального поворота
         Vector3 desiredDir = (direction - transform.position).normalized;
         desiredDir.y = 0f;
 
         moveDirection = desiredDir; // только дл€ анимации / поворота
-
         // реальное движение через NavMesh
         agent.SetDestination(direction);
     }
@@ -203,7 +199,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     #region Jump Control
 
-    IEnumerator TraverseOffMeshLink(OffMeshLinkData data)
+    IEnumerator TraverseOffMeshLink(OffMeshLinkData data, float height)
     {
         agentController.SetStartJump();
 
@@ -224,15 +220,21 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     IEnumerator JumpParabola(Vector3 start, Vector3 end, float height)
     {
         float t = 0f;
-        float duration = 0.6f;
 
-        animator.CrossFadeInFixedTime("Jump", 0.1f);
+        float distance = Vector3.Distance(start, end);
+        float horizontalSpeed = 1f; // м/с Ч подбираетс€ визуально
+
+        float duration = distance / horizontalSpeed;
+        duration = Mathf.Clamp(duration, 0.35f, 1.2f);
+
+        //animator.CrossFadeInFixedTime("Jump", 0.1f);
+        
 
         while (t < 1f)
         {
             t += Time.deltaTime / duration;
 
-            float yOffset = 4f * height * t * (1 - t);
+            float yOffset = 4f *height * t * (1 - t);
             Vector3 pos = Vector3.Lerp(start, end, t);
             pos.y += yOffset;
 
@@ -241,15 +243,16 @@ public class HumanoidAIMotor : BaseHumanoidMotor
             yield return null;
         }
 
-        transform.position = end;
+        //transform.position = end;
     }
 
 
     protected override void ControlJumpBehaviour(float jumpHeight)
     {
-        if (agent.isOnOffMeshLink)
+        if (agent.isOnOffMeshLink && isGrounded)
         {
-            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData));
+            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData, jumpHeight));
+            base.Jump(jumpHeight);
         }
 
     }

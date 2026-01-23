@@ -48,8 +48,7 @@ public class HumanoidAgentController
     public void SetStartJump()
     {
         agent.updatePosition = false;
-        agent.updateRotation = false;
-        agent.isStopped = true;
+        //agent.updateRotation = false;
     }
 
     public void FinishJump(Vector3 destination)
@@ -57,7 +56,6 @@ public class HumanoidAgentController
         agent.Warp(destination);
         agent.CompleteOffMeshLink();
 
-        agent.isStopped = false;
         agent.updatePosition = true;
     }
 
