@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class HumanoidAIMotor : BaseHumanoidMotor
 {
@@ -43,6 +44,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         agent.obstacleAvoidanceType =
             ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+
+        isGrounded = true;
     }
 
     public override void UpdateAnimatorLocomotion()
@@ -123,6 +126,55 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         return remaining <= agent.stoppingDistance + tolerance;
     }
 
+    IEnumerator TraverseOffMeshLink(OffMeshLinkData data)
+    {
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.isStopped = true;
+
+        isJumping = true;
+        isGrounded = false;
+
+        Vector3 start = transform.position;
+        Vector3 end = data.endPos;
+
+        yield return JumpParabola(start, end, 1.2f);
+
+        agent.Warp(end);
+        agent.CompleteOffMeshLink();
+
+        agent.isStopped = false;
+        agent.updatePosition = true;
+
+        isJumping = false;
+        isGrounded = true;
+    }
+
+    IEnumerator JumpParabola(Vector3 start, Vector3 end, float height)
+    {
+        float t = 0f;
+        float duration = 0.6f;
+
+        animator.CrossFadeInFixedTime("Jump", 0.1f);
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+
+            float yOffset = 4f * height * t * (1 - t);
+            Vector3 pos = Vector3.Lerp(start, end, t);
+            pos.y += yOffset;
+
+            transform.position = pos;
+
+            yield return null;
+        }
+
+        transform.position = end;
+    }
+
+
+
     #endregion
 
     #region Motor Control
@@ -131,7 +183,12 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         CheckGround();
         AirControl();
-      
+
+        if (agent.isOnOffMeshLink)
+        {
+            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData));
+        }
+
     }
 
     public override void MoveCharacter(Vector3 direction)
@@ -149,8 +206,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public void MoveLocal(Vector3 direction)
     {
-        
-
         Vector3 velocity =
             direction.normalized * agent.speed * Time.deltaTime;
 
@@ -208,13 +263,13 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     #region Ground Control
     protected override void CheckGround()
     {
-        //CheckGroundDistance();
+        if (isJumping)
+        {
+            isGrounded = false;
+            return;
+        }
 
-
-        // NavMeshAgent всегда на поверхности
         isGrounded = true;
-
-        // Если нужно для анимации — можно имитировать падение/высоту
         groundDistance = 0f;
         verticalVelocity = 0f;
     }

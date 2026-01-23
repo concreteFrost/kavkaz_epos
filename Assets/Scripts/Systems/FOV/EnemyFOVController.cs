@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class EnemyFOVController : MonoBehaviour, ITargetLocker
@@ -13,9 +14,14 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public IDamagable currentTarget;
 
+    public float checkCooldown = 0f;
+    private float maxCheckCooldown = 2f;
+
 
     private void Update()
     {
+       
+
         if(currentTarget != null)
         {
             if (currentTarget.IsDead())
@@ -27,12 +33,13 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public void Init()
     {
-      
         fov = new AIFov(eyes, fovDataSO.objectsToScan, fovDataSO.obstacleMask);
+        checkCooldown = 0;
     }
 
     public void CheckTargets()
     {
+        if (checkCooldown > 0) return;
 
         var potentialTarget = fov.PotentialTarget(fovDataSO.viewRadius, fovDataSO.viewAngle);
 
@@ -58,9 +65,15 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public void ResetTarget()
     {
+       
         currentTarget = null;
         isLockedOnTarget = false;
 
+    }
+
+    public void StartCheckCooldown()
+    {
+        StartCoroutine(CheckCooldownCoroutine());
     }
 
     public void ToggleLockState(bool isLocked)
@@ -68,6 +81,22 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         isLockedOnTarget = isLocked;
     }
     #endregion
+
+    IEnumerator CheckCooldownCoroutine()
+    {
+        float elapsed = 0f;
+
+        while(elapsed < maxCheckCooldown)
+        {
+           
+            elapsed += Time.deltaTime;
+            checkCooldown = elapsed;
+
+            yield return null;
+        }
+
+        checkCooldown = 0;
+    }
 
     private void OnDrawGizmosSelected()
     {
@@ -93,4 +122,5 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
             Gizmos.DrawLine(eyes.position, currentTarget.GetAimTransform().position);
         }
     }
+
 }

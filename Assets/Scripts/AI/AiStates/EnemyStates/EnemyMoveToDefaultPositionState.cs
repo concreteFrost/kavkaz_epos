@@ -12,10 +12,11 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
         fov = context.fov;
         motor = context.motor;
         
+        fov.StartCheckCooldown();   
         fov.ResetTarget();
+        motor.ResetLockTarget();   
+        
         context.motor.ResetSprint();
-
-      
 
         motor.StopMovement();
 
@@ -41,12 +42,12 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
 
 
-        //fov.CheckTargets(); 
+        fov.CheckTargets(); 
 
-        //if(fov.currentTarget != null)
-        //{
-        //    return AIStateResult.Chase;
-        //}
+        if(fov.currentTarget != null)
+        {
+            return AIStateResult.Chase;
+        }
 
         return AIStateResult.None;
     }

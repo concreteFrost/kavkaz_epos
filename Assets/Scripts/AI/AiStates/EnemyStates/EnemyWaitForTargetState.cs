@@ -44,7 +44,8 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
         if(handler.HasWaitTimerExceeded())
         {
-            Debug.Log("cant reach, return to idle");
+            //Debug.Log("cant reach, return to idle");
+           
             return AIStateResult.MoveToStartPosition;
         }
 

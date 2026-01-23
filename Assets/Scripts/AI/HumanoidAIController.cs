@@ -78,14 +78,17 @@ public class HumanoidAIController : MonoBehaviour
     {
         if (damageController.IsDamaged) return;
 
+        if (aiMotor.inputMagnitude == 0) return;
+
+        if (!aiMotor.isGrounded) return;
+
+       
         if (aiMotor.rotateTarget != null)
         {
             aiMotor.RotateToTarget(aiMotor.rotateTarget.position);
             return;
         }
 
-        if (!aiMotor.agent.hasPath)
-            return;
 
         Vector3 dir = aiMotor.agent.steeringTarget - transform.position;
         dir.y = 0f;
