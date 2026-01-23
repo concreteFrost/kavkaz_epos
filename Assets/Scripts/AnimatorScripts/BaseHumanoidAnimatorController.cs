@@ -16,8 +16,9 @@ public abstract class BaseHumanoidAnimatorController
     {
 
         this.animator = service.animator;
+        this.overrideController = service.overrideController;
 
-        overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        //overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = overrideController;
 
         this.movement = service.motor;

@@ -7,6 +7,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("CORE")]
     [SerializeField] UniqueId uniqueId;
     [SerializeField] Animator animator;
+    [SerializeField] AnimatorOverrideController overrideController;
 
     [SerializeField] PlayerController controller;
 
@@ -64,7 +65,7 @@ public class PlayerServiceLocator : MonoBehaviour
         HumanoidCombatControllerServices combatControllerService = new HumanoidCombatControllerServices(combatInventory, characterAnimator);
         combatController.Init(combatControllerService);
 
-        HumanoidAnimatorService animatorServiceProvider = new HumanoidAnimatorService(animator, motor, combatController, targetLock, damageController);
+        HumanoidAnimatorService animatorServiceProvider = new HumanoidAnimatorService(animator,overrideController, motor, combatController, targetLock, damageController);
         characterAnimator.Init(animatorServiceProvider);
 
         PlayerTargetLockService targetLockServiceProvider = new PlayerTargetLockService(lockOnTargetUI, controller, damageController,stats);

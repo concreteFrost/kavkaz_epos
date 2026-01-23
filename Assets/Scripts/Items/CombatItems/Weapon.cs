@@ -130,7 +130,7 @@ public class Weapon : CombatItem, IWeapon
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
  
-        StartCoroutine(ThrowCoroutine(0.2f)); 
+        StartCoroutine(ThrowCoroutine(0.25f)); 
         StartCoroutine(DisableColliderWhenStopped());
 
     }
@@ -156,7 +156,7 @@ public class Weapon : CombatItem, IWeapon
     IEnumerator DisableColliderWhenStopped()
     {
         // ждём, пока оружие реально начнёт двигаться
-        yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.1f);
+        yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.15f);
        
 
         while (true)

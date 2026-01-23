@@ -5,6 +5,7 @@ public class EnemyServiceLocator : MonoBehaviour
     [SerializeField] UniqueId uniqueId;
 
     [SerializeField] private Animator animator;
+    [SerializeField] private AnimatorOverrideController overrideController;
   
     [SerializeField] private CapsuleCollider capsuleCollider;
 
@@ -45,7 +46,7 @@ public class EnemyServiceLocator : MonoBehaviour
         ik.Init(motor, stats,damageController);
         fovController.Init();
 
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, motor, combatController, fovController, damageController);
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,overrideController, motor, combatController, fovController, damageController);
         animatorController.Init(animatorService);
 
         HumanoidInteractService interactService = new HumanoidInteractService(combatInventory, damageController);
