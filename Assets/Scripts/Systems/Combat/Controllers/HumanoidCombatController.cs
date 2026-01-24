@@ -56,6 +56,24 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
         StartNextAttack();
     }
 
+    public void PerformPowerAttack()
+    {
+        if (isShieldRaised) return;
+
+        if (isAttacking) return;
+
+        ResetCombo();
+
+        var weapon = inventory.CurrentWeapon;
+        var powerAttack = weapon.WeaponData().attackSet.powerAttack;
+
+        weapon.GetPowerAttack(powerAttack);
+
+        animatorController.OverrideAttack(powerAttack, "Power Attack");
+
+        isAttacking = true;
+    }
+
     public void PerformBlock()
     {
         if (inventory.ShieldWeapon == null) return;
@@ -102,7 +120,9 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
         var attack = weapon.CurrentAttack();
 
-        animatorController.OverrideAttack(attack, attackIndex);
+        string attackName = "Attack_" + attackIndex;
+
+        animatorController.OverrideAttack(attack, attackName);
         
         isAttacking = true;
         attackIndex++;

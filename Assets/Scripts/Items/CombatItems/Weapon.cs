@@ -17,6 +17,8 @@ public class Weapon : CombatItem, IWeapon
     #region IWeapon Contract
     public WeaponSO WeaponData() => weaponSO;
     public Attack CurrentAttack() => currentAttack;
+
+    public Attack GetPowerAttack(Attack attack)=> currentAttack = attack;
     public void SelectAttack(int index)
     {
         var list = weaponSO.attackSet.attackList;

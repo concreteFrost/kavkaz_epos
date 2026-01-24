@@ -43,6 +43,8 @@ public interface IWeapon
     /// <param name="index"></param>
     public void SelectAttack(int index);
 
+    Attack GetPowerAttack(Attack attack);
+
     /// <summary>
     /// Получение данных текущей атаки
     /// </summary>

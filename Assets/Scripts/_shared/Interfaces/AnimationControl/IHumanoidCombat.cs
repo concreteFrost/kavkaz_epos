@@ -6,6 +6,7 @@ public interface IHumanoidCombat
     bool IsShieldRaised { get; set; }
     void EndAttack();
     void PerformAttack();
+    void PerformPowerAttack();
     void PerformBlock();
     void CancelBlock();
     void ThrowWeapon();

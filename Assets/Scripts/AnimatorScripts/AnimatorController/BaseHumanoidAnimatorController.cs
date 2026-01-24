@@ -79,9 +79,9 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
     }
 
-    public void OverrideAttack(Attack attack, int attackIndex)
+    public void OverrideAttack(Attack attack, string name)
     {
-        var stateName = "Attack_" + attackIndex;
+        var stateName = name;
         overrideController[stateName] = attack.animationInfo.clip;
 
         animator.speed = attack.animationInfo.animationSpeed;

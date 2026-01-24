@@ -31,5 +31,7 @@ public class Attack
 public class AttackSO : ScriptableObject
 {
     public List<Attack> attackList;
+
+    public Attack powerAttack;
  
 }

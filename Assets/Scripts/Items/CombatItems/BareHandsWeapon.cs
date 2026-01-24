@@ -6,6 +6,8 @@ public class BareHandsWeapon : IWeapon
     private WeaponDamageCollider damageCollider;
 
     private Attack currentAttack;
+
+    public Attack GetPowerAttack(Attack attack)=>currentAttack=attack;  
     public ICombatInventory AttackSource { get; set; }
 
     int currentAttackIndex = 0;

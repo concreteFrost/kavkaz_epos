@@ -178,11 +178,17 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanAttack()) return;
 
-      
-
         combatController.PerformAttack();
 
     }
+
+    public void PerformPowerAttack()
+    {
+        if(!actionGuards.CanAttack()) return;
+
+        combatController.PerformPowerAttack();
+    }
+
     public void ThrowWeapon()
     {
         if (!actionGuards.CanThrowWeapon()) return;
