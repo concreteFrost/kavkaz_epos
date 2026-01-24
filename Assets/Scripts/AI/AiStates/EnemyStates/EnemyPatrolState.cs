@@ -4,13 +4,20 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 {
     private Vector3 destination;
 
+    HumanoidAIMotor motor;
+    EnemyFOVController fov;
+
     EnemyPatrolHandler patrolStateTracker;
     EnemyPassiveInterruptionHandler passiveInterruptionTracker;
 
     public override void Enter()
     {
-        context.fov.ResetTarget();
-        context.motor.ResetSprint();
+        motor = context.motor;
+        fov = context.fov;
+
+        fov.ResetTarget();
+        motor.ResetLockTarget();    
+        motor.ResetSprint();
 
         patrolStateTracker = context.stateTracker.patrolHandler;
         passiveInterruptionTracker = context.stateTracker.interruptionTracker;
@@ -18,7 +25,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (patrolStateTracker.HasReachedMaxWalks())
         {
             destination = context.permamentPosition;
-            context.motor.MoveCharacter(destination);
+            motor.MoveCharacter(destination);
 
             patrolStateTracker.ResetPatrol();
             return;
@@ -30,7 +37,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
                 10,
                 out destination))
         {
-            context.motor.MoveCharacter(destination);
+            motor.MoveCharacter(destination);
             patrolStateTracker.IncrementWalks();
         }
 
@@ -39,16 +46,16 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     public override AIStateResult Run()
     {
 
-        context.fov.CheckTargets();
+        fov.CheckTargets();
 
-        if (context.fov.currentTarget != null)
+        if (fov.currentTarget != null)
             return AIStateResult.Chase;
 
         if (passiveInterruptionTracker.IsInterrupted())
         {
             passiveInterruptionTracker.UpdateInterruption();
-            context.motor.StopMovement();
-            context.motor.RotateToTarget(passiveInterruptionTracker.GetInterruptionDirection());
+            motor.StopMovement();
+            motor.RotateToTarget(passiveInterruptionTracker.GetInterruptionDirection());
             return AIStateResult.None;
         }
 
@@ -56,7 +63,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
             return AIStateResult.Idle;
 
-        if (context.motor.agentController.HasReachedDestination())
+        if (motor.agentController.HasReachedDestination())
             return AIStateResult.Idle;
 
 

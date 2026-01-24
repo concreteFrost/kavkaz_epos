@@ -20,7 +20,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         chaseHandler.ResetChaseState();
         motor.agentController.ResetPath();
          
-        context.motor.IsSprinting = true;
+        motor.IsSprinting = true;
     }
 
     public override AIStateResult Run()
@@ -31,7 +31,6 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         // 1. нет цели
         if (fov.currentTarget == null)
         {
-            Debug.Log("i lossttt");
             return AIStateResult.Idle;
         }
             

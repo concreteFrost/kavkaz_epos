@@ -2,34 +2,45 @@ using UnityEngine;
 
 public class EnemyServiceLocator : MonoBehaviour
 {
-    [SerializeField] UniqueId uniqueId;
 
+    [Header("Анимация")]
     [SerializeField] private Animator animator;
     [SerializeField] private AnimatorOverrideController overrideController;
-  
+    [SerializeField] private HumanoidAnimatorIK ik;
+    [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
+
+    [Header("Коллайдер")]   
     [SerializeField] private CapsuleCollider capsuleCollider;
 
-    [SerializeField] private CharacterStatsController statsController;
-    [SerializeField] private CharacterInteract interaction;
-
-    [SerializeField] private HumanoidAnimatorIK ik;
+    [Header("Мотор")]
     [SerializeField] private HumanoidAIMotor motor;
     [SerializeField] private HumanoidAIController controller;
-    
+
+    [Header("Статы")]
+    [SerializeField] private CharacterStatsController statsController;
     [SerializeField] private HumanoidStats stats;
-    [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
-    [SerializeField] private HumanoidAIDamageController damageController;
+
+    [Header("Система взаимодействия")]
+    [SerializeField] private CharacterInteract interaction;
+
+    [Header("Боевая система")]
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
-  
 
+    [Header("Система урона")]
+    [SerializeField] private HumanoidAIDamageController damageController;
+
+    [Header("Система зрения")]
     [SerializeField] private EnemyFOVController fovController;
+
+    [Header("Мозг")]
     [SerializeField] private EnemyBrain brain;
     [SerializeField] private EnemyStateTracker stateTracker;
 
+    [Header("Уникальный идентификатор")]
+    [SerializeField] UniqueId uniqueId;
     string uid;
  
-
     private void Awake()
     {
         uid = uniqueId.uniqueId;

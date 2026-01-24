@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseCombatInventory : MonoBehaviour , IAttackSource
+public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 {
     [SerializeField] protected CombatInventorySO starterSet;
 

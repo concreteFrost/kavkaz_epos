@@ -2,7 +2,7 @@
 using UnityEngine.AI;
 
 
-public struct HumanoidControllerService
+public class HumanoidControllerService
 {
     public Animator animator;
 
@@ -25,13 +25,13 @@ public struct HumanoidControllerService
     }
 }
 
-public struct HumanoidCombatControllerServices
+public class HumanoidCombatControllerServices
 {
-    public IAttackSource combatInventory;
+    public ICombatInventory combatInventory;
     public BaseHumanoidAnimatorController animatorController;
 
     public HumanoidCombatControllerServices(
-        IAttackSource combatInventory,
+        ICombatInventory combatInventory,
         BaseHumanoidAnimatorController animatorController   
        )
     {
@@ -40,9 +40,9 @@ public struct HumanoidCombatControllerServices
     }
 }
 
-public struct HumanoidDamageControllerService
+public class HumanoidDamageControllerService
 {
-    public HumanoidAIMotor motor;
+    public IHumanoidMovement motor;
     public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
     public NavMeshAgent agent;
@@ -50,7 +50,7 @@ public struct HumanoidDamageControllerService
 
     public string uniqueID;
 
-    public HumanoidDamageControllerService(HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
     {
         this.motor = motor;
         this.statsModifier = statsController;
@@ -62,27 +62,7 @@ public struct HumanoidDamageControllerService
     }
 }
 
-
-public struct CharacterTargetLockService
-{
-
-    public HumanoidAIController controller;
-    public IDamagable damageController;
-    public HumanoidStats stats;
-
-    public CharacterTargetLockService(
-        
-        HumanoidAIController controller,
-        IDamagable damageController,
-        HumanoidStats stats)
-    {
-        this.controller = controller;
-        this.damageController = damageController;
-        this.stats = stats;
-    }
-}
-
-public struct HumanoidAnimatorService
+public class HumanoidAnimatorService
 {
     public Animator animator;
     public AnimatorOverrideController overrideController;
@@ -108,19 +88,19 @@ public struct HumanoidAnimatorService
     }
 }
 
-public struct HumanoidInteractService
+public class HumanoidInteractService
 {
-    public IAttackSource combatInventory;
+    public ICombatInventory combatInventory;
     public IDamagable owner;
 
-    public HumanoidInteractService(IAttackSource combatInventory, IDamagable owner)
+    public HumanoidInteractService(ICombatInventory combatInventory, IDamagable owner)
     {
         this.combatInventory = combatInventory;
         this.owner = owner;
     }
 }
 
-public struct HumanoidCombatInventoryService
+public class HumanoidCombatInventoryService
 {
     public BaseHumanoidAnimatorController animatorController;
     public IHumanoidCombat combatController;
@@ -146,41 +126,12 @@ public struct HumanoidCombatInventoryService
     }
 }
 
-public struct HumanoidStatsControllerService
+public class HumanoidStatsControllerService
 {
     public HumanoidStats stats;
     public HumanoidStatsControllerService(HumanoidStats stats)
     {
         this.stats = stats;
     }
-}
-
-public struct SimpleHumanoidBrainContext
-{
-    public Vector3 permamentPosition;
-
-    public Transform self;
-    public HumanoidAIMotor motor;
-    public HumanoidAIController controller;
-    public IDamagable damageController;
-
-}
-
-public class EnemyBrainContext
-{
-    public Vector3 permamentPosition;
-
-    public Transform self;
-    public HumanoidAIMotor motor;
-    public HumanoidAIController controller;
-    public HumanoidStats stats;
-    public IDamagable damageController;
-
-    public HumanoidCombatController combat;
-    public HumanoidCombatInventory inventory;
-    public EnemyFOVController fov;
-    public EnemyStateTracker stateTracker;  
-    public CharacterInteract interact;
-
 }
 

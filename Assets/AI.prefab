@@ -1442,6 +1442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIServiceLocator
   uniqueId: {fileID: 6814210642978726995}
   animator: {fileID: 2887694345456518040}
+  overrideController: {fileID: 22100000, guid: 9f97b37f36a785549a9ffdecb3e0233c, type: 2}
   capsuleCollider: {fileID: 1617497395427065781}
   statsController: {fileID: 6095946705785411074}
   interaction: {fileID: 1604697800633764470}
@@ -1498,7 +1499,7 @@ MonoBehaviour:
   animator: {fileID: 2887694345456518040}
   weight: 2
   headWeight: 0.3
-  bodyWeight: 0.1
+  bodyWeight: 0.05
 --- !u!114 &6814210642978726995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1511,7 +1512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_efa9d18d-0b32-41af-a25a-2aa9a7ca1523
+  uniqueId: uid_b723179c-8c7d-4780-9218-124723418027
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1907,6 +1908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFOVController
   fovDataSO: {fileID: 11400000, guid: c4c7ef9c49f846b4fab4e994137f98a4, type: 2}
   eyes: {fileID: 6179319653975254956}
+  checkCooldown: 0
 --- !u!1 &4772585678690012177
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,7 +2114,11 @@ MonoBehaviour:
   strafeSpeed: 0
   jumpHeight: 0
   jumpTimer: 0
+  Health:
+    Current: 0
   maxHealth: 0
+  Stamina:
+    Current: 0
   maxStamina: 0
   staminaRunReducePenalty: 0.03
   staminaJumpReducePenalty: 2

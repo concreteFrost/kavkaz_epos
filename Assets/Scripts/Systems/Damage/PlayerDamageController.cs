@@ -5,23 +5,24 @@ public class PlayerDamageController : BaseDamageController
 {
     IHumanoidMovement motor;
     IHumanoidCombat combatController;
-    IAttackSource inventory;
+    ICombatInventory combatInventory;
     
     PlayerInput input;
 
     protected bool canTakeAnotherDamage = true;
 
 
-    public void Init(IHumanoidMovement motor, ICharacterStatsController statsController,HumanoidStats stats ,IHumanoidCombat combatController, IAttackSource inventory, PlayerInput input, string uniqueID)
+    public void Init(PlayerDamageControllerService service)
     {
 
-        this.motor = motor; 
-        this.uniqueID = uniqueID; 
-        this.statsController = statsController;
-        this.combatController = combatController;
-        this.inventory = inventory;
-        this.input = input; 
-        this.stats = stats;
+        this.motor = service.motor; 
+        this.uniqueID = service.uid;
+        this.stats = service.stats;
+        this.statsController = service.statsController;
+        this.combatController = service.combatController;
+        this.combatInventory = service.attackSource;
+        this.input = service.input; 
+      
 
         stats.Health.Depleted += Die;
 
@@ -69,9 +70,9 @@ public class PlayerDamageController : BaseDamageController
 
         input.controls.Player.Disable();
 
-        inventory.CurrentWeapon?.DropWeapon();
-        inventory.ShieldWeapon?.ThrowShield();
-        inventory.ResetWeapon();
+        combatInventory.CurrentWeapon?.DropWeapon();
+        combatInventory.ShieldWeapon?.ThrowShield();
+        combatInventory.ResetWeapon();
 
         StartCoroutine(RespawnCoroutine(5f));
     }

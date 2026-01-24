@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public struct PlayerControllerService
+public class PlayerControllerService
 {
     public PlayerMotor controller;
     public HumanoidStats stats;
@@ -36,7 +36,7 @@ public struct PlayerControllerService
     }
 }
 
-public struct PlayerInputService
+public class PlayerInputService
 {
     public PlayerController controller;
     public PlayerAnimatorController animator;
@@ -53,7 +53,7 @@ public struct PlayerInputService
     }
 }
 
-public struct PlayerTargetLockService
+public class PlayerTargetLockService
 {
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
@@ -74,23 +74,29 @@ public struct PlayerTargetLockService
     }
 }
 
-public struct PlayerDamageControllerServices
+public class PlayerDamageControllerService 
 {
+    public IHumanoidMovement motor;
     public ICharacterStatsController statsController;
     public HumanoidStats stats;
     public PlayerInput input;
 
     public IHumanoidCombat combatController;
-    public IAttackSource attackSource;
+    public ICombatInventory attackSource;
 
-    public PlayerDamageControllerServices(ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input,  IHumanoidCombat combatController, IAttackSource attackSource)
+    public string uid;
+
+    public PlayerDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input,  IHumanoidCombat combatController, ICombatInventory attackSource, string uid)
     {
+        this.motor = motor;
         this.statsController = statsController;
         this.stats = stats;
         this.input = input;
   
         this.attackSource = attackSource;
         this.combatController = combatController;
+
+        this.uid = uid; 
 
     }
 }

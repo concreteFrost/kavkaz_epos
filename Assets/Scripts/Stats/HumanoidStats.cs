@@ -29,8 +29,6 @@ public class HumanoidStats : MonoBehaviour
     public float staminaMaxRegenDelay = 6f;
     public float staminaRegenRate = 15f;
 
-    [Header("balance")]
-    public float currentBalance = 0f;
 
     [Header("stats debug")]
     public float d_stamina;

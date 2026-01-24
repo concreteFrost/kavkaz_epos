@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterInteract : MonoBehaviour, ICollector 
 {
 
-    public IAttackSource AttackSource { get; set; } =null;
+    public ICombatInventory AttackSource { get; set; } =null;
     public IDamagable Damagable { get; set; } = null;
     /// <summary>
     /// Предмет для поднятия

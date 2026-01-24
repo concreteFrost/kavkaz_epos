@@ -6,7 +6,7 @@ public class BareHandsWeapon : IWeapon
     private WeaponDamageCollider damageCollider;
 
     private Attack currentAttack;
-    public IAttackSource AttackSource { get; set; }
+    public ICombatInventory AttackSource { get; set; }
 
     int currentAttackIndex = 0;
 
@@ -40,7 +40,7 @@ public class BareHandsWeapon : IWeapon
     //    Init();
     //}
 
-    public void Init(WeaponSO weaponSO, WeaponDamageCollider damageCollider, IAttackSource source)
+    public void Init(WeaponSO weaponSO, WeaponDamageCollider damageCollider, ICombatInventory source)
     {
         this.weaponSO = weaponSO;
         this.damageCollider = damageCollider;  

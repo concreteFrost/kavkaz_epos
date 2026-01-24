@@ -4,9 +4,13 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     private EnemyIdleHandler idleHandler;
     private EnemyCombatHandler combatHandler;
     private EnemyPassiveInterruptionHandler interruptionTracker;
+    private HumanoidAIMotor motor;
+    private EnemyFOVController fov;
 
     public override void Enter()
     {
+        motor = context.motor;
+        fov = context.fov;  
       
         idleHandler = context.stateTracker.idleHandler;
         interruptionTracker = context.stateTracker.interruptionTracker;
@@ -14,12 +18,12 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         combatHandler = context.stateTracker.combatHandler;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
-        context.motor.StopMovement();
-        context.motor.ResetSprint();
+        motor.StopMovement();
+        motor.ResetSprint();
 
         // сбрасываем цель Ч idle не удерживает агрессию
-        context.fov.ResetTarget();
-        context.motor.ResetLockTarget();
+        fov.ResetTarget();
+        motor.ResetLockTarget();
 
         // инициализаци€ таймеров и флагов состо€ни€ поко€
         idleHandler.SetMaxIdleTime();
@@ -33,16 +37,16 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     public override AIStateResult Run()
     {
         // ищем потенциальные цели
-        context.fov.CheckTargets();
+        fov.CheckTargets();
 
         // переходим в погоню если цель найдена
-        if (context.fov.currentTarget != null)
+        if (fov.currentTarget != null)
             return AIStateResult.Chase;
 
         // реакци€ на полученный урон без смены состо€ни€
         if (interruptionTracker.IsInterrupted())
         {
-            context.motor.RotateToTarget(interruptionTracker.GetInterruptionDirection());
+            motor.RotateToTarget(interruptionTracker.GetInterruptionDirection());
             interruptionTracker.UpdateInterruption();
             return AIStateResult.None;
         }

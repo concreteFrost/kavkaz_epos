@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponThrowBehavior : StateMachineBehaviour
 {
 
-    IAttackSource inv;
+    ICombatInventory inv;
     IHumanoidMovement motor;
     bool weaponThrowed = false;
     
@@ -11,7 +11,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor = animator.GetComponent<IHumanoidMovement>();
-        inv = animator.GetComponentInChildren<IAttackSource>();
+        inv = animator.GetComponentInChildren<ICombatInventory>();
 
         animator.applyRootMotion = true;
         motor.BlockRotation = true;

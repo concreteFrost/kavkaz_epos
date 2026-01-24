@@ -62,9 +62,11 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         if (strafeHandler.IsStrafeTimeFinished())
             return AIStateResult.Chase;
 
+        Transform self = context.self;
+
         // проверяем дистанцию до цели
         float distance = Vector3.Distance(
-            context.self.position,
+            self.position,
             fov.currentTarget.GetOrigin().position
         );
 
@@ -112,8 +114,11 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         
         while (elapsed < maxStrafeTime && fov.currentTarget != null)
         {
-            Vector3 selfPos = context.self.position;
-            Vector3 targetPos = fov.currentTarget.GetOrigin().position;
+            Transform self = context.self;
+            Transform target = fov.currentTarget.GetOrigin();
+
+            Vector3 selfPos = self.position;
+            Vector3 targetPos = target.position;
 
             // направление от врага к цели
             Vector3 toTarget = (targetPos - selfPos).normalized;

@@ -52,6 +52,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
             Die();
         }
+
+        DamageTaken?.Invoke(source);
     }
 
 

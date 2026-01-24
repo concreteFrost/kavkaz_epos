@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IAttackSource
+public interface ICombatInventory
 {
     /// <summary>
     /// Назначает источник атаки для предотвращения попадания по самому себе
