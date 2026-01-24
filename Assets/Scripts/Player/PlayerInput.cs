@@ -6,7 +6,6 @@ public class PlayerInput : MonoBehaviour
     PlayerController controller;
     PlayerTargetLock targetLock;
     PlayerAnimatorController animator;
-    
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
@@ -17,16 +16,11 @@ public class PlayerInput : MonoBehaviour
     private bool jumpPressed;
     private bool throwHeld;
     private bool attackPressed;
+    private bool powerAttackGamepadPressed;
+    private bool chargeHeld;
     private bool blockHeld;
     private bool interactPressed;
     private bool lockOnTargetPressed;
-
-    [Header("Менеджер атаки")]
-    
-    private bool attackHeld;
-    private bool attackReleased;
-    private float powerAttackThreshold = 0.5f;
-    private float currAttackHoldTime = 0f;
 
     protected virtual void Awake()
     {
@@ -50,17 +44,13 @@ public class PlayerInput : MonoBehaviour
         // Combat
         controls.Player.ThrowItem.performed += ctx => throwHeld = true;
         controls.Player.ThrowItem.canceled += ctx => throwHeld = false;
-        controls.Player.Attack.started += ctx =>
-        {
-            attackHeld = true;
-            currAttackHoldTime = 0f;
-        };
+        controls.Player.Attack.performed += ctx => attackPressed = true;
 
-        controls.Player.Attack.canceled += ctx =>
-        {
-            attackHeld = false;
-            attackReleased = true;
-        };
+        controls.Player.PowerAttackHold.performed +=crt=> chargeHeld = true;
+        controls.Player.PowerAttackHold.canceled += ctx => chargeHeld = false;
+
+        controls.Player.PowerAttackGamepad.performed += ctx => powerAttackGamepadPressed = true;
+
         controls.Player.Block.performed += ctx => blockHeld = true;
         controls.Player.Block.canceled += ctx => blockHeld = false;
         controls.Player.LockTarget.performed += ctx => lockOnTargetPressed = true;
@@ -84,7 +74,7 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-       
+
         animator.UpdateAnimatorParameters();
     }
 
@@ -96,7 +86,7 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void InputHandle()
     {
-        Vector3 moveDir = new Vector3(moveInput.x,0, moveInput.y);
+        Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
 
         controller.MoveAndRotate(moveDir);
 
@@ -104,7 +94,6 @@ public class PlayerInput : MonoBehaviour
         JumpInput();
 
         AttackInput();
-
         BlockInput();
         LockOnTargetInput();
 
@@ -137,27 +126,36 @@ public class PlayerInput : MonoBehaviour
 
     private void AttackInput()
     {
-        if (attackHeld)
-            currAttackHoldTime += Time.deltaTime;
-
-        if (!attackReleased)
+        // Gamepad — мгновенно
+        if (powerAttackGamepadPressed)
+        {
+            controller.PerformPowerAttack();
+            powerAttackGamepadPressed = false;
             return;
-
-        if (throwHeld)
-        {
-            controller.ThrowWeapon();
         }
-        else
+
+        // Keyboard + Mouse: мощная атака по удержанию
+        if (chargeHeld && attackPressed)
         {
-            if (currAttackHoldTime >= powerAttackThreshold)
-                controller.PerformPowerAttack();
+            
+            controller.PerformPowerAttack();
+            attackPressed = false;
+            return;
+        }
+
+        // Обычная атака
+        if (attackPressed)
+        {
+
+            if (throwHeld)
+                controller.ThrowWeapon();
             else
                 controller.PerformAttack();
+
+            attackPressed = false;
         }
-
-        attackReleased = false;
-
     }
+
 
     private void BlockInput()
     {
@@ -200,5 +198,5 @@ public class PlayerInput : MonoBehaviour
     }
     #endregion
 
-  
+
 }

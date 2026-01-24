@@ -181,6 +181,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PowerAttackHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e0d1e70-2cb3-41ef-b57c-9dacdf47ab55"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PowerAttackGamepad"",
+                    ""type"": ""Button"",
+                    ""id"": ""57f13946-06ca-4a2f-89f5-53a0c8cb9938"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -352,7 +370,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -528,7 +546,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f0fc4aeb-75b0-4341-a36b-77375e8c2d1c"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -543,6 +561,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b4fe885-ccba-4a41-bb64-015d771ea325"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -566,6 +595,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LockTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4231907f-741f-4a87-96ee-6c0b185be0db"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""PowerAttackHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecc65cb4-dd3e-4311-92e6-36b6594b56ef"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PowerAttackGamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1163,6 +1214,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_ThrowItem = m_Player.FindAction("ThrowItem", throwIfNotFound: true);
         m_Player_LockTarget = m_Player.FindAction("LockTarget", throwIfNotFound: true);
+        m_Player_PowerAttackHold = m_Player.FindAction("PowerAttackHold", throwIfNotFound: true);
+        m_Player_PowerAttackGamepad = m_Player.FindAction("PowerAttackGamepad", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1266,6 +1319,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_ThrowItem;
     private readonly InputAction m_Player_LockTarget;
+    private readonly InputAction m_Player_PowerAttackHold;
+    private readonly InputAction m_Player_PowerAttackGamepad;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1317,6 +1372,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/LockTarget".
         /// </summary>
         public InputAction @LockTarget => m_Wrapper.m_Player_LockTarget;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/PowerAttackHold".
+        /// </summary>
+        public InputAction @PowerAttackHold => m_Wrapper.m_Player_PowerAttackHold;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/PowerAttackGamepad".
+        /// </summary>
+        public InputAction @PowerAttackGamepad => m_Wrapper.m_Player_PowerAttackGamepad;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1373,6 +1436,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockTarget.started += instance.OnLockTarget;
             @LockTarget.performed += instance.OnLockTarget;
             @LockTarget.canceled += instance.OnLockTarget;
+            @PowerAttackHold.started += instance.OnPowerAttackHold;
+            @PowerAttackHold.performed += instance.OnPowerAttackHold;
+            @PowerAttackHold.canceled += instance.OnPowerAttackHold;
+            @PowerAttackGamepad.started += instance.OnPowerAttackGamepad;
+            @PowerAttackGamepad.performed += instance.OnPowerAttackGamepad;
+            @PowerAttackGamepad.canceled += instance.OnPowerAttackGamepad;
         }
 
         /// <summary>
@@ -1414,6 +1483,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockTarget.started -= instance.OnLockTarget;
             @LockTarget.performed -= instance.OnLockTarget;
             @LockTarget.canceled -= instance.OnLockTarget;
+            @PowerAttackHold.started -= instance.OnPowerAttackHold;
+            @PowerAttackHold.performed -= instance.OnPowerAttackHold;
+            @PowerAttackHold.canceled -= instance.OnPowerAttackHold;
+            @PowerAttackGamepad.started -= instance.OnPowerAttackGamepad;
+            @PowerAttackGamepad.performed -= instance.OnPowerAttackGamepad;
+            @PowerAttackGamepad.canceled -= instance.OnPowerAttackGamepad;
         }
 
         /// <summary>
@@ -1784,6 +1859,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLockTarget(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PowerAttackHold" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPowerAttackHold(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PowerAttackGamepad" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPowerAttackGamepad(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
