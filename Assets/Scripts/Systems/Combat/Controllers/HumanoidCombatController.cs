@@ -5,7 +5,7 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 {
 
     //ссылки
-    private ICombatInventory inventory;
+    public ICombatInventory inventory;
     private BaseHumanoidAnimatorController animatorController;
 
     public event Action OnAttackEnd; // для ИИ чтобы знать когда закончилась атака и начать новую

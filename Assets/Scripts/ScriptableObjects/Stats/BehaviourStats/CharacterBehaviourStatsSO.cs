@@ -24,13 +24,18 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float maxWaitTimer = 7f;
 
     [Header("Combat")]
+    public float attackTransitionChance = .8f;
+    public float initialPoweAttackChance = 0.15f;
     public float maxCombatDistance = 8f;
     public float attackDistance = 1.3f;
+    public float powerAttackChanceMultiplier = 0.05f;
 
     [RangeAttribute(0, 1f)]
+    public float initialDodgeChance = 0.2f;
     public float dodgeChanceMultiplier = 0.15f;
 
     [Header("Strafe")]
+    public float strafeTransitionChance = .2f;
     public float maxTargetDistanceInStrafe = 10f;
 
     [RangeAttribute(3, 7)]
@@ -39,7 +44,5 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [RangeAttribute(7, 12)]
     public int maxTimeInStrafeState=12;
 
-    [Header("Decision Chances")]
-    public float strafeChance = .2f;
-    public float attackChance = .8f;
+    
 }

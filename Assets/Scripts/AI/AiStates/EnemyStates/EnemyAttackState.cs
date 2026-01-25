@@ -5,7 +5,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 {
 
     // runtime
-    private Coroutine comboCoroutine;
+    private Coroutine combatCoroutine;
     private float distance;
 
     EnemyFOVController fov;
@@ -28,7 +28,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         inventory = context.inventory;
 
         combatHandler.ResetCombatState();
-        comboCoroutine = null;
+        combatCoroutine = null;
 
         if (context.fov.currentTarget == null)
             return;
@@ -74,7 +74,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return AIStateResult.Chase;
 
         // 7. Если идёт комбо — не вмешиваемся
-        if (comboCoroutine != null)
+        if (combatCoroutine != null)
             return AIStateResult.None;
 
         // 8. Подходим к цели, если ещё не в атаке
@@ -108,6 +108,9 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             case CombatTransition.Attack:
                 HandleAttack(target);
                 break;
+            case CombatTransition.Dodge:
+                StartCoroutine(DodgeCoroutine(target));
+                break;
 
             case CombatTransition.Strafe:
                 return AIStateResult.Strafe;
@@ -118,10 +121,10 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
-        if (comboCoroutine != null)
+        if (combatCoroutine != null)
         {
-            StopCoroutine(comboCoroutine);
-            comboCoroutine = null;
+            StopCoroutine(combatCoroutine);
+            combatCoroutine = null;
         }
 
         combatHandler.ToggleShield(false,inventory,combatController);
@@ -133,23 +136,18 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     private void FinishCombatAction()
     {
        
-        combatHandler.ResetCombatCooldown(0.2f, 1f);
-        comboCoroutine = null;
+        combatHandler.ResetCombatCooldown(0.2f, 0.7f);
+        combatCoroutine = null;
     }
 
     // ===== Combat logic =====
     private void HandleAttack(Transform target)
     {
-        var roll = Random.value;
+        if (combatHandler.WillPowerAttack())
+            combatCoroutine = StartCoroutine(PowerAttackCoroutine());
 
-        if(roll < combatHandler.GetDodgeChance())
-        {
-            comboCoroutine = StartCoroutine(DodgeCoroutine(target));
-        }
         else
-        {
-            comboCoroutine = StartCoroutine(ComboCoroutine());
-        }
+            combatCoroutine = StartCoroutine(ComboCoroutine());
     }
 
     private IEnumerator DodgeCoroutine(Transform target)
@@ -174,8 +172,26 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
     }
 
+    private IEnumerator PowerAttackCoroutine()
+    {
+        Debug.Log("power attack!");
+
+        var combat = context.combat;
+
+        combat.PerformPowerAttack();
+
+        while (combat.isAttacking)
+        {
+            yield return null;  
+        }
+
+        combatHandler.ResetPowerAttackChance();
+        FinishCombatAction();
+    }
+
     private IEnumerator ComboCoroutine()
     {
+
         int punchesCount = Random.Range(1, 5);
         var combat = context.combat;
 

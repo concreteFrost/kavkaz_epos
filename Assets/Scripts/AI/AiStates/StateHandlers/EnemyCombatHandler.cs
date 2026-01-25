@@ -5,7 +5,7 @@ public enum CombatTransition
     Attack = 0,
     Strafe = 1,
     FindWeapon = 2,
-    Dodge =3
+    Dodge = 3
 }
 
 [System.Serializable]
@@ -14,29 +14,39 @@ public class EnemyCombatHandler
     CharacterBehaviourStatsSO stats;
     HumanoidStats statsController;
 
-    // combat
+    [Header("Состояние боя")]
     [SerializeField] private float currCombatCooldown;
     [SerializeField] private float maxCombatCooldown;
     //[SerializeField] private bool isComboRunning;
-    [SerializeField] private float currAttackChance;
-    // dodge
+    
+    //power attack
+    [SerializeField] private float powerAttackChance;
+
+    [Header("Учёт повреждений")]
     [SerializeField] private float lastDamageTime = -10f;
-    [SerializeField] private int damageCounter;
-    [SerializeField] private float currentDodgeChance;
+    //[SerializeField] private int damageCounter;
+    
 
     [SerializeField] private float comboDistanceOffset = 0.2f;
+
+    [Header("Додж")]
+    [SerializeField] private float currentDodgeChance;
     [SerializeField] private float dodgeCounterResetTimer = 5f;
 
-    // strafe chance
-    [SerializeField] private float currStrafeChance;
+    [Header("Транзит состояний")]
+    [SerializeField] private float currStrafeTransitionChance;
+    [SerializeField] private float currAttackTransitionChance;
 
     public EnemyCombatHandler(CharacterBehaviourStatsSO stats, HumanoidStats statsController)
     {
         this.stats = stats;
         this.statsController = statsController;
 
-        currAttackChance = stats.attackChance;
-        currStrafeChance = stats.strafeChance;
+        currAttackTransitionChance = stats.attackTransitionChance;
+        currStrafeTransitionChance = stats.strafeTransitionChance;
+
+        powerAttackChance = stats.initialPoweAttackChance;
+        currentDodgeChance = stats.initialDodgeChance;
     }
 
     public void ResetCombatState()
@@ -45,11 +55,11 @@ public class EnemyCombatHandler
         currCombatCooldown = 0f;
         maxCombatCooldown = 0f;
      
-        damageCounter = 0;
-        currentDodgeChance = 0f;
+        //damageCounter = 0;
+        currentDodgeChance = stats.initialDodgeChance;
 
-        currAttackChance = stats.attackChance;
-        currStrafeChance = stats.strafeChance;
+        //currAttackTransitionChance = stats.attackTransitionChance;
+        //currStrafeTransitionChance = stats.strafeTransitionChance;
 
     }
 
@@ -69,6 +79,16 @@ public class EnemyCombatHandler
 
     #endregion
 
+    #region Power Attack
+    public float GetPowerAttackChance() => powerAttackChance;
+
+    public bool WillPowerAttack() => powerAttackChance > Random.value;
+
+    public void IncreasePowerAttackChance() => powerAttackChance += stats.powerAttackChanceMultiplier;
+
+    public void ResetPowerAttackChance()=> powerAttackChance = stats.initialPoweAttackChance;  
+    #endregion
+
     #region Combo
     //public bool IsComboRuning() => isComboRunning;
 
@@ -82,16 +102,17 @@ public class EnemyCombatHandler
     {
         if (Time.time - lastDamageTime > dodgeCounterResetTimer)
         {
-            damageCounter = 0;
-            currentDodgeChance = 0f;
+            //damageCounter = 0;
+            currentDodgeChance = stats.initialDodgeChance;
         }
     }
 
-    public void ResetDodgeChance()
-    {
-        damageCounter = 0;
-        currentDodgeChance = 0f;
-    }
+    public void IncreaseDodgeChance()=> currentDodgeChance += stats.dodgeChanceMultiplier;  
+
+    public void ResetDodgeChance() => currentDodgeChance = stats.initialDodgeChance;
+
+    private bool WillDodge()=> currentDodgeChance >= Random.value;
+
     #endregion
 
     #region Distance to Target
@@ -105,13 +126,15 @@ public class EnemyCombatHandler
     public void RegisterDamage()
     {
         lastDamageTime = Time.time;
-        damageCounter++;
-        currentDodgeChance = damageCounter * stats.dodgeChanceMultiplier;
+       
+        IncreaseDodgeChance();  
+        IncreasePowerAttackChance();
     }
 
     public void OnDamageTaken(Transform attackSource)
     {
         RegisterDamage();
+        AdjustChances();
     }
     #endregion
 
@@ -140,41 +163,36 @@ public class EnemyCombatHandler
 
     public CombatTransition GetNextDecision()
     {
-        AdjustChances();    
+           
+        float sum = currAttackTransitionChance + currStrafeTransitionChance;
 
-        float sum = currAttackChance + currStrafeChance;
-        
         if (sum <= 0f)
-            return CombatTransition.Attack;
+            return AttackOrDodge();
 
         float roll = Random.value * sum;
 
-        if (roll < currAttackChance)
-            return CombatTransition.Attack;
+        if (roll < currAttackTransitionChance)
+            return AttackOrDodge();
 
         return CombatTransition.Strafe;
     }
 
+    private CombatTransition AttackOrDodge()
+    {
+        if (WillDodge()) return CombatTransition.Dodge;
+
+        return CombatTransition.Attack;
+    }
+
     private void AdjustChances()
     {
-        float healthInfo = Mathf.Clamp01(
-            statsController.Health.Current / statsController.maxHealth
-        );
+        float adjuster = 0.025f;
 
-        float total = stats.attackChance + stats.strafeChance;
+        currAttackTransitionChance += adjuster;
+        currAttackTransitionChance = Mathf.Clamp(currAttackTransitionChance, 0f, 1f);   
 
-        if (total <= 0f)
-        {
-            currAttackChance = 0f;
-            currStrafeChance = 0f;
-            return;
-        }
-
-        // 0 → full HP, 1 → low HP
-        float aggression = 1f - healthInfo;
-
-        currAttackChance = Mathf.Lerp(stats.attackChance, total, aggression);
-        currStrafeChance = total - currAttackChance;
+        currStrafeTransitionChance -= adjuster;
+        currStrafeTransitionChance = Mathf.Clamp(currStrafeTransitionChance, 0f, 1f);
     }
 
 
