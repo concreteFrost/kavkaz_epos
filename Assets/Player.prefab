@@ -667,16 +667,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
   uniqueId: {fileID: 1162499973470532957}
   animator: {fileID: 146420996945911623}
-  controller: {fileID: 3436852327508266912}
+  overrideController: {fileID: 22100000, guid: 7e3dac5f5c0e1454687d8def435c519d, type: 2}
   motor: {fileID: 5155457626501010116}
   climbing: {fileID: 923361003681641049}
   input: {fileID: 1393379555626210300}
-  combatController: {fileID: 5722168148503660638}
-  damageController: {fileID: 9216071904075533163}
+  controller: {fileID: 3436852327508266912}
   stats: {fileID: 6584741475100290606}
   statsController: {fileID: 1717874504137131917}
   interaction: {fileID: 4663233294869295643}
+  combatController: {fileID: 5722168148503660638}
   combatInventory: {fileID: 4574909741016711461}
+  damageController: {fileID: 9216071904075533163}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
   lockOnTargetUI: {fileID: 5014458933061563304}
@@ -1505,13 +1506,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3453089792361591072}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.22335382, y: 0.48044088, z: 0.63315636, w: 0.56427187}
-  m_LocalPosition: {x: -0.0043, y: 0.086, z: 0.0458}
+  m_LocalRotation: {x: -0.38464808, y: 0.33213744, z: 0.64179033, w: 0.5743132}
+  m_LocalPosition: {x: -0.0059, y: 0.0975, z: 0.0202}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6065493795048708756}
-  m_LocalEulerAnglesHint: {x: -59.367, y: 30.599, z: 78.859}
+  m_LocalEulerAnglesHint: {x: -60.243, y: -13.069, z: 103.956}
 --- !u!1 &3531424011309434762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1910,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9088772248347075299}
   - {fileID: 1687416063504041188}
   - {fileID: 4676480116685063059}
   - {fileID: 8098127902209935896}
@@ -2892,7 +2894,7 @@ GameObject:
   - component: {fileID: 624933161343321461}
   - component: {fileID: 1006584062323535723}
   m_Layer: 2
-  m_Name: PlayerMeleeCollider
+  m_Name: PlayerMeleeRightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2946,6 +2948,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
+  healthDamage: 0
+  balanceDamage: 0
+  attackInterrupted: 0
+--- !u!1 &7547353170049255644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9088772248347075299}
+  - component: {fileID: 2248339007598788088}
+  - component: {fileID: 4194059548155221935}
+  m_Layer: 2
+  m_Name: PlayerMeleeLeftCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9088772248347075299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7547353170049255644}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030487087880147826}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2248339007598788088
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7547353170049255644}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0.09, z: 0}
+--- !u!114 &4194059548155221935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7547353170049255644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
+  healthDamage: 0
+  balanceDamage: 0
+  attackInterrupted: 0
 --- !u!1 &7673886959098126395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3515,7 +3589,11 @@ MonoBehaviour:
   strafeSpeed: 0
   jumpHeight: 0
   jumpTimer: 0
+  Health:
+    Current: 0
   maxHealth: 0
+  Stamina:
+    Current: 0
   maxStamina: 0
   staminaRunReducePenalty: 0.03
   staminaJumpReducePenalty: 7
@@ -3523,7 +3601,6 @@ MonoBehaviour:
   staminaMinRegenDelay: 2
   staminaMaxRegenDelay: 4
   staminaRegenRate: 15
-  currentBalance: 0
   d_stamina: 0
   d_health: 0
 --- !u!1 &8517202875410652669
@@ -3959,11 +4036,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
+  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
   rightHand: {fileID: 8409285499856481286}
   leftHand: {fileID: 8098127902209935896}
   targetsToIgnore: 0000000001000000
-  barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-  barehandDamageCollider: {fileID: 1006584062323535723}
+  meleeData:
+    barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
+    leftDamageCollider: {fileID: 4194059548155221935}
+    rightDamageCollider: {fileID: 1006584062323535723}
+    current: {fileID: 0}
 --- !u!1 &9059656156223377828
 GameObject:
   m_ObjectHideFlags: 0

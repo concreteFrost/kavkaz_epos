@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FromHand
+{
+    left = 0,
+    right = 1,  
+}
+
 [System.Serializable]
 public class Attack
 {
     public float healthDamageMultiplier;
     public BalanceDamageType balanceDamageMultiplier = BalanceDamageType.Low;
     public float staminaPenalty;
+
+    public FromHand fromHand = FromHand.right;
 
     public AnimationInfoSO animationInfo;
 

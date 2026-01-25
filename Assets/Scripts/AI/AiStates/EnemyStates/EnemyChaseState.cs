@@ -68,14 +68,15 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
-            switch (combatHandler.GetNextDecision())
-            {
-                case CombatTransition.Attack:
-                    return AIStateResult.Attack;
-                case CombatTransition.Strafe:
-                    return AIStateResult.Strafe;
+            return AIStateResult.Attack;
+            //switch (combatHandler.GetNextDecision())
+            //{
+            //    case CombatTransition.Attack:
+            //        return AIStateResult.Attack;
+            //    case CombatTransition.Strafe:
+            //        return AIStateResult.Strafe;
 
-            }
+            //}
         }
         else
         {

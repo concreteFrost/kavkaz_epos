@@ -89,12 +89,6 @@ public class EnemyCombatHandler
     public void ResetPowerAttackChance()=> powerAttackChance = stats.initialPoweAttackChance;  
     #endregion
 
-    #region Combo
-    //public bool IsComboRuning() => isComboRunning;
-
-    //public void SetComboRunning(bool runing) => isComboRunning = runing;
-    #endregion
-
     #region Dodge
     public float GetDodgeChance() => currentDodgeChance;
 
@@ -164,12 +158,7 @@ public class EnemyCombatHandler
     public CombatTransition GetNextDecision()
     {
            
-        float sum = currAttackTransitionChance + currStrafeTransitionChance;
-
-        if (sum <= 0f)
-            return AttackOrDodge();
-
-        float roll = Random.value * sum;
+        float roll = Random.value;
 
         if (roll < currAttackTransitionChance)
             return AttackOrDodge();
@@ -194,10 +183,5 @@ public class EnemyCombatHandler
         currStrafeTransitionChance -= adjuster;
         currStrafeTransitionChance = Mathf.Clamp(currStrafeTransitionChance, 0f, 1f);
     }
-
-
-
-
-
 
 }

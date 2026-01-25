@@ -7,6 +7,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     IHumanoidCombat combatAnimData;
     IHumanoidMovement motor;
     ICharacterStatsController statsModifier;
+    IDamagable damagable;
 
     bool hitActive = false;
 
@@ -16,6 +17,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
         statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
+        damagable =animator.GetComponentInChildren<IDamagable>();
 
         if(inv.CurrentWeapon != null)
         {
@@ -35,6 +37,8 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     {
 
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
+
+        if (damagable.IsDamaged) return;
 
         var weapon = inv.CurrentWeapon;
         var attack = weapon.CurrentAttack();

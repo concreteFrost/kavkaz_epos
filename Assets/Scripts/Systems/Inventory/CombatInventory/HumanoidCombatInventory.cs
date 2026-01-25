@@ -4,10 +4,8 @@ using UnityEngine;
 public class HumanoidCombatInventory : BaseCombatInventory
 {
     [Header("Bare Hands Settings")]
-
-    [SerializeField] private WeaponSO barehandsData;
-    [SerializeField] private WeaponDamageCollider barehandDamageCollider;
-
+    [SerializeField] private MeleeData meleeData;
+ 
     public override void Init(HumanoidCombatInventoryService service)
     {
         base.Init(service);
@@ -26,8 +24,8 @@ public class HumanoidCombatInventory : BaseCombatInventory
     private IWeapon InitializeBarehands()
     {
 
-        var bareHands = new BareHandsWeapon();
-        bareHands.Init(barehandsData, barehandDamageCollider, this);
+        var bareHands = new MeleeWeapon();
+        bareHands.Init(meleeData, this);
 
         return bareHands;
 
