@@ -33,7 +33,7 @@ public class HumanoidAITester : MonoBehaviour
     void Update()
     {
         if (aiMotor == null) return;
-        if (!aiMotor.agent.enabled) return;
+        //if (!aiMotor.agent.enabled) return;
 
         if (isMovingToTarget) MoveToTarget();
         if (isMovingToDefault) MoveToDefaultPosition();
@@ -92,7 +92,7 @@ public class HumanoidAITester : MonoBehaviour
     {
         if (!targetLock.IsLockedOnTarget) return;
 
-        aiMotor.agent.ResetPath();
+        //aiMotor.agent.ResetPath();
 
         // направление ОТ цели
         Vector3 fromTarget = (transform.position - targetPoint.position).normalized;

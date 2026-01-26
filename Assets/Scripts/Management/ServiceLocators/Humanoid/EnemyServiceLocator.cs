@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyServiceLocator : MonoBehaviour
 {
@@ -8,6 +9,13 @@ public class EnemyServiceLocator : MonoBehaviour
     [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private HumanoidAnimatorIK ik;
     [SerializeField] private HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
+
+    [Header("Агент")]
+    [SerializeField] NavMeshAgent agent;
+    HumanoidAgentController agentController;
+
+    [Header("Рагдол")]
+    [SerializeField] private HumanoidAIRagdollController ragdollController;
 
     [Header("Коллайдер")]   
     [SerializeField] private CapsuleCollider capsuleCollider;
@@ -52,7 +60,10 @@ public class EnemyServiceLocator : MonoBehaviour
     public void CoreInit()
     {
         stats.Init();
-        motor.Init(animator);
+        agentController = new HumanoidAgentController(agent,animator);
+
+        motor.Init(animator, agent, agentController);
+        ragdollController.Init(animator, agent, GetComponentsInChildren<Rigidbody>(),transform);
 
         ik.Init(motor, stats,damageController);
         fovController.Init();
@@ -66,7 +77,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidStatsControllerService service = new HumanoidStatsControllerService(stats);
         statsController.Init(service);
 
-        HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController, statsController,damageController, stats);
+        HumanoidControllerService controllerService = new HumanoidControllerService(animator, motor, animatorController,agentController ,statsController,damageController, stats);
         controller.Init(controllerService);
 
         HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animatorController);
@@ -75,8 +86,9 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidCombatInventoryService combatInventoryServices = new HumanoidCombatInventoryService(animatorController, combatController,interaction, transform, (int)damageController.CharacterType);
         combatInventory.Init(combatInventoryServices);
 
-        HumanoidDamageControllerService damageService = new HumanoidDamageControllerService(motor,statsController, stats, motor.agent, capsuleCollider, uid);
+        HumanoidDamageControllerService damageService = new HumanoidDamageControllerService(ragdollController,motor,statsController, stats, agent, capsuleCollider, uid);
         damageController.Init(damageService);
+
     }
 
     public void BrainInit()
@@ -95,9 +107,10 @@ public class EnemyServiceLocator : MonoBehaviour
             inventory = combatInventory,
             fov = fovController,
             interact = interaction,
-            stateTracker = stateTracker
+            stateTracker = stateTracker,
+            agentController = agentController
         };
 
-        brain.Init(brainContext);
+        brain.Init(brainContext,ragdollController);
     }
 }

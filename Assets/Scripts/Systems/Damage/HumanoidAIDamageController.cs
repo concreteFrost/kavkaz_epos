@@ -9,6 +9,7 @@ public class HumanoidAIDamageController : BaseDamageController
     NavMeshAgent agent;
     CapsuleCollider col;
     IHumanoidMovement motor;
+    IRagdollController ragdollController;
 
 	public void Init(HumanoidDamageControllerService service)
 	{
@@ -16,8 +17,10 @@ public class HumanoidAIDamageController : BaseDamageController
 		this.statsController = service.statsModifier;
 		this.stats =service.stats;
         this.agent = service.agent; 
+        this.ragdollController = service.ragdollController;
         this.col = service.col; 
 		this.uniqueID =service.uniqueID;
+       
 
         stats.Health.Depleted += Die;
 
@@ -45,6 +48,10 @@ public class HumanoidAIDamageController : BaseDamageController
     {
         if (motor.IsDodging) return;
 
+        if(balanceDamage == BalanceDamageType.Extreme)
+        {
+            ragdollController.Knockout(Vector3.forward);
+        }
         base.TakeDamage(damage, balanceDamage, source);
 
      

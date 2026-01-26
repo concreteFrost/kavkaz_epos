@@ -88,8 +88,6 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
     #endregion
 
-    public abstract void Init(Animator anim);
-
     /// <summary>
     /// Обновляет анимацию ДВИЖЕНИЯ
     /// </summary>

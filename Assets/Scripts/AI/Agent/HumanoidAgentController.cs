@@ -4,30 +4,33 @@ using UnityEngine.AI;
 
 public class HumanoidAgentController 
 {
-    NavMeshAgent agent;
-    Animator animator;
+    public NavMeshAgent agent;
 
-    public void Init(NavMeshAgent agent, Animator animator)
+    public HumanoidAgentController(NavMeshAgent agent, Animator animator)
     {
         this.agent = agent;
-        this.animator = animator;   
     }
 
     #region Agent Control
+
+    public void EnableAgent()
+    {
+        agent.ResetPath();
+        agent.enabled = true;
+    }
+
+    public void DisableAgent()
+    {
+        agent.ResetPath();
+        agent.enabled = false;
+    }
     public void StopAgent()
     {
         if (!agent.isActiveAndEnabled) return;
-
-        //moveDirection = Vector3.zero;
-        //inputMagnitude = 0f;
         agent.ResetPath();
 
     }
 
-    public void ResetPath()
-    {
-        agent.ResetPath();
-    }
 
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
@@ -58,6 +61,8 @@ public class HumanoidAgentController
 
         agent.updatePosition = true;
     }
+
+
 
     #endregion
 }

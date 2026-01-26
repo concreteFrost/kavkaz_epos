@@ -10,7 +10,7 @@ public class PlayerMotor : BaseHumanoidMotor
     [Range(30, 80)] public float slopeLimit = 45f;
     internal bool isHighSlope = false; //предотвращает движение если угол наклона выше
 
-    public override void Init(Animator anim)
+    public void Init(Animator anim)
     {
         animator = anim;
 

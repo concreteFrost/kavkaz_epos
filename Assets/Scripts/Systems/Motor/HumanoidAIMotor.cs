@@ -5,12 +5,14 @@ using System.Collections;
 
 public class HumanoidAIMotor : BaseHumanoidMotor
 {
-    [HideInInspector] public NavMeshAgent agent;
-    [HideInInspector] public HumanoidAgentController agentController;
+    NavMeshAgent agent;
+    HumanoidAgentController agentController;
 
-    public override void Init(Animator anim)
+    public void Init(Animator anim, NavMeshAgent agent, HumanoidAgentController agentController)
     {
-        animator = anim;
+        this.animator = anim;
+        this.agent = agent;
+        this.agentController = agentController; 
 
         // Animator
         animator.updateMode = AnimatorUpdateMode.Normal;
@@ -33,8 +35,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         isGrounded = true;
 
-        agentController = new HumanoidAgentController();
-        agentController.Init(agent,animator);
+        //agentController = new HumanoidAgentController();
+        //agentController.Init(agent,animator);
 
 
     }

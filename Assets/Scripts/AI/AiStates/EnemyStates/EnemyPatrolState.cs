@@ -5,6 +5,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     private Vector3 destination;
 
     HumanoidAIMotor motor;
+    HumanoidAgentController agentController;
     EnemyFOVController fov;
 
     EnemyPatrolHandler patrolStateTracker;
@@ -14,6 +15,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     {
         motor = context.motor;
         fov = context.fov;
+        agentController = context.agentController;  
 
         fov.ResetTarget();
         motor.ResetLockTarget();    
@@ -63,7 +65,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
             return AIStateResult.Idle;
 
-        if (motor.agentController.HasReachedDestination())
+        if (agentController.HasReachedDestination())
             return AIStateResult.Idle;
 
 

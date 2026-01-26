@@ -8,17 +8,20 @@ public class HumanoidControllerService
 
     public HumanoidAIMotor aiMotor;
     public HumanoidAIAnimatorController aiAnimatorController;
+    public HumanoidAgentController agentController;
 
     public IDamagable damageController;
 
     public ICharacterStatsController statsController;
     public HumanoidStats stats;
 
-    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, ICharacterStatsController statsController,IDamagable damageController , HumanoidStats stats)
+    public HumanoidControllerService(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator,HumanoidAgentController agentController,ICharacterStatsController statsController,IDamagable damageController , HumanoidStats stats)
     {
+      
         this.animator = animator;
         this.aiMotor = aIMotor;
-        this.aiAnimatorController = aIAnimator;   
+        this.aiAnimatorController = aIAnimator;  
+        this.agentController = agentController; 
         this.statsController = statsController;
         this.damageController = damageController;
         this.stats = stats;
@@ -42,6 +45,7 @@ public class HumanoidCombatControllerServices
 
 public class HumanoidDamageControllerService
 {
+    public IRagdollController ragdollController;
     public IHumanoidMovement motor;
     public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
@@ -50,8 +54,9 @@ public class HumanoidDamageControllerService
 
     public string uniqueID;
 
-    public HumanoidDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageControllerService(IRagdollController ragdollController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
     {
+        this.ragdollController = ragdollController; 
         this.motor = motor;
         this.statsModifier = statsController;
         this.stats = stats; 

@@ -28,11 +28,14 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> strafe;
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
+
+    HumanoidAIRagdollController ragdoll;
  
  
-    public void Init(EnemyBrainContext context)
+    public void Init(EnemyBrainContext context, HumanoidAIRagdollController ragdoll)
     {
         this.context = context; 
+        this.ragdoll = ragdoll;
 
         idle.Init(context);
         patrol.Init(context);
@@ -43,13 +46,20 @@ public class EnemyBrain : MonoBehaviour
         moveToStart.Init(context);
 
         stateMachine.ChangeState(idle);
+
+        this.ragdoll.KnockedOut += OnKnockedOut;
    
+    }
+
+    private void OnDisable()
+    {
+        ragdoll.KnockedOut -= OnKnockedOut;
     }
 
 
     void Update()
     {
-        if (context.damageController.IsDead())
+        if (context.damageController.IsDead() || stateMachine.CurrentState == null)
         {
             stateMachine.ForceExit();
             return;
@@ -79,9 +89,18 @@ public class EnemyBrain : MonoBehaviour
             case AIStateResult.MoveToStartPosition:
                 stateMachine.ChangeState(moveToStart);
                 break;
+           
+
         }
 
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
+
+    private void OnKnockedOut()
+    {
+        stateMachine.ForceExit();
+    }
+
+  
 
 }

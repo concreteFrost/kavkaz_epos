@@ -38,7 +38,7 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
         }
 
-        if (context.motor.agentController.HasReachedDestination())
+        if (context.agentController.HasReachedDestination())
             return AIStateResult.Idle;
 
 

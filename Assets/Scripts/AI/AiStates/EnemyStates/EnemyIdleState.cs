@@ -6,11 +6,13 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     private EnemyPassiveInterruptionHandler interruptionTracker;
     private HumanoidAIMotor motor;
     private EnemyFOVController fov;
+    private HumanoidAgentController agentController;
 
     public override void Enter()
     {
         motor = context.motor;
         fov = context.fov;  
+        agentController = context.agentController;  
       
         idleHandler = context.stateTracker.idleHandler;
         interruptionTracker = context.stateTracker.interruptionTracker;

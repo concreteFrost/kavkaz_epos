@@ -18,7 +18,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         combatHandler = context.stateTracker.combatHandler;
 
         chaseHandler.ResetChaseState();
-        motor.agentController.ResetPath();
+        context.agentController.StopAgent();
          
         motor.IsSprinting = true;
     }
