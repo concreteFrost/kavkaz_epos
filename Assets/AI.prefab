@@ -548,50 +548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e8c685a5809e042abcbb98bcb3e1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
---- !u!1 &862645261484793435
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2774754796509737757}
-  - component: {fileID: 1056932686646785637}
-  m_Layer: 0
-  m_Name: RagdollController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2774754796509737757
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 862645261484793435}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 515555489032476068}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1056932686646785637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 862645261484793435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da1c1032ace09c343980855e5a217d5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIRagdollController
 --- !u!1 &870244199869238507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,7 +1863,6 @@ MonoBehaviour:
   overrideController: {fileID: 22100000, guid: 9f97b37f36a785549a9ffdecb3e0233c, type: 2}
   ik: {fileID: 2559199199728796724}
   agent: {fileID: 8987308371889165279}
-  ragdollController: {fileID: 1056932686646785637}
   capsuleCollider: {fileID: 1617497395427065781}
   motor: {fileID: 5943822312714178600}
   controller: {fileID: 3169394707491743592}
@@ -1976,7 +1931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_b723179c-8c7d-4780-9218-124723418027
+  uniqueId: uid_0733736d-504f-4141-ac7b-ce35ca6c772c
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4774,7 +4729,6 @@ Transform:
   - {fileID: 8327586687000676752}
   - {fileID: 7343011536571795400}
   - {fileID: 4065970685229148780}
-  - {fileID: 2774754796509737757}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8892211989431816336

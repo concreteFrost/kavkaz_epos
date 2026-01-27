@@ -12,7 +12,6 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
     {
         if (animator == null || !animator.enabled)
         {
-            Debug.Log("no animator found");
             return;
         }
 

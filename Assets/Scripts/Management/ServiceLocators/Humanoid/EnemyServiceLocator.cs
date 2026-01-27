@@ -15,7 +15,7 @@ public class EnemyServiceLocator : MonoBehaviour
     HumanoidAgentController agentController;
 
     [Header("Рагдол")]
-    [SerializeField] private HumanoidAIRagdollController ragdollController;
+    private AiRagdollController ragdollController;
 
     [Header("Коллайдер")]   
     [SerializeField] private CapsuleCollider capsuleCollider;
@@ -59,12 +59,14 @@ public class EnemyServiceLocator : MonoBehaviour
 
     public void CoreInit()
     {
+
+        agentController = new HumanoidAgentController(agent, animator);
+        ragdollController = new AiRagdollController(animator, agent, GetComponentsInChildren<Rigidbody>(), transform);
+
         stats.Init();
-        agentController = new HumanoidAgentController(agent,animator);
-
+       
         motor.Init(animator, agent, agentController);
-        ragdollController.Init(animator, agent, GetComponentsInChildren<Rigidbody>(),transform);
-
+      
         ik.Init(motor, stats,damageController);
         fovController.Init();
 

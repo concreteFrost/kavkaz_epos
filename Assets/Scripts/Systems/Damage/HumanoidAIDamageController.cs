@@ -33,10 +33,12 @@ public class HumanoidAIDamageController : BaseDamageController
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    TakeDamage(10, 1, null);
-        //}
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            TakeDamage(10, BalanceDamageType.Extreme, null);
+        }
+
+       
     }
 
     private void OnDisable()
@@ -46,11 +48,14 @@ public class HumanoidAIDamageController : BaseDamageController
 
     public override void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
     {
-        if (motor.IsDodging) return;
+        if (motor.IsDodging || isDead) return;
 
-        if(balanceDamage == BalanceDamageType.Extreme)
+        if(balanceDamage == BalanceDamageType.Extreme && !ragdollController.IsRecovering)
         {
-            ragdollController.Knockout(Vector3.forward);
+            ragdollController.Knockout();
+
+            StartCoroutine(ragdollController.Recover());
+            //StartCoroutine(RagdollUtils.IsMoving())
         }
         base.TakeDamage(damage, balanceDamage, source);
 
@@ -60,13 +65,19 @@ public class HumanoidAIDamageController : BaseDamageController
     public override void Die()
     {
         base.Die();
-        agent.enabled = false;
-        StartCoroutine(DisableColliderCoroutine(3f));
+     
+        StartCoroutine(PerformDeathCoroutine(4f));
     }
 
-    IEnumerator DisableColliderCoroutine(float delay)
+    IEnumerator PerformDeathCoroutine(float delay)
     {
-        yield return new WaitForSeconds(delay);
         col.enabled = false;
+        yield return new WaitForSeconds(delay);
+
+        //StartCoroutine(ragdollController.EnableRagdoll());
+
+    
+
+      
     }
 }

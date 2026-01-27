@@ -29,10 +29,10 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
 
-    HumanoidAIRagdollController ragdoll;
+    AiRagdollController ragdoll;
  
  
-    public void Init(EnemyBrainContext context, HumanoidAIRagdollController ragdoll)
+    public void Init(EnemyBrainContext context, AiRagdollController ragdoll)
     {
         this.context = context; 
         this.ragdoll = ragdoll;
@@ -47,13 +47,13 @@ public class EnemyBrain : MonoBehaviour
 
         stateMachine.ChangeState(idle);
 
-        this.ragdoll.KnockedOut += OnKnockedOut;
+       
    
     }
 
     private void OnDisable()
     {
-        ragdoll.KnockedOut -= OnKnockedOut;
+      
     }
 
 
