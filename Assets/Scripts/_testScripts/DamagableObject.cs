@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
 {
-    private bool isDead;
 
     public CharacterType characterType;
 
@@ -18,9 +17,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public CharacterType CharacterType { get => characterType; set => characterType = value; }
     public Transform GetAimTransform() => transform;
     public Transform GetOrigin() => transform;
-    public bool IsDead() => isDead;
+    public bool IsDead { get; set; }
     public string SourceId() => selfId;
     public bool IsDamaged { get; set; }
+    public bool IsKnockedOut {  get; set; } 
     public BalanceDamageType BalancePenalty {  get; set; }
 
     public event Action<Transform> DamageTaken = null;
@@ -43,7 +43,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void TakeDamage(DamageData damageData,Transform source)
     {
-        if (isDead) return;
+        if (IsDead) return;
         currentHealth -= damageData.healthDamageMultiplier;
         StartCoroutine(DamageCoroutine());
 
@@ -59,7 +59,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public virtual void Die()
     {
-        isDead = true;
+        IsDead = true;
         gameObject.SetActive(false);
     }
 

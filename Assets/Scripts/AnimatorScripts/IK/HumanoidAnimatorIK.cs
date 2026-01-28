@@ -11,9 +11,9 @@ public class HumanoidAnimatorIK : MonoBehaviour
 
     private float currLookWeight;
     private float weightVelocity;
-    public float weight=2;
-    public float headWeight=0.3f;
-    public float bodyWeight=0.1f;
+    public float weight;
+    public float headWeight;
+    public float bodyWeight;
 
     Vector3 lastLookPos;
 
@@ -21,6 +21,10 @@ public class HumanoidAnimatorIK : MonoBehaviour
     {
         this.aiMotor = motor;   
         this.damageController = damageController;
+
+        weight = 0.5f;
+        headWeight = 0.1f;
+        bodyWeight = 0.1f;
         //this.stats = stats; 
     }
 

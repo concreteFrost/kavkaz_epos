@@ -24,7 +24,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
         if(currentTarget != null)
         {
-            if (currentTarget.IsDead())
+            if (currentTarget.IsDead)
             {
                 ResetTarget();
             }

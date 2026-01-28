@@ -10,8 +10,9 @@ public interface IDamagable
 
     public abstract void TakeDamage(DamageData damageData, Transform source=null);   
     public void Die();
-    public bool IsDead();
+    public bool IsDead { get; set; }
     bool IsDamaged { get; set; }
+    bool IsKnockedOut {  get; set; }
     BalanceDamageType BalancePenalty { get; set; }
 
     public Transform GetAimTransform();

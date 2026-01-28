@@ -46,7 +46,7 @@ public class HumanoidCombatControllerServices
 public class HumanoidDamageControllerService
 {
     public IRagdollController ragdollController;
-    public IHumanoidMovement motor;
+    public HumanoidAIMotor motor;
     public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
     public NavMeshAgent agent;
@@ -54,7 +54,7 @@ public class HumanoidDamageControllerService
 
     public string uniqueID;
 
-    public HumanoidDamageControllerService(IRagdollController ragdollController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageControllerService(IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
     {
         this.ragdollController = ragdollController; 
         this.motor = motor;

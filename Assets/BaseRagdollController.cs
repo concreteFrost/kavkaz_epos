@@ -38,12 +38,14 @@ public abstract class BaseRagdollController : IRagdollController
     public abstract void DisableRagdoll();
     public abstract void EnableRagdoll(float force, Transform from);
    
-    public event Action KnockedOut;
+    //public Action KnockedOut;
     public event Action Recovered;
-
-    public bool IsRecovering { get; set; }
+    public event Action RecoveredInInvalidArea;
 
     #endregion
+
+    protected void InvokeRecover() => Recovered?.Invoke();
+    protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke();
 
     protected void Init(MonoBehaviour context, Animator anim, Rigidbody[] rbs, Transform self)
     {
@@ -74,11 +76,11 @@ public abstract class BaseRagdollController : IRagdollController
 
     public void Knockout(float force, Transform from)
     {
-        if (IsRecovering)
-            return;
+        //if (IsRecovering)
+        //    return;
 
-        IsRecovering = true;
-        KnockedOut?.Invoke();
+        //IsRecovering = true;
+        //KnockedOut?.Invoke();
 
         EnableRagdoll(force,from);
         recoveryCoroutine = context.StartCoroutine(Recover());
@@ -86,7 +88,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     public void ForceStop()
     {
-        IsRecovering = false;
+        //IsRecovering = false;
 
         if(recoveryCoroutine !=null)
            context.StopCoroutine(recoveryCoroutine);
@@ -117,6 +119,7 @@ public abstract class BaseRagdollController : IRagdollController
         self.rotation = rot;
     }
 
+    #region Aligning Transform
     protected void AlignRotationToHips()
     {
         Vector3 originalHipsPosition = _hipsBone.position;
@@ -158,11 +161,14 @@ public abstract class BaseRagdollController : IRagdollController
         _hipsBone.position = originalHipsPosition;
     }
 
+    #endregion
+
     protected CharacterBoneTransform[] GetStandUpBoneTransforms()
     {
         return isFacingUp ? _faceupBoneTransforms : _facedownBoneTransforms;
     }
 
+    #region Rigidbody Force
     protected void ApplyImpulseFromSource(float force, Transform from)
     {
         Vector3 origin = from != null ? from.position : self.position - self.forward;
@@ -176,6 +182,7 @@ public abstract class BaseRagdollController : IRagdollController
 
         hipsRb.AddForce(direction * force, ForceMode.Impulse);
     }
+    #endregion
 
 
     public IEnumerator Recover()
@@ -241,8 +248,8 @@ public abstract class BaseRagdollController : IRagdollController
         // ждём конца анимации
         yield return WaitForAnimationEnd(animName);
 
-        Recovered?.Invoke();
-        IsRecovering = false;
+        InvokeRecover();
+        //IsRecovering = false;
     }
 
     private IEnumerator WaitForAnimationEnd(string stateName, int layer = AnimatorParameters.damageLayer)
@@ -255,6 +262,7 @@ public abstract class BaseRagdollController : IRagdollController
         while (anim.GetCurrentAnimatorStateInfo(layer).normalizedTime < 1f)
             yield return null;
     }
+
 
 
 

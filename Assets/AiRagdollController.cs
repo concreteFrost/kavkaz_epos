@@ -5,12 +5,12 @@ using UnityEngine.AI;
 public class AiRagdollController : BaseRagdollController
 {
 
-    HumanoidAgentController agent;
+    HumanoidAgentController agentController;
 
 
     public AiRagdollController(MonoBehaviour ctx, Animator anim, HumanoidAgentController agent, Rigidbody[] rbs, Transform self)
     {
-        this.agent = agent;
+        this.agentController = agent;
         base.Init(ctx,anim, rbs, self);
 
         col = self.GetComponent<Collider>();    
@@ -22,7 +22,7 @@ public class AiRagdollController : BaseRagdollController
         col.enabled = false;
         anim.enabled = false;
 
-        agent.DisableAgent();
+        agentController.DisableAgent();
 
         foreach (var rb in rigidbodies)
         {
@@ -48,9 +48,11 @@ public class AiRagdollController : BaseRagdollController
         col.enabled = true;
         anim.enabled = true;
 
-        agent.EnableAgent();
+        if (agentController.IsOnBakedArea())
+            agentController.EnableAgent();
 
-
+        else
+            InvokeInvalidRecover();
 
     }
 

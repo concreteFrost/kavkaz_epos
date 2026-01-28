@@ -192,7 +192,7 @@ public class PlayerActionGuards
 
         if (statsModifier.IsDamaged) return false;
 
-        if (statsModifier.IsDead()) return false;
+        if (statsModifier.IsDead) return false;
 
         return true;
     }
@@ -201,7 +201,7 @@ public class PlayerActionGuards
     {
         if (statsModifier.IsDamaged) return false;
 
-        if (statsModifier.IsDead()) return false;
+        if (statsModifier.IsDead) return false;
 
         return true;
     }

@@ -56,12 +56,12 @@ public class PlayerDamageController : BaseDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
-        if (isDead || isDamaged || motor.IsDodging) return;
+        if (IsDead || IsDamaged || motor.IsDodging) return;
 
 
         BalancePenalty = damageData.balanceDamageType;
 
-        isDamaged = true;
+        IsDamaged = true;
 
         statsController.ReduceHealth(damageData.healthDamageMultiplier);   
       
@@ -70,7 +70,7 @@ public class PlayerDamageController : BaseDamageController
 
     public override void Die()
     {
-        isDead = true;
+        IsDead = true;
 
         input.controls.Player.Disable();
 
@@ -87,7 +87,7 @@ public class PlayerDamageController : BaseDamageController
         input.controls.Player.Enable();
         statsController.ResetAllStats();
 
-        isDead = false;
+        IsDead = false;
 
     }
 

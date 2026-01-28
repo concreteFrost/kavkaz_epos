@@ -67,6 +67,15 @@ public class HumanoidAgentController
         agent.ResetPath();
     }
 
+    public bool IsOnBakedArea()
+    {
+        NavMeshHit hit;
+        float checkDistance = 2f;
+
+        return NavMesh.SamplePosition(agent.transform.position, out hit, checkDistance, NavMesh.AllAreas);
+
+    }
+
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
         if (!agent.isActiveAndEnabled || !agent.hasPath)

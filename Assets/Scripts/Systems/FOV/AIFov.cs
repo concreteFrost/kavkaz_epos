@@ -48,7 +48,7 @@ public class AIFov
 
     private bool IsTarget(IDamagable lockable)
     {
-        if (!lockable.IsDead() && objectsToScan.Contains(lockable.CharacterType))
+        if (!lockable.IsDead && objectsToScan.Contains(lockable.CharacterType))
         {
             return true;
 

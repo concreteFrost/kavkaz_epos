@@ -24,16 +24,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         isGrounded = true;
 
-        //agentController = new HumanoidAgentController();
-        //agentController.Init(agent,animator);
-
-        this.ragdollController.KnockedOut += ResetLockTarget;
     }
 
-    private void OnDisable()
-    {
-        ragdollController.KnockedOut -= ResetLockTarget;
-    }
 
     public override void UpdateAnimatorLocomotion()
     {

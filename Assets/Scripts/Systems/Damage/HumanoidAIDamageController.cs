@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿
 using UnityEngine;
-using UnityEngine.AI;
+
 
 
 public class HumanoidAIDamageController : BaseDamageController
 {
-    NavMeshAgent agent;
     CapsuleCollider col;
-    IHumanoidMovement motor;
+    HumanoidAIMotor motor;
     IRagdollController ragdollController;
 
 	public void Init(HumanoidDamageControllerService service)
@@ -16,12 +14,13 @@ public class HumanoidAIDamageController : BaseDamageController
         this.motor = service.motor;
 		this.statsController = service.statsModifier;
 		this.stats =service.stats;
-        this.agent = service.agent; 
         this.ragdollController = service.ragdollController;
         this.col = service.col; 
 		this.uniqueID =service.uniqueID;
        
         stats.Health.Depleted += Die;
+        ragdollController.Recovered += OnRecover;
+        ragdollController.RecoveredInInvalidArea += OnInvalidRecover;
 
         if(aimPosition == null)
         {
@@ -29,6 +28,25 @@ public class HumanoidAIDamageController : BaseDamageController
         }
 
 	}
+
+
+    private void OnRecover()
+    {
+        IsKnockedOut = false;   
+    }
+
+    protected void OnInvalidRecover()
+    {
+        if (IsDead) return;
+        Die();
+    }
+
+    private void OnDisable()
+    {
+        stats.Health.Depleted -= Die;
+        ragdollController.Recovered -= OnRecover;
+        ragdollController.RecoveredInInvalidArea -= OnInvalidRecover;
+    }
 
     private void Update()
     {
@@ -46,34 +64,31 @@ public class HumanoidAIDamageController : BaseDamageController
        
     }
 
-    private void OnDisable()
-    {
-        stats.Health.Depleted -= Die;   
-    }
+  
 
-    public override void TakeDamage(DamageData damageData, Transform source )
+    public override void TakeDamage(DamageData damageData, Transform source)
     {
-        if (motor.IsDodging || isDead)
+        if (motor.IsDodging || IsDead)
             return;
 
         base.TakeDamage(damageData, source);
 
-        if (damageData.balanceDamageType == BalanceDamageType.Extreme)
+        if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
+            IsKnockedOut = true;
+            motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
             ragdollController.Knockout(damageData.impactForce,source);
         }
     }
 
     public override void Die()
     {
-        isDead = true;
+        IsDead = true;
 
         col.enabled = false;
 
         ragdollController.ForceStop();
         ragdollController.EnableRagdoll();
-
-     
 
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IRagdollController
 {
@@ -12,8 +13,7 @@ public interface IRagdollController
 
     IEnumerator Recover();
 
-    event Action KnockedOut;
-
-    bool IsRecovering { get; set; }
+    event Action Recovered;
+    event Action RecoveredInInvalidArea;
 
 }

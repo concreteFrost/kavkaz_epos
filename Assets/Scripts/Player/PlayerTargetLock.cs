@@ -40,7 +40,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     private void Update()
     {
         if (currentTarget == null) return;
-        if (damageController.IsDead())
+        if (damageController.IsDead || currentTarget.IsKnockedOut)
         {
             ResetLockTarget();
             return;
@@ -69,7 +69,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     protected virtual void CalculateDistanceToTarget()
     {
-        if (currentTarget.IsDead())
+        if (currentTarget.IsDead)
         {
             ResetLockTarget();
 

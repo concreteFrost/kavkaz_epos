@@ -76,7 +76,7 @@ public abstract class BaseHumanoidAnimatorController
     (int)damageController.BalancePenalty
 );
 
-        animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
+        animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead);
     }
 
     public void OverrideAttack(WeaponAttack attack, string name)

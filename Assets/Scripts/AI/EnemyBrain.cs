@@ -53,7 +53,7 @@ public class EnemyBrain : MonoBehaviour
 
     void Update()
     {
-        if (context.damageController.IsDead() || stateMachine.CurrentState == null)
+        if (context.damageController.IsDead || stateMachine.CurrentState == null)
         {
             stateMachine.ForceExit();
             return;
