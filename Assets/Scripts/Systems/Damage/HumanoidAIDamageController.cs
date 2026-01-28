@@ -50,7 +50,7 @@ public class HumanoidAIDamageController : BaseDamageController
     {
         if (motor.IsDodging || isDead) return;
 
-        if(balanceDamage == BalanceDamageType.Extreme && !ragdollController.IsRecovering)
+        if(balanceDamage == BalanceDamageType.Extreme && !isDamaged)
         {
             ragdollController.Knockout();
 
