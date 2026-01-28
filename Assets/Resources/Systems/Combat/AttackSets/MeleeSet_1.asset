@@ -13,19 +13,25 @@ MonoBehaviour:
   m_Name: MeleeSet_1
   m_EditorClassIdentifier: Assembly-CSharp::AttackSO
   attackList:
-  - healthDamageMultiplier: 0
-    balanceDamageMultiplier: 1
+  - damageData:
+      healthDamageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 0
     staminaPenalty: 5
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 42bfa3184c9a0ec4786a15dea12af532, type: 2}
-  - healthDamageMultiplier: 0.05
-    balanceDamageMultiplier: 1
+  - damageData:
+      healthDamageMultiplier: 0.2
+      balanceDamageType: 1
+      impactForce: 0
     staminaPenalty: 7
     fromHand: 0
     animationInfo: {fileID: 11400000, guid: 0ecb5d22f4d13434eb64166cbf5dea4d, type: 2}
   powerAttack:
-    healthDamageMultiplier: 0.1
-    balanceDamageMultiplier: 3
+    damageData:
+      healthDamageMultiplier: 0.5
+      balanceDamageType: 3
+      impactForce: 1000
     staminaPenalty: 10
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 38861e994769e8148b8a060ac6b2091a, type: 2}

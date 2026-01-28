@@ -44,22 +44,26 @@ public class PlayerDamageController : BaseDamageController
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            BalanceDamageType balanceDamage =
-       (BalanceDamageType)UnityEngine.Random.Range(1, 4);
-            TakeDamage(20, balanceDamage, null);
+            DamageData d = new DamageData
+            {
+                healthDamageMultiplier = 10f,
+                balanceDamageType = BalanceDamageType.Extreme,
+                impactForce = 20f
+            };
+            TakeDamage(d, null);
         }
     }
 
-    public override void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
+    public override void TakeDamage(DamageData damageData, Transform source)
     {
         if (isDead || isDamaged || motor.IsDodging) return;
 
 
-        BalancePenalty = balanceDamage;
+        BalancePenalty = damageData.balanceDamageType;
 
         isDamaged = true;
 
-        statsController.ReduceHealth(damage);   
+        statsController.ReduceHealth(damageData.healthDamageMultiplier);   
       
 
     }

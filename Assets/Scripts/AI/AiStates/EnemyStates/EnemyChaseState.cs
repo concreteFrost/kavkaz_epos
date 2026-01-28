@@ -25,6 +25,12 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
+        if (context.ragdollController.IsRecovering)
+        {
+            chaseHandler.ResetChaseState();
+            return AIStateResult.None;
+        }
+           
 
         Transform self = context.self;
 
@@ -34,7 +40,6 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
         }
             
-
         Transform target = context.fov.currentTarget.GetOrigin();
        
         // 2. цель недостижима
@@ -45,15 +50,12 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
             return AIStateResult.Wait;
         }
         
-        //chaseHandler.UpdateCantReachTimer(canReach);
-
-        //if (chaseHandler.HasCantReachTimerExceeded())
-        //    return AIStateResult.Wait;
-
-        // 3. цель потеряна
+      
         bool isTargetVisible = fov.IsTargetVisible(
             fov.currentTarget.GetAimTransform()
         );
+
+        
         chaseHandler.UpdateLostTargetTimer(isTargetVisible);
 
         if (chaseHandler.HasLostTargetTimerExceeded())
@@ -69,14 +71,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
             return AIStateResult.Attack;
-            //switch (combatHandler.GetNextDecision())
-            //{
-            //    case CombatTransition.Attack:
-            //        return AIStateResult.Attack;
-            //    case CombatTransition.Strafe:
-            //        return AIStateResult.Strafe;
-
-            //}
+          
         }
         else
         {

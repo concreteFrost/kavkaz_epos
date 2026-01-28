@@ -5,14 +5,15 @@ using System.Collections;
 
 public class HumanoidAIMotor : BaseHumanoidMotor
 {
-    NavMeshAgent agent;
-    HumanoidAgentController agentController;
 
-    public void Init(Animator anim, NavMeshAgent agent, HumanoidAgentController agentController)
+    HumanoidAgentController agentController;
+    IRagdollController ragdollController;
+
+    public void Init(Animator anim, HumanoidAgentController agentController, IRagdollController ragdollController)
     {
         this.animator = anim;
-        this.agent = agent;
-        this.agentController = agentController; 
+        this.agentController = agentController;
+        this.ragdollController = ragdollController;
 
         // Animator
         animator.updateMode = AnimatorUpdateMode.Normal;
@@ -20,25 +21,18 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         animationSmooth = 0.2f;
 
         // NavMeshAgent
-        agent = GetComponent<NavMeshAgent>();
-
-        agent.updatePosition = true;
-        agent.updateRotation = false; // поворот контролируешь сам
-
-        agent.angularSpeed = 0f;       // чтобы агент не крутил
-        agent.acceleration = 80f;      // отзывчивость
-        agent.stoppingDistance = 0.8f;
-        agent.autoBraking = true;
-
-        agent.obstacleAvoidanceType =
-            ObstacleAvoidanceType.LowQualityObstacleAvoidance;
 
         isGrounded = true;
 
         //agentController = new HumanoidAgentController();
         //agentController.Init(agent,animator);
 
+        this.ragdollController.KnockedOut += ResetLockTarget;
+    }
 
+    private void OnDisable()
+    {
+        ragdollController.KnockedOut -= ResetLockTarget;
     }
 
     public override void UpdateAnimatorLocomotion()
@@ -50,13 +44,13 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     public void SetLockTarget(Transform target)
     {
         rotateTarget = target;
-        
+
     }
 
     public void ResetLockTarget()
     {
         rotateTarget = null;
-       
+
     }
     #endregion
 
@@ -65,7 +59,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     public override void RotateToTarget(Vector3 targetPosition)
     {
         //if (moveDirection.sqrMagnitude < 0.1f) return;
-        base.RotateToTarget(targetPosition);    
+        base.RotateToTarget(targetPosition);
     }
 
     public override void RotateToDirection(Vector3 direction)
@@ -78,11 +72,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     #region Agent Control
     public override void StopMovement()
     {
-       
+
         agentController.StopAgent();
         moveDirection = Vector3.zero;
         inputMagnitude = 0f;
-       
+
 
     }
 
@@ -90,7 +84,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         moveDirection = Vector3.zero;
         inputMagnitude = 0f;
-       
+
     }
 
     public void ResetSprint()
@@ -116,17 +110,18 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         Vector3 desiredDir = (direction - transform.position).normalized;
         desiredDir.y = 0f;
 
-        moveDirection = desiredDir; // только дл€ анимации / поворота
-        // реальное движение через NavMesh
-        agent.SetDestination(direction);
+        moveDirection = desiredDir; // только дл€ анимации 
+        
+        agentController.SendAgentToPosition(direction);
     }
 
     public void MoveLocal(Vector3 direction)
     {
-        Vector3 velocity =
-            direction.normalized * agent.speed * Time.deltaTime;
 
-        agent.Move(velocity);
+        Vector3 velocity =
+            direction.normalized * agentController.agent.speed * Time.deltaTime;
+
+        agentController.MoveAgentToPosition(velocity);
 
         moveDirection = direction.normalized; // дл€ анимации
     }
@@ -230,13 +225,13 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         duration = Mathf.Clamp(duration, 0.35f, 1.2f);
 
         //animator.CrossFadeInFixedTime("Jump", 0.1f);
-        
+
 
         while (t < 1f)
         {
             t += Time.deltaTime / duration;
 
-            float yOffset = 4f *height * t * (1 - t);
+            float yOffset = 4f * height * t * (1 - t);
             Vector3 pos = Vector3.Lerp(start, end, t);
             pos.y += yOffset;
 
@@ -251,9 +246,9 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     protected override void ControlJumpBehaviour(float jumpHeight)
     {
-        if (agent.isOnOffMeshLink && isGrounded)
+        if (agentController.agent.isOnOffMeshLink && isGrounded)
         {
-            StartCoroutine(TraverseOffMeshLink(agent.currentOffMeshLinkData, jumpHeight));
+            StartCoroutine(TraverseOffMeshLink(agentController.agent.currentOffMeshLinkData, jumpHeight));
             base.Jump(jumpHeight);
         }
 

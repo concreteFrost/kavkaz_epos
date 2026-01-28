@@ -8,25 +8,20 @@ public enum FromHand
 }
 
 [System.Serializable]
-public class Attack
+public class WeaponAttack
 {
-    public float healthDamageMultiplier;
-    public BalanceDamageType balanceDamageMultiplier = BalanceDamageType.Low;
-    public float staminaPenalty;
+    public DamageData damageData;
+
+
+    public float staminaPenalty = 1f;
 
     public FromHand fromHand = FromHand.right;
 
     public AnimationInfoSO animationInfo;
 
-    public float GetFinalHealthDamage(float baseDamage)
-    {
-        return baseDamage + (baseDamage * healthDamageMultiplier);
-    }
+    public float GetFinalHealthDamage(float baseDamage)=> baseDamage + (baseDamage * damageData.healthDamageMultiplier);
 
-    public BalanceDamageType GetFinalBalanceDamage()
-    {
-        return balanceDamageMultiplier;
-    }
+    public FromHand SourceHand() => fromHand;
 
     public float GetClipDuration(Animator animator)
     {
@@ -35,11 +30,12 @@ public class Attack
 }
 
 
+
 [CreateAssetMenu(fileName = "AttackSet", menuName = "Scriptable Systems/Combat/AttackSet")]
 public class AttackSO : ScriptableObject
 {
-    public List<Attack> attackList;
+    public List<WeaponAttack> attackList;
 
-    public Attack powerAttack;
+    public WeaponAttack powerAttack;
  
 }

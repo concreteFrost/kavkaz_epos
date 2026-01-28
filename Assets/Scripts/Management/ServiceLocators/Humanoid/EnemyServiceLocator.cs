@@ -61,11 +61,11 @@ public class EnemyServiceLocator : MonoBehaviour
     {
 
         agentController = new HumanoidAgentController(agent, animator);
-        ragdollController = new AiRagdollController(animator, agent, GetComponentsInChildren<Rigidbody>(), transform);
+        ragdollController = new AiRagdollController(this,animator, agentController, GetComponentsInChildren<Rigidbody>(), transform);
 
         stats.Init();
        
-        motor.Init(animator, agent, agentController);
+        motor.Init(animator, agentController, ragdollController);
       
         ik.Init(motor, stats,damageController);
         fovController.Init();
@@ -110,9 +110,10 @@ public class EnemyServiceLocator : MonoBehaviour
             fov = fovController,
             interact = interaction,
             stateTracker = stateTracker,
-            agentController = agentController
+            agentController = agentController,
+            ragdollController = ragdollController
         };
 
-        brain.Init(brainContext,ragdollController);
+        brain.Init(brainContext);
     }
 }

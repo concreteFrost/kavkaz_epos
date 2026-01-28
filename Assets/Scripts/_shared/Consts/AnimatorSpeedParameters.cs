@@ -14,6 +14,13 @@ public class AnimatorParameters
     public const int armedLayer = 1;
     public const int combatLayer = 2;
     public const int climbLayer = 5;
+    public const int damageLayer = 6;
+
+    public const string getUpState= "Get Up";
+    public const string getUpFromBellyState = "Get Up From Belly";
+
+    public const string getUpClip = "Getup";
+    public const string getUpFromBellyClip = "Getup_from_belly";
 
     public static int InputHorizontal = Animator.StringToHash("InputHorizontal");
     public static int InputVertical = Animator.StringToHash("InputVertical");

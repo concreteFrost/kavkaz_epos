@@ -33,15 +33,15 @@ public class DefenceCollider : MonoBehaviour
     }
 
 
-    public void ProcessDamage(float healthDamage, BalanceDamageType balanceDamage, Transform source)
+    public void ProcessDamage(DamageData damageData, Transform source)
     {
 
         Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
 
-        float finalHealth = healthDamage * Shield.ShieldData().defenceBonus;
-        BalanceDamageType finalBalance = BalanceDamageType.Blocked;
+        damageData.healthDamageMultiplier = damageData.healthDamageMultiplier * Shield.ShieldData().defenceBonus;
+        damageData.balanceDamageType = BalanceDamageType.Blocked;
 
-        Shield.Owner.Damagable.TakeDamage(finalHealth, finalBalance, source);
+        Shield.Owner.Damagable.TakeDamage(damageData, source);
 
     }
 

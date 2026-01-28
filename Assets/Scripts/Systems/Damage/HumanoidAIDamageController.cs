@@ -21,7 +21,6 @@ public class HumanoidAIDamageController : BaseDamageController
         this.col = service.col; 
 		this.uniqueID =service.uniqueID;
        
-
         stats.Health.Depleted += Die;
 
         if(aimPosition == null)
@@ -33,11 +32,17 @@ public class HumanoidAIDamageController : BaseDamageController
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.C))
         {
-            TakeDamage(10, BalanceDamageType.Extreme, null);
+            DamageData d = new DamageData
+            {
+                healthDamageMultiplier = 10f,
+                balanceDamageType = BalanceDamageType.Extreme,
+                impactForce = 20f
+            };
+            TakeDamage(d, null);
         }
-
        
     }
 
@@ -46,38 +51,30 @@ public class HumanoidAIDamageController : BaseDamageController
         stats.Health.Depleted -= Die;   
     }
 
-    public override void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
+    public override void TakeDamage(DamageData damageData, Transform source )
     {
-        if (motor.IsDodging || isDead) return;
+        if (motor.IsDodging || isDead)
+            return;
 
-        if(balanceDamage == BalanceDamageType.Extreme && !isDamaged)
+        base.TakeDamage(damageData, source);
+
+        if (damageData.balanceDamageType == BalanceDamageType.Extreme)
         {
-            ragdollController.Knockout();
-
-            StartCoroutine(ragdollController.Recover());
-            //StartCoroutine(RagdollUtils.IsMoving())
+            ragdollController.Knockout(damageData.impactForce,source);
         }
-        base.TakeDamage(damage, balanceDamage, source);
-
-     
     }
 
     public override void Die()
     {
-        base.Die();
-     
-        StartCoroutine(PerformDeathCoroutine(4f));
-    }
+        isDead = true;
 
-    IEnumerator PerformDeathCoroutine(float delay)
-    {
         col.enabled = false;
-        yield return new WaitForSeconds(delay);
 
-        //StartCoroutine(ragdollController.EnableRagdoll());
+        ragdollController.ForceStop();
+        ragdollController.EnableRagdoll();
 
-    
+     
 
-      
     }
+
 }

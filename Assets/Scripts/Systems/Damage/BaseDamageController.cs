@@ -39,39 +39,19 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     #endregion
 
 
-    public virtual void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source)
+    public virtual void TakeDamage(DamageData damageData, Transform source )
     {
-        if (isDead) return;
 
-        BalancePenalty = balanceDamage;
+        BalancePenalty = damageData.balanceDamageType;
 
         isDamaged = true;
 
-
-        //if (!combatController.IsShieldRaised)
-        //{
-        //    isDamaged = true;
-        //}
-
-
-        
-        statsController.ReduceHealth(damage);
+        statsController.ReduceHealth(damageData.healthDamageMultiplier);
         DamageTaken?.Invoke(source);
-        //StartCoroutine(DamageCooldownCoroutine(maxDamageCooldown));
+       
 
     }
 
-    public virtual void Die()
-    {
-
-        isDead = true;
-
-        //input.controls.Player.Disable();
-
-        //inventory.CurrentWeapon?.DropWeapon();
-        //inventory.ShieldWeapon?.ThrowShield();
-        //inventory.ResetWeapon();
-
-        //StartCoroutine(RespawnCoroutine(5f));
-    }
+    public abstract void Die();
+   
 }

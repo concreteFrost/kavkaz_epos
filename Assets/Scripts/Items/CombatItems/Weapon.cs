@@ -1,13 +1,14 @@
-using System.Collections;
+п»їusing System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : CombatItem, IWeapon
 {
     [SerializeField] private WeaponSO weaponSO;
-    private Attack currentAttack;
+    private WeaponAttack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
-    
+
     public ICollector Owner;
 
     private float minStopVelocity = 1.7f;
@@ -16,9 +17,8 @@ public class Weapon : CombatItem, IWeapon
 
     #region IWeapon Contract
     public WeaponSO WeaponData() => weaponSO;
-    public Attack CurrentAttack() => currentAttack;
-
-    public Attack GetPowerAttack(Attack attack)=> currentAttack = attack;
+    public WeaponAttack CurrentAttack() => currentAttack;
+    public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
     public void SelectAttack(int index)
     {
         var list = weaponSO.attackSet.attackList;
@@ -49,24 +49,24 @@ public class Weapon : CombatItem, IWeapon
         base.Init(itemData);
 
         ToggleInteraction(true);
-       
+
         damageCollider.SetWeaponData(this);
-     
+
     }
 
     public void PerformAttack()
     {
         if (currentAttack == null) return;
 
-        var healthDamage =
-            currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
-
-        var balanceDamage =
-            currentAttack.GetFinalBalanceDamage();
+        DamageData damageData = new DamageData()
+        {
+            healthDamageMultiplier = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage()),
+            balanceDamageType = currentAttack.damageData.balanceDamageType,
+            impactForce = currentAttack.damageData.impactForce
+        };
 
         damageCollider.EnableCollider(
-            healthDamage,
-            balanceDamage,
+            damageData,
             Owner.AttackSource.TargetsToIgnore
         );
     }
@@ -79,13 +79,13 @@ public class Weapon : CombatItem, IWeapon
     {
         if (!target.AttackSource.CanPickWeapon()) return;
 
-        if(breakdownThreshold <= 0)
+        if (breakdownThreshold <= 0)
         {
             Debug.Log("this weapon is broken");
             return;
         }
-        
-        AssignToOwner(target);  
+
+        AssignToOwner(target);
 
     }
 
@@ -105,12 +105,12 @@ public class Weapon : CombatItem, IWeapon
 
     public void ReduceDurability(float amount)
     {
-        breakdownThreshold -= amount;   
+        breakdownThreshold -= amount;
 
-        if(breakdownThreshold <= 0)
+        if (breakdownThreshold <= 0)
         {
             Owner.AttackSource.ResetWeapon();
-            DropWeapon();   
+            DropWeapon();
         }
     }
 
@@ -120,7 +120,7 @@ public class Weapon : CombatItem, IWeapon
         ResetOwner();
         ToggleInteraction(true);
 
-       
+
     }
 
     public void ThrowWeapon(Transform from, float force)
@@ -131,8 +131,8 @@ public class Weapon : CombatItem, IWeapon
         ToggleInteraction(true);
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
- 
-        StartCoroutine(ThrowCoroutine(0.25f)); 
+
+        StartCoroutine(ThrowCoroutine(0.25f));
         StartCoroutine(DisableColliderWhenStopped());
 
     }
@@ -146,27 +146,32 @@ public class Weapon : CombatItem, IWeapon
 
     IEnumerator ThrowCoroutine(float delay)
     {
-        yield return new WaitForSeconds(delay); //задержка чтобы не попадать по владельцу оружия
+        yield return new WaitForSeconds(delay); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-        var healthDamage = weaponSO.GetBaseDamage();
-        
-        damageCollider.EnableCollider(healthDamage,BalanceDamageType.Extreme,null);
+        DamageData damageData = new DamageData()
+        {
+            healthDamageMultiplier = weaponSO.GetBaseDamage(),
+            balanceDamageType = BalanceDamageType.High,
+            impactForce = 10f
+        };
+
+        damageCollider.EnableCollider(damageData, null);
 
         yield return null;
     }
 
     IEnumerator DisableColliderWhenStopped()
     {
-        // ждём, пока оружие реально начнёт двигаться
+
         yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.15f);
-       
+
 
         while (true)
         {
             if (rb.linearVelocity.magnitude < minStopVelocity)
             {
                 damageCollider.DisableCollider();
-               
+
                 yield break;
             }
 

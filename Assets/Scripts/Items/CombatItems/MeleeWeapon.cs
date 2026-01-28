@@ -1,4 +1,4 @@
-using NUnit.Framework;
+п»їusing NUnit.Framework;
 using UnityEngine;
 
 [System.Serializable]
@@ -26,17 +26,17 @@ public class MeleeData
         this.rightDamageCollider.SetDamageSource(source);
     }
 
-    public void SetCurrentCollider(Attack attack)
+    public void SetCurrentCollider(WeaponAttack attack)
     {
         if (attack.fromHand == FromHand.left)
             current = leftDamageCollider;
-        if(attack.fromHand == FromHand.right)
-            current = rightDamageCollider;  
+        if (attack.fromHand == FromHand.right)
+            current = rightDamageCollider;
     }
 
-    public void PerformAttack(float healthDamage, BalanceDamageType balanceDamage, ICombatInventory attackSource)
+    public void PerformAttack(DamageData damageData ,ICombatInventory attackSource)
     {
-        current.EnableCollider(healthDamage, balanceDamage, attackSource.TargetsToIgnore);
+        current.EnableCollider(damageData, attackSource.TargetsToIgnore);
     }
 
     public void CancelAttack()
@@ -45,7 +45,7 @@ public class MeleeData
 
         current.DisableCollider();
     }
-  
+
 }
 
 public class MeleeWeapon : IWeapon
@@ -53,9 +53,9 @@ public class MeleeWeapon : IWeapon
     private WeaponSO weaponSO;
     private MeleeData meleeData;
 
-    private Attack currentAttack;
+    private WeaponAttack currentAttack;
 
-    public Attack GetPowerAttack(Attack attack)=>currentAttack=attack;  
+    public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
     public ICombatInventory AttackSource { get; set; }
 
     int currentAttackIndex = 0;
@@ -63,9 +63,9 @@ public class MeleeWeapon : IWeapon
     #region IWeapon Contract
     public WeaponSO WeaponData() => weaponSO;
 
-    public Attack CurrentAttack() => currentAttack;
+    public WeaponAttack CurrentAttack() => currentAttack;
 
-    public void SetCurrentAttack(Attack attack) => currentAttack = attack;  
+    public void SetCurrentAttack(WeaponAttack attack) => currentAttack = attack;
 
     public void SelectAttack(int index)
     {
@@ -93,13 +93,13 @@ public class MeleeWeapon : IWeapon
     public void Init(MeleeData meleeData, ICombatInventory source)
     {
         this.weaponSO = meleeData.barehandsData;
-        this.AttackSource = source; 
+        this.AttackSource = source;
 
         this.meleeData = new MeleeData();
-        this.meleeData.Init(meleeData,this, AttackSource.SourcePosition());
-        
-  
-        
+        this.meleeData.Init(meleeData, this, AttackSource.SourcePosition());
+
+
+
     }
     public void CancelAttack()
     {
@@ -109,38 +109,43 @@ public class MeleeWeapon : IWeapon
     public void PerformAttack()
     {
 
-        if(currentAttack == null)
+        if (currentAttack == null)
         {
             Debug.Log("no current attack assigned");
             return;
 
         }
-        var healthDamage = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage());
-        var balanceDamage = currentAttack.GetFinalBalanceDamage();
+
+        DamageData damageData = new DamageData()
+        {
+            healthDamageMultiplier = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage()),
+            balanceDamageType = currentAttack.damageData.balanceDamageType,
+            impactForce = currentAttack.damageData.impactForce
+        };
 
         meleeData.SetCurrentCollider(currentAttack);
-        meleeData.PerformAttack(healthDamage, balanceDamage, AttackSource);
+        meleeData.PerformAttack(damageData, AttackSource);
     }
 
 
     public void DropWeapon()
     {
-        //без имплементации
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public void ThrowWeapon(Transform from, float force)
     {
-        //без имплементации
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public void ReduceDurability(float amount)
     {
-        //без имплементации
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     public void AssignToOwner(ICollector source)
     {
-        //без имплементации
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
 

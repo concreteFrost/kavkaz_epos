@@ -43,13 +43,13 @@ public interface IWeapon
     /// <param name="index"></param>
     public void SelectAttack(int index);
 
-    Attack GetPowerAttack(Attack attack);
+    WeaponAttack GetPowerAttack(WeaponAttack attack);
 
     /// <summary>
     /// Получение данных текущей атаки
     /// </summary>
     /// <returns></returns>
-    public Attack CurrentAttack();
+    public WeaponAttack CurrentAttack();
 
     public void AssignToOwner(ICollector collecter);
 

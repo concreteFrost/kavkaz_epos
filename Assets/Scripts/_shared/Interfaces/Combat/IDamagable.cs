@@ -8,7 +8,7 @@ public interface IDamagable
     //public ITargetLockable Lockable { get; set; }
     //public string SourceId();
 
-    public abstract void TakeDamage(float damage, BalanceDamageType balanceDamage, Transform source=null);   
+    public abstract void TakeDamage(DamageData damageData, Transform source=null);   
     public void Die();
     public bool IsDead();
     bool IsDamaged { get; set; }

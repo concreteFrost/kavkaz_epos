@@ -79,7 +79,7 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead());
     }
 
-    public void OverrideAttack(Attack attack, string name)
+    public void OverrideAttack(WeaponAttack attack, string name)
     {
         var stateName = name;
         overrideController[stateName] = attack.animationInfo.clip;

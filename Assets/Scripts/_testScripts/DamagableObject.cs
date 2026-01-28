@@ -41,10 +41,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         characterType = CharacterType.Object;
     }
 
-    public void TakeDamage(float damage, BalanceDamageType balanceDamage,Transform source=null)
+    public void TakeDamage(DamageData damageData,Transform source)
     {
         if (isDead) return;
-        currentHealth -= damage;
+        currentHealth -= damageData.healthDamageMultiplier;
         StartCoroutine(DamageCoroutine());
 
         if (currentHealth <= 0)

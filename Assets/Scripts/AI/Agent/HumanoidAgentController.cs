@@ -2,35 +2,70 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class HumanoidAgentController 
+public class HumanoidAgentController
 {
     public NavMeshAgent agent;
 
     public HumanoidAgentController(NavMeshAgent agent, Animator animator)
     {
         this.agent = agent;
+
+        agent.updatePosition = true;
+        agent.updateRotation = false; // поворот контролируешь сам
+
+        agent.angularSpeed = 0f;       // чтобы агент не крутил
+        agent.acceleration = 80f;      // отзывчивость
+        agent.stoppingDistance = 0.8f;
+        agent.autoBraking = true;
+
+        agent.obstacleAvoidanceType =
+            ObstacleAvoidanceType.LowQualityObstacleAvoidance;
     }
 
     #region Agent Control
 
     public void EnableAgent()
     {
-        agent.ResetPath();
         agent.enabled = true;
+        agent.ResetPath();
+       
     }
 
     public void DisableAgent()
     {
+        if (!agent.isActiveAndEnabled) return;
+
         agent.ResetPath();
         agent.enabled = false;
     }
     public void StopAgent()
     {
         if (!agent.isActiveAndEnabled) return;
+        
         agent.ResetPath();
 
     }
 
+    public void SendAgentToPosition(Vector3 dir)
+    {
+        if (!agent.isActiveAndEnabled) return;
+
+        agent.SetDestination(dir);
+    }
+
+    public void MoveAgentToPosition(Vector3 dir)
+    {
+        if (!agent.isActiveAndEnabled) return;
+
+        agent.Move(dir);
+    }
+
+    public void ResetAgent()
+    {
+        if (!agent.isActiveAndEnabled) return;
+
+        agent.ResetPath();
+    }
 
     public bool HasReachedDestination(float tolerance = 0.1f)
     {

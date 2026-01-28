@@ -13,24 +13,32 @@ MonoBehaviour:
   m_Name: SwordAttackSet_1
   m_EditorClassIdentifier: Assembly-CSharp::AttackSO
   attackList:
-  - healthDamageMultiplier: 0
-    balanceDamageMultiplier: 1
-    staminaPenalty: 7
+  - damageData:
+      healthDamageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 3
+    staminaPenalty: 5
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: bea5a0bc8609aaf43b71e506be961699, type: 2}
-  - healthDamageMultiplier: 0.05
-    balanceDamageMultiplier: 1
-    staminaPenalty: 10
+  - damageData:
+      healthDamageMultiplier: 0.1
+      balanceDamageType: 1
+      impactForce: 4
+    staminaPenalty: 6
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: e1614efa858c0254db99bdff5b169c57, type: 2}
-  - healthDamageMultiplier: 0.1
-    balanceDamageMultiplier: 2
-    staminaPenalty: 12
+  - damageData:
+      healthDamageMultiplier: 0.3
+      balanceDamageType: 2
+      impactForce: 5
+    staminaPenalty: 7
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: a12d411502e4e3744a89dfb4bf03a644, type: 2}
   powerAttack:
-    healthDamageMultiplier: 0.5
-    balanceDamageMultiplier: 3
-    staminaPenalty: 0
+    damageData:
+      healthDamageMultiplier: 0.5
+      balanceDamageType: 3
+      impactForce: 15000
+    staminaPenalty: 7
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 3c6a0034fb2e1024bae18197268e6f66, type: 2}

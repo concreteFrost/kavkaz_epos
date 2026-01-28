@@ -8,8 +8,7 @@ public class DamageCollider : MonoBehaviour
 
     protected readonly HashSet<Collider> hitColliders = new();
 
-    [HideInInspector] public float healthDamage;
-    [HideInInspector] public BalanceDamageType balanceDamage;
+    DamageData damageData;
     List<CharacterType> objectsToIgnore;
 
     [HideInInspector] public bool attackInterrupted;
@@ -45,10 +44,9 @@ public class DamageCollider : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    public virtual void EnableCollider(float health, BalanceDamageType balance, List<CharacterType> targetsToIgnore)
+    public virtual void EnableCollider(DamageData damageData,List<CharacterType> targetsToIgnore)
     {
-        healthDamage = health;
-        balanceDamage = balance;
+        this.damageData = damageData;
         objectsToIgnore = targetsToIgnore;
 
         attackInterrupted = false;
@@ -109,7 +107,7 @@ public class DamageCollider : MonoBehaviour
             var owner = defence.Shield.Owner.Damagable;
             if (NotInTargetList(owner)) return;
 
-            defence.ProcessDamage(healthDamage, balanceDamage, source);
+            defence.ProcessDamage(damageData, source);
             attackInterrupted = true;
             return;
         }
@@ -124,7 +122,7 @@ public class DamageCollider : MonoBehaviour
 
     protected virtual void ApplyDamage(IDamagable target)
     {
-        target.TakeDamage(healthDamage, balanceDamage, source);
+        target.TakeDamage(damageData, source);
     }
 
     protected bool TryGetDamagable(Collider other, out IDamagable damagable)

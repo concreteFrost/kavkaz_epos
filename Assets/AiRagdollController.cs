@@ -5,21 +5,24 @@ using UnityEngine.AI;
 public class AiRagdollController : BaseRagdollController
 {
 
-    NavMeshAgent agent;
-    
+    HumanoidAgentController agent;
 
-    public AiRagdollController(Animator anim, NavMeshAgent agent, Rigidbody[] rbs, Transform self)
+
+    public AiRagdollController(MonoBehaviour ctx, Animator anim, HumanoidAgentController agent, Rigidbody[] rbs, Transform self)
     {
         this.agent = agent;
-        base.Init(anim, rbs, self);
+        base.Init(ctx,anim, rbs, self);
+
+        col = self.GetComponent<Collider>();    
         
     }
 
-    public override void EnableRagdoll()
+    public override void EnableRagdoll(float force, Transform from)
     {
+        col.enabled = false;
         anim.enabled = false;
-        agent.ResetPath();
-        agent.enabled = false;
+
+        agent.DisableAgent();
 
         foreach (var rb in rigidbodies)
         {
@@ -28,6 +31,10 @@ public class AiRagdollController : BaseRagdollController
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
+
+        ApplyImpulseFromSource(force,from);
+
+     
     }
 
     public override void DisableRagdoll()
@@ -38,18 +45,13 @@ public class AiRagdollController : BaseRagdollController
             rb.useGravity = false;
         }
 
+        col.enabled = true;
         anim.enabled = true;
-        agent.enabled = true;
-        agent.ResetPath();
+
+        agent.EnableAgent();
 
 
 
-    }
-
-    public override void Knockout()
-    {
-        IsRecovering = true;
-        EnableRagdoll();
     }
 
 

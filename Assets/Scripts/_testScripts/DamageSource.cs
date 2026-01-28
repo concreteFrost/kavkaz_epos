@@ -5,13 +5,15 @@ using System.Collections.Generic;
 public class DamageSource : MonoBehaviour
 {
     [SerializeField] DamageCollider damageCollider;
-
+    public DamageData damageData;
     public float cooldown = 2f;
     float defaultCooldown;
 
     bool colliderActive = false;
 
-    private float healthDamage = 10f;
+    public BalanceDamageType balanceDamageType = BalanceDamageType.Low;
+
+    public float impactForce = 1.0f;
 
     public List<CharacterType> objectsToIgnore = new List<CharacterType>(); 
 
@@ -27,7 +29,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(healthDamage,BalanceDamageType.Low, objectsToIgnore);
+            damageCollider.EnableCollider(damageData, objectsToIgnore);
             colliderActive = true;
         }
 

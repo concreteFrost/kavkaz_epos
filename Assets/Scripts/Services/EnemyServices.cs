@@ -17,5 +17,7 @@ public class EnemyBrainContext
     public EnemyStateTracker stateTracker;
     public CharacterInteract interact;
 
+    public IRagdollController ragdollController;
+
 }
 

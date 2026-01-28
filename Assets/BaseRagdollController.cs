@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,11 @@ public class CharacterBoneTransform
 
 public abstract class BaseRagdollController : IRagdollController
 {
+
+    private MonoBehaviour context;
+
+    protected Collider col;
+
     protected Animator anim;
     protected Rigidbody[] rigidbodies;
     protected Transform self;
@@ -22,90 +28,28 @@ public abstract class BaseRagdollController : IRagdollController
     protected CharacterBoneTransform[] _facedownBoneTransforms;
     protected CharacterBoneTransform[] _ragdollBoneTransforms;
 
+    Coroutine recoveryCoroutine = null;
+
     protected float blendDuration = 0.5f;
     protected bool isFacingUp;
 
     #region IRagdollControlerContract
-    public bool IsRecovering { get; set; }
 
     public abstract void DisableRagdoll();
-    public abstract void EnableRagdoll();
-    public abstract void Knockout();
-    public IEnumerator Recover()
-    {
-        // 1. Ждём минимальное время, чтобы ragdoll успел распасться
-        yield return new WaitForSeconds(0.5f);
+    public abstract void EnableRagdoll(float force, Transform from);
+   
+    public event Action KnockedOut;
+    public event Action Recovered;
 
-        // 2. Ждём полной остановки всех rigidbody
-        bool moving = true;
-        while (moving)
-        {
-            moving = false;
-            foreach (var rb in rigidbodies)
-            {
-                if (rb.linearVelocity.sqrMagnitude > 0.01f)
-                {
-                    moving = true;
-                    break;
-                }
-            }
-            yield return null;
-        }
-
-        isFacingUp = _hipsBone.forward.y > 0;
-
-        AlignRotationToHips();
-        AlignPositionToHips();
-
-        PopulateBoneTransforms(_ragdollBoneTransforms);
-
-        // 4. Блендим к анимации
-        float timer = 0f;
-
-        CharacterBoneTransform[] standUpBoneTransforms = GetStandUpBoneTransforms();
-
-        while (timer < blendDuration)
-        {
-            timer += Time.deltaTime;
-            float t = Mathf.Clamp01(timer / blendDuration);
-
-            for (int boneIndex = 0; boneIndex < _bones.Length; boneIndex++)
-            {
-                _bones[boneIndex].localPosition = Vector3.Lerp(
-                _ragdollBoneTransforms[boneIndex].position,
-                standUpBoneTransforms[boneIndex].position, t
-                );
-
-                _bones[boneIndex].localRotation = Quaternion.Lerp(
-                    _ragdollBoneTransforms[boneIndex].rotation,
-                    standUpBoneTransforms[boneIndex].rotation,
-                    t);
-            }
-
-            yield return null;
-        }
-
-
-        // 5. Завершение: отключаем ragdoll, включаем анимацию
-
-
-        DisableRagdoll();
-
-        if (isFacingUp)
-            anim.Play("Get Up");
-
-        else
-            anim.Play("Get Up From Belly");
-
-        IsRecovering = false;
-
-    }
+    public bool IsRecovering { get; set; }
 
     #endregion
 
-    protected void Init(Animator anim,  Rigidbody[] rbs, Transform self)
+    protected void Init(MonoBehaviour context, Animator anim, Rigidbody[] rbs, Transform self)
     {
+        this.context = context;
         this.self = self;
+        this.col = self.GetComponent<Collider>();
         this.anim = anim;
         this.rigidbodies = rbs;
 
@@ -123,9 +67,29 @@ public abstract class BaseRagdollController : IRagdollController
             _ragdollBoneTransforms[i] = new CharacterBoneTransform();
         }
 
-        SampleAnimationStartPose("Getup", _faceupBoneTransforms);
-        SampleAnimationStartPose("Getup_from_belly", _facedownBoneTransforms);
+        SampleAnimationStartPose(AnimatorParameters.getUpClip, _faceupBoneTransforms);
+        SampleAnimationStartPose(AnimatorParameters.getUpFromBellyClip, _facedownBoneTransforms);
         DisableRagdoll();
+    }
+
+    public void Knockout(float force, Transform from)
+    {
+        if (IsRecovering)
+            return;
+
+        IsRecovering = true;
+        KnockedOut?.Invoke();
+
+        EnableRagdoll(force,from);
+        recoveryCoroutine = context.StartCoroutine(Recover());
+    }
+
+    public void ForceStop()
+    {
+        IsRecovering = false;
+
+        if(recoveryCoroutine !=null)
+           context.StopCoroutine(recoveryCoroutine);
     }
 
     protected void PopulateBoneTransforms(CharacterBoneTransform[] arr)
@@ -198,6 +162,100 @@ public abstract class BaseRagdollController : IRagdollController
     {
         return isFacingUp ? _faceupBoneTransforms : _facedownBoneTransforms;
     }
+
+    protected void ApplyImpulseFromSource(float force, Transform from)
+    {
+        Vector3 origin = from != null ? from.position : self.position - self.forward;
+        Vector3 direction = (_hipsBone.position - origin).normalized;
+
+        // немного вверх, чтобы не просто по земле
+        direction.y = Mathf.Max(direction.y, 0.2f);
+        direction.Normalize();
+
+        Rigidbody hipsRb = _hipsBone.GetComponent<Rigidbody>();
+
+        hipsRb.AddForce(direction * force, ForceMode.Impulse);
+    }
+
+
+    public IEnumerator Recover()
+    {
+        // 1. Ждём минимальное время, чтобы ragdoll успел распасться
+        yield return new WaitForSeconds(0.5f);
+
+        // 2. Ждём полной остановки всех rigidbody
+        bool moving = true;
+        while (moving)
+        {
+            moving = false;
+            foreach (var rb in rigidbodies)
+            {
+                if (rb.linearVelocity.sqrMagnitude > 0.01f)
+                {
+                    moving = true;
+                    break;
+                }
+            }
+            yield return null;
+        }
+
+        isFacingUp = _hipsBone.forward.y > 0;
+
+        AlignRotationToHips();
+        AlignPositionToHips();
+
+        PopulateBoneTransforms(_ragdollBoneTransforms);
+
+        // 4. Блендим к анимации
+        float timer = 0f;
+
+        CharacterBoneTransform[] standUpBoneTransforms = GetStandUpBoneTransforms();
+
+        while (timer < blendDuration)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / blendDuration);
+
+            for (int boneIndex = 0; boneIndex < _bones.Length; boneIndex++)
+            {
+                _bones[boneIndex].localPosition = Vector3.Lerp(
+                _ragdollBoneTransforms[boneIndex].position,
+                standUpBoneTransforms[boneIndex].position, t
+                );
+
+                _bones[boneIndex].localRotation = Quaternion.Lerp(
+                    _ragdollBoneTransforms[boneIndex].rotation,
+                    standUpBoneTransforms[boneIndex].rotation,
+                    t);
+            }
+
+            yield return null;
+        }
+
+
+        DisableRagdoll();
+
+        string animName = isFacingUp ? AnimatorParameters.getUpState : AnimatorParameters.getUpFromBellyState;
+        anim.Play(animName);
+
+        // ждём конца анимации
+        yield return WaitForAnimationEnd(animName);
+
+        Recovered?.Invoke();
+        IsRecovering = false;
+    }
+
+    private IEnumerator WaitForAnimationEnd(string stateName, int layer = AnimatorParameters.damageLayer)
+    {
+        // ждём пока анимация реально войдёт в state
+        while (!anim.GetCurrentAnimatorStateInfo(layer).IsName(stateName))
+            yield return null;
+
+        // ждём пока анимация не проиграется до конца
+        while (anim.GetCurrentAnimatorStateInfo(layer).normalizedTime < 1f)
+            yield return null;
+    }
+
 
 
 

@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour, IProjectile
 {
 
     public ProjectileData data;
+    public DamageData damageData;
     float currLifeTime; //текущий жизненый цикл
 
     void Update()
@@ -33,7 +34,7 @@ public class Projectile : MonoBehaviour, IProjectile
         if (other.GetComponent<IDamagable>() != null)
         {
             var damagable = other.GetComponent<IDamagable>();
-            damagable.TakeDamage(data.damage,BalanceDamageType.Low, null);
+            damagable.TakeDamage(damageData, null);
 
         }
 
