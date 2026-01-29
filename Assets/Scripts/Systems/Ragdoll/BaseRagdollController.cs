@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public abstract class BaseRagdollController : IRagdollController
     protected Collider col;
 
     protected Animator anim;
-    protected Rigidbody[] rigidbodies;
+    protected List<Rigidbody> rigidbodies = new List<Rigidbody>();
     protected Transform self;
 
     protected Transform _hipsBone;
@@ -37,7 +38,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     public abstract void DisableRagdoll();
     public abstract void EnableRagdoll(float force, Transform from);
-   
+
     //public Action KnockedOut;
     public event Action Recovered;
     public event Action RecoveredInInvalidArea;
@@ -47,15 +48,25 @@ public abstract class BaseRagdollController : IRagdollController
     protected void InvokeRecover() => Recovered?.Invoke();
     protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke();
 
-    protected void Init(MonoBehaviour context, Animator anim, Rigidbody[] rbs, Transform self)
+    protected void Init(MonoBehaviour context, Animator anim, Transform self)
     {
         this.context = context;
         this.self = self;
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
-        this.rigidbodies = rbs;
+
 
         _hipsBone = anim.GetBoneTransform(HumanBodyBones.Hips);
+
+        rigidbodies.Add(_hipsBone.GetComponent<Rigidbody>());
+
+        rigidbodies.AddRange(_hipsBone
+     .GetComponentsInChildren<Joint>()
+     .Select(j => j.GetComponent<Rigidbody>())
+     .Where(rb => rb != null)
+     .Distinct()
+     .ToArray());
+
         _bones = _hipsBone.GetComponentsInChildren<Transform>();
 
         _faceupBoneTransforms = new CharacterBoneTransform[_bones.Length];
@@ -82,7 +93,7 @@ public abstract class BaseRagdollController : IRagdollController
         //IsRecovering = true;
         //KnockedOut?.Invoke();
 
-        EnableRagdoll(force,from);
+        EnableRagdoll(force, from);
         recoveryCoroutine = context.StartCoroutine(Recover());
     }
 
@@ -90,8 +101,8 @@ public abstract class BaseRagdollController : IRagdollController
     {
         //IsRecovering = false;
 
-        if(recoveryCoroutine !=null)
-           context.StopCoroutine(recoveryCoroutine);
+        if (recoveryCoroutine != null)
+            context.StopCoroutine(recoveryCoroutine);
     }
 
     protected void PopulateBoneTransforms(CharacterBoneTransform[] arr)

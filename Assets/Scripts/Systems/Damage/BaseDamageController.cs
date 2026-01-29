@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 
 public abstract class BaseDamageController : MonoBehaviour, IDamagable
@@ -33,18 +34,25 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     #endregion
 
 
-    public virtual void TakeDamage(DamageData damageData, Transform source )
+    public virtual void TakeDamage(DamageData damageData, Transform source)
     {
+        if(IsDamagingBlocked() || IsDead) return;
 
         BalancePenalty = damageData.balanceDamageType;
-
         IsDamaged = true;
 
         statsController.ReduceHealth(damageData.healthDamageMultiplier);
-        DamageTaken?.Invoke(source);
-       
+        InvokeDamageTaken(source);
+
 
     }
+
+    protected void InvokeDamageTaken(Transform source)
+    {
+        DamageTaken?.Invoke(source);
+    }
+
+    protected abstract bool IsDamagingBlocked();
 
     public abstract void Die();
    

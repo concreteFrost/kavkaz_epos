@@ -225,59 +225,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8009305017341829479}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &472648156380629430
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7343011536571795400}
-  - component: {fileID: 1581375581796468103}
-  m_Layer: 0
-  m_Name: AICombatInventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7343011536571795400
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 472648156380629430}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 515555489032476068}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1581375581796468103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 472648156380629430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
-  rightHand: {fileID: 5591928551287878927}
-  leftHand: {fileID: 1935654885825902513}
-  targetsToIgnore: 02000000
-  meleeData:
-    barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-    leftDamageCollider: {fileID: 7220612544056748197}
-    rightDamageCollider: {fileID: 1771482036007076022}
-    current: {fileID: 0}
 --- !u!1 &501888900448401070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,8 +1357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
-  healthDamage: 0
-  balanceDamage: 0
   attackInterrupted: 0
 --- !u!135 &1704495155813412907
 SphereCollider:
@@ -1500,8 +1445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
-  healthDamage: 0
-  balanceDamage: 0
   attackInterrupted: 0
 --- !u!1 &3069098352318718036
 GameObject:
@@ -1870,7 +1813,8 @@ MonoBehaviour:
   stats: {fileID: 3623233199384946657}
   interaction: {fileID: 1604697800633764470}
   combatController: {fileID: 8492958853885773946}
-  combatInventory: {fileID: 1581375581796468103}
+  combatInventory: {fileID: 2439604627647212036}
+  attackSource: {fileID: 5789983656386049422}
   damageController: {fileID: 1055276295984137630}
   fovController: {fileID: 1578463945064035814}
   brain: {fileID: 8875711254880146913}
@@ -2435,6 +2379,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8327586687000676752}
   - component: {fileID: 8492958853885773946}
+  - component: {fileID: 5789983656386049422}
+  - component: {fileID: 2439604627647212036}
   m_Layer: 0
   m_Name: AICombatController
   m_TagString: Untagged
@@ -2470,6 +2416,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCombatController
   attackBufferTime: 0.35
+--- !u!114 &5789983656386049422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772585678690012177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf83162896dda8346bcc2cc6ae038e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSource
+  targetsToIgnore: 
+--- !u!114 &2439604627647212036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772585678690012177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
+  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
+  rightHand: {fileID: 5591928551287878927}
+  leftHand: {fileID: 1935654885825902513}
+  meleeData:
+    barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
+    leftDamageCollider: {fileID: 7220612544056748197}
+    rightDamageCollider: {fileID: 1771482036007076022}
+    current: {fileID: 0}
 --- !u!1 &4865579215874614667
 GameObject:
   m_ObjectHideFlags: 0
@@ -4727,7 +4706,6 @@ Transform:
   - {fileID: 9087103329379741657}
   - {fileID: 7901007438046391984}
   - {fileID: 8327586687000676752}
-  - {fileID: 7343011536571795400}
   - {fileID: 4065970685229148780}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

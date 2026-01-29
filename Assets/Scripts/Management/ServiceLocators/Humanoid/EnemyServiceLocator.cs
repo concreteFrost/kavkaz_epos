@@ -62,7 +62,7 @@ public class EnemyServiceLocator : MonoBehaviour
     {
 
         agentController = new HumanoidAgentController(agent, animator);
-        ragdollController = new AiRagdollController(this,animator, agentController, GetComponentsInChildren<Rigidbody>(), transform);
+        ragdollController = new AiRagdollController(this,animator, agentController, transform);
 
         stats.Init();
        
@@ -105,6 +105,7 @@ public class EnemyServiceLocator : MonoBehaviour
         {
             permamentPosition = transform.position,
             self = transform,
+            animator = animator,
             motor = motor,
             controller = controller,
             stats = stats,

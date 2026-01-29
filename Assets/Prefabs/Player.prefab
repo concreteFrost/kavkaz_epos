@@ -61,8 +61,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64250752032090724}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: 0.000000005214533, z: -0.0000000021599307, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9.689, z: -8}
+  m_LocalRotation: {x: 0.1991337, y: 0.78894335, z: -0.32679108, w: 0.48075125}
+  m_LocalPosition: {x: -7.109771, y: 9.688997, z: 3.6675863}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -676,7 +676,8 @@ MonoBehaviour:
   statsController: {fileID: 1717874504137131917}
   interaction: {fileID: 4663233294869295643}
   combatController: {fileID: 5722168148503660638}
-  combatInventory: {fileID: 4574909741016711461}
+  combatInventory: {fileID: 548762665843053101}
+  attackSource: {fileID: 4373527282435137223}
   damageController: {fileID: 9216071904075533163}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
@@ -721,7 +722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_9783b26c-a1dd-402b-9798-63e8132ef384
+  uniqueId: uid_bc08552a-901f-4285-9bf4-83e24fb6c08d
 --- !u!54 &821100503953075412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2479,6 +2480,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5887918107280232788}
   - component: {fileID: 5722168148503660638}
+  - component: {fileID: 548762665843053101}
+  - component: {fileID: 4373527282435137223}
   m_Layer: 0
   m_Name: PlayerCombat
   m_TagString: Untagged
@@ -2514,6 +2517,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
   attackBufferTime: 0.35
+--- !u!114 &548762665843053101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788126151372605345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
+  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
+  rightHand: {fileID: 8409285499856481286}
+  leftHand: {fileID: 8098127902209935896}
+  meleeData:
+    barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
+    leftDamageCollider: {fileID: 4194059548155221935}
+    rightDamageCollider: {fileID: 1006584062323535723}
+    current: {fileID: 0}
+--- !u!114 &4373527282435137223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788126151372605345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf83162896dda8346bcc2cc6ae038e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSource
+  targetsToIgnore: 00000000
 --- !u!1 &6996505827318760037
 GameObject:
   m_ObjectHideFlags: 0
@@ -2948,8 +2984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
-  healthDamage: 0
-  balanceDamage: 0
   attackInterrupted: 0
 --- !u!1 &7547353170049255644
 GameObject:
@@ -3017,8 +3051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
-  healthDamage: 0
-  balanceDamage: 0
   attackInterrupted: 0
 --- !u!1 &7673886959098126395
 GameObject:
@@ -3636,7 +3668,6 @@ Transform:
   - {fileID: 8536950450292158868}
   - {fileID: 5368957167826177798}
   - {fileID: 5887918107280232788}
-  - {fileID: 8241324328691476925}
   - {fileID: 7065189031178511702}
   - {fileID: 6191803633859752341}
   - {fileID: 4398183456071293128}
@@ -3748,8 +3779,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8746970844394057404}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268346, y: 0.0000000047835718, z: -0.0000000011195002, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9.689, z: -8}
+  m_LocalRotation: {x: 0.19913368, y: 0.78894335, z: -0.32679108, w: 0.48075122}
+  m_LocalPosition: {x: -7.109771, y: 9.688997, z: 3.6675863}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3992,59 +4023,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &9040986256879413779
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8241324328691476925}
-  - component: {fileID: 4574909741016711461}
-  m_Layer: 0
-  m_Name: PlayerCombatInventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8241324328691476925
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9040986256879413779}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5848560018931718496}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4574909741016711461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9040986256879413779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
-  rightHand: {fileID: 8409285499856481286}
-  leftHand: {fileID: 8098127902209935896}
-  targetsToIgnore: 0000000001000000
-  meleeData:
-    barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-    leftDamageCollider: {fileID: 4194059548155221935}
-    rightDamageCollider: {fileID: 1006584062323535723}
-    current: {fileID: 0}
 --- !u!1 &9059656156223377828
 GameObject:
   m_ObjectHideFlags: 0

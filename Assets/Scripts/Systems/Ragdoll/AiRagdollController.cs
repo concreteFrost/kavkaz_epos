@@ -8,12 +8,12 @@ public class AiRagdollController : BaseRagdollController
     HumanoidAgentController agentController;
 
 
-    public AiRagdollController(MonoBehaviour ctx, Animator anim, HumanoidAgentController agent, Rigidbody[] rbs, Transform self)
+    public AiRagdollController(MonoBehaviour ctx, Animator anim, HumanoidAgentController agent, Transform self)
     {
         this.agentController = agent;
-        base.Init(ctx,anim, rbs, self);
+        base.Init(ctx,anim, self);
 
-        col = self.GetComponent<Collider>();    
+        DisableRagdoll();
         
     }
 
@@ -43,6 +43,7 @@ public class AiRagdollController : BaseRagdollController
         {
             rb.isKinematic = true;
             rb.useGravity = false;
+            
         }
 
         col.enabled = true;

@@ -68,17 +68,20 @@ public class HumanoidAIDamageController : BaseDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
-        if (motor.IsDodging || IsDead)
-            return;
-
-        base.TakeDamage(damageData, source);
+        base.TakeDamage(damageData, source);    
 
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
             IsKnockedOut = true;
             motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
-            ragdollController.Knockout(damageData.impactForce,source);
+            ragdollController.Knockout(damageData.impactForce, source);
         }
+
+    }
+
+    protected override bool IsDamagingBlocked()
+    {
+        return motor.IsDodging || IsDead;
     }
 
     public override void Die()

@@ -21,6 +21,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Контроллер")]
     [SerializeField] private PlayerController controller;
 
+
     [Header("Статы")]
     [SerializeField] private HumanoidStats stats;
     [SerializeField] private CharacterStatsController statsController;
@@ -55,6 +56,7 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         stats.Init();
         motor.Init(animator);
+      
 
         // Input
         PlayerInputService inputService = new PlayerInputService(controller, characterAnimator, targetLock);

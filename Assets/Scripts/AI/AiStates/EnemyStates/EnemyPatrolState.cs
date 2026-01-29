@@ -55,13 +55,10 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
         if (passiveInterruptionTracker.IsInterrupted())
         {
-            passiveInterruptionTracker.UpdateInterruption();
-            motor.StopMovement();
-            motor.RotateToTarget(passiveInterruptionTracker.GetInterruptionDirection());
+            passiveInterruptionTracker.React(context.animator);
             return AIStateResult.None;
         }
-
-
+           
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
             return AIStateResult.Idle;
 

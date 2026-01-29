@@ -113,7 +113,9 @@ public class DamageCollider : MonoBehaviour
         }
 
         if (!TryGetDamagable(other, out var damagable)) return;
+        
         if (NotInTargetList(damagable)) return;
+
         if (!hitColliders.Add(other)) return;
 
         ApplyDamage(damagable);
@@ -133,7 +135,8 @@ public class DamageCollider : MonoBehaviour
 
     protected bool NotInTargetList(IDamagable damagable)
     {
-        if (objectsToIgnore == null || objectsToIgnore.Count == 0) return false;
+        
+        if (objectsToIgnore == null || objectsToIgnore.Count == 0) return true;
         return objectsToIgnore.Contains(damagable.CharacterType);
     }
 }

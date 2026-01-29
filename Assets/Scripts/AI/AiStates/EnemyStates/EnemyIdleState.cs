@@ -1,9 +1,11 @@
+using UnityEngine;
+
 public class EnemyIdleState : AIState<EnemyBrainContext>
 {
 
     private EnemyIdleHandler idleHandler;
     private EnemyCombatHandler combatHandler;
-    private EnemyPassiveInterruptionHandler interruptionTracker;
+    private EnemyPassiveInterruptionHandler passiveInterruptionTracker;
     private HumanoidAIMotor motor;
     private EnemyFOVController fov;
     private HumanoidAgentController agentController;
@@ -15,7 +17,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         agentController = context.agentController;  
       
         idleHandler = context.stateTracker.idleHandler;
-        interruptionTracker = context.stateTracker.interruptionTracker;
+        passiveInterruptionTracker = context.stateTracker.interruptionTracker;
 
         combatHandler = context.stateTracker.combatHandler;
 
@@ -30,7 +32,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         // инициализация таймеров и флагов состояния покоя
         idleHandler.SetMaxIdleTime();
         idleHandler.ResetIdleState();
-        interruptionTracker.ResetInterruption();
 
         //сбрасываем данные комбата
         combatHandler.ResetCombatState();   
@@ -45,14 +46,12 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         if (fov.currentTarget != null)
             return AIStateResult.Chase;
 
-        // реакция на полученный урон без смены состояния
-        if (interruptionTracker.IsInterrupted())
+
+        if (passiveInterruptionTracker.IsInterrupted())
         {
-            motor.RotateToTarget(interruptionTracker.GetInterruptionDirection());
-            interruptionTracker.UpdateInterruption();
+            passiveInterruptionTracker.React(context.animator);
             return AIStateResult.None;
         }
-
 
         idleHandler.UpdateCurrentIdleTime();
 
@@ -65,5 +64,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     public override void Exit()
     {
         idleHandler.ResetIdleState();
+       
     }
 }

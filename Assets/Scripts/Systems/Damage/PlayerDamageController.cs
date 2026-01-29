@@ -56,16 +56,12 @@ public class PlayerDamageController : BaseDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
-        if (IsDead || IsDamaged || motor.IsDodging) return;
+       base.TakeDamage(damageData, source);
+    }
 
-
-        BalancePenalty = damageData.balanceDamageType;
-
-        IsDamaged = true;
-
-        statsController.ReduceHealth(damageData.healthDamageMultiplier);   
-      
-
+    protected override bool IsDamagingBlocked()
+    {
+        return IsDead || IsDamaged || motor.IsDodging;
     }
 
     public override void Die()

@@ -11,7 +11,7 @@ public class Weapon : CombatItem, IWeapon
 
     public ICollector Owner;
 
-    private float minStopVelocity = 1.7f;
+    private float minStopVelocity = 0.5f;
 
     int currentAttackIndex = 0;
 
@@ -125,16 +125,18 @@ public class Weapon : CombatItem, IWeapon
 
     public void ThrowWeapon(Transform from, float force)
     {
-        ResetParent();
-        ResetOwner();
+        var tempTargets = Owner.AttackSource.TargetsToIgnore;
+        var source = Owner.AttackSource.SourcePosition();
 
+        ResetParent();
         ToggleInteraction(true);
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
 
-        StartCoroutine(ThrowCoroutine(0.25f));
+        StartCoroutine(ThrowCoroutine(tempTargets, source));
         StartCoroutine(DisableColliderWhenStopped());
 
+     
     }
 
     private void ResetOwner()
@@ -144,10 +146,8 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.SetDamageSource(null);
     }
 
-    IEnumerator ThrowCoroutine(float delay)
+    IEnumerator ThrowCoroutine(List<CharacterType> targetsToIgnore, Transform source)
     {
-        yield return new WaitForSeconds(delay); //�������� ����� �� �������� �� ��������� ������
-
         DamageData damageData = new DamageData()
         {
             healthDamageMultiplier = weaponSO.GetBaseDamage(),
@@ -155,9 +155,12 @@ public class Weapon : CombatItem, IWeapon
             impactForce = 10f
         };
 
-        damageCollider.EnableCollider(damageData, null);
+        damageCollider.SetDamageSource(source);
+        damageCollider.EnableCollider(damageData, targetsToIgnore);
 
         yield return null;
+
+        
     }
 
     IEnumerator DisableColliderWhenStopped()
@@ -171,12 +174,14 @@ public class Weapon : CombatItem, IWeapon
             if (rb.linearVelocity.magnitude < minStopVelocity)
             {
                 damageCollider.DisableCollider();
-
+                ResetOwner();
                 yield break;
             }
 
             yield return null;
         }
+
+
 
 
     }
