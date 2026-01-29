@@ -3,22 +3,6 @@ using UnityEngine;
 
 public interface ICombatInventory
 {
-    /// <summary>
-    /// Назначает источник атаки для предотвращения попадания по самому себе
-    /// </summary>
-    /// <returns></returns>
-    public int SourceId();
-
-    /// <summary>
-    /// Указывает на источник атаки
-    /// </summary>
-    /// <returns></returns>
-    public Transform SourcePosition();
-
-    /// <summary>
-    /// Цели которые стоит игнорировать. Например дружественные NPC или же цели того же класса
-    /// </summary>
-    public List<CharacterType> TargetsToIgnore { get; set; }
 
     /// <summary>
     /// Изначальное оружие
@@ -34,7 +18,6 @@ public interface ICombatInventory
     /// Щит
     /// </summary>
     public IShield ShieldWeapon { get; set; }
-
 
     /// <summary>
     /// Назначение текущего оружия

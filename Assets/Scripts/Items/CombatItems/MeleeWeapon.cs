@@ -34,7 +34,7 @@ public class MeleeData
             current = rightDamageCollider;
     }
 
-    public void PerformAttack(DamageData damageData ,ICombatInventory attackSource)
+    public void PerformAttack(DamageData damageData ,IAttackSource attackSource)
     {
         current.EnableCollider(damageData, attackSource.TargetsToIgnore);
     }
@@ -56,7 +56,8 @@ public class MeleeWeapon : IWeapon
     private WeaponAttack currentAttack;
 
     public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
-    public ICombatInventory AttackSource { get; set; }
+    public ICombatInventory CombatInventory { get; set; }
+    public IAttackSource AttackSource { get; set; } 
 
     int currentAttackIndex = 0;
 
@@ -90,15 +91,14 @@ public class MeleeWeapon : IWeapon
     //    Init();
     //}
 
-    public void Init(MeleeData meleeData, ICombatInventory source)
+    public void Init(MeleeData meleeData,ICombatInventory inv, IAttackSource source)
     {
         this.weaponSO = meleeData.barehandsData;
+        this.CombatInventory = inv;
         this.AttackSource = source;
 
         this.meleeData = new MeleeData();
         this.meleeData.Init(meleeData, this, AttackSource.SourcePosition());
-
-
 
     }
     public void CancelAttack()

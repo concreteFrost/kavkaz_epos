@@ -11,10 +11,6 @@ public class DamageSource : MonoBehaviour
 
     bool colliderActive = false;
 
-    public BalanceDamageType balanceDamageType = BalanceDamageType.Low;
-
-    public float impactForce = 1.0f;
-
     public List<CharacterType> objectsToIgnore = new List<CharacterType>(); 
 
     void Start()

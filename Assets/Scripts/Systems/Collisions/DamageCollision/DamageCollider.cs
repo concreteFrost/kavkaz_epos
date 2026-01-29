@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
-    protected Transform source;
+    protected Transform attackSource;
     protected Collider damageCollider;
 
     protected readonly HashSet<Collider> hitColliders = new();
@@ -107,7 +107,7 @@ public class DamageCollider : MonoBehaviour
             var owner = defence.Shield.Owner.Damagable;
             if (NotInTargetList(owner)) return;
 
-            defence.ProcessDamage(damageData, source);
+            defence.ProcessDamage(damageData, attackSource);
             attackInterrupted = true;
             return;
         }
@@ -122,7 +122,7 @@ public class DamageCollider : MonoBehaviour
 
     protected virtual void ApplyDamage(IDamagable target)
     {
-        target.TakeDamage(damageData, source);
+        target.TakeDamage(damageData, attackSource);
     }
 
     protected bool TryGetDamagable(Collider other, out IDamagable damagable)

@@ -11,7 +11,7 @@ public class WeaponDamageCollider : DamageCollider
 
     public void SetDamageSource(Transform source)
     {
-        this.source = source;
+        this.attackSource = source;
     }
 
     protected override void ApplyDamage(IDamagable target)

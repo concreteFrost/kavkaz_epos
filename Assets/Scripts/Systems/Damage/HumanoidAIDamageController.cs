@@ -9,7 +9,7 @@ public class HumanoidAIDamageController : BaseDamageController
     HumanoidAIMotor motor;
     IRagdollController ragdollController;
 
-	public void Init(HumanoidDamageControllerService service)
+	public void Init(HumanoidDamageServices service)
 	{
         this.motor = service.motor;
 		this.statsController = service.statsModifier;

@@ -31,6 +31,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Боевая система")]
     [SerializeField] private HumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
+    [SerializeField] private AttackSource attackSource; 
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -60,11 +61,11 @@ public class PlayerServiceLocator : MonoBehaviour
         input.Init(inputService);
 
         // Interaction
-        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController);
+        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController,attackSource);
         interaction.Init(interactionService);
 
         // Stats
-        HumanoidStatsControllerService statsService = new HumanoidStatsControllerService(stats);
+        HumanoidStatsControllerServices statsService = new HumanoidStatsControllerServices(stats);
         statsController.Init(statsService);
 
         // Animator
@@ -79,19 +80,25 @@ public class PlayerServiceLocator : MonoBehaviour
         characterAnimator.Init(animatorService);
 
         // Combat
+        AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
+        attackSource.Init(attackSourceServices);
+
         HumanoidCombatControllerServices combatControllerService =
             new HumanoidCombatControllerServices(combatInventory, characterAnimator);
         combatController.Init(combatControllerService);
 
-        HumanoidCombatInventoryService combatInventoryService =
-            new HumanoidCombatInventoryService(
+        HumanoidCombatInventoryServices combatInventoryService =
+            new HumanoidCombatInventoryServices(
                 characterAnimator,
                 combatController,
                 interaction,
+                attackSource,
                 transform,
                 (int)damageController.CharacterType
             );
         combatInventory.Init(combatInventoryService);
+
+       
 
         // Target lock
         PlayerTargetLockService targetLockService =

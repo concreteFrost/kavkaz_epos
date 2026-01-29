@@ -77,7 +77,7 @@ public class Weapon : CombatItem, IWeapon
     }
     public override void PickUp(ICollector target)
     {
-        if (!target.AttackSource.CanPickWeapon()) return;
+        if (!target.CombatInventory.CanPickWeapon()) return;
 
         if (breakdownThreshold <= 0)
         {
@@ -96,11 +96,11 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.SetWeaponData(this);
         damageCollider.SetDamageSource(Owner.AttackSource.SourcePosition());
 
-        AssignParent(Owner.AttackSource.GetRightHand());
+        AssignParent(Owner.CombatInventory.GetRightHand());
         ToggleInteraction(false);
 
 
-        target.AttackSource.SetWeapon(this);
+        target.CombatInventory.SetWeapon(this);
     }
 
     public void ReduceDurability(float amount)
@@ -109,7 +109,7 @@ public class Weapon : CombatItem, IWeapon
 
         if (breakdownThreshold <= 0)
         {
-            Owner.AttackSource.ResetWeapon();
+            Owner.CombatInventory.ResetWeapon();
             DropWeapon();
         }
     }
@@ -139,7 +139,7 @@ public class Weapon : CombatItem, IWeapon
 
     private void ResetOwner()
     {
-        Owner.AttackSource.ResetWeapon();
+        Owner.CombatInventory.ResetWeapon();
         Owner = null;
         damageCollider.SetDamageSource(null);
     }

@@ -6,13 +6,13 @@ public class HumanoidCombatInventory : BaseCombatInventory
     [Header("Bare Hands Settings")]
     [SerializeField] private MeleeData meleeData;
  
-    public override void Init(HumanoidCombatInventoryService service)
+    public override void Init(HumanoidCombatInventoryServices service)
     {
         base.Init(service);
 
-        InitializeBarehands();
+        //InitializeBarehands();
 
-        DefaultWeapon = InitializeBarehands();
+        DefaultWeapon = InitializeBarehands(service.initialAttackSource);
 
         SetWeapon(GetStarterWeapon(service.collector) ?? DefaultWeapon);
         ShieldWeapon = GetStarterShield(service.collector) ?? null;
@@ -20,12 +20,11 @@ public class HumanoidCombatInventory : BaseCombatInventory
     }
 
 
-
-    private IWeapon InitializeBarehands()
+    private IWeapon InitializeBarehands(IAttackSource attackSource)
     {
 
         var bareHands = new MeleeWeapon();
-        bareHands.Init(meleeData, this);
+        bareHands.Init(meleeData, this, attackSource);
 
         return bareHands;
 
@@ -43,7 +42,6 @@ public class HumanoidCombatInventory : BaseCombatInventory
     public override void SetShield(IShield w)
     {
         ShieldWeapon = w;
-
     }
 
     public override void ResetWeapon()

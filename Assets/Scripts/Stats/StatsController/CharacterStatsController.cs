@@ -6,7 +6,7 @@ public class CharacterStatsController : MonoBehaviour, ICharacterStatsController
 
     public HumanoidStats stats;
 
-    public void Init(HumanoidStatsControllerService provider)
+    public void Init(HumanoidStatsControllerServices provider)
     {
         stats = provider.stats;
     }

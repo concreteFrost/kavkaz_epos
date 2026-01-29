@@ -10,15 +10,9 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     protected BaseHumanoidAnimatorController animatorController;
 
-    private Transform sourcePosition;
-    
     protected IHumanoidCombat combatController;
 
-    #region IAttackSource Contract
-    public int SourceId() => sourceId;
-    public Transform SourcePosition() => sourcePosition;    
-
-    public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
+    #region ICombatInventory Contract
 
     public Transform GetRightHand() => rightHand;
     public Transform GetLeftHand() => leftHand;
@@ -39,26 +33,14 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     public bool CanPickWeapon() => CurrentWeapon.WeaponData().canOverride;
 
-
     #endregion
 
-    /// <summary>
-    /// Уникальный идентификатор нападающего
-    /// </summary>
-    private int sourceId; 
+    
 
-    /// <summary>
-    /// Цели для игнорирования во время атаки
-    /// </summary>
-    public List<CharacterType> targetsToIgnore = new List<CharacterType>();
-
-    public virtual void Init(HumanoidCombatInventoryService service)
+    public virtual void Init(HumanoidCombatInventoryServices service)
     {
-        sourceId = service.sourceId;
-        sourcePosition = service.sourcePosition;
         combatController = service.combatController;
         animatorController =service.animatorController;
-
     }
 
     public IWeapon GetStarterWeapon(ICollector collector)

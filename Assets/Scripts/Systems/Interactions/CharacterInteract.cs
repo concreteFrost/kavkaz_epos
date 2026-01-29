@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterInteract : MonoBehaviour, ICollector 
 {
 
-    public ICombatInventory AttackSource { get; set; } =null;
+    public ICombatInventory CombatInventory { get; set; } =null;
     public IDamagable Damagable { get; set; } = null;
     /// <summary>
     /// Предмет для поднятия
@@ -15,9 +15,12 @@ public class CharacterInteract : MonoBehaviour, ICollector
     /// </summary>
     public IPickable PickableItem { get => pickable; set => pickable = value; }
 
+    public IAttackSource AttackSource { get; set; }
+
     public void Init(HumanoidInteractService service)
     { 
-        AttackSource = service.combatInventory;
+        CombatInventory = service.combatInventory;
+        AttackSource = service.attackSource;
         Damagable = service.owner;
     }
     public void Interact()

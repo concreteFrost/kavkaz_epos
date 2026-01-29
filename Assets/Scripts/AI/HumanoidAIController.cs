@@ -10,7 +10,7 @@ public class HumanoidAIController : MonoBehaviour
     //ICharacterStatsController statsController;
     HumanoidStats stats;
 
-    public void Init(HumanoidControllerService service)
+    public void Init(HumanoidControllerServices service)
     {
         this.agentController = service.agentController; 
         this.animator = service.animator;

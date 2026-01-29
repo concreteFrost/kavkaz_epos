@@ -37,7 +37,7 @@ public class Shield : CombatItem, IShield
 
     public override void PickUp(ICollector collector)
     {
-        if (collector.AttackSource.ShieldWeapon != null) return;
+        if (collector.CombatInventory.ShieldWeapon != null) return;
 
         if (breakdownThreshold <= 0)
         {
@@ -53,9 +53,9 @@ public class Shield : CombatItem, IShield
     {
         Owner = collector;
 
-        AssignParent(Owner.AttackSource.GetLeftHand());
+        AssignParent(Owner.CombatInventory.GetLeftHand());
         ToggleInteraction(false);
-        collector.AttackSource.SetShield(this);
+        collector.CombatInventory.SetShield(this);
 
     }
 
@@ -76,7 +76,7 @@ public class Shield : CombatItem, IShield
         ToggleInteraction(true);
         defenceCollider.DisableCollider();
 
-        Owner.AttackSource.ResetShield();
+        Owner.CombatInventory.ResetShield();
         Owner = null;
 
 

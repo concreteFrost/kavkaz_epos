@@ -7,6 +7,4 @@ public struct DamageData
     public BalanceDamageType balanceDamageType;
     public float impactForce;
 
-
-
 }
