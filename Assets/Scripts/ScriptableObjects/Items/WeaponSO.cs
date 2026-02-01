@@ -2,8 +2,8 @@ using UnityEngine;
 
 public enum WeaponType
 {
-    melee =0,
-    sword =1,
+    OneHand =0,
+    TwoHands =1,
 }
 
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Scriptable Systems/Items/Weapons/WeaponSO")]

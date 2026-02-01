@@ -17,7 +17,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         agentController = context.agentController;  
       
         idleHandler = context.stateTracker.idleHandler;
-        passiveInterruptionTracker = context.stateTracker.interruptionTracker;
+        passiveInterruptionTracker = context.stateTracker.passiveInterruptionTracker;
 
         combatHandler = context.stateTracker.combatHandler;
 
@@ -34,7 +34,8 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         idleHandler.ResetIdleState();
 
         //сбрасываем данные комбата
-        combatHandler.ResetCombatState();   
+        combatHandler.ResetCombatState();
+
     }
 
     public override AIStateResult Run()
@@ -49,8 +50,8 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
         if (passiveInterruptionTracker.IsInterrupted())
         {
-            passiveInterruptionTracker.React(context.animator);
-            return AIStateResult.None;
+           
+            return passiveInterruptionTracker.React(context.self.position, context.animator);
         }
 
         idleHandler.UpdateCurrentIdleTime();

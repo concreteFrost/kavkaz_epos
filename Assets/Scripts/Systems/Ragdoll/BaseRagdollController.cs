@@ -14,16 +14,16 @@ public class CharacterBoneTransform
 public abstract class BaseRagdollController : IRagdollController
 {
 
-    private MonoBehaviour context;
+    private MonoBehaviour context; // ссылка дл€ использовани€ корутин
 
-    protected Collider col;
+    protected Collider col; // основной коллайдер персонажа
 
     protected Animator anim;
-    protected List<Rigidbody> rigidbodies = new List<Rigidbody>();
+    protected List<Rigidbody> rigidbodies = new List<Rigidbody>(); //rigidbodies относ€щиес€ к ragdoll
     protected Transform self;
 
-    protected Transform _hipsBone;
-    protected Transform[] _bones;
+    protected Transform _hipsBone; // центральна€ кость (таз)
+    protected Transform[] _bones; // кости относ€щиес€ к ragdoll
 
     protected CharacterBoneTransform[] _faceupBoneTransforms;
     protected CharacterBoneTransform[] _facedownBoneTransforms;
@@ -31,9 +31,8 @@ public abstract class BaseRagdollController : IRagdollController
 
     Coroutine recoveryCoroutine = null;
 
-    protected float blendDuration = 0.5f;
-    protected bool isFacingUp;
-
+    protected float blendDuration = 0.5f; // врем€ перехода между ragdoll и анимацией
+    protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
     #region IRagdollControlerContract
 
     public abstract void DisableRagdoll();
@@ -45,8 +44,9 @@ public abstract class BaseRagdollController : IRagdollController
 
     #endregion
 
-    protected void InvokeRecover() => Recovered?.Invoke();
-    protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke();
+    
+    protected void InvokeRecover() => Recovered?.Invoke(); //обЄртка дл€ вызова в дочерних классах
+    protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke(); //обЄртка дл€ вызова в дочерних классах
 
     protected void Init(MonoBehaviour context, Animator anim, Transform self)
     {
@@ -54,19 +54,22 @@ public abstract class BaseRagdollController : IRagdollController
         this.self = self;
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
-
-
         _hipsBone = anim.GetBoneTransform(HumanBodyBones.Hips);
 
-        rigidbodies.Add(_hipsBone.GetComponent<Rigidbody>());
+        InitBones();
+        AddRigidbodies();
+       
+        SampleAnimationStartPose(AnimatorParameters.getUpClip, _faceupBoneTransforms);
+        SampleAnimationStartPose(AnimatorParameters.getUpFromBellyClip, _facedownBoneTransforms);
+        DisableRagdoll();
+    }
 
-        rigidbodies.AddRange(_hipsBone
-     .GetComponentsInChildren<Joint>()
-     .Select(j => j.GetComponent<Rigidbody>())
-     .Where(rb => rb != null)
-     .Distinct()
-     .ToArray());
-
+    /// <summary>
+    /// Initializes bone transform arrays for face-up, face-down, and ragdoll states using the child transforms of the
+    /// hips bone.
+    /// </summary>
+    private void InitBones()
+    {
         _bones = _hipsBone.GetComponentsInChildren<Transform>();
 
         _faceupBoneTransforms = new CharacterBoneTransform[_bones.Length];
@@ -79,24 +82,39 @@ public abstract class BaseRagdollController : IRagdollController
             _facedownBoneTransforms[i] = new CharacterBoneTransform();
             _ragdollBoneTransforms[i] = new CharacterBoneTransform();
         }
-
-        SampleAnimationStartPose(AnimatorParameters.getUpClip, _faceupBoneTransforms);
-        SampleAnimationStartPose(AnimatorParameters.getUpFromBellyClip, _facedownBoneTransforms);
-        DisableRagdoll();
     }
 
+    /// <summary>
+    /// ƒобавл€ет rigidbodies только на которых есть joints
+    /// </summary>
+    private void AddRigidbodies()
+    {
+
+        rigidbodies.Add(_hipsBone.GetComponent<Rigidbody>());
+
+        rigidbodies.AddRange(_hipsBone
+     .GetComponentsInChildren<Joint>()
+     .Select(j => j.GetComponent<Rigidbody>())
+     .Where(rb => rb != null)
+     .Distinct()
+     .ToArray());
+    }
+
+    /// <summary>
+    /// јктивирует рагдолл и примен€ет силы
+    /// </summary>
+    /// <param name="force">сила</param>
+    /// <param name="from">от какого направлени€</param>
     public void Knockout(float force, Transform from)
     {
-        //if (IsRecovering)
-        //    return;
-
-        //IsRecovering = true;
-        //KnockedOut?.Invoke();
 
         EnableRagdoll(force, from);
         recoveryCoroutine = context.StartCoroutine(Recover());
     }
 
+    /// <summary>
+    /// ѕринудительно останавливает корутину подъЄма
+    /// </summary>
     public void ForceStop()
     {
         //IsRecovering = false;
@@ -105,6 +123,10 @@ public abstract class BaseRagdollController : IRagdollController
             context.StopCoroutine(recoveryCoroutine);
     }
 
+    /// <summary>
+    ///  опирует локальное положение и вращение каждой кости в соответствующие элементы предоставленного массива.
+    /// </summary>
+    /// <param name="arr">ћассив костей персонажа</param>
     protected void PopulateBoneTransforms(CharacterBoneTransform[] arr)
     {
         for (int i = 0; i < _bones.Length; i++)
@@ -114,7 +136,11 @@ public abstract class BaseRagdollController : IRagdollController
         }
     }
 
-
+    /// <summary>
+    /// ќпредел€ет начальную позу указанного анимационного клипа и заполн€ет предоставленный массив преобразовани€ми костей.
+    /// </summary>
+    /// <param name="clipName">название клипа</param>
+    /// <param name="arr">ћассив костей персонажа</param>
     protected void SampleAnimationStartPose(string clipName, CharacterBoneTransform[] arr)
     {
         Vector3 pos = self.position;
@@ -131,6 +157,11 @@ public abstract class BaseRagdollController : IRagdollController
     }
 
     #region Aligning Transform
+
+    /// <summary>
+    /// ¬ыравнивает вращение персонажа в соответствии с горизонтальным направлением бедер, 
+    /// сохран€€ при этом исходное положение и вращение бедер.
+    /// </summary>
     protected void AlignRotationToHips()
     {
         Vector3 originalHipsPosition = _hipsBone.position;
@@ -153,6 +184,9 @@ public abstract class BaseRagdollController : IRagdollController
         _hipsBone.rotation = originalHipsRotation;
     }
 
+    /// <summary>
+    /// ¬ыравнивает положение объекта в соответствии с тазовой костью, корректиру€ его с учетом вращени€ и уровн€ земли.
+    /// </summary>
 
     protected void AlignPositionToHips()
     {
@@ -162,7 +196,7 @@ public abstract class BaseRagdollController : IRagdollController
         Vector3 positionOffset = GetStandUpBoneTransforms()[0].position;
         positionOffset.y = 0;
         positionOffset = self.rotation * positionOffset;
-        self.position -= positionOffset;
+        self.position -= positionOffset; 
 
         if (Physics.Raycast(self.position, Vector3.down, out RaycastHit hitInfo))
         {
@@ -174,12 +208,22 @@ public abstract class BaseRagdollController : IRagdollController
 
     #endregion
 
+    /// <summary>
+    /// ¬озвращает массив костей в зависимости от направлени€ тела
+    /// </summary>
+    /// <returns></returns>
     protected CharacterBoneTransform[] GetStandUpBoneTransforms()
     {
         return isFacingUp ? _faceupBoneTransforms : _facedownBoneTransforms;
     }
 
     #region Rigidbody Force
+
+    /// <summary>
+    /// ѕримен€ет силу по отношению к рагдолу
+    /// </summary>
+    /// <param name="force">сила</param>
+    /// <param name="from">от какого источника</param>
     protected void ApplyImpulseFromSource(float force, Transform from)
     {
         Vector3 origin = from != null ? from.position : self.position - self.forward;
@@ -257,21 +301,10 @@ public abstract class BaseRagdollController : IRagdollController
         anim.Play(animName);
 
         // ждЄм конца анимации
-        yield return WaitForAnimationEnd(animName);
+        yield return AnimatorUtils.WaitForAnimationEnd(anim,animName, AnimatorParameters.damageLayer);
 
         InvokeRecover();
-        //IsRecovering = false;
-    }
 
-    private IEnumerator WaitForAnimationEnd(string stateName, int layer = AnimatorParameters.damageLayer)
-    {
-        // ждЄм пока анимаци€ реально войдЄт в state
-        while (!anim.GetCurrentAnimatorStateInfo(layer).IsName(stateName))
-            yield return null;
-
-        // ждЄм пока анимаци€ не проиграетс€ до конца
-        while (anim.GetCurrentAnimatorStateInfo(layer).normalizedTime < 1f)
-            yield return null;
     }
 
 

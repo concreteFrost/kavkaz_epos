@@ -71,7 +71,7 @@ public class HumanoidAgentController
     {
         NavMeshHit hit;
         float checkDistance = 2f;
-
+        
         return NavMesh.SamplePosition(agent.transform.position, out hit, checkDistance, NavMesh.AllAreas);
 
     }

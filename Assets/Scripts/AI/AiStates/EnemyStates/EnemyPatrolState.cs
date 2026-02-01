@@ -15,14 +15,13 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     {
         motor = context.motor;
         fov = context.fov;
-        agentController = context.agentController;  
+        agentController = context.agentController;
+        patrolStateTracker = context.stateTracker.patrolHandler;
+        passiveInterruptionTracker = context.stateTracker.passiveInterruptionTracker;
 
         fov.ResetTarget();
         motor.ResetLockTarget();    
         motor.ResetSprint();
-
-        patrolStateTracker = context.stateTracker.patrolHandler;
-        passiveInterruptionTracker = context.stateTracker.interruptionTracker;
 
         if (patrolStateTracker.HasReachedMaxWalks())
         {
@@ -55,10 +54,9 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
         if (passiveInterruptionTracker.IsInterrupted())
         {
-            passiveInterruptionTracker.React(context.animator);
-            return AIStateResult.None;
+           return passiveInterruptionTracker.React(context.self.position, context.animator);
         }
-           
+
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
             return AIStateResult.Idle;
 

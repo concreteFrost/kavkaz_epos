@@ -39,6 +39,9 @@ public class Shield : CombatItem, IShield
     {
         if (collector.CombatInventory.ShieldWeapon != null) return;
 
+        var currentWeaponData = collector.CombatInventory.CurrentWeapon.WeaponData();
+        if (currentWeaponData.weaponType == WeaponType.TwoHands) return;
+
         if (breakdownThreshold <= 0)
         {
             Debug.Log("this shield is broken");

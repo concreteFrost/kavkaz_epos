@@ -109,6 +109,12 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
         var weapon = inventory.CurrentWeapon;
         var attackSet = weapon.WeaponData().attackSet;
 
+        if(attackSet == null)
+        {
+            Debug.Log("no attacks assigned for this weapon");
+            return;
+        }
+
         if (attackIndex >= attackSet.attackList.Count)
         {
             ResetCombo();

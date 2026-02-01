@@ -1,9 +1,11 @@
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// Управляет функцией захвата цели игроком, включая обнаружение, отслеживание, переключение и сброс захвата цели,
+/// а также обновление соответствующих состояний пользовательского интерфейса и контроллера.
+/// </summary>
 public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 {
     LockOnTargetUI lockOnTargetUI;
@@ -37,6 +39,9 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         self = CharacterType.Player;    
     }
 
+    /// <summary>
+    /// Обновляет состояние отслеживания цели, сбрасывая Lock, если текущая цель недействительна или неактивна.
+    /// </summary>
     private void Update()
     {
         if (currentTarget == null) return;
@@ -48,31 +53,40 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         TrackTargetDistance();
     }
 
+    /// <summary>
+    /// Обновляет положение заблокированной цели в пользовательском интерфейсе и вычисляет расстояние до цели.
+    /// </summary>
     public void TrackTargetDistance()
     {
         lockOnTargetUI.CalculateImagePosition();
         CalculateDistanceToTarget();
     }
 
+    /// <summary>
+    /// Фиксирует текущую цель и обновляет пользовательский интерфейс и контроллер, отражая заблокированное состояние.
+    /// </summary>
     public void SetLockedTarget()
     {
         var t = TryGetLockedTarget();
 
         if (t != null)
         {   
-            lockOnTargetUI.SetTarget(t.GetAimTransform());
+           
             controller.SetLockTarget(t.GetAimTransform());
             controller.SetStrafe(true);
+            lockOnTargetUI.SetTarget(t.GetAimTransform());
 
         }
     }
 
+    /// <summary>
+    /// Вычисляет расстояние до текущей цели и сбрасывает блокировку, если цель уничтожена или находится за пределами сбросимого расстояния.
+    /// </summary>
     protected virtual void CalculateDistanceToTarget()
     {
         if (currentTarget.IsDead)
         {
             ResetLockTarget();
-
             return;
         }
         var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetOrigin().position);
@@ -84,6 +98,24 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         }
     }
 
+    /// <summary>
+    /// Сбрасывает текущую цель захвата и связанные с ней состояния пользовательского интерфейса и контроллера.
+    /// </summary>
+    public void ResetLockTarget()
+    {
+        currentTarget = null;
+        wasTargetSearched = false;
+        lockOnTargetUI.ResetTarget();
+        controller.ResetLockTarget();
+        controller.SetStrafe(false);
+
+    }
+
+
+    /// <summary>
+    /// Пытается получить и зафиксировать ближайшую допустимую цель, переключая состояние блокировки при каждом вызове.
+    /// </summary>
+    /// <returns>Заблокированная цель, если найдена; в противном случае — null.</returns>
     public IDamagable TryGetLockedTarget()
     {
         wasTargetSearched = !wasTargetSearched;
@@ -108,58 +140,72 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         return null;
     }
 
-    protected IDamagable GetNearestTarget(Collider[] targets)
+    /// <summary>
+    /// Находит и возвращает ближайшую допустимую цель IDamagable из предоставленных коллайдеров в пределах указанного расстояния.
+    /// </summary>
+    /// <param name="targets">Массив объектов Collider для поиска потенциальных целей.</param>
+    /// <returns>Ближайшая цель IDamagable, если найдена; в противном случае — null.</returns>
+    protected IDamagable GetNearestTarget(Collider[] colliders)
     {
-        Dictionary<IDamagable, float> objectsDistances = new Dictionary<IDamagable, float>();
+        IDamagable bestTarget = null;
+        float bestDistance = float.MaxValue;
 
-        foreach (var target in targets)
+        HashSet<IDamagable> checkedTargets = new HashSet<IDamagable>();
+
+        foreach (var col in colliders)
         {
+            if (!TryGetDamagable(col, out var target))
+                continue;
 
-            var lockable = target.GetComponent<IDamagable>() ?? target.GetComponentInChildren<IDamagable>();
+            if (target.CharacterType == self)
+                continue;
 
-            if(lockable == null) continue;
+            // защита от дубликатов (несколько коллайдеров у одного врага)
+            if (!checkedTargets.Add(target))
+                continue;
 
-            float distance = Vector3.Distance(targetSeeker.position, lockable.GetOrigin().position);
- 
-            if (distance < targetCheckDistance && lockable.CharacterType != self)
+            float distance = Vector3.Distance(
+                targetSeeker.position,
+                target.GetOrigin().position
+            );
+
+            if (distance > targetCheckDistance)
+                continue;
+
+            if (distance < bestDistance)
             {
-                
-                objectsDistances.Add(lockable, distance);
-
+                bestDistance = distance;
+                bestTarget = target;
             }
         }
 
-        if (objectsDistances.Count == 0) return null;
-
-        var min = objectsDistances.OrderBy((x) => x.Value).FirstOrDefault().Key;
-        return min;
+        return bestTarget;
     }
 
 
+
+    /// <summary>
+    /// Находит и возвращает ближайшую цель в пределах указанного расстояния от ищущего цели.
+    /// </summary>
+    /// <returns>Ближайшая цель, поддающаяся идентификации (IDamagable), если таковая найдена; в противном случае — null.</returns>
     protected IDamagable CheckNearestTarget()
     {
+        var colliders = Physics.OverlapSphere(
+            targetSeeker.position,
+            targetCheckDistance
+        );
 
-        var targets = Physics.OverlapSphere(targetSeeker.position, targetCheckDistance);
-
-        if (targets.Length > 0)
-        {
-            return GetNearestTarget(targets);
-        }
-
-        return null;
+        return colliders.Length > 0
+            ? GetNearestTarget(colliders)
+            : null;
     }
 
-    public  void ResetLockTarget()
-    {
-        currentTarget = null;
-        wasTargetSearched = false;
-        lockOnTargetUI.ResetTarget();
-        controller.ResetLockTarget();
-        controller.SetStrafe(false);
-       
-    }
-
-
+    /// <summary>
+    /// Переключает текущую цель на ближайшую допустимую цель в направлении, указанном курсором mouseX, обновляя связанные
+    /// ссылки на пользовательский интерфейс и контроллер.
+    /// </summary>
+    /// <param name="mouseX">Горизонтальное движение мыши, используемое для определения направления переключения целей.</param>
+    /// <returns>Вновь выбранная цель, если найдена допустимая; в противном случае — null.</returns>
     public IDamagable SwitchTarget(float mouseX)
     {
         if (currentTarget == null) return null;
@@ -177,28 +223,29 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
         foreach (var col in colliders)
         {
-            if (!col.TryGetComponent<IDamagable>(out var lockable))
+            if (!TryGetDamagable(col, out var target))
                 continue;
 
-            IDamagable target = lockable;
-            if (target == currentTarget) continue;
+            if (target == currentTarget || target.CharacterType == self)
+                continue;
 
-            Vector3 screenPos = cam.WorldToScreenPoint(target.GetAimTransform().position);
+            Vector3 screenPos =
+                cam.WorldToScreenPoint(target.GetAimTransform().position);
 
             float deltaX = screenPos.x - currentScreen.x;
 
-            // вправо
             if (mouseX > 0 && deltaX <= 0) continue;
-            // влево
             if (mouseX < 0 && deltaX >= 0) continue;
 
             float absDelta = Mathf.Abs(deltaX);
+
             if (absDelta < bestDeltaX)
             {
                 bestDeltaX = absDelta;
                 bestTarget = target;
             }
         }
+
 
         if (bestTarget != null)
         {
@@ -210,6 +257,23 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
         return currentTarget;
     }
+
+    /// <summary>
+    /// Возвращает IDamagable или null
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="damagable"></param>
+    /// <returns></returns>
+    private bool TryGetDamagable(Collider col, out IDamagable damagable)
+    {
+        damagable =
+            col.GetComponent<IDamagable>()
+            ?? col.GetComponentInChildren<IDamagable>()
+            ?? col.GetComponentInParent<IDamagable>();
+
+        return damagable != null;
+    }
+
 
 
 }

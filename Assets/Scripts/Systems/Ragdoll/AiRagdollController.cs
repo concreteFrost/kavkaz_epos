@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
-
 
 public class AiRagdollController : BaseRagdollController
 {
@@ -26,10 +24,12 @@ public class AiRagdollController : BaseRagdollController
 
         foreach (var rb in rigidbodies)
         {
+            rb.GetComponent<Collider>().enabled = true;
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            
         }
 
         ApplyImpulseFromSource(force,from);
@@ -41,6 +41,7 @@ public class AiRagdollController : BaseRagdollController
     {
         foreach (var rb in rigidbodies)
         {
+            rb.GetComponent<Collider>().enabled = false;
             rb.isKinematic = true;
             rb.useGravity = false;
             

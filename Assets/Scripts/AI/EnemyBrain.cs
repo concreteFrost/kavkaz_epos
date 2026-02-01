@@ -10,6 +10,7 @@ public enum AIStateResult
     Wait = 5,
     MoveToStartPosition = 6,
     Strafe = 7,
+    MoveToInterruptor = 8,
 }
 
 public class EnemyBrain : MonoBehaviour
@@ -28,12 +29,8 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> strafe;
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
-
-    private AIState<EnemyBrainContext> cachedState;
-
-    AiRagdollController ragdoll;
-
-
+    [SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
+ 
     public void Init(EnemyBrainContext context)
     {
         this.context = context;
@@ -45,6 +42,7 @@ public class EnemyBrain : MonoBehaviour
         strafe.Init(context);
         wait.Init(context);
         moveToStart.Init(context);
+        moveToInterruptor.Init(context);    
 
         stateMachine.ChangeState(idle);
     }
@@ -82,6 +80,9 @@ public class EnemyBrain : MonoBehaviour
                 break;
             case AIStateResult.MoveToStartPosition:
                 stateMachine.ChangeState(moveToStart);
+                break;
+            case AIStateResult.MoveToInterruptor:
+                stateMachine.ChangeState(moveToInterruptor);
                 break;
 
 

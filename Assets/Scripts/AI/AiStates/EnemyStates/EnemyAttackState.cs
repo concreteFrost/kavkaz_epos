@@ -61,7 +61,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         // 3. Дистанция до цели
         distance = Vector3.Distance(self.position, target.position);
 
-        // 4. Спринт, если нужно отдаляться
+        //// 4. Спринт, если нужно отдаляться
         motor.IsSprinting = combatHandler.IsRunningDistance(distance);
 
         // 5. Проверка доступности пути к цели

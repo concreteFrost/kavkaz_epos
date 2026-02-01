@@ -25,10 +25,10 @@ public class DamagedBehaviour : StateMachineBehaviour
  
         float t = stateInfo.normalizedTime;
 
-        if(t > 0.95f)
-        {
-            dm.IsDamaged = false;
-        }
+        //if(t > 0.95f)
+        //{
+        //    dm.IsDamaged = false;
+        //}
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

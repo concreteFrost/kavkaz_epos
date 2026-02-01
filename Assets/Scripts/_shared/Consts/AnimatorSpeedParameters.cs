@@ -18,6 +18,7 @@ public class AnimatorParameters
 
     public const string getUpState= "Get Up";
     public const string getUpFromBellyState = "Get Up From Belly";
+    public const string lookAroundState = "Look Around Start";
 
     public const string getUpClip = "Getup";
     public const string getUpFromBellyClip = "Getup_from_belly";

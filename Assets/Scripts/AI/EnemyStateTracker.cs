@@ -8,7 +8,7 @@ public class EnemyStateTracker : MonoBehaviour
     public EnemyIdleHandler idleHandler;
     public EnemyPatrolHandler patrolHandler;
     public EnemyChaseHandler chaseHandler;  
-    public EnemyPassiveInterruptionHandler interruptionTracker;
+    public EnemyPassiveInterruptionHandler passiveInterruptionTracker;
     public EnemyCombatHandler combatHandler; 
     public EnemyWaitForTargetHandler waitForTargetHandler;
     public EnemyStrafeHandler strafeHandler;    
@@ -30,14 +30,19 @@ public class EnemyStateTracker : MonoBehaviour
         strafeHandler = new EnemyStrafeHandler(stats);
         this.damageController.DamageTaken += strafeHandler.OnDamageTaken;
 
-        interruptionTracker = new EnemyPassiveInterruptionHandler();
-        this.damageController.DamageTaken += interruptionTracker.OnDamageTaken;
+        passiveInterruptionTracker = new EnemyPassiveInterruptionHandler();
+        this.damageController.DamageTaken += passiveInterruptionTracker.OnDamageTaken;
 
+    }
+
+    private void Update()
+    {
+        passiveInterruptionTracker.HandleInterruptionUpdate(); 
     }
 
     private void OnDisable()
     {
-        damageController.DamageTaken -=interruptionTracker.OnDamageTaken;
+        damageController.DamageTaken -=passiveInterruptionTracker.OnDamageTaken;
         damageController.DamageTaken -=combatHandler.OnDamageTaken; 
         damageController.DamageTaken -=waitForTargetHandler.OnDamageTaken;
         damageController.DamageTaken -=strafeHandler.OnDamageTaken;

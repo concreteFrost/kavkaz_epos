@@ -11,7 +11,7 @@ public class Weapon : CombatItem, IWeapon
 
     public ICollector Owner;
 
-    private float minStopVelocity = 0.5f;
+    private float minStopVelocity = 0.2f;
 
     int currentAttackIndex = 0;
 
@@ -35,13 +35,6 @@ public class Weapon : CombatItem, IWeapon
         currentAttack = list[currentAttackIndex];
     }
     #endregion
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //void Start()
-    //{
-    //    Init(weaponSO);
-    //}
 
     public override void Init(ItemSO itemData)
     {
@@ -130,6 +123,7 @@ public class Weapon : CombatItem, IWeapon
 
         ResetParent();
         ToggleInteraction(true);
+       
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
 
@@ -180,9 +174,6 @@ public class Weapon : CombatItem, IWeapon
 
             yield return null;
         }
-
-
-
 
     }
 
