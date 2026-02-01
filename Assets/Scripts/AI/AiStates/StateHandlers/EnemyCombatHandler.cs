@@ -31,7 +31,12 @@ public class EnemyCombatHandler
 
     [Header("Додж")]
     [SerializeField] private float currentDodgeChance;
-    [SerializeField] private float dodgeCounterResetTimer = 5f;
+    [SerializeField] private float dodgeCounterResetTimer = 10f;
+
+    [Header("Стрейф")]
+    [SerializeField] private float blockStrafeCooldown = 0f;
+    [SerializeField] private float maxBlockStrafeTimer = 5f;
+    [SerializeField] private bool isStrafeBlocked = false;
 
     [Header("Транзит состояний")]
     [SerializeField] private float currStrafeTransitionChance;
@@ -98,8 +103,11 @@ public class EnemyCombatHandler
         {
             //damageCounter = 0;
             currentDodgeChance = stats.initialDodgeChance;
+            isStrafeBlocked = false;
         }
     }
+
+    public void SetStrafeBlocked(bool blocked) => isStrafeBlocked = blocked;    
 
     public void IncreaseDodgeChance()=> currentDodgeChance += stats.dodgeChanceMultiplier;  
 
@@ -129,6 +137,7 @@ public class EnemyCombatHandler
     {
         RegisterDamage();
         AdjustChances();
+        SetStrafeBlocked(true);
     }
     #endregion
 
@@ -154,9 +163,29 @@ public class EnemyCombatHandler
 
     #endregion
 
+    #region Block Strafe 
+    public void UpdateBlockStrafeTimer()
+    {
+        if (!isStrafeBlocked) return;
+
+        blockStrafeCooldown += Time.deltaTime;
+
+        if(blockStrafeCooldown >= maxBlockStrafeTimer)
+        {
+
+            blockStrafeCooldown = 0;
+            isStrafeBlocked = false;
+        }
+    }
+
+    public bool IsStrafeBlocked() => isStrafeBlocked;
+
+    #endregion
+
 
     public CombatTransition GetNextDecision()
     {
+        if (isStrafeBlocked) return AttackOrDodge();
            
         float roll = Random.value;
 

@@ -58,6 +58,12 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         // Обновляем кулдаун для следующего шанса на Dodge
         combatHandler.UpdateDodgeCooldown();
 
+        // Если стрейф блокирован то обновлям его до сброса
+        if (combatHandler.IsStrafeBlocked())
+        {
+            combatHandler.UpdateBlockStrafeTimer(); 
+        }
+
         // 3. Дистанция до цели
         distance = Vector3.Distance(self.position, target.position);
 
