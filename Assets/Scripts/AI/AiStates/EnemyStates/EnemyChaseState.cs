@@ -25,7 +25,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-        if (context.damageController.IsKnockedOut)
+        if (context.ragdollController.IsKnockedOut)
         {
             chaseHandler.ResetChaseState();
             return AIStateResult.None;

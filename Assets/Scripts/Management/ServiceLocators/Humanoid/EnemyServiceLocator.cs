@@ -38,6 +38,7 @@ public class EnemyServiceLocator : MonoBehaviour
 
     [Header("Система урона")]
     [SerializeField] private HumanoidAIDamageController damageController;
+    [SerializeField] private HumanoidPushReceiver pushReceiver;
 
     [Header("Система зрения")]
     [SerializeField] private EnemyFOVController fovController;
@@ -92,8 +93,10 @@ public class EnemyServiceLocator : MonoBehaviour
         AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
         attackSource.Init(attackSourceServices);
 
-        HumanoidDamageServices damageService = new HumanoidDamageServices(ragdollController,motor,statsController, stats, agent, capsuleCollider, uid);
+        HumanoidDamageServices damageService = new HumanoidDamageServices(animatorController, ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
         damageController.Init(damageService);
+
+        pushReceiver.Init(damageController,animatorController,agentController,ragdollController,transform);
 
     }
 

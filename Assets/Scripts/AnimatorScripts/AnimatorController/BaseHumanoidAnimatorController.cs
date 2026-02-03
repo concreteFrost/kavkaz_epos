@@ -108,11 +108,27 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
     }
 
+
+    #region Push Control
     public void PerformPush()
     {
         animator.CrossFade("Agressive Push", AnimatorParameters.transitionSpeed);
     }
 
+    public void GetPushed(PushDirection dir)
+    {
+        if(dir == PushDirection.Forward)
+        {
+            animator.CrossFade("Get Pushed From Front", AnimatorParameters.transitionSpeed);
+        }
+        else
+        {
+            animator.CrossFade("Get Pushed From Back", AnimatorParameters.transitionSpeed);
+        }
+
+    }
+
+    #endregion
 
 
     //protected void UpdateTargetLockState(ITargetLocker targetLock)

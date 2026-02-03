@@ -6,7 +6,7 @@ public class PlayerDamageController : BaseDamageController
     IHumanoidMovement motor;
     IHumanoidCombat combatController;
     ICombatInventory combatInventory;
-    
+
     PlayerInput input;
 
     protected bool canTakeAnotherDamage = true;
@@ -92,4 +92,6 @@ public class PlayerDamageController : BaseDamageController
         yield return new WaitForSeconds(delay);
         Respawn();
     }
+
+
 }

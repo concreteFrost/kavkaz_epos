@@ -13,7 +13,9 @@ public interface IRagdollController
 
     IEnumerator Recover();
 
-    event Action Recovered;
+    bool IsKnockedOut { get; set; }
+
+    //event Action Recovered;
     event Action RecoveredInInvalidArea;
 
 }

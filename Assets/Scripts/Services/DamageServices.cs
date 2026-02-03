@@ -3,17 +3,19 @@ using UnityEngine.AI;
 
 public class HumanoidDamageServices
 {
+    public BaseHumanoidAnimatorController animatorController;
     public IRagdollController ragdollController;
     public HumanoidAIMotor motor;
     public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
-    public NavMeshAgent agent;
+    public HumanoidAgentController agent;
     public CapsuleCollider col;
 
     public string uniqueID;
 
-    public HumanoidDamageServices(IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, NavMeshAgent agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageServices(BaseHumanoidAnimatorController animatorController, IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, HumanoidAgentController agent, CapsuleCollider col, string uniqueID)
     {
+        this.animatorController = animatorController;   
         this.ragdollController = ragdollController;
         this.motor = motor;
         this.statsModifier = statsController;
@@ -27,6 +29,7 @@ public class HumanoidDamageServices
 
 public class PlayerDamageControllerService
 {
+    public BaseHumanoidAnimatorController animatorController;
     public IHumanoidMovement motor;
     public ICharacterStatsController statsController;
     public HumanoidStats stats;
@@ -37,7 +40,7 @@ public class PlayerDamageControllerService
 
     public string uid;
 
-    public PlayerDamageControllerService(IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input, IHumanoidCombat combatController, ICombatInventory attackSource, string uid)
+    public PlayerDamageControllerService(BaseHumanoidAnimatorController animatorController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input, IHumanoidCombat combatController, ICombatInventory attackSource, string uid)
     {
         this.motor = motor;
         this.statsController = statsController;
@@ -48,7 +51,7 @@ public class PlayerDamageControllerService
         this.combatController = combatController;
 
         this.uid = uid;
-
+        this.animatorController = animatorController;
     }
 }
 

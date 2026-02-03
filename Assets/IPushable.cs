@@ -7,6 +7,13 @@ public enum PushDirection
 }
 public interface IPushable
 {
-    CharacterType CharacterType { get; set; }
-    void GetPushed(PushDirection dir);
+    bool IsPushed { get; set; }
+    CharacterType CharacterType();
+    void GetPushed(PushDirection dir, Vector3 aimingSpot);
+
+    void CancelPush();
+
+    void TrackPush();
+
+    Transform Origin();
 }

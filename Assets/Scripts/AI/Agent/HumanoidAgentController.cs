@@ -76,6 +76,11 @@ public class HumanoidAgentController
 
     }
 
+    public void ToggleUpdatePosition(bool update)
+    {
+        agent.updatePosition = update;  
+    }
+
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
         if (!agent.isActiveAndEnabled || !agent.hasPath)

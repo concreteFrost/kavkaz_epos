@@ -1,42 +1,34 @@
 using UnityEngine;
 
-public class DamagedBehaviour : StateMachineBehaviour
+public class GetPushedBehaviour : StateMachineBehaviour
 {
-
-    IDamagable dm;
-   
+    IPushable pushable;
+    IHumanoidMovement mv;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm = animator.GetComponentInChildren<IDamagable>();
-    
+        pushable = animator.GetComponentInChildren<IPushable>();
+        mv = animator.GetComponent<IHumanoidMovement>();
+
         animator.applyRootMotion = true;
-        //animator.speed = 1; 
+        mv.StopMove = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
-        if(!dm.IsDamaged) dm.IsDamaged = true;  
-
-        if (animator.applyRootMotion == false) 
+        if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
- 
-        float t = stateInfo.normalizedTime;
 
-        //if(t > 0.95f)
-        //{
-        //    dm.IsDamaged = false;
-        //}
+        pushable.TrackPush();
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       dm.IsDamaged = false;
-       animator.applyRootMotion = false;
-      
+        pushable.CancelPush();
+        mv.StopMove = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

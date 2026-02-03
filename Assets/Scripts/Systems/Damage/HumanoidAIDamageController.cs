@@ -1,12 +1,11 @@
 ﻿
 using UnityEngine;
 
-
-
 public class HumanoidAIDamageController : BaseDamageController
 {
     CapsuleCollider col;
     HumanoidAIMotor motor;
+    BaseHumanoidAnimatorController animatorController;
     IRagdollController ragdollController;
 
 	public void Init(HumanoidDamageServices service)
@@ -17,9 +16,10 @@ public class HumanoidAIDamageController : BaseDamageController
         this.ragdollController = service.ragdollController;
         this.col = service.col; 
 		this.uniqueID =service.uniqueID;
+        this.animatorController = service.animatorController;
        
         stats.Health.Depleted += Die;
-        ragdollController.Recovered += OnRecover;
+        //ragdollController.Recovered += OnRecover;
         ragdollController.RecoveredInInvalidArea += OnInvalidRecover;
 
         if(aimPosition == null)
@@ -30,10 +30,11 @@ public class HumanoidAIDamageController : BaseDamageController
 	}
 
 
-    private void OnRecover()
-    {
-        IsKnockedOut = false;   
-    }
+    //private void OnRecover()
+    //{
+    //    Debug.Log("recovered");
+    //    ragdollController.IsKnockedOut = false;   
+    //}
 
     protected void OnInvalidRecover()
     {
@@ -44,7 +45,7 @@ public class HumanoidAIDamageController : BaseDamageController
     private void OnDisable()
     {
         stats.Health.Depleted -= Die;
-        ragdollController.Recovered -= OnRecover;
+        //ragdollController.Recovered -= OnRecover;
         ragdollController.RecoveredInInvalidArea -= OnInvalidRecover;
     }
 
@@ -70,13 +71,17 @@ public class HumanoidAIDamageController : BaseDamageController
     {
         base.TakeDamage(damageData, source);    
 
-        if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
+        if (damageData.balanceDamageType == BalanceDamageType.Extreme && !ragdollController.IsKnockedOut)
         {
-            IsKnockedOut = true;
-            motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
-            ragdollController.Knockout(damageData.impactForce, source);
+            PerformKnockout(damageData.impactForce, source);
         }
 
+    }
+
+    private void PerformKnockout(float impactForce, Transform source)
+    {
+        motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
+        ragdollController.Knockout(impactForce, source);
     }
 
     protected override bool IsDamagingBlocked()
@@ -94,5 +99,8 @@ public class HumanoidAIDamageController : BaseDamageController
         ragdollController.EnableRagdoll();
 
     }
+
+
+
 
 }

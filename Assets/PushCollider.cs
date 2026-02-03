@@ -7,13 +7,17 @@ public class PushCollider : MonoBehaviour
     List<CharacterType> objectsToIgnore;
     private bool pushRegistered = false;
 
+    Vector3 checkGroundPos;
 
-    public void Init(List<CharacterType> objectsToIgnore)
+    Transform self;
+
+    public void Init(List<CharacterType> objectsToIgnore, Transform self)
     {
         col = GetComponent<Collider>();
         col.isTrigger = true;
 
         this.objectsToIgnore = objectsToIgnore;
+        this.self = self;   
 
         DisableCollider();
     }
@@ -39,7 +43,7 @@ public class PushCollider : MonoBehaviour
     {
 
         if (objectsToIgnore == null || objectsToIgnore.Count == 0) return true;
-        return objectsToIgnore.Contains(damagable.CharacterType);
+        return objectsToIgnore.Contains(damagable.CharacterType());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,31 +54,36 @@ public class PushCollider : MonoBehaviour
 
         if (NotInTargetList(damagable)) return;
 
+        var dir = GetPushDir(damagable.Origin());
 
-        var dir = GetPushDir(other);
+        checkGroundPos = self.position + self.forward * 1.5f;
+        checkGroundPos.y = self.position.y + 1.2f;
 
-        damagable.GetPushed(dir);
+        //GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //sphere.transform.position = checkGroundPos;
+
+        damagable.GetPushed(dir, checkGroundPos);
 
         pushRegistered = true;  
         
     }
 
-    private PushDirection GetPushDir(Collider other)
+    private PushDirection GetPushDir(Transform target)
     {
         // Вектор от игрока к объекту, который толкает
-        Vector3 pushDirection = other.transform.position - transform.position;
+        Vector3 pushDirection = target.position - self.position;
 
         // Определяем, спереди или сзади
-        float dot = Vector3.Dot(transform.forward, pushDirection.normalized);
+        float dot = Vector3.Dot(target.forward, pushDirection.normalized);
 
         if (dot > 0)
         {
-            return PushDirection.Forward;
+            return PushDirection.Back;
         }
         else
         {
 
-            return PushDirection.Back;
+            return PushDirection.Forward;
         }
     }
 }

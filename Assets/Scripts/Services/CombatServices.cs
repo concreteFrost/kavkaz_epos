@@ -57,3 +57,17 @@ public class AttackSourceServices
     }
 }
 
+public class AgressivePushServices
+{
+    public IAttackSource attackSource;
+    public IHumanoidCombat combatController;
+    public BaseHumanoidAnimatorController animatorController;
+
+    public AgressivePushServices(IAttackSource attackSource, IHumanoidCombat combatController, BaseHumanoidAnimatorController animatorController)
+    {
+        this.attackSource = attackSource;
+        this.combatController = combatController;
+        this.animatorController = animatorController;
+    }
+}
+

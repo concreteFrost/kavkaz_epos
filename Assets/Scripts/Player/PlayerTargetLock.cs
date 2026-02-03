@@ -30,13 +30,13 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     CharacterType self;
     public void Init(PlayerTargetLockService provider)
-    {   
+    {
         this.lockOnTargetUI = provider.lockOnTargetUI;
         this.controller = provider.controller;
         this.targetSeeker = controller.transform;
         this.damageController = provider.damageController;
-  
-        self = CharacterType.Player;    
+
+        self = CharacterType.Player;
     }
 
     /// <summary>
@@ -45,7 +45,8 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     private void Update()
     {
         if (currentTarget == null) return;
-        if (damageController.IsDead || currentTarget.IsKnockedOut)
+        //if (damageController.IsDead || currentTarget.IsKnockedOut)
+        if (damageController.IsDead)
         {
             ResetLockTarget();
             return;
@@ -70,8 +71,8 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         var t = TryGetLockedTarget();
 
         if (t != null)
-        {   
-           
+        {
+
             controller.SetLockTarget(t.GetAimTransform());
             controller.SetStrafe(true);
             lockOnTargetUI.SetTarget(t.GetAimTransform());
@@ -129,7 +130,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
         var nearest = CheckNearestTarget();
 
-        if(nearest != null)
+        if (nearest != null)
         {
             currentTarget = CheckNearestTarget();
             lockOnTargetUI.SetTarget(currentTarget.GetAimTransform());

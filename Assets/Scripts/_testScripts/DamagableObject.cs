@@ -86,4 +86,14 @@ public class DamagableObject : MonoBehaviour, IDamagable
         mat.material.color = defaultCol;
 
     }
+
+    public void GetPushed(PushDirection direction)
+    {
+        //без реализации
+    }
+
+    public void CancelPush()
+    {
+        //без реализации
+    }
 }

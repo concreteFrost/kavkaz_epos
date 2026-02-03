@@ -9,7 +9,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Анимация")]
     [SerializeField] private Animator animator;
     [SerializeField] private AnimatorOverrideController overrideController;
-    [SerializeField] private PlayerAnimatorController characterAnimator = new PlayerAnimatorController();
+    [SerializeField] private PlayerAnimatorController animatorController = new PlayerAnimatorController();
 
     [Header("Мотор и перемещение")]
     [SerializeField] private PlayerMotor motor;
@@ -59,11 +59,11 @@ public class PlayerServiceLocator : MonoBehaviour
         motor.Init(animator);
       
         // Input
-        PlayerInputService inputService = new PlayerInputService(controller, characterAnimator, targetLock, pushController);
+        PlayerInputService inputService = new PlayerInputService(controller, animatorController, targetLock, pushController);
         input.Init(inputService);
 
         // Interaction
-        HumanoidInteractService interactionService = new HumanoidInteractService(this.transform, characterAnimator ,combatInventory, damageController,attackSource);
+        HumanoidInteractService interactionService = new HumanoidInteractService(this.transform, animatorController ,combatInventory, damageController,attackSource);
         interaction.Init(interactionService);
 
         // Stats
@@ -79,19 +79,19 @@ public class PlayerServiceLocator : MonoBehaviour
             targetLock,
             damageController
         );
-        characterAnimator.Init(animatorService);
+        animatorController.Init(animatorService);
 
         // Combat
         AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
         attackSource.Init(attackSourceServices);
 
         HumanoidCombatControllerServices combatControllerService =
-            new HumanoidCombatControllerServices(combatInventory, characterAnimator);
+            new HumanoidCombatControllerServices(combatInventory, animatorController);
         combatController.Init(combatControllerService);
 
         HumanoidCombatInventoryServices combatInventoryService =
             new HumanoidCombatInventoryServices(
-                characterAnimator,
+                animatorController,
                 combatController,
                 interaction,
                 attackSource,
@@ -100,7 +100,7 @@ public class PlayerServiceLocator : MonoBehaviour
             );
         combatInventory.Init(combatInventoryService);
 
-        pushController.Init(attackSource, combatController, characterAnimator);
+        pushController.Init(attackSource, combatController, animatorController,transform);
 
         // Target lock
         PlayerTargetLockService targetLockService =
@@ -124,7 +124,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         // Damage
 
-        PlayerDamageControllerService damageControllerService = new PlayerDamageControllerService(motor,statsController , stats, input, combatController, combatInventory,uid);
+        PlayerDamageControllerService damageControllerService = new PlayerDamageControllerService(animatorController, motor,statsController , stats, input, combatController, combatInventory,uid);
         damageController.Init(damageControllerService);
     }
 

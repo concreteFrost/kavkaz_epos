@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 
 
 public abstract class BaseDamageController : MonoBehaviour, IDamagable
@@ -21,7 +20,6 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public bool IsDead { get; set; }
     public string SourceId() => uniqueID;
 
-    public bool IsKnockedOut { get; set; }      
     public bool IsDamaged { get; set; }
     public BalanceDamageType BalancePenalty { get ; set ; }
 
@@ -55,5 +53,6 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     protected abstract bool IsDamagingBlocked();
 
     public abstract void Die();
+
    
 }

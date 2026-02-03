@@ -33,19 +33,21 @@ public abstract class BaseRagdollController : IRagdollController
 
     protected float blendDuration = 0.5f; // время перехода между ragdoll и анимацией
     protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
+    
     #region IRagdollControlerContract
 
     public abstract void DisableRagdoll();
     public abstract void EnableRagdoll(float force, Transform from);
 
+    public bool IsKnockedOut { get; set; }
+
     //public Action KnockedOut;
-    public event Action Recovered;
+    //public event Action Recovered;
     public event Action RecoveredInInvalidArea;
 
     #endregion
 
-    
-    protected void InvokeRecover() => Recovered?.Invoke(); //обёртка для вызова в дочерних классах
+    //protected void InvokeRecover() => Recovered?.Invoke(); 
     protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke(); //обёртка для вызова в дочерних классах
 
     protected void Init(MonoBehaviour context, Animator anim, Transform self)
@@ -107,7 +109,7 @@ public abstract class BaseRagdollController : IRagdollController
     /// <param name="from">от какого направления</param>
     public void Knockout(float force, Transform from)
     {
-
+        IsKnockedOut = true;
         EnableRagdoll(force, from);
         recoveryCoroutine = context.StartCoroutine(Recover());
     }
@@ -303,7 +305,7 @@ public abstract class BaseRagdollController : IRagdollController
         // ждём конца анимации
         yield return AnimatorUtils.WaitForAnimationEnd(anim,animName, AnimatorParameters.damageLayer);
 
-        InvokeRecover();
+        IsKnockedOut = false;
 
     }
 

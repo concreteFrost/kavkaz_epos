@@ -41,7 +41,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     public override AIStateResult Run()
     {
         // ищем потенциальные цели
-        fov.CheckTargets();
+        //fov.CheckTargets();
 
         // переходим в погоню если цель найдена
         if (fov.currentTarget != null)
@@ -54,7 +54,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
             return passiveInterruptionTracker.React(context.self.position, context.animator);
         }
 
-        idleHandler.UpdateCurrentIdleTime();
+        //idleHandler.UpdateCurrentIdleTime();
 
         if (idleHandler.HasIdleTimeFinished())
             return AIStateResult.Patrol;

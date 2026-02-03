@@ -12,11 +12,13 @@ public interface IDamagable
     public void Die();
     public bool IsDead { get; set; }
     bool IsDamaged { get; set; }
-    bool IsKnockedOut {  get; set; }
+    //bool IsKnockedOut {  get; set; }
     BalanceDamageType BalancePenalty { get; set; }
 
     public Transform GetAimTransform();
     public Transform GetOrigin();
 
     public event Action<Transform> DamageTaken;
+
+
 }

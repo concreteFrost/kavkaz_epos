@@ -14,7 +14,7 @@ public class AnimatorParameters
     public const int armedLayer = 1;
     public const int combatLayer = 2;
     public const int climbLayer = 5;
-    public const int damageLayer = 6;
+    public const int damageLayer = 7;
 
     public const string getUpState= "Get Up";
     public const string getUpFromBellyState = "Get Up From Belly";

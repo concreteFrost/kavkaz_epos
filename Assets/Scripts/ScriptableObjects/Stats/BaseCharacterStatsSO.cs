@@ -4,6 +4,8 @@ using UnityEngine;
 public class BaseCharacterStatsSO : ScriptableObject
 {
 
+    public CharacterType characterType;
+
     [Header("Health")]
     public float health = 100f;
 
