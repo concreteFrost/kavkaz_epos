@@ -102,6 +102,12 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade("Throw weapon", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 
+    public void PerformInteract()
+    {
+
+        animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
+    }
+
 
 
     //protected void UpdateTargetLockState(ITargetLocker targetLock)

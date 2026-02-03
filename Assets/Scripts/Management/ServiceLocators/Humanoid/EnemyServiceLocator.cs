@@ -74,7 +74,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,overrideController, motor, combatController, fovController, damageController);
         animatorController.Init(animatorService);
 
-        HumanoidInteractService interactService = new HumanoidInteractService(combatInventory, damageController, attackSource);
+        HumanoidInteractService interactService = new HumanoidInteractService(this.transform,animatorController,combatInventory, damageController, attackSource);
         interaction.Init(interactService);
 
         HumanoidStatsControllerServices service = new HumanoidStatsControllerServices(stats);

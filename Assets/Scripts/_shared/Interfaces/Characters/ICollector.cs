@@ -8,5 +8,6 @@ public interface ICollector
 
     IAttackSource AttackSource { get; set; }
     public IPickable PickableItem { get; set; }
-    void Interact();
+    void StartInteracion();
+    void FinishInteraction();
 }

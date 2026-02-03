@@ -16,25 +16,25 @@ public class InteractionCollider : MonoBehaviour
 
     public void DisableCollider()=> col.enabled = false;
 
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.GetComponentInChildren<ICollector>() != null)
-        {
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if(other.GetComponentInChildren<ICollector>() != null)
+    //    {
            
-            var _collector = other.GetComponentInChildren<ICollector>();
-            collector = _collector;
-            collector.PickableItem = pickable;
+    //        var _collector = other.GetComponentInChildren<ICollector>();
+    //        collector = _collector;
+    //        collector.PickableItem = pickable;
           
-        } 
-    }
+    //    } 
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (collector != null) {
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (collector != null) {
 
-            collector.PickableItem = null;  
-            collector = null;
-        }
-    }
+    //        collector.PickableItem = null;  
+    //        collector = null;
+    //    }
+    //}
 
 }

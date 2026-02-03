@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
         //не взаимодействуем если игрок атакует
         if (!actionGuards.CanInteract()) return;
 
-        interact.Interact();
+        interact.StartInteracion();
     }
     #endregion
 

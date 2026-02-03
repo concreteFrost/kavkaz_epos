@@ -968,6 +968,7 @@ MonoBehaviour:
   strafe: {fileID: 7862004739333372196}
   wait: {fileID: 8492868800182727254}
   moveToStart: {fileID: 7708052255930036535}
+  moveToInterruptor: {fileID: 0}
 --- !u!114 &1484899375234347330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,7 +990,7 @@ MonoBehaviour:
   chaseHandler:
     lostTargetTimer: 0
     cantReachTimer: 0
-  interruptionTracker:
+  passiveInterruptionTracker:
     isInterrupted: 0
   combatHandler:
     currCombatCooldown: 0
@@ -999,6 +1000,9 @@ MonoBehaviour:
     comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
+    blockStrafeCooldown: 0
+    maxBlockStrafeTimer: 0
+    isStrafeBlocked: 0
     currStrafeTransitionChance: 0
     currAttackTransitionChance: 0
   waitForTargetHandler:
@@ -1446,6 +1450,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   attackInterrupted: 0
+--- !u!1 &3006199437446302335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3830506616137703098}
+  - component: {fileID: 4994437662380333840}
+  m_Layer: 0
+  m_Name: Interaction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3830506616137703098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006199437446302335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 515555489032476068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4994437662380333840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006199437446302335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b02deaf95f2c644baf44b78df2417d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
 --- !u!1 &3069098352318718036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1811,7 +1859,7 @@ MonoBehaviour:
   controller: {fileID: 3169394707491743592}
   statsController: {fileID: 6095946705785411074}
   stats: {fileID: 3623233199384946657}
-  interaction: {fileID: 1604697800633764470}
+  interaction: {fileID: 4994437662380333840}
   combatController: {fileID: 8492958853885773946}
   combatInventory: {fileID: 2439604627647212036}
   attackSource: {fileID: 5789983656386049422}
@@ -2107,50 +2155,6 @@ Transform:
   - {fileID: 5407252054184360016}
   m_Father: {fileID: 376220673074827880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4234090276797704674
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4065970685229148780}
-  - component: {fileID: 1604697800633764470}
-  m_Layer: 0
-  m_Name: AIInteract
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4065970685229148780
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4234090276797704674}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 515555489032476068}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1604697800633764470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4234090276797704674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b02deaf95f2c644baf44b78df2417d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
 --- !u!1 &4261462954693504060
 GameObject:
   m_ObjectHideFlags: 0
@@ -4706,7 +4710,7 @@ Transform:
   - {fileID: 9087103329379741657}
   - {fileID: 7901007438046391984}
   - {fileID: 8327586687000676752}
-  - {fileID: 4065970685229148780}
+  - {fileID: 3830506616137703098}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8892211989431816336

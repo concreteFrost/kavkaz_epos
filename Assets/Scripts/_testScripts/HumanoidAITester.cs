@@ -274,7 +274,7 @@ public class HumanoidAITester : MonoBehaviour
             if (distance < 0.5f)
             {
                 aiMotor.StopMovement();
-                interaction.Interact();
+                interaction.StartInteracion();
                 targetWeapon = null;
             }
         }
@@ -306,7 +306,7 @@ public class HumanoidAITester : MonoBehaviour
             if (distance < 0.5f)
             {
                 aiMotor.StopMovement();
-                interaction.Interact();
+                interaction.StartInteracion();
                 targetShield = null;
             }
         }

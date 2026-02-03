@@ -57,13 +57,12 @@ public class PlayerServiceLocator : MonoBehaviour
         stats.Init();
         motor.Init(animator);
       
-
         // Input
         PlayerInputService inputService = new PlayerInputService(controller, characterAnimator, targetLock);
         input.Init(inputService);
 
         // Interaction
-        HumanoidInteractService interactionService = new HumanoidInteractService(combatInventory, damageController,attackSource);
+        HumanoidInteractService interactionService = new HumanoidInteractService(this.transform, characterAnimator ,combatInventory, damageController,attackSource);
         interaction.Init(interactionService);
 
         // Stats

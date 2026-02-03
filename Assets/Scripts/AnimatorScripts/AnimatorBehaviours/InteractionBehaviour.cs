@@ -1,42 +1,49 @@
 using UnityEngine;
 
-public class DamagedBehaviour : StateMachineBehaviour
+public class InteractionBehaviour : StateMachineBehaviour
 {
-
-    IDamagable dm;
-   
+    ICollector collector;
+    IHumanoidMovement motor;
+    IDamagable damagable;
+    [SerializeField] private AnimationInfoSO clip;
+    [SerializeField] private bool hasInteracted;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm = animator.GetComponentInChildren<IDamagable>();
-    
+        collector = animator.GetComponentInChildren<ICollector>();
+        motor = animator.GetComponent<IHumanoidMovement>();
+        damagable = animator.GetComponentInChildren<IDamagable>();  
+
         animator.applyRootMotion = true;
-        animator.speed = 1; 
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
-        if(!dm.IsDamaged) dm.IsDamaged = true;  
+        if (!motor.StopMove) 
+            motor.StopMove = true;
 
-        if (animator.applyRootMotion == false) 
+        if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
- 
+
         float t = stateInfo.normalizedTime;
 
-        //if(t > 0.95f)
-        //{
-        //    dm.IsDamaged = false;
-        //}
+        if (hasInteracted || collector.PickableItem == null || damagable.IsDamaged) return;
+
+        if(t > clip.hitStartFrame && t<clip.hitEndFrame)
+        {
+            collector.FinishInteraction();  
+            hasInteracted = true;
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       dm.IsDamaged = false;
-       animator.applyRootMotion = false;
-      
+        motor.StopMove = false;
+        animator.applyRootMotion = false;
+        hasInteracted = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
