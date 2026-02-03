@@ -7,14 +7,12 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     //ссылки
     public ICombatInventory inventory;
     private BaseHumanoidAnimatorController animatorController;
+    private AgressivePushController pushController;
 
     public event Action OnAttackEnd; // для ИИ чтобы знать когда закончилась атака и начать новую
 
     // состояние
-    internal bool isAttacking;
-    internal bool isShieldRaised;
     internal int attackIndex = 0;
-    internal bool isWeaponed;
 
     // буфер ввода для комбо
     internal float lastAttackInputTime = -10f;
@@ -25,8 +23,9 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
     // ================= свойства =================
  
-    public bool IsWeaponed { get => isWeaponed; set => isWeaponed = value; }
-    public bool IsShieldRaised { get => isShieldRaised; set => isShieldRaised = value; }
+    public bool IsAttacking { get; set; }
+    public bool IsWeaponed { get ; set ; }
+    public bool IsShieldRaised { get; set; }
 
 
     // ================= INIT =================
@@ -41,12 +40,12 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     // ================= INPUT =================
     public void PerformAttack()
     {
-        if (isShieldRaised) return;
+        if (IsShieldRaised) return;
 
         lastAttackInputTime = Time.time;
        
         // если уже атакуем — ставим в очередь
-        if (isAttacking)
+        if (IsAttacking)
         {
             queuedAttack = true;
             return;
@@ -58,9 +57,9 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
     public void PerformPowerAttack()
     {
-        if (isShieldRaised) return;
+        if (IsShieldRaised) return;
 
-        if (isAttacking) return;
+        if (IsAttacking) return;
 
         ResetCombo();
 
@@ -71,19 +70,19 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
         animatorController.OverrideAttack(powerAttack, "Power Attack");
 
-        isAttacking = true;
+        IsAttacking = true;
     }
 
     public void PerformBlock()
     {
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.PerformDefence();
-        isShieldRaised = true;
+        IsShieldRaised = true;
     }
 
     public void CancelBlock()
     {
-        isShieldRaised = false;
+        IsShieldRaised = false;
 
         if (inventory.ShieldWeapon == null) return;
         inventory.ShieldWeapon.CancelDefence();
@@ -130,13 +129,13 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
 
         animatorController.OverrideAttack(attack, attackName);
         
-        isAttacking = true;
+        IsAttacking = true;
         attackIndex++;
     }
 
     public void EndAttack()
     {
-        isAttacking = false;
+        IsAttacking = false;
         OnAttackEnd?.Invoke();
         //movement.StopMove = false;  
 
@@ -165,8 +164,10 @@ public class HumanoidCombatController : MonoBehaviour, IHumanoidCombat
     void ResetCombo()
     {
         attackIndex = 0;
-        isAttacking = false;
+        IsAttacking = false;
         queuedAttack = false;
         
     }
+
+  
 }

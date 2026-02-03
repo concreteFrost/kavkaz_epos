@@ -1,7 +1,7 @@
 ﻿
 public interface IHumanoidCombat
 {
-    //bool IsAttacking { get; set; }
+    bool IsAttacking { get; set; }
     bool IsWeaponed { get; set; }
     bool IsShieldRaised { get; set; }
     void EndAttack();

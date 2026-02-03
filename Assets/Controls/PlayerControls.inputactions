@@ -113,6 +113,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AgressivePush",
+                    "type": "Button",
+                    "id": "c2949cfe-eaab-4951-9ca1-f97260297c01",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -460,7 +469,7 @@
                 {
                     "name": "",
                     "id": "f0fc4aeb-75b0-4341-a36b-77375e8c2d1c",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -531,6 +540,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PowerAttackGamepad",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbb51c25-8bca-4cdf-952b-66f3901a7192",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AgressivePush",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

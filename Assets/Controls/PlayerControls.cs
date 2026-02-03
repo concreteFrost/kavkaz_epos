@@ -199,6 +199,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AgressivePush"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2949cfe-eaab-4951-9ca1-f97260297c01"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -546,7 +555,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f0fc4aeb-75b0-4341-a36b-77375e8c2d1c"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -617,6 +626,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PowerAttackGamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fbb51c25-8bca-4cdf-952b-66f3901a7192"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AgressivePush"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1216,6 +1236,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_LockTarget = m_Player.FindAction("LockTarget", throwIfNotFound: true);
         m_Player_PowerAttackHold = m_Player.FindAction("PowerAttackHold", throwIfNotFound: true);
         m_Player_PowerAttackGamepad = m_Player.FindAction("PowerAttackGamepad", throwIfNotFound: true);
+        m_Player_AgressivePush = m_Player.FindAction("AgressivePush", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1321,6 +1342,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LockTarget;
     private readonly InputAction m_Player_PowerAttackHold;
     private readonly InputAction m_Player_PowerAttackGamepad;
+    private readonly InputAction m_Player_AgressivePush;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1380,6 +1402,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/PowerAttackGamepad".
         /// </summary>
         public InputAction @PowerAttackGamepad => m_Wrapper.m_Player_PowerAttackGamepad;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/AgressivePush".
+        /// </summary>
+        public InputAction @AgressivePush => m_Wrapper.m_Player_AgressivePush;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1442,6 +1468,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PowerAttackGamepad.started += instance.OnPowerAttackGamepad;
             @PowerAttackGamepad.performed += instance.OnPowerAttackGamepad;
             @PowerAttackGamepad.canceled += instance.OnPowerAttackGamepad;
+            @AgressivePush.started += instance.OnAgressivePush;
+            @AgressivePush.performed += instance.OnAgressivePush;
+            @AgressivePush.canceled += instance.OnAgressivePush;
         }
 
         /// <summary>
@@ -1489,6 +1518,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PowerAttackGamepad.started -= instance.OnPowerAttackGamepad;
             @PowerAttackGamepad.performed -= instance.OnPowerAttackGamepad;
             @PowerAttackGamepad.canceled -= instance.OnPowerAttackGamepad;
+            @AgressivePush.started -= instance.OnAgressivePush;
+            @AgressivePush.performed -= instance.OnAgressivePush;
+            @AgressivePush.canceled -= instance.OnAgressivePush;
         }
 
         /// <summary>
@@ -1873,6 +1905,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPowerAttackGamepad(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AgressivePush" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAgressivePush(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

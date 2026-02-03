@@ -127,6 +127,16 @@ public class MeleeWeapon : IWeapon
         meleeData.PerformAttack(damageData, AttackSource);
     }
 
+    public void PerformPush()
+    {
+
+    }
+
+    public void CancelPush()
+    {
+
+    }
+
 
     public void DropWeapon()
     {

@@ -186,7 +186,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
 
         combat.PerformPowerAttack();
 
-        while (combat.isAttacking)
+        while (combat.IsAttacking)
         {
             yield return null;  
         }

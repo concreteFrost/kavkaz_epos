@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour
     PlayerController controller;
     PlayerTargetLock targetLock;
     PlayerAnimatorController animator;
+    AgressivePushController pushController; 
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
@@ -21,6 +22,7 @@ public class PlayerInput : MonoBehaviour
     private bool blockHeld;
     private bool interactPressed;
     private bool lockOnTargetPressed;
+    private bool isPushPressed;
 
     protected virtual void Awake()
     {
@@ -51,6 +53,8 @@ public class PlayerInput : MonoBehaviour
 
         controls.Player.PowerAttackGamepad.performed += ctx => powerAttackGamepadPressed = true;
 
+        controls.Player.AgressivePush.performed += ctx => isPushPressed = true;
+
         controls.Player.Block.performed += ctx => blockHeld = true;
         controls.Player.Block.canceled += ctx => blockHeld = false;
         controls.Player.LockTarget.performed += ctx => lockOnTargetPressed = true;
@@ -66,6 +70,7 @@ public class PlayerInput : MonoBehaviour
         controller = serviceProvider.controller;
         animator = serviceProvider.animator;
         targetLock = serviceProvider.targetLock;
+        pushController = serviceProvider.pushController;    
     }
 
 
@@ -94,6 +99,7 @@ public class PlayerInput : MonoBehaviour
         JumpInput();
 
         AttackInput();
+        PushInput();    
         BlockInput();
         LockOnTargetInput();
 
@@ -154,6 +160,17 @@ public class PlayerInput : MonoBehaviour
 
             attackPressed = false;
         }
+    }
+
+    private void PushInput()
+    {
+        if (isPushPressed)
+        {
+            pushController.TriggerPushAnimation();  
+
+        }
+
+        isPushPressed = false;  
     }
 
 

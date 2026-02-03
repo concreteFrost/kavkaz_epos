@@ -108,6 +108,11 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
     }
 
+    public void PerformPush()
+    {
+        animator.CrossFade("Agressive Push", AnimatorParameters.transitionSpeed);
+    }
+
 
 
     //protected void UpdateTargetLockState(ITargetLocker targetLock)
