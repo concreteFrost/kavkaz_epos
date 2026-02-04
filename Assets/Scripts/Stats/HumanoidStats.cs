@@ -18,16 +18,16 @@ public class HumanoidStats : MonoBehaviour
     public HealthModel Health;
     public float maxHealth;
 
-
     [Header("stamina")]
     public StaminaModel Stamina;
     public float maxStamina;
-    public float staminaRunReducePenalty = 0.03f;
-    public float staminaJumpReducePenalty = 7f;
-    public float staminaDodgeReducePenalty = 10f;
-    public float staminaMinRegenDelay = 2f;
-    public float staminaMaxRegenDelay = 6f;
-    public float staminaRegenRate = 15f;
+    //public float staminaRunReducePenalty = 0.03f;
+    //public float staminaPushReducePenalty = 5f;
+    //public float staminaJumpReducePenalty = 7f;
+    //public float staminaDodgeReducePenalty = 10f;
+    //public float staminaMinRegenDelay = 2f;
+    //public float staminaMaxRegenDelay = 6f;
+    //public float staminaRegenRate = 15f;
 
 
     [Header("stats debug")]
@@ -42,12 +42,12 @@ public class HumanoidStats : MonoBehaviour
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 
+
         Health = new HealthModel(statsSO.health);
         maxHealth = Health.Current;
 
-        Stamina = new StaminaModel(statsSO.stamina, staminaMinRegenDelay, staminaMaxRegenDelay, staminaRegenRate);
+        Stamina = new StaminaModel(statsSO.stamina, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
         maxStamina = Stamina.Current;
-
     }
 
     public void Init()

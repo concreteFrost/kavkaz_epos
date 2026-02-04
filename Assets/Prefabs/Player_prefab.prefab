@@ -675,9 +675,10 @@ MonoBehaviour:
   stats: {fileID: 6584741475100290606}
   statsController: {fileID: 1717874504137131917}
   interaction: {fileID: 7107515754348160904}
-  combatController: {fileID: 5722168148503660638}
+  combatController: {fileID: 2545132252603040552}
   combatInventory: {fileID: 548762665843053101}
   attackSource: {fileID: 4373527282435137223}
+  pushController: {fileID: 7151219120634766040}
   damageController: {fileID: 9216071904075533163}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
@@ -722,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_bc08552a-901f-4285-9bf4-83e24fb6c08d
+  uniqueId: uid_554a5d25-2b64-4ca7-8b3c-02d0a11bdf9e
 --- !u!54 &821100503953075412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1139,6 +1140,72 @@ Transform:
   - {fileID: 6267390491826458038}
   m_Father: {fileID: 505668093016439431}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2069606461546538289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4555290518353961562}
+  - component: {fileID: 3643499477820246070}
+  - component: {fileID: 1215151545337681431}
+  m_Layer: 2
+  m_Name: PushCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4555290518353961562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069606461546538289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0000008046627, y: 1.5, z: 0.49999988}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5887918107280232788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3643499477820246070
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069606461546538289}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1215151545337681431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069606461546538289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b320c0bcd09b54398e3aed7fd26d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &2148012684671426343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2523,9 +2590,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5887918107280232788}
-  - component: {fileID: 5722168148503660638}
   - component: {fileID: 548762665843053101}
   - component: {fileID: 4373527282435137223}
+  - component: {fileID: 7151219120634766040}
+  - component: {fileID: 2545132252603040552}
   m_Layer: 0
   m_Name: PlayerCombat
   m_TagString: Untagged
@@ -2545,22 +2613,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4555290518353961562}
   m_Father: {fileID: 5848560018931718496}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5722168148503660638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6788126151372605345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70acc924bbc041943bc66616a54ffe54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
-  attackBufferTime: 0.35
 --- !u!114 &548762665843053101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2573,7 +2629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
+  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
   rightHand: {fileID: 8409285499856481286}
   leftHand: {fileID: 8098127902209935896}
   meleeData:
@@ -2594,6 +2650,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackSource
   targetsToIgnore: 00000000
+--- !u!114 &7151219120634766040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788126151372605345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf16b06c3989d146b7ac1dba4c12a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  IsPushing: 0
+  animationData: {fileID: 11400000, guid: 2ceaa56cfd91fd24084eb2cf8c5a3dec, type: 2}
+  pushCollider: {fileID: 1215151545337681431}
+--- !u!114 &2545132252603040552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788126151372605345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7670e40fd11d440876fbd2c97a6a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
+  attackBufferTime: 0.35
 --- !u!1 &6996505827318760037
 GameObject:
   m_ObjectHideFlags: 0
@@ -3671,12 +3755,6 @@ MonoBehaviour:
   Stamina:
     Current: 0
   maxStamina: 0
-  staminaRunReducePenalty: 0.03
-  staminaJumpReducePenalty: 7
-  staminaDodgeReducePenalty: 10
-  staminaMinRegenDelay: 2
-  staminaMaxRegenDelay: 4
-  staminaRegenRate: 15
   d_stamina: 0
   d_health: 0
 --- !u!1 &8517202875410652669

@@ -30,7 +30,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterInteract interaction;
 
     [Header("Боевая система")]
-    [SerializeField] private HumanoidCombatController combatController;
+    [SerializeField] private PlayerCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;    
@@ -59,7 +59,7 @@ public class PlayerServiceLocator : MonoBehaviour
         motor.Init(animator);
       
         // Input
-        PlayerInputService inputService = new PlayerInputService(controller, animatorController, targetLock, pushController);
+        PlayerInputService inputService = new PlayerInputService(controller, animatorController, targetLock);
         input.Init(inputService);
 
         // Interaction
@@ -85,8 +85,8 @@ public class PlayerServiceLocator : MonoBehaviour
         AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
         attackSource.Init(attackSourceServices);
 
-        HumanoidCombatControllerServices combatControllerService =
-            new HumanoidCombatControllerServices(combatInventory, animatorController);
+        BaseHumanoidCombatControllerServices combatControllerService =
+            new BaseHumanoidCombatControllerServices(combatInventory, animatorController,damageController);
         combatController.Init(combatControllerService);
 
         HumanoidCombatInventoryServices combatInventoryService =
@@ -117,6 +117,7 @@ public class PlayerServiceLocator : MonoBehaviour
                 statsController,
                 interaction,
                 targetLock,
+                pushController,
                 climbing,
                 animator
             );

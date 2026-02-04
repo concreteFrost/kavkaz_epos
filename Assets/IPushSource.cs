@@ -1,4 +1,4 @@
-﻿internal interface IPushSource
+﻿public interface IPushSource
 {
     void PerformPush();
     void CancelPush();

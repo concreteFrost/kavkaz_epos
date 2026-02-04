@@ -31,6 +31,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
             return;
 
         // сбрасываем и инициализируем таймеры состояния стрейфа
+
+        motor.IsSprinting = false;
         strafeHandler.ResetStrafeState();
         strafeHandler.SetNewMaxInStrafeTime();
 

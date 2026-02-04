@@ -37,6 +37,7 @@ public class PlayerControllerService
     public ICharacterStatsController statsController;
     public ICollector interact;
     public ITargetLocker locker;
+    public AgressivePushController pushSource;
     public PlayerClimbing climbing;
 
     public PlayerControllerService(
@@ -47,6 +48,7 @@ public class PlayerControllerService
         ICharacterStatsController statsModifier,
         ICollector interact,
         ITargetLocker locker,
+        AgressivePushController pushSource,
         PlayerClimbing climbing,
         Animator animator)
     {
@@ -59,6 +61,7 @@ public class PlayerControllerService
         this.animator = animator;
         this.locker = locker;
         this.statsController = statsModifier;
+        this.pushSource = pushSource;   
     }
 }
 

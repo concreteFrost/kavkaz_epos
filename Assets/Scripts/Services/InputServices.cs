@@ -5,18 +5,18 @@ public class PlayerInputService
     public PlayerController controller;
     public PlayerAnimatorController animator;
     public PlayerTargetLock targetLock;
-    public AgressivePushController pushController;
+   
 
     public PlayerInputService(
         PlayerController controller,
         PlayerAnimatorController animator,
-        PlayerTargetLock targetLock,
-        AgressivePushController pushController)
+        PlayerTargetLock targetLock
+        )
     {
         this.controller = controller;
         this.animator = animator;
         this.targetLock = targetLock;
-        this.pushController = pushController;
+     
     }
 }
 

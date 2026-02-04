@@ -12,10 +12,10 @@ public class PlayerController : MonoBehaviour
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
     Animator animator;
+    AgressivePushController pushSource;
 
     private void Update()
     {
-
         UpdateMotor();
         TryClimb();
     }
@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         climbing = provider.climbing;
         statsController = provider.statsController;
         targetLocker = provider.locker;
+        pushSource = provider.pushSource;   
 
         actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing,targetLocker);
         climbing.Init(locomotion, actionGuards,animator );
@@ -115,7 +116,7 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanDodge()) return;
 
         locomotion.Dodge(dir);
-        statsController.ReduceStamina(stats.staminaDodgeReducePenalty);
+        statsController.ReduceStamina(stats.statsSO.staminaDodgeReducePenalty);
 
     }
 
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanJump()) return;
 
         locomotion.Jump(stats.jumpTimer);
-        statsController.ReduceStamina(stats.staminaJumpReducePenalty);
+        statsController.ReduceStamina(stats.statsSO.staminaJumpReducePenalty);
     }
 
     public void HandleJumpOrDodge(Vector3 dir)
@@ -145,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
         if (locomotion.IsSprinting)
         {
-            statsController.ReduceStamina(stats.staminaRunReducePenalty);
+            statsController.ReduceStamina(stats.statsSO.staminaRunReducePenalty);
         }
 
     }
@@ -211,6 +212,13 @@ public class PlayerController : MonoBehaviour
     public void CancelBlock()
     {
         combatController.CancelBlock();
+    }
+
+    public void PerformPush()
+    {
+        if (!actionGuards.CanAttack()) return;
+
+        pushSource.TriggerPushAnimation();  
     }
 
     #endregion

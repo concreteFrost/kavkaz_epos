@@ -73,15 +73,17 @@ public class HumanoidAIDamageController : BaseDamageController
 
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !ragdollController.IsKnockedOut)
         {
-            PerformKnockout(damageData.impactForce, source);
+            Vector3 sourcePos = source != null ? source.position : transform.position - transform.forward;
+
+            PerformKnockout(sourcePos, damageData.impactForce);
         }
 
     }
 
-    private void PerformKnockout(float impactForce, Transform source)
+    private void PerformKnockout(Vector3 source, float impactForce)
     {
         motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
-        ragdollController.Knockout(impactForce, source);
+        ragdollController.Knockout(source,impactForce);
     }
 
     protected override bool IsDamagingBlocked()
@@ -96,7 +98,7 @@ public class HumanoidAIDamageController : BaseDamageController
         col.enabled = false;
 
         ragdollController.ForceStop();
-        ragdollController.EnableRagdoll();
+        ragdollController.EnableRagdoll(Vector3.zero,300);
 
     }
 

@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 public interface IRagdollController
 {
-    void EnableRagdoll(float force=0, Transform from=null);
+    void EnableRagdoll(Vector3 from,float force=0);
     void DisableRagdoll();
 
-    void Knockout(float force, Transform from);
+    void Knockout(Vector3 from, float force=0);
     void ForceStop();
 
     IEnumerator Recover();

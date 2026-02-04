@@ -7,8 +7,10 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     IHumanoidCombat combatAnimData;
     IHumanoidMovement motor;
     ICharacterStatsController statsModifier;
-    IDamagable damagable;
-
+    IDamagable damageController;
+    WeaponAttack attack;
+    IWeapon weapon;
+   
     bool hitActive = false;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,8 +19,9 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
         statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
-        damagable =animator.GetComponentInChildren<IDamagable>();
+        damageController = animator.GetComponentInChildren<IDamagable>();
 
+        
         if(inv.CurrentWeapon != null)
         {
             statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
@@ -31,6 +34,10 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         // блокируем вращение персонажа во время атаки
         motor.BlockRotation = true;
         motor.StopMove = true;
+
+        weapon = inv.CurrentWeapon;
+        attack = weapon.CurrentAttack();
+       
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,12 +45,11 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
 
-        if (damagable.IsDamaged) return;
-
-        var weapon = inv.CurrentWeapon;
-        var attack = weapon.CurrentAttack();
+        if (damageController.IsDamaged) return;
 
         if (attack == null) return;
+
+        animator.speed = attack.animationInfo.animationSpeed;
 
         float t = stateInfo.normalizedTime % 1f;
 
@@ -64,6 +70,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
+        hitActive = false;
         animator.speed = 1f;
         motor.StopMove = false;
 
@@ -75,7 +82,5 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         // уведомляем контроллер, что атака завершена
         combatAnimData.EndAttack();
 
-        // проверяем очередь нажатий
-        //combatAnimData.TryStartNextAttackFromQueue();
     }
 }

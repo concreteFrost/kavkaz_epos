@@ -15,7 +15,7 @@ public class AiRagdollController : BaseRagdollController
         
     }
 
-    public override void EnableRagdoll(float force, Transform from)
+    public override void EnableRagdoll(Vector3 from, float force = 0)
     {
         col.enabled = false;
         anim.enabled = false;

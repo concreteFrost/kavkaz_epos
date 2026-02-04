@@ -38,7 +38,7 @@ public class EnemyServiceLocator : MonoBehaviour
 
     [Header("Система урона")]
     [SerializeField] private HumanoidAIDamageController damageController;
-    [SerializeField] private HumanoidPushReceiver pushReceiver;
+    [SerializeField] private HumanoidAIPushReceiver pushReceiver;
 
     [Header("Система зрения")]
     [SerializeField] private EnemyFOVController fovController;
@@ -84,7 +84,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidControllerServices controllerService = new HumanoidControllerServices(animator, motor, animatorController,agentController ,statsController,damageController, stats);
         controller.Init(controllerService);
 
-        HumanoidCombatControllerServices combatControllerServices = new HumanoidCombatControllerServices(combatInventory, animatorController);
+        HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController,pushReceiver);
         combatController.Init(combatControllerServices);
 
         HumanoidCombatInventoryServices combatInventoryServices = new HumanoidCombatInventoryServices(animatorController, combatController,interaction,attackSource ,transform, (int)damageController.CharacterType);
@@ -96,13 +96,13 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidDamageServices damageService = new HumanoidDamageServices(animatorController, ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
         damageController.Init(damageService);
 
-        pushReceiver.Init(damageController,animatorController,agentController,ragdollController,transform);
+        pushReceiver.Init(motor, damageController,animatorController,ragdollController,transform);
 
     }
 
     public void BrainInit()
     {
-        stateTracker.Init(damageController, stats);
+        stateTracker.Init(damageController,pushReceiver ,stats);
 
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {

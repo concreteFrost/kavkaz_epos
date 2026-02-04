@@ -4,6 +4,7 @@ public class EnemyStateTracker : MonoBehaviour
 {
     public CharacterBehaviourStatsSO stats;
     private HumanoidAIDamageController damageController;
+    private HumanoidAIPushReceiver pushable;
 
     public EnemyIdleHandler idleHandler;
     public EnemyPatrolHandler patrolHandler;
@@ -13,9 +14,10 @@ public class EnemyStateTracker : MonoBehaviour
     public EnemyWaitForTargetHandler waitForTargetHandler;
     public EnemyStrafeHandler strafeHandler;    
 
-    public void Init(HumanoidAIDamageController damageController, HumanoidStats statsInfo)
+    public void Init(HumanoidAIDamageController damageController,HumanoidAIPushReceiver pushable, HumanoidStats statsInfo)
     {
         this.damageController = damageController;
+        this.pushable = pushable;
 
         idleHandler = new EnemyIdleHandler(stats);
         patrolHandler = new EnemyPatrolHandler(stats);
@@ -33,6 +35,8 @@ public class EnemyStateTracker : MonoBehaviour
         passiveInterruptionTracker = new EnemyPassiveInterruptionHandler();
         this.damageController.DamageTaken += passiveInterruptionTracker.OnDamageTaken;
 
+        this.pushable.PushReceived += passiveInterruptionTracker.OnDamageTaken;
+
     }
 
     private void Update()
@@ -46,6 +50,7 @@ public class EnemyStateTracker : MonoBehaviour
         damageController.DamageTaken -=combatHandler.OnDamageTaken; 
         damageController.DamageTaken -=waitForTargetHandler.OnDamageTaken;
         damageController.DamageTaken -=strafeHandler.OnDamageTaken;
+        pushable.PushReceived -= passiveInterruptionTracker.OnDamageTaken;
     }
 
 

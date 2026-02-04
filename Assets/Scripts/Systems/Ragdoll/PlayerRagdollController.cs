@@ -11,11 +11,11 @@ public class PlayerRagdollController : BaseRagdollController
         this.input = input;
         base.Init(ctx, anim, self);
 
-        EnableRagdoll(10f, null);
+        //EnableRagdoll(10f, null);
 
     }
 
-    public override void EnableRagdoll(float force, Transform from)
+    public override void EnableRagdoll(Vector3 from, float force)
     {
         col.enabled = false;
         anim.enabled = false;

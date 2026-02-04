@@ -1,19 +1,37 @@
 using UnityEngine;
 
-public class HumanoidCombatControllerServices
+public class BaseHumanoidCombatControllerServices
 {
     public ICombatInventory combatInventory;
     public BaseHumanoidAnimatorController animatorController;
+    public IDamagable damageController;
 
-    public HumanoidCombatControllerServices(
+    public BaseHumanoidCombatControllerServices(
         ICombatInventory combatInventory,
-        BaseHumanoidAnimatorController animatorController
+        BaseHumanoidAnimatorController animatorController,
+        IDamagable damageController
        )
     {
         this.combatInventory = combatInventory;
         this.animatorController = animatorController;
+        this.damageController = damageController;   
     }
 
+}
+
+public class HumanoidAICombatControllerServices : BaseHumanoidCombatControllerServices
+{
+    public IPushable pushable;
+
+    public HumanoidAICombatControllerServices(
+        ICombatInventory combatInventory,
+        BaseHumanoidAnimatorController animatorController,
+        IDamagable damageController,
+        IPushable pushable  // новое поле
+    ) : base(combatInventory, animatorController, damageController) // вызов конструктора базового класса
+    {
+        this.pushable = pushable; // инициализация нового поля
+    }
 }
 
 public class HumanoidCombatInventoryServices

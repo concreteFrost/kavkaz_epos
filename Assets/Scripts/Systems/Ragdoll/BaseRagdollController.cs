@@ -37,7 +37,7 @@ public abstract class BaseRagdollController : IRagdollController
     #region IRagdollControlerContract
 
     public abstract void DisableRagdoll();
-    public abstract void EnableRagdoll(float force, Transform from);
+    public abstract void EnableRagdoll(Vector3 from, float force = 0);
 
     public bool IsKnockedOut { get; set; }
 
@@ -107,10 +107,10 @@ public abstract class BaseRagdollController : IRagdollController
     /// </summary>
     /// <param name="force">сила</param>
     /// <param name="from">от какого направления</param>
-    public void Knockout(float force, Transform from)
+    public void Knockout(Vector3 from, float force = 0)
     {
         IsKnockedOut = true;
-        EnableRagdoll(force, from);
+        EnableRagdoll(from,force);
         recoveryCoroutine = context.StartCoroutine(Recover());
     }
 
@@ -226,19 +226,17 @@ public abstract class BaseRagdollController : IRagdollController
     /// </summary>
     /// <param name="force">сила</param>
     /// <param name="from">от какого источника</param>
-    protected void ApplyImpulseFromSource(float force, Transform from)
+    protected void ApplyImpulseFromSource(float force, Vector3 from)
     {
-        Vector3 origin = from != null ? from.position : self.position - self.forward;
-        Vector3 direction = (_hipsBone.position - origin).normalized;
+        Vector3 direction = (_hipsBone.position - from).normalized;
 
-        // немного вверх, чтобы не просто по земле
         direction.y = Mathf.Max(direction.y, 0.2f);
         direction.Normalize();
 
         Rigidbody hipsRb = _hipsBone.GetComponent<Rigidbody>();
-
         hipsRb.AddForce(direction * force, ForceMode.Impulse);
     }
+
     #endregion
 
 

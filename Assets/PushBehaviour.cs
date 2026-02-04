@@ -1,4 +1,3 @@
-using NUnit;
 using UnityEngine;
 
 public class PushBehaviour : StateMachineBehaviour
@@ -8,7 +7,9 @@ public class PushBehaviour : StateMachineBehaviour
     IHumanoidMovement motor;
     ICharacterStatsController statsModifier;
     IPushSource pushSource;
-    IDamagable damagable;
+
+    IHumanoidCombat combat;
+    HumanoidStats stats;
 
     bool pushActive = false;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -19,13 +20,11 @@ public class PushBehaviour : StateMachineBehaviour
         motor = animator.GetComponent<IHumanoidMovement>();
         pushSource = animator.GetComponentInChildren<IPushSource>();
         statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
-        damagable = animator.GetComponentInChildren<IDamagable>();
+        combat = animator.GetComponentInChildren<IHumanoidCombat>();
+        stats = animator.GetComponentInChildren<HumanoidStats>();
 
-        //if (inv.CurrentWeapon != null)
-        //{
-        //    statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
-        //}
 
+        statsModifier.ReduceStamina(stats.statsSO.staminaPushReducePenalty);
 
         animator.applyRootMotion = true;
         pushActive = false;
@@ -33,6 +32,9 @@ public class PushBehaviour : StateMachineBehaviour
         // блокируем вращение персонажа во время атаки
         motor.BlockRotation = true;
         motor.StopMove = true;
+
+
+        combat.ResetCombo();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -40,7 +42,7 @@ public class PushBehaviour : StateMachineBehaviour
     {
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
 
-        if (damagable.IsDamaged) return;
+        //if (damagable.IsDamaged) return;
 
         float t = stateInfo.normalizedTime % 1f;
 
@@ -70,6 +72,8 @@ public class PushBehaviour : StateMachineBehaviour
 
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
+
+       
 
         // уведомляем контроллер, что атака завершена
         

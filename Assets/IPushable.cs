@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum PushDirection
@@ -9,11 +10,13 @@ public interface IPushable
 {
     bool IsPushed { get; set; }
     CharacterType CharacterType();
-    void GetPushed(PushDirection dir, Vector3 aimingSpot);
+    void GetPushed(PushDirection dir, Transform source);
 
     void CancelPush();
 
     void TrackPush();
 
     Transform Origin();
+
+    event Action<Transform> PushReceived;
 }

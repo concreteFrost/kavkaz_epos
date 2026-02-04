@@ -9,6 +9,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     HumanoidAgentController agentController;
     IRagdollController ragdollController;
 
+    public LayerMask wallLayer = 1 << 8;
+
     public void Init(Animator anim, HumanoidAgentController agentController, IRagdollController ragdollController)
     {
         this.animator = anim;
@@ -25,6 +27,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         isGrounded = true;
 
     }
+
 
 
     public override void UpdateAnimatorLocomotion()
@@ -157,10 +160,23 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void UseRootMotionWithObstacles()
     {
+        Vector3 center = transform.TransformPoint(transform.up);
+
+
+        //if (Physics.Raycast(center, transform.forward, out RaycastHit hitInfo,1f))
+        //{
+        //    Debug.Log("hit");
+        //    agentController.StopAgent();
+        //    return;
+        //}
         // Для AI коллизии NavMeshAgent уже работают
-        transform.position += animator.deltaPosition;
-        transform.rotation *= animator.deltaRotation;
+
+        agentController.MoveAgentToPosition(animator.deltaPosition);
+
+        
     }
+
+   
 
     #endregion
 

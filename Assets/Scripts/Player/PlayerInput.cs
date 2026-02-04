@@ -6,7 +6,6 @@ public class PlayerInput : MonoBehaviour
     PlayerController controller;
     PlayerTargetLock targetLock;
     PlayerAnimatorController animator;
-    AgressivePushController pushController; 
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
@@ -70,7 +69,7 @@ public class PlayerInput : MonoBehaviour
         controller = serviceProvider.controller;
         animator = serviceProvider.animator;
         targetLock = serviceProvider.targetLock;
-        pushController = serviceProvider.pushController;    
+       
     }
 
 
@@ -166,7 +165,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (isPushPressed)
         {
-            pushController.TriggerPushAnimation();  
+            controller.PerformPush();   
 
         }
 

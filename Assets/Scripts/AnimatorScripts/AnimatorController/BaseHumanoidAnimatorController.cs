@@ -12,6 +12,8 @@ public abstract class BaseHumanoidAnimatorController
     protected IHumanoidCombat attackSource;
     public abstract void UpdateAnimatorParameters();
 
+    public Animator Animator() => animator;
+
     public virtual void Init(HumanoidAnimatorService service)
     {
 
@@ -84,7 +86,7 @@ public abstract class BaseHumanoidAnimatorController
         var stateName = name;
         overrideController[stateName] = attack.animationInfo.clip;
 
-        animator.speed = attack.animationInfo.animationSpeed;
+        //animator.speed = attack.animationInfo.animationSpeed;
 
         animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }

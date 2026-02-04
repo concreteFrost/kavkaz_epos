@@ -56,13 +56,7 @@ public class PushCollider : MonoBehaviour
 
         var dir = GetPushDir(damagable.Origin());
 
-        checkGroundPos = self.position + self.forward * 1.5f;
-        checkGroundPos.y = self.position.y + 1.2f;
-
-        //GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        //sphere.transform.position = checkGroundPos;
-
-        damagable.GetPushed(dir, checkGroundPos);
+        damagable.GetPushed(dir,self);
 
         pushRegistered = true;  
         
