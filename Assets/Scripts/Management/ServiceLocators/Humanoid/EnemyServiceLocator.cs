@@ -72,7 +72,7 @@ public class EnemyServiceLocator : MonoBehaviour
         ik.Init(motor, stats,damageController);
         fovController.Init();
 
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,overrideController, motor, combatController, fovController, damageController);
+        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,overrideController, motor, combatController, fovController, damageController,pushReceiver);
         animatorController.Init(animatorService);
 
         HumanoidInteractService interactService = new HumanoidInteractService(this.transform,animatorController,combatInventory, damageController, attackSource);
@@ -84,7 +84,7 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidControllerServices controllerService = new HumanoidControllerServices(animator, motor, animatorController,agentController ,statsController,damageController, stats);
         controller.Init(controllerService);
 
-        HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController,pushReceiver);
+        HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController);
         combatController.Init(combatControllerServices);
 
         HumanoidCombatInventoryServices combatInventoryServices = new HumanoidCombatInventoryServices(animatorController, combatController,interaction,attackSource ,transform, (int)damageController.CharacterType);
@@ -93,7 +93,7 @@ public class EnemyServiceLocator : MonoBehaviour
         AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
         attackSource.Init(attackSourceServices);
 
-        HumanoidDamageServices damageService = new HumanoidDamageServices(animatorController, ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
+        HumanoidDamageServices damageService = new HumanoidDamageServices(ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
         damageController.Init(damageService);
 
         pushReceiver.Init(motor, damageController,animatorController,ragdollController,transform);

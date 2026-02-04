@@ -37,6 +37,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
+    [SerializeField] private PlayerPushReceiver pushReceiver;   
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
@@ -77,7 +78,8 @@ public class PlayerServiceLocator : MonoBehaviour
             motor,
             combatController,
             targetLock,
-            damageController
+            damageController,
+            pushReceiver
         );
         animatorController.Init(animatorService);
 

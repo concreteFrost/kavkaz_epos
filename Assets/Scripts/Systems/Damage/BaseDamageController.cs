@@ -29,6 +29,9 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     public Transform GetOrigin() => transform;
 
     public event Action<Transform> DamageTaken;
+
+
+    public bool IsKnockedOut {  get; set; } 
     #endregion
 
 

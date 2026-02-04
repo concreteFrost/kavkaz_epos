@@ -72,6 +72,7 @@ public class PushBehaviour : StateMachineBehaviour
 
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
+        
 
        
 

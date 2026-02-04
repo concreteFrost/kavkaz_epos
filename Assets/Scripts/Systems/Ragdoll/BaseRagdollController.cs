@@ -42,7 +42,7 @@ public abstract class BaseRagdollController : IRagdollController
     public bool IsKnockedOut { get; set; }
 
     //public Action KnockedOut;
-    //public event Action Recovered;
+    public event Action Recovered;
     public event Action RecoveredInInvalidArea;
 
     #endregion
@@ -244,7 +244,7 @@ public abstract class BaseRagdollController : IRagdollController
     {
         // 1. ∆дЄм минимальное врем€, чтобы ragdoll успел распастьс€
         yield return new WaitForSeconds(0.5f);
-
+       
         // 2. ∆дЄм полной остановки всех rigidbody
         bool moving = true;
         while (moving)
@@ -304,6 +304,7 @@ public abstract class BaseRagdollController : IRagdollController
         yield return AnimatorUtils.WaitForAnimationEnd(anim,animName, AnimatorParameters.damageLayer);
 
         IsKnockedOut = false;
+        Recovered?.Invoke();
 
     }
 

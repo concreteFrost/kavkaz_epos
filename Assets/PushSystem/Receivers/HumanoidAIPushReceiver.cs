@@ -11,8 +11,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
     public void Init(HumanoidAIMotor motor, IDamagable damageController, BaseHumanoidAnimatorController animatorController, IRagdollController ragdollController, Transform self)
     {
         this.damageController = damageController;
-        this.animatorController = animatorController;
-      
+        this.animatorController = animatorController;    
         this.ragdollController = ragdollController;
 
         this.self = self;
@@ -23,8 +22,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
   
     public override void CancelPush()
     {
-        if (damageController.IsDead) return;
-
+        
         IsPushed = false;
     }
 

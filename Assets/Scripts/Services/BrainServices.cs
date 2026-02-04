@@ -10,6 +10,7 @@ public class EnemyBrainContext
     public HumanoidAIMotor motor;
     public HumanoidAIController controller;
     public HumanoidStats stats;
+   
     public IDamagable damageController;
 
     public HumanoidCombatController combat;

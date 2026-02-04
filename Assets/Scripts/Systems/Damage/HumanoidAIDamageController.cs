@@ -5,7 +5,6 @@ public class HumanoidAIDamageController : BaseDamageController
 {
     CapsuleCollider col;
     HumanoidAIMotor motor;
-    BaseHumanoidAnimatorController animatorController;
     IRagdollController ragdollController;
 
 	public void Init(HumanoidDamageServices service)
@@ -16,25 +15,18 @@ public class HumanoidAIDamageController : BaseDamageController
         this.ragdollController = service.ragdollController;
         this.col = service.col; 
 		this.uniqueID =service.uniqueID;
-        this.animatorController = service.animatorController;
        
         stats.Health.Depleted += Die;
-        //ragdollController.Recovered += OnRecover;
-        ragdollController.RecoveredInInvalidArea += OnInvalidRecover;
 
-        if(aimPosition == null)
+        ragdollController.RecoveredInInvalidArea += OnInvalidRecover;
+        ragdollController.Recovered += OnRecover;
+
+        if (aimPosition == null)
         {
             Debug.Log("aim position on ai is not assigned");
         }
 
 	}
-
-
-    //private void OnRecover()
-    //{
-    //    Debug.Log("recovered");
-    //    ragdollController.IsKnockedOut = false;   
-    //}
 
     protected void OnInvalidRecover()
     {
@@ -45,8 +37,13 @@ public class HumanoidAIDamageController : BaseDamageController
     private void OnDisable()
     {
         stats.Health.Depleted -= Die;
-        //ragdollController.Recovered -= OnRecover;
+        ragdollController.Recovered -= OnRecover;
         ragdollController.RecoveredInInvalidArea -= OnInvalidRecover;
+    }
+
+    private void OnRecover()
+    {
+        IsKnockedOut = false;
     }
 
     private void Update()
@@ -76,6 +73,7 @@ public class HumanoidAIDamageController : BaseDamageController
             Vector3 sourcePos = source != null ? source.position : transform.position - transform.forward;
 
             PerformKnockout(sourcePos, damageData.impactForce);
+            
         }
 
     }
@@ -84,6 +82,7 @@ public class HumanoidAIDamageController : BaseDamageController
     {
         motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
         ragdollController.Knockout(source,impactForce);
+        IsKnockedOut = true;
     }
 
     protected override bool IsDamagingBlocked()

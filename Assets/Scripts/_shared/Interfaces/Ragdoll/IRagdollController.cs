@@ -16,5 +16,6 @@ public interface IRagdollController
 
     //event Action Recovered;
     event Action RecoveredInInvalidArea;
+    event Action Recovered;
 
 }

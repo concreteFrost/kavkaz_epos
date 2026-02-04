@@ -10,6 +10,7 @@ public abstract class BaseHumanoidAnimatorController
     protected ITargetLocker targetLocker;
     protected IDamagable damagable;
     protected IHumanoidCombat attackSource;
+    protected IPushable pushReceiver;
     public abstract void UpdateAnimatorParameters();
 
     public Animator Animator() => animator;
@@ -27,6 +28,7 @@ public abstract class BaseHumanoidAnimatorController
         this.targetLocker = service.targetLock;
         this.damagable = service.damageController;
         this.attackSource = service.combatController;
+        this.pushReceiver = service.pushReceiver;
     }
 
     protected void UpdateLocomotionState(IHumanoidMovement locomotion)
@@ -79,6 +81,8 @@ public abstract class BaseHumanoidAnimatorController
 );
 
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead);
+        animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);   
+
     }
 
     public void OverrideAttack(WeaponAttack attack, string name)

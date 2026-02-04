@@ -5,7 +5,6 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
 {
     //ссылки
     public ICombatInventory inventory;
-    protected IDamagable damageController;
     protected BaseHumanoidAnimatorController animatorController;
 
     public event Action OnAttackEnd; // для ИИ чтобы знать когда закончилась атака и начать новую
@@ -28,15 +27,10 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
 
     public virtual void Init(T service)
     {
-        inventory = service.combatInventory;
+        this.inventory = service.combatInventory;
         this.animatorController = service.animatorController;
-        this.damageController = service.damageController;
-        //this.pushReceiver = service.pushable;
-
 
         ResetCombo();
-
-        damageController.DamageTaken += ForceAttackCancel;
     }
 
     protected void ForceAttackCancel(Transform source)
@@ -44,11 +38,6 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
         
         inventory.CurrentWeapon.CancelAttack();
         ResetCombo();
-    }
-
-    protected virtual void OnDisable()
-    {
-        damageController.DamageTaken -= ForceAttackCancel;
     }
 
 

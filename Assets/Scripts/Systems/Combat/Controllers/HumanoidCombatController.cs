@@ -8,14 +8,14 @@ public class HumanoidCombatController : BaseHumanoidCombatController<HumanoidAIC
     public override void Init(HumanoidAICombatControllerServices service)
     {
         base.Init(service);
-        this.pushReceiver = service.pushable;
-        pushReceiver.PushReceived += ForceAttackCancel;
+      
     }
 
-    protected override void OnDisable()
-    {
-        damageController.DamageTaken -= ForceAttackCancel;  
-        pushReceiver.PushReceived -= ForceAttackCancel; 
-    }
+    //private void Update()
+    //{
+    //    if(pushReceiver == null) return; 
 
+    //    if (pushReceiver.IsPushed) // костыль для отмены удара во время пинка
+    //        ForceAttackCancel(null);
+    //}
 }

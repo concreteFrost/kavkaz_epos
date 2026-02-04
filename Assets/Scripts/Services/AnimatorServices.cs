@@ -8,6 +8,7 @@ public class HumanoidAnimatorService
     public IHumanoidCombat combatController;
     public IDamagable damageController;
     public ITargetLocker targetLock;
+    public IPushable pushReceiver;
 
     public HumanoidAnimatorService(
         Animator animator,
@@ -15,7 +16,9 @@ public class HumanoidAnimatorService
         IHumanoidMovement motor,
         IHumanoidCombat combatController,
         ITargetLocker targetLock,
-        IDamagable damageController)
+        IDamagable damageController,
+        IPushable pushReceiver
+        )
     {
         this.animator = animator;
         this.overrideController = overrideController;
@@ -23,5 +26,6 @@ public class HumanoidAnimatorService
         this.combatController = combatController;
         this.targetLock = targetLock;
         this.damageController = damageController;
+        this.pushReceiver = pushReceiver;
     }
 }

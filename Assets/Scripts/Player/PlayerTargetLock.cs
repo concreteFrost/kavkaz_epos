@@ -85,7 +85,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// </summary>
     protected virtual void CalculateDistanceToTarget()
     {
-        if (currentTarget.IsDead)
+        if (currentTarget.IsDead || currentTarget.IsKnockedOut)
         {
             ResetLockTarget();
             return;

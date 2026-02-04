@@ -10,6 +10,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     IDamagable damageController;
     WeaponAttack attack;
     IWeapon weapon;
+    IPushable pushable;
    
     bool hitActive = false;
 
@@ -20,6 +21,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         motor = animator.GetComponent<IHumanoidMovement>();
         statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
         damageController = animator.GetComponentInChildren<IDamagable>();
+        pushable = animator.GetComponentInChildren<IPushable>();
 
         
         if(inv.CurrentWeapon != null)
@@ -27,7 +29,6 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
             statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
         }
         
-
         animator.applyRootMotion = true;
         hitActive = false;
 
@@ -45,7 +46,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
 
-        if (damageController.IsDamaged) return;
+        if (damageController.IsDamaged || pushable.IsPushed) return;
 
         if (attack == null) return;
 

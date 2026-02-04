@@ -25,6 +25,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public event Action<Transform> DamageTaken = null;
 
+    public bool IsUnavailable() => false;
+
     #endregion
 
     private void Awake()

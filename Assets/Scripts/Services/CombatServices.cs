@@ -4,7 +4,6 @@ public class BaseHumanoidCombatControllerServices
 {
     public ICombatInventory combatInventory;
     public BaseHumanoidAnimatorController animatorController;
-    public IDamagable damageController;
 
     public BaseHumanoidCombatControllerServices(
         ICombatInventory combatInventory,
@@ -14,23 +13,22 @@ public class BaseHumanoidCombatControllerServices
     {
         this.combatInventory = combatInventory;
         this.animatorController = animatorController;
-        this.damageController = damageController;   
+ 
     }
 
 }
 
 public class HumanoidAICombatControllerServices : BaseHumanoidCombatControllerServices
 {
-    public IPushable pushable;
+
 
     public HumanoidAICombatControllerServices(
         ICombatInventory combatInventory,
         BaseHumanoidAnimatorController animatorController,
-        IDamagable damageController,
-        IPushable pushable  // новое поле
+        IDamagable damageController
     ) : base(combatInventory, animatorController, damageController) // вызов конструктора базового класса
     {
-        this.pushable = pushable; // инициализация нового поля
+     
     }
 }
 

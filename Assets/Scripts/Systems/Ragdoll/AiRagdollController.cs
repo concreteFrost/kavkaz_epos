@@ -32,6 +32,8 @@ public class AiRagdollController : BaseRagdollController
             
         }
 
+        
+
         ApplyImpulseFromSource(force,from);
 
      
