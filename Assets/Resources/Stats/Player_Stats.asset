@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e45901f01ae0eb49b541d46d5011933, type: 3}
   m_Name: Player_Stats
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
+  characterType: 0
   health: 200
-  stamina: 200
+  stamina: 100
   walkSpeed: 2.5
   runningSpeed: 6
   strafeSpeed: 1
   jumpTimer: 0.3
   jumpHeight: 4
+  maxStamina: 0
+  staminaRunReducePenalty: 0.03
+  staminaPushReducePenalty: 7
+  staminaJumpReducePenalty: 7
+  staminaDodgeReducePenalty: 10
+  staminaMinRegenDelay: 2
+  staminaMaxRegenDelay: 6
+  staminaRegenRate: 15
