@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 8774299268093855970}
   - component: {fileID: 6331525987845826302}
   m_Layer: 0
-  m_Name: PlayerUI
+  m_Name: Player_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +532,7 @@ GameObject:
   - component: {fileID: 6191803633859752341}
   - component: {fileID: 9014326086015574783}
   m_Layer: 0
-  m_Name: PlayerTargetLock
+  m_Name: Player_TargetLock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,7 +577,7 @@ GameObject:
   - component: {fileID: 4398183456071293128}
   - component: {fileID: 923361003681641049}
   m_Layer: 0
-  m_Name: PlayerClimb
+  m_Name: Player_Climb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -681,6 +681,7 @@ MonoBehaviour:
   pushController: {fileID: 7151219120634766040}
   damageController: {fileID: 9216071904075533163}
   pushReceiver: {fileID: 1045726396533673994}
+  fallController: {fileID: 6771491388864813743}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
   lockOnTargetUI: {fileID: 5014458933061563304}
@@ -978,7 +979,7 @@ GameObject:
   - component: {fileID: 4536866026417343617}
   - component: {fileID: 7107515754348160904}
   m_Layer: 0
-  m_Name: PlayerInteraction
+  m_Name: Player_Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1021,7 +1022,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896679987441803751}
   m_Layer: 0
-  m_Name: PlayerCameraManager
+  m_Name: Player_CameraManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1839,12 +1840,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3987591826673562997}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.338, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8927753994580565481}
+  m_Father: {fileID: 5578825531401253390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4097540070686954265
 GameObject:
@@ -2147,7 +2148,7 @@ GameObject:
   - component: {fileID: 1989610339324051205}
   - component: {fileID: 3436852327508266912}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: Player_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2596,7 +2597,7 @@ GameObject:
   - component: {fileID: 7151219120634766040}
   - component: {fileID: 2545132252603040552}
   m_Layer: 0
-  m_Name: PlayerCombat
+  m_Name: Player_Combat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3010,7 +3011,7 @@ GameObject:
   - component: {fileID: 8927753994580565481}
   - component: {fileID: 9216071904075533163}
   m_Layer: 0
-  m_Name: PlayerDamageController
+  m_Name: Player_DamageController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3029,7 +3030,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7893995649272627185}
+  - {fileID: 8681883890872114151}
   m_Father: {fileID: 5848560018931718496}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9216071904075533163
@@ -3588,7 +3589,7 @@ GameObject:
   - component: {fileID: 8536950450292158868}
   - component: {fileID: 1393379555626210300}
   m_Layer: 0
-  m_Name: PlayerInput
+  m_Name: Player_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3696,7 +3697,7 @@ GameObject:
   - component: {fileID: 581177769473524495}
   - component: {fileID: 1045726396533673994}
   m_Layer: 0
-  m_Name: PlayerPushReceiver
+  m_Name: Player_PushReceiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3741,7 +3742,7 @@ GameObject:
   - component: {fileID: 1717874504137131917}
   - component: {fileID: 6584741475100290606}
   m_Layer: 0
-  m_Name: PlayerStats
+  m_Name: Player_Stats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3851,7 +3852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5578825531401253390}
   m_Layer: 6
-  m_Name: PlayerVisual
+  m_Name: Player_Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3870,6 +3871,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7893995649272627185}
   - {fileID: 620557513018275738}
   - {fileID: 3388422743827828426}
   m_Father: {fileID: 2896670806739579442}
@@ -4210,6 +4212,54 @@ Transform:
   - {fileID: 8420543387945417641}
   m_Father: {fileID: 7526264012164203797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9078657215464430273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8681883890872114151}
+  - component: {fileID: 6771491388864813743}
+  m_Layer: 0
+  m_Name: Player_FallController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8681883890872114151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9078657215464430273}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8927753994580565481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6771491388864813743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9078657215464430273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421c3af7714aed74aa4626c0bb48ad8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  wasLastGroundedPositionRegistered: 0
+  lastGroundedPosition: {x: 0, y: 0, z: 0}
+  fallDamageThreshold: 4
+  fallDamageMultiplier: 5
 --- !u!1 &9095560272733935764
 GameObject:
   m_ObjectHideFlags: 0

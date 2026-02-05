@@ -37,7 +37,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
-    [SerializeField] private PlayerPushReceiver pushReceiver;   
+    [SerializeField] private PlayerPushReceiver pushReceiver;
+    [SerializeField] private PlayerFallController fallController;
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
@@ -129,6 +130,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
         PlayerDamageControllerService damageControllerService = new PlayerDamageControllerService(animatorController, motor,statsController , stats, input, combatController, combatInventory);
         damageController.Init(damageControllerService);
+
+        fallController.Init(motor, damageController);
     }
 
     private void UiInit()
