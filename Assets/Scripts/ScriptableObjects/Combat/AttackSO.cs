@@ -31,7 +31,7 @@ public class WeaponAttack
 
 
 
-[CreateAssetMenu(fileName = "AttackSet", menuName = "Scriptable Systems/Combat/AttackSet")]
+[CreateAssetMenu(fileName = "AttackSet", menuName = ScriptablePaths.WEAPON_ATTACK_PATH + "/AttackSet")]
 public class AttackSO : ScriptableObject
 {
     public List<WeaponAttack> attackList;

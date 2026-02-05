@@ -27,17 +27,17 @@ public class HumanoidAIDamageController : BaseDamageController
 
 	}
 
-    protected void OnInvalidRecover()
-    {
-        if (IsDead) return;
-        Die();
-    }
-
     private void OnDisable()
     {
         stats.Health.Depleted -= Die;
         ragdollController.Recovered -= OnRecover;
         ragdollController.RecoveredInInvalidArea -= OnInvalidRecover;
+    }
+
+    protected void OnInvalidRecover()
+    {
+        if (IsDead) return;
+        Die();
     }
 
     private void OnRecover()

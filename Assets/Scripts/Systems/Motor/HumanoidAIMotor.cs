@@ -15,7 +15,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         this.animator = anim;
         this.agentController = agentController;
 
-
         // Animator
         animator.updateMode = AnimatorUpdateMode.Normal;
         animator.applyRootMotion = false;

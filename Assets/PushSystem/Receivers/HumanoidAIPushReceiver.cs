@@ -8,21 +8,20 @@ public class HumanoidAIPushReceiver : BasePushReceiver
     IRagdollController ragdollController;
     PushDirection pushedDirection;
 
-    public void Init(HumanoidAIMotor motor, IDamagable damageController, BaseHumanoidAnimatorController animatorController, IRagdollController ragdollController, Transform self)
+    public void Init(HumanoidPushServices services)
     {
-        this.damageController = damageController;
-        this.animatorController = animatorController;    
-        this.ragdollController = ragdollController;
+        this.damageController = services.damageController;
+        this.animatorController = services.animatorController;    
+        this.ragdollController = services.ragdollController;
 
-        this.self = self;
+        this.self = services.self;
 
         characterType = damageController.CharacterType;
     }
 
   
     public override void CancelPush()
-    {
-        
+    { 
         IsPushed = false;
     }
 

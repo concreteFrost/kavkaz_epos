@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Systems/Items/ItemSO")]
+//[CreateAssetMenu(fileName = "Item", menuName = ScriptablePaths.ITEMS_PATH + "/Item")]
 public abstract class ItemSO : ScriptableObject
 {
     public string id;

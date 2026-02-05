@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AnimationInfo", menuName = "Scriptable Objects/Animation/AnimationInfo")]
+[CreateAssetMenu(fileName = "AnimationInfo", menuName = ScriptablePaths.ANIMATION_PATH + "/AnimationInfo")]
 public class AnimationInfoSO : ScriptableObject
 {
     public AnimationClip clip;

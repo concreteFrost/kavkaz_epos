@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TripleAttack", menuName = ProjectileConsts.PROJECTILE_ATTACK_PATH + "TripleAttack")]
+[CreateAssetMenu(fileName = "TripleAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH  + "/TripleAttack")]
 public class TripleAttackSO : ProjectileAttackSO
 {
     [SerializeField] private float spreadAngle = 2f;

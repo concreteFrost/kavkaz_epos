@@ -1009,8 +1009,6 @@ MonoBehaviour:
   strafeHandler:
     timeInStrafeState: 0
     maxTimeInStrafeState: 0
-  passiveInterruptionTracker:
-    isInterrupted: 0
 --- !u!1 &2022958127897882022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1084,7 @@ GameObject:
   - component: {fileID: 1923525137196111249}
   - component: {fileID: 2068846124865319517}
   m_Layer: 0
-  m_Name: AIPushReceiver
+  m_Name: AI_PushReceiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1100,7 +1098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074162556899762759}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1505,7 +1503,7 @@ GameObject:
   - component: {fileID: 3830506616137703098}
   - component: {fileID: 4994437662380333840}
   m_Layer: 0
-  m_Name: Interaction
+  m_Name: AI_Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1852,12 +1850,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4898785535206227356}
   - component: {fileID: 4578230780018329680}
-  - component: {fileID: 5943822312714178600}
   - component: {fileID: 2559199199728796724}
   - component: {fileID: 6814210642978726995}
   - component: {fileID: 8987308371889165279}
   - component: {fileID: 2887694345456518040}
   - component: {fileID: 1617497395427065781}
+  - component: {fileID: 3881702655214924737}
   m_Layer: 0
   m_Name: AI_prefab
   m_TagString: Untagged
@@ -1899,7 +1897,7 @@ MonoBehaviour:
   ik: {fileID: 2559199199728796724}
   agent: {fileID: 8987308371889165279}
   capsuleCollider: {fileID: 1617497395427065781}
-  motor: {fileID: 5943822312714178600}
+  motor: {fileID: 3881702655214924737}
   controller: {fileID: 3169394707491743592}
   statsController: {fileID: 6095946705785411074}
   stats: {fileID: 3623233199384946657}
@@ -1909,41 +1907,12 @@ MonoBehaviour:
   attackSource: {fileID: 5789983656386049422}
   damageController: {fileID: 1055276295984137630}
   pushReceiver: {fileID: 2068846124865319517}
+  interruptionManager: {fileID: 110391391581726432}
   fovController: {fileID: 1578463945064035814}
   brain: {fileID: 8875711254880146913}
   stateTracker: {fileID: 1484899375234347330}
   notifierManager: {fileID: 3025589891968403832}
   uniqueId: {fileID: 6814210642978726995}
---- !u!114 &5943822312714178600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4056036553005472657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  rotationSpeed: 10
-  blockedRotationSpeed: 1.5
-  movementSmooth: 1
-  animationSmooth: 1
-  airSpeed: 5
-  airSmooth: 6
-  extraGravity: -10
-  limitFallVelocity: -15
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundMinDistance: 0.25
-  groundMaxDistance: 0.5
-  distanceToObstacle: 0.8
-  rotateTarget: {fileID: 0}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &2559199199728796724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2040,6 +2009,36 @@ CapsuleCollider:
   m_Height: 1.80119
   m_Direction: 1
   m_Center: {x: 0, y: 0.87940496, z: 0}
+--- !u!114 &3881702655214924737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4056036553005472657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rotationSpeed: 10
+  blockedRotationSpeed: 1.5
+  movementSmooth: 1
+  animationSmooth: 1
+  airSpeed: 5
+  airSmooth: 6
+  extraGravity: -10
+  limitFallVelocity: -15
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  groundMinDistance: 0.25
+  groundMaxDistance: 0.5
+  distanceToObstacle: 0.8
+  rotateTarget: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &4175269303802522961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2386,7 +2385,7 @@ GameObject:
   - component: {fileID: 9087103329379741657}
   - component: {fileID: 1578463945064035814}
   m_Layer: 0
-  m_Name: AIFOV
+  m_Name: AI_FOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2435,7 +2434,7 @@ GameObject:
   - component: {fileID: 5789983656386049422}
   - component: {fileID: 2439604627647212036}
   m_Layer: 0
-  m_Name: AICombatController
+  m_Name: AI_CombatController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2610,7 +2609,7 @@ GameObject:
   - component: {fileID: 6095946705785411074}
   - component: {fileID: 3623233199384946657}
   m_Layer: 0
-  m_Name: AIStats
+  m_Name: AI_Stats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3648,6 +3647,52 @@ Transform:
   - {fileID: 556007984960706824}
   m_Father: {fileID: 8944226302086083662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6975963527870313655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8689328522524320327}
+  - component: {fileID: 110391391581726432}
+  m_Layer: 0
+  m_Name: AI_InterruptionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8689328522524320327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975963527870313655}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 515555489032476068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &110391391581726432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975963527870313655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bbba154d8f68844a11bee77dd632db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InterruptionManager
+  passiveInterruptionHandler:
+    isInterrupted: 0
 --- !u!1 &7067746520985581919
 GameObject:
   m_ObjectHideFlags: 0
@@ -4327,7 +4372,7 @@ GameObject:
   - component: {fileID: 6508838126541674903}
   - component: {fileID: 3025589891968403832}
   m_Layer: 0
-  m_Name: AINotifierManager
+  m_Name: AI_NotifierManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4360,6 +4405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab5215842ec0bd41952bffb135b12ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyNotifierManager
+  notifierDataSO: {fileID: 11400000, guid: 28b989ada6d4fb64eb81ea6fa18ae704, type: 2}
 --- !u!1 &8175703425037519650
 GameObject:
   m_ObjectHideFlags: 0
@@ -4371,7 +4417,7 @@ GameObject:
   - component: {fileID: 7901007438046391984}
   - component: {fileID: 1055276295984137630}
   m_Layer: 0
-  m_Name: AIDamageController
+  m_Name: AI_DamageController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4612,7 +4658,7 @@ GameObject:
   - component: {fileID: 6675461960045328338}
   - component: {fileID: 3169394707491743592}
   m_Layer: 0
-  m_Name: AIController
+  m_Name: AI_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4844,6 +4890,7 @@ Transform:
   - {fileID: 3830506616137703098}
   - {fileID: 1923525137196111249}
   - {fileID: 6508838126541674903}
+  - {fileID: 8689328522524320327}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8892211989431816336

@@ -1,8 +1,7 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "FovDataSO", menuName = "Scriptable Systems/FOV/FovDataSO")]
+[CreateAssetMenu(fileName = "FOV Data", menuName = ScriptablePaths.SENSES_PATH + "/FOV/FOV Data")]
 public class FovDataSO : ScriptableObject
 {
     public float viewRadius = 20f;

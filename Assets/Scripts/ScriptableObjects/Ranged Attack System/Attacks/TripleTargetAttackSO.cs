@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TripleTargetAttack", menuName = ProjectileConsts.PROJECTILE_ATTACK_PATH + "TripleTargetAttack")]
+[CreateAssetMenu(fileName = "TripleTargetAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/TripleTargetAttack")]
 public class TripleTargetAttackSO : ProjectileAttackSO
 {
     [SerializeField] float delay = 0.5f;

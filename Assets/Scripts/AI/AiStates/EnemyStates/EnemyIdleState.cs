@@ -8,17 +8,15 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     private EnemyPassiveInterruptionHandler passiveInterruptionTracker;
     private HumanoidAIMotor motor;
     private EnemyFOVController fov;
-    private HumanoidAgentController agentController;
+    private EnemyNotifierManager notifierManager;   
 
     public override void Enter()
     {
         motor = context.motor;
         fov = context.fov;  
-        agentController = context.agentController;  
-      
+        notifierManager = context.notifierManager;  
         idleHandler = context.stateTracker.idleHandler;
-        passiveInterruptionTracker = context.stateTracker.passiveInterruptionTracker;
-
+        passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
         combatHandler = context.stateTracker.combatHandler;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
@@ -43,7 +41,8 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
         if (fov.currentTarget != null)
         {
-            context.notifierManager.Notify(fov.currentTarget);
+           
+            notifierManager.Notify(fov.currentTarget);
             return AIStateResult.Chase;
         }
 

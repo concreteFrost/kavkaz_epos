@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SpellProjectile", menuName = ProjectileConsts.PROJECTILE_INSTANCE + "SpellProjectile")]
+[CreateAssetMenu(fileName = "SpellProjectile", menuName = ScriptablePaths.PROJECTILE_INSTANCE_PATH + "/SpellProjectile")]
 public class SpellProjectileSO : ProjectileSO
 {
     

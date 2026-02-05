@@ -2,6 +2,8 @@
 using UnityEngine;
 public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
 {
+
+
     [Header("- Rotation")]
     [Tooltip("Rotation speed of the character")]
     public float rotationSpeed = 8f;

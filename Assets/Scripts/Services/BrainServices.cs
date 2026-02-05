@@ -12,6 +12,7 @@ public class EnemyBrainContext
     public HumanoidStats stats;
    
     public IDamagable damageController;
+    public IRagdollController ragdollController;
 
     public HumanoidCombatController combat;
     public HumanoidCombatInventory inventory;
@@ -19,7 +20,7 @@ public class EnemyBrainContext
     public EnemyStateTracker stateTracker;
     public CharacterInteract interact;
 
-    public IRagdollController ragdollController;
+    public InterruptionManager interruptionManager;
 
     public EnemyNotifierManager notifierManager;
 

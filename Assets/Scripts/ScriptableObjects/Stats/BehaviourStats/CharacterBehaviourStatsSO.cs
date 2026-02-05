@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character Behaviour Stats", menuName = "Scriptable Systems/Character/Behaviour Stats/Character Behaviour Stats")]
+[CreateAssetMenu(fileName = "Character Behaviour Stats", menuName = ScriptablePaths.CHARACTER_BEHAVIOUR_STATS_PATH + "/Character Behaviour Stats")]
 public class CharacterBehaviourStatsSO : ScriptableObject
 {
 

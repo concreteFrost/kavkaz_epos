@@ -6,7 +6,7 @@ public enum WeaponType
     TwoHands =1,
 }
 
-[CreateAssetMenu(fileName = "WeaponSO", menuName = "Scriptable Systems/Items/Weapons/WeaponSO")]
+[CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
 public class WeaponSO : ItemSO 
 {
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SingleAttack", menuName = ProjectileConsts.PROJECTILE_ATTACK_PATH + "SingleAttack")]
+[CreateAssetMenu(fileName = "SingleAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/SingleAttack")]
 public class SingleAttackSO : ProjectileAttackSO
 {
     [SerializeField] ProjectileMoveSO moveSO;

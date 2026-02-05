@@ -40,6 +40,9 @@ public class EnemyServiceLocator : MonoBehaviour
     [SerializeField] private HumanoidAIDamageController damageController;
     [SerializeField] private HumanoidAIPushReceiver pushReceiver;
 
+    [Header("Система прерывания состояний")]
+    [SerializeField] private InterruptionManager interruptionManager;
+
     [Header("Система зрения")]
     [SerializeField] private EnemyFOVController fovController;
 
@@ -73,6 +76,7 @@ public class EnemyServiceLocator : MonoBehaviour
         motor.Init(animator, agentController);
       
         ik.Init(motor, stats,damageController);
+        
         fovController.Init();
 
         HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator,overrideController, motor, combatController, fovController, damageController,pushReceiver);
@@ -99,16 +103,21 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidDamageServices damageService = new HumanoidDamageServices(ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
         damageController.Init(damageService);
 
-        notifierManager.Init(transform, fovController, stats);
+        EnemyInterruptionServices interruptionServices = new EnemyInterruptionServices(damageController, pushReceiver);
+        interruptionManager.Init(interruptionServices);
 
-        pushReceiver.Init(motor, damageController,animatorController,ragdollController,transform);
+        EnemyNotifierServices notifierServices = new EnemyNotifierServices(transform,fovController);
+        notifierManager.Init(notifierServices);
+
+        HumanoidPushServices pushServices = new HumanoidPushServices(transform, motor, animatorController, damageController, ragdollController);
+        pushReceiver.Init(pushServices);
 
     }
 
     public void BrainInit()
     {
         
-        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController, pushReceiver, stats);
+        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController, stats);
         stateTracker.Init(stateTrackerServices);
 
         
@@ -129,7 +138,9 @@ public class EnemyServiceLocator : MonoBehaviour
             stateTracker = stateTracker,
             agentController = agentController,
             ragdollController = ragdollController,
+            interruptionManager = interruptionManager,
             notifierManager = notifierManager
+
         };
 
         brain.Init(brainContext);

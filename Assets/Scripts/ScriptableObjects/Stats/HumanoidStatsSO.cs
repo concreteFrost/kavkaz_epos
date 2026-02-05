@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Humanoid AI Stats", menuName = "Scriptable Systems/Character/Stats/Humanoid AI Stats")]
+[CreateAssetMenu(fileName = "Humanoid AI Stats", menuName = ScriptablePaths.CHARACTER_STATS_PATH + "/Humanoid AI Stats")]
 public class HumanoidStatsSO : BaseCharacterStatsSO
 {
     [Header("stamina")]

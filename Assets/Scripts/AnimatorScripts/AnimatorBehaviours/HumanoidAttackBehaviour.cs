@@ -23,7 +23,6 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         damageController = animator.GetComponentInChildren<IDamagable>();
         pushable = animator.GetComponentInChildren<IPushable>();
 
-        
         if(inv.CurrentWeapon != null)
         {
             statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);

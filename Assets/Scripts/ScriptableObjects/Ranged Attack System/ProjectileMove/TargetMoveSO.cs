@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TargetMove", menuName = ProjectileConsts.PROJECTILE_MOVE_PATH + "TargetMove")]
+[CreateAssetMenu(fileName = "Target Move", menuName = ScriptablePaths.PROJECTILE_MOVE_PATH + "/Target Move")]
 public class TargetMoveSO : ProjectileMoveSO
 {
     [SerializeField] float turnSpeed = 100f;

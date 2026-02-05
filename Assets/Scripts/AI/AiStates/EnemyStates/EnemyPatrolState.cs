@@ -11,13 +11,16 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     EnemyPatrolHandler patrolStateTracker;
     EnemyPassiveInterruptionHandler passiveInterruptionTracker;
 
+    EnemyNotifierManager notifierManager;
+
     public override void Enter()
     {
         motor = context.motor;
         fov = context.fov;
         agentController = context.agentController;
         patrolStateTracker = context.stateTracker.patrolHandler;
-        passiveInterruptionTracker = context.stateTracker.passiveInterruptionTracker;
+        passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
+        notifierManager = context.notifierManager;  
 
         fov.ResetTarget();
         motor.ResetLockTarget();    
@@ -48,7 +51,8 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     {
         if (fov.currentTarget != null)
         {
-            context.notifierManager.Notify(fov.currentTarget);
+           
+            notifierManager.Notify(fov.currentTarget);
             return AIStateResult.Chase;
         }
 

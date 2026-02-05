@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SpiralMove", menuName = ProjectileConsts.PROJECTILE_MOVE_PATH + "SpiralMove")]
+[CreateAssetMenu(fileName = "Spiral Move", menuName = ScriptablePaths.PROJECTILE_MOVE_PATH + "/Spiral Move")]
 public class SpiralMoveSO : ProjectileMoveSO
 {
     [SerializeField] float amplitude = 3f;

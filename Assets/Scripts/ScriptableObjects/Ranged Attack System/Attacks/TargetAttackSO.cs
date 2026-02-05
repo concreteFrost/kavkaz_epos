@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TargetAttack", menuName = ProjectileConsts.PROJECTILE_ATTACK_PATH + "TargetAttack")]
+[CreateAssetMenu(fileName = "TargetAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH  + "/TargetAttack")]
 public class TargetAttackSO : ProjectileAttackSO
 {
     [SerializeField] private ProjectileAttackSO backupAttackSO;

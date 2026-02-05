@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CombatInventory", menuName = "Scriptable Systems/Combat/Inventory/CombatInventory")]
+[CreateAssetMenu(fileName = "Combat Inventory", menuName = ScriptablePaths.COMBAT_PATH + "/Inventory/Combat Inventory")]
 public class CombatInventorySO : ScriptableObject
 {
     public GameObject initialWeapon;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "ShieldSO", menuName = "Scriptable Systems/Items/Shields/ShieldSO")]
+[CreateAssetMenu(fileName = "Shield", menuName =ScriptablePaths.ITEMS_PATH + "/Shields/Shield")]
 public class ShieldSO : ItemSO
 {
 
