@@ -12,13 +12,8 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
 
     [SerializeField] protected Transform aimPosition;
 
-    protected string uniqueID;
-
-    [SerializeField] protected float maxDamageCooldown = 1f; //предотвращает повторное получение урона
-
     #region IDamagable Contract
     public bool IsDead { get; set; }
-    public string SourceId() => uniqueID;
 
     public bool IsDamaged { get; set; }
     public BalanceDamageType BalancePenalty { get ; set ; }

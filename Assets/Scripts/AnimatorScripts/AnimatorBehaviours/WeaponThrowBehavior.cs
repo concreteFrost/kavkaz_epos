@@ -5,6 +5,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
 
     ICombatInventory inv;
     IHumanoidMovement motor;
+    IDamagable damagable;   
     bool weaponThrowed = false;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -12,6 +13,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     {
         motor = animator.GetComponent<IHumanoidMovement>();
         inv = animator.GetComponentInChildren<ICombatInventory>();
+        damagable = animator.GetComponentInChildren<IDamagable>();
 
         animator.applyRootMotion = true;
         motor.BlockRotation = true;
@@ -24,6 +26,8 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     {
        
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
+
+        if (damagable.IsDamaged) return;
 
         float t = stateInfo.normalizedTime;
 

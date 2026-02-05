@@ -21,5 +21,7 @@ public class EnemyBrainContext
 
     public IRagdollController ragdollController;
 
+    public EnemyNotifierManager notifierManager;
+
 }
 

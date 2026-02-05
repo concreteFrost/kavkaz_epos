@@ -47,6 +47,9 @@ public class EnemyServiceLocator : MonoBehaviour
     [SerializeField] private EnemyBrain brain;
     [SerializeField] private EnemyStateTracker stateTracker;
 
+    [Header("Система событий")]
+    [SerializeField] private EnemyNotifierManager notifierManager;
+
     [Header("Уникальный идентификатор")]
     [SerializeField] UniqueId uniqueId;
     string uid;
@@ -67,7 +70,7 @@ public class EnemyServiceLocator : MonoBehaviour
 
         stats.Init();
        
-        motor.Init(animator, agentController, ragdollController);
+        motor.Init(animator, agentController);
       
         ik.Init(motor, stats,damageController);
         fovController.Init();
@@ -96,13 +99,19 @@ public class EnemyServiceLocator : MonoBehaviour
         HumanoidDamageServices damageService = new HumanoidDamageServices(ragdollController,motor,statsController, stats, agentController, capsuleCollider, uid);
         damageController.Init(damageService);
 
+        notifierManager.Init(transform, fovController, stats);
+
         pushReceiver.Init(motor, damageController,animatorController,ragdollController,transform);
 
     }
 
     public void BrainInit()
     {
-        stateTracker.Init(damageController,pushReceiver ,stats);
+        
+        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController, pushReceiver, stats);
+        stateTracker.Init(stateTrackerServices);
+
+        
 
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {
@@ -119,7 +128,8 @@ public class EnemyServiceLocator : MonoBehaviour
             interact = interaction,
             stateTracker = stateTracker,
             agentController = agentController,
-            ragdollController = ragdollController
+            ragdollController = ragdollController,
+            notifierManager = notifierManager
         };
 
         brain.Init(brainContext);

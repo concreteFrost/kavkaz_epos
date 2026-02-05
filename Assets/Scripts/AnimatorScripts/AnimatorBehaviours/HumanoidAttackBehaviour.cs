@@ -45,14 +45,14 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     {
 
         if (!animator.applyRootMotion) animator.applyRootMotion = true;
-
+     
         if (damageController.IsDamaged || pushable.IsPushed) return;
 
         if (attack == null) return;
 
-        animator.speed = attack.animationInfo.animationSpeed;
+        //animator.speed = attack.animationInfo.animationSpeed;
 
-        float t = stateInfo.normalizedTime % 1f;
+        float t = stateInfo.normalizedTime;
 
         if (!hitActive && t >= attack.animationInfo.hitStartFrame)
         {
@@ -70,9 +70,9 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.speed = 1f;
 
         hitActive = false;
-        animator.speed = 1f;
         motor.StopMove = false;
 
         inv.CurrentWeapon.CancelAttack();

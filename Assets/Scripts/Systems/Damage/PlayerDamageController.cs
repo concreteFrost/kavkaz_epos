@@ -9,6 +9,9 @@ public class PlayerDamageController : BaseDamageController
 
     PlayerInput input;
 
+    private float damageCooldown = 0.7f;
+    private bool damageBlocked = false;
+
     protected bool canTakeAnotherDamage = true;
 
 
@@ -16,7 +19,6 @@ public class PlayerDamageController : BaseDamageController
     {
 
         this.motor = service.motor; 
-        this.uniqueID = service.uid;
         this.stats = service.stats;
         this.statsController = service.statsController;
         this.combatController = service.combatController;
@@ -57,11 +59,12 @@ public class PlayerDamageController : BaseDamageController
     public override void TakeDamage(DamageData damageData, Transform source)
     {
        base.TakeDamage(damageData, source);
+        StartCoroutine(DamageCooldownCoroutine());
     }
 
     protected override bool IsDamagingBlocked()
     {
-        return IsDead || IsDamaged || motor.IsDodging;
+        return IsDead || damageBlocked || motor.IsDodging;
     }
 
     public override void Die()
@@ -91,6 +94,14 @@ public class PlayerDamageController : BaseDamageController
     {
         yield return new WaitForSeconds(delay);
         Respawn();
+    }
+
+    private IEnumerator DamageCooldownCoroutine()
+    {
+        damageBlocked = true;
+        yield return new WaitForSeconds(damageCooldown);
+        damageBlocked = false;
+
     }
 
 

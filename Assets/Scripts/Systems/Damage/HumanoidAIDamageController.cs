@@ -14,8 +14,7 @@ public class HumanoidAIDamageController : BaseDamageController
 		this.stats =service.stats;
         this.ragdollController = service.ragdollController;
         this.col = service.col; 
-		this.uniqueID =service.uniqueID;
-       
+	
         stats.Health.Depleted += Die;
 
         ragdollController.RecoveredInInvalidArea += OnInvalidRecover;

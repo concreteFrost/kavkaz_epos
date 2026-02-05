@@ -3,27 +3,33 @@ using UnityEngine;
 public class EnemyStateTracker : MonoBehaviour
 {
     public CharacterBehaviourStatsSO stats;
+    
     private HumanoidAIDamageController damageController;
-    private HumanoidAIPushReceiver pushable;
+    private HumanoidAIPushReceiver pushReceiver;
 
     public EnemyIdleHandler idleHandler;
     public EnemyPatrolHandler patrolHandler;
     public EnemyChaseHandler chaseHandler;  
-    public EnemyPassiveInterruptionHandler passiveInterruptionTracker;
+ 
     public EnemyCombatHandler combatHandler; 
     public EnemyWaitForTargetHandler waitForTargetHandler;
-    public EnemyStrafeHandler strafeHandler;    
+    public EnemyStrafeHandler strafeHandler;
 
-    public void Init(HumanoidAIDamageController damageController,HumanoidAIPushReceiver pushable, HumanoidStats statsInfo)
+    public EnemyPassiveInterruptionHandler passiveInterruptionTracker;
+
+
+    public void Init(EnemyStateTrackerServices services)
     {
-        this.damageController = damageController;
-        this.pushable = pushable;
-
+    
         idleHandler = new EnemyIdleHandler(stats);
         patrolHandler = new EnemyPatrolHandler(stats);
-        chaseHandler = new EnemyChaseHandler(stats);    
+        chaseHandler = new EnemyChaseHandler(stats);
+       
 
-        combatHandler = new EnemyCombatHandler(stats, statsInfo);
+        this.damageController = services.damageController;
+        this.pushReceiver = services.pushReceiver;
+
+        combatHandler = new EnemyCombatHandler(stats, services.stats);
         this.damageController.DamageTaken += combatHandler.OnDamageTaken;
 
         waitForTargetHandler = new EnemyWaitForTargetHandler(stats);
@@ -35,8 +41,8 @@ public class EnemyStateTracker : MonoBehaviour
         passiveInterruptionTracker = new EnemyPassiveInterruptionHandler();
         this.damageController.DamageTaken += passiveInterruptionTracker.OnDamageTaken;
 
-        this.pushable.PushReceived += passiveInterruptionTracker.OnDamageTaken;
-
+        this.pushReceiver.PushReceived += passiveInterruptionTracker.OnDamageTaken;
+     
     }
 
     private void Update()
@@ -50,7 +56,7 @@ public class EnemyStateTracker : MonoBehaviour
         damageController.DamageTaken -=combatHandler.OnDamageTaken; 
         damageController.DamageTaken -=waitForTargetHandler.OnDamageTaken;
         damageController.DamageTaken -=strafeHandler.OnDamageTaken;
-        pushable.PushReceived -= passiveInterruptionTracker.OnDamageTaken;
+        pushReceiver.PushReceived -= passiveInterruptionTracker.OnDamageTaken;
     }
 
 

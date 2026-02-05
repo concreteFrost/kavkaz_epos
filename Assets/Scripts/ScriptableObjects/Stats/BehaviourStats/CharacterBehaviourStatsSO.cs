@@ -44,5 +44,6 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [RangeAttribute(7, 12)]
     public int maxTimeInStrafeState=12;
 
+  
     
 }

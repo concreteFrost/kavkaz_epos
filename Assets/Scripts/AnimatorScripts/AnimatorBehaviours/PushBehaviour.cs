@@ -23,7 +23,6 @@ public class PushBehaviour : StateMachineBehaviour
         combat = animator.GetComponentInChildren<IHumanoidCombat>();
         stats = animator.GetComponentInChildren<HumanoidStats>();
 
-
         statsModifier.ReduceStamina(stats.statsSO.staminaPushReducePenalty);
 
         animator.applyRootMotion = true;
@@ -66,18 +65,18 @@ public class PushBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.speed = 1f;
-        motor.StopMove = false;
-
+       
         pushSource.CancelPush();
 
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
-        
+        motor.StopMove = false;
 
-       
+
+
 
         // уведомляем контроллер, что атака завершена
-        
+
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

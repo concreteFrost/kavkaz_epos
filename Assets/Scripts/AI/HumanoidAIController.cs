@@ -55,8 +55,7 @@ public class HumanoidAIController : MonoBehaviour
 
         if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
         {
-            agentController.agent.speed = 0f;
-            return;
+            aiMotor.moveSpeed = 0f;        
         }
 
         else if (aiMotor.IsStrafing)
@@ -87,12 +86,8 @@ public class HumanoidAIController : MonoBehaviour
             return;
         }
 
-
         Vector3 dir = agentController.agent.steeringTarget - transform.position;
         dir.y = 0f;
-
-        //if (dir.sqrMagnitude < 0.01f)
-        //    return;
 
         aiMotor.RotateToDirection(dir);
 

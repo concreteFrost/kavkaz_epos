@@ -90,7 +90,7 @@ public abstract class BaseHumanoidAnimatorController
         var stateName = name;
         overrideController[stateName] = attack.animationInfo.clip;
 
-        //animator.speed = attack.animationInfo.animationSpeed;
+        animator.speed = attack.animationInfo.animationSpeed;
 
         animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
@@ -110,7 +110,6 @@ public abstract class BaseHumanoidAnimatorController
 
     public void PerformInteract()
     {
-
         animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
     }
 

@@ -17,7 +17,7 @@ public class EnemyBrain : MonoBehaviour
 {
     EnemyBrainContext context;
 
-    internal AIStateMachine stateMachine = new AIStateMachine();
+    [HideInInspector] public AIStateMachine stateMachine = new AIStateMachine();
 
     public AIState<EnemyBrainContext> currentState;
 
@@ -30,7 +30,8 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
     [SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
- 
+
+    
     public void Init(EnemyBrainContext context)
     {
         this.context = context;
@@ -45,9 +46,8 @@ public class EnemyBrain : MonoBehaviour
         moveToInterruptor.Init(context);    
 
         stateMachine.ChangeState(idle);
-    }
 
-    
+    }
 
     void Update()
     {
@@ -91,8 +91,8 @@ public class EnemyBrain : MonoBehaviour
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
 
-   
 
+    
 
 
 }

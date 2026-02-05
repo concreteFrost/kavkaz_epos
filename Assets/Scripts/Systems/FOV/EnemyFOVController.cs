@@ -21,7 +21,6 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     private void Update()
     {
        
-
         if(currentTarget != null)
         {
             if (currentTarget.IsDead)

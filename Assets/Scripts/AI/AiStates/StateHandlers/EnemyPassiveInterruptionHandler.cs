@@ -52,7 +52,7 @@ public class EnemyPassiveInterruptionHandler
     /// <param name="selfPosition"></param>
     /// <param name="anim"></param>
     /// <returns></returns>
-    public AIStateResult React(Vector3 selfPosition,Animator anim)
+    public AIStateResult ReactOnDamage(Vector3 selfPosition,Animator anim)
     {
 
        
@@ -68,6 +68,6 @@ public class EnemyPassiveInterruptionHandler
         anim.CrossFade(AnimatorParameters.lookAroundState, 0f, 0);
         return AIStateResult.None;
 
-
     }
+
 }

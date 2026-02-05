@@ -23,7 +23,7 @@ public class DamagedBehaviour : StateMachineBehaviour
         if (animator.applyRootMotion == false) 
             animator.applyRootMotion = true;
  
-        float t = stateInfo.normalizedTime;
+        //float t = stateInfo.normalizedTime;
 
         //if(t > 0.95f)
         //{

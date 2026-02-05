@@ -34,7 +34,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
             return;
 
         
-        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+        //motor.SetLockTarget(fov.currentTarget.GetAimTransform());
     }
 
     public override AIStateResult Run()
@@ -87,12 +87,14 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
         if (!combatHandler.IsInAttackRange(distance))
         {
             motor.MoveCharacter(target.position);
+            motor.ResetLockTarget();
 
             //поднимаем щит на подходе к цели
             combatHandler.ToggleShield(true, inventory, combatController);
             return AIStateResult.None;
         }
 
+        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
 
         // 9. Проверяем возможность атаки (учитываем кулдаун и другие ограничения)
         bool canAttack = combatHandler.CanAttack();

@@ -14,4 +14,8 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float staminaMaxRegenDelay = 6f;
     public float staminaRegenRate = 15f;
 
+    [Header("Listening")]
+    public float eventListenDistance = 20f;
+
+
 }

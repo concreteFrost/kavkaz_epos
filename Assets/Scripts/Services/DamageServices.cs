@@ -38,9 +38,7 @@ public class PlayerDamageControllerService
     public IHumanoidCombat combatController;
     public ICombatInventory attackSource;
 
-    public string uid;
-
-    public PlayerDamageControllerService(BaseHumanoidAnimatorController animatorController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input, IHumanoidCombat combatController, ICombatInventory attackSource, string uid)
+    public PlayerDamageControllerService(BaseHumanoidAnimatorController animatorController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input, IHumanoidCombat combatController, ICombatInventory attackSource)
     {
         this.motor = motor;
         this.statsController = statsController;
@@ -49,8 +47,6 @@ public class PlayerDamageControllerService
 
         this.attackSource = attackSource;
         this.combatController = combatController;
-
-        this.uid = uid;
         this.animatorController = animatorController;
     }
 }

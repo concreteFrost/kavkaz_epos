@@ -680,6 +680,7 @@ MonoBehaviour:
   attackSource: {fileID: 4373527282435137223}
   pushController: {fileID: 7151219120634766040}
   damageController: {fileID: 9216071904075533163}
+  pushReceiver: {fileID: 1045726396533673994}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
   lockOnTargetUI: {fileID: 5014458933061563304}
@@ -3045,7 +3046,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageController
   characterType: 0
   aimPosition: {fileID: 7893995649272627185}
-  maxDamageCooldown: 1
 --- !u!1 &7522564744717880474
 GameObject:
   m_ObjectHideFlags: 0
@@ -3685,6 +3685,50 @@ Transform:
   - {fileID: 3034340263997486602}
   m_Father: {fileID: 7130719005922253561}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8488130942510432447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581177769473524495}
+  - component: {fileID: 1045726396533673994}
+  m_Layer: 0
+  m_Name: PlayerPushReceiver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &581177769473524495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488130942510432447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5848560018931718496}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1045726396533673994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488130942510432447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96f4803cf2cfae478c48b74bb5f1cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPushReceiver
 --- !u!1 &8509689430591662325
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,6 +3838,7 @@ Transform:
   - {fileID: 4398183456071293128}
   - {fileID: 8927753994580565481}
   - {fileID: 4536866026417343617}
+  - {fileID: 581177769473524495}
   m_Father: {fileID: 2896670806739579442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8556017995718637641

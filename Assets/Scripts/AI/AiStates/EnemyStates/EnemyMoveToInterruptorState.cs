@@ -19,6 +19,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         fov.ResetTarget();
         motor.ResetLockTarget();
         motor.ResetSprint();
+
        
         destination = passiveInterruptionTracker.InterruptorPosition();
 
@@ -37,7 +38,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         if (passiveInterruptionTracker.IsInterrupted())
         {
             
-            return passiveInterruptionTracker.React(context.self.position, context.animator);
+            return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
         }
 
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination))

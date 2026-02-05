@@ -7,15 +7,14 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 {
 
     HumanoidAgentController agentController;
-    IRagdollController ragdollController;
 
     public LayerMask wallLayer = 1 << 8;
 
-    public void Init(Animator anim, HumanoidAgentController agentController, IRagdollController ragdollController)
+    public void Init(Animator anim, HumanoidAgentController agentController)
     {
         this.animator = anim;
         this.agentController = agentController;
-        this.ragdollController = ragdollController;
+
 
         // Animator
         animator.updateMode = AnimatorUpdateMode.Normal;
@@ -39,13 +38,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     public void SetLockTarget(Transform target)
     {
         rotateTarget = target;
-
     }
 
     public void ResetLockTarget()
     {
         rotateTarget = null;
-
     }
     #endregion
 
@@ -55,6 +52,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         //if (moveDirection.sqrMagnitude < 0.1f) return;
         base.RotateToTarget(targetPosition);
+
+        //Debug.Log("rotating to target");
     }
 
     public override void RotateToDirection(Vector3 direction)
@@ -160,19 +159,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void UseRootMotionWithObstacles()
     {
-        Vector3 center = transform.TransformPoint(transform.up);
-
-
-        //if (Physics.Raycast(center, transform.forward, out RaycastHit hitInfo,1f))
-        //{
-        //    Debug.Log("hit");
-        //    agentController.StopAgent();
-        //    return;
-        //}
-        // Для AI коллизии NavMeshAgent уже работают
-
-        agentController.MoveAgentToPosition(animator.deltaPosition);
-
         
     }
 

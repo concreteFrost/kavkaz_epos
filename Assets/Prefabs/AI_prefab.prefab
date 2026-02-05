@@ -990,8 +990,6 @@ MonoBehaviour:
   chaseHandler:
     lostTargetTimer: 0
     cantReachTimer: 0
-  passiveInterruptionTracker:
-    isInterrupted: 0
   combatHandler:
     currCombatCooldown: 0
     maxCombatCooldown: 0
@@ -1011,6 +1009,8 @@ MonoBehaviour:
   strafeHandler:
     timeInStrafeState: 0
     maxTimeInStrafeState: 0
+  passiveInterruptionTracker:
+    isInterrupted: 0
 --- !u!1 &2022958127897882022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1912,7 @@ MonoBehaviour:
   fovController: {fileID: 1578463945064035814}
   brain: {fileID: 8875711254880146913}
   stateTracker: {fileID: 1484899375234347330}
+  notifierManager: {fileID: 3025589891968403832}
   uniqueId: {fileID: 6814210642978726995}
 --- !u!114 &5943822312714178600
 MonoBehaviour:
@@ -1925,7 +1926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rotationSpeed: 4
+  rotationSpeed: 10
   blockedRotationSpeed: 1.5
   movementSmooth: 1
   animationSmooth: 1
@@ -1971,7 +1972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_0733736d-504f-4141-ac7b-ce35ca6c772c
+  uniqueId: uid_bb15c82b-c567-4ba4-a043-78929d760181
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2493,7 +2494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
+  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
   rightHand: {fileID: 5591928551287878927}
   leftHand: {fileID: 1935654885825902513}
   meleeData:
@@ -4315,6 +4316,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b3507ed2c98fa4aaa9305aac80f12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrolState
+--- !u!1 &8015967248896562671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6508838126541674903}
+  - component: {fileID: 3025589891968403832}
+  m_Layer: 0
+  m_Name: AINotifierManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6508838126541674903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015967248896562671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 515555489032476068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3025589891968403832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015967248896562671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab5215842ec0bd41952bffb135b12ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNotifierManager
 --- !u!1 &8175703425037519650
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,7 +4407,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   characterType: 2
   aimPosition: {fileID: 6524570281999694432}
-  maxDamageCooldown: 1
 --- !u!1 &8179061233981516140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4799,6 +4843,7 @@ Transform:
   - {fileID: 8327586687000676752}
   - {fileID: 3830506616137703098}
   - {fileID: 1923525137196111249}
+  - {fileID: 6508838126541674903}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8892211989431816336

@@ -18,12 +18,12 @@ public class DodgeBehaviour : StateMachineBehaviour
        
         animator.applyRootMotion = true;
 
-        float t = stateInfo.normalizedTime % 1f;
+        //float t = stateInfo.normalizedTime % 1f;
 
-        if(t > 0.9f)
-        {
-            motor.IsDodging = false;
-        }
+        //if(t > 0.9f)
+        //{
+        //    motor.IsDodging = false;
+        //}
 
     }
 

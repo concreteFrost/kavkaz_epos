@@ -40,18 +40,22 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
+
+        if (fov.currentTarget != null)
+        {
+            context.notifierManager.Notify(fov.currentTarget);
+            return AIStateResult.Chase;
+        }
+
         // ищем потенциальные цели
         fov.CheckTargets();
 
         // переходим в погоню если цель найдена
-        if (fov.currentTarget != null)
-            return AIStateResult.Chase;
-
-
+      
+          
         if (passiveInterruptionTracker.IsInterrupted())
-        {
-           
-            return passiveInterruptionTracker.React(context.self.position, context.animator);
+        { 
+            return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
         }
 
         idleHandler.UpdateCurrentIdleTime();

@@ -11,6 +11,8 @@ public class LookAroundBehaviour : StateMachineBehaviour
         mv = animator.GetComponent<IHumanoidMovement>();
         animator.applyRootMotion = true;
 
+        mv.StopMove = true;
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,7 +23,7 @@ public class LookAroundBehaviour : StateMachineBehaviour
         if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
 
-        mv.StopMove = true;
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

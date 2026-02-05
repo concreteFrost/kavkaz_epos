@@ -127,7 +127,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         // Damage
 
-        PlayerDamageControllerService damageControllerService = new PlayerDamageControllerService(animatorController, motor,statsController , stats, input, combatController, combatInventory,uid);
+        PlayerDamageControllerService damageControllerService = new PlayerDamageControllerService(animatorController, motor,statsController , stats, input, combatController, combatInventory);
         damageController.Init(damageControllerService);
     }
 
