@@ -1,14 +1,16 @@
 using UnityEngine;
 
-public class PlayerFallController : BaseFallController
+public class AiFallController : BaseFallController
 {
-    IHumanoidMovement motor;
+
+    IRagdollController ragdollController;
 
 
-    public void Init(IHumanoidMovement motor,IDamagable damagable)
+    public void Init(IRagdollController motor, IDamagable damagable, Transform self)
     {
-        this.motor = motor;
-        this.damagable = damagable; 
+        this.ragdollController = motor;
+        this.damagable = damagable;
+        this.self = self;
     }
 
     private void Update()
@@ -18,14 +20,14 @@ public class PlayerFallController : BaseFallController
 
     protected override void TrackFall()
     {
-        if(damagable.IsDead) return;
+        if (damagable.IsDead) return;
 
-        if (!motor.IsGrounded && !wasLastGroundedPositionRegistered)
+        if (ragdollController.IsKnockedOut && !wasLastGroundedPositionRegistered)
         {
             wasLastGroundedPositionRegistered = true;
-            lastGroundedPosition = transform.position;
+            lastGroundedPosition = self.position;
         }
-        if (motor.IsGrounded && wasLastGroundedPositionRegistered)
+        else if (!ragdollController.IsBonesMoving(threshold:0.1f) && wasLastGroundedPositionRegistered)
         {
             wasLastGroundedPositionRegistered = false;
             CalculateFallDamage();
@@ -35,7 +37,8 @@ public class PlayerFallController : BaseFallController
     protected override void CalculateFallDamage()
     {
 
-        var fallHeight = lastGroundedPosition.y - transform.position.y;
+        var fallHeight = lastGroundedPosition.y - self.position.y;
+
 
         if (fallHeight > fallDamageThreshold)
         {
@@ -47,11 +50,10 @@ public class PlayerFallController : BaseFallController
                 balanceDamageType = BalanceDamageType.High,
                 impactForce = 0,
             };
-            
-            damagable.TakeDamage(damageData);   
 
-            //playerStatsModifier.StartFallPenalty(penaltyDuration, damage);
+            damagable.TakeDamage(damageData);
 
+           
         }
 
     }

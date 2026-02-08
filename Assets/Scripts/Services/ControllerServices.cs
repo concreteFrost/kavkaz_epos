@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class HumanoidControllerServices
 {
-    public Animator animator;
-
+    public Transform self;
     public HumanoidAIMotor aiMotor;
     public HumanoidAIAnimatorController aiAnimatorController;
     public HumanoidAgentController agentController;
@@ -13,16 +12,17 @@ public class HumanoidControllerServices
     public ICharacterStatsController statsController;
     public HumanoidStats stats;
 
-    public HumanoidControllerServices(Animator animator, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, HumanoidAgentController agentController, ICharacterStatsController statsController, IDamagable damageController, HumanoidStats stats)
+    public HumanoidControllerServices(Transform self, HumanoidAIMotor aIMotor, HumanoidAIAnimatorController aIAnimator, HumanoidAgentController agentController, ICharacterStatsController statsController, IDamagable damageController, HumanoidStats stats)
     {
 
-        this.animator = animator;
+        this.self = self;
         this.aiMotor = aIMotor;
         this.aiAnimatorController = aIAnimator;
         this.agentController = agentController;
         this.statsController = statsController;
         this.damageController = damageController;
         this.stats = stats;
+
     }
 }
 
@@ -30,7 +30,7 @@ public class PlayerControllerService
 {
     public PlayerMotor controller;
     public HumanoidStats stats;
-    public Animator animator;
+    public PlayerAnimatorController animatorController;
 
     public IHumanoidCombat combatController;
     public IDamagable damageController;
@@ -50,7 +50,7 @@ public class PlayerControllerService
         ITargetLocker locker,
         AgressivePushController pushSource,
         PlayerClimbing climbing,
-        Animator animator)
+        PlayerAnimatorController animatorController)
     {
         this.controller = controller;
         this.combatController = combatController;
@@ -58,7 +58,7 @@ public class PlayerControllerService
         this.stats = stats;
         this.interact = interact;
         this.climbing = climbing;
-        this.animator = animator;
+        this.animatorController = animatorController;
         this.locker = locker;
         this.statsController = statsModifier;
         this.pushSource = pushSource;   

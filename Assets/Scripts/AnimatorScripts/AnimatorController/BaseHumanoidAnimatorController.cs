@@ -75,14 +75,24 @@ public abstract class BaseHumanoidAnimatorController
     protected void UpdateDamageState(IDamagable damageController)
     {
         animator.SetBool(AnimatorParameters.IsDamaged, damageController.IsDamaged);
-        animator.SetInteger(
-    AnimatorParameters.BalancePenalty,
-    (int)damageController.BalancePenalty
-);
+        //        animator.SetInteger(
+        //    AnimatorParameters.BalancePenalty,
+        //    (int)damageController.BalancePenalty
+        //);
 
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead);
         animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);   
 
+    }
+
+    public void PlayClipCrossFage(string name)
+    {
+        animator.CrossFade(name, AnimatorParameters.transitionSpeed);
+    }
+
+    public void PlayClipImmidiate(string name)
+    {
+        animator.Play(name);
     }
 
     public void OverrideAttack(WeaponAttack attack, string name)
@@ -112,6 +122,7 @@ public abstract class BaseHumanoidAnimatorController
     {
         animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
     }
+
 
 
     #region Push Control

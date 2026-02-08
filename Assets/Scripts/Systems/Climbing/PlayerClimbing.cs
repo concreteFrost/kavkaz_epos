@@ -5,16 +5,16 @@ public class PlayerClimbing : MonoBehaviour, IClimber
     public ClimbDetector climbDetector;
     private PlayerMotor motor;
     private PlayerActionGuards actionGuards;
-    Animator animator;
+    private PlayerAnimatorController animatorController;
 
     #region Climbing
     public bool IsClimbing { get; set; }
 
-    public void Init(PlayerMotor motor, PlayerActionGuards actionGuards, Animator animator)
+    public void Init(PlayerMotor motor, PlayerActionGuards actionGuards, PlayerAnimatorController animatorController)
     {
         this.motor = motor;
         this.actionGuards = actionGuards;
-        this.animator = animator;
+        this.animatorController = animatorController;
     }
 
     public void TryToClimb()
@@ -28,15 +28,15 @@ public class PlayerClimbing : MonoBehaviour, IClimber
     public void EnterClimb(Vector3 normal)
     {
         actionGuards.SetMode(PlayerMode.Climbing);
-        animator.CrossFade("Climb Up", AnimatorParameters.transitionSpeed);
+        animatorController.PlayClipCrossFage(AnimatorParameters.climbUpClip);
         IsClimbing = true;
         motor.AttachTo(normal);
     }
 
     public void ExitClimb()
     {
-        
-        IsClimbing = false; 
+
+        IsClimbing = false;
         motor.Detach();
         actionGuards.SetMode(PlayerMode.Locomotion);
     }

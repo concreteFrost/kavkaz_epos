@@ -37,7 +37,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float distanceToObstacle = 0.8f;
 
     #region Components
-    internal Animator animator;
+    internal BaseHumanoidAnimatorController animator;
     #endregion
 
     internal float inputMagnitude;
@@ -84,7 +84,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
     public bool IsStrafing { get => isStrafing; set => isStrafing = value; }   
     public bool IsJumping { get => isJumping; }
-    public bool IsGrounded { get => isGrounded; }
+    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsDodging { get => isDodging; set => isDodging = value; }
     public float DodgeX { get => dodgeX; set => dodgeX = value; }
     public float DodgeY { get => dodgeY; set => dodgeY = value; }
@@ -219,9 +219,9 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
 
         // trigger jump animations
         if (input.sqrMagnitude < 0.1f)
-            animator.CrossFadeInFixedTime("Jump", 0.1f);
+            animator.Animator().CrossFadeInFixedTime("Jump", 0.1f);
         else
-            animator.CrossFadeInFixedTime("JumpMove", .2f);
+            animator.Animator().CrossFadeInFixedTime("JumpMove", .2f);
     }
 
     /// <summary>

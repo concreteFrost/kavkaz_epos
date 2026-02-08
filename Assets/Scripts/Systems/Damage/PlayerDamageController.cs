@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerDamageController : BaseDamageController
 {
-    IHumanoidMovement motor;
+
     IHumanoidCombat combatController;
     ICombatInventory combatInventory;
 
@@ -24,6 +24,7 @@ public class PlayerDamageController : BaseDamageController
         this.combatController = service.combatController;
         this.combatInventory = service.attackSource;
         this.input = service.input; 
+        this.animatorController = service.animatorController;
       
 
         stats.Health.Depleted += Die;
@@ -59,7 +60,9 @@ public class PlayerDamageController : BaseDamageController
     public override void TakeDamage(DamageData damageData, Transform source)
     {
        base.TakeDamage(damageData, source);
-        StartCoroutine(DamageCooldownCoroutine());
+
+       HandleGetDamaged(damageData.balanceDamageType);
+       StartCoroutine(DamageCooldownCoroutine());
     }
 
     protected override bool IsDamagingBlocked()

@@ -6,7 +6,7 @@ public class AiRagdollController : BaseRagdollController
     HumanoidAgentController agentController;
 
 
-    public AiRagdollController(MonoBehaviour ctx, Animator anim, HumanoidAgentController agent, Transform self)
+    public AiRagdollController(MonoBehaviour ctx, BaseHumanoidAnimatorController anim, HumanoidAgentController agent, Transform self)
     {
         this.agentController = agent;
         base.Init(ctx,anim, self);
@@ -18,7 +18,7 @@ public class AiRagdollController : BaseRagdollController
     public override void EnableRagdoll(Vector3 from, float force = 0)
     {
         col.enabled = false;
-        anim.enabled = false;
+        anim.Animator().enabled = false;
 
         agentController.DisableAgent();
 
@@ -50,7 +50,7 @@ public class AiRagdollController : BaseRagdollController
         }
 
         col.enabled = true;
-        anim.enabled = true;
+        anim.Animator().enabled = true;
 
         if (agentController.IsOnBakedArea())
             agentController.EnableAgent();

@@ -16,7 +16,7 @@ public interface IHumanoidMovement
     
     float AnimationSmooth {  get; }
     public Vector3 GetInverseTransformDirection();
-    bool IsGrounded { get; }
+    bool IsGrounded { get; set; }
     float GroundDistance { get; }
     bool IsJumping { get; }
 

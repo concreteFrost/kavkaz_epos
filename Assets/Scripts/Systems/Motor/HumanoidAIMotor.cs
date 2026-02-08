@@ -10,14 +10,14 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public LayerMask wallLayer = 1 << 8;
 
-    public void Init(Animator anim, HumanoidAgentController agentController)
+    public void Init(BaseHumanoidAnimatorController anim, HumanoidAgentController agentController)
     {
         this.animator = anim;
         this.agentController = agentController;
 
         // Animator
-        animator.updateMode = AnimatorUpdateMode.Normal;
-        animator.applyRootMotion = false;
+        animator.Animator().updateMode = AnimatorUpdateMode.Normal;
+        animator.Animator().applyRootMotion = false;
         animationSmooth = 0.2f;
 
         // NavMeshAgent
@@ -25,7 +25,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         isGrounded = true;
 
     }
-
 
 
     public override void UpdateAnimatorLocomotion()

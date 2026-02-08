@@ -419,6 +419,54 @@ Transform:
   - {fileID: 5349762735044687599}
   m_Father: {fileID: 338500704065420972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &689807427776598508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224327964541564850}
+  - component: {fileID: 6858206497910447250}
+  m_Layer: 0
+  m_Name: AI_FallController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224327964541564850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689807427776598508}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7901007438046391984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6858206497910447250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689807427776598508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe5f8f60474701419ae2786322ce71a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AiFallController
+  wasLastGroundedPositionRegistered: 0
+  lastGroundedPosition: {x: 0, y: 0, z: 0}
+  fallDamageThreshold: 4
+  fallDamageMultiplier: 5
 --- !u!1 &795497551627478149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,27 +1940,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa2000b79a39a841a98f7184578fc68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIServiceLocator
+  uniqueId: {fileID: 6814210642978726995}
   animator: {fileID: 2887694345456518040}
   overrideController: {fileID: 22100000, guid: 9f97b37f36a785549a9ffdecb3e0233c, type: 2}
   ik: {fileID: 2559199199728796724}
   agent: {fileID: 8987308371889165279}
-  capsuleCollider: {fileID: 1617497395427065781}
   motor: {fileID: 3881702655214924737}
   controller: {fileID: 3169394707491743592}
   statsController: {fileID: 6095946705785411074}
   stats: {fileID: 3623233199384946657}
+  damageController: {fileID: 1055276295984137630}
+  pushReceiver: {fileID: 2068846124865319517}
+  fallController: {fileID: 6858206497910447250}
+  capsuleCollider: {fileID: 1617497395427065781}
   interaction: {fileID: 4994437662380333840}
   combatController: {fileID: 8492958853885773946}
   combatInventory: {fileID: 2439604627647212036}
   attackSource: {fileID: 5789983656386049422}
-  damageController: {fileID: 1055276295984137630}
-  pushReceiver: {fileID: 2068846124865319517}
   interruptionManager: {fileID: 110391391581726432}
   fovController: {fileID: 1578463945064035814}
   brain: {fileID: 8875711254880146913}
   stateTracker: {fileID: 1484899375234347330}
   notifierManager: {fileID: 3025589891968403832}
-  uniqueId: {fileID: 6814210642978726995}
 --- !u!114 &2559199199728796724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4437,6 +4486,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6524570281999694432}
+  - {fileID: 224327964541564850}
   m_Father: {fileID: 515555489032476068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1055276295984137630

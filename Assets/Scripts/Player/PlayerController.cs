@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     ICollector interact;
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
-    Animator animator;
+    PlayerAnimatorController animatorController;
     AgressivePushController pushSource;
 
     private void Update()
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public void Init(PlayerControllerService provider)
     {
 
-        animator = provider.animator;
+        animatorController = provider.animatorController;
         locomotion = provider.controller;
         damageController = provider.damageController;
         combatController = provider.combatController;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         pushSource = provider.pushSource;   
 
         actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing,targetLocker);
-        climbing.Init(locomotion, actionGuards,animator );
+        climbing.Init(locomotion, actionGuards,animatorController );
 
     }
 

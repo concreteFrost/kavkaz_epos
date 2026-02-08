@@ -6,14 +6,16 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAIAnimatorController aIAnimator;
     HumanoidAgentController agentController;
     IDamagable damageController;
-    Animator animator;
+    HumanoidAIAnimatorController animator;
     //ICharacterStatsController statsController;
     HumanoidStats stats;
+    Transform self;
 
     public void Init(HumanoidControllerServices service)
     {
+        this.self = service.self;
         this.agentController = service.agentController; 
-        this.animator = service.animator;
+        this.animator = service.aiAnimatorController;
         this.aiMotor = service.aiMotor;
         this.aIAnimator = service.aiAnimatorController;
         //this.statsController = service.statsController;
@@ -29,11 +31,6 @@ public class HumanoidAIController : MonoBehaviour
         UpdateAnimator();
         ControlSpeed();
         ControlRotation();
-
-        //if (animator.applyRootMotion == false)
-        //{
-        //    animator.applyRootMotion = true;
-        //}
     }
 
 
@@ -52,7 +49,6 @@ public class HumanoidAIController : MonoBehaviour
     private void ControlSpeed()
     {
         
-
         if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
         {
             aiMotor.moveSpeed = 0f;        
@@ -86,7 +82,7 @@ public class HumanoidAIController : MonoBehaviour
             return;
         }
 
-        Vector3 dir = agentController.agent.steeringTarget - transform.position;
+        Vector3 dir = agentController.agent.steeringTarget - self.position;
         dir.y = 0f;
 
         aiMotor.RotateToDirection(dir);

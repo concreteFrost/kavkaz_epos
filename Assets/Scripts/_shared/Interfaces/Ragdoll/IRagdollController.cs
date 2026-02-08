@@ -13,6 +13,7 @@ public interface IRagdollController
     IEnumerator Recover();
 
     bool IsKnockedOut { get; set; }
+    bool IsBonesMoving(float threshold=0.1f);
 
     //event Action Recovered;
     event Action RecoveredInInvalidArea;

@@ -18,12 +18,14 @@ public abstract class BaseRagdollController : IRagdollController
 
     protected Collider col; // основной коллайдер персонажа
 
-    protected Animator anim;
+    protected BaseHumanoidAnimatorController anim;
     protected List<Rigidbody> rigidbodies = new List<Rigidbody>(); //rigidbodies относ€щиес€ к ragdoll
     protected Transform self;
 
+
     protected Transform _hipsBone; // центральна€ кость (таз)
     protected Transform[] _bones; // кости относ€щиес€ к ragdoll
+    protected Rigidbody hipsRb;
 
     protected CharacterBoneTransform[] _faceupBoneTransforms;
     protected CharacterBoneTransform[] _facedownBoneTransforms;
@@ -33,9 +35,8 @@ public abstract class BaseRagdollController : IRagdollController
 
     protected float blendDuration = 0.5f; // врем€ перехода между ragdoll и анимацией
     protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
-    
-    #region IRagdollControlerContract
 
+    #region IRagdollControlerContract
     public abstract void DisableRagdoll();
     public abstract void EnableRagdoll(Vector3 from, float force = 0);
 
@@ -50,17 +51,18 @@ public abstract class BaseRagdollController : IRagdollController
     //protected void InvokeRecover() => Recovered?.Invoke(); 
     protected void InvokeInvalidRecover() => RecoveredInInvalidArea?.Invoke(); //обЄртка дл€ вызова в дочерних классах
 
-    protected void Init(MonoBehaviour context, Animator anim, Transform self)
+    protected void Init(MonoBehaviour context, BaseHumanoidAnimatorController anim, Transform self)
     {
         this.context = context;
         this.self = self;
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
-        _hipsBone = anim.GetBoneTransform(HumanBodyBones.Hips);
+        _hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
+        hipsRb = _hipsBone.GetComponent<Rigidbody>();
 
         InitBones();
         AddRigidbodies();
-       
+
         SampleAnimationStartPose(AnimatorParameters.getUpClip, _faceupBoneTransforms);
         SampleAnimationStartPose(AnimatorParameters.getUpFromBellyClip, _facedownBoneTransforms);
         DisableRagdoll();
@@ -110,7 +112,7 @@ public abstract class BaseRagdollController : IRagdollController
     public void Knockout(Vector3 from, float force = 0)
     {
         IsKnockedOut = true;
-        EnableRagdoll(from,force);
+        EnableRagdoll(from, force);
         recoveryCoroutine = context.StartCoroutine(Recover());
     }
 
@@ -148,7 +150,7 @@ public abstract class BaseRagdollController : IRagdollController
         Vector3 pos = self.position;
         Quaternion rot = self.rotation;
 
-        var clip = anim.runtimeAnimatorController.animationClips
+        var clip = anim.Animator().runtimeAnimatorController.animationClips
             .FirstOrDefault(c => c.name == clipName);
 
         clip.SampleAnimation(self.gameObject, 0);
@@ -198,7 +200,7 @@ public abstract class BaseRagdollController : IRagdollController
         Vector3 positionOffset = GetStandUpBoneTransforms()[0].position;
         positionOffset.y = 0;
         positionOffset = self.rotation * positionOffset;
-        self.position -= positionOffset; 
+        self.position -= positionOffset;
 
         if (Physics.Raycast(self.position, Vector3.down, out RaycastHit hitInfo))
         {
@@ -233,31 +235,35 @@ public abstract class BaseRagdollController : IRagdollController
         direction.y = Mathf.Max(direction.y, 0.2f);
         direction.Normalize();
 
-        Rigidbody hipsRb = _hipsBone.GetComponent<Rigidbody>();
+      
         hipsRb.AddForce(direction * force, ForceMode.Impulse);
     }
 
     #endregion
 
+    public bool IsBonesMoving(float threshold=0.1f)
+    {
+        return hipsRb.linearVelocity.sqrMagnitude > threshold;
+    }
 
     public IEnumerator Recover()
     {
         // 1. ∆дЄм минимальное врем€, чтобы ragdoll успел распастьс€
         yield return new WaitForSeconds(0.5f);
-       
-        // 2. ∆дЄм полной остановки всех rigidbody
+
+        // 2. ∆дЄм полной остановки 
         bool moving = true;
         while (moving)
         {
-            moving = false;
-            foreach (var rb in rigidbodies)
-            {
-                if (rb.linearVelocity.sqrMagnitude > 0.01f)
-                {
-                    moving = true;
-                    break;
-                }
-            }
+            moving = IsBonesMoving();
+            //foreach (var rb in rigidbodies)
+            //{
+            //    if (rb.linearVelocity.sqrMagnitude > 0.01f)
+            //    {
+            //        moving = true;
+            //        break;
+            //    }
+            //}
             yield return null;
         }
 
@@ -297,11 +303,11 @@ public abstract class BaseRagdollController : IRagdollController
 
         DisableRagdoll();
 
-        string animName = isFacingUp ? AnimatorParameters.getUpState : AnimatorParameters.getUpFromBellyState;
-        anim.Play(animName);
+        string animName = isFacingUp ? AnimatorParameters.getUpClip : AnimatorParameters.getUpFromBellyClip;
+        anim.PlayClipImmidiate(animName);
 
         // ждЄм конца анимации
-        yield return AnimatorUtils.WaitForAnimationEnd(anim,animName, AnimatorParameters.damageLayer);
+        yield return AnimatorUtils.WaitForAnimationEnd(anim.Animator(), animName, AnimatorParameters.damageLayer);
 
         IsKnockedOut = false;
         Recovered?.Invoke();

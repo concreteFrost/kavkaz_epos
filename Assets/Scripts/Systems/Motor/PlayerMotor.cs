@@ -10,11 +10,11 @@ public class PlayerMotor : BaseHumanoidMotor
     [Range(30, 80)] public float slopeLimit = 45f;
     internal bool isHighSlope = false; //предотвращает движение если угол наклона выше
 
-    public void Init(Animator anim)
+    public void Init(BaseHumanoidAnimatorController anim)
     {
         animator = anim;
 
-        animator.updateMode = AnimatorUpdateMode.Fixed;
+        animator.Animator().updateMode = AnimatorUpdateMode.Fixed;
 
         // slides the character through walls and edges
         frictionPhysics = new PhysicsMaterial();
@@ -326,6 +326,7 @@ public class PlayerMotor : BaseHumanoidMotor
         //поворачиваем игрока в сторону стены
         Quaternion targetRotation = Quaternion.LookRotation(-normal, Vector3.up);
         transform.rotation = targetRotation;
+        isGrounded = true;
 
         Vector3 finalPosition = transform.position;
 

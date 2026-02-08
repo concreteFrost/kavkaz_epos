@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -6,11 +7,13 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
 {
 
     protected ICharacterStatsController statsController;
+    protected IHumanoidMovement motor;
     protected HumanoidStats stats;
 
     public CharacterType characterType;
 
     [SerializeField] protected Transform aimPosition;
+    protected BaseHumanoidAnimatorController animatorController;
 
     #region IDamagable Contract
     public bool IsDead { get; set; }
@@ -33,12 +36,8 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     {
         if(IsDamagingBlocked() || IsDead) return;
 
-        BalancePenalty = damageData.balanceDamageType;
-        IsDamaged = true;
-
         statsController.ReduceHealth(damageData.healthDamageMultiplier);
         InvokeDamageTaken(source);
-
 
     }
 
@@ -50,6 +49,39 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     protected abstract bool IsDamagingBlocked();
 
     public abstract void Die();
+
+    protected void HandleGetDamaged(BalanceDamageType balanceDamageType)
+    {
+        string animClipName = GetDamageAnimation(balanceDamageType);
+
+        if (animClipName == null) return;
+
+        animatorController.PlayClipCrossFage(animClipName);
+        StartCoroutine(DamagedCoroutine(animClipName));
+    }
+
+    IEnumerator DamagedCoroutine(string animationName)
+    {
+       
+        animatorController.Animator().applyRootMotion = true;
+        IsDamaged = true;
+        yield return AnimatorUtils.WaitForAnimationEnd(animatorController.Animator(), animationName, AnimatorParameters.damageLayer);
+        animatorController.Animator().applyRootMotion = false;
+        IsDamaged = false;
+    }
+
+    private string GetDamageAnimation(BalanceDamageType balanceDamage)
+    {
+        switch (balanceDamage)
+        {
+            case BalanceDamageType.None: return null;
+            case BalanceDamageType.Low: return AnimatorParameters.lowDamageClip;
+            case BalanceDamageType.High: return AnimatorParameters.midDamageClip;
+            case BalanceDamageType.Extreme: return AnimatorParameters.highDamageClip;
+            case BalanceDamageType.Blocked: return AnimatorParameters.shieldDamageClip;
+            default: return null;   
+        }
+    }
 
    
 }

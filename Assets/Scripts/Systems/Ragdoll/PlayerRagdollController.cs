@@ -6,7 +6,7 @@ public class PlayerRagdollController : BaseRagdollController
     PlayerInput input;
 
 
-    public PlayerRagdollController(MonoBehaviour ctx, Animator anim, PlayerInput input, Transform self)
+    public PlayerRagdollController(MonoBehaviour ctx, BaseHumanoidAnimatorController anim, PlayerInput input, Transform self)
     {
         this.input = input;
         base.Init(ctx, anim, self);
@@ -18,7 +18,7 @@ public class PlayerRagdollController : BaseRagdollController
     public override void EnableRagdoll(Vector3 from, float force)
     {
         col.enabled = false;
-        anim.enabled = false;
+        anim.Animator().enabled = false;
 
         input.controls.Disable();
 
@@ -48,7 +48,7 @@ public class PlayerRagdollController : BaseRagdollController
         }
 
         col.enabled = true;
-        anim.enabled = true;
+        anim.Animator().enabled = true;
 
         input.controls.Enable();    
 

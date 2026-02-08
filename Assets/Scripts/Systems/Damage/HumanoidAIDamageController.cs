@@ -4,7 +4,6 @@ using UnityEngine;
 public class HumanoidAIDamageController : BaseDamageController
 {
     CapsuleCollider col;
-    HumanoidAIMotor motor;
     IRagdollController ragdollController;
 
 	public void Init(HumanoidDamageServices service)
@@ -14,6 +13,7 @@ public class HumanoidAIDamageController : BaseDamageController
 		this.stats =service.stats;
         this.ragdollController = service.ragdollController;
         this.col = service.col; 
+        this.animatorController = service.animatorController;
 	
         stats.Health.Depleted += Die;
 
@@ -65,21 +65,24 @@ public class HumanoidAIDamageController : BaseDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
-        base.TakeDamage(damageData, source);    
+        base.TakeDamage(damageData, source);
 
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !ragdollController.IsKnockedOut)
         {
             Vector3 sourcePos = source != null ? source.position : transform.position - transform.forward;
-
             PerformKnockout(sourcePos, damageData.impactForce);
-            
+        }
+
+        else
+        {
+            HandleGetDamaged(damageData.balanceDamageType);
         }
 
     }
 
     private void PerformKnockout(Vector3 source, float impactForce)
     {
-        motor.ResetLockTarget(); //предотвращает деформацию тела при подьеме
+        //motor.ResetLockTarget();
         ragdollController.Knockout(source,impactForce);
         IsKnockedOut = true;
     }
