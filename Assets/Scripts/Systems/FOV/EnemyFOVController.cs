@@ -9,8 +9,6 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     AIFov fov;
     
-    private bool isLockedOnTarget = false;  
-    public bool IsLockedOnTarget { get => isLockedOnTarget; set=>isLockedOnTarget = value; }
 
     public IDamagable currentTarget;
 
@@ -25,7 +23,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         {
             if (currentTarget.IsDead)
             {
-                ResetTarget();
+                ResetLockedTarget();
             }
         }
     }
@@ -44,11 +42,11 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
         if (potentialTarget == null)
         {
-            ResetTarget();
+            ResetLockedTarget();
             return;
         }
 
-        SetTarget(potentialTarget);
+        SetLockedTarget(potentialTarget);
     }
 
     public bool IsTargetVisible(Transform target)
@@ -57,27 +55,22 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     }
 
     #region Current Target State Control
-    public void SetTarget(IDamagable target)
+    public void SetLockedTarget(IDamagable target)
     {
         currentTarget = target;
     }
 
-    public void ResetTarget()
+    public void ResetLockedTarget()
     {
        
         currentTarget = null;
-        isLockedOnTarget = false;
+     
 
     }
 
     public void StartCheckCooldown()
     {
         StartCoroutine(CheckCooldownCoroutine());
-    }
-
-    public void ToggleLockState(bool isLocked)
-    {
-        isLockedOnTarget = isLocked;
     }
     #endregion
 

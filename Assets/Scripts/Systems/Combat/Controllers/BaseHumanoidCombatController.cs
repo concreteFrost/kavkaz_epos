@@ -71,7 +71,7 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
 
         weapon.GetPowerAttack(powerAttack);
 
-        animatorController.OverrideAttack(powerAttack, "Power Attack");
+        animatorController.OverrideAttack(powerAttack, "Power_Attack");
 
         IsAttacking = true;
     }
@@ -96,7 +96,7 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
     {
         ResetCombo();
         //isThrowingWeapon = true;
-        animatorController.PerformThrow();
+        animatorController.PlayClipCrossFade("Throw_Weapon");
     }
 
     public void ThrowShield()

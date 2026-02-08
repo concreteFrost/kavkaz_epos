@@ -56,7 +56,7 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
 
         if (animClipName == null) return;
 
-        animatorController.PlayClipCrossFage(animClipName);
+        animatorController.PlayClipCrossFade(animClipName);
         StartCoroutine(DamagedCoroutine(animClipName));
     }
 

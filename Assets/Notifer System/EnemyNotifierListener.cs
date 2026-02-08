@@ -29,7 +29,7 @@ public class EnemyNotifierListener
 
         if (distance > listenDistance) return;
 
-        fov.SetTarget(target);
+        fov.SetLockedTarget(target);
 
        
     }

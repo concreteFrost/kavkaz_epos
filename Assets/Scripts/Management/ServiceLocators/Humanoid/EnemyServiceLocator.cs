@@ -1,9 +1,8 @@
 using UnityEngine;
 
 
-public class EnemyServiceLocator : HumanoidAiServiceLocator
+public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
-
 
     [Header("Система взаимодействия")]
     [SerializeField] private CharacterInteract interaction;
@@ -45,7 +44,7 @@ public class EnemyServiceLocator : HumanoidAiServiceLocator
 
     private void InteractInit()
     {
-        HumanoidInteractService interactService = new HumanoidInteractService(this.transform, animatorController, combatInventory, damageController, attackSource);
+        HumanoidInteractService interactService = new HumanoidInteractService(this.transform, animatorController, combatInventory, damageController, attackSource, motor);
         interaction.Init(interactService);
     }
 

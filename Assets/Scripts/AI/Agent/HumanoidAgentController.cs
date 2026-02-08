@@ -105,10 +105,14 @@ public class HumanoidAgentController
 
     public void FinishJump(Vector3 destination)
     {
+        agent.updatePosition = true;
+
+        if (!agent.isActiveAndEnabled) return;   
+
         agent.Warp(destination);
         agent.CompleteOffMeshLink();
 
-        agent.updatePosition = true;
+       
     }
 
 

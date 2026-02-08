@@ -5,7 +5,7 @@ public class HumanoidAIDamageController : BaseDamageController
 {
     CapsuleCollider col;
     IRagdollController ragdollController;
-
+    ITargetLocker targetLocker;
 	public void Init(HumanoidDamageServices service)
 	{
         this.motor = service.motor;

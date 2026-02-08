@@ -33,12 +33,10 @@ public class CharacterInteract : MonoBehaviour, ICollector
         Damagable = service.owner;
 
         interactRadius = 1f;
-       
+
     }
 
-    /// <summary>
-    /// Вызывается извне (input / service)
-    /// </summary>
+
     public IPickable UpdatePickable()
     {
         Collider[] hits = Physics.OverlapSphere(
@@ -73,14 +71,14 @@ public class CharacterInteract : MonoBehaviour, ICollector
 
     public void StartInteracion()
     {
-        
+
         if (UpdatePickable() == null)
             return;
 
         PickableItem = UpdatePickable();
 
         //PickableItem.PickUp(this);
-        animatorController.PerformInteract();
+        animatorController.PlayClipCrossFade(AnimatorParameters.interactMidLevelClip); 
         //PickableItem = null;
     }
 

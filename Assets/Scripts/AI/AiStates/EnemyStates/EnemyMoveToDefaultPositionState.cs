@@ -13,7 +13,7 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
         motor = context.motor;
         
         fov.StartCheckCooldown();   
-        fov.ResetTarget();
+        fov.ResetLockedTarget();
         motor.ResetLockTarget();   
         
         context.motor.ResetSprint();
@@ -25,7 +25,7 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
 
         motor.IsSprinting = true;
 
-        context.fov.ResetTarget();
+        context.fov.ResetLockedTarget();
     }
 
     public override AIStateResult Run()

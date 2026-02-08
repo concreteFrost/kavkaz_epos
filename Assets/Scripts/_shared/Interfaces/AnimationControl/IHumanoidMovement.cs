@@ -23,4 +23,5 @@ public interface IHumanoidMovement
     public bool IsDodging { get; set; }
     public float DodgeX {  get; set; }
     public float DodgeY { get; set; }
+
 }

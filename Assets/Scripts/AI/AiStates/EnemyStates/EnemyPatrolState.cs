@@ -22,7 +22,7 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
         notifierManager = context.notifierManager;  
 
-        fov.ResetTarget();
+        fov.ResetLockedTarget();
         motor.ResetLockTarget();    
         motor.ResetSprint();
 

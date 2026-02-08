@@ -24,7 +24,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         motor.ResetSprint();
 
         // сбрасываем цель Ч idle не удерживает агрессию
-        fov.ResetTarget();
+        fov.ResetLockedTarget();
         motor.ResetLockTarget();
 
         // инициализаци€ таймеров и флагов состо€ни€ поко€

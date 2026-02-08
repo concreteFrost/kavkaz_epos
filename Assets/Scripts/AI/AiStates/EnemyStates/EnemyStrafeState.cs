@@ -46,7 +46,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         motor.SetLockTarget(fov.currentTarget.GetAimTransform());
 
         // сообщаем FOV, что цель сейчас залочена
-        fov.ToggleLockState(true);
+        //fov.ToggleLockState(true);
     }
 
     public override AIStateResult Run()
@@ -90,7 +90,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
 
         motor.ResetLockTarget();
         motor.SetStrafe(false);
-        fov.ToggleLockState(false);
+        //fov.ToggleLockState(false);
 
         combatHandler.ToggleShield(false, inventory, combatController);
     }

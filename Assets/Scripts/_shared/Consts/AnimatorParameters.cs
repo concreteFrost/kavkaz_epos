@@ -13,17 +13,23 @@ public class AnimatorParameters
     public const int motionLayer = 0;
     public const int armedLayer = 1;
     public const int combatLayer = 2;
+    public const int interractionLayer = 4;
     public const int climbLayer = 5;
     public const int damageLayer = 6;
 
     //public const string getUpState= "Getup";
     //public const string getUpFromBellyState = "Getup_From_Belly";
     public const string lookAroundState = "Look_Around_Start";
+    public const string throwWeaponState = "Throw_Weapon";
 
     public const string lowDamageClip = "Low_Damage";
     public const string midDamageClip = "Mid_Damage";
     public const string highDamageClip = "High_Damage";
     public const string shieldDamageClip = "Shield_Damage";
+
+    
+
+    public const string interactMidLevelClip = "Interact_Mid_Level";
 
     public const string climbUpClip = "Climb_Up";
 

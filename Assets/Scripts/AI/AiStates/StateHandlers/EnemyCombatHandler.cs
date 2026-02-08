@@ -39,7 +39,6 @@ public class EnemyCombatHandler
     [SerializeField] private bool isStrafeBlocked = false;
 
     [Header("Транзит состояний")]
-    [SerializeField] private float currStrafeTransitionChance;
     [SerializeField] private float currAttackTransitionChance;
 
     public EnemyCombatHandler(CharacterBehaviourStatsSO stats, HumanoidStats statsController)
@@ -48,7 +47,7 @@ public class EnemyCombatHandler
         this.statsController = statsController;
 
         currAttackTransitionChance = stats.attackTransitionChance;
-        currStrafeTransitionChance = stats.strafeTransitionChance;
+
 
         powerAttackChance = stats.initialPoweAttackChance;
         currentDodgeChance = stats.initialDodgeChance;
@@ -209,8 +208,7 @@ public class EnemyCombatHandler
         currAttackTransitionChance += adjuster;
         currAttackTransitionChance = Mathf.Clamp(currAttackTransitionChance, 0f, 1f);   
 
-        currStrafeTransitionChance -= adjuster;
-        currStrafeTransitionChance = Mathf.Clamp(currStrafeTransitionChance, 0f, 1f);
+       
     }
 
 }

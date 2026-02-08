@@ -16,7 +16,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         agentController = context.agentController;
         passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
        
-        fov.ResetTarget();
+        fov.ResetLockedTarget();
         motor.ResetLockTarget();
         motor.ResetSprint();
 

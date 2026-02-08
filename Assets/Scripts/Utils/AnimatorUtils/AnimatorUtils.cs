@@ -14,15 +14,13 @@ public static class AnimatorUtils
             yield return null;
     }
 
-    public static bool IsAnimationFinished(Animator animator, int stateHash, int layer = 0)
+    public static bool IsAnimationFinished(Animator animator, string stateHash, int layer = 0)
     {
-        if (animator.IsInTransition(layer))
-            return false;
 
         var state = animator.GetCurrentAnimatorStateInfo(layer);
 
-        if (state.shortNameHash != stateHash)
-            return false;
+        if (!state.IsName(stateHash))
+            return true;
 
         return state.normalizedTime >= 1f;
     }

@@ -85,7 +85,7 @@ public abstract class BaseHumanoidAnimatorController
 
     }
 
-    public void PlayClipCrossFage(string name)
+    public void PlayClipCrossFade(string name)
     {
         animator.CrossFade(name, AnimatorParameters.transitionSpeed);
     }
@@ -113,15 +113,6 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade("Armed", AnimatorParameters.transitionSpeed, AnimatorParameters.armedLayer);
     }
 
-    public void PerformThrow()
-    {
-        animator.CrossFade("Throw weapon", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
-    }
-
-    public void PerformInteract()
-    {
-        animator.CrossFade("Interact", AnimatorParameters.transitionSpeed);
-    }
 
 
 

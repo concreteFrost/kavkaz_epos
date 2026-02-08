@@ -35,7 +35,7 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float dodgeChanceMultiplier = 0.15f;
 
     [Header("Strafe")]
-    public float strafeTransitionChance = .2f;
+    //public float strafeTransitionChance = .2f;
     public float maxTargetDistanceInStrafe = 10f;
 
     [RangeAttribute(3, 7)]

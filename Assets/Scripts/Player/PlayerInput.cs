@@ -194,7 +194,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (lockOnTargetPressed)
         {
-            targetLock.SetLockedTarget();
+            targetLock.HandleSetTarget();
             lockOnTargetPressed = false;
         }
 

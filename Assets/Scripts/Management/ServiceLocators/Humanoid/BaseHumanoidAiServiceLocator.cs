@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class HumanoidAiServiceLocator : MonoBehaviour
+public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 {
     [Header("”никальный идентификатор")]
     [SerializeField] protected UniqueId uniqueId;

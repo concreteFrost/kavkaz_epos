@@ -3,17 +3,18 @@ using UnityEngine.AI;
 
 public class HumanoidDamageServices
 {
-    public BaseHumanoidAnimatorController animatorController;
-    public IRagdollController ragdollController;
+    public BaseHumanoidAnimatorController animatorController; 
     public HumanoidAIMotor motor;
-    public ICharacterStatsController statsModifier;
     public HumanoidStats stats;
     public HumanoidAgentController agent;
     public CapsuleCollider col;
 
+    public ICharacterStatsController statsModifier;
+    public IRagdollController ragdollController;
+
     public string uniqueID;
 
-    public HumanoidDamageServices(BaseHumanoidAnimatorController animatorController, IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, HumanoidAgentController agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageServices(BaseHumanoidAnimatorController animatorController,IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, HumanoidAgentController agent, CapsuleCollider col, string uniqueID)
     {
 
         this.animatorController = animatorController;

@@ -48,7 +48,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         //if (damageController.IsDead || currentTarget.IsKnockedOut)
         if (damageController.IsDead)
         {
-            ResetLockTarget();
+            ResetLockedTarget();
             return;
         }
         TrackTargetDistance();
@@ -66,18 +66,21 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// <summary>
     /// Фиксирует текущую цель и обновляет пользовательский интерфейс и контроллер, отражая заблокированное состояние.
     /// </summary>
-    public void SetLockedTarget()
+    public void SetLockedTarget(IDamagable t)
+    {
+
+        controller.SetLockTarget(t.GetAimTransform());
+        controller.SetStrafe(true);
+        lockOnTargetUI.SetTarget(t.GetAimTransform());
+    }
+
+    public void HandleSetTarget()
     {
         var t = TryGetLockedTarget();
 
-        if (t != null)
-        {
+        if(t == null) return;   
 
-            controller.SetLockTarget(t.GetAimTransform());
-            controller.SetStrafe(true);
-            lockOnTargetUI.SetTarget(t.GetAimTransform());
-
-        }
+        SetLockedTarget(t);
     }
 
     /// <summary>
@@ -87,14 +90,14 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     {
         if (currentTarget.IsDead || currentTarget.IsKnockedOut)
         {
-            ResetLockTarget();
+            ResetLockedTarget();
             return;
         }
         var dist = Vector3.Distance(targetSeeker.position, currentTarget.GetOrigin().position);
 
         if (dist > targetResetDistance)
         {
-            ResetLockTarget();
+            ResetLockedTarget();
 
         }
     }
@@ -102,7 +105,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// <summary>
     /// Сбрасывает текущую цель захвата и связанные с ней состояния пользовательского интерфейса и контроллера.
     /// </summary>
-    public void ResetLockTarget()
+    public void ResetLockedTarget()
     {
         currentTarget = null;
         wasTargetSearched = false;
@@ -123,7 +126,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
         if (!wasTargetSearched)
         {
-            ResetLockTarget();
+            ResetLockedTarget();
             lockOnTargetUI.ResetTarget();
             return null;
         }
