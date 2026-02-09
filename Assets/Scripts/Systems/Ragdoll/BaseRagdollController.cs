@@ -31,7 +31,7 @@ public abstract class BaseRagdollController : IRagdollController
     protected CharacterBoneTransform[] _facedownBoneTransforms;
     protected CharacterBoneTransform[] _ragdollBoneTransforms;
 
-    Coroutine recoveryCoroutine = null;
+    //Coroutine recoveryCoroutine = null;
 
     protected float blendDuration = 0.5f; // время перехода между ragdoll и анимацией
     protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
@@ -113,7 +113,7 @@ public abstract class BaseRagdollController : IRagdollController
     {
         IsKnockedOut = true;
         EnableRagdoll(from, force);
-        recoveryCoroutine = context.StartCoroutine(Recover());
+        context.StartCoroutine(Recover());
     }
 
     /// <summary>
@@ -122,9 +122,8 @@ public abstract class BaseRagdollController : IRagdollController
     public void ForceStop()
     {
         //IsRecovering = false;
+        context.StopCoroutine(Recover());
 
-        if (recoveryCoroutine != null)
-            context.StopCoroutine(recoveryCoroutine);
     }
 
     /// <summary>

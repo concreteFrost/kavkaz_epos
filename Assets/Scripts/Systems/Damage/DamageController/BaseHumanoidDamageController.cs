@@ -3,41 +3,34 @@ using System.Collections;
 using UnityEngine;
 
 
-public abstract class BaseDamageController : MonoBehaviour, IDamagable
+public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 {
-
-    protected ICharacterStatsController statsController;
+    protected Transform self;
+    protected HumanoidStatsManager statsManager;
     protected IHumanoidMovement motor;
-    protected HumanoidStats stats;
-
-    public CharacterType characterType;
 
     [SerializeField] protected Transform aimPosition;
     protected BaseHumanoidAnimatorController animatorController;
 
     #region IDamagable Contract
     public bool IsDead { get; set; }
-
     public bool IsDamaged { get; set; }
-    public BalanceDamageType BalancePenalty { get ; set ; }
-
-    public CharacterType CharacterType { get=>characterType; set => characterType = value; }
-
+    public CharacterType CharacterType { get; set; }
     public Transform GetAimTransform()=> aimPosition;
     public Transform GetOrigin() => transform;
 
     public event Action<Transform> DamageTaken;
-
     public bool IsKnockedOut {  get; set; } 
     #endregion
 
 
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
-        if(IsDamagingBlocked() || IsDead) return;
+        if (IsDamagingBlocked()) return;
 
-        statsController.ReduceHealth(damageData.healthDamageMultiplier);
+        statsManager.Controller.ReduceHealth(damageData.healthDamageMultiplier);
         InvokeDamageTaken(source);
+
 
     }
 
@@ -47,8 +40,8 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
     }
 
     protected abstract bool IsDamagingBlocked();
-
-    public abstract void Die();
+    //public abstract void Die();
+    //public abstract void Respawn();
 
     protected void HandleGetDamaged(BalanceDamageType balanceDamageType)
     {
@@ -60,7 +53,7 @@ public abstract class BaseDamageController : MonoBehaviour, IDamagable
         StartCoroutine(DamagedCoroutine(animClipName));
     }
 
-    IEnumerator DamagedCoroutine(string animationName)
+    protected IEnumerator DamagedCoroutine(string animationName)
     {
        
         animatorController.Animator().applyRootMotion = true;

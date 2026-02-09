@@ -1,23 +1,22 @@
 ﻿
 using UnityEngine;
 
-public class HumanoidAIDamageController : BaseDamageController
+public class HumanoidAIDamageController : BaseHumanoidDamageController
 {
-    CapsuleCollider col;
+
     IRagdollController ragdollController;
-    ITargetLocker targetLocker;
+
 	public void Init(HumanoidDamageServices service)
 	{
+        this.self = service.self;
         this.motor = service.motor;
-		this.statsController = service.statsModifier;
-		this.stats =service.stats;
+		this.statsManager = service.statsManager;
+		//this.stats =service.stats;
         this.ragdollController = service.ragdollController;
-        this.col = service.col; 
         this.animatorController = service.animatorController;
-	
-        stats.Health.Depleted += Die;
+        
+        CharacterType = service.statsManager.Stats.statsSO.characterType;
 
-        ragdollController.RecoveredInInvalidArea += OnInvalidRecover;
         ragdollController.Recovered += OnRecover;
 
         if (aimPosition == null)
@@ -29,15 +28,7 @@ public class HumanoidAIDamageController : BaseDamageController
 
     private void OnDisable()
     {
-        stats.Health.Depleted -= Die;
         ragdollController.Recovered -= OnRecover;
-        ragdollController.RecoveredInInvalidArea -= OnInvalidRecover;
-    }
-
-    protected void OnInvalidRecover()
-    {
-        if (IsDead) return;
-        Die();
     }
 
     private void OnRecover()
@@ -52,7 +43,7 @@ public class HumanoidAIDamageController : BaseDamageController
         {
             DamageData d = new DamageData
             {
-                healthDamageMultiplier = 10f,
+                healthDamageMultiplier = 30f,
                 balanceDamageType = BalanceDamageType.Extreme,
                 impactForce = 20f
             };
@@ -61,15 +52,20 @@ public class HumanoidAIDamageController : BaseDamageController
        
     }
 
-  
+    protected override bool IsDamagingBlocked()
+    {
+        return motor.IsDodging || IsDead;
+    }
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
         base.TakeDamage(damageData, source);
 
-        if (damageData.balanceDamageType == BalanceDamageType.Extreme && !ragdollController.IsKnockedOut)
+        if (IsDead) return;
+ 
+        if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
-            Vector3 sourcePos = source != null ? source.position : transform.position - transform.forward;
+            Vector3 sourcePos = source != null ? source.position : self.position - self.forward;
             PerformKnockout(sourcePos, damageData.impactForce);
         }
 
@@ -82,26 +78,12 @@ public class HumanoidAIDamageController : BaseDamageController
 
     private void PerformKnockout(Vector3 source, float impactForce)
     {
-        //motor.ResetLockTarget();
         ragdollController.Knockout(source,impactForce);
         IsKnockedOut = true;
     }
 
-    protected override bool IsDamagingBlocked()
-    {
-        return motor.IsDodging || IsDead;
-    }
 
-    public override void Die()
-    {
-        IsDead = true;
 
-        col.enabled = false;
-
-        ragdollController.ForceStop();
-        ragdollController.EnableRagdoll(Vector3.zero,300);
-
-    }
 
 
 

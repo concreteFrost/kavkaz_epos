@@ -13,10 +13,10 @@ public class AgressivePushController : MonoBehaviour , IPushSource
 
     public AnimationInfoSO AnimationData() => animationData;
 
-    public void Init(IAttackSource attackSource, IHumanoidCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
+    public void Init(AgressivePushControllerServices services)
     {
-        this.combatController = combatController;
-        this.animatorController = animatorController;
+        this.combatController = services.combatController;
+        this.animatorController = services.animatorController;
 
         IsPushing = false;
         
@@ -25,7 +25,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
             Debug.Log("no push collider assigned");
         }
 
-        pushCollider.Init(attackSource.TargetsToIgnore, self);
+        pushCollider.Init(services.attackSource.TargetsToIgnore, services.self);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void TriggerPushAnimation()

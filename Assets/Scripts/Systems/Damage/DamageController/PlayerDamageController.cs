@@ -1,35 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerDamageController : BaseDamageController
+public class PlayerDamageController : BaseHumanoidDamageController
 {
-
-    IHumanoidCombat combatController;
-    ICombatInventory combatInventory;
-
-    PlayerInput input;
 
     private float damageCooldown = 0.7f;
     private bool damageBlocked = false;
 
     protected bool canTakeAnotherDamage = true;
 
-
     public void Init(PlayerDamageControllerService service)
     {
 
         this.motor = service.motor; 
-        this.stats = service.stats;
-        this.statsController = service.statsController;
-        this.combatController = service.combatController;
-        this.combatInventory = service.attackSource;
-        this.input = service.input; 
+        //this.stats = service.stats;
+        this.statsManager = service.statsManager;
         this.animatorController = service.animatorController;
-      
-
-        stats.Health.Depleted += Die;
-
-        characterType = CharacterType.Player;
+        CharacterType = service.statsManager.Stats.statsSO.characterType;
 
         if(aimPosition == null)
         {
@@ -38,10 +25,7 @@ public class PlayerDamageController : BaseDamageController
     }
 
 
-    private void OnDisable()
-    {
-        stats.Health.Depleted -= Die;   
-    }
+
 
     private void Update()
     {
@@ -61,6 +45,8 @@ public class PlayerDamageController : BaseDamageController
     {
        base.TakeDamage(damageData, source);
 
+       if (IsDead) return;
+
        HandleGetDamaged(damageData.balanceDamageType);
        StartCoroutine(DamageCooldownCoroutine());
     }
@@ -70,34 +56,6 @@ public class PlayerDamageController : BaseDamageController
         return IsDead || damageBlocked || motor.IsDodging;
     }
 
-    public override void Die()
-    {
-        IsDead = true;
-
-        input.controls.Player.Disable();
-
-        combatInventory.CurrentWeapon?.DropWeapon();
-        combatInventory.ShieldWeapon?.ThrowShield();
-        combatInventory.ResetWeapon();
-
-        StartCoroutine(RespawnCoroutine(5f));
-    }
-
-    public void Respawn()
-    {
-
-        input.controls.Player.Enable();
-        statsController.ResetAllStats();
-
-        IsDead = false;
-
-    }
-
-    private IEnumerator RespawnCoroutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Respawn();
-    }
 
     private IEnumerator DamageCooldownCoroutine()
     {

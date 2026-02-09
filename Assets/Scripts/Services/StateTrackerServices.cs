@@ -2,12 +2,12 @@ public class EnemyStateTrackerServices
 {
     public HumanoidAIDamageController damageController;
  
-    public HumanoidStats stats;
+    public HumanoidStatsManager statsManager;
 
-    public EnemyStateTrackerServices(HumanoidAIDamageController damageController, HumanoidStats stats)
+    public EnemyStateTrackerServices(HumanoidAIDamageController damageController, HumanoidStatsManager statsManager)
     {
         this.damageController = damageController;
-        this.stats = stats;
+        this.statsManager = statsManager;
     }
 
 }

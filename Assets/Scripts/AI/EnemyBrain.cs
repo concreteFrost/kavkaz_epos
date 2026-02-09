@@ -13,11 +13,11 @@ public enum AIStateResult
     MoveToInterruptor = 8,
 }
 
-public class EnemyBrain : MonoBehaviour
+public class EnemyBrain : AIBrain
 {
     EnemyBrainContext context;
 
-    [HideInInspector] public AIStateMachine stateMachine = new AIStateMachine();
+    private AIStateMachine stateMachine = new AIStateMachine();
 
     public AIState<EnemyBrainContext> currentState;
 
@@ -89,6 +89,16 @@ public class EnemyBrain : MonoBehaviour
         }
 
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
+    }
+
+    public override void ForceStop()
+    {
+        stateMachine.ForceExit();
+    }
+
+    public override void SetInitialState()
+    {
+        stateMachine.ChangeState(idle);
     }
 
 

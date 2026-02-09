@@ -4,6 +4,7 @@ public class BaseHumanoidCombatControllerServices
 {
     public ICombatInventory combatInventory;
     public BaseHumanoidAnimatorController animatorController;
+    public IDamagable damageController;
 
     public BaseHumanoidCombatControllerServices(
         ICombatInventory combatInventory,
@@ -13,6 +14,7 @@ public class BaseHumanoidCombatControllerServices
     {
         this.combatInventory = combatInventory;
         this.animatorController = animatorController;
+        this.damageController = damageController;   
  
     }
 

@@ -21,18 +21,12 @@ public class HumanoidStats : MonoBehaviour
     [Header("stamina")]
     public StaminaModel Stamina;
     public float maxStamina;
-    //public float staminaRunReducePenalty = 0.03f;
-    //public float staminaPushReducePenalty = 5f;
-    //public float staminaJumpReducePenalty = 7f;
-    //public float staminaDodgeReducePenalty = 10f;
-    //public float staminaMinRegenDelay = 2f;
-    //public float staminaMaxRegenDelay = 6f;
-    //public float staminaRegenRate = 15f;
 
 
     [Header("stats debug")]
     public float d_stamina;
     public float d_health;
+
 
     protected void InitializeStats()
     {

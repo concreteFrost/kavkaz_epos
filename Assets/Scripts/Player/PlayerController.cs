@@ -5,14 +5,15 @@ public class PlayerController : MonoBehaviour
     PlayerMotor locomotion;
     IHumanoidCombat combatController;
     IDamagable damageController;
-    ICharacterStatsController statsController;
+    CharacterStatsController statsController;
     ITargetLocker targetLocker;
-    HumanoidStats stats;
     ICollector interact;
     PlayerClimbing climbing;
     PlayerActionGuards actionGuards;
     PlayerAnimatorController animatorController;
     AgressivePushController pushSource;
+
+    HumanoidStats stats;
 
     private void Update()
     {
@@ -33,14 +34,16 @@ public class PlayerController : MonoBehaviour
         locomotion = provider.controller;
         damageController = provider.damageController;
         combatController = provider.combatController;
-        stats = provider.stats;
+       
         interact = provider.interact;
         climbing = provider.climbing;
-        statsController = provider.statsController;
+        statsController = provider.statsManager.Controller;
+
+        stats = statsController.stats;
         targetLocker = provider.locker;
         pushSource = provider.pushSource;   
 
-        actionGuards = new PlayerActionGuards(locomotion, combatController, stats, damageController, climbing,targetLocker);
+        actionGuards = new PlayerActionGuards(locomotion, combatController, statsController.stats, damageController, climbing,targetLocker);
         climbing.Init(locomotion, actionGuards,animatorController );
 
     }

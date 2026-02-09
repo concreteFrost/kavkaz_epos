@@ -3,27 +3,23 @@ using UnityEngine.AI;
 
 public class HumanoidDamageServices
 {
+    public Transform self;
     public BaseHumanoidAnimatorController animatorController; 
     public HumanoidAIMotor motor;
-    public HumanoidStats stats;
     public HumanoidAgentController agent;
-    public CapsuleCollider col;
 
-    public ICharacterStatsController statsModifier;
+    public HumanoidStatsManager statsManager;
     public IRagdollController ragdollController;
 
     public string uniqueID;
 
-    public HumanoidDamageServices(BaseHumanoidAnimatorController animatorController,IRagdollController ragdollController, HumanoidAIMotor motor, ICharacterStatsController statsController, HumanoidStats stats, HumanoidAgentController agent, CapsuleCollider col, string uniqueID)
+    public HumanoidDamageServices(Transform self, BaseHumanoidAnimatorController animatorController,IRagdollController ragdollController, HumanoidAIMotor motor,HumanoidStatsManager statsManager, string uniqueID)
     {
-
+        this.self = self;   
         this.animatorController = animatorController;
         this.ragdollController = ragdollController;
         this.motor = motor;
-        this.statsModifier = statsController;
-        this.stats = stats;
-        this.agent = agent;
-        this.col = col;
+        this.statsManager = statsManager;
         this.uniqueID = uniqueID;
 
     }
@@ -33,22 +29,15 @@ public class PlayerDamageControllerService
 {
     public BaseHumanoidAnimatorController animatorController;
     public IHumanoidMovement motor;
-    public ICharacterStatsController statsController;
-    public HumanoidStats stats;
+    public HumanoidStatsManager statsManager;
+
     public PlayerInput input;
 
-    public IHumanoidCombat combatController;
-    public ICombatInventory attackSource;
 
-    public PlayerDamageControllerService(BaseHumanoidAnimatorController animatorController, IHumanoidMovement motor, ICharacterStatsController statsController, HumanoidStats stats, PlayerInput input, IHumanoidCombat combatController, ICombatInventory attackSource)
+    public PlayerDamageControllerService(BaseHumanoidAnimatorController animatorController, IHumanoidMovement motor, HumanoidStatsManager statsManager)
     {
         this.motor = motor;
-        this.statsController = statsController;
-        this.stats = stats;
-        this.input = input;
-
-        this.attackSource = attackSource;
-        this.combatController = combatController;
+        this.statsManager = statsManager;
         this.animatorController = animatorController;
     }
 }

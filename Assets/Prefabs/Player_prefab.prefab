@@ -672,8 +672,7 @@ MonoBehaviour:
   climbing: {fileID: 923361003681641049}
   input: {fileID: 1393379555626210300}
   controller: {fileID: 3436852327508266912}
-  stats: {fileID: 6584741475100290606}
-  statsController: {fileID: 1717874504137131917}
+  statsManager: {fileID: 5527923169868036536}
   interaction: {fileID: 7107515754348160904}
   combatController: {fileID: 2545132252603040552}
   combatInventory: {fileID: 548762665843053101}
@@ -3045,7 +3044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe995522b5bbb141a0f574dfbbe7f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageController
-  characterType: 0
   aimPosition: {fileID: 7893995649272627185}
 --- !u!1 &7522564744717880474
 GameObject:
@@ -3741,6 +3739,7 @@ GameObject:
   - component: {fileID: 5368957167826177798}
   - component: {fileID: 1717874504137131917}
   - component: {fileID: 6584741475100290606}
+  - component: {fileID: 5527923169868036536}
   m_Layer: 0
   m_Name: Player_Stats
   m_TagString: Untagged
@@ -3802,6 +3801,20 @@ MonoBehaviour:
   maxStamina: 0
   d_stamina: 0
   d_health: 0
+--- !u!114 &5527923169868036536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8509689430591662325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e1d7dec0d2dc94bbe7e8d55cfbaff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidStatsManager
+  Stats: {fileID: 6584741475100290606}
+  Controller: {fileID: 1717874504137131917}
 --- !u!1 &8517202875410652669
 GameObject:
   m_ObjectHideFlags: 0
@@ -4256,10 +4269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421c3af7714aed74aa4626c0bb48ad8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  wasLastGroundedPositionRegistered: 0
-  lastGroundedPosition: {x: 0, y: 0, z: 0}
-  fallDamageThreshold: 4
-  fallDamageMultiplier: 5
 --- !u!1 &9095560272733935764
 GameObject:
   m_ObjectHideFlags: 0

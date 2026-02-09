@@ -18,6 +18,7 @@ public class AiRagdollController : BaseRagdollController
     public override void EnableRagdoll(Vector3 from, float force = 0)
     {
         col.enabled = false;
+       
         anim.Animator().enabled = false;
 
         agentController.DisableAgent();
@@ -31,8 +32,6 @@ public class AiRagdollController : BaseRagdollController
             rb.angularVelocity = Vector3.zero;
             
         }
-
-        
 
         ApplyImpulseFromSource(force,from);
 

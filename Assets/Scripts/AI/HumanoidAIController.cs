@@ -5,22 +5,24 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAIMotor aiMotor;
     HumanoidAIAnimatorController aIAnimator;
     HumanoidAgentController agentController;
-    IDamagable damageController;
+    HumanoidAIDamageController damageController;
     HumanoidAIAnimatorController animator;
-    //ICharacterStatsController statsController;
     HumanoidStats stats;
+
+
     Transform self;
 
-    public void Init(HumanoidControllerServices service)
+    public void Init(HumanoidControllerServices services)
     {
-        this.self = service.self;
-        this.agentController = service.agentController; 
-        this.animator = service.aiAnimatorController;
-        this.aiMotor = service.aiMotor;
-        this.aIAnimator = service.aiAnimatorController;
-        //this.statsController = service.statsController;
-        this.damageController = service.damageController;
-        this.stats = service.stats;
+        this.self = services.self;
+        this.agentController = services.agentController; 
+        this.animator = services.aiAnimatorController;
+        this.aiMotor = services.aiMotor;
+        this.aIAnimator = services.aiAnimatorController;
+        this.damageController = services.damageController;
+
+        this.stats = services.statsManager.Stats;
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 

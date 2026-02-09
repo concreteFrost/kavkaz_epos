@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class BaseHumanoidAnimatorController
 {
+    
     protected Animator animator;
     protected AnimatorOverrideController overrideController;
 
@@ -84,6 +85,8 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);   
 
     }
+
+
 
     public void PlayClipCrossFade(string name)
     {

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
 
@@ -19,8 +18,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [SerializeField] private EnemyFOVController fovController;
 
     [Header("Мозг")]
-    [SerializeField] private EnemyBrain brain;
-    [SerializeField] private EnemyStateTracker stateTracker;
+    [SerializeField] protected EnemyBrain brain;
+    [SerializeField] protected EnemyStateTracker stateTracker;
 
     [Header("Система событий")]
     [SerializeField] private EnemyNotifierManager notifierManager;
@@ -72,7 +71,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     protected override void BrainInit()
     {
         
-        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController, stats);
+        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController,statsManager);
         stateTracker.Init(stateTrackerServices);
 
         EnemyBrainContext brainContext = new EnemyBrainContext()
@@ -82,7 +81,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             animator = animator,
             motor = motor,
             controller = controller,
-            stats = stats,
+            stats = statsManager.Stats,
             damageController = damageController,
             combat = combatController,
             inventory = combatInventory,
@@ -95,7 +94,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             notifierManager = notifierManager
 
         };
-
+        
+        
         brain.Init(brainContext);
     }
 }

@@ -7,8 +7,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public CharacterType characterType;
 
-    [SerializeField] float currentHealth = 30;
-    [SerializeField] string selfId;
+    [SerializeField] private float defaultHealth = 20f;
+    [SerializeField] HealthModel Health;
 
     Color defaultCol;
     MeshRenderer mat;
@@ -18,14 +18,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public Transform GetAimTransform() => transform;
     public Transform GetOrigin() => transform;
     public bool IsDead { get; set; }
-    public string SourceId() => selfId;
+    public string SourceId() => null;
     public bool IsDamaged { get; set; }
     public bool IsKnockedOut {  get; set; } 
-    public BalanceDamageType BalancePenalty {  get; set; }
 
     public event Action<Transform> DamageTaken = null;
-
-    public bool IsUnavailable() => false;
 
     #endregion
 
@@ -36,39 +33,31 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public virtual void Init()
     {
-        selfId = GetInstanceID().ToString();
+
+        Health = new HealthModel(defaultHealth);
+
         mat = GetComponent<MeshRenderer>();
         defaultCol = mat.material.color;
 
         characterType = CharacterType.Object;
+
+        
     }
 
     public void TakeDamage(DamageData damageData,Transform source)
     {
         if (IsDead) return;
-        currentHealth -= damageData.healthDamageMultiplier;
+        
+        Health.Current -= damageData.healthDamageMultiplier;
         StartCoroutine(DamageCoroutine());
-
-        if (currentHealth <= 0)
-        {
-
-            Die();
-        }
 
         DamageTaken?.Invoke(source);
     }
 
 
-    public virtual void Die()
-    {
-        IsDead = true;
-        gameObject.SetActive(false);
-    }
-
     IEnumerator DamageCoroutine()
     {
         
-       
         var col = Color.white;
         var col2 = Color.green;
 
@@ -89,13 +78,4 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     }
 
-    public void GetPushed(PushDirection direction)
-    {
-        //без реализации
-    }
-
-    public void CancelPush()
-    {
-        //без реализации
-    }
 }

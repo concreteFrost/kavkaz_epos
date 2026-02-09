@@ -463,10 +463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe5f8f60474701419ae2786322ce71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AiFallController
-  wasLastGroundedPositionRegistered: 0
-  lastGroundedPosition: {x: 0, y: 0, z: 0}
-  fallDamageThreshold: 4
-  fallDamageMultiplier: 5
 --- !u!1 &795497551627478149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1045,6 @@ MonoBehaviour:
     blockStrafeCooldown: 0
     maxBlockStrafeTimer: 0
     isStrafeBlocked: 0
-    currStrafeTransitionChance: 0
     currAttackTransitionChance: 0
   waitForTargetHandler:
     stats: {fileID: 0}
@@ -1947,8 +1942,7 @@ MonoBehaviour:
   agent: {fileID: 8987308371889165279}
   motor: {fileID: 3881702655214924737}
   controller: {fileID: 3169394707491743592}
-  statsController: {fileID: 6095946705785411074}
-  stats: {fileID: 3623233199384946657}
+  statsManager: {fileID: 2734249131947840578}
   damageController: {fileID: 1055276295984137630}
   pushReceiver: {fileID: 2068846124865319517}
   fallController: {fileID: 6858206497910447250}
@@ -2657,6 +2651,7 @@ GameObject:
   - component: {fileID: 1405730832600722143}
   - component: {fileID: 6095946705785411074}
   - component: {fileID: 3623233199384946657}
+  - component: {fileID: 2734249131947840578}
   m_Layer: 0
   m_Name: AI_Stats
   m_TagString: Untagged
@@ -2718,6 +2713,20 @@ MonoBehaviour:
   maxStamina: 0
   d_stamina: 0
   d_health: 0
+--- !u!114 &2734249131947840578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049543838858314529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e1d7dec0d2dc94bbe7e8d55cfbaff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidStatsManager
+  Stats: {fileID: 3623233199384946657}
+  Controller: {fileID: 6095946705785411074}
 --- !u!1 &5054256029449277750
 GameObject:
   m_ObjectHideFlags: 0
@@ -4501,7 +4510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd247fe11c2afb4bbbf26a6876db943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
-  characterType: 2
   aimPosition: {fileID: 6524570281999694432}
 --- !u!1 &8179061233981516140
 GameObject:

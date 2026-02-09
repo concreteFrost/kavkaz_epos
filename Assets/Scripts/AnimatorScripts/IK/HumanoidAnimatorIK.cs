@@ -17,7 +17,7 @@ public class HumanoidAnimatorIK : MonoBehaviour
 
     Vector3 lastLookPos;
 
-    public void Init(HumanoidAIMotor motor, HumanoidStats stats, IDamagable damageController)
+    public void Init(HumanoidAIMotor motor, IDamagable damageController)
     {
         this.aiMotor = motor;   
         this.damageController = damageController;

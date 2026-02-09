@@ -2,21 +2,17 @@
 using System;
 using UnityEngine;
 
+
 public interface IDamagable
 {
-    public CharacterType CharacterType { get; set; } 
-
-    public abstract void TakeDamage(DamageData damageData, Transform source=null);   
-    public void Die();
-    public bool IsDead { get; set; }
+    CharacterType CharacterType { get; set; } 
+    abstract void TakeDamage(DamageData damageData, Transform source=null);   
+    bool IsDead { get; set; }
     bool IsDamaged { get; set; }
     bool IsKnockedOut {  get; set; }
-    BalanceDamageType BalancePenalty { get; set; }
-
-    public Transform GetAimTransform();
-    public Transform GetOrigin();
-
-    public event Action<Transform> DamageTaken;
+    Transform GetAimTransform();
+    Transform GetOrigin();
+    event Action<Transform> DamageTaken;
 
 
 }

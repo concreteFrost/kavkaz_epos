@@ -5,22 +5,22 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 {
     [Header("Уникальный идентификатор")]
     [SerializeField] protected UniqueId uniqueId;
-   
+
     [Header("Анимация")]
     [SerializeField] protected Animator animator;
     [SerializeField] protected AnimatorOverrideController overrideController;
     [SerializeField] protected HumanoidAnimatorIK ik;
-   
+
     [Header("Агент")]
     [SerializeField] protected NavMeshAgent agent;
-   
+
     [Header("Мотор")]
     [SerializeField] protected HumanoidAIMotor motor;
     [SerializeField] protected HumanoidAIController controller;
 
     [Header("Статы")]
-    [SerializeField] protected CharacterStatsController statsController;
-    [SerializeField] protected HumanoidStats stats;
+    [SerializeField] protected HumanoidStatsManager statsManager;
+
 
     [Header("Система урона")]
     [SerializeField] protected HumanoidAIDamageController damageController;
@@ -48,10 +48,13 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
         AnimatorInit();
         AgentInit();
         IKInit();
+
         RagdollInit();
         ControllerInit();
         StatsInit();
         DamageInit();
+
+        //LifecycleInit();
 
     }
 
@@ -59,17 +62,17 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     protected abstract void BrainInit();
 
+    //protected abstract void LifecycleInit();
+
     protected virtual void RagdollInit()
     {
         ragdollController = new AiRagdollController(this, animatorController, agentController, transform);
     }
 
+
     protected virtual void StatsInit()
     {
-        stats.Init();
-
-        HumanoidStatsControllerServices service = new HumanoidStatsControllerServices(stats);
-        statsController.Init(service);
+        statsManager.Init();
 
     }
 
@@ -77,7 +80,14 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     {
         motor.Init(animatorController, agentController);
 
-        HumanoidControllerServices controllerService = new HumanoidControllerServices(transform,motor, animatorController, agentController, statsController, damageController, stats);
+        HumanoidControllerServices controllerService = new HumanoidControllerServices(
+            transform,
+            motor,
+            animatorController,
+            agentController,
+            damageController,
+            statsManager);
+
         controller.Init(controllerService);
     }
 
@@ -88,12 +98,12 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     protected virtual void IKInit()
     {
-        ik.Init(motor, stats, damageController);
+        ik.Init(motor, damageController);
     }
 
     protected virtual void DamageInit()
     {
-        HumanoidDamageServices damageService = new HumanoidDamageServices(animatorController, ragdollController, motor, statsController, stats, agentController, capsuleCollider, uid);
+        HumanoidDamageServices damageService = new HumanoidDamageServices(transform, animatorController, ragdollController, motor, statsManager, uid);
         damageController.Init(damageService);
 
         HumanoidPushServices pushServices = new HumanoidPushServices(transform, motor, animatorController, damageController, ragdollController);

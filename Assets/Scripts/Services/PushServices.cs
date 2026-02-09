@@ -17,5 +17,22 @@ public class HumanoidPushServices
         this.animatorController = animatorContoller;
         this.damageController = damageController;
         this.ragdollController = ragdollController;
+       
+    }
+}
+
+public class AgressivePushControllerServices
+{
+    public IAttackSource attackSource;
+    public IHumanoidCombat combatController;
+    public BaseHumanoidAnimatorController animatorController;
+    public Transform self;
+
+    public AgressivePushControllerServices(IAttackSource attackSource, IHumanoidCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
+    {
+        this.attackSource = attackSource;
+        this.combatController = combatController;
+        this.animatorController = animatorController;
+        this.self = self;
     }
 }
