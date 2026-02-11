@@ -6,7 +6,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     ICombatInventory inv;
     IHumanoidCombat combatAnimData;
     IHumanoidMovement motor;
-    ICharacterStatsController statsModifier;
+    CharacterStatsController stats;
     IDamagable damageController;
     WeaponAttack attack;
     IWeapon weapon;
@@ -19,13 +19,13 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         inv = animator.GetComponentInChildren<ICombatInventory>();
         combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
-        statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
+        stats = animator.GetComponentInChildren<CharacterStatsController>();
         damageController = animator.GetComponentInChildren<IDamagable>();
         pushable = animator.GetComponentInChildren<IPushable>();
 
         if(inv.CurrentWeapon != null)
         {
-            statsModifier.ReduceStamina(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
+            stats.Stamina.Reduce(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
         }
         
         animator.applyRootMotion = true;

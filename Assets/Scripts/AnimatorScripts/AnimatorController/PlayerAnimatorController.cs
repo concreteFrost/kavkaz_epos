@@ -3,10 +3,18 @@
 public class PlayerAnimatorController : BaseHumanoidAnimatorController
 {
 
- 
-    public override void Init(HumanoidAnimatorService provider)
+    public override void Init(
+        Animator animator,
+        AnimatorOverrideController overrideController,
+        IHumanoidMovement motor,
+        IHumanoidCombat combatController,
+        ITargetLocker targetLock,
+        IDamagable damageController,
+        IPushable pushReceiver)
     {
-        base.Init(provider);
+       
+       
+        base.Init(animator,overrideController,motor,combatController,targetLock,damageController,pushReceiver);
        
     }
 

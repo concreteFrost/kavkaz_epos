@@ -621,7 +621,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2896670806739579442}
-  - component: {fileID: 6622875643717528644}
   - component: {fileID: 5155457626501010116}
   - component: {fileID: 1162499973470532957}
   - component: {fileID: 821100503953075412}
@@ -653,37 +652,6 @@ Transform:
   - {fileID: 896679987441803751}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6622875643717528644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118797432869137013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 388f4fc4dff75054daffcb933cdf6074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
-  uniqueId: {fileID: 1162499973470532957}
-  animator: {fileID: 146420996945911623}
-  overrideController: {fileID: 22100000, guid: 7e3dac5f5c0e1454687d8def435c519d, type: 2}
-  motor: {fileID: 5155457626501010116}
-  climbing: {fileID: 923361003681641049}
-  input: {fileID: 1393379555626210300}
-  controller: {fileID: 3436852327508266912}
-  statsManager: {fileID: 5527923169868036536}
-  interaction: {fileID: 7107515754348160904}
-  combatController: {fileID: 2545132252603040552}
-  combatInventory: {fileID: 548762665843053101}
-  attackSource: {fileID: 4373527282435137223}
-  pushController: {fileID: 7151219120634766040}
-  damageController: {fileID: 9216071904075533163}
-  pushReceiver: {fileID: 1045726396533673994}
-  fallController: {fileID: 6771491388864813743}
-  targetLock: {fileID: 9014326086015574783}
-  playerStatsUI: {fileID: 6577596839341557752}
-  lockOnTargetUI: {fileID: 5014458933061563304}
 --- !u!114 &5155457626501010116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_3fedca91-c087-4503-832b-9eca0cf1692d
+  uniqueId: uid_3c9e1293-3ec2-4a8f-9347-789c1264d8df
 --- !u!54 &821100503953075412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2675,7 +2643,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6788126151372605345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef7670e40fd11d440876fbd2c97a6a7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 75f3d84dd90669345949c9bf230be31b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
   attackBufferTime: 0.35
@@ -3738,8 +3706,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5368957167826177798}
   - component: {fileID: 1717874504137131917}
-  - component: {fileID: 6584741475100290606}
-  - component: {fileID: 5527923169868036536}
   m_Layer: 0
   m_Name: Player_Stats
   m_TagString: Untagged
@@ -3774,47 +3740,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ce2275a01ac5c4a85e44adc6191bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
-  stats: {fileID: 6584741475100290606}
---- !u!114 &6584741475100290606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8509689430591662325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3ea566b2bfa10479040b4df5704aa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
-  walkSpeed: 0
-  runningSpeed: 0
-  strafeSpeed: 0
-  jumpHeight: 0
-  jumpTimer: 0
   Health:
     Current: 0
-  maxHealth: 0
   Stamina:
     Current: 0
-  maxStamina: 0
-  d_stamina: 0
-  d_health: 0
---- !u!114 &5527923169868036536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8509689430591662325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96e1d7dec0d2dc94bbe7e8d55cfbaff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HumanoidStatsManager
-  Stats: {fileID: 6584741475100290606}
-  Controller: {fileID: 1717874504137131917}
+  jumpHeight: 0
+  jumpTimer: 0
 --- !u!1 &8517202875410652669
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,9 +12,11 @@ public class PlayerClimbing : MonoBehaviour, IClimber
 
     public void Init(PlayerMotor motor, PlayerActionGuards actionGuards, PlayerAnimatorController animatorController)
     {
+       
         this.motor = motor;
         this.actionGuards = actionGuards;
         this.animatorController = animatorController;
+       
     }
 
     public void TryToClimb()

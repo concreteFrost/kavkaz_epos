@@ -38,7 +38,7 @@ public class Weapon : CombatItem, IWeapon
 
     public override void Init(ItemSO itemData)
     {
-
+        
         base.Init(itemData);
 
         ToggleInteraction(true);
@@ -86,6 +86,7 @@ public class Weapon : CombatItem, IWeapon
     {
         Owner = target;
 
+       
         damageCollider.SetWeaponData(this);
         damageCollider.SetDamageSource(Owner.AttackSource.SourcePosition());
 

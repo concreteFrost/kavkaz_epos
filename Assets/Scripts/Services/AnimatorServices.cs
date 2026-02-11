@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class HumanoidAnimatorService
 {
@@ -9,6 +10,7 @@ public class HumanoidAnimatorService
     public IDamagable damageController;
     public ITargetLocker targetLock;
     public IPushable pushReceiver;
+
 
     public HumanoidAnimatorService(
         Animator animator,

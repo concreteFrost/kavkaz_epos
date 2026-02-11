@@ -64,11 +64,11 @@ public class PlayerInput : MonoBehaviour
 
     }
 
-    public void Init(PlayerInputService serviceProvider)
-    {
-        controller = serviceProvider.controller;
-        animator = serviceProvider.animator;
-        targetLock = serviceProvider.targetLock;
+    public void Init(PlayerController controller, PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
+    {  
+        this.controller = controller;
+        this.animator = animatorController;
+        this.targetLock = targetLock;
        
     }
 
@@ -92,6 +92,7 @@ public class PlayerInput : MonoBehaviour
     {
         Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
 
+       
         controller.MoveAndRotate(moveDir);
 
         SprintInput();

@@ -4,11 +4,11 @@ public class PlayerFallController : BaseFallController
 {
     IHumanoidMovement motor;
 
-
-    public void Init(IHumanoidMovement motor,IDamagable damagable)
+    public void Init(IHumanoidMovement motor,IDamagable damageController)
     {
         this.motor = motor;
-        this.damagable = damagable; 
+        this.damagable = damageController;
+
     }
 
     private void Update()
@@ -18,6 +18,7 @@ public class PlayerFallController : BaseFallController
 
     protected override void TrackFall()
     {
+       
         if(damagable.IsDead) return;
 
         if (!motor.IsGrounded && !wasLastGroundedPositionRegistered)

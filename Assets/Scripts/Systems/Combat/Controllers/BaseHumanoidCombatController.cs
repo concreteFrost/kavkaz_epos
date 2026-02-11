@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat where T : BaseHumanoidCombatControllerServices
+public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidCombat
 {
     //ссылки
     public ICombatInventory inventory;
@@ -26,11 +26,14 @@ public class BaseHumanoidCombatController<T> : MonoBehaviour, IHumanoidCombat wh
     public bool IsWeaponed { get; set; }
     public bool IsShieldRaised { get; set; }
 
-    public virtual void Init(T service)
+    public void Init(
+        ICombatInventory combatInventory,
+        BaseHumanoidAnimatorController animatorController,
+        IDamagable damageController)
     {
-        this.inventory = service.combatInventory;
-        this.animatorController = service.animatorController;
-        this.damageController = service.damageController;
+        this.inventory = combatInventory;
+        this.animatorController = animatorController;
+        this.damageController = damageController;
 
         ResetCombo();
     }

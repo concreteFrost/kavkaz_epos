@@ -9,23 +9,23 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     protected bool canTakeAnotherDamage = true;
 
-    public void Init(PlayerDamageControllerService service)
+    public void Init(
+        PlayerMotor motor,
+        CharacterStatsController stats,
+        PlayerAnimatorController animatorController
+        )
     {
-
-        this.motor = service.motor; 
-        //this.stats = service.stats;
-        this.statsManager = service.statsManager;
-        this.animatorController = service.animatorController;
-        CharacterType = service.statsManager.Stats.statsSO.characterType;
+        Debug.Log("Damage controller init");
+        this.motor = motor; 
+        this.stats = stats;
+        this.animatorController = animatorController;
+        CharacterType = stats.statsSO.characterType;
 
         if(aimPosition == null)
         {
             Debug.Log("no aim position assigned");
         }
     }
-
-
-
 
     private void Update()
     {

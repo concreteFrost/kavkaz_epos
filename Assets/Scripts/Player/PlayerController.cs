@@ -2,18 +2,15 @@
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerMotor locomotion;
-    IHumanoidCombat combatController;
-    IDamagable damageController;
-    CharacterStatsController statsController;
-    ITargetLocker targetLocker;
-    ICollector interact;
-    PlayerClimbing climbing;
+    PlayerMotor motor;
     PlayerActionGuards actionGuards;
-    PlayerAnimatorController animatorController;
-    AgressivePushController pushSource;
+    CharacterStatsController stats;
 
-    HumanoidStats stats;
+    IHumanoidCombat combatController;
+    ICollector interact;
+    
+    IClimber climbing;
+    IPushSource pushSource;
 
     private void Update()
     {
@@ -26,25 +23,27 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();
     }
 
-
-    public void Init(PlayerControllerService provider)
+    public void Init(
+        PlayerMotor motor,   
+        IHumanoidCombat combatController,
+        ICollector interaction,
+        IClimber climbing,
+        PlayerActionGuards actionGuards,
+        CharacterStatsController stats,
+        IPushSource pushSource
+      
+        )
     {
+  
+        this.motor = motor;
+        this.combatController = combatController;
+        this.interact = interaction;
+        this.climbing = climbing;
+        this.stats = stats;
 
-        animatorController = provider.animatorController;
-        locomotion = provider.controller;
-        damageController = provider.damageController;
-        combatController = provider.combatController;
-       
-        interact = provider.interact;
-        climbing = provider.climbing;
-        statsController = provider.statsManager.Controller;
+        this.pushSource = pushSource;
+        this.actionGuards = actionGuards;
 
-        stats = statsController.stats;
-        targetLocker = provider.locker;
-        pushSource = provider.pushSource;   
-
-        actionGuards = new PlayerActionGuards(locomotion, combatController, statsController.stats, damageController, climbing,targetLocker);
-        climbing.Init(locomotion, actionGuards,animatorController );
 
     }
 
@@ -58,12 +57,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanUseMotor()) return;
 
-        locomotion.UpdateMotor(stats.jumpHeight);
+        motor.UpdateMotor(stats.jumpHeight);
     }
 
     private void UpdateAnimator()
     {
-        locomotion.UpdateAnimatorLocomotion();
+        motor.UpdateAnimatorLocomotion();
     }
 
     #region Locomotion
@@ -75,23 +74,17 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanMove())
         {
-            locomotion.StopMovement();
+            motor.StopMovement();
             return;
         }
 
-        float baseSpeed = locomotion.IsSprinting
-            ? stats.runningSpeed
-            : stats.walkSpeed;
+        stats.Speed.SetSprint(motor.IsSprinting);
+        stats.Speed.Tick(Time.deltaTime);
 
-
-        locomotion.moveSpeed = Mathf.Lerp(
-            locomotion.moveSpeed,
-            baseSpeed,
-            locomotion.movementSmooth * Time.deltaTime
-        );
-
-        locomotion.MoveCharacter(dir);
+        motor.moveSpeed = stats.Speed.Current;
+        motor.MoveCharacter(dir);
     }
+
 
 
     /// <summary>
@@ -104,22 +97,22 @@ public class PlayerController : MonoBehaviour
         if (!actionGuards.CanRotate(input)) return;
 
         // lock-on активен → вращаем к цели
-        if (locomotion.rotateTarget != null)
+        if (motor.rotateTarget != null)
         {
 
-            locomotion.RotateToTarget(locomotion.rotateTarget.position);
+            motor.RotateToTarget(motor.rotateTarget.position);
             return;
         }
         // иначе — вращаемся по движению игрока
-        locomotion.RotateToDirection(input);
+        motor.RotateToDirection(input);
     }
 
     private void Dodge(Vector3 dir)
     {
         if (!actionGuards.CanDodge()) return;
 
-        locomotion.Dodge(dir);
-        statsController.ReduceStamina(stats.statsSO.staminaDodgeReducePenalty);
+        motor.Dodge(dir);
+        stats.Stamina.Reduce(stats.statsSO.staminaDodgeReducePenalty);
 
     }
 
@@ -127,13 +120,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!actionGuards.CanJump()) return;
 
-        locomotion.Jump(stats.jumpTimer);
-        statsController.ReduceStamina(stats.statsSO.staminaJumpReducePenalty);
+        motor.Jump(stats.jumpTimer);
+        stats.Stamina.Reduce(stats.statsSO.staminaJumpReducePenalty);
     }
 
     public void HandleJumpOrDodge(Vector3 dir)
     {
-        if (locomotion.IsStrafing)
+        if (motor.IsStrafing)
         {
             Dodge(dir);
             return;
@@ -145,18 +138,18 @@ public class PlayerController : MonoBehaviour
     public void Sprint(bool sprintHeld)
     {
 
-        locomotion.IsSprinting = actionGuards.CanSprint(sprintHeld);
+        motor.IsSprinting = actionGuards.CanSprint(sprintHeld);
 
-        if (locomotion.IsSprinting)
+        if (motor.IsSprinting)
         {
-            statsController.ReduceStamina(stats.statsSO.staminaRunReducePenalty);
+            stats.Stamina.Reduce(stats.statsSO.staminaRunReducePenalty);
         }
 
     }
 
     public void SetStrafe(bool isStrafing)
     {
-        locomotion.SetStrafe(isStrafing);
+        motor.SetStrafe(isStrafing);
     }
 
     #endregion
@@ -165,13 +158,13 @@ public class PlayerController : MonoBehaviour
 
     public void SetLockTarget(Transform target)
     {
-        locomotion.rotateTarget = target;
+        motor.rotateTarget = target;
         //locomotion.IsStrafing = true;
     }
 
     public void ResetLockTarget()
     {
-        locomotion.rotateTarget = null;
+        motor.rotateTarget = null;
         //locomotion.IsStrafing= false;   
     }
 
@@ -250,5 +243,6 @@ public class PlayerController : MonoBehaviour
         climbing.ExitClimb();
     }
 
+ 
     #endregion
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public abstract class BaseFallController : MonoBehaviour
 {
@@ -14,4 +15,6 @@ public abstract class BaseFallController : MonoBehaviour
     protected const float fallDamageMultiplier = 12f;
     protected abstract void TrackFall();
     protected abstract void CalculateFallDamage();
+
+    
 }

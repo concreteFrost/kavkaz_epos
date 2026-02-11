@@ -7,7 +7,7 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAgentController agentController;
     HumanoidAIDamageController damageController;
     HumanoidAIAnimatorController animator;
-    HumanoidStats stats;
+    CharacterStatsController stats;
 
 
     Transform self;
@@ -21,7 +21,7 @@ public class HumanoidAIController : MonoBehaviour
         this.aIAnimator = services.aiAnimatorController;
         this.damageController = services.damageController;
 
-        this.stats = services.statsManager.Stats;
+        this.stats = services.statsManager;
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,15 +58,15 @@ public class HumanoidAIController : MonoBehaviour
 
         else if (aiMotor.IsStrafing)
         {
-            aiMotor.moveSpeed = stats.strafeSpeed;
+            aiMotor.moveSpeed = stats.Speed.StrafeSpeed;
         }
         else if (aiMotor.IsSprinting)
         {
-            aiMotor.moveSpeed = stats.runningSpeed;
+            aiMotor.moveSpeed = stats.Speed.RunSpeed;
         }
         else
         {
-            aiMotor.moveSpeed = stats.walkSpeed;
+            aiMotor.moveSpeed = stats.Speed.WalkSpeed;
         }
 
         agentController.agent.speed = aiMotor.moveSpeed;

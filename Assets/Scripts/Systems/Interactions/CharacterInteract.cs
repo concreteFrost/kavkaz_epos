@@ -23,14 +23,21 @@ public class CharacterInteract : MonoBehaviour, ICollector
 
     private float interactRadius;
 
+    public void Init(
+        Transform self,
+        BaseHumanoidAnimatorController animatorController, 
+        ICombatInventory combatInventory, 
+        IDamagable damageController, 
+        IAttackSource attackSource
 
-    public void Init(HumanoidInteractService service)
+        )
     {
-        self = service.self;
-        animatorController = service.animatorController;
-        CombatInventory = service.combatInventory;
-        AttackSource = service.attackSource;
-        Damagable = service.owner;
+        this.self = self;
+        this.animatorController = animatorController;
+        this.CombatInventory = combatInventory;
+        this.AttackSource = attackSource;
+        this.Damagable = damageController;
+
 
         interactRadius = 1f;
 

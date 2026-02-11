@@ -5,11 +5,10 @@ public class PushBehaviour : StateMachineBehaviour
 
   
     IHumanoidMovement motor;
-    ICharacterStatsController statsModifier;
     IPushSource pushSource;
 
     IHumanoidCombat combat;
-    HumanoidStats stats;
+    CharacterStatsController stats;
 
     bool pushActive = false;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -19,11 +18,10 @@ public class PushBehaviour : StateMachineBehaviour
        
         motor = animator.GetComponent<IHumanoidMovement>();
         pushSource = animator.GetComponentInChildren<IPushSource>();
-        statsModifier = animator.GetComponentInChildren<ICharacterStatsController>();
         combat = animator.GetComponentInChildren<IHumanoidCombat>();
-        stats = animator.GetComponentInChildren<HumanoidStats>();
+        stats = animator.GetComponentInChildren<CharacterStatsController>();
 
-        statsModifier.ReduceStamina(stats.statsSO.staminaPushReducePenalty);
+        stats.Stamina.Reduce(stats.statsSO.staminaPushReducePenalty);
 
         animator.applyRootMotion = true;
         pushActive = false;

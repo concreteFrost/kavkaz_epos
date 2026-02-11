@@ -72,15 +72,12 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
 
     #region IHumanoidMovement Contract
     public bool StopMove { get => stopMove; set => stopMove = value; }  
-    public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
-    public Vector3 MoveDirection { get => moveDirection; }
     public float AnimationSmooth { get => animationSmooth; }
     public float InputMagnitude { get => inputMagnitude; }
     public float VerticalSpeed { get => verticalSpeed; }
     public float HorizontalSpeed { get => horizontalSpeed; }
     public bool BlockRotation { get => isRotationBlocked; set => isRotationBlocked = value; }
     public float GroundDistance { get => groundDistance; }
-    public bool ApplyRootMotion { get; set; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
     public bool IsStrafing { get => isStrafing; set => isStrafing = value; }   
     public bool IsJumping { get => isJumping; }
@@ -104,7 +101,8 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
         inputMagnitude = Mathf.Clamp(newInput.magnitude, 0, isSprinting ? AnimatorParameters.runningSpeed : AnimatorParameters.walkSpeed);
     }
 
- 
+    public Vector3 GetInverseTransformDirection() => transform.InverseTransformDirection(moveDirection);
+
     public abstract void UseRootMotion();
     public abstract void UseRootMotionWithObstacles();
 

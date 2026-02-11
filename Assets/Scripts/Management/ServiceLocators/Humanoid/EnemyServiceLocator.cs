@@ -7,7 +7,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [SerializeField] private CharacterInteract interaction;
 
     [Header("Боевая система")]
-    [SerializeField] private HumanoidCombatController combatController;
+    [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private AttackSource attackSource; 
 
@@ -37,14 +37,14 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void AnimatorInit()
     {
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, overrideController, motor, combatController, fovController, damageController, pushReceiver);
-        animatorController.Init(animatorService);
+        //HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, overrideController, motor, combatController, fovController, damageController, pushReceiver);
+        //animatorController.Construct(animatorService);
     }
 
     private void InteractInit()
     {
-        HumanoidInteractService interactService = new HumanoidInteractService(this.transform, animatorController, combatInventory, damageController, attackSource, motor);
-        interaction.Init(interactService);
+        //HumanoidInteractService interactService = new HumanoidInteractService(this.transform, animatorController, combatInventory, damageController, attackSource, motor);
+        //interaction.Construct(interactService);
     }
 
     private void InterruptInit()
@@ -58,14 +58,14 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void CombatInit()
     {
-        HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController);
-        combatController.Init(combatControllerServices);
+        //HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController);
+        //combatController.Init(combatControllerServices);
 
-        HumanoidCombatInventoryServices combatInventoryServices = new HumanoidCombatInventoryServices(animatorController, combatController, interaction, attackSource, transform, (int)damageController.CharacterType);
-        combatInventory.Init(combatInventoryServices);
+        //HumanoidCombatInventoryServices combatInventoryServices = new HumanoidCombatInventoryServices(animatorController, combatController, interaction, attackSource, transform, (int)damageController.CharacterType);
+        //combatInventory.Construct(combatInventoryServices);
 
-        AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
-        attackSource.Init(attackSourceServices);
+        //AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
+        //attackSource.Construct(attackSourceServices);
     }
 
     protected override void BrainInit()
@@ -81,7 +81,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             animator = animator,
             motor = motor,
             controller = controller,
-            stats = statsManager.Stats,
+            stats = statsManager,
             damageController = damageController,
             combat = combatController,
             inventory = combatInventory,

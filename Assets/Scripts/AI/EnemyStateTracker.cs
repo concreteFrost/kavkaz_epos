@@ -24,7 +24,7 @@ public class EnemyStateTracker : MonoBehaviour
 
         this.damageController = services.damageController;
 
-        combatHandler = new EnemyCombatHandler(stats, services.statsManager.Stats);
+        combatHandler = new EnemyCombatHandler(stats, services.statsManager);
         this.damageController.DamageTaken += combatHandler.OnDamageTaken;
 
         waitForTargetHandler = new EnemyWaitForTargetHandler(stats);

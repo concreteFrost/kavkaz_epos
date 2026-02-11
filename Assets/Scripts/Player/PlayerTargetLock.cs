@@ -29,12 +29,17 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     IDamagable damageController;
 
     CharacterType self;
-    public void Init(PlayerTargetLockService provider)
+
+    public void Init(
+        LockOnTargetUI lockOnTargetUI,
+        PlayerController controller,
+        IDamagable damageController
+        )
     {
-        this.lockOnTargetUI = provider.lockOnTargetUI;
-        this.controller = provider.controller;
+        this.lockOnTargetUI = lockOnTargetUI;
+        this.controller = controller;
         this.targetSeeker = controller.transform;
-        this.damageController = provider.damageController;
+        this.damageController = damageController;
 
         self = CharacterType.Player;
     }

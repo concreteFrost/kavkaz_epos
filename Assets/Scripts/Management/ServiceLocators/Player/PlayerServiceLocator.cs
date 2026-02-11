@@ -22,13 +22,13 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerController controller;
 
     [Header("Статы")]
-    [SerializeField] private HumanoidStatsManager statsManager;
+    [SerializeField] private CharacterStatsController stats;
 
     [Header("Система взаимодействия")]
     [SerializeField] private CharacterInteract interaction;
 
     [Header("Боевая система")]
-    [SerializeField] private PlayerCombatController combatController;
+    [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;
@@ -45,155 +45,50 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
 
+    [Header("Прочее")]
+    private PlayerActionGuards actionGuards;    
+
     private void Awake()
     {
         uid = uniqueId.uniqueId;
 
-        CoreInit();
-        UiInit();
-    }
+        actionGuards = new PlayerActionGuards(locomotion:motor,stats:stats,damageController:damageController,climbing:climbing);
 
-    private void CoreInit()
-    {
-        AnimatorInit();
-        StatsInit();
-        MotorInit();
-        InputInit();
-        InteractionInit();
-        CombatInit();
-        TargetLockInit();
-        ControllerInit();
-        DamageInit();
-    }
-
-    private void AnimatorInit()
-    {
-        HumanoidAnimatorService animatorService = new HumanoidAnimatorService(
-            animator,
-            overrideController,
-            motor,
-            combatController,
-            targetLock,
-            damageController,
-            pushReceiver
-        );
-
-        animatorController.Init(animatorService);
-    }
-
-    private void StatsInit()
-    {
-        statsManager.Init();
-    }
-
-    private void MotorInit()
-    {
-        motor.Init(animatorController);
-    }
-
-    private void InputInit()
-    {
-        PlayerInputService inputService =
-            new PlayerInputService(controller, animatorController, targetLock);
-        input.Init(inputService);
-    }
-
-    private void InteractionInit()
-    {
-        HumanoidInteractService interactionService =
-            new HumanoidInteractService(
-                transform,
-                animatorController,
-                combatInventory,
-                damageController,
-                attackSource,
-                motor
+        animatorController.Init(
+            animator:animator,
+            overrideController:overrideController,
+            combatController:combatController,
+            motor:motor,targetLock:targetLock,
+            damageController:damageController,
+            pushReceiver:pushReceiver
             );
 
-        interaction.Init(interactionService);
+     
+
+        input.Init(controller: controller, animatorController: animatorController, targetLock: targetLock);
+       
+        damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
+        interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
+        
+        combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
+        combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
+        
+       
+        pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
+        climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
+        fallController.Init(motor: motor, damageController: damageController);
+        targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:controller,damageController:damageController);
+        
+      
+
+        stats.Init();
+        motor.Init(animatorController: animatorController);
+        controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing);
+        attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
+
+        playerStatsUI.Init(stats: stats);
+
     }
 
-    private void CombatInit()
-    {
-        AttackSourceServices attackSourceServices =
-            new AttackSourceServices(transform, (int)damageController.CharacterType);
-        attackSource.Init(attackSourceServices);
 
-        BaseHumanoidCombatControllerServices combatControllerServices =
-            new BaseHumanoidCombatControllerServices(
-                combatInventory,
-                animatorController,
-                damageController
-            );
-        combatController.Init(combatControllerServices);
-
-        HumanoidCombatInventoryServices combatInventoryServices =
-            new HumanoidCombatInventoryServices(
-                animatorController,
-                combatController,
-                interaction,
-                attackSource,
-                transform,
-                (int)damageController.CharacterType
-            );
-        combatInventory.Init(combatInventoryServices);
-
-        AgressivePushControllerServices pushControllerServices =
-            new AgressivePushControllerServices(
-                attackSource,
-                combatController,
-                animatorController,
-                transform
-            );
-        pushController.Init(pushControllerServices);
-    }
-
-    private void TargetLockInit()
-    {
-        PlayerTargetLockService targetLockService =
-            new PlayerTargetLockService(
-                lockOnTargetUI,
-                controller,
-                damageController,
-                statsManager
-            );
-
-        targetLock.Init(targetLockService);
-    }
-
-    private void ControllerInit()
-    {
-        PlayerControllerService controllerService =
-            new PlayerControllerService(
-                motor,
-                combatController,
-                damageController,
-                statsManager,
-                interaction,
-                targetLock,
-                pushController,
-                climbing,
-                animatorController
-            );
-
-        controller.Init(controllerService);
-    }
-
-    private void DamageInit()
-    {
-        PlayerDamageControllerService damageControllerService =
-            new PlayerDamageControllerService(
-                animatorController,
-                motor,
-                statsManager
-            );
-
-        damageController.Init(damageControllerService);
-        fallController.Init(motor, damageController);
-    }
-
-    private void UiInit()
-    {
-        playerStatsUI.Init(statsManager.Stats);
-    }
 }

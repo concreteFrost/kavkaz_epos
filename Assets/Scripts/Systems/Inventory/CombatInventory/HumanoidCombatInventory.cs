@@ -1,21 +1,25 @@
-using System.Diagnostics;
 using UnityEngine;
 
 public class HumanoidCombatInventory : BaseCombatInventory
 {
     [Header("Bare Hands Settings")]
     [SerializeField] private MeleeData meleeData;
- 
-    public override void Init(HumanoidCombatInventoryServices service)
-    {
-        base.Init(service);
 
+    public void Init(
+        BaseHumanoidAnimatorController animatorController,
+        IHumanoidCombat combatController,
+        ICollector collector)
+    {
+
+        this.combatController = combatController;
+        this.animatorController = animatorController;
         //InitializeBarehands();
 
-        DefaultWeapon = InitializeBarehands(service.initialAttackSource);
 
-        SetWeapon(GetStarterWeapon(service.collector) ?? DefaultWeapon);
-        ShieldWeapon = GetStarterShield(service.collector) ?? null;
+        DefaultWeapon = InitializeBarehands(collector.AttackSource);
+
+        SetWeapon(GetStarterWeapon(collector) ?? DefaultWeapon);
+        ShieldWeapon = GetStarterShield(collector) ?? null;
 
     }
 

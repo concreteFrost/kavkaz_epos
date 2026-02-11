@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 {
@@ -35,13 +36,6 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     #endregion
 
-    
-
-    public virtual void Init(HumanoidCombatInventoryServices service)
-    {
-        combatController = service.combatController;
-        animatorController =service.animatorController;
-    }
 
     public IWeapon GetStarterWeapon(ICollector collector)
     {

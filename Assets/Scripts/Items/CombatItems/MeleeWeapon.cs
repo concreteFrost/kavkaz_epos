@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using UnityEngine;
+using Zenject;
 
 [System.Serializable]
 public class MeleeData
@@ -90,7 +91,6 @@ public class MeleeWeapon : IWeapon
     //{
     //    Init();
     //}
-
     public void Init(MeleeData meleeData,ICombatInventory inv, IAttackSource source)
     {
         this.weaponSO = meleeData.barehandsData;

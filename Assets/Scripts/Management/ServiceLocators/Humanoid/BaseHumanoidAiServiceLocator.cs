@@ -19,7 +19,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected HumanoidAIController controller;
 
     [Header("Статы")]
-    [SerializeField] protected HumanoidStatsManager statsManager;
+    [SerializeField] protected CharacterStatsController statsManager;
 
 
     [Header("Система урона")]
@@ -72,7 +72,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     protected virtual void StatsInit()
     {
-        statsManager.Init();
+        //statsManager.Init();
 
     }
 
@@ -103,13 +103,13 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     protected virtual void DamageInit()
     {
-        HumanoidDamageServices damageService = new HumanoidDamageServices(transform, animatorController, ragdollController, motor, statsManager, uid);
-        damageController.Init(damageService);
+        //HumanoidDamageServices damageService = new HumanoidDamageServices(transform, animatorController, ragdollController, motor, statsManager, uid);
+        //damageController.Init(damageService);
 
-        HumanoidPushServices pushServices = new HumanoidPushServices(transform, motor, animatorController, damageController, ragdollController);
-        pushReceiver.Init(pushServices);
+        //HumanoidPushServices pushServices = new HumanoidPushServices(transform, motor, animatorController, damageController, ragdollController);
+        //pushReceiver.Init(pushServices);
 
-        fallController.Init(ragdollController, damageController, transform);
+        //fallController.Init(ragdollController, damageController, transform);
     }
 
 

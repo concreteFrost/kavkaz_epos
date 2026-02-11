@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 {
     protected Transform self;
-    protected HumanoidStatsManager statsManager;
+    protected CharacterStatsController stats;
     protected IHumanoidMovement motor;
 
     [SerializeField] protected Transform aimPosition;
@@ -23,12 +23,11 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsKnockedOut {  get; set; } 
     #endregion
 
-
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
         if (IsDamagingBlocked()) return;
 
-        statsManager.Controller.ReduceHealth(damageData.healthDamageMultiplier);
+        stats.Health.Reduce(damageData.healthDamageMultiplier);
         InvokeDamageTaken(source);
 
 

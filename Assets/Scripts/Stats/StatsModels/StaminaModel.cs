@@ -64,9 +64,9 @@ public class StaminaModel
         Changed?.Invoke(Current);
     }
 
-    public void ResetStamina(float max)
+    public void ResetStamina()
     {
-        Current = max;
+        Current = Max;
         Changed?.Invoke(Current);   
     }
 

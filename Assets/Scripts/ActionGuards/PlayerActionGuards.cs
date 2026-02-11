@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public enum PlayerMode
 {
@@ -7,31 +8,27 @@ public enum PlayerMode
 }
 public class PlayerActionGuards
 {
-    readonly PlayerMotor locomotion;
-    readonly IHumanoidCombat combat;
-    readonly HumanoidStats stats;
-    readonly IDamagable statsModifier;
-    readonly IClimber climbing;
-    //readonly ITargetLocker locker;
+    private PlayerMotor locomotion;
+    private CharacterStatsController stats;
+    private IDamagable statsModifier;
+    private IClimber climbing;
 
     PlayerMode mode;
 
+  
     public PlayerActionGuards(
         PlayerMotor locomotion,
-        IHumanoidCombat combat,
-        HumanoidStats stats,
-        IDamagable statsModifier,
-        IClimber climbing,
-        ITargetLocker locker,
-        PlayerMode initialMode = PlayerMode.Locomotion)
+        CharacterStatsController stats,
+        IDamagable damageController,
+        IClimber climbing)
     {
+
         this.locomotion = locomotion;
-        this.combat = combat;
+
         this.stats = stats;
-        this.statsModifier = statsModifier;
+        this.statsModifier = damageController;
         this.climbing = climbing;
-        //this.locker = locker;
-        this.mode = initialMode;
+        mode = PlayerMode.Locomotion;
     }
 
     public PlayerMode Mode => mode;
@@ -127,7 +124,7 @@ public class PlayerActionGuards
 
         if (stats.Stamina.Current <= 0) return false;
 
-        Vector3 localDir = locomotion.transform.InverseTransformDirection(locomotion.MoveDirection);
+        Vector3 localDir = locomotion.transform.InverseTransformDirection(locomotion.moveDirection);
         bool isMovingForward = localDir.z > 0.1f;
        
         if (!isMovingForward) return false;

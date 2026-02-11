@@ -2,6 +2,6 @@
 {
     void PerformPush();
     void CancelPush();
-
+    void TriggerPushAnimation();
     AnimationInfoSO AnimationData();   
 }

@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using Zenject;
 
 public abstract class BaseHumanoidAnimatorController
 {
@@ -16,20 +17,30 @@ public abstract class BaseHumanoidAnimatorController
 
     public Animator Animator() => animator;
 
-    public virtual void Init(HumanoidAnimatorService service)
+   
+    public virtual void Init(
+         Animator animator,
+        AnimatorOverrideController overrideController,
+        IHumanoidMovement motor,
+        IHumanoidCombat combatController,
+        ITargetLocker targetLock,
+        IDamagable damageController,
+        IPushable pushReceiver
+        )
     {
-
-        this.animator = service.animator;
-        this.overrideController = service.overrideController;
+        
+        this.animator =animator;
+        this.overrideController = overrideController;
 
         //overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.updateMode = AnimatorUpdateMode.Fixed;
         animator.runtimeAnimatorController = overrideController;
 
-        this.movement = service.motor;
-        this.targetLocker = service.targetLock;
-        this.damagable = service.damageController;
-        this.attackSource = service.combatController;
-        this.pushReceiver = service.pushReceiver;
+        this.movement = motor;
+        this.targetLocker = targetLock;
+        this.damagable = damageController;
+        this.attackSource = combatController;
+        this.pushReceiver = pushReceiver;
     }
 
     protected void UpdateLocomotionState(IHumanoidMovement locomotion)
@@ -85,8 +96,6 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);   
 
     }
-
-
 
     public void PlayClipCrossFade(string name)
     {

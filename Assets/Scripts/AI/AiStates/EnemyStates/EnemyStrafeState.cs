@@ -9,7 +9,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
 
     private EnemyFOVController fov;
     private HumanoidAIMotor motor;
-    private HumanoidCombatController combatController;
+    private BaseHumanoidCombatController combatController;
     private HumanoidCombatInventory inventory;  
 
     // корутина стрейфа

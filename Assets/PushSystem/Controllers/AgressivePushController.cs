@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class AgressivePushController : MonoBehaviour , IPushSource
 {
 
@@ -13,10 +14,11 @@ public class AgressivePushController : MonoBehaviour , IPushSource
 
     public AnimationInfoSO AnimationData() => animationData;
 
-    public void Init(AgressivePushControllerServices services)
+    public void Init(IAttackSource attackSource, IHumanoidCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
     {
-        this.combatController = services.combatController;
-        this.animatorController = services.animatorController;
+        
+        this.combatController = combatController;
+        this.animatorController = animatorController;
 
         IsPushing = false;
         
@@ -25,7 +27,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
             Debug.Log("no push collider assigned");
         }
 
-        pushCollider.Init(services.attackSource.TargetsToIgnore, services.self);
+        pushCollider.Init(attackSource.TargetsToIgnore, self);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void TriggerPushAnimation()

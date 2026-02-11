@@ -1,20 +1,35 @@
-
 using UnityEngine;
 
-public class CharacterStatsController : MonoBehaviour, ICharacterStatsController
+public class CharacterStatsController : MonoBehaviour
 {
+    public HumanoidStatsSO statsSO;
+    
+    public SpeedModel Speed;
+    public HealthModel Health;
+    public StaminaModel Stamina;
 
-    public HumanoidStats stats;
+    [Header("jumping")]
+    public float jumpHeight;
+    public float jumpTimer;
 
-    public void Init(HumanoidStatsControllerServices provider)
+    public void Init()
     {
-        stats = provider.stats;
+
+        Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
+
+        jumpHeight = statsSO.jumpHeight;
+        jumpTimer = statsSO.jumpTimer;
+
+        Health = new HealthModel(statsSO.health);
+        Stamina = new StaminaModel(statsSO.stamina, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
+
+        ResetAllStats();
     }
 
     public void ResetAllStats()
     {
-        stats.Health.ResetHealth(stats.maxHealth);
-        stats.Stamina.ResetStamina(stats.maxStamina);
+        Health.ResetHealth();
+        Stamina.ResetStamina();
     }
 
     private void Update()
@@ -22,23 +37,11 @@ public class CharacterStatsController : MonoBehaviour, ICharacterStatsController
         HandleStaminaRegen();
     }
 
-    #region Health Control
-    public void ReduceHealth(float damage)
-    {
-        stats.Health.Damage(damage);
-    }
-
-    #endregion
-
     #region Stamina Control
-    public void ReduceStamina(float amount)
-    {
-        stats.Stamina.Reduce(amount);
-    }
+
     public void HandleStaminaRegen()
     {
-        stats.Stamina.Regen();
+        Stamina.Regen();
     }
-
     #endregion
 }

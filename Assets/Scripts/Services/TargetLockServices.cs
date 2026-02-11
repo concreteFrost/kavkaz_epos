@@ -5,13 +5,13 @@ public class PlayerTargetLockService
     public LockOnTargetUI lockOnTargetUI;
     public PlayerController controller;
     public IDamagable damageController;
-    public HumanoidStatsManager statsManager;
+    public CharacterStatsController statsManager;
 
     public PlayerTargetLockService(
         LockOnTargetUI lockOnTargetUI,
         PlayerController controller,
         IDamagable damageController,
-        HumanoidStatsManager stats
+        CharacterStatsController stats
         )
     {
         this.lockOnTargetUI = lockOnTargetUI;

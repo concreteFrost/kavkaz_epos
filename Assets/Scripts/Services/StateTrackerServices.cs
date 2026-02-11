@@ -2,9 +2,9 @@ public class EnemyStateTrackerServices
 {
     public HumanoidAIDamageController damageController;
  
-    public HumanoidStatsManager statsManager;
+    public CharacterStatsController statsManager;
 
-    public EnemyStateTrackerServices(HumanoidAIDamageController damageController, HumanoidStatsManager statsManager)
+    public EnemyStateTrackerServices(HumanoidAIDamageController damageController, CharacterStatsController statsManager)
     {
         this.damageController = damageController;
         this.statsManager = statsManager;

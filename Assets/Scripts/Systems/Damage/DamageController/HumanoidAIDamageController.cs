@@ -6,16 +6,22 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     IRagdollController ragdollController;
 
-	public void Init(HumanoidDamageServices service)
+	public void Init(
+        Transform self,
+        IHumanoidMovement motor,
+        CharacterStatsController statsController,
+        IRagdollController ragdollController,
+        BaseHumanoidAnimatorController animatorController
+        )
 	{
-        this.self = service.self;
-        this.motor = service.motor;
-		this.statsManager = service.statsManager;
+        this.self = self;
+        this.motor = motor;
+        this.stats = statsController;
 		//this.stats =service.stats;
-        this.ragdollController = service.ragdollController;
-        this.animatorController = service.animatorController;
+        this.ragdollController = ragdollController;
+        this.animatorController =animatorController;
         
-        CharacterType = service.statsManager.Stats.statsSO.characterType;
+        CharacterType = stats.statsSO.characterType;
 
         ragdollController.Recovered += OnRecover;
 

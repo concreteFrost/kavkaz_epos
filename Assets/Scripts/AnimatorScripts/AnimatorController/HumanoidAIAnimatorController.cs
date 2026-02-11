@@ -3,9 +3,15 @@ using UnityEngine;
 public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
 {
 
-    public override void Init(HumanoidAnimatorService service)
+    public override void Init(Animator animator,
+        AnimatorOverrideController overrideController,
+        IHumanoidMovement motor,
+        IHumanoidCombat combatController,
+        ITargetLocker targetLock,
+        IDamagable damageController,
+        IPushable pushReceiver)
     {
-       base.Init(service);  
+        base.Init(animator, overrideController, motor, combatController, targetLock, damageController, pushReceiver); 
     }
 
     public override void UpdateAnimatorParameters()

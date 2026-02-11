@@ -20,10 +20,12 @@ public class AttackSource : MonoBehaviour, IAttackSource
 
     public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
 
-
-    public void Init(AttackSourceServices services)
+    public void Init(Transform sourcePosition, int sourceId)
     {
-        this.sourcePosition = services.sourcePosition;
-        this.sourceId = services.sourceId;
+        
+        this.sourcePosition = sourcePosition;
+        this.sourceId = sourceId;
+
+        Debug.Log(sourcePosition);
     }
 }

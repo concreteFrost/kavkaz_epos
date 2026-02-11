@@ -12,7 +12,7 @@ public enum CombatTransition
 public class EnemyCombatHandler
 {
     CharacterBehaviourStatsSO stats;
-    HumanoidStats statsController;
+    CharacterStatsController statsController;
 
     [Header("Состояние боя")]
     [SerializeField] private float currCombatCooldown;
@@ -41,7 +41,7 @@ public class EnemyCombatHandler
     [Header("Транзит состояний")]
     [SerializeField] private float currAttackTransitionChance;
 
-    public EnemyCombatHandler(CharacterBehaviourStatsSO stats, HumanoidStats statsController)
+    public EnemyCombatHandler(CharacterBehaviourStatsSO stats, CharacterStatsController statsController)
     {
         this.stats = stats;
         this.statsController = statsController;

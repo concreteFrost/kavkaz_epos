@@ -10,12 +10,9 @@ public class PlayerMotor : BaseHumanoidMotor
     [Range(30, 80)] public float slopeLimit = 45f;
     internal bool isHighSlope = false; //предотвращает движение если угол наклона выше
 
-    public void Init(BaseHumanoidAnimatorController anim)
+    public void Init(BaseHumanoidAnimatorController animatorController)
     {
-        animator = anim;
-
-        animator.Animator().updateMode = AnimatorUpdateMode.Fixed;
-
+        this.animator = animatorController;   
         // slides the character through walls and edges
         frictionPhysics = new PhysicsMaterial();
         frictionPhysics.name = "frictionPhysics";

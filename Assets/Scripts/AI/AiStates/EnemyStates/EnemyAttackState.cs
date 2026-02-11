@@ -12,7 +12,7 @@ public class EnemyAttackState : AIState<EnemyBrainContext>
     EnemyCombatHandler combatHandler;
 
     HumanoidCombatInventory inventory;
-    HumanoidCombatController combatController;
+    BaseHumanoidCombatController combatController;
 
     HumanoidAIMotor motor;
 

@@ -15,7 +15,7 @@ public class HealthModel
         Current = max;
     }
 
-    public void Damage(float amount)
+    public void Reduce(float amount)
     {
         if (Current <= 0) return;
 
@@ -26,11 +26,13 @@ public class HealthModel
 
         if (Current == 0)
             Depleted?.Invoke();
+
+      
     }
 
-    public void ResetHealth(float max)
+    public void ResetHealth()
     {
-        Current = max;
+        Current = Max;
         Changed?.Invoke(Current);   
     }
 }

@@ -4,18 +4,13 @@ public interface IHumanoidMovement
 {
     bool StopMove { get; set; }
     float InputMagnitude { get; }
-    Vector3 MoveDirection { get; }
     float VerticalSpeed { get; }
     float HorizontalSpeed { get; }
     bool BlockRotation { get; set; } 
-    bool ApplyRootMotion { get; set; }
-
     bool IsSprinting { get; set; }
-
     bool IsStrafing { get; set; }
     
     float AnimationSmooth {  get; }
-    public Vector3 GetInverseTransformDirection();
     bool IsGrounded { get; set; }
     float GroundDistance { get; }
     bool IsJumping { get; }
