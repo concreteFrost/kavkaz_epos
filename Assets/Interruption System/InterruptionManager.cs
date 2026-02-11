@@ -4,13 +4,17 @@ public class InterruptionManager : MonoBehaviour
 {
 
     [HideInInspector] public EnemyPassiveInterruptionHandler passiveInterruptionHandler;
-    private HumanoidAIDamageController damageController;
-    private HumanoidAIPushReceiver pushReceiver;
+    private IDamagable damageController;
+    private IPushable pushReceiver;
 
-    public void Init(EnemyInterruptionServices services)
+    public void Init(
+        IDamagable damageController,
+        IPushable pushReceiver
+
+        )
     {
-        this.damageController = services.damageController;
-        this.pushReceiver = services.pushReceiver;
+        this.damageController =damageController;
+        this.pushReceiver = pushReceiver;
 
         passiveInterruptionHandler = new EnemyPassiveInterruptionHandler();
         

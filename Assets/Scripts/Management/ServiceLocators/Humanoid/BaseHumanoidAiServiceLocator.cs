@@ -27,90 +27,75 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected HumanoidAIPushReceiver pushReceiver;
     [SerializeField] protected AiFallController fallController;
 
-    [Header("Коллайдер")]
-    [SerializeField] protected CapsuleCollider capsuleCollider;
 
     protected string uid;
     protected AiRagdollController ragdollController;
-    protected HumanoidAIAnimatorController animatorController = new HumanoidAIAnimatorController();
+    protected HumanoidAIAnimatorController animatorController;
     protected HumanoidAgentController agentController;
 
     private void Awake()
     {
         uid = uniqueId.uniqueId;
-
         CoreInit();
-        BrainInit();
+        
     }
 
     protected virtual void CoreInit()
     {
         AnimatorInit();
         AgentInit();
-        IKInit();
-
         RagdollInit();
+        IKInit();
+        MotorInit();
         ControllerInit();
         StatsInit();
         DamageInit();
 
-        //LifecycleInit();
-
     }
+
+    private void IKInit()
+    {
+        ik.Init(motor: motor, damageController: damageController);
+    }
+
+    private void AgentInit()
+    {
+        agentController = new HumanoidAgentController(agent: agent, animator: animator);
+    }
+
+    private void RagdollInit()
+    {
+        ragdollController = new AiRagdollController(ctx: this, anim: animatorController, agent: agentController, self: transform);
+    }
+
+    private void StatsInit()
+    {
+        statsManager.Init();
+    }
+
+    private void ControllerInit()
+    {
+        controller.Init(aiMotor: motor, aIAnimator: animatorController, agentController: agentController, animator: animatorController, damageController: damageController, stats: statsManager, self: transform);
+    }
+
+    private void MotorInit()
+    {
+        motor.Init(anim: animatorController, agentController: agentController);
+    }
+
+    private void DamageInit()
+    {
+        damageController.Init(self: transform, motor: motor, statsController: statsManager, ragdollController: ragdollController, animatorController: animatorController);
+        pushReceiver.Init(damageController: damageController, animatorController: animatorController, ragdollController: ragdollController, self: transform);
+        fallController.Init(ragdollController: ragdollController, damagable: damageController, self: transform);
+    }
+
 
     protected abstract void AnimatorInit();
-
-    protected abstract void BrainInit();
-
-    //protected abstract void LifecycleInit();
-
-    protected virtual void RagdollInit()
-    {
-        ragdollController = new AiRagdollController(this, animatorController, agentController, transform);
-    }
+   
 
 
-    protected virtual void StatsInit()
-    {
-        //statsManager.Init();
 
-    }
-
-    protected virtual void ControllerInit()
-    {
-        motor.Init(animatorController, agentController);
-
-        HumanoidControllerServices controllerService = new HumanoidControllerServices(
-            transform,
-            motor,
-            animatorController,
-            agentController,
-            damageController,
-            statsManager);
-
-        controller.Init(controllerService);
-    }
-
-    protected virtual void AgentInit()
-    {
-        agentController = new HumanoidAgentController(agent, animator);
-    }
-
-    protected virtual void IKInit()
-    {
-        ik.Init(motor, damageController);
-    }
-
-    protected virtual void DamageInit()
-    {
-        //HumanoidDamageServices damageService = new HumanoidDamageServices(transform, animatorController, ragdollController, motor, statsManager, uid);
-        //damageController.Init(damageService);
-
-        //HumanoidPushServices pushServices = new HumanoidPushServices(transform, motor, animatorController, damageController, ragdollController);
-        //pushReceiver.Init(pushServices);
-
-        //fallController.Init(ragdollController, damageController, transform);
-    }
 
 
 

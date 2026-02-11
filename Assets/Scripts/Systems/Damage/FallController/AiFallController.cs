@@ -5,9 +5,9 @@ public class AiFallController : BaseFallController
 
     IRagdollController ragdollController;
 
-    public void Init(IRagdollController motor, IDamagable damagable, Transform self)
+    public void Init(IRagdollController ragdollController, IDamagable damagable, Transform self)
     {
-        this.ragdollController = motor;
+        this.ragdollController = ragdollController;
         this.damagable = damagable;
         this.self = self;
     }

@@ -24,55 +24,54 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [Header("Система событий")]
     [SerializeField] private EnemyNotifierManager notifierManager;
 
-
+    protected override void AnimatorInit()
+    {
+        animatorController = new HumanoidAIAnimatorController();
+        animatorController.Init(animator: animator, overrideController: overrideController, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
+    }
     protected override void CoreInit()
     {
         base.CoreInit();
-        InteractInit();
-        InterruptInit();
-        CombatInit();   
+
+        InterruptorsInit();
+        InteractionInit();
+        FovInit();
+        CombatInit();
+
+        BrainInit();
+
+    }
+
+    private void FovInit()
+    {
         fovController.Init();
-
     }
 
-    protected override void AnimatorInit()
+    private void InteractionInit()
     {
-        //HumanoidAnimatorService animatorService = new HumanoidAnimatorService(animator, overrideController, motor, combatController, fovController, damageController, pushReceiver);
-        //animatorController.Construct(animatorService);
-    }
-
-    private void InteractInit()
-    {
-        //HumanoidInteractService interactService = new HumanoidInteractService(this.transform, animatorController, combatInventory, damageController, attackSource, motor);
-        //interaction.Construct(interactService);
-    }
-
-    private void InterruptInit()
-    {
-        EnemyInterruptionServices interruptionServices = new EnemyInterruptionServices(damageController, pushReceiver);
-        interruptionManager.Init(interruptionServices);
-
-        EnemyNotifierServices notifierServices = new EnemyNotifierServices(transform, fovController);
-        notifierManager.Init(notifierServices);
+        interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
     }
 
     private void CombatInit()
     {
-        //HumanoidAICombatControllerServices combatControllerServices = new HumanoidAICombatControllerServices(combatInventory, animatorController, damageController);
-        //combatController.Init(combatControllerServices);
-
-        //HumanoidCombatInventoryServices combatInventoryServices = new HumanoidCombatInventoryServices(animatorController, combatController, interaction, attackSource, transform, (int)damageController.CharacterType);
-        //combatInventory.Construct(combatInventoryServices);
-
-        //AttackSourceServices attackSourceServices = new AttackSourceServices(transform, (int)damageController.CharacterType);
-        //attackSource.Construct(attackSourceServices);
+        attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
+        combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
+        combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
     }
 
-    protected override void BrainInit()
+   
+
+    private void InterruptorsInit()
     {
-        
-        EnemyStateTrackerServices stateTrackerServices = new EnemyStateTrackerServices(damageController,statsManager);
-        stateTracker.Init(stateTrackerServices);
+        notifierManager.Init(self: transform, fov: fovController);
+        interruptionManager.Init(damageController: damageController, pushReceiver: pushReceiver);
+    }
+
+
+    protected  void BrainInit()
+    {
+
+        stateTracker.Init(damageController: damageController, statsController: statsManager);
 
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {
@@ -94,8 +93,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             notifierManager = notifierManager
 
         };
-        
-        
+
         brain.Init(brainContext);
     }
 }

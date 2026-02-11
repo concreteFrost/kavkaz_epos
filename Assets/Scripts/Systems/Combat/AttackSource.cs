@@ -26,6 +26,7 @@ public class AttackSource : MonoBehaviour, IAttackSource
         this.sourcePosition = sourcePosition;
         this.sourceId = sourceId;
 
-        Debug.Log(sourcePosition);
+        Debug.Log(this.sourcePosition.position);
+        
     }
 }

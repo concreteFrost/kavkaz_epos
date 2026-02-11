@@ -10,7 +10,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
         IHumanoidCombat combatController,
         ICollector collector)
     {
-
+ 
         this.combatController = combatController;
         this.animatorController = animatorController;
         //InitializeBarehands();
@@ -22,6 +22,8 @@ public class HumanoidCombatInventory : BaseCombatInventory
         ShieldWeapon = GetStarterShield(collector) ?? null;
 
     }
+
+
 
 
     private IWeapon InitializeBarehands(IAttackSource attackSource)

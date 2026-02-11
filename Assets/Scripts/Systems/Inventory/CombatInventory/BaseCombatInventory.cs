@@ -49,6 +49,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
             weapon.Init(weapon.ItemData);
             weapon.AssignToOwner(collector);
+     
 
             return weapon;  
         }

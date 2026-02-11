@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class EnemyBrainContext
 {
     public Vector3 permamentPosition;
@@ -10,7 +11,7 @@ public class EnemyBrainContext
     public HumanoidAIMotor motor;
     public HumanoidAIController controller;
     public CharacterStatsController stats;
-   
+
     public IDamagable damageController;
     public IRagdollController ragdollController;
 
@@ -25,4 +26,3 @@ public class EnemyBrainContext
     public EnemyNotifierManager notifierManager;
 
 }
-

@@ -8,13 +8,18 @@ public class HumanoidAIPushReceiver : BasePushReceiver
     IRagdollController ragdollController;
     PushDirection pushedDirection;
 
-    public void Init(HumanoidPushServices services)
+    public void Init(
+        IDamagable damageController,
+        BaseHumanoidAnimatorController animatorController,
+        IRagdollController ragdollController,
+        Transform self
+        )
     {
-        this.damageController = services.damageController;
-        this.animatorController = services.animatorController;    
-        this.ragdollController = services.ragdollController;
+        this.damageController = damageController;
+        this.animatorController = animatorController;    
+        this.ragdollController = ragdollController;
 
-        this.self = services.self;
+        this.self = self;
 
         characterType = damageController.CharacterType;
     }

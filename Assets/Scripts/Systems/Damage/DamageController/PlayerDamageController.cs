@@ -15,7 +15,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
         PlayerAnimatorController animatorController
         )
     {
-        Debug.Log("Damage controller init");
+
         this.motor = motor; 
         this.stats = stats;
         this.animatorController = animatorController;

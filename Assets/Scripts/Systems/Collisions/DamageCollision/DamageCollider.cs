@@ -54,6 +54,8 @@ public class DamageCollider : MonoBehaviour
 
         damageCollider.enabled = true;
         lastPosition = transform.position;
+
+        Debug.Log(attackSource);
     }
 
     public virtual void DisableCollider()

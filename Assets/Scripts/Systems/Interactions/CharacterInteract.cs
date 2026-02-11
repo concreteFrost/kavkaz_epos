@@ -39,6 +39,7 @@ public class CharacterInteract : MonoBehaviour, ICollector
         this.Damagable = damageController;
 
 
+
         interactRadius = 1f;
 
     }

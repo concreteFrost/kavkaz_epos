@@ -69,26 +69,27 @@ public class PlayerServiceLocator : MonoBehaviour
        
         damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
-        
+
+        attackSource.Init(sourcePosition: this.transform, sourceId: (int)damageController.CharacterType);
+
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
-        
-       
+          
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
         fallController.Init(motor: motor, damageController: damageController);
         targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:controller,damageController:damageController);
         
-      
-
         stats.Init();
         motor.Init(animatorController: animatorController);
         controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing);
-        attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
+       
 
         playerStatsUI.Init(stats: stats);
 
     }
+
+   
 
 
 }

@@ -17,7 +17,6 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         this.self = self;
         this.motor = motor;
         this.stats = statsController;
-		//this.stats =service.stats;
         this.ragdollController = ragdollController;
         this.animatorController =animatorController;
         
@@ -71,6 +70,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
  
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
+            Debug.Log(source);
             Vector3 sourcePos = source != null ? source.position : self.position - self.forward;
             PerformKnockout(sourcePos, damageData.impactForce);
         }

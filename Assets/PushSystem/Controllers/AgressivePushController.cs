@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -8,6 +9,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
     BaseHumanoidAnimatorController animatorController;
 
     public bool IsPushing = false;
+    [SerializeField] private bool canPush = true;
 
     [SerializeField] private AnimationInfoSO animationData;
     [SerializeField] private PushCollider pushCollider;
@@ -33,11 +35,14 @@ public class AgressivePushController : MonoBehaviour , IPushSource
     public void TriggerPushAnimation()
     {
 
-        if (IsPushing || combatController.IsAttacking || combatController.IsShieldRaised) return;
-
-        animatorController.PerformPush();
+        if (!canPush || combatController.IsAttacking || combatController.IsShieldRaised) return;
 
         IsPushing = true;
+
+        animatorController.PerformPush();
+        StartCoroutine(PushCooldownCoroutine());
+
+        
     }
 
     public void PerformPush()
@@ -49,5 +54,12 @@ public class AgressivePushController : MonoBehaviour , IPushSource
     {
         pushCollider.DisableCollider(); 
         IsPushing = false;
+    }
+
+    IEnumerator PushCooldownCoroutine()
+    {
+        canPush = false;
+        yield return new WaitForSeconds(1f);
+        canPush = true;
     }
 }

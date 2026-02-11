@@ -41,16 +41,16 @@ public class EnemyCombatHandler
     [Header("Транзит состояний")]
     [SerializeField] private float currAttackTransitionChance;
 
-    public EnemyCombatHandler(CharacterBehaviourStatsSO stats, CharacterStatsController statsController)
+    public EnemyCombatHandler(CharacterBehaviourStatsSO behaviourStats, CharacterStatsController statsController)
     {
-        this.stats = stats;
+        this.stats = behaviourStats;
         this.statsController = statsController;
 
-        currAttackTransitionChance = stats.attackTransitionChance;
+        currAttackTransitionChance = behaviourStats.attackTransitionChance;
 
 
-        powerAttackChance = stats.initialPoweAttackChance;
-        currentDodgeChance = stats.initialDodgeChance;
+        powerAttackChance = behaviourStats.initialPoweAttackChance;
+        currentDodgeChance = behaviourStats.initialDodgeChance;
     }
 
     public void ResetCombatState()

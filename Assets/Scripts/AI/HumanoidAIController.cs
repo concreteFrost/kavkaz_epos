@@ -6,22 +6,27 @@ public class HumanoidAIController : MonoBehaviour
     HumanoidAIAnimatorController aIAnimator;
     HumanoidAgentController agentController;
     HumanoidAIDamageController damageController;
-    HumanoidAIAnimatorController animator;
+
     CharacterStatsController stats;
-
-
     Transform self;
 
-    public void Init(HumanoidControllerServices services)
+    public void Init(
+         HumanoidAIMotor aiMotor,
+        HumanoidAIAnimatorController aIAnimator,
+        HumanoidAgentController agentController,
+        HumanoidAIDamageController damageController,
+        HumanoidAIAnimatorController animator,
+        CharacterStatsController stats,
+        Transform self
+        )
     {
-        this.self = services.self;
-        this.agentController = services.agentController; 
-        this.animator = services.aiAnimatorController;
-        this.aiMotor = services.aiMotor;
-        this.aIAnimator = services.aiAnimatorController;
-        this.damageController = services.damageController;
+        this.self = self;
+        this.agentController = agentController;
+        this.aiMotor = aiMotor;
+        this.aIAnimator = aIAnimator;
+        this.damageController = damageController;
 
-        this.stats = services.statsManager;
+        this.stats = stats;
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,10 +55,10 @@ public class HumanoidAIController : MonoBehaviour
     #region Movement and Rotation
     private void ControlSpeed()
     {
-        
+
         if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
         {
-            aiMotor.moveSpeed = 0f;        
+            aiMotor.moveSpeed = 0f;
         }
 
         else if (aiMotor.IsStrafing)
