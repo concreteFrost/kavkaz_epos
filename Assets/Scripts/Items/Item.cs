@@ -1,15 +1,11 @@
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour, IPickable 
+public abstract class Item : MonoBehaviour
 {
 
     public bool IsPicked { get; set; }
 
-    public abstract void PickUp(ICollector s);
-
     public ItemSO ItemData { get; set; }
-
-    protected GameObject physicalInstance;
 
     [SerializeField] protected InteractionCollider interactionCollder;
 
@@ -19,7 +15,7 @@ public abstract class Item : MonoBehaviour, IPickable
 
         if(interactionCollder != null)
         {
-            interactionCollder.Init(this);
+            interactionCollder.Init();
         }
        
     }

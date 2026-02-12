@@ -37,7 +37,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
     #endregion
 
 
-    public IWeapon GetStarterWeapon(ICollector collector)
+    public IWeapon GetStarterWeapon(ICollector source)
     {
         if (starterSet == null) return null;
 
@@ -48,7 +48,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
             Weapon weapon = go.GetComponent<Weapon>();
 
             weapon.Init(weapon.ItemData);
-            weapon.AssignToOwner(collector);
+            weapon.AssignToOwner(source);
      
 
             return weapon;  
@@ -57,7 +57,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
         return null;
     }
 
-    public IShield GetStarterShield(ICollector collector)
+    public IShield GetStarterShield(ICollector source)
     {
         if (starterSet == null) return null;
 
@@ -68,7 +68,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
             Shield shield = go.GetComponent<Shield>();  
 
             shield.Init(shield.ItemData);   
-            shield.AssignToOwner(collector);   
+            shield.AssignToOwner(source);   
 
             return shield;  
         }

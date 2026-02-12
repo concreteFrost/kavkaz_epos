@@ -25,7 +25,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterStatsController stats;
 
     [Header("Система взаимодействия")]
-    [SerializeField] private CharacterInteract interaction;
+    [SerializeField] private ItemCollector interaction;
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -69,7 +69,8 @@ public class PlayerServiceLocator : MonoBehaviour
        
         damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
-
+        
+        //всегда инициализировать ранььше combatInventory
         attackSource.Init(sourcePosition: this.transform, sourceId: (int)damageController.CharacterType);
 
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);

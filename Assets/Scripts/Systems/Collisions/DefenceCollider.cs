@@ -7,7 +7,6 @@ public class DefenceCollider : MonoBehaviour
     Collider col;
     public IShield Shield;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Init()
     {
@@ -38,10 +37,13 @@ public class DefenceCollider : MonoBehaviour
 
         Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
 
-        damageData.healthDamageMultiplier = damageData.healthDamageMultiplier * Shield.ShieldData().defenceBonus;
-        damageData.balanceDamageType = BalanceDamageType.Blocked;
+        DamageData processedDamage = new DamageData();
 
-        Shield.Owner.Damagable.TakeDamage(damageData, source);
+        processedDamage.healthDamageMultiplier = damageData.healthDamageMultiplier * Shield.ShieldData().defenceBonus;
+        processedDamage.balanceDamageType = BalanceDamageType.Blocked;
+
+        Shield.Owner.Damagable.TakeDamage(processedDamage, source); 
+
 
     }
 

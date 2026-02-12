@@ -13,7 +13,7 @@ public interface IAttackSource
     /// ”казывает на источник атаки
     /// </summary>
     /// <returns></returns>
-    public Transform SourcePosition();
+    public Transform Source();
 
     /// <summary>
     /// ÷ели которые стоит игнорировать. Ќапример дружественные NPC или же цели того же класса

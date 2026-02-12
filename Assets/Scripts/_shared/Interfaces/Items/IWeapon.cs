@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IWeapon 
 {
+    ICollector Owner { get; set; }
     /// <summary>
     /// Данные оружия
     /// </summary>

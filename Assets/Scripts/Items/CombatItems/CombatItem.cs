@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CombatItem : Item
+public class CombatItem : Item, IPickable
 {
 
     protected Rigidbody rb;
@@ -15,10 +15,10 @@ public class CombatItem : Item
     //    breakdownThreshold = 100;
     //}
 
-    public override void PickUp(ICollector s) // заглушка
-    {
-       
-    }
+    public virtual void PickUp(ICollector interractor) {
+        
+    } // заглушка
+   
 
     public override void Init(ItemSO itemData)
     {

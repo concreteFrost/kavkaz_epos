@@ -16,7 +16,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
         //InitializeBarehands();
 
 
-        DefaultWeapon = InitializeBarehands(collector.AttackSource);
+        DefaultWeapon = InitializeBarehands(collector);
 
         SetWeapon(GetStarterWeapon(collector) ?? DefaultWeapon);
         ShieldWeapon = GetStarterShield(collector) ?? null;
@@ -26,11 +26,11 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
 
 
-    private IWeapon InitializeBarehands(IAttackSource attackSource)
+    private IWeapon InitializeBarehands(ICollector attackSource)
     {
 
         var bareHands = new MeleeWeapon();
-        bareHands.Init(meleeData, this, attackSource);
+        bareHands.Init(meleeData, attackSource);
 
         return bareHands;
 

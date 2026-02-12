@@ -57,12 +57,13 @@ public class MeleeWeapon : IWeapon
     private WeaponAttack currentAttack;
 
     public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
-    public ICombatInventory CombatInventory { get; set; }
-    public IAttackSource AttackSource { get; set; } 
+    
 
     int currentAttackIndex = 0;
 
     #region IWeapon Contract
+
+    public ICollector Owner { get; set; }
     public WeaponSO WeaponData() => weaponSO;
 
     public WeaponAttack CurrentAttack() => currentAttack;
@@ -91,14 +92,13 @@ public class MeleeWeapon : IWeapon
     //{
     //    Init();
     //}
-    public void Init(MeleeData meleeData,ICombatInventory inv, IAttackSource source)
+    public void Init(MeleeData meleeData,ICollector owner)
     {
         this.weaponSO = meleeData.barehandsData;
-        this.CombatInventory = inv;
-        this.AttackSource = source;
+        this.Owner = owner;
 
         this.meleeData = new MeleeData();
-        this.meleeData.Init(meleeData, this, AttackSource.SourcePosition());
+        this.meleeData.Init(meleeData, this, this.Owner.AttackSource.Source());
 
     }
     public void CancelAttack()
@@ -124,7 +124,7 @@ public class MeleeWeapon : IWeapon
         };
 
         meleeData.SetCurrentCollider(currentAttack);
-        meleeData.PerformAttack(damageData, AttackSource);
+        meleeData.PerformAttack(damageData, Owner.AttackSource);
     }
 
     public void PerformPush()

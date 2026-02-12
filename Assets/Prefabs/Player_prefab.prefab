@@ -621,12 +621,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2896670806739579442}
+  - component: {fileID: 1890861495265772695}
   - component: {fileID: 5155457626501010116}
   - component: {fileID: 1162499973470532957}
   - component: {fileID: 821100503953075412}
   - component: {fileID: 6276583198811690697}
   - component: {fileID: 146420996945911623}
-  - component: {fileID: 1890861495265772695}
   m_Layer: 6
   m_Name: Player_prefab
   m_TagString: Player
@@ -653,6 +653,37 @@ Transform:
   - {fileID: 896679987441803751}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1890861495265772695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118797432869137013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388f4fc4dff75054daffcb933cdf6074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
+  uniqueId: {fileID: 1162499973470532957}
+  animator: {fileID: 146420996945911623}
+  overrideController: {fileID: 22100000, guid: 7e3dac5f5c0e1454687d8def435c519d, type: 2}
+  motor: {fileID: 5155457626501010116}
+  climbing: {fileID: 923361003681641049}
+  input: {fileID: 1393379555626210300}
+  controller: {fileID: 3436852327508266912}
+  stats: {fileID: 1717874504137131917}
+  interaction: {fileID: 7107515754348160904}
+  combatController: {fileID: 2545132252603040552}
+  combatInventory: {fileID: 548762665843053101}
+  attackSource: {fileID: 4373527282435137223}
+  pushController: {fileID: 7151219120634766040}
+  damageController: {fileID: 9216071904075533163}
+  pushReceiver: {fileID: 1045726396533673994}
+  fallController: {fileID: 6771491388864813743}
+  targetLock: {fileID: 9014326086015574783}
+  playerStatsUI: {fileID: 6577596839341557752}
+  lockOnTargetUI: {fileID: 5014458933061563304}
 --- !u!114 &5155457626501010116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,37 +797,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1890861495265772695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118797432869137013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 388f4fc4dff75054daffcb933cdf6074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
-  uniqueId: {fileID: 1162499973470532957}
-  animator: {fileID: 146420996945911623}
-  overrideController: {fileID: 22100000, guid: 7e3dac5f5c0e1454687d8def435c519d, type: 2}
-  motor: {fileID: 5155457626501010116}
-  climbing: {fileID: 923361003681641049}
-  input: {fileID: 1393379555626210300}
-  controller: {fileID: 3436852327508266912}
-  stats: {fileID: 1717874504137131917}
-  interaction: {fileID: 7107515754348160904}
-  combatController: {fileID: 2545132252603040552}
-  combatInventory: {fileID: 548762665843053101}
-  attackSource: {fileID: 4373527282435137223}
-  pushController: {fileID: 7151219120634766040}
-  damageController: {fileID: 9216071904075533163}
-  pushReceiver: {fileID: 1045726396533673994}
-  fallController: {fileID: 6771491388864813743}
-  targetLock: {fileID: 9014326086015574783}
-  playerStatsUI: {fileID: 6577596839341557752}
-  lockOnTargetUI: {fileID: 5014458933061563304}
 --- !u!1 &1169381259671899525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1488518792192874598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b02deaf95f2c644baf44b78df2417d, type: 3}
+  m_Script: {fileID: 11500000, guid: 02d3e93eb2a9b704cb46e874993a0773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
 --- !u!1 &1928819769804000756

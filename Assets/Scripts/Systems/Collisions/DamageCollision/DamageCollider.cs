@@ -18,8 +18,10 @@ public class DamageCollider : MonoBehaviour
     protected virtual void Awake()
     {
         damageCollider = GetComponent<Collider>();
+        damageCollider.isTrigger = true;
+        damageCollider.enabled = false;
         lastPosition = transform.position;
-
+        
         DisableCollider();
     }
 
@@ -55,7 +57,7 @@ public class DamageCollider : MonoBehaviour
         damageCollider.enabled = true;
         lastPosition = transform.position;
 
-        Debug.Log(attackSource);
+        
     }
 
     public virtual void DisableCollider()
@@ -104,6 +106,8 @@ public class DamageCollider : MonoBehaviour
         if (attackInterrupted) return;
 
         var defence = other.GetComponent<DefenceCollider>();
+      
+       
         if (defence != null)
         {
             var owner = defence.Shield.Owner.Damagable;
@@ -112,6 +116,7 @@ public class DamageCollider : MonoBehaviour
             defence.ProcessDamage(damageData, attackSource);
             attackInterrupted = true;
             return;
+           
         }
 
         if (!TryGetDamagable(other, out var damagable)) return;

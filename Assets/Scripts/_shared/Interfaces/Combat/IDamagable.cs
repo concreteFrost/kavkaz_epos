@@ -12,6 +12,7 @@ public interface IDamagable
     bool IsKnockedOut {  get; set; }
     Transform GetAimTransform();
     Transform GetOrigin();
+
     event Action<Transform> DamageTaken;
 
 

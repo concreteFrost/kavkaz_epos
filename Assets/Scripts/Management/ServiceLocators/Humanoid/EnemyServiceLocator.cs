@@ -4,7 +4,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
 
     [Header("—истема взаимодействи€")]
-    [SerializeField] private CharacterInteract interaction;
+    [SerializeField] private ItemCollector interaction;
 
     [Header("Ѕоева€ система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -37,7 +37,6 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         InteractionInit();
         FovInit();
         CombatInit();
-
         BrainInit();
 
     }
@@ -54,6 +53,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void CombatInit()
     {
+        //всегда инициализировать ранььше combatInventory потому что переставив их местами у оружи€ attack source может быть null
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
         combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);

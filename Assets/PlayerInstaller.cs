@@ -21,7 +21,7 @@ public class PlayerInstaller : MonoInstaller
 
         Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerClimbing>().FromComponentInHierarchy().AsSingle().NonLazy();
-        Container.Bind<CharacterInteract>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<ItemCollector>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerTargetLock>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerFallController>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerDamageController>().FromComponentInHierarchy().AsSingle().NonLazy();
@@ -51,7 +51,7 @@ public class PlayerInstaller : MonoInstaller
         Container.Bind<IHumanoidCombat>().To<BaseHumanoidCombatController>().FromResolve();
         Container.Bind<IAttackSource>().To<AttackSource>().FromResolve();
         Container.Bind<ICombatInventory>().To<HumanoidCombatInventory>().FromResolve();
-        Container.Bind<ICollector>().To<CharacterInteract>().FromResolve();
+        Container.Bind<ICollector>().To<ItemCollector>().FromResolve();
         Container.Bind<IHumanoidMovement>().To<PlayerMotor>().FromResolve();
         Container.Bind<IClimber>().To<PlayerClimbing>().FromResolve();
         Container.Bind<IPushSource>().To<AgressivePushController>().FromResolve();

@@ -16,7 +16,7 @@ public class AttackSource : MonoBehaviour, IAttackSource
     public List<CharacterType> targetsToIgnore = new List<CharacterType>();
 
     public int SourceId() => sourceId;
-    public Transform SourcePosition() => sourcePosition;
+    public Transform Source() => sourcePosition;
 
     public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
 
@@ -26,7 +26,6 @@ public class AttackSource : MonoBehaviour, IAttackSource
         this.sourcePosition = sourcePosition;
         this.sourceId = sourceId;
 
-        Debug.Log(this.sourcePosition.position);
-        
+     
     }
 }

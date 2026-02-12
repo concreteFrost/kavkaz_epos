@@ -5,7 +5,7 @@ enum InteractionType
     FromFloor = 0,
     BodyLevel = 1
 }
-public class CharacterInteract : MonoBehaviour, ICollector
+public class ItemCollector : MonoBehaviour, ICollector
 {
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
@@ -25,9 +25,9 @@ public class CharacterInteract : MonoBehaviour, ICollector
 
     public void Init(
         Transform self,
-        BaseHumanoidAnimatorController animatorController, 
-        ICombatInventory combatInventory, 
-        IDamagable damageController, 
+        BaseHumanoidAnimatorController animatorController,
+        ICombatInventory combatInventory,
+        IDamagable damageController,
         IAttackSource attackSource
 
         )
@@ -37,8 +37,6 @@ public class CharacterInteract : MonoBehaviour, ICollector
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;
         this.Damagable = damageController;
-
-
 
         interactRadius = 1f;
 

@@ -9,7 +9,7 @@ public class Weapon : CombatItem, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    public ICollector Owner;
+    public ICollector Owner { get; set; }
 
     private float minStopVelocity = 0.2f;
 
@@ -68,9 +68,9 @@ public class Weapon : CombatItem, IWeapon
     {
         damageCollider.DisableCollider();
     }
-    public override void PickUp(ICollector target)
+    public override void PickUp(ICollector collector)
     {
-        if (!target.CombatInventory.CanPickWeapon()) return;
+        if (!collector.CombatInventory.CanPickWeapon()) return;
 
         if (breakdownThreshold <= 0)
         {
@@ -78,7 +78,7 @@ public class Weapon : CombatItem, IWeapon
             return;
         }
 
-        AssignToOwner(target);
+        AssignToOwner(collector);
 
     }
 
@@ -86,9 +86,8 @@ public class Weapon : CombatItem, IWeapon
     {
         Owner = target;
 
-       
         damageCollider.SetWeaponData(this);
-        damageCollider.SetDamageSource(Owner.AttackSource.SourcePosition());
+        damageCollider.SetDamageSource(Owner.AttackSource.Source());
 
         AssignParent(Owner.CombatInventory.GetRightHand());
         ToggleInteraction(false);
@@ -120,7 +119,7 @@ public class Weapon : CombatItem, IWeapon
     public void ThrowWeapon(Transform from, float force)
     {
         var tempTargets = Owner.AttackSource.TargetsToIgnore;
-        var source = Owner.AttackSource.SourcePosition();
+        var source = Owner.AttackSource.Source();
 
         ResetParent();
         ToggleInteraction(true);

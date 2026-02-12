@@ -1,15 +1,13 @@
 using UnityEngine;
 
-public class InteractionCollider : MonoBehaviour
+public class InteractionCollider : MonoBehaviour 
 {
     Collider col;
-    ICollector collector;
-    IPickable pickable;
 
-    public void Init(IPickable item)
+    public void Init()
     {
         col = GetComponent<Collider>();
-        pickable = item;    
+      
     }
    
     public void EnableCollider() => col.enabled = true;

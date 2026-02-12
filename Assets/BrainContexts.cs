@@ -19,7 +19,7 @@ public class EnemyBrainContext
     public HumanoidCombatInventory inventory;
     public EnemyFOVController fov;
     public EnemyStateTracker stateTracker;
-    public CharacterInteract interact;
+    public ItemCollector interact;
 
     public InterruptionManager interruptionManager;
 
