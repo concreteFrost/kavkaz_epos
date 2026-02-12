@@ -45,6 +45,8 @@ public class Weapon : CombatItem, IWeapon
 
         damageCollider.SetWeaponData(this);
 
+        //Debug.Log("init " + itemData.itemName);
+
     }
 
     public void PerformAttack()

@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class ItemsInitializer : MonoBehaviour
 {
-    public List<Item> items = new List<Item>();
+    public List<CombatItem> items = new List<CombatItem>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        var children = GetComponentsInChildren<Item>();
+        var children = GetComponentsInChildren<CombatItem>();
         items.AddRange(children);
 
         foreach (var child in children)

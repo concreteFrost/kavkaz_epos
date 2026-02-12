@@ -34,7 +34,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
         if (t >= 0.4f && !weaponThrowed)
         {
 
-            inv.CurrentWeapon.ThrowWeapon(animator.transform, 20f);
+            inv.CurrentWeapon.ThrowWeapon(animator.transform, 100f);
             inv.ResetWeapon();
           
             weaponThrowed = true;

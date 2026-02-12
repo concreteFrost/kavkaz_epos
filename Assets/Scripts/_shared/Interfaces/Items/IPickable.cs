@@ -8,4 +8,6 @@ public interface IPickable
     public ItemSO ItemData {  get; set; }   
 
     void PickUp(ICollector picker);
+
+
 }

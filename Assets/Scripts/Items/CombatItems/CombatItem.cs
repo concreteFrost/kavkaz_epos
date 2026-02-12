@@ -1,6 +1,7 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
-public class CombatItem : Item, IPickable
+public abstract class CombatItem : Item, IPickable
 {
 
     protected Rigidbody rb;
@@ -8,25 +9,19 @@ public class CombatItem : Item, IPickable
 
     public float breakdownThreshold;
 
-    //private void Awake()
-    //{
-    //    rb = GetComponent<Rigidbody>();
-    //    physicsCollider = GetComponent<Collider>();
-    //    breakdownThreshold = 100;
-    //}
 
-    public virtual void PickUp(ICollector interractor) {
-        
-    } // заглушка
+    public abstract void PickUp(ICollector interractor);
    
 
     public override void Init(ItemSO itemData)
     {
-        base.Init(itemData);
+       base.Init(itemData);
 
         rb = GetComponent<Rigidbody>();
         physicsCollider = GetComponent<Collider>();
         breakdownThreshold = 100;
+
+     
     }
 
 
