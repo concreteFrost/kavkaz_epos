@@ -70,7 +70,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
  
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
-            Debug.Log(source);
+            
             Vector3 sourcePos = source != null ? source.position : self.position - self.forward;
             PerformKnockout(sourcePos, damageData.impactForce);
         }

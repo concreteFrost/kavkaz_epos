@@ -38,6 +38,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerPushReceiver pushReceiver;
     [SerializeField] private PlayerFallController fallController;
 
+    [Header("Жизненый цикл")]
+    [SerializeField] private PlayerLifecycle lifecycle;
+
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
 
@@ -85,6 +88,7 @@ public class PlayerServiceLocator : MonoBehaviour
         motor.Init(animatorController: animatorController);
         controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing);
        
+        lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
 
         playerStatsUI.Init(stats: stats);
 

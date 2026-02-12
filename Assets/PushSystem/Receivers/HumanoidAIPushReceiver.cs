@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class HumanoidAIPushReceiver : BasePushReceiver
 {
@@ -7,6 +8,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
 
     IRagdollController ragdollController;
     PushDirection pushedDirection;
+    Transform pushSource;
 
     public void Init(
         IDamagable damageController,
@@ -28,6 +30,8 @@ public class HumanoidAIPushReceiver : BasePushReceiver
     public override void CancelPush()
     { 
         IsPushed = false;
+        InvokePushReceived(pushSource);
+        pushSource = null;
     }
 
     public override void GetPushed(PushDirection dir, Transform source)
@@ -36,10 +40,12 @@ public class HumanoidAIPushReceiver : BasePushReceiver
 
         animatorController.GetPushed(dir);
         pushedDirection = dir;
+        pushSource = source;
 
         IsPushed = true;
+        
 
-        InvokePushReceived(source);
+       
     }
 
     public override void TrackPush()
@@ -48,10 +54,10 @@ public class HumanoidAIPushReceiver : BasePushReceiver
 
         // базовая точка — центр персонажа
         Vector3 origin = self.position;
-        origin.y += 0.2f; // немного выше ног
+        origin.y += 0.1f; // немного выше ног
 
         // определяем смещение по направлению толчка
-        float offset = 0.7f;
+        float offset = 1f;
         Vector3 offsetDir = pushedDirection == PushDirection.Forward ? -self.forward : self.forward;
         Vector3 checkPoint = origin + offsetDir * offset;
 
@@ -64,6 +70,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
         // передаём в ragdollController: Transform остаётся внутри, сила считается по fallDirection
         ragdollController.Knockout(transform.position - offsetDir, 500);
 
+        damageController.IsKnockedOut = true;
         IsPushed = false;
     }
 

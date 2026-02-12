@@ -45,6 +45,8 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         // фиксируем поворот тела на цель
         motor.SetLockTarget(fov.currentTarget.GetAimTransform());
 
+        motor.IsSprinting = false;
+
         // сообщаем FOV, что цель сейчас залочена
         //fov.ToggleLockState(true);
     }

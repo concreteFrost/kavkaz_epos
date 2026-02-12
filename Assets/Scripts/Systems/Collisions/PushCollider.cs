@@ -7,8 +7,6 @@ public class PushCollider : MonoBehaviour
     List<CharacterType> objectsToIgnore;
     private bool pushRegistered = false;
 
-    Vector3 checkGroundPos;
-
     Transform self;
 
     public void Init(List<CharacterType> objectsToIgnore, Transform self)

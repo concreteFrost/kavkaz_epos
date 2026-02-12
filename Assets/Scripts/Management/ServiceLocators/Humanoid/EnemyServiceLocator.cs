@@ -67,6 +67,11 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         interruptionManager.Init(damageController: damageController, pushReceiver: pushReceiver);
     }
 
+    protected override void LifecycleInit()
+    {
+        lifecycle.Init(damagable: damageController, statsController: statsManager, ragdollController: ragdollController, brain: brain);
+    }
+
 
     protected  void BrainInit()
     {
@@ -96,4 +101,6 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
         brain.Init(brainContext);
     }
+
+
 }

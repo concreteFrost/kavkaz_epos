@@ -13,6 +13,7 @@ public class GetPushedBehaviour : StateMachineBehaviour
 
         animator.applyRootMotion = true;
         mv.StopMove = true;
+       
 
     }
 

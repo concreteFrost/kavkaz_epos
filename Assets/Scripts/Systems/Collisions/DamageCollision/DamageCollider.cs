@@ -20,6 +20,7 @@ public class DamageCollider : MonoBehaviour
         damageCollider = GetComponent<Collider>();
         damageCollider.isTrigger = true;
         damageCollider.enabled = false;
+
         lastPosition = transform.position;
         
         DisableCollider();
