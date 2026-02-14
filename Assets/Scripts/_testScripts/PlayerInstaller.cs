@@ -48,7 +48,7 @@ public class PlayerInstaller : MonoInstaller
 
         // Interfaces
         Container.Bind<IDamagable>().To<PlayerDamageController>().FromResolve();
-        Container.Bind<IHumanoidCombat>().To<BaseHumanoidCombatController>().FromResolve();
+        Container.Bind<IHumanoidMeleeCombat>().To<BaseHumanoidCombatController>().FromResolve();
         Container.Bind<IAttackSource>().To<AttackSource>().FromResolve();
         Container.Bind<ICombatInventory>().To<HumanoidCombatInventory>().FromResolve();
         Container.Bind<ICollector>().To<ItemCollector>().FromResolve();

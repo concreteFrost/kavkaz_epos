@@ -4,7 +4,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
 
     ICombatInventory inv;
-    IHumanoidCombat combatAnimData;
+    IHumanoidMeleeCombat combatAnimData;
     IHumanoidMovement motor;
     CharacterStatsController stats;
     IDamagable damageController;
@@ -17,7 +17,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         inv = animator.GetComponentInChildren<ICombatInventory>();
-        combatAnimData = animator.GetComponentInChildren<IHumanoidCombat>();
+        combatAnimData = animator.GetComponentInChildren<IHumanoidMeleeCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
         stats = animator.GetComponentInChildren<CharacterStatsController>();
         damageController = animator.GetComponentInChildren<IDamagable>();

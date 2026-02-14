@@ -7,7 +7,7 @@ public class PlayerAnimatorController : BaseHumanoidAnimatorController
         Animator animator,
         AnimatorOverrideController overrideController,
         IHumanoidMovement motor,
-        IHumanoidCombat combatController,
+        IHumanoidMeleeCombat combatController,
         ITargetLocker targetLock,
         IDamagable damageController,
         IPushable pushReceiver)

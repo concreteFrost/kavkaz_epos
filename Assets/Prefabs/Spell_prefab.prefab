@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6269051131816569973}
   - component: {fileID: 4274624409515218000}
   m_Layer: 0
-  m_Name: Bullet_prefab
+  m_Name: Spell_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5117fef71b1a7114b86a6cd68b403bcd, type: 2}
+  - {fileID: 2100000, guid: 404138e866b65de4e978510443a8d0c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &6269051131816569973
 SphereCollider:
@@ -125,3 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b438fd441ca2347a85b54532cb05ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  damageData:
+    healthDamageMultiplier: 0
+    balanceDamageType: 0
+    impactForce: 0

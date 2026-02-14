@@ -1,5 +1,5 @@
 ﻿
-public interface IHumanoidCombat
+public interface IHumanoidMeleeCombat
 {
     bool IsAttacking { get; set; }
     bool IsWeaponed { get; set; }

@@ -6,7 +6,9 @@ public class PlayerController : MonoBehaviour
     PlayerActionGuards actionGuards;
     CharacterStatsController stats;
 
-    IHumanoidCombat combatController;
+    IEmitter emitController;
+
+    IHumanoidMeleeCombat combatController;
     ICollector interact;
     
     IClimber climbing;
@@ -25,12 +27,13 @@ public class PlayerController : MonoBehaviour
 
     public void Init(
         PlayerMotor motor,   
-        IHumanoidCombat combatController,
+        IHumanoidMeleeCombat combatController,
         ICollector interaction,
         IClimber climbing,
         PlayerActionGuards actionGuards,
         CharacterStatsController stats,
-        IPushSource pushSource
+        IPushSource pushSource,
+        IEmitter emitController
       
         )
     {
@@ -43,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
         this.pushSource = pushSource;
         this.actionGuards = actionGuards;
+
+        this.emitController = emitController;
 
 
     }
@@ -218,6 +223,13 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    public void PerformEmit()
+    {
+        if(!actionGuards.CanEmit()) return;
+
+        emitController.Emit();
+    }
 
     #region Interaction
     public void Interact()

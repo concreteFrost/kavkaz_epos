@@ -7,7 +7,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
     public void Init(
         BaseHumanoidAnimatorController animatorController,
-        IHumanoidCombat combatController,
+        IHumanoidMeleeCombat combatController,
         ICollector collector)
     {
  

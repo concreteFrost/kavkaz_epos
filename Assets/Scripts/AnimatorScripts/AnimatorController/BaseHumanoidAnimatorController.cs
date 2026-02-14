@@ -11,7 +11,7 @@ public abstract class BaseHumanoidAnimatorController
     protected IHumanoidMovement movement;
     protected ITargetLocker targetLocker;
     protected IDamagable damagable;
-    protected IHumanoidCombat attackSource;
+    protected IHumanoidMeleeCombat attackSource;
     protected IPushable pushReceiver;
     public abstract void UpdateAnimatorParameters();
 
@@ -22,7 +22,7 @@ public abstract class BaseHumanoidAnimatorController
          Animator animator,
         AnimatorOverrideController overrideController,
         IHumanoidMovement motor,
-        IHumanoidCombat combatController,
+        IHumanoidMeleeCombat combatController,
         ITargetLocker targetLock,
         IDamagable damageController,
         IPushable pushReceiver
@@ -78,7 +78,7 @@ public abstract class BaseHumanoidAnimatorController
 
     }
 
-    protected void UpdateCombatState(IHumanoidCombat combatController)
+    protected void UpdateCombatState(IHumanoidMeleeCombat combatController)
     {
         animator.SetBool(AnimatorParameters.IsWeaponed, combatController.IsWeaponed);
         animator.SetBool(AnimatorParameters.IsShieldRaised, combatController.IsShieldRaised);

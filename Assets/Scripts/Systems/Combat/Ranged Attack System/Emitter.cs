@@ -7,11 +7,15 @@ public class Emitter : MonoBehaviour , IEmitter
     [SerializeField] ProjectileSO projectileSO;
 
     float spread = 0f;
-    private bool canAttack = true;
 
+    [SerializeField] protected Transform emitSource;
+    protected Transform self;
     Transform target;
 
+
     #region IEmitter Contract
+
+    public bool IsEmitting { get; set; }
     public Transform Origin() => transform;
     public Transform Target() => target;
     public ProjectileSO Projectile() => projectileSO;
@@ -19,16 +23,19 @@ public class Emitter : MonoBehaviour , IEmitter
     #endregion
 
    
-    public void Emit(Transform target = null)
+    public void Emit()
     {
-        if (!canAttack) return;
-
-        this.target = target;
+        //if (IsEmitting) return;
 
         var attack = projectileSO.attackSO;
 
         attack.Execute(this);
         StartCoroutine(EmitCooldown(attack.cooldown));
+    }
+
+    public void SetEmitTarget(Transform target = null)
+    {
+        this.target = target;
     }
 
     public Coroutine EmitWithDelay(IEnumerator cor)
@@ -38,7 +45,7 @@ public class Emitter : MonoBehaviour , IEmitter
 
     public IProjectile NewProjectile(ProjectileData data)
     {
-        Vector3 startPos = transform.position + transform.forward * 0.5f;
+        Vector3 startPos = emitSource.position + self.forward * 0.5f;
 
         GameObject clone = Instantiate(projectileSO.prefab, startPos, Quaternion.identity);
         var projectile = clone.GetComponent<IProjectile>();
@@ -49,10 +56,14 @@ public class Emitter : MonoBehaviour , IEmitter
 
     private IEnumerator EmitCooldown(float cooldown)
     {
-        canAttack = false;
+        IsEmitting = true;
         yield return new WaitForSeconds(cooldown);
-        canAttack = true;
+        IsEmitting = false;
     }
 
+   
+
+    
 
 }
+

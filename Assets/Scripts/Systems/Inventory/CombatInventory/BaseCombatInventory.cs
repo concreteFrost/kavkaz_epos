@@ -11,7 +11,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     protected BaseHumanoidAnimatorController animatorController;
 
-    protected IHumanoidCombat combatController;
+    protected IHumanoidMeleeCombat combatController;
 
     #region ICombatInventory Contract
 

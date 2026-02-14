@@ -5,7 +5,7 @@ using UnityEngine;
 public class AgressivePushController : MonoBehaviour , IPushSource
 {
 
-    IHumanoidCombat combatController;
+    IHumanoidMeleeCombat combatController;
     BaseHumanoidAnimatorController animatorController;
 
     public bool IsPushing = false;
@@ -16,7 +16,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
 
     public AnimationInfoSO AnimationData() => animationData;
 
-    public void Init(IAttackSource attackSource, IHumanoidCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
+    public void Init(IAttackSource attackSource, IHumanoidMeleeCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
     {
         
         this.combatController = combatController;

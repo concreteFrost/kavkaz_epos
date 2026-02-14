@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidCombat
+public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 {
     //ссылки
     public ICombatInventory inventory;

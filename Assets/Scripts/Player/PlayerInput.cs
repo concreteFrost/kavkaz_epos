@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerInput : MonoBehaviour
     private bool interactPressed;
     private bool lockOnTargetPressed;
     private bool isPushPressed;
+    private bool isEmitPressed;
 
     protected virtual void Awake()
     {
@@ -53,6 +55,8 @@ public class PlayerInput : MonoBehaviour
         controls.Player.PowerAttackGamepad.performed += ctx => powerAttackGamepadPressed = true;
 
         controls.Player.AgressivePush.performed += ctx => isPushPressed = true;
+
+        controls.Player.Emit.performed += ctx => isEmitPressed = true;
 
         controls.Player.Block.performed += ctx => blockHeld = true;
         controls.Player.Block.canceled += ctx => blockHeld = false;
@@ -87,7 +91,6 @@ public class PlayerInput : MonoBehaviour
         InputHandle();
     }
 
-
     protected virtual void InputHandle()
     {
         Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
@@ -99,6 +102,7 @@ public class PlayerInput : MonoBehaviour
         JumpInput();
 
         AttackInput();
+        EmitInput();
         PushInput();    
         BlockInput();
         LockOnTargetInput();
@@ -106,6 +110,8 @@ public class PlayerInput : MonoBehaviour
         InteractionInput();
 
     }
+
+   
 
     #region Motion Inputs
 
@@ -159,6 +165,15 @@ public class PlayerInput : MonoBehaviour
                 controller.PerformAttack();
 
             attackPressed = false;
+        }
+    }
+
+    private void EmitInput()
+    {
+        if (isEmitPressed)
+        {
+            controller.PerformEmit();
+            isEmitPressed = false;  
         }
     }
 

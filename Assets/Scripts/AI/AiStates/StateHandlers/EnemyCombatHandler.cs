@@ -141,7 +141,7 @@ public class EnemyCombatHandler
     #endregion
 
     #region Defence Handler
-    public void ToggleShield(bool willRaise, ICombatInventory inventory, IHumanoidCombat combatController)
+    public void ToggleShield(bool willRaise, ICombatInventory inventory, IHumanoidMeleeCombat combatController)
     {
         if (inventory.ShieldWeapon == null && combatController.IsShieldRaised)
         {

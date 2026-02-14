@@ -33,6 +33,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;
 
+    [Header("Магическая система")]
+    [SerializeField] private CharacterEmitter emitterController;
+
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
     [SerializeField] private PlayerPushReceiver pushReceiver;
@@ -55,7 +58,7 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         uid = uniqueId.uniqueId;
 
-        actionGuards = new PlayerActionGuards(locomotion:motor,stats:stats,damageController:damageController,climbing:climbing);
+        actionGuards = new PlayerActionGuards(locomotion:motor,stats:stats,damageController:damageController,climbing:climbing, emitter:emitterController,meleeCombat:combatController);
 
         animatorController.Init(
             animator:animator,
@@ -78,6 +81,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
+
+        emitterController.Init(self:transform);
           
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
@@ -86,7 +91,7 @@ public class PlayerServiceLocator : MonoBehaviour
         
         stats.Init();
         motor.Init(animatorController: animatorController);
-        controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing);
+        controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing,emitController:emitterController);
        
         lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
 

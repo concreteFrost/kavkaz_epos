@@ -7,7 +7,7 @@ public class PushBehaviour : StateMachineBehaviour
     IHumanoidMovement motor;
     IPushSource pushSource;
 
-    IHumanoidCombat combat;
+    IHumanoidMeleeCombat combat;
     CharacterStatsController stats;
 
     bool pushActive = false;
@@ -18,7 +18,7 @@ public class PushBehaviour : StateMachineBehaviour
        
         motor = animator.GetComponent<IHumanoidMovement>();
         pushSource = animator.GetComponentInChildren<IPushSource>();
-        combat = animator.GetComponentInChildren<IHumanoidCombat>();
+        combat = animator.GetComponentInChildren<IHumanoidMeleeCombat>();
         stats = animator.GetComponentInChildren<CharacterStatsController>();
 
         stats.Stamina.Reduce(stats.statsSO.staminaPushReducePenalty);

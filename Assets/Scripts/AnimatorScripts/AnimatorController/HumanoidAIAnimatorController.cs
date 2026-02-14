@@ -6,7 +6,7 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
     public override void Init(Animator animator,
         AnimatorOverrideController overrideController,
         IHumanoidMovement motor,
-        IHumanoidCombat combatController,
+        IHumanoidMeleeCombat combatController,
         ITargetLocker targetLock,
         IDamagable damageController,
         IPushable pushReceiver)

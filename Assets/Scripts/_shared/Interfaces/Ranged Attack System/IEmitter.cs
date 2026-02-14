@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IEmitter
 {
+    //IHumanoidMeleeCombat MeleeCombat();
     /// <summary>
     /// Transform эмитера
     /// </summary>
@@ -31,8 +32,9 @@ public interface IEmitter
     /// Запуск снаряда
     /// </summary>
     /// <param name="target">Цель относительно запускающего</param>
-    void Emit(Transform target);
+    void Emit();
 
+    void SetEmitTarget(Transform target=null);
     /// <summary>
     /// Запуск снаряда с задержкой
     /// </summary>
@@ -45,5 +47,7 @@ public interface IEmitter
     /// </summary>
     /// <returns></returns>
     IProjectile NewProjectile(ProjectileData data);
+
+    bool IsEmitting { get; set; }
 
 }

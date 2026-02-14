@@ -12,6 +12,8 @@ public class PlayerActionGuards
     private CharacterStatsController stats;
     private IDamagable statsModifier;
     private IClimber climbing;
+    private IEmitter emitter;   
+    private IHumanoidMeleeCombat meleeCombat;
 
     PlayerMode mode;
 
@@ -20,7 +22,9 @@ public class PlayerActionGuards
         PlayerMotor locomotion,
         CharacterStatsController stats,
         IDamagable damageController,
-        IClimber climbing)
+        IClimber climbing,
+        IEmitter emitter,
+        IHumanoidMeleeCombat meleeCombat)
     {
 
         this.locomotion = locomotion;
@@ -29,6 +33,8 @@ public class PlayerActionGuards
         this.statsModifier = damageController;
         this.climbing = climbing;
         mode = PlayerMode.Locomotion;
+        this.emitter = emitter;
+        this.meleeCombat = meleeCombat;
     }
 
     public PlayerMode Mode => mode;
@@ -142,6 +148,8 @@ public class PlayerActionGuards
 
         if (stats.Stamina.Current <= 0) return false;
 
+        if(emitter.IsEmitting) return false;
+
         return true;
     }
 
@@ -168,6 +176,23 @@ public class PlayerActionGuards
         if (locomotion.StopMove) return false;
 
         if (stats.Stamina.Current <= 0) return false;
+
+        return true;
+    }
+
+    public bool CanEmit()
+    {
+        if (mode != PlayerMode.Locomotion) return false;
+
+        if (locomotion.IsDodging) return false;
+
+        if (!locomotion.IsGrounded) return false;
+
+        if (stats.Stamina.Current <= 0) return false;
+
+        if (emitter.IsEmitting) return false;
+
+        if(meleeCombat.IsAttacking) return false;   
 
         return true;
     }
