@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour, IProjectile
@@ -6,6 +7,11 @@ public class Projectile : MonoBehaviour, IProjectile
     public ProjectileData data;
     float currLifeTime; //текущий жизненый цикл
     [SerializeField] DamageCollider damageCollider;
+
+    [SerializeField] GameObject lifetimeParticles;
+    [SerializeField] GameObject hitParticles;
+
+    Coroutine destroyCoroutine = null;
 
 
     void Update()
@@ -20,10 +26,17 @@ public class Projectile : MonoBehaviour, IProjectile
         transform.position += velocity * Time.deltaTime;
 
         currLifeTime += Time.deltaTime;
-        if (currLifeTime >= data.projectileSO.lifetime || damageCollider.isAttackRegistered)
+
+        if (damageCollider.isAttackRegistered)
+        {
+            ActivateHit();
+            PerformDestroy();
+        }
+
+        if (currLifeTime >= data.projectileSO.lifetime)
         {
             damageCollider.DisableCollider();
-            Destroy(gameObject);
+            PerformDestroy();
         }
            
     }
@@ -35,9 +48,36 @@ public class Projectile : MonoBehaviour, IProjectile
         {
             damageCollider = GetComponentInChildren<DamageCollider>();
         }
+        ActivateLifetime();
+
         damageCollider.Init();
         damageCollider.EnableCollider(data.projectileSO.damageData, data.attackSource.TargetsToIgnore, data.attackSource.Source());
        
+    }
+
+    private void PerformDestroy()
+    {
+        if (destroyCoroutine != null) return;
+
+        destroyCoroutine = StartCoroutine(DestroyCoroutine());  
+    }
+
+    private void ActivateLifetime()
+    {
+        lifetimeParticles.gameObject.SetActive(true);
+        hitParticles.gameObject.SetActive(false);
+    }
+
+    private void ActivateHit()
+    {
+        lifetimeParticles.gameObject.SetActive(false);
+        hitParticles.gameObject.SetActive(true);
+    }
+
+    private IEnumerator DestroyCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
 
 

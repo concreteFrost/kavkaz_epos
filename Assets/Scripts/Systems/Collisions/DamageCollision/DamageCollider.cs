@@ -109,6 +109,8 @@ public class DamageCollider : MonoBehaviour
     {
         if (attackInterrupted) return;
 
+        isAttackRegistered = true;
+
         var defence = other.GetComponent<DefenceCollider>();
       
        
@@ -130,7 +132,7 @@ public class DamageCollider : MonoBehaviour
         if (!hitColliders.Add(other)) return;
 
         ApplyDamage(damagable);
-        isAttackRegistered = true;  
+      
         //attackInterrupted = true;
     }
 
