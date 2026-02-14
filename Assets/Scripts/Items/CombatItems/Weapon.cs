@@ -43,6 +43,7 @@ public class Weapon : CombatItem, IWeapon
 
         ToggleInteraction(true);
 
+        damageCollider.Init();
         damageCollider.SetWeaponData(this);
 
         //Debug.Log("init " + itemData.itemName);
@@ -62,7 +63,8 @@ public class Weapon : CombatItem, IWeapon
 
         damageCollider.EnableCollider(
             damageData,
-            Owner.AttackSource.TargetsToIgnore
+            Owner.AttackSource.TargetsToIgnore,
+            Owner.AttackSource.Source()
         );
     }
 
@@ -89,7 +91,7 @@ public class Weapon : CombatItem, IWeapon
         Owner = target;
 
         damageCollider.SetWeaponData(this);
-        damageCollider.SetDamageSource(Owner.AttackSource.Source());
+        //damageCollider.SetDamageSource(Owner.AttackSource.Source());
 
         AssignParent(Owner.CombatInventory.GetRightHand());
         ToggleInteraction(false);
@@ -139,7 +141,7 @@ public class Weapon : CombatItem, IWeapon
     {
         Owner.CombatInventory.ResetWeapon();
         Owner = null;
-        damageCollider.SetDamageSource(null);
+        //damageCollider.SetDamageSource(null);
     }
 
     IEnumerator ThrowCoroutine(List<CharacterType> targetsToIgnore, Transform source)
@@ -151,8 +153,8 @@ public class Weapon : CombatItem, IWeapon
             impactForce = 10f
         };
 
-        damageCollider.SetDamageSource(source);
-        damageCollider.EnableCollider(damageData, targetsToIgnore);
+        //damageCollider.SetDamageSource(source);
+        damageCollider.EnableCollider(damageData, targetsToIgnore, source);
 
         yield return null;
 

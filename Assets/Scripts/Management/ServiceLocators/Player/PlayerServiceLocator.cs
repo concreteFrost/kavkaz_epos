@@ -82,7 +82,7 @@ public class PlayerServiceLocator : MonoBehaviour
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
 
-        emitterController.Init(self:transform);
+        emitterController.Init(source:attackSource,animatorController:animatorController,targetLocker:targetLock);
           
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);

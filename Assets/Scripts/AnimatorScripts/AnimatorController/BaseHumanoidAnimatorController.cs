@@ -117,6 +117,14 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 
+    public void OverrideSpell(SpellProjectileSO spell)
+    {
+        overrideController["Spell_Cast"] = spell.animation.clip;
+
+        animator.speed = spell.animation.animationSpeed;
+        animator.CrossFade("Spell_Cast", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
+    }
+
     public void OverrideArmed(IWeapon w)
     {
         if (w.WeaponData().idleAnimation == null) return;

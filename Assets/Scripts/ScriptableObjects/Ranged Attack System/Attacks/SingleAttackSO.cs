@@ -10,11 +10,14 @@ public class SingleAttackSO : ProjectileAttackSO
         Vector3 dir = emitter.Origin().forward;
         dir = spread * dir;
 
-        var data = emitter.Projectile().CreateData(
-            moveSO,
-            dir);
+        ProjectileDirection directionData = new ProjectileDirection()
+        {
+            MoveBehaviour = moveSO,
+            baseDir = dir,
+        };
 
-        var b = emitter.NewProjectile(data);
+      
+        var b = emitter.NewProjectile(directionData);
 
     }
 }

@@ -10,10 +10,13 @@ public class SpiralMoveSO : ProjectileMoveSO
     {
         float t = Time.time * freq;
 
-        float x = Mathf.Sin(t);
-        float y = Mathf.Sin(t) * Mathf.Cos(t);
+        float x = Mathf.Cos(t);
+        float y = Mathf.Sin(t);
 
-        return baseDir * speed + (self.right * x * amplitude + self.up * y * amplitude);
+        Vector3 spiralOffset =
+            self.right * x * amplitude +
+            self.up * y * amplitude;
+
+        return baseDir * speed + spiralOffset;
     }
-
 }

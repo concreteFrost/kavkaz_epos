@@ -1,7 +1,14 @@
 fileFormatVersion: 2
-guid: 1c63f6911fc6aa0479b7f053fa77b36a
+guid: 21871d38deea5de4d892e013fc2c03ca
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63772
+  packageName: RPG Character Mecanim Animation Pack
+  packageVersion: 7.2.1
+  assetPath: Assets/ExplosiveLLC/RPG Character Mecanim Animation Pack/Animations/Unarmed/RPG-Character@Unarmed-Cast-R-Attack3.FBX
+  uploadId: 788702
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable:
   - first:
       1: 100000
@@ -170,12 +177,6 @@ ModelImporter:
     second: //RootNode
   - first:
       1: 100110
-    second: Shield
-  - first:
-      1: 100112
-    second: WeaponL
-  - first:
-      1: 100114
     second: Exporter
   - first:
       4: 400000
@@ -344,43 +345,19 @@ ModelImporter:
     second: //RootNode
   - first:
       4: 400110
-    second: Shield
-  - first:
-      4: 400112
-    second: WeaponL
-  - first:
-      4: 400114
     second: Exporter
-  - first:
-      23: 2300000
-    second: Shield
-  - first:
-      23: 2300002
-    second: WeaponL
-  - first:
-      33: 3300000
-    second: Shield
-  - first:
-      33: 3300002
-    second: WeaponL
   - first:
       43: 4300000
     second: RPG-Character-Mesh
   - first:
-      43: 4300002
-    second: Shield
-  - first:
-      43: 4300004
-    second: WeaponL
-  - first:
       74: 7400000
-    second: Unarmed-Cast-R-Attack2_start
+    second: Unarmed-Cast-R-Attack3_start
   - first:
       74: 7400002
-    second: Unarmed-Cast-R-Attack2_loop
+    second: Unarmed-Cast-R-Attack3_loop
   - first:
       74: 7400004
-    second: Unarmed-Cast-R-Attack2_end
+    second: Unarmed-Cast-R-Attack3_end
   - first:
       95: 9500000
     second: //RootNode
@@ -402,15 +379,9 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
-    motionNodeName: Motion
-    rigImportErrors: 
-    rigImportWarnings: 
+    motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'B_Spine' has translation animation that
-      will be discarded.\n\t'B_Spine1' has translation animation that will be discarded.\n\t'B_Spine2'
-      has translation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -424,11 +395,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Unarmed-Cast-R-Attack2_start
+      name: Unarmed-Cast-R-Attack3_start
       takeName: Take 001
       internalID: 7400000
       firstFrame: 0
-      lastFrame: 7
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -439,7 +410,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -447,24 +418,17 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 1
-        functionName: Shoot
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {fileID: 101100000, guid: 3e4e408fdcc93ee468a1275b69104d63, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Unarmed-Cast-R-Attack2_loop
+      name: Unarmed-Cast-R-Attack3_loop
       takeName: Take 001
       internalID: 7400002
       firstFrame: 7
-      lastFrame: 21
+      lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -489,10 +453,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Unarmed-Cast-R-Attack2_end
+      name: Unarmed-Cast-R-Attack3_end
       takeName: Take 001
       internalID: 7400004
-      firstFrame: 21
+      firstFrame: 23
       lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
@@ -543,6 +507,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -1271,8 +1238,7 @@ ModelImporter:
     hasTranslationDoF: 1
     hasExtraRoot: 0
     skeletonHasParents: 0
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e57e9b8cd5e115f4f8d7736473e5c7fd,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e57e9b8cd5e115f4f8d7736473e5c7fd, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
@@ -1284,10 +1250,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 63772
-  packageName: RPG Character Mecanim Animation Pack
-  packageVersion: 7.2.1
-  assetPath: Assets/ExplosiveLLC/RPG Character Mecanim Animation Pack/Animations/Unarmed/RPG-Character@Unarmed-Cast-R-Attack2.FBX
-  uploadId: 788702

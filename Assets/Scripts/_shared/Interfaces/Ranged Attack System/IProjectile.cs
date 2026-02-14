@@ -7,4 +7,6 @@ public interface IProjectile
     /// </summary>
     /// <param name="data"></param>
     void Init(ProjectileData data);
+
+
 }

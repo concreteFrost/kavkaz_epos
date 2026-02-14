@@ -12,7 +12,6 @@ public class WeaponAttack
 {
     public DamageData damageData;
 
-
     public float staminaPenalty = 1f;
 
     public FromHand fromHand = FromHand.right;

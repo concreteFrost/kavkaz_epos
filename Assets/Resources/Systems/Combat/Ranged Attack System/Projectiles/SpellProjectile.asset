@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   prefab: {fileID: 6897423304324703046, guid: 98f2f0c4e40ca71439b9fd3d7f2f18f9, type: 3}
   speed: 5
-  damage: 3
+  damageData:
+    healthDamageMultiplier: 10
+    balanceDamageType: 2
+    impactForce: 0
   lifetime: 10
-  attackSO: {fileID: 11400000, guid: 24b94d6a745f5fe488d9bd89e6a643ea, type: 2}
+  attackSO: {fileID: 11400000, guid: 9348b390a12eacf4e960161be394fbda, type: 2}
+  animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 10

@@ -12,10 +12,11 @@ public class DamageCollider : MonoBehaviour
     List<CharacterType> objectsToIgnore;
 
     [HideInInspector] public bool attackInterrupted;
+    public bool isAttackRegistered =false;
 
     private Vector3 lastPosition;
 
-    protected virtual void Awake()
+    public void Init()
     {
         damageCollider = GetComponent<Collider>();
         damageCollider.isTrigger = true;
@@ -47,9 +48,10 @@ public class DamageCollider : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    public virtual void EnableCollider(DamageData damageData,List<CharacterType> targetsToIgnore)
+    public virtual void EnableCollider(DamageData damageData,List<CharacterType> targetsToIgnore, Transform attackSource)
     {
         this.damageData = damageData;
+        this.attackSource = attackSource;   
         objectsToIgnore = targetsToIgnore;
 
         attackInterrupted = false;
@@ -63,6 +65,7 @@ public class DamageCollider : MonoBehaviour
 
     public virtual void DisableCollider()
     {
+        attackSource = null;
         damageCollider.enabled = false;
         attackInterrupted = false;
         hitColliders.Clear();
@@ -127,6 +130,7 @@ public class DamageCollider : MonoBehaviour
         if (!hitColliders.Add(other)) return;
 
         ApplyDamage(damagable);
+        isAttackRegistered = true;  
         //attackInterrupted = true;
     }
 

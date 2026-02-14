@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "TripleTargetAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/TripleTargetAttack")]
 public class TripleTargetAttackSO : ProjectileAttackSO
 {
@@ -25,13 +26,20 @@ public class TripleTargetAttackSO : ProjectileAttackSO
         int spawnedAmount = 0; 
         while(spawnedAmount < 3 && emitter.Target() !=null)
         {
-            Vector3 dir = (emitter.Origin().position - emitter.Target().position).normalized;
+            var dir = (emitter.Target().position - emitter.Origin().position).normalized;
 
             var spread = base.SpreadRotation(emitter.Spread);
             dir = spread * dir;
 
-            var data = emitter.Projectile().CreateData(moveSO, dir, emitter.Target());
-            var bullet = emitter.NewProjectile(data);
+            //var data = emitter.Projectile().CreateData(moveSO, dir, emitter.Target());
+
+            ProjectileDirection directionData = new ProjectileDirection()
+            {
+                MoveBehaviour = moveSO,
+                baseDir = dir,
+            };
+
+            var bullet = emitter.NewProjectile(directionData);
 
             spawnedAmount++;
             yield return new WaitForSeconds(delay);

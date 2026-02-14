@@ -5,7 +5,6 @@ public class AiRagdollController : BaseRagdollController
 
     HumanoidAgentController agentController;
 
-
     public AiRagdollController(MonoBehaviour ctx, BaseHumanoidAnimatorController anim, HumanoidAgentController agent, Transform self)
     {
         this.agentController = agent;
@@ -17,11 +16,13 @@ public class AiRagdollController : BaseRagdollController
 
     public override void EnableRagdoll(Vector3 from, float force = 0)
     {
+        agentController.DisableAgent();
+
         col.enabled = false;
        
         anim.Animator().enabled = false;
 
-        agentController.DisableAgent();
+      
 
         foreach (var rb in rigidbodies)
         {

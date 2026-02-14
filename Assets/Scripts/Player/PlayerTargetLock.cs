@@ -30,6 +30,10 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     CharacterType self;
 
+    #region ITargetLocker Contract
+    public Transform CurrentTarget()=>currentTarget != null  ? currentTarget.GetAimTransform() : null;
+    #endregion
+
     public void Init(
         LockOnTargetUI lockOnTargetUI,
         PlayerController controller,

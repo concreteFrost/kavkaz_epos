@@ -18,9 +18,13 @@ public class TargetAttackSO : ProjectileAttackSO
         var dir = (gun.Target().position - gun.Origin().position).normalized;
         dir = spread * dir;
 
-        var data = gun.Projectile().CreateData(moveSO, dir, gun.Target());
+        ProjectileDirection moveData = new ProjectileDirection()
+        {
+            MoveBehaviour = moveSO,
+            baseDir = dir,
+        };
 
-        var bullet = gun.NewProjectile(data);
+        var bullet = gun.NewProjectile(moveData);
            
     }
 }

@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     {
         if(!actionGuards.CanEmit()) return;
 
-        emitController.Emit();
+        emitController.StartEmit();
     }
 
     #region Interaction

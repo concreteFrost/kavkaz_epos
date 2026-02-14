@@ -4,27 +4,29 @@ using UnityEngine;
 public class TripleAttackSO : ProjectileAttackSO
 {
     [SerializeField] private float spreadAngle = 2f;
-
     [SerializeField] ProjectileMoveSO moveSO;
-    public override void Execute(IEmitter emitter)
+
+public override void Execute(IEmitter emitter)
+{
+    float spread = spreadAngle > 0 ? spreadAngle : 1;
+
+    Transform origin = emitter.Origin();
+
+    for (int i = -1; i <= 1; i++)
     {
+        float angle = spread * i;
 
-        float spread = spreadAngle > 0 ? spreadAngle : 1;
+        Vector3 direction = Quaternion.AngleAxis(angle, origin.up) 
+                            * origin.forward;
 
-        Vector3 offsetDirection = new Vector3(-spread, 0, spread);
-        
-        for (int i = 0; i < 3; i++)
-        {
-            var data = emitter.Projectile().CreateData(
-                moveSO,
-                offsetDirection
-                );
+            ProjectileDirection moveData = new ProjectileDirection()
+            {
+                MoveBehaviour = moveSO,
+                baseDir = direction,
+            };
 
-            var newBullet = emitter.NewProjectile(data);
-
-           
-
-            offsetDirection.x += spread;
-        }
+        emitter.NewProjectile(moveData);
     }
+}
+
 }

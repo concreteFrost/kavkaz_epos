@@ -28,13 +28,16 @@ public interface IEmitter
     /// <returns></returns>
     float Spread { get; set; }
 
+    void StartEmit();
+
     /// <summary>
     /// Запуск снаряда
     /// </summary>
     /// <param name="target">Цель относительно запускающего</param>
     void Emit();
 
-    void SetEmitTarget(Transform target=null);
+    void EndEmit();
+
     /// <summary>
     /// Запуск снаряда с задержкой
     /// </summary>
@@ -46,7 +49,7 @@ public interface IEmitter
     /// Создает новый снаряд с заполнеными данными
     /// </summary>
     /// <returns></returns>
-    IProjectile NewProjectile(ProjectileData data);
+    IProjectile NewProjectile(ProjectileDirection dir);
 
     bool IsEmitting { get; set; }
 

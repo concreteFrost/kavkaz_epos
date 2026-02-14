@@ -1,41 +1,50 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-public class Emitter : MonoBehaviour , IEmitter
+public abstract class Emitter : MonoBehaviour , IEmitter
 {
   
-    [SerializeField] ProjectileSO projectileSO;
+    [SerializeField] protected ProjectileSO projectileSO;
 
     float spread = 0f;
 
     [SerializeField] protected Transform emitSource;
-    protected Transform self;
-    Transform target;
+    protected Transform target;
+
+    protected IAttackSource attackSource;
 
 
     #region IEmitter Contract
-
     public bool IsEmitting { get; set; }
-    public Transform Origin() => transform;
+    public Transform Origin() => attackSource != null ? attackSource.Source() : transform;
     public Transform Target() => target;
     public ProjectileSO Projectile() => projectileSO;
     public float Spread { get => spread; set => spread = value; }
     #endregion
 
-   
-    public void Emit()
-    {
-        //if (IsEmitting) return;
-
-        var attack = projectileSO.attackSO;
-
-        attack.Execute(this);
-        StartCoroutine(EmitCooldown(attack.cooldown));
-    }
-
-    public void SetEmitTarget(Transform target = null)
+    protected void SetTargetData(Transform target)
     {
         this.target = target;
+    }
+
+    public virtual void StartEmit()
+    {
+        IsEmitting = true;  
+    
+    }
+
+    public void Emit()
+    {
+
+        var attack = projectileSO.attackSO;
+        attack.Execute(this);
+       
+    }
+
+    public void EndEmit()
+    {
+        IsEmitting = false;
     }
 
     public Coroutine EmitWithDelay(IEnumerator cor)
@@ -43,23 +52,28 @@ public class Emitter : MonoBehaviour , IEmitter
         return StartCoroutine(cor);
     }
 
-    public IProjectile NewProjectile(ProjectileData data)
+    public IProjectile NewProjectile(ProjectileDirection direction)
     {
-        Vector3 startPos = emitSource.position + self.forward * 0.5f;
+        Vector3 startPos = emitSource.position + Origin().forward * 0.5f;
 
         GameObject clone = Instantiate(projectileSO.prefab, startPos, Quaternion.identity);
         var projectile = clone.GetComponent<IProjectile>();
+
+        ProjectileData data = new ProjectileData()
+        {
+           
+            target = target,
+            attackSource = attackSource,
+            projectileSO = projectileSO,
+            direction = direction,
+
+        };
 
         projectile.Init(data);
         return projectile;
     }
 
-    private IEnumerator EmitCooldown(float cooldown)
-    {
-        IsEmitting = true;
-        yield return new WaitForSeconds(cooldown);
-        IsEmitting = false;
-    }
+   
 
    
 

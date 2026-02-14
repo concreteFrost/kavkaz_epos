@@ -20,11 +20,14 @@ public class MeleeData
         this.leftDamageCollider = data.leftDamageCollider;
         this.rightDamageCollider = data.rightDamageCollider;
 
+        this.leftDamageCollider.Init();
         this.leftDamageCollider.SetWeaponData(weapon);
-        this.leftDamageCollider.SetDamageSource(source);
+        //this.leftDamageCollider.SetDamageSource(source);
 
+        this.rightDamageCollider.Init();
         this.rightDamageCollider.SetWeaponData(weapon);
-        this.rightDamageCollider.SetDamageSource(source);
+        //this.rightDamageCollider.SetDamageSource(source);
+    
     }
 
     public void SetCurrentCollider(WeaponAttack attack)
@@ -37,7 +40,7 @@ public class MeleeData
 
     public void PerformAttack(DamageData damageData ,IAttackSource attackSource)
     {
-        current.EnableCollider(damageData, attackSource.TargetsToIgnore);
+        current.EnableCollider(damageData, attackSource.TargetsToIgnore, attackSource.Source());
     }
 
     public void CancelAttack()

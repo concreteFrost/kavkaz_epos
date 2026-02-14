@@ -25,7 +25,7 @@ public class DamageSource : MonoBehaviour
         if (!colliderActive)
         {
             // включаем коллайдер
-            damageCollider.EnableCollider(damageData, objectsToIgnore);
+            damageCollider.EnableCollider(damageData, objectsToIgnore, null);
             colliderActive = true;
         }
 
