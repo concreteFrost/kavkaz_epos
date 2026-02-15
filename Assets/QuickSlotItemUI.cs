@@ -4,22 +4,26 @@ using UnityEngine.UI;
 
 public class QuickSlotItemUI : MonoBehaviour
 {
-    [SerializeField] Image itemImage;
-    [SerializeField] Image backgroundImage;
-    [SerializeField] TextMeshProUGUI quantityText;
+    [SerializeField] protected Image itemImage;
+    [SerializeField] protected Image backgroundImage;
+    [SerializeField] protected TextMeshProUGUI quantityText;
     
     public void UpdateImageDate(ItemData data)
     {
+
+        var itemSo = data.itemSO;
+
         itemImage.enabled = true;
         backgroundImage.enabled = true;
-        quantityText.enabled = true;    
-
+    
         itemImage.sprite = data.itemSO.itemImage;
-        backgroundImage.enabled = true; 
+        backgroundImage.enabled = true;
+
+        quantityText.enabled = true;
         quantityText.text = data.quantity.ToString();
     }
 
-    public void RemoveData()
+    public virtual void RemoveData()
     {
         itemImage.enabled = false;
         backgroundImage.enabled = false;

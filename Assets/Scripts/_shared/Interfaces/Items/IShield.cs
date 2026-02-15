@@ -1,5 +1,5 @@
 
-public interface IShield
+public interface IShield : IBreakable
 {
     ICollector Owner { get; set; }
 

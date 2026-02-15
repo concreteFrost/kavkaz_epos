@@ -8,11 +8,14 @@ public abstract class ItemSO : ScriptableObject
     public string itemName;
     public Sprite itemImage;
 
-    private void OnEnable()
+#if UNITY_EDITOR
+    private void OnValidate()
     {
-        if(id == null)
+        if (string.IsNullOrEmpty(id))
         {
-           id = Guid.NewGuid().ToString();  
+            id = Guid.NewGuid().ToString();
         }
     }
+
+#endif
 }

@@ -34,7 +34,11 @@ public class Weapon : CombatItem, IWeapon
 
         currentAttack = list[currentAttackIndex];
     }
+
+    public float GetDurability() => breakdownThreshold;
     #endregion
+
+
 
     public override void Init(ItemSO itemData)
     {
@@ -109,6 +113,8 @@ public class Weapon : CombatItem, IWeapon
             Owner.CombatInventory.ResetWeapon();
             DropWeapon();
         }
+
+
     }
 
     public void DropWeapon()

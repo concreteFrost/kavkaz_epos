@@ -73,6 +73,8 @@ public class MeleeWeapon : IWeapon
 
     public void SetCurrentAttack(WeaponAttack attack) => currentAttack = attack;
 
+    public float GetDurability() => 0; // заглушка
+
     public void SelectAttack(int index)
     {
         var list = weaponSO.attackSet.attackList;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Shield : CombatItem, IShield
+public class Shield : CombatItem, IShield, IBreakable
 {
     public ShieldSO shieldSO;
 
@@ -9,6 +9,10 @@ public class Shield : CombatItem, IShield
     #region IShield Variables
     public ICollector Owner { get; set; }
     public ShieldSO ShieldData() => shieldSO;
+    #endregion
+
+    #region IBreakable Contract
+    public float GetDurability() => breakdownThreshold;
     #endregion
 
     public override void Init(ItemSO itemData)

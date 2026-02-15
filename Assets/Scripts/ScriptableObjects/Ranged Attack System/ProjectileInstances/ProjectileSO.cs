@@ -11,10 +11,10 @@ public abstract class ProjectileSO : ItemSO
 
     [Header("Base stats")]
     public float speed = 3f;
-    public DamageData damageData;
     public float lifetime = 10f;
-  
 
+    public DamageData damageData;
+ 
     public ProjectileAttackSO attackSO;
 
     //public virtual void SetDirection(

@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Shield", menuName =ScriptablePaths.ITEMS_PATH + "/Shields/Shield")]
-public class ShieldSO : ItemSO
+public class ShieldSO : BreakablleItemSO
 {
 
     [Space(10)]
@@ -13,10 +13,6 @@ public class ShieldSO : ItemSO
     [Tooltip("Поглощение утраты баланса")]
     public float balanceBlockFactor;
 
-    [Space(10)]
-    [Header("Поломка")]
-    [Tooltip("Ущерб от защиты")]
-    public float breakdownPenalty;
 
     public float GetDefenceBonus()
     {

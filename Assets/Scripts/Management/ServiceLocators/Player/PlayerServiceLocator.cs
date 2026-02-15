@@ -105,7 +105,7 @@ public class PlayerServiceLocator : MonoBehaviour
         lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
 
         playerStatsUI.Init(stats: stats);
-        quickSlotsUI.Init(spellInventory: spellInventory);
+        quickSlotsUI.Init(spellInventory: spellInventory, combatInventory:combatInventory);
 
     }
 

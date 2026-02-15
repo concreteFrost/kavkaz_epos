@@ -11,11 +11,12 @@ public class WeaponDamageCollider : DamageCollider
 
     protected override void ApplyDamage(IDamagable target)
     {
+        weaponData.ReduceDurability(
+           weaponData.WeaponData().GetBreakdownPenalty()
+       );
 
         base.ApplyDamage(target);
 
-        weaponData.ReduceDurability(
-            weaponData.WeaponData().GetBreakdownPenalty()
-        );
+       
     }
 }

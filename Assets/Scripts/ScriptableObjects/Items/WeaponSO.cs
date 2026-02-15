@@ -7,7 +7,7 @@ public enum WeaponType
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
-public class WeaponSO : ItemSO 
+public class WeaponSO : BreakablleItemSO
 {
 
     [Tooltip("Определяет может ли игрок брать другое оружие поверх этого")]
@@ -19,9 +19,7 @@ public class WeaponSO : ItemSO
     [Tooltip("Сырой урон без мультипликаторов")]
     [SerializeField] private float baseDamage;
 
-    [Header("Поломка")]
-    [Tooltip("Сколько снимать от состояния при ударе")]
-    [SerializeField] private float breakdownPenalty;
+
 
     [Header("Набор атак")]
     public AttackSO attackSet;

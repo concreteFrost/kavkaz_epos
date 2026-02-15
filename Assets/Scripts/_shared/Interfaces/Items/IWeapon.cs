@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public interface IWeapon 
+public interface IWeapon : IBreakable
 {
     ICollector Owner { get; set; }
     /// <summary>
