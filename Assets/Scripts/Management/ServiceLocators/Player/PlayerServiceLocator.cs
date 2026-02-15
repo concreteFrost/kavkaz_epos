@@ -18,8 +18,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Ввод")]
     [SerializeField] private PlayerInput input;
 
-    [Header("Контроллер")]
-    [SerializeField] private PlayerController controller;
+    [Header("Контроллеры")]
+    [SerializeField] private PlayerLocomotionActionHandler locomotionHandler;
+    [SerializeField] private PlayerCombatActionHandler combatHandler;
 
     [Header("Статы")]
     [SerializeField] private CharacterStatsController stats;
@@ -35,6 +36,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Магическая система")]
     [SerializeField] private CharacterEmitter emitterController;
+    [SerializeField] private CharacterSpellInventory spellInventory;
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -71,7 +73,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
      
 
-        input.Init(controller: controller, animatorController: animatorController, targetLock: targetLock);
+        input.Init(controller: locomotionHandler,combatHandlder:combatHandler ,animatorController: animatorController, targetLock: targetLock);
        
         damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
@@ -82,16 +84,18 @@ public class PlayerServiceLocator : MonoBehaviour
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
 
-        emitterController.Init(source:attackSource,animatorController:animatorController,targetLocker:targetLock);
+        emitterController.Init(spellInventory:spellInventory, source:attackSource,animatorController:animatorController,targetLocker:targetLock);
           
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
         fallController.Init(motor: motor, damageController: damageController);
-        targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:controller,damageController:damageController);
+        targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:locomotionHandler,damageController:damageController);
         
         stats.Init();
         motor.Init(animatorController: animatorController);
-        controller.Init(motor: motor, combatController: combatController, interaction: interaction, actionGuards: actionGuards, stats: stats, pushSource: pushController, climbing: climbing,emitController:emitterController);
+
+        locomotionHandler.Init(motor: motor, interaction: interaction, actionGuards: actionGuards, stats: stats, climbing: climbing);
+        combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
        
         lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
 

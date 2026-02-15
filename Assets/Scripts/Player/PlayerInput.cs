@@ -4,7 +4,9 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
 
-    PlayerController controller;
+    PlayerLocomotionActionHandler locomotionHandler;
+    PlayerCombatActionHandler combatHandler;
+
     PlayerTargetLock targetLock;
     PlayerAnimatorController animator;
     private Camera cameraMain;
@@ -68,9 +70,10 @@ public class PlayerInput : MonoBehaviour
 
     }
 
-    public void Init(PlayerController controller, PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
+    public void Init(PlayerLocomotionActionHandler controller,PlayerCombatActionHandler combatHandlder, PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
     {  
-        this.controller = controller;
+        this.locomotionHandler = controller;
+        this.combatHandler = combatHandlder;
         this.animator = animatorController;
         this.targetLock = targetLock;
        
@@ -96,7 +99,7 @@ public class PlayerInput : MonoBehaviour
         Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
 
        
-        controller.MoveAndRotate(moveDir);
+        locomotionHandler.MoveAndRotate(moveDir);
 
         SprintInput();
         JumpInput();
@@ -119,7 +122,7 @@ public class PlayerInput : MonoBehaviour
 
     protected virtual void SprintInput()
     {
-        controller.Sprint(sprintHeld);
+        locomotionHandler.Sprint(sprintHeld);
     }
 
 
@@ -127,7 +130,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpPressed)
         {
-            controller.HandleJumpOrDodge(moveInput);
+            locomotionHandler.HandleJumpOrDodge(moveInput);
         }
         jumpPressed = false; // consume press
     }
@@ -141,7 +144,7 @@ public class PlayerInput : MonoBehaviour
         // Gamepad — мгновенно
         if (powerAttackGamepadPressed)
         {
-            controller.PerformPowerAttack();
+            combatHandler.PerformPowerAttack();
             powerAttackGamepadPressed = false;
             return;
         }
@@ -150,7 +153,7 @@ public class PlayerInput : MonoBehaviour
         if (chargeHeld && attackPressed)
         {
             
-            controller.PerformPowerAttack();
+            combatHandler.PerformPowerAttack();
             attackPressed = false;
             return;
         }
@@ -160,9 +163,9 @@ public class PlayerInput : MonoBehaviour
         {
 
             if (throwHeld)
-                controller.ThrowWeapon();
+                combatHandler.ThrowWeapon();
             else
-                controller.PerformAttack();
+                combatHandler.PerformAttack();
 
             attackPressed = false;
         }
@@ -172,7 +175,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (isEmitPressed)
         {
-            controller.PerformEmit();
+            combatHandler.PerformEmit();
             isEmitPressed = false;  
         }
     }
@@ -181,7 +184,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (isPushPressed)
         {
-            controller.PerformPush();   
+            combatHandler.PerformPush();   
 
         }
 
@@ -194,13 +197,13 @@ public class PlayerInput : MonoBehaviour
         if (blockHeld)
         {
             if (throwHeld)
-                controller.ThrowShield();
+                combatHandler.ThrowShield();
             else
-                controller.PerformBlock();
+                combatHandler.PerformBlock();
         }
         else
         {
-            controller.CancelBlock();
+            combatHandler.CancelBlock();
         }
 
     }
@@ -224,7 +227,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (interactPressed)
         {
-            controller.Interact();
+            locomotionHandler.Interact();
             interactPressed = false;
         }
     }

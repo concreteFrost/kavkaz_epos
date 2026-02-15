@@ -19,7 +19,7 @@ public class PlayerInstaller : MonoInstaller
         Container.Bind<AnimatorOverrideController>().FromInstance(overrideController);
 
 
-        Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<PlayerLocomotionActionHandler>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerClimbing>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<ItemCollector>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<PlayerTargetLock>().FromComponentInHierarchy().AsSingle().NonLazy();

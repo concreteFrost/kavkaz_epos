@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Emitter : MonoBehaviour , IEmitter
 {
   
-    [SerializeField] protected ProjectileSO projectileSO;
+    protected ProjectileSO projectileSO;
 
     float spread = 0f;
 
@@ -31,7 +31,6 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     public virtual void StartEmit()
     {
         IsEmitting = true;  
-    
     }
 
     public void Emit()

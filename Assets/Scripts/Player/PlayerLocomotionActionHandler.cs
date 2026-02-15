@@ -1,18 +1,13 @@
 ﻿using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerLocomotionActionHandler : MonoBehaviour
 {
     PlayerMotor motor;
     PlayerActionGuards actionGuards;
     CharacterStatsController stats;
-
-    IEmitter emitController;
-
-    IHumanoidMeleeCombat combatController;
     ICollector interact;
-    
     IClimber climbing;
-    IPushSource pushSource;
+
 
     private void Update()
     {
@@ -27,28 +22,18 @@ public class PlayerController : MonoBehaviour
 
     public void Init(
         PlayerMotor motor,   
-        IHumanoidMeleeCombat combatController,
         ICollector interaction,
         IClimber climbing,
         PlayerActionGuards actionGuards,
-        CharacterStatsController stats,
-        IPushSource pushSource,
-        IEmitter emitController
-      
+        CharacterStatsController stats
         )
     {
   
         this.motor = motor;
-        this.combatController = combatController;
         this.interact = interaction;
         this.climbing = climbing;
         this.stats = stats;
-
-        this.pushSource = pushSource;
         this.actionGuards = actionGuards;
-
-        this.emitController = emitController;
-
 
     }
 
@@ -174,62 +159,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
-    #region Combat
-    public void PerformAttack()
-    {
-        if (!actionGuards.CanAttack()) return;
-
-        combatController.PerformAttack();
-
-    }
-
-    public void PerformPowerAttack()
-    {
-        if(!actionGuards.CanAttack()) return;
-
-        combatController.PerformPowerAttack();
-    }
-
-    public void ThrowWeapon()
-    {
-        if (!actionGuards.CanThrowWeapon()) return;
-
-        combatController.ThrowWeapon();
-    }
-    public void ThrowShield()
-    {
-        if (!actionGuards.CanThrowWeapon()) return;
-
-        combatController.ThrowShield();
-    }
-
-    public void PerformBlock()
-    {
-        if (!actionGuards.CanBlock()) return;
-        combatController.PerformBlock();
-    }
-
-    public void CancelBlock()
-    {
-        combatController.CancelBlock();
-    }
-
-    public void PerformPush()
-    {
-        if (!actionGuards.CanAttack()) return;
-
-        pushSource.TriggerPushAnimation();  
-    }
-
-    #endregion
-
-    public void PerformEmit()
-    {
-        if(!actionGuards.CanEmit()) return;
-
-        emitController.StartEmit();
-    }
+   
 
     #region Interaction
     public void Interact()

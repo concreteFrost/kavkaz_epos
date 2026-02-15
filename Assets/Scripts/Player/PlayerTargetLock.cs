@@ -25,7 +25,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     [SerializeField] private Image img;
 
-    PlayerController controller;
+    PlayerLocomotionActionHandler controller;
     IDamagable damageController;
 
     CharacterType self;
@@ -36,7 +36,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     public void Init(
         LockOnTargetUI lockOnTargetUI,
-        PlayerController controller,
+        PlayerLocomotionActionHandler controller,
         IDamagable damageController
         )
     {
