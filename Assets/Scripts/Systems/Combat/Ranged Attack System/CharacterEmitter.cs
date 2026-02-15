@@ -25,16 +25,23 @@ public class CharacterEmitter : Emitter
 
         var currentSpell = spellInventory.CurrentSpell;
 
-        var spell = currentSpell.spellSO;
+        var spell = currentSpell.itemSO as SpellProjectileSO;
         projectileSO = spell;
 
         animatorController.OverrideSpell(spell);
 
         base.StartEmit();
-        spellInventory.UseSpell();
+        
+      
         SetTargetData(targetLocker.CurrentTarget());
             
        
 
+    }
+
+    public override void Emit()
+    {
+        base.Emit();
+        spellInventory.UseSpell();
     }
 }

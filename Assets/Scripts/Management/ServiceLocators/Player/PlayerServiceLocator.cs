@@ -21,6 +21,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Контроллеры")]
     [SerializeField] private PlayerLocomotionActionHandler locomotionHandler;
     [SerializeField] private PlayerCombatActionHandler combatHandler;
+    [SerializeField] private PlayerQuickSlotActionHandler quickSlotHandler;
 
     [Header("Статы")]
     [SerializeField] private CharacterStatsController stats;
@@ -49,12 +50,15 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
 
+    
+
+    [Header("Прочее")]
+    private PlayerActionGuards actionGuards;
+
     [Header("UI")]
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
-
-    [Header("Прочее")]
-    private PlayerActionGuards actionGuards;    
+    [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;   
 
     private void Awake()
     {
@@ -73,7 +77,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
      
 
-        input.Init(controller: locomotionHandler,combatHandlder:combatHandler ,animatorController: animatorController, targetLock: targetLock);
+        input.Init(controller: locomotionHandler,combatHandlder:combatHandler ,animatorController: animatorController, targetLock: targetLock,quickSlotHandler:quickSlotHandler);
        
         damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
@@ -96,10 +100,12 @@ public class PlayerServiceLocator : MonoBehaviour
 
         locomotionHandler.Init(motor: motor, interaction: interaction, actionGuards: actionGuards, stats: stats, climbing: climbing);
         combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
+        quickSlotHandler.Init(spellInventory: spellInventory, actionGuards: actionGuards);
        
         lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
 
         playerStatsUI.Init(stats: stats);
+        quickSlotsUI.Init(spellInventory: spellInventory);
 
     }
 

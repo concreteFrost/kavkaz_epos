@@ -33,7 +33,7 @@ public abstract class Emitter : MonoBehaviour , IEmitter
         IsEmitting = true;  
     }
 
-    public void Emit()
+    public virtual void Emit()
     {
 
         var attack = projectileSO.attackSO;

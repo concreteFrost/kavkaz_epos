@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSpellInventory : MonoBehaviour
 {
-    public List<SpellData> spells = new List<SpellData>();
+    public List<ItemData> spells = new List<ItemData>();
 
     private int _spellIndex;
     public int SpellIndex
@@ -21,10 +22,18 @@ public class CharacterSpellInventory : MonoBehaviour
         }
     }
 
-    public SpellData CurrentSpell =>
+    public Action<ItemData> UpdateSpell;
+
+    public ItemData CurrentSpell =>
         spells.Count == 0 ? null : spells[SpellIndex];
 
-    public void AddSpell(SpellData spellData)
+
+    public void GetCurrentSpell()
+    {
+        UpdateSpell?.Invoke(CurrentSpell); 
+    }
+
+    public void AddSpell(ItemData spellData)
     {
         if (spellData == null) return;
 
@@ -40,6 +49,8 @@ public class CharacterSpellInventory : MonoBehaviour
         if (spells.Count == 0) return;
 
         SpellIndex += direction;
+
+        UpdateSpell?.Invoke(CurrentSpell);
     }
     public void UseSpell()
     {
@@ -49,17 +60,24 @@ public class CharacterSpellInventory : MonoBehaviour
         if (CurrentSpell.quantity <= 0)
         {
             spells.RemoveAt(SpellIndex);
-
+           
             if (spells.Count == 0)
             {
-                SpellIndex = 0;
-                return;
+                SpellIndex = 0; 
+              
             }
 
             // если удалили последний элемент,
             // индекс станет равен Count, корректируем
-            if (SpellIndex >= spells.Count)
+            else if (SpellIndex >= spells.Count)
+            {
                 SpellIndex = spells.Count - 1;
+                
+            }
+                
         }
+
+        UpdateSpell?.Invoke(CurrentSpell);
+
     }
 }

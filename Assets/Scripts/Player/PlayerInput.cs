@@ -9,6 +9,8 @@ public class PlayerInput : MonoBehaviour
 
     PlayerTargetLock targetLock;
     PlayerAnimatorController animator;
+    PlayerQuickSlotActionHandler quickSlotActionHandler;
+
     private Camera cameraMain;
 
     [HideInInspector] public PlayerControls controls;
@@ -66,14 +68,23 @@ public class PlayerInput : MonoBehaviour
 
         // Interaction
         controls.Player.Interaction.performed += ctx => interactPressed = true;
+
+        //UI Slots
+        controls.Player.SpellChange.performed += ctx =>
+        {
+            float value = ctx.ReadValue<float>();
+           
+            ChangeSpellInput(value);
+        };
         cameraMain = Camera.main;
 
     }
 
-    public void Init(PlayerLocomotionActionHandler controller,PlayerCombatActionHandler combatHandlder, PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
+    public void Init(PlayerLocomotionActionHandler controller,PlayerCombatActionHandler combatHandlder,PlayerQuickSlotActionHandler quickSlotHandler ,PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
     {  
         this.locomotionHandler = controller;
         this.combatHandler = combatHandlder;
+        this.quickSlotActionHandler = quickSlotHandler;
         this.animator = animatorController;
         this.targetLock = targetLock;
        
@@ -220,6 +231,16 @@ public class PlayerInput : MonoBehaviour
         targetLock.SwitchTarget(lookInput.x);
     }
 
+    #endregion
+
+    #region Quick Slots Input
+    private void ChangeSpellInput(float value)
+    {
+        if (value > 0)
+            quickSlotActionHandler.ChangeSpell(1);
+        else if (value < 0)
+            quickSlotActionHandler.ChangeSpell(-1);
+    }
     #endregion
 
     #region Interaction Inputs

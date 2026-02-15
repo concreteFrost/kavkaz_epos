@@ -206,6 +206,13 @@ public class PlayerActionGuards
         return true;
     }
 
+    public bool CanSwapSpell()
+    {
+        if (emitter.IsEmitting) return false;
+
+        return true;
+    }
+
     public bool CanEnterClimb()
     {
         if(locomotion.isGrounded) return false; 

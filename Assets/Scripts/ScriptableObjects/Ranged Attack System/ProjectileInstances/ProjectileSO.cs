@@ -5,7 +5,7 @@ public struct ProjectileDirection
     public IProjectileMove MoveBehaviour;
     public Vector3 baseDir;
 }
-public abstract class ProjectileSO : ScriptableObject
+public abstract class ProjectileSO : ItemSO
 {
     public GameObject prefab;
 
