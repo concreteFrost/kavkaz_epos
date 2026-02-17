@@ -15,8 +15,12 @@ public class EnemyBrainContext
     public IDamagable damageController;
     public IRagdollController ragdollController;
 
-    public BaseHumanoidCombatController combat;
+    public IHumanoidMeleeCombat combat;
     public HumanoidCombatInventory inventory;
+
+    public CharacterEmitter emitter;
+    public CharacterSpellInventory spellInventory;
+
     public EnemyFOVController fov;
     public EnemyStateTracker stateTracker;
     public ItemCollector interact;

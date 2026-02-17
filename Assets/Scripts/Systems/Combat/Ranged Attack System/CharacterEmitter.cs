@@ -32,7 +32,6 @@ public class CharacterEmitter : Emitter
 
         base.StartEmit();
         
-      
         SetTargetData(targetLocker.CurrentTarget());
             
        

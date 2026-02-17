@@ -7,7 +7,7 @@ public class TargetMoveSO : ProjectileMoveSO
 
     public override Vector3 Move(
         Transform self,
-        Transform target,
+        IDamagable target,
         Vector3 baseDir,
         float speed
     )
@@ -15,11 +15,15 @@ public class TargetMoveSO : ProjectileMoveSO
         Vector3 desiredDir = self.forward;
         //запустить снаряд вперёд если цель отсутствует
         if (target == null)
+        {
+            Debug.Log("target is null");
             return self.position.normalized * speed;
+        }
+           
 
         //направление к цели
         desiredDir =
-            (target.position - self.position).normalized; 
+            (target.GetAimTransform().position - self.position).normalized; 
 
         //поворот в сторону цели
         Vector3 finalDir = Vector3.RotateTowards(

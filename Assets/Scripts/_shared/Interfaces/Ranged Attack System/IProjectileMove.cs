@@ -10,5 +10,5 @@ public interface IProjectileMove
     /// <param name="baseDir">Изначальное направление</param>
     /// <param name="speed">Скорость передвижения</param>
     /// <returns></returns>
-    Vector3 Move(Transform self, Transform target, Vector3 baseDir, float speed);
+    Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed);
 }

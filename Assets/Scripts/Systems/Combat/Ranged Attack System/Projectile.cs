@@ -29,6 +29,7 @@ public class Projectile : MonoBehaviour, IProjectile
 
         if (damageCollider.isAttackRegistered)
         {
+            damageCollider.DisableCollider();   
             ActivateHit();
             PerformDestroy();
         }

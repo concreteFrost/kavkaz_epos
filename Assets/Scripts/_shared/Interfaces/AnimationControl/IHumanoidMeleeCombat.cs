@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 public interface IHumanoidMeleeCombat
 {
     bool IsAttacking { get; set; }
@@ -13,4 +15,7 @@ public interface IHumanoidMeleeCombat
     void ThrowShield();
     void ResetCombo();
 
+    float AttackBufferTime { get; set; }
+
+    event Action OnAttackEnd;
 }

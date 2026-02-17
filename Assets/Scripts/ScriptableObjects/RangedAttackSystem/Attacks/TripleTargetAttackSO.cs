@@ -26,7 +26,7 @@ public class TripleTargetAttackSO : ProjectileAttackSO
         int spawnedAmount = 0; 
         while(spawnedAmount < 3 && emitter.Target() !=null)
         {
-            var dir = (emitter.Target().position - emitter.Origin().position).normalized;
+            var dir = (emitter.Target().GetAimTransform().position - emitter.Origin().position).normalized;
 
             var spread = base.SpreadRotation(emitter.Spread);
             dir = spread * dir;

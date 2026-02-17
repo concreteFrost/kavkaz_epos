@@ -14,7 +14,7 @@ public interface IEmitter
     /// Текущая цель (null поумолчанию)
     /// </summary>
     /// <returns></returns>
-    Transform Target();
+    IDamagable Target();
 
     /// <summary>
     /// Данные снаряда

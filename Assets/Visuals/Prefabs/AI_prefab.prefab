@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9183377579378356517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &115002073186986740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4858316206517058655}
+  m_Layer: 0
+  m_Name: SpellSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4858316206517058655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115002073186986740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0517, y: -0.0708, z: -0.0089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3521988822000335437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &143813662414710193
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,6 +638,7 @@ Transform:
   - {fileID: 4032040325559269777}
   - {fileID: 7239258470835145033}
   - {fileID: 2131641424782603383}
+  - {fileID: 4858316206517058655}
   m_Father: {fileID: 6710304445254501688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1049998415253980540
@@ -1447,6 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   attackInterrupted: 0
+  isAttackRegistered: 0
 --- !u!135 &1704495155813412907
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1535,6 +1568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   attackInterrupted: 0
+  isAttackRegistered: 0
 --- !u!1 &3006199437446302335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,6 +1613,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d3e93eb2a9b704cb46e874993a0773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
+--- !u!1 &3038600197887848636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4891290351850179727}
+  - component: {fileID: 1999090658288643335}
+  - component: {fileID: 8675504730977569057}
+  m_Layer: 0
+  m_Name: AI_SpellController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4891290351850179727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038600197887848636}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 515555489032476068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1999090658288643335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038600197887848636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef0e7eaa16f6d64eaf8be32cd3ab0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
+  emitSource: {fileID: 4858316206517058655}
+--- !u!114 &8675504730977569057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3038600197887848636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95391240d9174704cad2109de73986d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
+  spells:
+  - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
+    quantity: 50
 --- !u!1 &3069098352318718036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,6 +2046,8 @@ MonoBehaviour:
   combatController: {fileID: 8492958853885773946}
   combatInventory: {fileID: 2439604627647212036}
   attackSource: {fileID: 5789983656386049422}
+  emitter: {fileID: 1999090658288643335}
+  spellInventory: {fileID: 8675504730977569057}
   interruptionManager: {fileID: 110391391581726432}
   fovController: {fileID: 1578463945064035814}
   brain: {fileID: 8875711254880146913}
@@ -1984,7 +2081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_9a693898-08a2-4e46-82b1-905f19096772
+  uniqueId: uid_9ba20fb4-014a-48f8-abc7-34eba0867229
 --- !u!195 &8987308371889165279
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2536,7 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
+  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
   rightHand: {fileID: 5591928551287878927}
   leftHand: {fileID: 1935654885825902513}
   meleeData:
@@ -4958,6 +5055,7 @@ Transform:
   - {fileID: 6508838126541674903}
   - {fileID: 8689328522524320327}
   - {fileID: 3576781123779442012}
+  - {fileID: 4891290351850179727}
   m_Father: {fileID: 5301069286153230998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8892211989431816336

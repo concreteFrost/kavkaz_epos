@@ -9,7 +9,11 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private HumanoidCombatInventory combatInventory;
-    [SerializeField] private AttackSource attackSource; 
+    [SerializeField] private AttackSource attackSource;
+
+    [Header("Магичкеская система")]
+    [SerializeField] private CharacterEmitter emitter;
+    [SerializeField] private CharacterSpellInventory spellInventory;
 
     [Header("Система прерывания состояний")]
     [SerializeField] private InterruptionManager interruptionManager;
@@ -37,6 +41,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         InteractionInit();
         FovInit();
         CombatInit();
+        SpellInit();
         BrainInit();
 
     }
@@ -57,6 +62,12 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
         combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
         combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
+    }
+
+    private void SpellInit()
+    {
+        emitter.Init(spellInventory: spellInventory, source: attackSource, animatorController: animatorController, targetLocker: fovController);
+       
     }
 
    
@@ -89,6 +100,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             damageController = damageController,
             combat = combatController,
             inventory = combatInventory,
+            emitter = emitter,
+            spellInventory = spellInventory,
             fov = fovController,
             interact = interaction,
             stateTracker = stateTracker,

@@ -15,7 +15,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     private float maxCheckCooldown = 2f;
 
     #region ITargetLocker Contract
-    public Transform CurrentTarget() => currentTarget != null ? currentTarget.GetAimTransform() : null;
+    public IDamagable CurrentTarget() => currentTarget != null ? currentTarget : null;
     #endregion
     private void Update()
     {

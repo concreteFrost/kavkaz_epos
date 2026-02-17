@@ -21,6 +21,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     internal bool queuedAttack = false;
 
     // ================= свойства =================
+    public float AttackBufferTime { get => attackBufferTime; set=>attackBufferTime = value; }   
 
     public bool IsAttacking { get; set; }
     public bool IsWeaponed { get; set; }

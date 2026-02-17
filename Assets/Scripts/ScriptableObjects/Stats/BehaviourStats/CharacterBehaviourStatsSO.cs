@@ -29,6 +29,8 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float maxCombatDistance = 8f;
     public float attackDistance = 1.3f;
     public float powerAttackChanceMultiplier = 0.05f;
+    public float minCombatCooldown = 0.2f;
+    public float maxCombatCooldown = 0.7f;
 
     [RangeAttribute(0, 1f)]
     public float initialDodgeChance = 0.2f;

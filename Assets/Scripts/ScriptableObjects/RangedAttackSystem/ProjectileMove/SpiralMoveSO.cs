@@ -6,7 +6,7 @@ public class SpiralMoveSO : ProjectileMoveSO
     [SerializeField] float amplitude = 3f;
     [SerializeField] float freq = 5f;
 
-    public override Vector3 Move(Transform self, Transform target, Vector3 baseDir, float speed)
+    public override Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed)
     {
         float t = Time.time * freq;
 

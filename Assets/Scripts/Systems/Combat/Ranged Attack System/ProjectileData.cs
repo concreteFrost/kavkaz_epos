@@ -4,7 +4,7 @@ using UnityEngine;
 public struct ProjectileData
 {
 
-    public Transform target;
+    public IDamagable target;
     public Transform source;
 
     public ProjectileDirection direction;

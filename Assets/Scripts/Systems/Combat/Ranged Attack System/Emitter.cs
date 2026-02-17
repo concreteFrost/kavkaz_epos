@@ -10,7 +10,7 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     float spread = 0f;
 
     [SerializeField] protected Transform emitSource;
-    protected Transform target;
+    protected IDamagable target;
 
     protected IAttackSource attackSource;
 
@@ -18,12 +18,12 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     #region IEmitter Contract
     public bool IsEmitting { get; set; }
     public Transform Origin() => attackSource != null ? attackSource.Source() : transform;
-    public Transform Target() => target;
+    public IDamagable Target() => target;
     public ProjectileSO Projectile() => projectileSO;
     public float Spread { get => spread; set => spread = value; }
     #endregion
 
-    protected void SetTargetData(Transform target)
+    protected void SetTargetData(IDamagable target)
     {
         this.target = target;
     }

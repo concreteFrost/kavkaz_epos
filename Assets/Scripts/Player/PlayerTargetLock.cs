@@ -31,7 +31,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     CharacterType self;
 
     #region ITargetLocker Contract
-    public Transform CurrentTarget()=>currentTarget != null  ? currentTarget.GetAimTransform() : null;
+    public IDamagable CurrentTarget() => currentTarget != null ? currentTarget : null;
     #endregion
 
     public void Init(

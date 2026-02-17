@@ -75,8 +75,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         }
         else
         {
-            motor.MoveCharacter(target.position);
-           
+            motor.MoveCharacter(target.position);      
         }
 
         //motor.IsSprinting = distanceToTarget > stats.distanceToRun;

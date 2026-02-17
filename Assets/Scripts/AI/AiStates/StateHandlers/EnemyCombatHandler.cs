@@ -73,10 +73,10 @@ public class EnemyCombatHandler
 
     public void UpdateCombatCooldown() => currCombatCooldown += Time.deltaTime;
 
-    public void ResetCombatCooldown(float min, float max)
+    public void ResetCombatCooldown()
     {
         currCombatCooldown = 0f;
-        maxCombatCooldown = Random.Range(min, max);
+        maxCombatCooldown = Random.Range(stats.minCombatCooldown, stats.maxCombatCooldown);
     }
 
     public float GetAttackDistanceWithOffset() => stats.attackDistance + comboDistanceOffset;
@@ -119,7 +119,7 @@ public class EnemyCombatHandler
     #region Distance to Target
     public bool IsRunningDistance(float distance) => distance > stats.distanceToRun;
     public bool IsCombatDistance(float distance) => distance < stats.maxCombatDistance;
-    public bool IsInAttackRange(float distance) => distance < stats.attackDistance;
+    public bool IsInAttackRange(float distance) => distance <= stats.attackDistance;
 
     #endregion
 

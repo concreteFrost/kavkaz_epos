@@ -15,7 +15,7 @@ public class TargetAttackSO : ProjectileAttackSO
 
         Quaternion spread = SpreadRotation(gun.Spread);
         
-        var dir = (gun.Target().position - gun.Origin().position).normalized;
+        var dir = (gun.Target().GetAimTransform().position - gun.Origin().position).normalized;
         dir = spread * dir;
 
         ProjectileDirection moveData = new ProjectileDirection()
