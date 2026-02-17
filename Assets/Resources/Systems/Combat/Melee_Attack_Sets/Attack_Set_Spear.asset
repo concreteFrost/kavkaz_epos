@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: Attack_Set_Spear
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      healthDamageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 0
+    staminaPenalty: 0
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 57b2594466b7f234b88d581d39564039, type: 2}
+  - damageData:
+      healthDamageMultiplier: 0.2
+      balanceDamageType: 1
+      impactForce: 0
+    staminaPenalty: 0
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: a63208dbd526a1946bbf3b077dbf3bb8, type: 2}
+  - damageData:
+      healthDamageMultiplier: 0.4
+      balanceDamageType: 1
+      impactForce: 0
+    staminaPenalty: 0
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: eb9b9fa7d889a9541900c320313e15e3, type: 2}
+  powerAttack:
+    damageData:
+      healthDamageMultiplier: 0.7
+      balanceDamageType: 3
+      impactForce: 500
+    staminaPenalty: 0.8
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 6685ef17a3fe77b4cbe4b8edb6df5ad5, type: 2}

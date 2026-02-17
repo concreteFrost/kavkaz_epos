@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: Attack_Set_Melee
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      healthDamageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 0
+    staminaPenalty: 5
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 42bfa3184c9a0ec4786a15dea12af532, type: 2}
+  - damageData:
+      healthDamageMultiplier: 0.2
+      balanceDamageType: 1
+      impactForce: 0
+    staminaPenalty: 7
+    fromHand: 0
+    animationInfo: {fileID: 11400000, guid: 0ecb5d22f4d13434eb64166cbf5dea4d, type: 2}
+  powerAttack:
+    damageData:
+      healthDamageMultiplier: 0.5
+      balanceDamageType: 3
+      impactForce: 300
+    staminaPenalty: 10
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 38861e994769e8148b8a060ac6b2091a, type: 2}
