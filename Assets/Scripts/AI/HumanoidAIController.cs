@@ -55,6 +55,7 @@ public class HumanoidAIController : MonoBehaviour
     #region Movement and Rotation
     private void ControlSpeed()
     {
+         //if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
 
         if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
         {

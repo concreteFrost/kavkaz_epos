@@ -51,9 +51,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         }
         
       
-        bool isTargetVisible = fov.IsTargetVisible(
-            fov.currentTarget.GetAimTransform()
-        );
+        bool isTargetVisible = fov.IsTargetVisible(fov.currentTarget);
 
         
         chaseHandler.UpdateLostTargetTimer(isTargetVisible);
@@ -70,8 +68,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         if (chaseHandler.IsCloseToAttack(distanceToTarget))
         {
-            return AIStateResult.Attack;
-          
+            return AIStateResult.Attack;    
         }
         else
         {

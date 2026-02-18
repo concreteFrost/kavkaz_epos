@@ -16,14 +16,16 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public int maxPatrolAttempts = 3;
 
     [Header("Chase")]
-    public float distanceToStop = 2f;
-    public float distanceToRun = 3f;
+    //public float distanceToStop = 2f;
+    //public float distanceToRun = 3f;
     public float maxCantReachTimer = 7f;
     public float maxLostTargetTimer = 10f;
     public float maxChaseDistance = 17f;
     public float maxWaitTimer = 7f;
+    public float chaseToCombatDistance = 10f;
 
     [Header("Combat")]
+    public float switchToRunDistance = 3f;
     public float attackTransitionChance = .8f;
     public float initialPoweAttackChance = 0.15f;
     public float maxCombatDistance = 8f;

@@ -14,10 +14,11 @@ public class EnemyCombatHandler
     CharacterBehaviourStatsSO stats;
     CharacterStatsController statsController;
 
-    [Header("Состояние боя")]
-    [SerializeField] private float currCombatCooldown;
-    [SerializeField] private float maxCombatCooldown;
+    //[Header("Состояние боя")]
+    //[SerializeField] private float currCombatCooldown;
+    //[SerializeField] private float maxCombatCooldown;
     //[SerializeField] private bool isComboRunning;
+    [SerializeField] bool canAttack = true;
     
     //power attack
     [SerializeField] private float powerAttackChance;
@@ -54,32 +55,23 @@ public class EnemyCombatHandler
     }
 
     public void ResetCombatState()
-    {   
-        //isComboRunning = false;
-        currCombatCooldown = 0f;
-        maxCombatCooldown = 0f;
-     
-        //damageCounter = 0;
-        currentDodgeChance = stats.initialDodgeChance;
+    {
 
-        //currAttackTransitionChance = stats.attackTransitionChance;
-        //currStrafeTransitionChance = stats.strafeTransitionChance;
+        SetCanAttack(true);
+        currentDodgeChance = stats.initialDodgeChance;
 
     }
 
     #region Combat
 
-    public bool CanAttack() => currCombatCooldown >= maxCombatCooldown;
+    public bool CanAttack() => canAttack;
 
-    public void UpdateCombatCooldown() => currCombatCooldown += Time.deltaTime;
-
-    public void ResetCombatCooldown()
-    {
-        currCombatCooldown = 0f;
-        maxCombatCooldown = Random.Range(stats.minCombatCooldown, stats.maxCombatCooldown);
-    }
+    public void SetCanAttack(bool val)=> canAttack = val;    
 
     public float GetAttackDistanceWithOffset() => stats.attackDistance + comboDistanceOffset;
+
+    public float GetMinAttackCooldown() => stats.minCombatCooldown;
+    public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
 
     #endregion
 
@@ -96,11 +88,10 @@ public class EnemyCombatHandler
     #region Dodge
     public float GetDodgeChance() => currentDodgeChance;
 
-    public void UpdateDodgeCooldown()
+    public void UpdateDodgeChance()
     {
         if (Time.time - lastDamageTime > dodgeCounterResetTimer)
         {
-            //damageCounter = 0;
             currentDodgeChance = stats.initialDodgeChance;
             isStrafeBlocked = false;
         }
@@ -112,12 +103,11 @@ public class EnemyCombatHandler
 
     public void ResetDodgeChance() => currentDodgeChance = stats.initialDodgeChance;
 
-    private bool WillDodge()=> currentDodgeChance >= Random.value;
 
     #endregion
 
     #region Distance to Target
-    public bool IsRunningDistance(float distance) => distance > stats.distanceToRun;
+    public bool IsRunningDistance(float distance) => distance > stats.switchToRunDistance;
     public bool IsCombatDistance(float distance) => distance < stats.maxCombatDistance;
     public bool IsInAttackRange(float distance) => distance <= stats.attackDistance;
 
@@ -130,13 +120,16 @@ public class EnemyCombatHandler
        
         IncreaseDodgeChance();  
         IncreasePowerAttackChance();
+        IncreastAttackChances();
+        
+        SetCanAttack(true);
+        SetStrafeBlocked(true);
     }
 
     public void OnDamageTaken(Transform attackSource)
     {
         RegisterDamage();
-        AdjustChances();
-        SetStrafeBlocked(true);
+       
     }
     #endregion
 
@@ -196,12 +189,13 @@ public class EnemyCombatHandler
 
     private CombatTransition AttackOrDodge()
     {
-        if (WillDodge()) return CombatTransition.Dodge;
+        if (currentDodgeChance >= Random.value) 
+            return CombatTransition.Dodge;
 
         return CombatTransition.Attack;
     }
 
-    private void AdjustChances()
+    private void IncreastAttackChances()
     {
         float adjuster = 0.025f;
 

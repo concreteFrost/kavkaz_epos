@@ -10,7 +10,7 @@ public class PlayerActionGuards
 {
     private PlayerMotor locomotion;
     private CharacterStatsController stats;
-    private IDamagable statsModifier;
+    private IDamagable damageController;
     private IClimber climbing;
     private IEmitter emitter;   
     private IHumanoidMeleeCombat meleeCombat;
@@ -30,7 +30,7 @@ public class PlayerActionGuards
         this.locomotion = locomotion;
 
         this.stats = stats;
-        this.statsModifier = damageController;
+        this.damageController = damageController;
         this.climbing = climbing;
         mode = PlayerMode.Locomotion;
         this.emitter = emitter;
@@ -62,7 +62,7 @@ public class PlayerActionGuards
 
         if (locomotion.isHighSlope) return false;
 
-        if (statsModifier.IsDamaged) return false;
+        if (damageController.IsDamaged) return false;
 
         if (locomotion.IsDodging) return false;
 
@@ -77,7 +77,7 @@ public class PlayerActionGuards
 
         //if (combat.BlockRotation) return false;
 
-        if(statsModifier.IsDamaged) return false;
+        if(damageController.IsDamaged) return false;
 
         return true;
     }
@@ -91,6 +91,8 @@ public class PlayerActionGuards
         if (locomotion.IsJumping) return false;
 
         if (locomotion.StopMove) return false;
+
+        if (damageController.IsDamaged) return false;
 
         if (locomotion.GroundAngle() >= locomotion.slopeLimit) return false;
 
@@ -126,7 +128,7 @@ public class PlayerActionGuards
 
         if (locomotion.StopMove) return false;
 
-        if (statsModifier.IsDamaged) return false;
+        if (damageController.IsDamaged) return false;
 
         if (stats.Stamina.Current <= 0) return false;
 
@@ -157,7 +159,7 @@ public class PlayerActionGuards
     {
         if (mode != PlayerMode.Locomotion) return false;
 
-        if(statsModifier.IsDamaged) return false;
+        if(damageController.IsDamaged) return false;
 
         if (locomotion.StopMove) return false;
 
@@ -171,7 +173,7 @@ public class PlayerActionGuards
     {
         if (mode != PlayerMode.Locomotion) return false;
 
-        if (statsModifier.IsDamaged) return false;
+        if (damageController.IsDamaged) return false;
 
         if (locomotion.StopMove) return false;
 
@@ -219,18 +221,18 @@ public class PlayerActionGuards
 
         if(climbing.IsClimbing) return false;
 
-        if (statsModifier.IsDamaged) return false;
+        if (damageController.IsDamaged) return false;
 
-        if (statsModifier.IsDead) return false;
+        if (damageController.IsDead) return false;
 
         return true;
     }
 
     public bool CanClimb()
     {
-        if (statsModifier.IsDamaged) return false;
+        if (damageController.IsDamaged) return false;
 
-        if (statsModifier.IsDead) return false;
+        if (damageController.IsDead) return false;
 
         return true;
     }

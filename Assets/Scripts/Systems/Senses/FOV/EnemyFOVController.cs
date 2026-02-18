@@ -50,9 +50,9 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         SetLockedTarget(potentialTarget);
     }
 
-    public bool IsTargetVisible(Transform target)
+    public bool IsTargetVisible(IDamagable target)
     {
-        return fov.IsTargetVisible(target, fovDataSO.viewRadius, fovDataSO.viewAngle);
+        return fov.IsTargetVisible(target.GetAimTransform(), fovDataSO.viewRadius, fovDataSO.viewAngle);
     }
 
     #region Current Target State Control

@@ -20,8 +20,8 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// Ввод мыши по оси Х при котором цель сбрасывается
     /// </summary>
     private float targetSwitchThreshold = 45f;
-    private float targetCheckDistance = 5f;
-    private float targetResetDistance = 7f;
+    private float targetCheckDistance = 10f;
+    private float targetResetDistance = 13f;
 
     [SerializeField] private Image img;
 
