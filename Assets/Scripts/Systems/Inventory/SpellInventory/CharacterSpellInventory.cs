@@ -33,6 +33,15 @@ public class CharacterSpellInventory : MonoBehaviour
         UpdateSpell?.Invoke(CurrentSpell); 
     }
 
+    //не позволяет мобам истощать заклинания
+    public void TopUpCurrentSpell(int quantity)
+    {
+        if(CurrentSpell != null)
+        {
+            CurrentSpell.quantity += quantity;
+        }
+    }
+
     public void AddSpell(ItemData spellData)
     {
         if (spellData == null) return;

@@ -11,22 +11,6 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         inventory = context.inventory;
     }
 
-    protected override AIStateResult TrackCombatBehaviour(Transform target)
-    {
-        if (!combatHandler.IsInAttackRange(distance))
-        {
-            motor.MoveCharacter(target.position);
-            motor.SetStrafe(false);
-            HandleDefense(true);
-            return AIStateResult.None;
-        }
-
-        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
-        motor.SetStrafe(true);
-        HandleDefense(false);
-
-        return GetNextDecision();
-    }
 
     protected override void HandleAttack(Transform target)
     {
@@ -35,7 +19,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         else
         {
             int punchesCount = Random.Range(1, 5);
-            combatCoroutine = StartCoroutine(ComboCoroutine(punchesCount));
+            combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount));
         }
             
     }
@@ -56,7 +40,6 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
     }
 
  
-
     protected override bool ShouldStopCooldown()
     {
         float dist = Vector3.Distance(self.position, target.position);

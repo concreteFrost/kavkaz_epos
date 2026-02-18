@@ -1,36 +1,18 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyMageState : BaseEnemyAttackState
+public class EnemyMageAttackState : BaseEnemyAttackState
 {
     IEmitter emitter;
     CharacterSpellInventory spellInventory;
+    float meleeDistance = 1.3f;
 
     protected override void Init()
     {
         emitter = context.emitter;
         spellInventory = context.spellInventory;
     }
-
-    protected override AIStateResult TrackCombatBehaviour(Transform target)
-    {
-        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
-
-        if (!combatHandler.IsInAttackRange(distance))
-        {
-            motor.MoveCharacter(target.position);
-            motor.SetStrafe(false);
-            HandleDefense(true);
-            return AIStateResult.None;
-        }
-
-       
-        motor.SetStrafe(true);
-        HandleDefense(false);
-
-        return GetNextDecision();
-    }
-
 
     protected override AIStateResult GetNextDecision()
     {
@@ -43,17 +25,19 @@ public class EnemyMageState : BaseEnemyAttackState
         return base.GetNextDecision();
     }
 
+
     protected override void HandleAttack(Transform target)
     {
-        if(distance < 1f)
-        {
-            combatCoroutine = StartCoroutine(ComboCoroutine(punchesCount:1));
-            return;
-        }
-
+       
         if (!fov.IsTargetVisible(fov.currentTarget))
         {
             motor.MoveCharacter(fov.currentTarget.GetOrigin().position);
+            return;
+        }
+
+        if (distance < meleeDistance)
+        {
+            combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount:1));
             return;
         }
 
@@ -69,6 +53,11 @@ public class EnemyMageState : BaseEnemyAttackState
   
     IEnumerator AttackCoroutine()
     {
+        if(spellInventory.CurrentSpell.quantity <= 1)
+        {
+            spellInventory.TopUpCurrentSpell(20);
+        }
+
         emitter.StartEmit();
         while (emitter.IsEmitting)
             yield return null;
@@ -81,7 +70,7 @@ public class EnemyMageState : BaseEnemyAttackState
         if (target == null)
             return true;
 
-        if (distance < 1f)
+        if (distance < meleeDistance)
             return true;
 
         if (!fov.IsTargetVisible(fov.currentTarget))
@@ -111,3 +100,4 @@ public class EnemyMageState : BaseEnemyAttackState
         //
     }
 }
+

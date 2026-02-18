@@ -57,7 +57,20 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         if (!canReach)
             return AIStateResult.Wait;
 
-        return TrackCombatBehaviour(target);
+        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+
+        if (!combatHandler.IsInAttackRange(distance))
+        {
+            motor.MoveCharacter(target.position);
+            motor.SetStrafe(false);
+            HandleDefense(true);
+            return AIStateResult.None;
+        }
+
+        motor.SetStrafe(true);
+        HandleDefense(false);
+
+        return GetNextDecision();
     }
 
     public override void Exit()
@@ -84,7 +97,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
 
     #region Coroutines
-    protected IEnumerator ComboCoroutine(int punchesCount)
+    protected IEnumerator MeleeCoroutine(int punchesCount)
     {
         
         int executedAttacks = 0;
@@ -147,7 +160,6 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     #endregion
 
     #region Abstract Methods
-    protected abstract AIStateResult TrackCombatBehaviour(Transform target);
     protected abstract void HandleDefense(bool willDefend);
     protected abstract void HandleAttack(Transform target);
     protected abstract bool ShouldStopCooldown();
@@ -163,7 +175,6 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
             case CombatTransition.Attack:
                 HandleAttack(target);
                 break;
-
             case CombatTransition.Dodge:
                 combatCoroutine = StartCoroutine(DodgeCoroutine(target));
                 break;

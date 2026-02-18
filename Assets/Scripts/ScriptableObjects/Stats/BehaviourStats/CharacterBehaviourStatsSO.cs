@@ -24,7 +24,7 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float maxWaitTimer = 7f;
     public float chaseToCombatDistance = 10f;
 
-    [Header("Combat")]
+    [Header("Melee Combat")]
     public float switchToRunDistance = 3f;
     public float attackTransitionChance = .8f;
     public float initialPoweAttackChance = 0.15f;
@@ -33,6 +33,7 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float powerAttackChanceMultiplier = 0.05f;
     public float minCombatCooldown = 0.2f;
     public float maxCombatCooldown = 0.7f;
+
 
     [RangeAttribute(0, 1f)]
     public float initialDodgeChance = 0.2f;
