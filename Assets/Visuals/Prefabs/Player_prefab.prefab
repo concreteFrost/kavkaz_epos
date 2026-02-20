@@ -423,6 +423,53 @@ Transform:
   - {fileID: 1065958286524097582}
   m_Father: {fileID: 5578825531401253390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &457504247420000475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9221037782237346510}
+  - component: {fileID: 2708000894928454281}
+  m_Layer: 0
+  m_Name: Player_EffectsVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9221037782237346510
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457504247420000475}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1126176739652397876}
+  m_Father: {fileID: 5848560018931718496}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2708000894928454281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457504247420000475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848af25f6dae84f42960bb34fe046bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterEffectVisualizer
+  effectsPrefabs: []
+  effectPosition: {fileID: 1126176739652397876}
 --- !u!1 &588454493862317124
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +722,7 @@ MonoBehaviour:
   combatHandler: {fileID: 6125023400669764447}
   quickSlotHandler: {fileID: 6215783869720533733}
   stats: {fileID: 1717874504137131917}
+  statsModifier: {fileID: 1553764626960495605}
   interaction: {fileID: 7107515754348160904}
   combatController: {fileID: 2545132252603040552}
   combatInventory: {fileID: 548762665843053101}
@@ -685,6 +733,7 @@ MonoBehaviour:
   damageController: {fileID: 9216071904075533163}
   pushReceiver: {fileID: 1045726396533673994}
   fallController: {fileID: 6771491388864813743}
+  effectVisualizer: {fileID: 2708000894928454281}
   lifecycle: {fileID: 861400727598336259}
   targetLock: {fileID: 9014326086015574783}
   playerStatsUI: {fileID: 6577596839341557752}
@@ -717,6 +766,7 @@ MonoBehaviour:
   groundMaxDistance: 0.5
   distanceToObstacle: 0.8
   rotateTarget: {fileID: 0}
+  isStrafing: 0
   slopeLimit: 45
 --- !u!114 &1162499973470532957
 MonoBehaviour:
@@ -730,7 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_ac4b484c-5788-4536-b674-c6b4d0e87379
+  uniqueId: uid_b0e897d1-d419-4cff-9840-707c8175d4c9
 --- !u!54 &821100503953075412
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -777,7 +827,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.31
+  m_Radius: 0.33
   m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: 1.05, z: 0}
@@ -1654,6 +1704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
   emitSource: {fileID: 8826928468157456873}
+  skyOffset: 2.5
 --- !u!114 &1057969930429261406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1667,12 +1718,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
   spells:
-  - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
-    quantity: 3
-  - itemSO: {fileID: 11400000, guid: be6bd478857ed604bab6276a126f5a98, type: 2}
-    quantity: 7
+  - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
+    quantity: 20
   - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
-    quantity: 7
+    quantity: 20
+  - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
+    quantity: 20
 --- !u!1 &3063700519727666812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3022,7 +3073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 085b5592b32679640ad4b0c37b288c20, type: 2}
+  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
   rightHand: {fileID: 8409285499856481286}
   leftHand: {fileID: 8098127902209935896}
   meleeData:
@@ -3390,6 +3441,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &7273853627986963464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1126176739652397876}
+  m_Layer: 0
+  m_Name: Effects_Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1126176739652397876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7273853627986963464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9221037782237346510}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7412088460123315928
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,6 +4214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5368957167826177798}
   - component: {fileID: 1717874504137131917}
+  - component: {fileID: 1553764626960495605}
   m_Layer: 0
   m_Name: Player_Stats
   m_TagString: Untagged
@@ -4173,6 +4256,19 @@ MonoBehaviour:
     Current: 0
   jumpHeight: 0
   jumpTimer: 0
+--- !u!114 &1553764626960495605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8509689430591662325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7d8f60bb481b540905c2f41cde81b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStatsModifier
+  activeEffects: []
 --- !u!1 &8517202875410652669
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,7 +4279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5848560018931718496}
   m_Layer: 0
-  m_Name: PlayerScripts
+  m_Name: Player_Scripts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4212,6 +4308,7 @@ Transform:
   - {fileID: 4536866026417343617}
   - {fileID: 5830836361961571908}
   - {fileID: 7715266315293742324}
+  - {fileID: 9221037782237346510}
   m_Father: {fileID: 2896670806739579442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8556017995718637641

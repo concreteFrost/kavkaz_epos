@@ -10,24 +10,15 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         Transform self,
         IHumanoidMovement motor,
         CharacterStatsController statsController,
+        CharacterStatsModifier statsModifier,
         IRagdollController ragdollController,
         BaseHumanoidAnimatorController animatorController
         )
 	{
-        this.self = self;
-        this.motor = motor;
-        this.stats = statsController;
+        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
+
         this.ragdollController = ragdollController;
-        this.animatorController =animatorController;
-        
-        CharacterType = stats.statsSO.characterType;
-
         ragdollController.Recovered += OnRecover;
-
-        if (aimPosition == null)
-        {
-            Debug.Log("aim position on ai is not assigned");
-        }
 
 	}
 

@@ -62,7 +62,9 @@ public class Weapon : CombatItem, IWeapon
         {
             healthDamageMultiplier = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage()),
             balanceDamageType = currentAttack.damageData.balanceDamageType,
-            impactForce = currentAttack.damageData.impactForce
+            impactForce = currentAttack.damageData.impactForce,
+            sideEffectData = currentAttack.damageData.sideEffectData    
+           
         };
 
         damageCollider.EnableCollider(

@@ -6,17 +6,19 @@ public class SpiralMoveSO : ProjectileMoveSO
     [SerializeField] float amplitude = 3f;
     [SerializeField] float freq = 5f;
 
-    public override Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed)
+    // SpiralMoveSO
+    public override Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed, float aliveTime)
     {
-        float t = Time.time * freq;
+        // вращение спирали во времени
+        float t = aliveTime * freq;
 
-        float x = Mathf.Cos(t);
-        float y = Mathf.Sin(t);
+        // смещение по спирали в локальных осях
+        Vector3 spiralOffset =self.forward + self.right * Mathf.Cos(t) * amplitude + self.up * Mathf.Sin(t) * amplitude;
 
-        Vector3 spiralOffset =
-            self.right * x * amplitude +
-            self.up * y * amplitude;
+        // движение вперёд с постоянной скоростью
+        Vector3 forwardMovement = baseDir.normalized * speed;
 
-        return baseDir * speed + spiralOffset;
+        // возвращаем вектор скорости (без deltaTime!) — в Update его умножим на Time.deltaTime
+        return forwardMovement + spiralOffset;
     }
 }

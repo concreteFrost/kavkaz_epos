@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyChaseState : AIState<EnemyBrainContext>
@@ -51,7 +50,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         }
         
       
-        bool isTargetVisible = fov.IsTargetVisible(fov.currentTarget);
+        bool isTargetVisible = fov.IsTargetVisible();
 
         
         chaseHandler.UpdateLostTargetTimer(isTargetVisible);
@@ -66,7 +65,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         if (chaseHandler.IsTargetFar(distanceToTarget))
             return AIStateResult.MoveToStartPosition;
 
-        if (chaseHandler.IsCloseToAttack(distanceToTarget))
+        if (chaseHandler.IsCloseToAttack(distanceToTarget) && context.fov.IsTargetVisible())
         {
             return AIStateResult.Attack;    
         }

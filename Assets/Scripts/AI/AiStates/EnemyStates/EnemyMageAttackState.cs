@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMageAttackState : BaseEnemyAttackState
@@ -29,21 +28,15 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     protected override void HandleAttack(Transform target)
     {
        
-        if (!fov.IsTargetVisible(fov.currentTarget))
-        {
-            motor.MoveCharacter(fov.currentTarget.GetOrigin().position);
-            return;
-        }
-
         if (distance < meleeDistance)
         {
             combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount:1));
             return;
         }
 
-        if (spellInventory.CurrentSpell == null)
+        if(spellInventory.CurrentSpell == null)
         {
-            combatCoroutine = null;
+            Debug.Log("no spell assigned");
             return;
         }
 
@@ -65,15 +58,13 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         FinishCombatAction();
     }
 
-    protected override bool ShouldStopCooldown()
+    protected override bool ShouldExitCooldown()
     {
-        if (target == null)
-            return true;
 
         if (distance < meleeDistance)
             return true;
 
-        if (!fov.IsTargetVisible(fov.currentTarget))
+        if (!fov.IsTargetVisible())
             return true;
         if (combatHandler.CanAttack())
             return true;

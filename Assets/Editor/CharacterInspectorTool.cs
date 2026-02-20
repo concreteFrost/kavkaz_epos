@@ -1,0 +1,188 @@
+using UnityEditor;
+using UnityEngine;
+using System.Collections.Generic;
+
+public class CharacterInspectorTool : EditorWindow
+{
+    private Vector2 scroll;
+    private Dictionary<int, bool> foldoutStates = new();
+
+    [MenuItem("Tools/Character Inspector")]
+    public static void ShowWindow()
+    {
+        GetWindow<CharacterInspectorTool>("Character Inspector");
+    }
+
+    private void OnGUI()
+    {
+        DrawHeader("Player");
+
+        scroll = EditorGUILayout.BeginScrollView(scroll);
+
+        var pl = GameObject.FindGameObjectWithTag("Player");
+
+        DrawBaseCharacterCard(pl);
+
+        DrawHeader("Enemies");
+
+
+        var allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var enemy in allEnemies)
+        {
+            DrawBaseCharacterCard(enemy);
+            GUILayout.Space(8);
+        }
+
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void DrawHeader(string header)
+    {
+        GUILayout.Space(5);
+        EditorGUILayout.LabelField(header, EditorStyles.boldLabel);
+        EditorGUILayout.Space(5);
+    }
+
+    private void DrawBaseCharacterCard(GameObject obj)
+    {
+        int id = obj.GetInstanceID();
+
+        if (!foldoutStates.ContainsKey(id))
+            foldoutStates[id] = false;
+
+        EditorGUILayout.BeginVertical("box");
+
+        EditorGUILayout.BeginHorizontal();
+
+        foldoutStates[id] = EditorGUILayout.Foldout(
+            foldoutStates[id],
+            obj.name,
+            true,
+            EditorStyles.foldoutHeader
+        );
+
+        if (GUILayout.Button("Ping", GUILayout.Width(45)))
+        {
+            if (SceneView.lastActiveSceneView != null)
+            {
+                Vector3 focusPosition = Vector3.one;
+                focusPosition.y += 2;
+                SceneView.lastActiveSceneView.Frame(
+                    new Bounds(obj.transform.position, focusPosition),
+                    false
+                );
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        if (foldoutStates[id])
+        {
+            EditorGUILayout.Space(5);
+            DrawStatsInfo(obj);
+            DrawEnemyCombatInventory(obj);
+            DrawEnemySpellInventory(obj);
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private void DrawStatsInfo(GameObject go)
+    {
+        var statsController = go.GetComponentInChildren<CharacterStatsController>();
+
+        if(statsController == null)
+        {
+            EditorGUILayout.HelpBox("No CharacterStatsController found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Stats controller", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        EditorGUI.BeginChangeCheck();
+
+        var newStats = (HumanoidStatsSO)EditorGUILayout.ObjectField("Stats", statsController.statsSO, typeof(HumanoidStatsSO), false);
+
+        if(newStats == null)
+        {
+            EditorGUILayout.HelpBox("No stats assigned", MessageType.Warning);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(statsController, "Change stats");
+            statsController.statsSO = newStats;
+            EditorUtility.SetDirty(statsController);    
+        }
+
+        EditorGUI.indentLevel--;    
+    }
+
+    private void DrawEnemyCombatInventory(GameObject go)
+    {
+        var combatInventory = go.GetComponentInChildren<HumanoidCombatInventory>();
+
+        if (combatInventory == null)
+        {
+            EditorGUILayout.HelpBox("No HumanoidCombatInventory found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Melee Inventory", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        EditorGUI.BeginChangeCheck();
+
+        var newStarterSet = (CombatInventorySO)EditorGUILayout.ObjectField(
+            "Starter Set",
+            combatInventory.starterSet,
+            typeof(CombatInventorySO),
+            false
+        );
+
+        if (newStarterSet == null)
+        {
+            EditorGUILayout.HelpBox("Starter Set is not assigned", MessageType.Info);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(combatInventory, "Change Starter Set");
+            combatInventory.starterSet = newStarterSet;
+            EditorUtility.SetDirty(combatInventory);
+        }
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void DrawEnemySpellInventory(GameObject obj)
+    {
+        var spellInventory = obj.GetComponentInChildren<CharacterSpellInventory>();
+
+        if (spellInventory == null)
+        {
+            EditorGUILayout.HelpBox("No CharacterSpellInventory found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Spell Inventory", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        SerializedObject so = new SerializedObject(spellInventory);
+        SerializedProperty spellsProp = so.FindProperty("spells");
+
+        so.Update();
+
+        EditorGUILayout.PropertyField(spellsProp, true); // true = рисовать весь список
+
+        if (so.ApplyModifiedProperties())
+        {
+            Undo.RecordObject(spellInventory, "Modify Spell List");
+            EditorUtility.SetDirty(spellInventory);
+        }
+
+        EditorGUI.indentLevel--;
+    }
+}

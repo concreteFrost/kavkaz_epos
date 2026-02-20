@@ -43,7 +43,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
 
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
 
-        if (fov.IsTargetVisible(fov.currentTarget))
+        if (fov.IsTargetVisible())
         {
 
             if (canReach)

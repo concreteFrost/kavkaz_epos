@@ -5,18 +5,18 @@ public class TargetAttackSO : ProjectileAttackSO
 {
     [SerializeField] private ProjectileAttackSO backupAttackSO;
     [SerializeField] private ProjectileMoveSO moveSO;
-    public override void Execute(IEmitter gun)
+    public override void Execute(IEmitter emitter)
     {
-        if (gun.Target() == null)
+        if (emitter.Target() == null)
         {            
-            backupAttackSO.Execute(gun);
+            backupAttackSO.Execute(emitter);
             return;
         }
 
-        Quaternion spread = SpreadRotation(gun.Spread);
+        //Quaternion spread = SpreadRotation(emitter.Spread);
         
-        var dir = (gun.Target().GetAimTransform().position - gun.Origin().position).normalized;
-        dir = spread * dir;
+        var dir = (emitter.Target().GetAimTransform().position - emitter.Origin().position).normalized;
+       
 
         ProjectileDirection moveData = new ProjectileDirection()
         {
@@ -24,7 +24,7 @@ public class TargetAttackSO : ProjectileAttackSO
             baseDir = dir,
         };
 
-        var bullet = gun.NewProjectile(moveData);
+        var bullet = emitter.NewProjectile(moveData);
            
     }
 }

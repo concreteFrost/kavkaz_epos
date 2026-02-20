@@ -26,7 +26,7 @@ public interface IEmitter
     /// Разброс снаряда (точность)
     /// </summary>
     /// <returns></returns>
-    float Spread { get; set; }
+    //float Spread { get; set; }
 
     void StartEmit();
 

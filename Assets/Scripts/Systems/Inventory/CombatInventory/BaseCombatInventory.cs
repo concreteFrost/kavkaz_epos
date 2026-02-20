@@ -4,7 +4,7 @@ using Zenject;
 
 public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 {
-    [SerializeField] protected CombatInventorySO starterSet;
+    public CombatInventorySO starterSet;
 
     [SerializeField] protected Transform rightHand;
     [SerializeField] protected Transform leftHand;

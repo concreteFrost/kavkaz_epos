@@ -45,29 +45,44 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
             combatHandler.UpdateBlockStrafeTimer();
 
         distance = Vector3.Distance(self.position, target.position);
-        motor.IsSprinting = combatHandler.IsRunningDistance(distance);
 
-        if (!combatHandler.IsCombatDistance(distance))
+        if (!combatHandler.IsCombatDistance(distance) || !fov.IsTargetVisible())
             return AIStateResult.Chase;
 
         if (combatCoroutine != null || cooldownCoroutine != null)
             return AIStateResult.None;
 
+       
+        bool canSprint = combatHandler.IsRunningDistance(distance);
+        motor.IsSprinting = canSprint;
+
+        bool canLockOn = combatHandler.IsInAttackRange(distance);
+
+        if (!canLockOn)
+        {
+            motor.ResetLockTarget();
+            motor.SetStrafe(false);
+        }
+        else
+        {
+            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+            motor.SetStrafe(true);
+        }
+
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
         if (!canReach)
             return AIStateResult.Wait;
 
-        motor.SetLockTarget(fov.currentTarget.GetAimTransform());
 
-        if (!combatHandler.IsInAttackRange(distance))
+        if (!combatHandler.IsInAttackRange(distance) || !fov.IsTargetVisible())
         {
+
             motor.MoveCharacter(target.position);
-            motor.SetStrafe(false);
             HandleDefense(true);
             return AIStateResult.None;
         }
 
-        motor.SetStrafe(true);
+
         HandleDefense(false);
 
         return GetNextDecision();
@@ -84,11 +99,11 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         motor.SetStrafe(false);
     }
 
-  
+
 
     protected void FinishCombatAction()
     {
-        motor.ResetLockTarget();
+        //motor.ResetLockTarget();
         combatCoroutine = null;
         combatHandler.SetCanAttack(false);
         cooldownCoroutine = StartCoroutine(CooldownCoroutine());
@@ -99,7 +114,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     #region Coroutines
     protected IEnumerator MeleeCoroutine(int punchesCount)
     {
-        
+
         int executedAttacks = 0;
         void OnAttackEnd() => executedAttacks++;
 
@@ -139,15 +154,9 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         motor.StopMovement();
         HandleDefense(true);
 
-        while (elapsed < max)
+        while (elapsed < max && !ShouldExitCooldown())
         {
-            if (target == null)
-                break;
-            if (ShouldStopCooldown())
-                break;
-
             HandleCooldown();
-
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -162,7 +171,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     #region Abstract Methods
     protected abstract void HandleDefense(bool willDefend);
     protected abstract void HandleAttack(Transform target);
-    protected abstract bool ShouldStopCooldown();
+    protected abstract bool ShouldExitCooldown();
     protected abstract void HandleCooldown();
     #endregion
 

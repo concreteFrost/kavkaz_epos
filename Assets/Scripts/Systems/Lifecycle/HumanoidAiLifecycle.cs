@@ -3,25 +3,18 @@ using UnityEngine;
 
 public class HumanoidAiLifecycle : CharacterLifecycle
 {
-    IDamagable damagable;
-    CharacterStatsController statsController;
+   
     IRagdollController ragdollController;
     IBrain brain;
 
-    public void Init(IDamagable damagable,CharacterStatsController statsController, IRagdollController ragdollController, IBrain brain)
+    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain)
     {
-        this.damagable = damagable;
-        this.statsController = statsController; 
+        BaseInit(statsController,statsModifier,damagable);
         this.ragdollController = ragdollController;
         this.brain = brain; 
 
-        statsController.Health.Depleted += Die;
     }
 
-    private void OnDisable()
-    {
-        statsController.Health.Depleted -= Die;
-    }
     public override void Die()
     {
         if (damagable.IsDead) return;
@@ -33,6 +26,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
             ragdollController.EnableRagdoll(Vector3.zero, 0);
         }
        
+        statsModifier.ClearAllStats();
         brain.ForceStop();
 
         StartCoroutine(RespawnCoroutine());

@@ -80,7 +80,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void LifecycleInit()
     {
-        lifecycle.Init(damagable: damageController, statsController: statsManager, ragdollController: ragdollController, brain: brain);
+        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain);
     }
 
 

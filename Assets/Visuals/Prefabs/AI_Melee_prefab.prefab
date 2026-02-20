@@ -494,6 +494,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe5f8f60474701419ae2786322ce71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AiFallController
+--- !u!1 &751084819720334452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8994627621549178266}
+  m_Layer: 0
+  m_Name: Effects_Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8994627621549178266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751084819720334452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7942605720473884150}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &795497551627478149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e9d9163c1cf34793c5a39852b9cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  currentState: {fileID: 6328830628369100066}
+  currentState: {fileID: 0}
   idle: {fileID: 1705327704385733016}
   patrol: {fileID: 5661406851048797350}
   chase: {fileID: 3722448300313843976}
@@ -1067,8 +1098,7 @@ MonoBehaviour:
     lostTargetTimer: 0
     cantReachTimer: 0
   combatHandler:
-    currCombatCooldown: 0
-    maxCombatCooldown: 0
+    canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
     comboDistanceOffset: 0
@@ -1081,6 +1111,8 @@ MonoBehaviour:
   waitForTargetHandler:
     stats: {fileID: 0}
     waitTimer: 0
+    nextAttackTimer: 0
+    maxAttackTimer: 0
   strafeHandler:
     timeInStrafeState: 0
     maxTimeInStrafeState: 0
@@ -1659,6 +1691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
   emitSource: {fileID: 4858316206517058655}
+  skyOffset: 2.5
 --- !u!114 &8675504730977569057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,9 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95391240d9174704cad2109de73986d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
-  spells:
-  - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
-    quantity: 50
+  spells: []
 --- !u!1 &3069098352318718036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,6 +1737,53 @@ Transform:
   - {fileID: 6358388574649407414}
   m_Father: {fileID: 8217925090393024477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3114457772494993413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7942605720473884150}
+  - component: {fileID: 4807487760625269862}
+  m_Layer: 0
+  m_Name: AI_EffectsVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7942605720473884150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114457772494993413}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8994627621549178266}
+  m_Father: {fileID: 515555489032476068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4807487760625269862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114457772494993413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848af25f6dae84f42960bb34fe046bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterEffectVisualizer
+  effectsPrefabs: []
+  effectPosition: {fileID: 8994627621549178266}
 --- !u!1 &3207858967438153450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,8 +2073,8 @@ GameObject:
   - component: {fileID: 1617497395427065781}
   - component: {fileID: 3881702655214924737}
   m_Layer: 0
-  m_Name: AI_prefab
-  m_TagString: Untagged
+  m_Name: AI_Melee_prefab
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2038,9 +2116,11 @@ MonoBehaviour:
   motor: {fileID: 3881702655214924737}
   controller: {fileID: 3169394707491743592}
   statsManager: {fileID: 6095946705785411074}
+  statsModifier: {fileID: 3601712388461505499}
   damageController: {fileID: 1055276295984137630}
   pushReceiver: {fileID: 2068846124865319517}
   fallController: {fileID: 6858206497910447250}
+  visualizer: {fileID: 4807487760625269862}
   lifecycle: {fileID: 3787797833452457620}
   interaction: {fileID: 4994437662380333840}
   combatController: {fileID: 8492958853885773946}
@@ -2176,6 +2256,7 @@ MonoBehaviour:
   groundMaxDistance: 0.5
   distanceToObstacle: 0.8
   rotateTarget: {fileID: 0}
+  isStrafing: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -2400,7 +2481,7 @@ Transform:
   m_GameObject: {fileID: 4371263480485866840}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009, y: 0.021, z: 0.152}
+  m_LocalPosition: {x: -0.01596543, y: 0.021, z: 0.01753144}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2633,7 +2714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
+  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
   rightHand: {fileID: 5591928551287878927}
   leftHand: {fileID: 1935654885825902513}
   meleeData:
@@ -2747,6 +2828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1405730832600722143}
   - component: {fileID: 6095946705785411074}
+  - component: {fileID: 3601712388461505499}
   m_Layer: 0
   m_Name: AI_Stats
   m_TagString: Untagged
@@ -2788,6 +2870,19 @@ MonoBehaviour:
     Current: 0
   jumpHeight: 0
   jumpTimer: 0
+--- !u!114 &3601712388461505499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049543838858314529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7d8f60bb481b540905c2f41cde81b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStatsModifier
+  activeEffects: []
 --- !u!1 &5054256029449277750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5045,6 +5140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7942605720473884150}
   - {fileID: 1405730832600722143}
   - {fileID: 6675461960045328338}
   - {fileID: 9087103329379741657}

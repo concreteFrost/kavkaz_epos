@@ -11,20 +11,14 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     public void Init(
         PlayerMotor motor,
-        CharacterStatsController stats,
-        PlayerAnimatorController animatorController
+        PlayerAnimatorController animatorController,
+        CharacterStatsController statsController,
+        CharacterStatsModifier statsModifier
         )
     {
 
-        this.motor = motor; 
-        this.stats = stats;
-        this.animatorController = animatorController;
-        CharacterType = stats.statsSO.characterType;
-
-        if(aimPosition == null)
-        {
-            Debug.Log("no aim position assigned");
-        }
+        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
+        
     }
 
     private void Update()

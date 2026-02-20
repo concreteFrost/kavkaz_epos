@@ -40,7 +40,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
     }
 
  
-    protected override bool ShouldStopCooldown()
+    protected override bool ShouldExitCooldown()
     {
         float dist = Vector3.Distance(self.position, target.position);
 

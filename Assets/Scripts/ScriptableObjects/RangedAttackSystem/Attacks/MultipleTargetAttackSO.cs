@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "TripleTargetAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/TripleTargetAttack")]
-public class TripleTargetAttackSO : ProjectileAttackSO
+public class MultipleTargetAttackSO : ProjectileAttackSO
 {
     [SerializeField] float delay = 0.5f;
 
@@ -13,6 +13,11 @@ public class TripleTargetAttackSO : ProjectileAttackSO
     {
         if(emitter.Target() == null)
         {
+            if(backupAttackSO == this)
+            {
+                Debug.Log("cannot use the same attack as backup");
+                return;
+            }
             backupAttackSO.Execute(emitter);
             return;
         }
@@ -23,25 +28,29 @@ public class TripleTargetAttackSO : ProjectileAttackSO
 
     IEnumerator DelayCoroutine(IEmitter emitter)
     {
-        int spawnedAmount = 0; 
-        while(spawnedAmount < 3 && emitter.Target() !=null)
+        int count = 0;
+        int spawnAmount = emitter.Projectile().amountToSpawn;
+
+        if(spawnAmount <= 0)
         {
+            spawnAmount = 1;
+        }
+       
+        while(count < spawnAmount && emitter.Target() !=null)
+        {
+           
             var dir = (emitter.Target().GetAimTransform().position - emitter.Origin().position).normalized;
-
-            var spread = base.SpreadRotation(emitter.Spread);
-            dir = spread * dir;
-
-            //var data = emitter.Projectile().CreateData(moveSO, dir, emitter.Target());
-
+            
             ProjectileDirection directionData = new ProjectileDirection()
             {
                 MoveBehaviour = moveSO,
                 baseDir = dir,
             };
 
+
             var bullet = emitter.NewProjectile(directionData);
 
-            spawnedAmount++;
+            count++;
             yield return new WaitForSeconds(delay);
         }
     }

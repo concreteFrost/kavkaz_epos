@@ -25,6 +25,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Статы")]
     [SerializeField] private CharacterStatsController stats;
+    [SerializeField] private CharacterStatsModifier statsModifier;
 
     [Header("Система взаимодействия")]
     [SerializeField] private ItemCollector interaction;
@@ -44,13 +45,14 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerPushReceiver pushReceiver;
     [SerializeField] private PlayerFallController fallController;
 
+    [Header("Визуальные эффекты")]
+    [SerializeField] private CharacterEffectVisualizer effectVisualizer;
+
     [Header("Жизненый цикл")]
     [SerializeField] private PlayerLifecycle lifecycle;
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
-
-    
 
     [Header("Прочее")]
     private PlayerActionGuards actionGuards;
@@ -79,7 +81,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         input.Init(controller: locomotionHandler,combatHandlder:combatHandler ,animatorController: animatorController, targetLock: targetLock,quickSlotHandler:quickSlotHandler);
        
-        damageController.Init(motor: motor, stats: stats, animatorController: animatorController);
+        damageController.Init(motor: motor, statsController: stats, animatorController: animatorController,statsModifier:statsModifier);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
         
         //всегда инициализировать ранььше combatInventory
@@ -96,13 +98,14 @@ public class PlayerServiceLocator : MonoBehaviour
         targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:locomotionHandler,damageController:damageController);
         
         stats.Init();
+        statsModifier.Init(stats,visualizer:effectVisualizer);
         motor.Init(animatorController: animatorController);
 
         locomotionHandler.Init(motor: motor, interaction: interaction, actionGuards: actionGuards, stats: stats, climbing: climbing);
         combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
         quickSlotHandler.Init(spellInventory: spellInventory, actionGuards: actionGuards);
        
-        lifecycle.Init(damagable:damageController,statsController:stats,input:input); 
+        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input); 
 
         playerStatsUI.Init(stats: stats);
         quickSlotsUI.Init(spellInventory: spellInventory, combatInventory:combatInventory);

@@ -9,6 +9,7 @@ public interface IProjectileMove
     /// <param name="target">Цель снаряда (возможна null)</param>
     /// <param name="baseDir">Изначальное направление</param>
     /// <param name="speed">Скорость передвижения</param>
+    /// <param name="aliveTime">Время жизни снаряда</param>
     /// <returns></returns>
-    Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed);
+    Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed, float aliveTime);
 }

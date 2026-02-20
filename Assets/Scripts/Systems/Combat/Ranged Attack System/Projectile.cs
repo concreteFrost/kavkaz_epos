@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour, IProjectile
 {
+    private Vector3 currentDir;
+    private float aliveTime = 0;
 
     public ProjectileData data;
     float currLifeTime; //текущий жизненый цикл
@@ -12,25 +14,31 @@ public class Projectile : MonoBehaviour, IProjectile
     [SerializeField] GameObject hitParticles;
 
     Coroutine destroyCoroutine = null;
-
-
+    
     void Update()
     {
         Vector3 velocity = data.direction.MoveBehaviour.Move(
             transform,
             data.target,
-            data.direction.baseDir,
-            data.projectileSO.speed
+            currentDir,
+            data.projectileSO.speed,
+            aliveTime
         );
 
-        transform.position += velocity * Time.deltaTime;
-
+        aliveTime += Time.deltaTime;
         currLifeTime += Time.deltaTime;
+        currentDir = velocity.normalized;
+        
 
-        if (damageCollider.isAttackRegistered)
+        if (!damageCollider.isAttackRegistered)
+        {
+            transform.position += velocity * Time.deltaTime;
+        }
+
+        else if (damageCollider.isAttackRegistered)
         {
             damageCollider.DisableCollider();   
-            ActivateHit();
+            ActivateHitParticles();
             PerformDestroy();
         }
 
@@ -45,15 +53,18 @@ public class Projectile : MonoBehaviour, IProjectile
     public void Init(ProjectileData data)
     {
         this.data = data;
-        if(damageCollider == null)
+        currentDir = data.direction.baseDir;
+
+        if (damageCollider == null)
         {
             damageCollider = GetComponentInChildren<DamageCollider>();
         }
-        ActivateLifetime();
 
         damageCollider.Init();
         damageCollider.EnableCollider(data.projectileSO.damageData, data.attackSource.TargetsToIgnore, data.attackSource.Source());
-       
+
+        ActivateLifetimeParticles();
+
     }
 
     private void PerformDestroy()
@@ -63,13 +74,13 @@ public class Projectile : MonoBehaviour, IProjectile
         destroyCoroutine = StartCoroutine(DestroyCoroutine());  
     }
 
-    private void ActivateLifetime()
+    private void ActivateLifetimeParticles()
     {
         lifetimeParticles.gameObject.SetActive(true);
         hitParticles.gameObject.SetActive(false);
     }
 
-    private void ActivateHit()
+    private void ActivateHitParticles()
     {
         lifetimeParticles.gameObject.SetActive(false);
         hitParticles.gameObject.SetActive(true);

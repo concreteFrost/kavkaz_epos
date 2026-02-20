@@ -4,28 +4,22 @@ using UnityEngine;
 public class TargetMoveSO : ProjectileMoveSO
 {
     [SerializeField] float turnSpeed = 100f;
+    [SerializeField] float homingDuration = 1.5f;
 
     public override Vector3 Move(
-        Transform self,
-        IDamagable target,
-        Vector3 baseDir,
-        float speed
-    )
+     Transform self,
+     IDamagable target,
+     Vector3 baseDir,
+     float speed,
+     float aliveTime
+ )
     {
-        Vector3 desiredDir = self.forward;
-        //запустить снаряд вперёд если цель отсутствует
-        if (target == null)
-        {
-            Debug.Log("target is null");
-            return self.position.normalized * speed;
-        }
-           
+        if (target == null || aliveTime >= homingDuration)
+            return baseDir * speed;
 
-        //направление к цели
-        desiredDir =
-            (target.GetAimTransform().position - self.position).normalized; 
+        Vector3 desiredDir =
+            (target.GetAimTransform().position - self.position).normalized;
 
-        //поворот в сторону цели
         Vector3 finalDir = Vector3.RotateTowards(
             baseDir,
             desiredDir,

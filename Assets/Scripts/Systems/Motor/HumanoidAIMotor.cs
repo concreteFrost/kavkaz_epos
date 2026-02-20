@@ -46,6 +46,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
 
     #region Rotation Control
+
     public override void RotateToTarget(Vector3 targetPosition)
     {
         //if (moveDirection.sqrMagnitude < 0.1f) return;
@@ -59,6 +60,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         base.RotateToDirection(direction);
     }
 
+
     #endregion
 
     #region Agent Control
@@ -69,13 +71,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         moveDirection = Vector3.zero;
         inputMagnitude = 0f;
 
-
-    }
-
-    public void ResetSpeed()
-    {
-        moveDirection = Vector3.zero;
-        inputMagnitude = 0f;
 
     }
 

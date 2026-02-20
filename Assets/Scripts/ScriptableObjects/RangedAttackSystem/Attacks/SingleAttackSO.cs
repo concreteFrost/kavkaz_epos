@@ -6,9 +6,8 @@ public class SingleAttackSO : ProjectileAttackSO
     [SerializeField] ProjectileMoveSO moveSO;
     public override void Execute(IEmitter emitter)
     {
-        Quaternion spread = SpreadRotation(emitter.Spread);
+       
         Vector3 dir = emitter.Origin().forward;
-        dir = spread * dir;
 
         ProjectileDirection directionData = new ProjectileDirection()
         {

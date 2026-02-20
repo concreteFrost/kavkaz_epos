@@ -11,6 +11,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     [SerializeField] protected Transform aimPosition;
     protected BaseHumanoidAnimatorController animatorController;
+    protected CharacterStatsModifier statsModifier;
 
     #region IDamagable Contract
     public bool IsDead { get; set; }
@@ -23,9 +24,32 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsKnockedOut {  get; set; } 
     #endregion
 
+    protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
+    {
+        this.animatorController = animatorController;
+        this.statsModifier = statsModifier;
+        this.stats = statsController;
+        this.self = self;
+        this.motor = motor; 
+
+        CharacterType = this.stats.statsSO.characterType;
+
+        if (aimPosition == null)
+        {
+            Debug.Log("no aim position assigned");
+        }
+
+    }
+
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
         if (IsDamagingBlocked()) return;
+
+
+        if (damageData.sideEffectData.duration > 0)
+        {
+            statsModifier.AddSideEffect(damageData.sideEffectData);
+        }
 
         stats.Health.Reduce(damageData.healthDamageMultiplier);
         InvokeDamageTaken(source);
