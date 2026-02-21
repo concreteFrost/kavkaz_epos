@@ -22,6 +22,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     public event Action<Transform> DamageTaken;
     public bool IsKnockedOut {  get; set; } 
+    public bool InBlockingWindow {  get; set; } 
     #endregion
 
     protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
@@ -43,8 +44,11 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
-        if (IsDamagingBlocked()) return;
-
+        if (IsDamagingBlocked())
+        {
+            Debug.Log("Damage was blocked");
+            return;
+        }
 
         if (damageData.sideEffectData.duration > 0)
         {

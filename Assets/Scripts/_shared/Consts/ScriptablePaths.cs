@@ -12,6 +12,7 @@ public static class ScriptablePaths
     public const string SENSES_PATH =BASE_PATH + "/Sense";
     public const string ANIMATION_PATH = BASE_PATH + "/Animation";
     public const string PROJECTILE_PATH = BASE_PATH + "/Projectile";
+    public const string VFX_PATH = BASE_PATH + "/VFX";
 
     //под-домены
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";
@@ -23,6 +24,10 @@ public static class ScriptablePaths
     public const string PROJECTILE_ATTACK_PATH = PROJECTILE_PATH + "/Attack";
     public const string PROJECTILE_INSTANCE_PATH = PROJECTILE_PATH + "/Instances";
     public const string PROJECTILE_MOVE_PATH = PROJECTILE_PATH + "/Movement";
+
+    public const string VFX_SIDE_FX_PATH = VFX_PATH + "/Side Effects Data";
+
+   
 
 
 

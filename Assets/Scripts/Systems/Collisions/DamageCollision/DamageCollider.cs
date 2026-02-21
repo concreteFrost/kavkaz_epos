@@ -131,6 +131,8 @@ public class DamageCollider : MonoBehaviour
 
         if (!hitColliders.Add(other)) return;
 
+        if(damagable.InBlockingWindow) return;
+
         ApplyDamage(damagable);
       
         //attackInterrupted = true;

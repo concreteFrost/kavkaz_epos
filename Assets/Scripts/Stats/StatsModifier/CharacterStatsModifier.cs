@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class CharacterStatsModifier : MonoBehaviour
 {
 
-    public List<ActiveSideEffect> activeEffects = new List<ActiveSideEffect>();
+    public List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();
     CharacterStatsController statsController;
     CharacterEffectVisualizer visualizer;
 
@@ -22,38 +21,49 @@ public class CharacterStatsModifier : MonoBehaviour
         for (int i = activeEffects.Count - 1; i >= 0; i--)
         {
             var effect = activeEffects[i];
-            effect.timeRemaining -= Time.deltaTime;
-            effect.ApplySideEffect(Time.deltaTime, statsController);
 
-            if (effect.timeRemaining <= 0)
+           
+            if (effect.Tick(Time.deltaTime, statsController))
             {
                 activeEffects.RemoveAt(i);
+                visualizer.HideEffect(effect.data.type);
             }
+
+            if(effect.isActive)
+                visualizer.ShowEffect(effect.data.type);
         }
     }
 
     public void ClearAllStats()
     {
-        activeEffects.Clear();  
+        visualizer.HideAllEffects();
+        activeEffects.Clear(); 
+        
     }
 
-  
-
-    public void AddSideEffect(SideEffectData data)
+    public void AddSideEffect(StatusEffectData data)
     {
-        var match = activeEffects.Find((x) => x.type == data.sideEffect);
+        var match = activeEffects.Find(x => x.data.type == data.type);
+        
 
-        if(match != null)
+        if (match != null)
         {
-            Debug.Log("this side effect is already active");
+
+            if (!match.isActive)
+            {
+                match.IncreaseDuration();
+                
+            }
+
             return;
         }
 
-        ActiveSideEffect newEffect = new ActiveSideEffect(data.sideEffect, data.duration,data.effectMultiplier);
-        visualizer.ShowEffect(newEffect.type);
-
+        // Новый эффект
+        var newEffect = new StatusEffectInstance(data);
+        
         activeEffects.Add(newEffect);
     }
+
 
     
 }

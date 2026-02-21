@@ -10,6 +10,8 @@ public interface IDamagable
     bool IsDead { get; set; }
     bool IsDamaged { get; set; }
     bool IsKnockedOut {  get; set; }
+
+    bool InBlockingWindow {  get; set; }    
     Transform GetAimTransform();
     Transform GetOrigin();
 

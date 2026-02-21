@@ -21,6 +21,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public string SourceId() => null;
     public bool IsDamaged { get; set; }
     public bool IsKnockedOut {  get; set; } 
+    public bool InBlockingWindow { get; set; }
 
     public event Action<Transform> DamageTaken = null;
 

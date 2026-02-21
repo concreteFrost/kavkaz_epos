@@ -4,10 +4,12 @@ public class DodgeBehaviour : StateMachineBehaviour
 {
 
     IHumanoidMovement motor;
+    IDamagable dm;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor = animator.GetComponent<IHumanoidMovement>();
+        dm = animator.GetComponentInChildren<IDamagable>();
         motor.StopMove = true;
     
     }
@@ -18,12 +20,10 @@ public class DodgeBehaviour : StateMachineBehaviour
        
         animator.applyRootMotion = true;
 
-        //float t = stateInfo.normalizedTime % 1f;
+        float t = stateInfo.normalizedTime % 1;
 
-        //if(t > 0.9f)
-        //{
-        //    motor.IsDodging = false;
-        //}
+        dm.InBlockingWindow = t > 0.2f && t < 0.9f;
+            
 
     }
 
@@ -33,6 +33,7 @@ public class DodgeBehaviour : StateMachineBehaviour
         animator.applyRootMotion = false;
         motor.IsDodging = false;
         motor.StopMove = false;
+        dm.InBlockingWindow = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

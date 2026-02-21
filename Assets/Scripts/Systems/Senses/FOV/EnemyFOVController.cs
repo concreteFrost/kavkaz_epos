@@ -52,6 +52,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     public bool IsTargetVisible()
     {
+        if(currentTarget == null) return false;
         return fov.IsTargetVisible(currentTarget.GetAimTransform(), fovDataSO.viewRadius, fovDataSO.viewAngle);
     }
 

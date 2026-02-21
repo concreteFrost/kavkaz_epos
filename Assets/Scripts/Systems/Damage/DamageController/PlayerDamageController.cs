@@ -7,8 +7,6 @@ public class PlayerDamageController : BaseHumanoidDamageController
     private float damageCooldown = 0.7f;
     private bool damageBlocked = false;
 
-    protected bool canTakeAnotherDamage = true;
-
     public void Init(
         PlayerMotor motor,
         PlayerAnimatorController animatorController,
@@ -47,7 +45,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     protected override bool IsDamagingBlocked()
     {
-        return IsDead || damageBlocked || motor.IsDodging;
+        return IsDead || damageBlocked || InBlockingWindow;
     }
 
 

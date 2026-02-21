@@ -1,63 +1,82 @@
-using UnityEngine;
-
-public enum SideEffectType
-{
-    Burn = 0,
-    Poison = 1,
-}
+п»їusing UnityEngine;
 
 [System.Serializable]
-public class ActiveSideEffect
+public class StatusEffectInstance
 {
-    public SideEffectType type;
-    public float timeRemaining;
-    public float multiplier;
-    public float accumulation; // для Poison-style эффектов
+    public readonly StatusEffectData data;
 
-    public ActiveSideEffect(SideEffectType type, float duration, float multiplier)
-    {
-        this.type = type;
-        this.timeRemaining = duration;
-        this.multiplier = multiplier;
-        this.accumulation = 0f;
-    }
-
-    public void ApplySideEffect(float dt, CharacterStatsController statsController)
-    {
-        switch (type)
-        {
-            case SideEffectType.Burn:
-                statsController.Health.Reduce(multiplier * dt);
-                break;
-
-            case SideEffectType.Poison:
-                accumulation += multiplier * dt;
-                if (accumulation >= 1f)
-                {
-                    statsController.Health.Reduce(1f);
-                    accumulation = 0f;
-                }
-                break;
-
-                // другие эффекты через enum добавляются сюда
-        }
-    }
-}
-
-
-[System.Serializable]
-public struct SideEffectData
-{
-    public SideEffectType sideEffect;
     public float duration;
-    public float effectMultiplier;
-    //public float accumulation;  
+    public float accumulation;
+    public bool isActive;
+
+    public StatusEffectInstance(StatusEffectData data)
+    {
+        this.data = data;
+        duration = data.duration;
+        accumulation = 0;
+        isActive = false;
+    }
+
+    public void IncreaseDuration()
+    {
+        
+        duration += 0.2f;
+
+    }
+
+    /// <summary>
+    /// Tick РІС‹Р·С‹РІР°РµС‚СЃСЏ РєР°Р¶РґС‹Р№ РєР°РґСЂ.
+    /// </summary>
+    public bool Tick(float dt, CharacterStatsController stats)
+    {
+        duration -= dt; 
+        
+
+        if (duration <= 0f)
+        {
+            accumulation -= dt * data.accumulationDecreaseMultiplier;
+            duration = 0f;  
+           
+        }
+
+        if (!isActive && duration > 0)
+        {
+            
+            accumulation += dt * data.accumulationIncreaseMultiplier;
+            if (accumulation >= 1f)
+            {
+                accumulation = 1f;
+                duration = data.duration;
+                isActive = true;
+                
+            }
+        }
+
+        if (isActive)
+        {
+            accumulation -= dt * data.accumulationDecreaseMultiplier;
+            duration = 0;
+            switch (data.type)
+            {
+                case SideEffectType.Burn:
+                case SideEffectType.Poison:
+                    stats.Health.Reduce(data.statsAffectMultiplier * dt);
+                    break;
+            }
+        }
+
+
+        return accumulation <=0f;
+    }
 }
 
 [System.Serializable]
-public class EffectVFX
+public struct StatusEffectData
 {
     public SideEffectType type;
-    public GameObject vfxPrefab;
-    [HideInInspector] public GameObject instance;
+    public float duration;
+    public float statsAffectMultiplier;
+    public float accumulationIncreaseMultiplier;
+    public float accumulationDecreaseMultiplier;
+  
 }

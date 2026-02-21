@@ -1,31 +1,85 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CharacterEffectVisualizer : MonoBehaviour
 {
-  
-    public List<EffectVFX> effectsPrefabs;
+    [SerializeField] private StatusEffectDataBaseSO effectDataBaseSO;
     [SerializeField] private Transform effectPosition;
 
+    private Dictionary<SideEffectType, GameObject> activeInstances = new();
 
     public void ShowEffect(SideEffectType type)
     {
-        var effect = effectsPrefabs.Find(e => e.type == type);
-        if (effect == null) return;
-
-        if (effect.instance == null)
+        if (activeInstances.TryGetValue(type, out var existingInstance))
         {
-            effect.instance = Instantiate(effect.vfxPrefab, effectPosition);
+            if (existingInstance.activeInHierarchy) return;
+
+            StartCoroutine(GraduateFXToggle(existingInstance, true));
+            return;
         }
-        effect.instance.SetActive(true);
+
+        var effectData = effectDataBaseSO.sideEffects.Find(e => e.type == type);
+        if (effectData == null || effectData.prefab == null)
+            return;
+
+        var instance = Instantiate(effectData.prefab, effectPosition);
+        activeInstances[type] = instance;
+
+        StartCoroutine(GraduateFXToggle(instance, true));
     }
 
     public void HideEffect(SideEffectType type)
     {
-        var effect = effectsPrefabs.Find(e => e.type == type);
-        if (effect?.instance != null)
+        if (activeInstances.TryGetValue(type, out var instance))
         {
-            effect.instance.SetActive(false);
+            StartCoroutine(GraduateFXToggle(instance, false));
         }
+    }
+
+    public void HideAllEffects()
+    {
+        foreach (var instance in activeInstances.Values)
+        {
+            StartCoroutine(GraduateFXToggle(instance, false));
+        }
+    }
+
+    private IEnumerator GraduateFXToggle(GameObject obj, bool isOn)
+    {
+        var particles = obj.GetComponentsInChildren<ParticleSystem>(true);
+
+        if (isOn)
+        {
+            obj.SetActive(true);
+
+            foreach (var ps in particles)
+                ps.Play(true);
+
+            yield break;
+        }
+
+        foreach (var ps in particles)
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        // ∆дЄм, пока все дочерние системы завершатс€
+        bool alive;
+        do
+        {
+            alive = false;
+            foreach (var ps in particles)
+            {
+                if (ps.IsAlive(true))
+                {
+                    alive = true;
+                    break;
+                }
+            }
+
+            yield return null;
+
+        } while (alive);
+
+        obj.SetActive(false);
     }
 }
