@@ -1,22 +1,19 @@
-using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+
 
 public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 {
     public CombatInventorySO starterSet;
 
-    [SerializeField] protected Transform rightHand;
-    [SerializeField] protected Transform leftHand;
-
     protected BaseHumanoidAnimatorController animatorController;
+    protected CharacterBoneSocket boneSocket;
 
     protected IHumanoidMeleeCombat combatController;
 
     #region ICombatInventory Contract
 
-    public Transform GetRightHand() => rightHand;
-    public Transform GetLeftHand() => leftHand;
+    public Transform GetRightHand() => boneSocket.GetWeaponHolder;
+    public Transform GetLeftHand() => boneSocket.GetShieldHolder;
 
     public abstract void SetWeapon(IWeapon w);
 

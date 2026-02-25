@@ -4,6 +4,8 @@ public interface ICollector
     IAttackSource AttackSource { get; set; }
     IDamagable Damagable { get; set; }
     IPickable PickableItem { get; set; }
+
+    bool CanPreventWeaponDamage();
     void StartInteracion();
     void FinishInteraction();
 }

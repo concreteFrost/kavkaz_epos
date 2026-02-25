@@ -81,11 +81,44 @@ public class CharacterInspectorTool : EditorWindow
         {
             EditorGUILayout.Space(5);
             DrawStatsInfo(obj);
+            DrawBehaviourStats(obj);    
             DrawEnemyCombatInventory(obj);
             DrawEnemySpellInventory(obj);
         }
 
         EditorGUILayout.EndVertical();
+    }
+
+    private void DrawBehaviourStats(GameObject go)
+    {
+        var stateTracker = go.GetComponentInChildren<EnemyStateTracker>();
+
+        if (stateTracker == null)
+        {
+            EditorGUILayout.HelpBox("No EnemyStateTracker found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Behaviour stats", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        EditorGUI.BeginChangeCheck();
+
+        var newStats = (CharacterBehaviourStatsSO)EditorGUILayout.ObjectField("Behaviour stats", stateTracker.stats, typeof(CharacterBehaviourStatsSO), false);
+
+        if (newStats == null)
+        {
+            EditorGUILayout.HelpBox("No behaviour stats assigned", MessageType.Warning);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(stateTracker, "Change behaviour stats");
+            stateTracker.stats = newStats;
+            EditorUtility.SetDirty(stateTracker);
+        }
+
+        EditorGUI.indentLevel--;
     }
 
     private void DrawStatsInfo(GameObject go)

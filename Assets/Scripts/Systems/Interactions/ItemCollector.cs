@@ -21,6 +21,8 @@ public class ItemCollector : MonoBehaviour, ICollector
         set => pickable = value;
     }
 
+    public bool CanPreventWeaponDamage() => Damagable.CharacterType != CharacterType.Player; // оружие ломается только у игрока
+
     private float interactRadius;
 
     public void Init(

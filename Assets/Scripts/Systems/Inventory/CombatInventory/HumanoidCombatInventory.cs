@@ -9,15 +9,17 @@ public class HumanoidCombatInventory : BaseCombatInventory
     public Action<ItemSO, IBreakable> WeaponDataUpdated;
     public Action<ItemSO, IBreakable> ShieldUpdated;
 
-   
     public void Init(
+        CharacterBoneSocket boneSocket,
         BaseHumanoidAnimatorController animatorController,
         IHumanoidMeleeCombat combatController,
         ICollector collector)
     {
- 
+        
+        this.boneSocket = boneSocket;
         this.combatController = combatController;
         this.animatorController = animatorController;
+
         //InitializeBarehands();
 
         DefaultWeapon = InitializeBarehands(collector);
@@ -87,10 +89,12 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
         if (ShieldWeapon == null) return;
 
+        ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), null);
+
         ShieldWeapon = null;
         combatController.IsShieldRaised = false;
 
-        ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
+       
 
     }
 

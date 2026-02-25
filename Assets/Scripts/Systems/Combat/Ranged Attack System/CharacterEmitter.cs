@@ -5,13 +5,13 @@ public class CharacterEmitter : Emitter
     BaseHumanoidAnimatorController animatorController;
     ITargetLocker targetLocker;
 
-
-    public void Init(CharacterSpellInventory spellInventory,IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker)
+    public void Init(CharacterSpellInventory spellInventory,IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets)
     {
         this.spellInventory = spellInventory;   
         this.animatorController = animatorController;
         this.targetLocker = targetLocker;
         this.attackSource = source;
+        this.emitSource = boneSockets.GetSpellCastSocket;
 
     }
 

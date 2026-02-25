@@ -19,4 +19,5 @@ public interface IAttackSource
     /// ÷ели которые стоит игнорировать. Ќапример дружественные NPC или же цели того же класса
     /// </summary>
     public List<CharacterType> TargetsToIgnore { get; set; }
+
 }

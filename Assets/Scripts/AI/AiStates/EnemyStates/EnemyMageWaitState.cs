@@ -11,6 +11,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
 
     Coroutine castCoroutine = null;
 
+
     public override void Enter()
     {
         handler = context.stateTracker.waitForTargetHandler;
@@ -35,6 +36,8 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
+        
+
         if (castCoroutine != null)
             return AIStateResult.None;
 
@@ -43,9 +46,11 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
 
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
 
+        if (motor.strafeCoroutine != null && !canReach)
+            return AIStateResult.None;
+
         if (fov.IsTargetVisible())
         {
-
             if (canReach)
             {
                 return AIStateResult.Chase;
@@ -56,7 +61,12 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
                 castCoroutine = StartCoroutine(CastCroutine());
                 handler.ResetWaitState();
             }
-          
+
+            if (handler.ShouldReposition())
+            {
+                motor.StartStrafe(self, target);
+            }
+
             return AIStateResult.None;
         }
 
@@ -77,15 +87,17 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
     public override void Exit()
     {
         //fov.ResetTarget();
+        motor.StopStrafe();
         motor.ResetLockTarget();
         motor.SetStrafe(false);
-        if(castCoroutine != null)
+        if (castCoroutine != null)
         {
-            castCoroutine = StartCoroutine(CastCroutine());
+            StopCoroutine(castCoroutine);
+            castCoroutine = null;
         }
-
-
     }
+
+
 
     IEnumerator CastCroutine()
     {

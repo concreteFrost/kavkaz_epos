@@ -9,7 +9,13 @@ public class EnemyWaitForTargetHandler
     [SerializeField] private float waitTimer = 0f;
     [SerializeField] private float nextAttackTimer = 0f;
     [SerializeField] private float maxAttackTimer;
- 
+
+
+    [Header("Передвижение во время ожидания")]
+    [SerializeField] private float repositionTimer;
+    [SerializeField] private float nextRepositionTime;
+
+
     public EnemyWaitForTargetHandler(CharacterBehaviourStatsSO stats)
     {
         this.stats = stats;
@@ -20,7 +26,8 @@ public class EnemyWaitForTargetHandler
     public void ResetWaitState()
     {
         waitTimer = 0f;
-        ResetDistanceAttackTimer(); 
+        ResetDistanceAttackTimer();
+        ResetRepositionTimer();
     }
 
     private void InterruptWait() => waitTimer = stats.maxWaitTimer;
@@ -54,7 +61,29 @@ public class EnemyWaitForTargetHandler
 
     }
 
-    
+    #region Move While Waiting
+    public void ResetRepositionTimer()
+    {
+        repositionTimer = 0f;
+        nextRepositionTime = Random.Range(
+            stats.minRepositionCooldown,
+            stats.maxRepositionCooldown);
+    }
+
+    public bool ShouldReposition()
+    {
+        repositionTimer += Time.deltaTime;
+
+        if (repositionTimer < nextRepositionTime)
+            return false;
+
+        ResetRepositionTimer();
+
+        return Random.value <= stats.willMoveChance;
+    }
+    #endregion
+
+
 
     #endregion
 }

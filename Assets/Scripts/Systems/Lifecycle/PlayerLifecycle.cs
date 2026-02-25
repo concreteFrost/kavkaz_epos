@@ -7,9 +7,9 @@ public class PlayerLifecycle : CharacterLifecycle
     PlayerInput input;
 
     public void Init(
-        IDamagable damagable,CharacterStatsController statsController,PlayerInput input, CharacterStatsModifier statsModifier)
+        IDamagable damagable,CharacterStatsController statsController,PlayerInput input, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
     {
-        BaseInit(statsController,statsModifier,damagable);  
+        BaseInit(statsController,statsModifier,damagable,startingPosition,self);  
         this.input = input;
     }
 
@@ -31,6 +31,8 @@ public class PlayerLifecycle : CharacterLifecycle
     {
         input.controls.Enable();
         statsController.ResetAllStats();
+
+        ResetPosition();
 
         damagable.IsDead = false;
 

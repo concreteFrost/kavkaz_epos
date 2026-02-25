@@ -108,6 +108,9 @@ public class Weapon : CombatItem, IWeapon
 
     public void ReduceDurability(float amount)
     {
+        if(Owner == null) return;
+        if (Owner.CanPreventWeaponDamage()) return;
+
         breakdownThreshold -= amount;
 
         if (breakdownThreshold <= 0)

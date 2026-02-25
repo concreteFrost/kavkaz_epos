@@ -48,7 +48,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void FovInit()
     {
-        fovController.Init();
+        fovController.Init(boneSockets:boneSocket);
     }
 
     private void InteractionInit()
@@ -61,12 +61,12 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         //всегда инициализировать ранььше combatInventory потому что переставив их местами у оружия attack source может быть null
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
         combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
-        combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
+        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction);
     }
 
     private void SpellInit()
     {
-        emitter.Init(spellInventory: spellInventory, source: attackSource, animatorController: animatorController, targetLocker: fovController);
+        emitter.Init(spellInventory: spellInventory, source: attackSource, animatorController: animatorController, targetLocker: fovController, boneSockets: boneSocket);
        
     }
 
@@ -80,7 +80,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void LifecycleInit()
     {
-        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain);
+        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position, self:transform);
     }
 
 

@@ -10,19 +10,16 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
     private EnemyFOVController fov;
     private HumanoidAIMotor motor;
     private IHumanoidMeleeCombat combatController;
-    private HumanoidCombatInventory inventory;  
-
-    // корутина стрейфа
-    private Coroutine strafeCoroutine;
+    private HumanoidCombatInventory inventory;
 
     public override void Enter()
     {
-       
+
         fov = context.fov;
         strafeHandler = context.stateTracker.strafeHandler;
         combatHandler = context.stateTracker.combatHandler;
         combatController = context.combat;
-        inventory = context.inventory;  
+        inventory = context.inventory;
 
         motor = context.motor;
 
@@ -53,11 +50,13 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-        
+
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
         combatHandler.ToggleShield(true, inventory, combatController);
+
+        Transform target = context.fov.currentTarget.GetOrigin();
 
         // обновляем время, проведённое в стрейфе
         strafeHandler.UpdateTimeInStrafeState();
@@ -76,20 +75,19 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
 
         // цель ушла слишком далеко — стрейф больше не имеет смысла
         if (strafeHandler.IsStrafeTargetFar(distance))
-            return AIStateResult.Attack;
+            return AIStateResult.Chase;
 
         // запускаем корутину стрейфа один раз
-        if (strafeCoroutine == null)
-            strafeCoroutine = StartCoroutine(StrafeCoroutine());
+        if (motor.strafeCoroutine == null)
+            motor.StartStrafe(self, target);
 
         return AIStateResult.None;
     }
 
     public override void Exit()
     {
-        // гарантированно останавливаем корутину
-        StopStrafeCoroutine();
 
+        motor.StopStrafe();
         motor.ResetLockTarget();
         motor.SetStrafe(false);
         //fov.ToggleLockState(false);
@@ -97,47 +95,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         combatHandler.ToggleShield(false, inventory, combatController);
     }
 
-    private void StopStrafeCoroutine()
-    {
-       
-        if (strafeCoroutine == null)
-            return;
+   
 
-        StopCoroutine(strafeCoroutine);
-        strafeCoroutine = null;
-    }
-
-    private IEnumerator StrafeCoroutine()
-    {
-        
-        bool isRight = Random.value > 0.5f;
-
-        float elapsed = 0f;
-        const float maxStrafeTime = 3f;
-
-        
-        while (elapsed < maxStrafeTime && fov.currentTarget != null)
-        {
-            Transform self = context.self;
-            Transform target = fov.currentTarget.GetOrigin();
-
-            Vector3 selfPos = self.position;
-            Vector3 targetPos = target.position;
-
-            // направление от врага к цели
-            Vector3 toTarget = (targetPos - selfPos).normalized;
-
-            // боковое направление в плоскости XZ
-            Vector3 strafeDir = Vector3.Cross(Vector3.up, toTarget).normalized;
-
-            // движение в выбранную сторону
-            motor.MoveLocal(isRight ? strafeDir : -strafeDir);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // корутина завершена — разрешаем перезапуск
-        strafeCoroutine = null;
-    }
+  
 }

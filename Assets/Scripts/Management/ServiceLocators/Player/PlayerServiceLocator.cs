@@ -11,6 +11,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private AnimatorOverrideController overrideController;
     [SerializeField] private PlayerAnimatorController animatorController = new PlayerAnimatorController();
 
+    [Header("Привязка к костям")]
+    [SerializeField] private CharacterBoneSocket boneSocket;
+
     [Header("Мотор и перемещение")]
     [SerializeField] private PlayerMotor motor;
     [SerializeField] private PlayerClimbing climbing;
@@ -66,6 +69,8 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         uid = uniqueId.uniqueId;
 
+        boneSocket.Init(animator);
+
         actionGuards = new PlayerActionGuards(locomotion:motor,stats:stats,damageController:damageController,climbing:climbing, emitter:emitterController,meleeCombat:combatController);
 
         animatorController.Init(
@@ -88,9 +93,9 @@ public class PlayerServiceLocator : MonoBehaviour
         attackSource.Init(sourcePosition: this.transform, sourceId: (int)damageController.CharacterType);
 
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
-        combatInventory.Init(animatorController: animatorController, combatController: combatController, collector: interaction);
+        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction);
 
-        emitterController.Init(spellInventory:spellInventory, source:attackSource,animatorController:animatorController,targetLocker:targetLock);
+        emitterController.Init(spellInventory:spellInventory, source:attackSource,animatorController:animatorController,targetLocker:targetLock, boneSockets:boneSocket);
           
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
@@ -105,7 +110,7 @@ public class PlayerServiceLocator : MonoBehaviour
         combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
         quickSlotHandler.Init(spellInventory: spellInventory, actionGuards: actionGuards);
        
-        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input); 
+        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform); 
 
         playerStatsUI.Init(stats: stats);
         quickSlotsUI.Init(spellInventory: spellInventory, combatInventory:combatInventory);

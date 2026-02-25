@@ -11,6 +11,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected AnimatorOverrideController overrideController;
     [SerializeField] protected HumanoidAnimatorIK ik;
 
+    [Header("Привязка к костям")]
+    [SerializeField] protected CharacterBoneSocket boneSocket;
+
     [Header("Агент")]
     [SerializeField] protected NavMeshAgent agent;
 
@@ -49,7 +52,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     protected virtual void CoreInit()
     {
+       
         AnimatorInit();
+        boneSocket.Init(animator);
         AgentInit();
         RagdollInit();
         IKInit();

@@ -6,14 +6,15 @@ public class EnemyStrafeHandler
 {
     CharacterBehaviourStatsSO stats;
 
+    [Header("Strafe state")]
+    [SerializeField] private float timeInStrafeState = 0f;
+    [SerializeField] private float maxTimeInStrafeState;
+
+
     public EnemyStrafeHandler(CharacterBehaviourStatsSO stats)
     {
         this.stats = stats;
     }
-
-    [Header("Strafe state")]
-    [SerializeField] private float timeInStrafeState = 0f;
-    [SerializeField] private float maxTimeInStrafeState;
 
     public void UpdateTimeInStrafeState() => timeInStrafeState += Time.deltaTime;
 
@@ -26,6 +27,7 @@ public class EnemyStrafeHandler
     public bool IsStrafeTimeFinished() => timeInStrafeState >= maxTimeInStrafeState;
 
     public bool IsStrafeTargetFar(float dist) => dist > stats.maxTargetDistanceInStrafe;
+  
 
     public void OnDamageTaken(Transform attackSource)
     {

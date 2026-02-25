@@ -7,9 +7,9 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     IRagdollController ragdollController;
     IBrain brain;
 
-    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain)
+    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self)
     {
-        BaseInit(statsController,statsModifier,damagable);
+        BaseInit(statsController, statsModifier, damagable, startingPosition, self);
         this.ragdollController = ragdollController;
         this.brain = brain; 
 
@@ -37,6 +37,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     {
         damagable.IsDead = false;
 
+        ResetPosition();
         ragdollController.DisableRagdoll();
         brain.SetInitialState();
         statsController.ResetAllStats();

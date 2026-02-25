@@ -49,6 +49,13 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [RangeAttribute(7, 12)]
     public int maxTimeInStrafeState=12;
 
-  
-    
+    [Header("Wait Behaviour")]
+    [Range(0f, 1f)]
+    public float willMoveChance = 0.25f;
+
+    public float minRepositionCooldown = 2f;
+    public float maxRepositionCooldown = 4f;
+
+
+
 }

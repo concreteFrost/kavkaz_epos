@@ -7,6 +7,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 {
 
     HumanoidAgentController agentController;
+    public Coroutine strafeCoroutine;
 
     public LayerMask wallLayer = 1 << 8;
 
@@ -113,6 +114,9 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         moveDirection = direction.normalized; // для анимации
     }
 
+
+
+
     public override void Dodge(Vector2 dir)
     {
         isDodging = true;
@@ -141,6 +145,43 @@ public class HumanoidAIMotor : BaseHumanoidMotor
     {
         base.isSprinting = false;
         base.isStrafing = isStrafing;
+    }
+    #endregion
+
+    #region Strafe Control
+
+    public void StartStrafe(Transform self, Transform target)
+    {
+        strafeCoroutine = StartCoroutine(StrafeCoroutine(self, target));
+    }
+
+    private IEnumerator StrafeCoroutine(Transform self, Transform target)
+    {
+        bool isRight = Random.value > 0.5f;
+        float elapsed = 0f;
+        const float maxStrafeTime = 3f;
+
+        while (elapsed < maxStrafeTime && target != null)
+        {
+            Vector3 toTarget = (target.position - self.position).normalized;
+            Vector3 strafeDir = Vector3.Cross(Vector3.up, toTarget).normalized;
+
+            MoveLocal(isRight ? strafeDir : -strafeDir);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        strafeCoroutine = null; // флаг окончания
+    }
+
+    public void StopStrafe()
+    {
+        if(strafeCoroutine != null)
+        {
+            StopCoroutine(strafeCoroutine); 
+            strafeCoroutine = null; 
+        }
     }
     #endregion
 

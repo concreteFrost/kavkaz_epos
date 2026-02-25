@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e45901f01ae0eb49b541d46d5011933, type: 3}
+  m_Name: Stats_Golem
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
+  characterType: 2
+  health: 60
+  stamina: 100
+  walkSpeed: 2
+  runningSpeed: 5
+  strafeSpeed: 1
+  jumpTimer: 0.3
+  jumpHeight: 4
+  maxStamina: 0
+  staminaRunReducePenalty: 0.03
+  staminaPushReducePenalty: 15
+  staminaJumpReducePenalty: 7
+  staminaDodgeReducePenalty: 10
+  staminaMinRegenDelay: 2
+  staminaMaxRegenDelay: 6
+  staminaRegenRate: 15
+  eventListenDistance: 100

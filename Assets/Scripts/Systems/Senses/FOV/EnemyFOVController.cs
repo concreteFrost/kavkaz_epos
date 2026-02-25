@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyFOVController : MonoBehaviour, ITargetLocker
 {
     [SerializeField] FovDataSO fovDataSO;
-    [SerializeField] Transform eyes;
+    Transform eyes;
 
     AIFov fov;
    
@@ -29,8 +29,9 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         }
     }
 
-    public void Init()
+    public void Init(CharacterBoneSocket boneSockets)
     {
+        eyes = boneSockets.GetEyesSocket;
         fov = new AIFov(eyes, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore);
         checkCooldown = 0;
     }

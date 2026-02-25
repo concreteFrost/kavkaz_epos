@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Emitter : MonoBehaviour , IEmitter
 {
 
-    [SerializeField] protected Transform emitSource;
+    protected Transform emitSource;
     [SerializeField] protected float skyOffset = 2.5f;
 
     protected ProjectileSO projectileSO;
