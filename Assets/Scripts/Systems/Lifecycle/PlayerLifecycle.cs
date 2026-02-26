@@ -20,7 +20,7 @@ public class PlayerLifecycle : CharacterLifecycle
 
         damagable.IsDead = true;
         statsModifier.ClearAllStats();  
-        input.controls.Disable();
+        input.DisableInput();
 
         StartCoroutine(RespawnCoroutine());
 
@@ -29,7 +29,7 @@ public class PlayerLifecycle : CharacterLifecycle
 
     public override void Respawn()
     {
-        input.controls.Enable();
+        input.EnableInput();
         statsController.ResetAllStats();
 
         ResetPosition();

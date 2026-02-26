@@ -71,6 +71,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         stats.Speed.SetSprint(motor.IsSprinting);
         stats.Speed.Tick(Time.deltaTime);
 
+       
         motor.moveSpeed = stats.Speed.Current;
         motor.MoveCharacter(dir);
     }
@@ -132,6 +133,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
         if (motor.IsSprinting)
         {
+            
             stats.Stamina.Reduce(stats.statsSO.staminaRunReducePenalty);
         }
 

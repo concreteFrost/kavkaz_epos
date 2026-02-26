@@ -162,21 +162,24 @@ public class PlayerMotor : BaseHumanoidMotor
     {
         if (isGrounded) return;
 
-        // обновляем максимальную высоту прыжка
-        if (transform.position.y > heightReached) heightReached = transform.position.y;
+        Vector3 input = moveDirection;
+        input.y = 0;
 
-        // нормализуем направление движения по горизонтали
-        moveDirection.y = 0;
-        moveDirection.x = Mathf.Clamp(moveDirection.x, -1f, 1f);
-        moveDirection.z = Mathf.Clamp(moveDirection.z, -1f, 1f);
+        if (input.sqrMagnitude < 0.01f) return;
 
-        // рассчитываем целевую позицию и скорость
-        Vector3 targetPosition = _rigidbody.position + (moveDirection * airSpeed) * Time.deltaTime;
-        Vector3 targetVelocity = (targetPosition - transform.position) / Time.deltaTime;
+        Vector3 velocity = _rigidbody.linearVelocity;
+        Vector3 horizontalVel = new Vector3(velocity.x, 0, velocity.z);
 
-        // сохраняем вертикальную скорость и плавно применяем целевую скорость
-        targetVelocity.y = _rigidbody.linearVelocity.y;
-        _rigidbody.linearVelocity = Vector3.Lerp(_rigidbody.linearVelocity, targetVelocity, airSmooth * Time.deltaTime);
+        float projectedSpeed = Vector3.Dot(horizontalVel, input);
+
+        float addSpeed = airSpeed - projectedSpeed;
+        if (addSpeed <= 0) return;
+
+        float accelSpeed = airAcceleration * Time.deltaTime;
+        if (accelSpeed > addSpeed)
+            accelSpeed = addSpeed;
+
+        _rigidbody.AddForce(input * accelSpeed, ForceMode.VelocityChange);
     }
     #endregion
 

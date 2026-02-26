@@ -2,70 +2,99 @@ using UnityEngine;
 
 public class PlayerQuickSlotsUI : MonoBehaviour
 {
-    [SerializeField] QuickSlotBreakableUI weaponItem;
-    [SerializeField] QuickSlotBreakableUI shieldItem;
-    [SerializeField] QuickSlotItemUI spellItem;
-    [SerializeField] QuickSlotItemUI resourceItem;
-    
-    CharacterSpellInventory spellInventory;
-    HumanoidCombatInventory combatInventory;
-    public void Init(CharacterSpellInventory spellInventory, HumanoidCombatInventory combatInventory)
+    [Header("Wrapper")]
+    [SerializeField] private GameObject wrapper;
+
+    [Header("Equipment Slots")]
+    [SerializeField] private QuickSlotBreakableUI weaponItem;
+    [SerializeField] private QuickSlotBreakableUI shieldItem;
+
+    [Header("Quick Access Slots")]
+    [SerializeField] private QuickSlotItemUI spellItem;
+    [SerializeField] private QuickSlotItemUI resourceItem;
+
+    private HumanoidCombatInventory combatInventory;
+    private QuickAccessInventory spellInventory;
+
+    /// <summary>
+    /// Инициализация UI
+    /// </summary>
+    /// <param name="combatInventory">Экипировка игрока</param>
+    /// <param name="spellInventory">Инвентарь быстрых слотов (магия/ресурсы)</param>
+    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory)
     {
+        this.combatInventory = combatInventory;
         this.spellInventory = spellInventory;
-        this.combatInventory = combatInventory; 
 
-        spellInventory.UpdateSpell += OnSpellUpdated;
-        this.spellInventory.GetCurrentSpell();
+        // Подписка на обновления текущего элемента инвентаря
+        spellInventory.OnCurrentItemChanged += OnSpellUpdated;
 
+        // Подписка на обновления экипировки
         combatInventory.WeaponDataUpdated += OnWeaponUpdated;
-        this.combatInventory.GetCurrentWeaponData();
-
         combatInventory.ShieldUpdated += OnShieldUpdated;
-        this.combatInventory.GetCurrentShieldData();    
+
+        // Инициализация текущих данных
+        OnSpellUpdated(spellInventory.CurrentItem);
+        combatInventory.GetCurrentWeaponData();
+        combatInventory.GetCurrentShieldData();
     }
 
     private void OnDisable()
     {
-        spellInventory.UpdateSpell -= OnSpellUpdated;
-        combatInventory.WeaponDataUpdated -= OnWeaponUpdated;  
-        combatInventory.ShieldUpdated -= OnShieldUpdated;   
+        if (spellInventory != null)
+            spellInventory.OnCurrentItemChanged -= OnSpellUpdated;
+
+        if (combatInventory != null)
+        {
+            combatInventory.WeaponDataUpdated -= OnWeaponUpdated;
+            combatInventory.ShieldUpdated -= OnShieldUpdated;
+        }
     }
 
-    private void OnSpellUpdated(ItemData currentSpell)
+    /// <summary>
+    /// Показать/скрыть все быстрые слоты
+    /// </summary>
+    public void SetSlotsVisible(bool visible) => wrapper.SetActive(visible);
+
+    #region Quick Slots Handlers
+
+    private void OnSpellUpdated(ItemData currentItem)
     {
-        if(spellInventory.CurrentSpell != null)
+        if (currentItem != null)
         {
-            spellItem.UpdateImageDate(currentSpell);
+            spellItem.UpdateImageDate(currentItem);
         }
         else
         {
-            Debug.Log("spell is null");
             spellItem.RemoveData();
         }
     }
 
+    #endregion
+
+    #region Equipment Handlers
+
     private void OnWeaponUpdated(ItemSO data, IBreakable weapon)
     {
-        if(weapon != combatInventory.DefaultWeapon)
-        {
-            weaponItem.UpdateWeaponData(data, weapon);
-        }
-        else
+        if (weapon == combatInventory.DefaultWeapon || weapon == null)
         {
             weaponItem.RemoveData();
+            return;
         }
+
+        weaponItem.UpdateWeaponData(data, weapon);
     }
 
-    private void OnShieldUpdated(ItemSO data,IBreakable shield)
+    private void OnShieldUpdated(ItemSO data, IBreakable shield)
     {
-        if(shield != null)
+        if (shield == null)
         {
-            shieldItem.UpdateWeaponData(data,shield);
-        }
-        else
-        {
-            shieldItem.RemoveData();   
+            shieldItem.RemoveData();
+            return;
         }
 
+        shieldItem.UpdateWeaponData(data, shield);
     }
+
+    #endregion
 }

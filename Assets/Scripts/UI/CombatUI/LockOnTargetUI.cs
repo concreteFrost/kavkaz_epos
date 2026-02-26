@@ -4,16 +4,34 @@ using UnityEngine.UI;
 public class LockOnTargetUI : MonoBehaviour
 {
 	private Transform currentTarget;
-    private Image img;
+    [SerializeField] private Image img;
 
-    private void Awake()
+    private PlayerTargetLock targetLock;
+
+    public void Init(PlayerTargetLock targetLock)
     {
-        img = GetComponent<Image>();    
+        this.targetLock = targetLock;
+
+        targetLock.TargetSet += SetTarget;
+        targetLock.TargetReset += ResetTarget;  
+    }
+
+    private void OnDisable()
+    {
+        targetLock.TargetSet -= SetTarget;
+        targetLock.TargetReset -= ResetTarget;
     }
 
     private void Start()
     {
         ResetTarget();    
+    }
+
+    private void Update()
+    {
+        if(currentTarget == null) return;
+
+        CalculateImagePosition();
     }
 
     public void CalculateImagePosition()

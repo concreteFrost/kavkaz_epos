@@ -35,13 +35,16 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
-    [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;
 
     [Header("Магическая система")]
     [SerializeField] private CharacterEmitter emitterController;
+   
+    [Header("Инвентари и быстрые слоты")]
+    [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private CharacterSpellInventory spellInventory;
+
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -61,9 +64,8 @@ public class PlayerServiceLocator : MonoBehaviour
     private PlayerActionGuards actionGuards;
 
     [Header("UI")]
-    [SerializeField] private PlayerStatsUI playerStatsUI;
-    [SerializeField] private LockOnTargetUI lockOnTargetUI;
-    [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;   
+    [SerializeField] private PlayerUIManager uiManager;  
+
 
     private void Awake()
     {
@@ -82,9 +84,7 @@ public class PlayerServiceLocator : MonoBehaviour
             pushReceiver:pushReceiver
             );
 
-     
-
-        input.Init(controller: locomotionHandler,combatHandlder:combatHandler ,animatorController: animatorController, targetLock: targetLock,quickSlotHandler:quickSlotHandler);
+        input.Init(locomotion:locomotionHandler,combatHandler:combatHandler ,animatorController: animatorController, targetLock: targetLock,quickSlotHandler:quickSlotHandler, uiManager:uiManager);
        
         damageController.Init(motor: motor, statsController: stats, animatorController: animatorController,statsModifier:statsModifier);
         interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
@@ -100,7 +100,7 @@ public class PlayerServiceLocator : MonoBehaviour
         pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
         climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
         fallController.Init(motor: motor, damageController: damageController);
-        targetLock.Init(lockOnTargetUI:lockOnTargetUI,controller:locomotionHandler,damageController:damageController);
+        targetLock.Init(controller:locomotionHandler,damageController:damageController);
         
         stats.Init();
         statsModifier.Init(stats,visualizer:effectVisualizer);
@@ -110,10 +110,9 @@ public class PlayerServiceLocator : MonoBehaviour
         combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
         quickSlotHandler.Init(spellInventory: spellInventory, actionGuards: actionGuards);
        
-        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform); 
+        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform);
 
-        playerStatsUI.Init(stats: stats);
-        quickSlotsUI.Init(spellInventory: spellInventory, combatInventory:combatInventory);
+        uiManager.Init(stats:stats, spellInventory:spellInventory,combatInventory:combatInventory,targetLock:targetLock);
 
     }
 

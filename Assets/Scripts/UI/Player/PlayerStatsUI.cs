@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayerStatsUI : MonoBehaviour
 {
+    [SerializeField] private GameObject wrapper;
+
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
 
@@ -27,7 +29,6 @@ public class PlayerStatsUI : MonoBehaviour
 
         this.stats.Health.Changed += UpdateHealthSlider;
         this.stats.Stamina.Changed += UpdateStaminaSlider;
-
     }
 
 
@@ -36,6 +37,8 @@ public class PlayerStatsUI : MonoBehaviour
         stats.Health.Changed -= UpdateHealthSlider;
         stats.Stamina.Changed -= UpdateStaminaSlider;
     }
+
+    public void SetStatsVisible(bool isVisible) => wrapper.SetActive(isVisible);    
 
 
     public void UpdateHealthSlider(float value)

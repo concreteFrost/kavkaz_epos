@@ -1,258 +1,182 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 public class PlayerInput : MonoBehaviour
 {
+    private PlayerInputReader input;
 
-    PlayerLocomotionActionHandler locomotionHandler;
-    PlayerCombatActionHandler combatHandler;
+    private PlayerLocomotionActionHandler locomotion;
+    private PlayerCombatActionHandler combat;
+    private PlayerQuickSlotActionHandler quickSlots;
+    private PlayerTargetLock targetLock;
+    private PlayerUIManager ui;
+    private PlayerAnimatorController animator;
 
-    PlayerTargetLock targetLock;
-    PlayerAnimatorController animator;
-    PlayerQuickSlotActionHandler quickSlotActionHandler;
+    public static Action<GameState> PlayerModeChanged;
 
-    private Camera cameraMain;
-
-    [HideInInspector] public PlayerControls controls;
-
-    private Vector2 moveInput;   // Move
-    private Vector2 lookInput;   // Mouse/Gamepad look
-    private bool sprintHeld;
-    private bool jumpPressed;
-    private bool throwHeld;
-    private bool attackPressed;
-    private bool powerAttackGamepadPressed;
-    private bool chargeHeld;
-    private bool blockHeld;
-    private bool interactPressed;
-    private bool lockOnTargetPressed;
-    private bool isPushPressed;
-    private bool isEmitPressed;
-
-    protected virtual void Awake()
+    private void Awake()
     {
-        controls = new PlayerControls();
-
-        // Movement
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-
-        // Look
-        controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
-        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
-
-        // Jump
-        controls.Player.Jump.performed += ctx => jumpPressed = true;
-
-        // Sprint
-        controls.Player.Sprint.performed += ctx => sprintHeld = true;
-        controls.Player.Sprint.canceled += ctx => sprintHeld = false;
-
-        // Combat
-        controls.Player.ThrowItem.performed += ctx => throwHeld = true;
-        controls.Player.ThrowItem.canceled += ctx => throwHeld = false;
-        controls.Player.Attack.performed += ctx => attackPressed = true;
-
-        controls.Player.PowerAttackHold.performed +=crt=> chargeHeld = true;
-        controls.Player.PowerAttackHold.canceled += ctx => chargeHeld = false;
-
-        controls.Player.PowerAttackGamepad.performed += ctx => powerAttackGamepadPressed = true;
-
-        controls.Player.AgressivePush.performed += ctx => isPushPressed = true;
-
-        controls.Player.Emit.performed += ctx => isEmitPressed = true;
-
-        controls.Player.Block.performed += ctx => blockHeld = true;
-        controls.Player.Block.canceled += ctx => blockHeld = false;
-        controls.Player.LockTarget.performed += ctx => lockOnTargetPressed = true;
-
-        // Interaction
-        controls.Player.Interaction.performed += ctx => interactPressed = true;
-
-        //UI Slots
-        controls.Player.SpellChange.performed += ctx =>
-        {
-            float value = ctx.ReadValue<float>();
-           
-            ChangeSpellInput(value);
-        };
-        cameraMain = Camera.main;
-
+        input = new PlayerInputReader();
+        input.Init();
     }
 
-    public void Init(PlayerLocomotionActionHandler controller,PlayerCombatActionHandler combatHandlder,PlayerQuickSlotActionHandler quickSlotHandler ,PlayerAnimatorController animatorController, PlayerTargetLock targetLock)
-    {  
-        this.locomotionHandler = controller;
-        this.combatHandler = combatHandlder;
-        this.quickSlotActionHandler = quickSlotHandler;
+    public void Init(
+        PlayerLocomotionActionHandler locomotion,
+        PlayerCombatActionHandler combatHandler,
+        PlayerQuickSlotActionHandler quickSlotHandler,
+        PlayerAnimatorController animatorController,
+        PlayerTargetLock targetLock,
+        PlayerUIManager uiManager)
+    {
+        this.locomotion = locomotion;
+        this.combat = combatHandler;
+        this.quickSlots = quickSlotHandler;
         this.animator = animatorController;
         this.targetLock = targetLock;
-       
+        this.ui = uiManager;
+
+        SwitchToGameInput();
     }
 
-
-    protected virtual void OnEnable() => controls.Enable();
-    protected virtual void OnDisable() => controls.Disable();
-
-    protected virtual void FixedUpdate()
+    private void Update()
     {
+        HandleMovement();
+        HandleCombat();
+        HandleInteraction();
+        HandleInventory();
+        HandleCloseUI();
+    }
 
+    private void FixedUpdate()
+    {
         animator.UpdateAnimatorParameters();
     }
 
-    protected virtual void Update()
+    public void DisableInput()
     {
-        InputHandle();
+        input.controls.Disable();
     }
 
-    protected virtual void InputHandle()
+    public void EnableInput()
     {
-        Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
-
-       
-        locomotionHandler.MoveAndRotate(moveDir);
-
-        SprintInput();
-        JumpInput();
-
-        AttackInput();
-        EmitInput();
-        PushInput();    
-        BlockInput();
-        LockOnTargetInput();
-
-        InteractionInput();
-
+        input.controls.Enable();    
     }
 
-   
-
-    #region Motion Inputs
-
-
-
-    protected virtual void SprintInput()
+    private void SwitchToGameInput()
     {
-        locomotionHandler.Sprint(sprintHeld);
+        input.controls.UI.Disable();
+        input.controls.Player.Enable();
     }
 
-
-    protected virtual void JumpInput()
+    private void SwitchToUiInput()
     {
-        if (jumpPressed)
+        input.controls.Player.Disable();
+        input.controls.UI.Enable();
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 moveDir = new Vector3(input.Move.x, 0, input.Move.y);
+        locomotion.MoveAndRotate(moveDir);
+
+        locomotion.Sprint(input.SprintHeld);
+
+        if (input.JumpPressed)
         {
-            locomotionHandler.HandleJumpOrDodge(moveInput);
+            locomotion.HandleJumpOrDodge(input.Move);
+            input.Consume(ref input.JumpPressed);
         }
-        jumpPressed = false; // consume press
     }
 
-    #endregion
-
-    #region Combat Inputs
-
-    private void AttackInput()
+    private void HandleCombat()
     {
-        // Gamepad — мгновенно
-        if (powerAttackGamepadPressed)
+        if (input.PowerAttackGamepadPressed)
         {
-            combatHandler.PerformPowerAttack();
-            powerAttackGamepadPressed = false;
+            combat.PerformPowerAttack();
+            input.Consume(ref input.PowerAttackGamepadPressed);
             return;
         }
 
-        // Keyboard + Mouse: мощная атака по удержанию
-        if (chargeHeld && attackPressed)
+        if (input.ChargeHeld && input.AttackPressed)
         {
-            
-            combatHandler.PerformPowerAttack();
-            attackPressed = false;
+            combat.PerformPowerAttack();
+            input.Consume(ref input.AttackPressed);
             return;
         }
 
-        // Обычная атака
-        if (attackPressed)
+        if (input.AttackPressed)
         {
-
-            if (throwHeld)
-                combatHandler.ThrowWeapon();
+            if (input.ThrowHeld)
+                combat.ThrowWeapon();
             else
-                combatHandler.PerformAttack();
+                combat.PerformAttack();
 
-            attackPressed = false;
-        }
-    }
-
-    private void EmitInput()
-    {
-        if (isEmitPressed)
-        {
-            combatHandler.PerformEmit();
-            isEmitPressed = false;  
-        }
-    }
-
-    private void PushInput()
-    {
-        if (isPushPressed)
-        {
-            combatHandler.PerformPush();   
-
+            input.Consume(ref input.AttackPressed);
         }
 
-        isPushPressed = false;  
-    }
-
-
-    private void BlockInput()
-    {
-        if (blockHeld)
+        if (input.EmitPressed)
         {
-            if (throwHeld)
-                combatHandler.ThrowShield();
+            combat.PerformEmit();
+            input.Consume(ref input.EmitPressed);
+        }
+
+        if (input.PushPressed)
+        {
+            combat.PerformPush();
+            input.Consume(ref input.PushPressed);
+        }
+
+        if (input.BlockHeld)
+        {
+            if (input.ThrowHeld)
+                combat.ThrowShield();
             else
-                combatHandler.PerformBlock();
+                combat.PerformBlock();
         }
         else
         {
-            combatHandler.CancelBlock();
+            combat.CancelBlock();
         }
 
-    }
-
-
-    private void LockOnTargetInput()
-    {
-        if (lockOnTargetPressed)
+        if (input.LockPressed)
         {
             targetLock.HandleSetTarget();
-            lockOnTargetPressed = false;
+            input.Consume(ref input.LockPressed);
         }
 
-        targetLock.SwitchTarget(lookInput.x);
-    }
+        targetLock.SwitchTarget(input.Look.x);
 
-    #endregion
-
-    #region Quick Slots Input
-    private void ChangeSpellInput(float value)
-    {
-        if (value > 0)
-            quickSlotActionHandler.ChangeSpell(1);
-        else if (value < 0)
-            quickSlotActionHandler.ChangeSpell(-1);
-    }
-    #endregion
-
-    #region Interaction Inputs
-    private void InteractionInput()
-    {
-        if (interactPressed)
+        if (input.SpellScroll != 0)
         {
-            locomotionHandler.Interact();
-            interactPressed = false;
+            quickSlots.ChangeSpell(input.SpellScroll > 0 ? 1 : -1);
+            input.ResetSpellScroll();
         }
     }
-    #endregion
 
+    private void HandleInteraction()
+    {
+        if (input.InteractPressed)
+        {
+            locomotion.Interact();
+            input.Consume(ref input.InteractPressed);
+        }
+    }
 
+    private void HandleInventory()
+    {
+        if (!input.InventoryPressed) return;
+
+        ui.ToggleInventoryPanel(true);
+        SwitchToUiInput();
+        input.Consume(ref input.InventoryPressed);
+    }
+
+    private void HandleCloseUI()
+    {
+        if (!input.SwitchToGamePressed) return;
+
+        ui.CloseAllPanels();
+        SwitchToGameInput();
+        input.Consume(ref input.SwitchToGamePressed);
+    }
 }

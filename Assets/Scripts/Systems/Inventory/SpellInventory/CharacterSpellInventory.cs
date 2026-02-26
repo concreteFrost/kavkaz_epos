@@ -1,92 +1,53 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class CharacterSpellInventory : MonoBehaviour
+public class CharacterSpellInventory : QuickAccessInventory
 {
-    public List<ItemData> spells = new List<ItemData>();
-
-    private int _spellIndex;
-    public int SpellIndex
+    public void AddSpell(ItemData spell)
     {
-        get => _spellIndex;
-        private set
-        {
-            if (spells.Count == 0)
-            {
-                _spellIndex = 0;
-                return;
-            }
+        if (spell == null) return;
 
-            _spellIndex = (value % spells.Count + spells.Count) % spells.Count;
-        }
+        items.Add(spell);
+
+        Notify();
     }
 
-    public Action<ItemData> UpdateSpell;
-
-    public ItemData CurrentSpell =>
-        spells.Count == 0 ? null : spells[SpellIndex];
-
-
-    public void GetCurrentSpell()
-    {
-        UpdateSpell?.Invoke(CurrentSpell); 
-    }
-
-    //не позволяет мобам истощать заклинания
     public void TopUpCurrentSpell(int quantity)
     {
-        if(CurrentSpell != null)
-        {
-            CurrentSpell.quantity += quantity;
-        }
+        if (CurrentItem != null)
+            CurrentItem.quantity += quantity;
     }
 
-    public void AddSpell(ItemData spellData)
-    {
-        if (spellData == null) return;
-
-        spells.Add(spellData);
-
-        // если это первый добавленный спелл
-        if (spells.Count == 1)
-            SpellIndex = 0;
-    }
-
-    public void ChangeSpell(int direction)
-    {
-        if (spells.Count == 0) return;
-
-        SpellIndex += direction;
-
-        UpdateSpell?.Invoke(CurrentSpell);
-    }
     public void UseSpell()
     {
-        
-        CurrentSpell.quantity--;
+        if (CurrentItem == null) return;
 
-        if (CurrentSpell.quantity <= 0)
+        CurrentItem.quantity--;
+
+        if (CurrentItem.quantity <= 0)
         {
-            spells.RemoveAt(SpellIndex);
-           
-            if (spells.Count == 0)
-            {
-                SpellIndex = 0; 
-              
-            }
+            
+            RemoveAt(currentIndex);
+            TryToRemoveFromQuickAccess(CurrentItem.itemSO);
 
-            // если удалили последний элемент,
-            // индекс станет равен Count, корректируем
-            else if (SpellIndex >= spells.Count)
-            {
-                SpellIndex = spells.Count - 1;
-                
-            }
-                
         }
 
-        UpdateSpell?.Invoke(CurrentSpell);
 
+        Notify();
     }
+
+
+    private void Start()
+    {
+        AddToQuickAccess(items[0]);
+        
+        //AddToQuickAccess(items[1]);
+    }
+
+    private void Update()
+    {
+        TestQuickSlot();
+    }
+
+   
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,13 +9,15 @@ using UnityEngine.UI;
 /// </summary>
 public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 {
-    LockOnTargetUI lockOnTargetUI;
+    PlayerLocomotionActionHandler controller;
 
     protected Transform targetSeeker;
     public IDamagable currentTarget;
 
     protected bool wasTargetSearched = false;
-    //public bool IsLockedOnTarget { get => currentTarget != null; }
+
+    public Action<Transform> TargetSet;
+    public Action TargetReset;
 
     /// <summary>
     /// Ввод мыши по оси Х при котором цель сбрасывается
@@ -23,9 +26,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     private float targetCheckDistance = 10f;
     private float targetResetDistance = 13f;
 
-    [SerializeField] private Image img;
-
-    PlayerLocomotionActionHandler controller;
+   
     IDamagable damageController;
 
     CharacterType self;
@@ -35,12 +36,11 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     #endregion
 
     public void Init(
-        LockOnTargetUI lockOnTargetUI,
         PlayerLocomotionActionHandler controller,
         IDamagable damageController
         )
     {
-        this.lockOnTargetUI = lockOnTargetUI;
+
         this.controller = controller;
         this.targetSeeker = controller.transform;
         this.damageController = damageController;
@@ -68,7 +68,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// </summary>
     public void TrackTargetDistance()
     {
-        lockOnTargetUI.CalculateImagePosition();
+        //lockOnTargetUI.CalculateImagePosition();
         CalculateDistanceToTarget();
     }
 
@@ -80,14 +80,14 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
         controller.SetLockTarget(t.GetAimTransform());
         controller.SetStrafe(true);
-        lockOnTargetUI.SetTarget(t.GetAimTransform());
+        TargetSet?.Invoke(t.GetAimTransform());
     }
 
     public void HandleSetTarget()
     {
         var t = TryGetLockedTarget();
 
-        if(t == null) return;   
+        if (t == null) return;
 
         SetLockedTarget(t);
     }
@@ -118,7 +118,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     {
         currentTarget = null;
         wasTargetSearched = false;
-        lockOnTargetUI.ResetTarget();
+        TargetReset?.Invoke();
         controller.ResetLockTarget();
         controller.SetStrafe(false);
 
@@ -136,7 +136,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         if (!wasTargetSearched)
         {
             ResetLockedTarget();
-            lockOnTargetUI.ResetTarget();
+            TargetReset?.Invoke();
             return null;
         }
 
@@ -145,7 +145,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         if (nearest != null)
         {
             currentTarget = CheckNearestTarget();
-            lockOnTargetUI.SetTarget(currentTarget.GetAimTransform());
+            TargetSet?.Invoke(currentTarget.GetAimTransform());
 
             return nearest;
         }
@@ -264,7 +264,7 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
         {
             currentTarget = bestTarget;
             //state.SetLockTarget(currentTarget);
-            lockOnTargetUI.SetTarget(currentTarget.GetAimTransform());
+            TargetSet?.Invoke(currentTarget.GetAimTransform());
             controller.SetLockTarget(currentTarget.GetAimTransform());
         }
 

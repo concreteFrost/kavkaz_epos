@@ -34,7 +34,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
             return;
         }
 
-        if(spellInventory.CurrentSpell == null)
+        if(spellInventory.CurrentItem == null)
         {
             Debug.Log("no spell assigned");
             return;
@@ -46,7 +46,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
   
     IEnumerator AttackCoroutine()
     {
-        if(spellInventory.CurrentSpell.quantity <= 1)
+        if(spellInventory.CurrentItem.quantity <= 1)
         {
             spellInventory.TopUpCurrentSpell(20);
         }

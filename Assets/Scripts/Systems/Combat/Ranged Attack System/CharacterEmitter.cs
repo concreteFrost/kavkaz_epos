@@ -17,13 +17,13 @@ public class CharacterEmitter : Emitter
 
     public override void StartEmit()
     {
-        if(spellInventory.CurrentSpell == null)
+        if(spellInventory.CurrentItem == null)
         {
             Debug.Log("no spell available");
             return; 
         }
 
-        var currentSpell = spellInventory.CurrentSpell;
+        var currentSpell = spellInventory.CurrentItem;
 
         var spell = currentSpell.itemSO as SpellProjectileSO;
         projectileSO = spell;

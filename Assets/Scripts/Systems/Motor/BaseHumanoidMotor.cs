@@ -19,7 +19,9 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public float airSpeed = 5f;
     [Tooltip("Smoothness of the direction while airborne")]
     public float airSmooth = 6f;
+    public float airAcceleration = 70f;
     [Tooltip("Apply extra gravity when the character is not grounded")]
+   
     public float extraGravity = -10f;
     [HideInInspector]
     public float limitFallVelocity = -15f;

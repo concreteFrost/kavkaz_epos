@@ -14,6 +14,6 @@ public class PlayerQuickSlotActionHandler : MonoBehaviour
     {
         if (!actionGuards.CanSwapSpell()) return;
 
-        spellInventory.ChangeSpell(dir);
+        spellInventory.Change(dir);
     }
 }
