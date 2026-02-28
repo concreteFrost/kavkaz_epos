@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,9 +12,8 @@ public enum InventorySection
 
 public class PlayerInventoryUI : MonoBehaviour
 {
-    private CharacterSpellInventory spellInventory;
-    private PlayerInventoryContextMenuUI contextMenu;
    
+    private PlayerInventoryContextMenuUI contextMenu;
 
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
@@ -29,54 +27,101 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Transform quickSlotsContainer;
     private List<QuickSlotItemUI> quickSlotItems = new List<QuickSlotItemUI>();
 
+    private QuickAccessInventory currentInventory;
+    Dictionary<InventorySection, QuickAccessInventory> inventories;
+
     public InventorySection currentSection { get; private set; }
 
-    public void Init(CharacterSpellInventory spellInventory, PlayerInventoryContextMenuUI contextMenu)
+    public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu)
     {
-        this.spellInventory = spellInventory;
         this.contextMenu = contextMenu;
-       
 
-        InitCells();
+        //динамическое назначение инвентарей
+        inventories = new Dictionary<InventorySection, QuickAccessInventory>
+    {
+        { InventorySection.Magic,spellInventory },
+
+    };
+
+        //подписка на обновление данных о слотах
+        foreach(var inv in inventories.Values)
+        {
+            inv.OnQuickAccessChanged += GetQuickSlotsInfo;
+        }
+
+
+        InitInventoryCells();
+        InitQuickAccessCells();
     }
 
+    private void OnDisable()
+    {
+        foreach (var inv in inventories.Values)
+        {
+            inv.OnQuickAccessChanged -= GetQuickSlotsInfo;
+        }
+
+    }
+
+    /// <summary>
+    /// Управление состоянием видимости инвентаря
+    /// </summary>
+    /// <param name="isVisible"></param>
     public void ToggleInventory(bool isVisible)
     {
         mainWrapper.SetActive(isVisible);
     }
 
-    private void InitCells()
+    /// <summary>
+    /// Динамически создает QuickSlotItemUI в контейнере
+    /// </summary>
+    private void InitInventoryCells()
     {
+        //создание основной сетки
         for (int i = 0; i < totalCellsToInit; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, cellsContainer);
-
             QuickSlotItemUI slotItem = go.GetComponent<QuickSlotItemUI>();
             slotItem.ScaleImages(scaleImageSize);
 
+            slotItem.Init((item,pos)=>contextMenu.ShowContextMenu(item,pos));
             slotItem.RemoveData();
             slotItems.Add(slotItem);
-
-            slotItem.ItemClicked += ShowItemInfo;
+   
         }
 
-        for (int i = 0; i < 5; i++)
+    }
+
+
+    /// <summary>
+    /// Динамически создает сетку быстрого доступа
+    /// </summary>
+    private void InitQuickAccessCells()
+    {
+        //создание сетки быстрого доступа
+        for (int i = 0; i < QuickAccessInventory.QUICK_SLOTS_COUNT; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<QuickSlotItemUI>();
+            data.Init((item, pos) => currentInventory.RemoveFromQuickAccess(item));
             quickSlotItems.Add(data);
         }
     }
 
-    private void GetQuickSlotsInfo(InventorySection section)
+
+    /// <summary>
+    /// Показывает актуально информацию о предметах в быстром доступе
+    /// </summary>
+    private void GetQuickSlotsInfo()
     {
+        quickSlotItems.ForEach((s) => s.RemoveData());
 
         List<ItemData> itemsToFill = new List<ItemData>();
 
-        switch (section)
+        switch (currentSection)
         {
             case InventorySection.Magic:
-                itemsToFill.AddRange(spellInventory.GetQuickAccessData());
+                itemsToFill.AddRange(currentInventory.GetQuickAccessData());
                 break;
         }
 
@@ -85,17 +130,19 @@ public class PlayerInventoryUI : MonoBehaviour
             quickSlotItems[i].UpdateImageDate(itemsToFill[i]);
         }
 
-       
     }
 
-    private void GetSlotsInfo(InventorySection section)
+    /// <summary>
+    /// Показывает актуальную информация о предметах в иневентаре
+    /// </summary>
+    private void GetSlotsInfo()
     {
         List<ItemData> itemsToFill = new List<ItemData>();
 
-        switch (section)
+        switch (currentSection)
         {
             case InventorySection.Magic:
-                itemsToFill.AddRange(spellInventory.items);
+                itemsToFill.AddRange(currentInventory.items);
                 break;
         }
 
@@ -107,26 +154,32 @@ public class PlayerInventoryUI : MonoBehaviour
         }
     }
 
-
-    private void ClearCellsData() { 
+    /// <summary>
+    /// Очищает неактульную информацию о предметах в инвентаре и быстром доступе
+    /// </summary>
+    private void ClearCellsData()
+    {
         slotItems.ForEach((s) => s.RemoveData());
-        quickSlotItems.ForEach((s) => s.RemoveData());  
+        quickSlotItems.ForEach((s) => s.RemoveData());
     }
 
+    /// <summary>
+    /// Отображает предметы в инвентаре и быстром доступе, которые актуальны для данной секции
+    /// </summary>
+    /// <param name="section"></param>
     public void GetSection(InventorySection section)
     {
+
+        currentSection = section;
+        currentInventory = inventories[section];
+
         ClearCellsData();
 
-        GetSlotsInfo(section);
-        GetQuickSlotsInfo(section);
+        GetSlotsInfo();
+        GetQuickSlotsInfo();
 
         scrollSlider.value = 1.1f;
         EventSystem.current.SetSelectedGameObject(slotItems[0].gameObject);
-    }
-
-    private void ShowItemInfo(ItemData data, Vector2 pos)
-    {
-        contextMenu.ShowContextMenu(data, pos);
     }
 
 }

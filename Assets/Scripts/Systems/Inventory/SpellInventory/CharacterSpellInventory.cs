@@ -8,7 +8,6 @@ public class CharacterSpellInventory : QuickAccessInventory
         if (spell == null) return;
 
         items.Add(spell);
-
         Notify();
     }
 
@@ -22,26 +21,16 @@ public class CharacterSpellInventory : QuickAccessInventory
     {
         if (CurrentItem == null) return;
 
-        CurrentItem.quantity--;
+        var item = CurrentItem;
+        item.quantity--;
 
-        if (CurrentItem.quantity <= 0)
+        if (item.quantity <= 0)
         {
-            
-            RemoveAt(currentIndex);
-            TryToRemoveFromQuickAccess(CurrentItem.itemSO);
-
+            RemoveFromInventory(item);
+            return;
         }
 
-
         Notify();
-    }
-
-
-    private void Start()
-    {
-        AddToQuickAccess(items[0]);
-        
-        //AddToQuickAccess(items[1]);
     }
 
     private void Update()
@@ -49,5 +38,26 @@ public class CharacterSpellInventory : QuickAccessInventory
         TestQuickSlot();
     }
 
-   
+    private void TestQuickSlot()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            var item = items.FirstOrDefault(x => !GetQuickAccessData().Contains(x));
+            if (item != null)
+                AddToQuickAccess(item);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (CurrentItem != null)
+                RemoveFromQuickAccess(CurrentItem);
+        }
+    }
+
+    public void SetDefaultSpell()
+    {
+        if(items.Count == 0) return;
+
+        AddToQuickAccess(items[0]);
+    }
 }

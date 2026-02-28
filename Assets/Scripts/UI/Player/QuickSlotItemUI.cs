@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler, ISubmitHandler
+public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHandler
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected Image backgroundImage;
@@ -12,8 +12,14 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler, ISubmitHand
 
     ItemData currentItem;
 
-    public Action<ItemData, Vector2> ItemClicked;
-    
+    private Action<ItemData, Vector2> clickHandler;
+
+
+    public void Init(Action<ItemData, Vector2> onClick)
+    {
+        clickHandler = onClick;
+    }
+
     public void UpdateImageDate(ItemData data)
     {
 
@@ -29,6 +35,7 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler, ISubmitHand
         quantityText.enabled = true;
         quantityText.text = currentItem.quantity.ToString();
     }
+
 
     public virtual void RemoveData()
     {
@@ -49,15 +56,18 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler, ISubmitHand
         
         if(currentItem == null) return;
 
-        ItemClicked?.Invoke(currentItem, GetAnchoredPosition());
+        clickHandler?.Invoke(currentItem, GetAnchoredPosition());
+        
     }
 
     public void OnSubmit(BaseEventData eventData)
     {
-        Debug.Log("submited");
+        if (currentItem == null) return;
+
+        clickHandler?.Invoke(currentItem, GetAnchoredPosition());
     }
 
-    Vector2 GetAnchoredPosition()
+    public Vector2 GetAnchoredPosition()
     {
         // получаем RectTransform канваса
         RectTransform canvasRect = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
@@ -75,5 +85,5 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler, ISubmitHand
         return anchoredPos;
     }
 
-
+  
 }

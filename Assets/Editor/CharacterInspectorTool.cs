@@ -204,7 +204,7 @@ public class CharacterInspectorTool : EditorWindow
         EditorGUI.indentLevel++;
 
         SerializedObject so = new SerializedObject(spellInventory);
-        SerializedProperty spellsProp = so.FindProperty("spells");
+        SerializedProperty spellsProp = so.FindProperty("items");
 
         so.Update();
 

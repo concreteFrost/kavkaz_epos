@@ -14,7 +14,8 @@ public class PlayerUIManager : MonoBehaviour
         playerStatsUI.Init(stats: stats);
         quickSlotsUI.Init(combatInventory: combatInventory, spellInventory:spellInventory);
         inventoryUI.Init(spellInventory:spellInventory,contextMenu:inventoryContextMenuUI);
-        lockOnTargetUI.Init(targetLock: targetLock);    
+        lockOnTargetUI.Init(targetLock: targetLock);
+        inventoryContextMenuUI.Init(quickAccessInventory: spellInventory);
     }
 
     private void Start()

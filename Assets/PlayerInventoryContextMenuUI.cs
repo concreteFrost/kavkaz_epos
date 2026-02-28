@@ -22,6 +22,13 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         HideContextMenu();
     }
 
+    public void Init(QuickAccessInventory quickAccessInventory)
+    {
+      
+        SetupAction(addToSlotBtn,()=> quickAccessInventory.AddToQuickAccess(currentItem));
+        SetupAction(removeFromSlotBtn, () => quickAccessInventory.RemoveFromQuickAccess(currentItem));
+    }
+
     void SetupAction(Button btn, Action action)
     {
         btn.onClick.RemoveAllListeners();

@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_9ba20fb4-014a-48f8-abc7-34eba0867229
+  uniqueId: uid_cd10bc36-6f68-469e-acef-ceae067b81dd
 --- !u!195 &4827920263752337557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
   animationSmooth: 1
   airSpeed: 5
   airSmooth: 6
+  airAcceleration: 70
   extraGravity: -10
   limitFallVelocity: -15
   groundLayer:
@@ -854,9 +855,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95391240d9174704cad2109de73986d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
-  spells:
+  items:
   - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
-    quantity: 10
+    quantity: 5
+  quickAccessItems: []
+  currentIndex: 0
 --- !u!1 &3905528556958098778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1220,8 @@ MonoBehaviour:
     waitTimer: 0
     nextAttackTimer: 0
     maxAttackTimer: 0
+    repositionTimer: 0
+    nextRepositionTime: 0
   strafeHandler:
     timeInStrafeState: 0
     maxTimeInStrafeState: 0

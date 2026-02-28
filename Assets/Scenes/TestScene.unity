@@ -1409,14 +1409,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
   items:
   - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
-    quantity: 1
-  - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
-    quantity: 1
-  - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
-    quantity: 1
+    quantity: 3
   - itemSO: {fileID: 11400000, guid: be6bd478857ed604bab6276a126f5a98, type: 2}
     quantity: 1
-  quickAccessItems: []
+  - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
+    quantity: 2
+  - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
+    quantity: 1
 --- !u!114 &134820641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22036,6 +22035,10 @@ PrefabInstance:
     - target: {fileID: 716341388283331327, guid: 3db115e36202ae542a5ddb6ae13f1174, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509749951067597717, guid: 3db115e36202ae542a5ddb6ae13f1174, type: 3}
+      propertyPath: uniqueId
+      value: uid_602e4941-fff7-4cb9-b3a9-91e9ca8ea835
       objectReference: {fileID: 0}
     - target: {fileID: 1770877511817958936, guid: 3db115e36202ae542a5ddb6ae13f1174, type: 3}
       propertyPath: m_Name

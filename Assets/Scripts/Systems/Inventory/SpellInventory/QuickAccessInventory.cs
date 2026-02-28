@@ -3,119 +3,139 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[Serializable]
-public class QuickAccessItem
-{
-    public ItemData itemData;
-}
-
 public abstract class QuickAccessInventory : MonoBehaviour
 {
-    public List<ItemData> items = new List<ItemData>();                  // полный инвентарь
-    public List<ItemData> quickAccessItems = new List<ItemData>(); // быстрые слоты
+    public static int QUICK_SLOTS_COUNT = 5;
 
-    public int currentIndex;
+    public List<ItemData> items = new List<ItemData>(); // основной инвентарь
+
+    private ItemData[] quickSlots; // быстрые слоты
+    private int currentIndex; //текущий индекс предмета в быстром слоте
 
     public ItemData CurrentItem =>
-        quickAccessItems.Count == 0 ? null : quickAccessItems[currentIndex];
+        quickSlots[currentIndex]; // текущий предмет в быстром доступе
 
     public event Action<ItemData> OnCurrentItemChanged;
+    public event Action OnQuickAccessChanged;
+
+    protected virtual void Awake()
+    {
+        quickSlots = new ItemData[QUICK_SLOTS_COUNT];
+    }
+
+    #region Quick Access
+
+    public List<ItemData> GetQuickAccessData() => quickSlots.Where(x => x != null).ToList();
 
     public void AddToQuickAccess(ItemData item)
     {
-        if (quickAccessItems.Any(x => x.itemSO.id == item.itemSO.id)) return;
+        if (item == null) return;
 
-        if (quickAccessItems.Count >= 5)
+        // Уже есть?
+        if (quickSlots.Any(x => x == item))
+            return;
+
+        // Ищем свободный слот
+        for (int i = 0; i < quickSlots.Length; i++)
         {
-            // заменяем последний слот
-            quickAccessItems[quickAccessItems.Count - 1] = item;
-        }
-        else
-        {
-            quickAccessItems.Add(item);
+            if (quickSlots[i] == null)
+            {
+                quickSlots[i] = item;
+                Notify();
+                return;
+            }
         }
 
+        // Если все заняты — заменяем последний
+        quickSlots[quickSlots.Length - 1] = item;
+        currentIndex = quickSlots.Length - 1;
         Notify();
     }
 
-    public void TryToRemoveFromQuickAccess(ItemSO d)
+    public void RemoveFromQuickAccess(ItemData item)
     {
-        var toRemove = quickAccessItems.FirstOrDefault(x => x.itemSO.id == d.id);
-        if (toRemove != null)
+        if (item == null) return;
+
+        for (int i = 0; i < quickSlots.Length; i++)
         {
-            int removedIndex = quickAccessItems.IndexOf(toRemove);
-            quickAccessItems.Remove(toRemove);
-
-            // Корректируем currentIndex
-            if (quickAccessItems.Count == 0)
+            if (quickSlots[i] == item)
             {
-                currentIndex = 0;
+                quickSlots[i] = null;
             }
-            else if (currentIndex >= quickAccessItems.Count)
-            {
-                currentIndex = quickAccessItems.Count - 1;
-            }
-
-            Notify();
         }
+
+        NormalizeCurrentIndex();
+        Notify();
     }
 
-    public List<ItemData> GetQuickAccessData() => quickAccessItems.Select(x => x).ToList();
+
+    #endregion
+
+    #region Inventory
+
+    protected void RemoveFromInventory(ItemData item)
+    {
+        if (item == null) return;
+
+        items.Remove(item);
+        RemoveFromQuickAccess(item); // автоматическая синхронизация
+    }
+
+    #endregion
+
+    #region Selection
 
     public virtual void Change(int direction)
     {
-        if (quickAccessItems.Count == 0) return;
-        currentIndex = (currentIndex + direction + quickAccessItems.Count) % quickAccessItems.Count;
-        Notify();
+        if (quickSlots.All(x => x == null))
+            return;
+
+        int startIndex = currentIndex;
+
+        do
+        {
+            currentIndex = (currentIndex + direction + quickSlots.Length) % quickSlots.Length;
+        }
+        while (quickSlots[currentIndex] == null && currentIndex != startIndex);
+
+        NotifyCurrent();
     }
 
-    protected void Notify() => OnCurrentItemChanged?.Invoke(CurrentItem);
-
-    protected void RemoveAt(int index)
+    private void NormalizeCurrentIndex()
     {
-        
-        items.RemoveAt(index);
-
-        if (items.Count == 0)
+        if (quickSlots.All(x => x == null))
         {
             currentIndex = 0;
+            return;
         }
-        else if (currentIndex >= items.Count)
+
+        if (quickSlots[currentIndex] == null)
         {
-            currentIndex = items.Count - 1;
+            for (int i = 0; i < quickSlots.Length; i++)
+            {
+                if (quickSlots[i] != null)
+                {
+                    currentIndex = i;
+                    break;
+                }
+            }
         }
     }
 
+    #endregion
 
-    protected void TestQuickSlot()
+    #region Notify
+
+    protected void Notify()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            foreach (var item in items)
-            {
-                // если предмет ещё не в quickAccessItems, добавляем
-                if (!quickAccessItems.Any(x => x.itemSO.id == item.itemSO.id))
-                {
-                    AddToQuickAccess(item);
-                    break;
-                }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            foreach (var item in items)
-            {
-                // ищем существующий слот с этим предметом
-                var existingSlot = quickAccessItems.FirstOrDefault(x => x.itemSO.id == item.itemSO.id);
-
-                if (existingSlot != null)
-                {
-                    TryToRemoveFromQuickAccess(existingSlot.itemSO);
-                    break;
-
-                }
-            }
-        }
+        OnQuickAccessChanged?.Invoke();
+        NotifyCurrent();
     }
+
+    private void NotifyCurrent()
+    {
+        OnCurrentItemChanged?.Invoke(CurrentItem);
+    }
+
+    #endregion
 }

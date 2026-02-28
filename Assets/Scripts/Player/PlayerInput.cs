@@ -14,12 +14,6 @@ public class PlayerInput : MonoBehaviour
 
     public static Action<GameState> PlayerModeChanged;
 
-    private void Awake()
-    {
-        input = new PlayerInputReader();
-        input.Init();
-    }
-
     public void Init(
         PlayerLocomotionActionHandler locomotion,
         PlayerCombatActionHandler combatHandler,
@@ -34,6 +28,9 @@ public class PlayerInput : MonoBehaviour
         this.animator = animatorController;
         this.targetLock = targetLock;
         this.ui = uiManager;
+
+        input = new PlayerInputReader();
+        input.Init();
 
         SwitchToGameInput();
     }
