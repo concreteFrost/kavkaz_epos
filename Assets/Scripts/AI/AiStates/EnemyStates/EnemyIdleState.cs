@@ -41,7 +41,8 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
         if (fov.currentTarget != null)
         {
-           
+
+            Debug.Log("notified");
             notifierManager.Notify(fov.currentTarget);
             return AIStateResult.Chase;
         }

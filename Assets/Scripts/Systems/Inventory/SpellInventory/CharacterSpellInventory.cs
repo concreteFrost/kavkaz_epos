@@ -33,31 +33,12 @@ public class CharacterSpellInventory : QuickAccessInventory
         Notify();
     }
 
-    private void Update()
-    {
-        TestQuickSlot();
-    }
+    //private void Update()
+    //{
+    //    TestQuickSlot();
+    //}
 
-    private void TestQuickSlot()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            var item = items.FirstOrDefault(x => !GetQuickAccessData().Contains(x));
-            if (item != null)
-                AddToQuickAccess(item);
-        }
+                                                     
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if (CurrentItem != null)
-                RemoveFromQuickAccess(CurrentItem);
-        }
-    }
-
-    public void SetDefaultSpell()
-    {
-        if(items.Count == 0) return;
-
-        AddToQuickAccess(items[0]);
-    }
+   
 }

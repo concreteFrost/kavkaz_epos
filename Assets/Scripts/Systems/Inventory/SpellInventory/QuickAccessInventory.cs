@@ -9,7 +9,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
     public List<ItemData> items = new List<ItemData>(); // основной инвентарь
 
-    private ItemData[] quickSlots; // быстрые слоты
+    private ItemData[] quickSlots;
     private int currentIndex; //текущий индекс предмета в быстром слоте
 
     public ItemData CurrentItem =>
@@ -18,14 +18,22 @@ public abstract class QuickAccessInventory : MonoBehaviour
     public event Action<ItemData> OnCurrentItemChanged;
     public event Action OnQuickAccessChanged;
 
-    protected virtual void Awake()
-    {
-        quickSlots = new ItemData[QUICK_SLOTS_COUNT];
-    }
-
     #region Quick Access
 
     public List<ItemData> GetQuickAccessData() => quickSlots.Where(x => x != null).ToList();
+
+    public void Init()
+    {
+        quickSlots = new ItemData[QUICK_SLOTS_COUNT];
+        SetDefaultQuickSlotData();
+    }
+
+    public void SetDefaultQuickSlotData()
+    {
+        if (items.Count == 0) return;
+
+        AddToQuickAccess(items[0]);
+    }
 
     public void AddToQuickAccess(ItemData item)
     {
@@ -41,6 +49,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
             if (quickSlots[i] == null)
             {
                 quickSlots[i] = item;
+               
                 Notify();
                 return;
             }

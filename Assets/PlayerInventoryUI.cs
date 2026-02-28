@@ -20,6 +20,7 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] GameObject itemCellPrefab;
     [SerializeField] Transform cellsContainer;
     [SerializeField] Scrollbar scrollSlider;
+    [SerializeField] ScrollRect scrollRect;
 
     private List<QuickSlotItemUI> slotItems = new List<QuickSlotItemUI>();
     private int totalCellsToInit = 100;
@@ -91,7 +92,7 @@ public class PlayerInventoryUI : MonoBehaviour
             QuickSlotItemUI slotItem = go.GetComponent<QuickSlotItemUI>();
             slotItem.ScaleImages(scaleImageSize);
 
-            slotItem.SetOnClickAction((item,pos)=>contextMenu.ShowContextMenu(item,pos));
+            slotItem.InitInInventory((item,pos)=>contextMenu.ShowContextMenu(item,pos));
             slotItem.RemoveData();
             slotItems.Add(slotItem);
    
@@ -110,7 +111,7 @@ public class PlayerInventoryUI : MonoBehaviour
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<QuickSlotItemUI>();
-            data.SetOnClickAction((item, pos) => currentInventory.RemoveFromQuickAccess(item));
+            data.InitInInventory((item, pos) => currentInventory.RemoveFromQuickAccess(item));
             quickSlotItems.Add(data);
         }
     }
@@ -121,6 +122,8 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void GetQuickSlotsInfo()
     {
+        if (!mainWrapper.activeInHierarchy) return;
+
         quickSlotItems.ForEach((s) => s.RemoveData());
 
         List<ItemData> itemsToFill = new List<ItemData>();
@@ -128,7 +131,7 @@ public class PlayerInventoryUI : MonoBehaviour
         switch (currentSection)
         {
             case InventorySection.Magic:
-                itemsToFill.AddRange(currentInventory.GetQuickAccessData());
+                itemsToFill =currentInventory.GetQuickAccessData();
                 break;
         }
 
@@ -185,7 +188,7 @@ public class PlayerInventoryUI : MonoBehaviour
         GetSlotsInfo();
         GetQuickSlotsInfo();
 
-        scrollSlider.value = 1.1f;
+        scrollSlider.value = 1f;
       
 
         // Преобразуем QuickSlotItemUI в Button

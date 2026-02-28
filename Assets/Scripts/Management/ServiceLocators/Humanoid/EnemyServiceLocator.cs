@@ -42,6 +42,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         FovInit();
         CombatInit();
         SpellInit();
+        //notifierManager.Init()
         BrainInit();
 
     }
@@ -66,12 +67,10 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void SpellInit()
     {
-        spellInventory.SetDefaultSpell();
+        spellInventory.Init();
         emitter.Init(spellInventory: spellInventory, source: attackSource, animatorController: animatorController, targetLocker: fovController, boneSockets: boneSocket);
        
     }
-
-   
 
     private void InterruptorsInit()
     {

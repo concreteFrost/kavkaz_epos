@@ -8,6 +8,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
     HumanoidAgentController agentController;
     EnemyFOVController fov;
     EnemyPassiveInterruptionHandler passiveInterruptionTracker;
+    EnemyNotifierManager notifierManager;
 
     public override void Enter()
     {
@@ -15,6 +16,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         fov = context.fov;
         agentController = context.agentController;
         passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
+        notifierManager = context.notifierManager;  
        
         fov.ResetLockedTarget();
         motor.ResetLockTarget();
@@ -27,6 +29,13 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
+        if (fov.currentTarget != null)
+        {
+
+            Debug.Log("notified");
+            notifierManager.Notify(fov.currentTarget);
+            return AIStateResult.Chase;
+        }
 
         fov.CheckTargets();
 

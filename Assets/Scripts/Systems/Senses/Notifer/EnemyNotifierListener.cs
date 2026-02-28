@@ -27,6 +27,8 @@ public class EnemyNotifierListener
         
         float distance = Vector3.Distance(self.position, target.GetOrigin().position);
 
+        Debug.Log(distance);
+
         if (distance > listenDistance) return;
 
         fov.SetLockedTarget(target);

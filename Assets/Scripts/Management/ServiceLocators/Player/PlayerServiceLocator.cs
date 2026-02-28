@@ -93,7 +93,7 @@ public class PlayerServiceLocator : MonoBehaviour
         attackSource.Init(sourcePosition: this.transform, sourceId: (int)damageController.CharacterType);
 
         combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
-        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction);
+       
 
         emitterController.Init(spellInventory:spellInventory, source:attackSource,animatorController:animatorController,targetLocker:targetLock, boneSockets:boneSocket);
           
@@ -112,9 +112,14 @@ public class PlayerServiceLocator : MonoBehaviour
        
         lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform);
 
+        combatInventory.Init(boneSocket: boneSocket, animatorController: animatorController, combatController: combatController, collector: interaction);
+        spellInventory.Init();
+
         uiManager.Init(stats:stats, spellInventory:spellInventory,combatInventory:combatInventory,targetLock:targetLock, input:input);
 
     }
+
+   
 
    
 

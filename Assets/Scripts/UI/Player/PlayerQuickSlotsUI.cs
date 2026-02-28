@@ -62,6 +62,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     {
         if (currentItem != null)
         {
+            
             spellItem.UpdateImageDate(currentItem);
         }
         else

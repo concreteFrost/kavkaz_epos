@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHandler
+public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHandler ,ISelectHandler, IDeselectHandler
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected Image backgroundImage;
     [SerializeField] protected TextMeshProUGUI quantityText;
+    [SerializeField] protected Image outlineImage;
 
     ItemData currentItem;
 
@@ -16,7 +17,14 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHan
 
     public ItemData GetItem() => currentItem;
 
-    public void SetOnClickAction(Action<ItemData, Vector2> onClick)
+    private void Awake()
+    {
+        ToggleOutlineImage(false);
+    }
+
+    private void ToggleOutlineImage(bool isVisible)=> outlineImage.gameObject.SetActive(isVisible);  
+
+    public void InitInInventory(Action<ItemData, Vector2> onClick)
     {
         clickHandler = onClick;
     }
@@ -86,5 +94,18 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHan
         return anchoredPos;
     }
 
-  
+
+
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        ToggleOutlineImage(true);
+
+    }
+    public void OnDeselect(BaseEventData eventData)
+    {
+        ToggleOutlineImage(false);
+
+        
+    }
 }
