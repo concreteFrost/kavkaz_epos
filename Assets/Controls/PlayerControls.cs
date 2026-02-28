@@ -449,17 +449,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d8bf24bf-3f2f-4160-a97c-38ec1eb520ba"",
-                    ""path"": ""<XRController>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""eb40bb66-4559-4dfa-9a2f-820438abb426"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -635,6 +624,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""0d88885f-2001-4bb3-9008-ba8a44148ddb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Emit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""1D Axis"",
                     ""id"": ""fe410dcd-07fb-4ae4-9a2a-29b128eb586c"",
                     ""path"": ""1DAxis"",
@@ -668,12 +668,56 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""3d9b246b-4e39-43cd-8055-40f849269bd7"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpellChange"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""726b4f2f-14a5-4d5f-b582-0c121e864700"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpellChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9bcdb156-039d-441f-bff9-1713ce5a2d0a"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpellChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""68f0610d-09e2-42ff-a1ac-4e047da6406a"",
                     ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b50f5838-9ae4-47c7-9619-312a5d240db2"",
+                    ""path"": ""<DualShockGamepad>/touchpadButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -778,6 +822,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""SwitchToGame"",
                     ""type"": ""Button"",
                     ""id"": ""a2a16422-db01-4895-8e7a-414c52d4b651"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HideAdditionalPanel"",
+                    ""type"": ""Button"",
+                    ""id"": ""727f6fe4-ca6f-404d-8db3-fd31ea9f7212"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1051,6 +1104,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8de2ce80-eb45-4851-a149-fc30bb2620a1"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""HideAdditionalPanel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
                     ""path"": ""*/{Submit}"",
                     ""interactions"": """",
@@ -1224,6 +1288,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchToGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3750cbe1-ebde-41e0-b873-2549554120b2"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""SwitchToGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1322,6 +1397,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_SwitchToGame = m_UI.FindAction("SwitchToGame", throwIfNotFound: true);
+        m_UI_HideAdditionalPanel = m_UI.FindAction("HideAdditionalPanel", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1675,6 +1751,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_SwitchToGame;
+    private readonly InputAction m_UI_HideAdditionalPanel;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1730,6 +1807,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/SwitchToGame".
         /// </summary>
         public InputAction @SwitchToGame => m_Wrapper.m_UI_SwitchToGame;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/HideAdditionalPanel".
+        /// </summary>
+        public InputAction @HideAdditionalPanel => m_Wrapper.m_UI_HideAdditionalPanel;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1789,6 +1870,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchToGame.started += instance.OnSwitchToGame;
             @SwitchToGame.performed += instance.OnSwitchToGame;
             @SwitchToGame.canceled += instance.OnSwitchToGame;
+            @HideAdditionalPanel.started += instance.OnHideAdditionalPanel;
+            @HideAdditionalPanel.performed += instance.OnHideAdditionalPanel;
+            @HideAdditionalPanel.canceled += instance.OnHideAdditionalPanel;
         }
 
         /// <summary>
@@ -1833,6 +1917,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchToGame.started -= instance.OnSwitchToGame;
             @SwitchToGame.performed -= instance.OnSwitchToGame;
             @SwitchToGame.canceled -= instance.OnSwitchToGame;
+            @HideAdditionalPanel.started -= instance.OnHideAdditionalPanel;
+            @HideAdditionalPanel.performed -= instance.OnHideAdditionalPanel;
+            @HideAdditionalPanel.canceled -= instance.OnHideAdditionalPanel;
         }
 
         /// <summary>
@@ -2135,5 +2222,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitchToGame(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "HideAdditionalPanel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHideAdditionalPanel(InputAction.CallbackContext context);
     }
 }

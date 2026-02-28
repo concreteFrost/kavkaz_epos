@@ -14,8 +14,9 @@ public class QuickSlotItemUI : MonoBehaviour , IPointerClickHandler , ISubmitHan
 
     private Action<ItemData, Vector2> clickHandler;
 
+    public ItemData GetItem() => currentItem;
 
-    public void Init(Action<ItemData, Vector2> onClick)
+    public void SetOnClickAction(Action<ItemData, Vector2> onClick)
     {
         clickHandler = onClick;
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,11 +31,14 @@ public class PlayerInventoryUI : MonoBehaviour
     private QuickAccessInventory currentInventory;
     Dictionary<InventorySection, QuickAccessInventory> inventories;
 
+    Selectable lastSelectedObject;
+
     public InventorySection currentSection { get; private set; }
 
     public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu)
     {
         this.contextMenu = contextMenu;
+        contextMenu.OnContextMenuClosed += FocusFirstGridItem;
 
         //динамическое назначение инвентарей
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
@@ -56,6 +60,9 @@ public class PlayerInventoryUI : MonoBehaviour
 
     private void OnDisable()
     {
+
+        contextMenu.OnContextMenuClosed -= FocusFirstGridItem;  
+
         foreach (var inv in inventories.Values)
         {
             inv.OnQuickAccessChanged -= GetQuickSlotsInfo;
@@ -84,7 +91,7 @@ public class PlayerInventoryUI : MonoBehaviour
             QuickSlotItemUI slotItem = go.GetComponent<QuickSlotItemUI>();
             slotItem.ScaleImages(scaleImageSize);
 
-            slotItem.Init((item,pos)=>contextMenu.ShowContextMenu(item,pos));
+            slotItem.SetOnClickAction((item,pos)=>contextMenu.ShowContextMenu(item,pos));
             slotItem.RemoveData();
             slotItems.Add(slotItem);
    
@@ -103,7 +110,7 @@ public class PlayerInventoryUI : MonoBehaviour
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<QuickSlotItemUI>();
-            data.Init((item, pos) => currentInventory.RemoveFromQuickAccess(item));
+            data.SetOnClickAction((item, pos) => currentInventory.RemoveFromQuickAccess(item));
             quickSlotItems.Add(data);
         }
     }
@@ -179,7 +186,37 @@ public class PlayerInventoryUI : MonoBehaviour
         GetQuickSlotsInfo();
 
         scrollSlider.value = 1.1f;
-        EventSystem.current.SetSelectedGameObject(slotItems[0].gameObject);
+      
+
+        // Преобразуем QuickSlotItemUI в Button
+        var buttons = slotItems.Select(s => s.GetComponent<Button>()).ToList();
+        // Настраиваем сеточную навигацию
+        UINavigationUtils.SetupGridNavigation(buttons, 5);
+        FocusFirstGridItem(null);
+    }
+
+
+    private void FocusFirstGridItem(ItemData data)
+    {
+        if (slotItems.Count == 0) return;
+
+        GameObject toSelect = slotItems[0].gameObject;
+
+        if (data != null)
+        {
+            foreach(var item in slotItems)
+            {
+                if(item.GetItem().itemSO.id == data.itemSO.id)
+                {
+                    toSelect = item.gameObject;
+                    break;
+                }
+            }
+        }
+
+
+        StartCoroutine(UINavigationUtils.SelectWithDelay(toSelect));
+       
     }
 
 }

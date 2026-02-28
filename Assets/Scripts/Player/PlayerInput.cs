@@ -3,7 +3,7 @@ using System;
 
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerInputReader input;
+    public PlayerInputReader reader;
 
     private PlayerLocomotionActionHandler locomotion;
     private PlayerCombatActionHandler combat;
@@ -29,8 +29,8 @@ public class PlayerInput : MonoBehaviour
         this.targetLock = targetLock;
         this.ui = uiManager;
 
-        input = new PlayerInputReader();
-        input.Init();
+        reader = new PlayerInputReader();
+        reader.Init();
 
         SwitchToGameInput();
     }
@@ -51,81 +51,81 @@ public class PlayerInput : MonoBehaviour
 
     public void DisableInput()
     {
-        input.controls.Disable();
+        reader.controls.Disable();
     }
 
     public void EnableInput()
     {
-        input.controls.Enable();    
+        reader.controls.Enable();    
     }
 
     private void SwitchToGameInput()
     {
-        input.controls.UI.Disable();
-        input.controls.Player.Enable();
+        reader.controls.UI.Disable();
+        reader.controls.Player.Enable();
     }
 
     private void SwitchToUiInput()
     {
-        input.controls.Player.Disable();
-        input.controls.UI.Enable();
+        reader.controls.Player.Disable();
+        reader.controls.UI.Enable();
     }
 
     private void HandleMovement()
     {
-        Vector3 moveDir = new Vector3(input.Move.x, 0, input.Move.y);
+        Vector3 moveDir = new Vector3(reader.Move.x, 0, reader.Move.y);
         locomotion.MoveAndRotate(moveDir);
 
-        locomotion.Sprint(input.SprintHeld);
+        locomotion.Sprint(reader.SprintHeld);
 
-        if (input.JumpPressed)
+        if (reader.JumpPressed)
         {
-            locomotion.HandleJumpOrDodge(input.Move);
-            input.Consume(ref input.JumpPressed);
+            locomotion.HandleJumpOrDodge(reader.Move);
+            reader.Consume(ref reader.JumpPressed);
         }
     }
 
     private void HandleCombat()
     {
-        if (input.PowerAttackGamepadPressed)
+        if (reader.PowerAttackGamepadPressed)
         {
             combat.PerformPowerAttack();
-            input.Consume(ref input.PowerAttackGamepadPressed);
+            reader.Consume(ref reader.PowerAttackGamepadPressed);
             return;
         }
 
-        if (input.ChargeHeld && input.AttackPressed)
+        if (reader.ChargeHeld && reader.AttackPressed)
         {
             combat.PerformPowerAttack();
-            input.Consume(ref input.AttackPressed);
+            reader.Consume(ref reader.AttackPressed);
             return;
         }
 
-        if (input.AttackPressed)
+        if (reader.AttackPressed)
         {
-            if (input.ThrowHeld)
+            if (reader.ThrowHeld)
                 combat.ThrowWeapon();
             else
                 combat.PerformAttack();
 
-            input.Consume(ref input.AttackPressed);
+            reader.Consume(ref reader.AttackPressed);
         }
 
-        if (input.EmitPressed)
+        if (reader.EmitPressed)
         {
             combat.PerformEmit();
-            input.Consume(ref input.EmitPressed);
+            reader.Consume(ref reader.EmitPressed);
         }
 
-        if (input.PushPressed)
+        if (reader.PushPressed)
         {
             combat.PerformPush();
-            input.Consume(ref input.PushPressed);
+            reader.Consume(ref reader.PushPressed);
         }
 
-        if (input.BlockHeld)
+        if (reader.BlockHeld)
         {
-            if (input.ThrowHeld)
+            if (reader.ThrowHeld)
                 combat.ThrowShield();
             else
                 combat.PerformBlock();
@@ -135,45 +135,45 @@ public class PlayerInput : MonoBehaviour
             combat.CancelBlock();
         }
 
-        if (input.LockPressed)
+        if (reader.LockPressed)
         {
             targetLock.HandleSetTarget();
-            input.Consume(ref input.LockPressed);
+            reader.Consume(ref reader.LockPressed);
         }
 
-        targetLock.SwitchTarget(input.Look.x);
+        targetLock.SwitchTarget(reader.Look.x);
 
-        if (input.SpellScroll != 0)
+        if (reader.SpellScroll != 0)
         {
-            quickSlots.ChangeSpell(input.SpellScroll > 0 ? 1 : -1);
-            input.ResetSpellScroll();
+            quickSlots.ChangeSpell(reader.SpellScroll > 0 ? 1 : -1);
+            reader.ResetSpellScroll();
         }
     }
 
     private void HandleInteraction()
     {
-        if (input.InteractPressed)
+        if (reader.InteractPressed)
         {
             locomotion.Interact();
-            input.Consume(ref input.InteractPressed);
+            reader.Consume(ref reader.InteractPressed);
         }
     }
 
     private void HandleInventory()
     {
-        if (!input.InventoryPressed) return;
+        if (!reader.InventoryPressed) return;
 
         ui.ToggleInventoryPanel(true);
         SwitchToUiInput();
-        input.Consume(ref input.InventoryPressed);
+        reader.Consume(ref reader.InventoryPressed);
     }
 
     private void HandleCloseUI()
     {
-        if (!input.SwitchToGamePressed) return;
+        if (!reader.SwitchToGamePressed) return;
 
         ui.CloseAllPanels();
         SwitchToGameInput();
-        input.Consume(ref input.SwitchToGamePressed);
+        reader.Consume(ref reader.SwitchToGamePressed);
     }
 }

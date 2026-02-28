@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlayerInventoryContextMenuUI : MonoBehaviour
@@ -12,22 +12,19 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     RectTransform _rectTransform;
     ItemData currentItem;
 
-    private void Awake()
-    {
-        _rectTransform = wrapper.GetComponent<RectTransform>();
-    }
+    public List<Selectable> allSelectables = new List<Selectable>();
+    public Action<ItemData> OnContextMenuClosed;
 
-    private void Start()
-    {
-        HideContextMenu();
-    }
-
+    PlayerControls pl;
     public void Init(QuickAccessInventory quickAccessInventory)
     {
-      
-        SetupAction(addToSlotBtn,()=> quickAccessInventory.AddToQuickAccess(currentItem));
+        allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
+        _rectTransform = wrapper.GetComponent<RectTransform>();
+        SetupAction(addToSlotBtn, () => quickAccessInventory.AddToQuickAccess(currentItem));
         SetupAction(removeFromSlotBtn, () => quickAccessInventory.RemoveFromQuickAccess(currentItem));
+        
     }
+
 
     void SetupAction(Button btn, Action action)
     {
@@ -37,13 +34,16 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         {
             action?.Invoke();
             HideContextMenu();
+         
         });
     }
 
     public void HideContextMenu()
     {
+        OnContextMenuClosed?.Invoke(currentItem);
         wrapper.SetActive(false);
         currentItem = null;
+       
     }
 
     public void ShowContextMenu(ItemData data, Vector2 position)
@@ -61,13 +61,10 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         position.y -= 90;
         _rectTransform.localPosition = position;
 
-        FocusOnFirstButton();
+        UINavigationUtils.ClampVerticalNavigation(allSelectables);
+        StartCoroutine(UINavigationUtils.SelectWithDelay(allSelectables[0].gameObject));
     }
 
-    private void FocusOnFirstButton()
-    {
-        EventSystem.current.SetSelectedGameObject(addToSlotBtn.gameObject);
-    }
 
     private bool WillShowContextMenu(ItemData data)
     {

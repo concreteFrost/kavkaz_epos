@@ -112,7 +112,7 @@ public class PlayerServiceLocator : MonoBehaviour
        
         lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform);
 
-        uiManager.Init(stats:stats, spellInventory:spellInventory,combatInventory:combatInventory,targetLock:targetLock);
+        uiManager.Init(stats:stats, spellInventory:spellInventory,combatInventory:combatInventory,targetLock:targetLock, input:input);
 
     }
 

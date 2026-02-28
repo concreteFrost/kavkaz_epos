@@ -34,7 +34,7 @@ public class SpeedModel
         _targetSpeed = value;
     }
 
-    public void Tick(float deltaTime,float smooth = 10)
+    public void Tick(float deltaTime,float smooth = 30)
     {
         float newSpeed = Mathf.Lerp(Current, _targetSpeed, smooth * deltaTime);
 
