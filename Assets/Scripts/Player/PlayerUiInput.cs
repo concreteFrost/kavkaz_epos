@@ -9,23 +9,32 @@ public class PlayerUIInput : MonoBehaviour
     public void Init(PlayerInputReader reader)
     {
         this.reader = reader;
-
-
-        reader.controls.UI.HideAdditionalPanel.performed += _ => manager.HideContextMenu();
-        reader.controls.UI.Slider.performed += c => manager.ReadSliderValue(c);
     }
 
     private void Update()
     {
         HandleCloseUI();
+
+        if(reader.SliderScroll != 0)
+        {
+            manager.ReadSliderValue(reader.SliderScroll);
+            reader.ConsumeScroll(ref reader.SliderScroll);
+        }
+
+        if (reader.HideContextPressed)
+        {
+            manager.HideContextMenu();
+            reader.Consume(ref reader.HideContextPressed);
+        }
     }
 
     private void HandleCloseUI()
     {
         if (!reader.SwitchToGamePressed) return;
 
-        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
         reader.Consume(ref reader.SwitchToGamePressed);
+        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+       
     }
 
 

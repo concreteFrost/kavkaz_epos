@@ -2,6 +2,7 @@
 
 public class PlayerInputReader
 {
+    #region In Game Inputs
     public PlayerControls controls;
 
     public Vector2 Move;
@@ -24,16 +25,25 @@ public class PlayerInputReader
 
     public float SpellScroll;
 
-    public bool SwitchToGamePressed;
+    #endregion
 
+    #region UI Inputs
+    public bool SwitchToGamePressed;
+    public bool HideContextPressed;
+    
+    public float SliderScroll;
+
+    #endregion
     public void Init()
     {
         controls = new PlayerControls();
-        Bind();
-        controls.Enable();
+        
+        GameInputBind();
+        UiInputBind();  
+
     }
 
-    private void Bind()
+    private void GameInputBind()
     {
         controls.Player.Move.performed += c => Move = c.ReadValue<Vector2>();
         controls.Player.Move.canceled += _ => Move = Vector2.zero;
@@ -68,9 +78,17 @@ public class PlayerInputReader
         controls.Player.SpellChange.performed += c =>
             SpellScroll = c.ReadValue<float>();
 
-        controls.UI.SwitchToGame.performed += _ => SwitchToGamePressed = true;  
+       
+    }
+
+    private void UiInputBind()
+    {
+        controls.UI.SwitchToGame.performed += _ => SwitchToGamePressed = true;
+        controls.UI.HideAdditionalPanel.performed += _ => HideContextPressed = true;
+        controls.UI.Slider.performed += c => SliderScroll = c.ReadValue<float>();
     }
 
     public void Consume(ref bool flag) => flag = false;
-    public void ResetSpellScroll() => SpellScroll = 0f;
+    public void ConsumeScroll(ref float val) => val = 0f;
+  
 }

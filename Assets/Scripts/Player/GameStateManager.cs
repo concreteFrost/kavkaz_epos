@@ -19,6 +19,12 @@ public class GameStateManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+ 
+    }
+
+    private void Start()
+    {
+        GameStateChanged?.Invoke(GameState.Game);
     }
 
     public void SetState(GameState newState)

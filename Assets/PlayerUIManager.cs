@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,14 +18,37 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.Init(spellInventory:spellInventory,contextMenu:inventoryContextMenuUI);
         lockOnTargetUI.Init(targetLock: targetLock);
         inventoryContextMenuUI.Init(quickAccessInventory: spellInventory);
+
+        GameStateManager.GameStateChanged += OnGameStateChanged;
     }
 
-
-    private void Start()
+    private void OnDisable()
     {
-        CloseAllPanels();
+        GameStateManager.GameStateChanged -= OnGameStateChanged;
     }
 
+    private void OnGameStateChanged(GameState state)
+    {
+        if (state != GameState.Inventory)
+        {
+            CloseAllPanels();
+            return;
+        }
+
+        ToggleInventoryPanel(true);
+    }
+
+    private void CloseAllPanels()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        ToggleInGamePanels(true);
+
+        inventoryContextMenuUI.HideContextMenu();
+        inventoryUI.ToggleInventory(false);
+
+    }
 
     public void ToggleInventoryPanel(bool isVisible)
     {
@@ -37,17 +61,7 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.GetSection(InventorySection.Magic);
     }
 
-    public void CloseAllPanels()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        ToggleInGamePanels(true);
-
-        inventoryContextMenuUI.HideContextMenu();
-        inventoryUI.ToggleInventory(false);
-        
-    }
+  
 
     private void ToggleInGamePanels(bool isVisible)
     {
@@ -61,9 +75,9 @@ public class PlayerUIManager : MonoBehaviour
         inventoryContextMenuUI.HideContextMenu();
     }
 
-    public void ReadSliderValue(InputAction.CallbackContext c)
+    public void ReadSliderValue(float val)
     {
-        inventoryUI.RedSliderValue(c);
+        inventoryUI.RedSliderValue(val);
     }
    
 }

@@ -117,7 +117,7 @@ public class PlayerGameInput : MonoBehaviour
         if (reader.SpellScroll != 0)
         {
             quickSlots.ChangeSpell(reader.SpellScroll > 0 ? 1 : -1);
-            reader.ResetSpellScroll();
+            reader.ConsumeScroll(ref reader.SpellScroll);
         }
     }
 
@@ -134,8 +134,6 @@ public class PlayerGameInput : MonoBehaviour
     {
         if (!reader.InventoryPressed) return;
 
-        //ui.ToggleInventoryPanel(true);
-       
         reader.Consume(ref reader.InventoryPressed);
         GameStateManager.GameStateChanged?.Invoke(GameState.Inventory);
     }

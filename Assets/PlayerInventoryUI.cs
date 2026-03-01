@@ -180,13 +180,16 @@ public class PlayerInventoryUI : MonoBehaviour
         GetSlotsInfo();
         GetQuickSlotsInfo();
 
-        scrollSlider.value = 1f;
+        Canvas.ForceUpdateCanvases();          // важно
+        scrollRect.verticalNormalizedPosition = 1f;
 
         // Преобразуем QuickSlotItemUI в Button
         var buttons = slotItems.Select(s => s.GetComponent<Button>()).ToList();
         // Настраиваем сеточную навигацию
         UINavigationUtils.SetupGridNavigation(buttons, 5);
         FocusFirstGridItem(null);
+
+      
     }
 
 
@@ -213,9 +216,9 @@ public class PlayerInventoryUI : MonoBehaviour
        
     }
 
-    internal void RedSliderValue(InputAction.CallbackContext c)
+    internal void RedSliderValue(float val)
     {
-        int val = (int)Math.Floor(c.ReadValue<float>());
+       
         float result = val >= 0 ? -0.25f : 0.25f;
         scrollSlider.value += result;
         Debug.Log(val);
