@@ -19,7 +19,10 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerClimbing climbing;
 
     [Header("Ввод")]
-    [SerializeField] private PlayerInput input;
+    [SerializeField] private PlayerInputReader inputReader = new PlayerInputReader();
+    [SerializeField] private PlayerInputManager inputManager;
+    [SerializeField] private PlayerGameInput input;
+    [SerializeField] private PlayerUIInput inputUI;
 
     [Header("Контроллеры")]
     [SerializeField] private PlayerLocomotionActionHandler locomotionHandler;
@@ -40,11 +43,10 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Магическая система")]
     [SerializeField] private CharacterEmitter emitterController;
-   
+
     [Header("Инвентари и быстрые слоты")]
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private CharacterSpellInventory spellInventory;
-
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -54,74 +56,178 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Визуальные эффекты")]
     [SerializeField] private CharacterEffectVisualizer effectVisualizer;
 
-    [Header("Жизненый цикл")]
+    [Header("Жизненный цикл")]
     [SerializeField] private PlayerLifecycle lifecycle;
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
 
-    [Header("Прочее")]
-    private PlayerActionGuards actionGuards;
-
     [Header("UI")]
-    [SerializeField] private PlayerUIManager uiManager;  
+    [SerializeField] private PlayerUIManager uiManager;
 
+    private PlayerActionGuards actionGuards;
 
     private void Awake()
     {
-        uid = uniqueId.uniqueId;
-
-        boneSocket.Init(animator);
-
-        actionGuards = new PlayerActionGuards(locomotion:motor,stats:stats,damageController:damageController,climbing:climbing, emitter:emitterController,meleeCombat:combatController);
-
-        animatorController.Init(
-            animator:animator,
-            overrideController:overrideController,
-            combatController:combatController,
-            motor:motor,targetLock:targetLock,
-            damageController:damageController,
-            pushReceiver:pushReceiver
-            );
-
-        input.Init(locomotion:locomotionHandler,combatHandler:combatHandler ,animatorController: animatorController, targetLock: targetLock,quickSlotHandler:quickSlotHandler, uiManager:uiManager);
-       
-        damageController.Init(motor: motor, statsController: stats, animatorController: animatorController,statsModifier:statsModifier);
-        interaction.Init(self: transform, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
-        
-        //всегда инициализировать ранььше combatInventory
-        attackSource.Init(sourcePosition: this.transform, sourceId: (int)damageController.CharacterType);
-
-        combatController.Init(combatInventory:combatInventory,animatorController:animatorController,damageController:damageController);
-       
-
-        emitterController.Init(spellInventory:spellInventory, source:attackSource,animatorController:animatorController,targetLocker:targetLock, boneSockets:boneSocket);
-          
-        pushController.Init(attackSource: attackSource, combatController: combatController, animatorController: animatorController, self: transform);
-        climbing.Init(motor: motor, actionGuards: actionGuards, animatorController: animatorController);
-        fallController.Init(motor: motor, damageController: damageController);
-        targetLock.Init(controller:locomotionHandler,damageController:damageController);
-        
-        stats.Init();
-        statsModifier.Init(stats,visualizer:effectVisualizer);
-        motor.Init(animatorController: animatorController);
-
-        locomotionHandler.Init(motor: motor, interaction: interaction, actionGuards: actionGuards, stats: stats, climbing: climbing);
-        combatHandler.Init(actionGuards: actionGuards,combatController:combatController,pushSource:pushController,emitController:emitterController);
-        quickSlotHandler.Init(spellInventory: spellInventory, actionGuards: actionGuards);
-       
-        lifecycle.Init(damagable:damageController,statsController:stats,statsModifier:statsModifier,input:input, startingPosition: transform.position, self:transform);
-
-        combatInventory.Init(boneSocket: boneSocket, animatorController: animatorController, combatController: combatController, collector: interaction);
-        spellInventory.Init();
-
-        uiManager.Init(stats:stats, spellInventory:spellInventory,combatInventory:combatInventory,targetLock:targetLock, input:input);
-
+        InitCore();
+        InitInput();
+        InitAnimation();
+        InitCombat();
+        InitMovement();
+        InitStats();
+        InitInventories();
+        InitLifecycle();
+        InitUI();
     }
 
-   
+    private void InitCore()
+    {
+        uid = uniqueId.uniqueId;
+        boneSocket.Init(animator);
 
-   
+        actionGuards = new PlayerActionGuards(
+            locomotion: motor,
+            stats: stats,
+            damageController: damageController,
+            climbing: climbing,
+            emitter: emitterController,
+            meleeCombat: combatController);
+    }
 
+    private void InitInput()
+    {
+        inputReader.Init();
+        inputManager.Init(reader: inputReader);
 
+        input.Init(
+            reader: inputReader,
+            locomotion: locomotionHandler,
+            combatHandler: combatHandler,
+            animatorController: animatorController,
+            targetLock: targetLock,
+            quickSlotHandler: quickSlotHandler);
+
+        inputUI.Init(reader: inputReader);
+    }
+
+    private void InitAnimation()
+    {
+        animatorController.Init(
+            animator: animator,
+            overrideController: overrideController,
+            combatController: combatController,
+            motor: motor,
+            targetLock: targetLock,
+            damageController: damageController,
+            pushReceiver: pushReceiver);
+    }
+
+    private void InitCombat()
+    {
+        attackSource.Init(
+            sourcePosition: transform,
+            sourceId: (int)damageController.CharacterType);
+
+        combatController.Init(
+            combatInventory: combatInventory,
+            animatorController: animatorController,
+            damageController: damageController);
+
+        emitterController.Init(
+            spellInventory: spellInventory,
+            source: attackSource,
+            animatorController: animatorController,
+            targetLocker: targetLock,
+            boneSockets: boneSocket);
+
+        pushController.Init(
+            attackSource: attackSource,
+            combatController: combatController,
+            animatorController: animatorController,
+            self: transform);
+
+        interaction.Init(
+            self: transform,
+            animatorController: animatorController,
+            combatInventory: combatInventory,
+            damageController: damageController,
+            attackSource: attackSource);
+
+        combatHandler.Init(
+            actionGuards: actionGuards,
+            combatController: combatController,
+            pushSource: pushController,
+            emitController: emitterController);
+
+        quickSlotHandler.Init(
+            spellInventory: spellInventory,
+            actionGuards: actionGuards);
+    }
+
+    private void InitMovement()
+    {
+        motor.Init(animatorController: animatorController);
+
+        climbing.Init(
+            motor: motor,
+            actionGuards: actionGuards,
+            animatorController: animatorController);
+
+        fallController.Init(
+            motor: motor,
+            damageController: damageController);
+
+        targetLock.Init(
+            controller: locomotionHandler,
+            damageController: damageController);
+
+        locomotionHandler.Init(
+            motor: motor,
+            interaction: interaction,
+            actionGuards: actionGuards,
+            stats: stats,
+            climbing: climbing);
+    }
+
+    private void InitStats()
+    {
+        stats.Init();
+        statsModifier.Init(stats, visualizer: effectVisualizer);
+
+        damageController.Init(
+            motor: motor,
+            statsController: stats,
+            animatorController: animatorController,
+            statsModifier: statsModifier);
+    }
+
+    private void InitInventories()
+    {
+        combatInventory.Init(
+            boneSocket: boneSocket,
+            animatorController: animatorController,
+            combatController: combatController,
+            collector: interaction);
+
+        spellInventory.Init();
+    }
+
+    private void InitLifecycle()
+    {
+        lifecycle.Init(
+            damagable: damageController,
+            statsController: stats,
+            statsModifier: statsModifier,
+            startingPosition: transform.position,
+            self: transform);
+    }
+
+    private void InitUI()
+    {
+        uiManager.Init(
+            stats: stats,
+            spellInventory: spellInventory,
+            combatInventory: combatInventory,
+            targetLock: targetLock);
+    }
 }

@@ -1,11 +1,6 @@
 using UnityEngine;
 
-public enum GameState
-{
-    Game=0,
-    Inventory = 1
 
-}
 public class PlayerManager : MonoBehaviour
 {
     public GameState State = GameState.Game;

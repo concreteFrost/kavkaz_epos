@@ -10,8 +10,8 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     [SerializeField] private QuickSlotBreakableUI shieldItem;
 
     [Header("Quick Access Slots")]
-    [SerializeField] private QuickSlotItemUI spellItem;
-    [SerializeField] private QuickSlotItemUI resourceItem;
+    [SerializeField] private SlotItemUI spellItem;
+    [SerializeField] private SlotItemUI resourceItem;
 
     private HumanoidCombatInventory combatInventory;
     private QuickAccessInventory spellInventory;

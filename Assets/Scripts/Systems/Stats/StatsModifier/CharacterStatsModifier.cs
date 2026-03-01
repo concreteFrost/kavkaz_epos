@@ -10,8 +10,8 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void Init(CharacterStatsController statsController, CharacterEffectVisualizer visualizer)
     {
-        this.statsController = statsController; 
-        this.visualizer = visualizer;   
+        this.statsController = statsController;
+        this.visualizer = visualizer;
     }
 
     private void Update()
@@ -22,14 +22,14 @@ public class CharacterStatsModifier : MonoBehaviour
         {
             var effect = activeEffects[i];
 
-           
+
             if (effect.Tick(Time.deltaTime, statsController))
             {
                 activeEffects.RemoveAt(i);
                 visualizer.HideEffect(effect.data.type);
             }
 
-            if(effect.isActive)
+            if (effect.isActive)
                 visualizer.ShowEffect(effect.data.type);
         }
     }
@@ -37,14 +37,14 @@ public class CharacterStatsModifier : MonoBehaviour
     public void ClearAllStats()
     {
         visualizer.HideAllEffects();
-        activeEffects.Clear(); 
-        
+        activeEffects.Clear();
+
     }
 
     public void AddSideEffect(StatusEffectData data)
     {
         var match = activeEffects.Find(x => x.data.type == data.type);
-        
+
 
         if (match != null)
         {
@@ -52,18 +52,17 @@ public class CharacterStatsModifier : MonoBehaviour
             if (!match.isActive)
             {
                 match.IncreaseDuration();
-                
+
             }
 
             return;
         }
 
-        // Новый эффект
         var newEffect = new StatusEffectInstance(data);
-        
+
         activeEffects.Add(newEffect);
     }
 
 
-    
+
 }

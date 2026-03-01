@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum InventorySection
@@ -22,17 +25,16 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Scrollbar scrollSlider;
     [SerializeField] ScrollRect scrollRect;
 
-    private List<QuickSlotItemUI> slotItems = new List<QuickSlotItemUI>();
-    private int totalCellsToInit = 100;
-    private float scaleImageSize = 1.1f;
+    private List<InventoryItemUI> slotItems = new List<InventoryItemUI>();
+    private int totalCellsToInit = 30;
 
     [SerializeField] Transform quickSlotsContainer;
-    private List<QuickSlotItemUI> quickSlotItems = new List<QuickSlotItemUI>();
+    private List<InventoryItemUI> quickSlotItems = new List<InventoryItemUI>();
 
     private QuickAccessInventory currentInventory;
     Dictionary<InventorySection, QuickAccessInventory> inventories;
 
-    Selectable lastSelectedObject;
+    GridLayoutGroup grid;
 
     public InventorySection currentSection { get; private set; }
 
@@ -40,6 +42,9 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         this.contextMenu = contextMenu;
         contextMenu.OnContextMenuClosed += FocusFirstGridItem;
+        contextMenu.UpdateQuickSlotsInfo += GetQuickSlotsInfo;
+
+        grid = cellsContainer.GetComponent<GridLayoutGroup>();
 
         //динамическое назначение инвентарей
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
@@ -48,12 +53,6 @@ public class PlayerInventoryUI : MonoBehaviour
 
     };
 
-        //подписка на обновление данных о слотах
-        foreach(var inv in inventories.Values)
-        {
-            inv.OnQuickAccessChanged += GetQuickSlotsInfo;
-        }
-
 
         InitInventoryCells();
         InitQuickAccessCells();
@@ -61,14 +60,8 @@ public class PlayerInventoryUI : MonoBehaviour
 
     private void OnDisable()
     {
-
         contextMenu.OnContextMenuClosed -= FocusFirstGridItem;  
-
-        foreach (var inv in inventories.Values)
-        {
-            inv.OnQuickAccessChanged -= GetQuickSlotsInfo;
-        }
-
+        contextMenu.UpdateQuickSlotsInfo -= GetQuickSlotsInfo; 
     }
 
     /// <summary>
@@ -89,17 +82,16 @@ public class PlayerInventoryUI : MonoBehaviour
         for (int i = 0; i < totalCellsToInit; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, cellsContainer);
-            QuickSlotItemUI slotItem = go.GetComponent<QuickSlotItemUI>();
-            slotItem.ScaleImages(scaleImageSize);
+            InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
 
             slotItem.InitInInventory((item,pos)=>contextMenu.ShowContextMenu(item,pos));
             slotItem.RemoveData();
+            slotItem.FitToCell(grid.cellSize);
             slotItems.Add(slotItem);
    
         }
 
     }
-
 
     /// <summary>
     /// Динамически создает сетку быстрого доступа
@@ -110,19 +102,19 @@ public class PlayerInventoryUI : MonoBehaviour
         for (int i = 0; i < QuickAccessInventory.QUICK_SLOTS_COUNT; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
-            var data = go.GetComponent<QuickSlotItemUI>();
-            data.InitInInventory((item, pos) => currentInventory.RemoveFromQuickAccess(item));
+            var data = go.GetComponent<InventoryItemUI>();
+            data.InitInInventory((item, pos) => contextMenu.RemoveOnItemClick(item));
+            
             quickSlotItems.Add(data);
         }
     }
-
 
     /// <summary>
     /// Показывает актуально информацию о предметах в быстром доступе
     /// </summary>
     private void GetQuickSlotsInfo()
     {
-        if (!mainWrapper.activeInHierarchy) return;
+        //if (!mainWrapper.activeInHierarchy) return;   i
 
         quickSlotItems.ForEach((s) => s.RemoveData());
 
@@ -143,7 +135,7 @@ public class PlayerInventoryUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Показывает актуальную информация о предметах в иневентаре
+    /// Показывает актуальную информацию о предметах в иневентаре
     /// </summary>
     private void GetSlotsInfo()
     {
@@ -189,7 +181,6 @@ public class PlayerInventoryUI : MonoBehaviour
         GetQuickSlotsInfo();
 
         scrollSlider.value = 1f;
-      
 
         // Преобразуем QuickSlotItemUI в Button
         var buttons = slotItems.Select(s => s.GetComponent<Button>()).ToList();
@@ -222,4 +213,12 @@ public class PlayerInventoryUI : MonoBehaviour
        
     }
 
+    internal void RedSliderValue(InputAction.CallbackContext c)
+    {
+        int val = (int)Math.Floor(c.ReadValue<float>());
+        float result = val >= 0 ? -0.25f : 0.25f;
+        scrollSlider.value += result;
+        Debug.Log(val);
+        //scrollSlider.value += c.ReadValue<Vector2>().;
+    }
 }

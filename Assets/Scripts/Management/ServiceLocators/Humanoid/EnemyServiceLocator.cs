@@ -68,7 +68,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     private void SpellInit()
     {
         spellInventory.Init();
-        emitter.Init(spellInventory: spellInventory, source: attackSource, animatorController: animatorController, targetLocker: fovController, boneSockets: boneSocket);
+        emitter.Init(source: attackSource, animatorController: animatorController, targetLocker: fovController, boneSockets: boneSocket,spellInventory:spellInventory);
        
     }
 

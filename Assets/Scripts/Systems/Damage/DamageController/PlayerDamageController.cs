@@ -16,7 +16,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
     {
 
         BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
-        
+
     }
 
     private void Update()
@@ -35,12 +35,12 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
-       base.TakeDamage(damageData, source);
+        base.TakeDamage(damageData, source);
 
-       if (IsDead) return;
+        if (IsDead) return;
 
-       HandleGetDamaged(damageData.balanceDamageType);
-       StartCoroutine(DamageCooldownCoroutine());
+        HandleGetDamaged(damageData.balanceDamageType);
+        StartCoroutine(DamageCooldownCoroutine());
     }
 
     protected override bool IsDamagingBlocked()

@@ -12,6 +12,8 @@ public class BoneSocket
 
 public class CharacterBoneSocket : MonoBehaviour
 {
+    private Animator anim;
+
     [SerializeField] BoneSocket weaponSocket;
     [SerializeField] BoneSocket shieldSocket;
     [SerializeField] BoneSocket rightMeleeSocket;
@@ -19,7 +21,7 @@ public class CharacterBoneSocket : MonoBehaviour
     [SerializeField] BoneSocket spellCastSocket;
     [SerializeField] BoneSocket eyesSocket;
 
-    Animator anim;
+    
 
     public void Init(Animator anim)
     {

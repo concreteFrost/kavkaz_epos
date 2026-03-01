@@ -1,74 +1,45 @@
 ﻿using UnityEngine;
 using System;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerGameInput : MonoBehaviour
 {
     public PlayerInputReader reader;
-
     private PlayerLocomotionActionHandler locomotion;
     private PlayerCombatActionHandler combat;
     private PlayerQuickSlotActionHandler quickSlots;
     private PlayerTargetLock targetLock;
-    private PlayerUIManager ui;
     private PlayerAnimatorController animator;
 
-    public static Action<GameState> PlayerModeChanged;
-
     public void Init(
+        PlayerInputReader reader,
         PlayerLocomotionActionHandler locomotion,
         PlayerCombatActionHandler combatHandler,
         PlayerQuickSlotActionHandler quickSlotHandler,
         PlayerAnimatorController animatorController,
-        PlayerTargetLock targetLock,
-        PlayerUIManager uiManager)
+        PlayerTargetLock targetLock
+        )
     {
+        this.reader = reader;
         this.locomotion = locomotion;
         this.combat = combatHandler;
         this.quickSlots = quickSlotHandler;
         this.animator = animatorController;
         this.targetLock = targetLock;
-        this.ui = uiManager;
-
-        reader = new PlayerInputReader();
-        reader.Init();
-
-        SwitchToGameInput();
     }
+
 
     private void Update()
     {
         HandleMovement();
         HandleCombat();
         HandleInteraction();
-        HandleInventory();
-        HandleCloseUI();
+        HandleOpenInventory();
+
     }
 
     private void FixedUpdate()
     {
         animator.UpdateAnimatorParameters();
-    }
-
-    public void DisableInput()
-    {
-        reader.controls.Disable();
-    }
-
-    public void EnableInput()
-    {
-        reader.controls.Enable();    
-    }
-
-    private void SwitchToGameInput()
-    {
-        reader.controls.UI.Disable();
-        reader.controls.Player.Enable();
-    }
-
-    private void SwitchToUiInput()
-    {
-        reader.controls.Player.Disable();
-        reader.controls.UI.Enable();
     }
 
     private void HandleMovement()
@@ -159,21 +130,14 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    private void HandleInventory()
+    private void HandleOpenInventory()
     {
         if (!reader.InventoryPressed) return;
 
-        ui.ToggleInventoryPanel(true);
-        SwitchToUiInput();
+        //ui.ToggleInventoryPanel(true);
+       
         reader.Consume(ref reader.InventoryPressed);
+        GameStateManager.GameStateChanged?.Invoke(GameState.Inventory);
     }
 
-    private void HandleCloseUI()
-    {
-        if (!reader.SwitchToGamePressed) return;
-
-        ui.CloseAllPanels();
-        SwitchToGameInput();
-        reader.Consume(ref reader.SwitchToGamePressed);
-    }
 }

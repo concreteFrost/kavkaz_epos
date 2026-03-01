@@ -5,9 +5,9 @@ public class CharacterEmitter : Emitter
     BaseHumanoidAnimatorController animatorController;
     ITargetLocker targetLocker;
 
-    public void Init(CharacterSpellInventory spellInventory,IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets)
+    public void Init(CharacterSpellInventory spellInventory, IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets)
     {
-        this.spellInventory = spellInventory;   
+        this.spellInventory = spellInventory;
         this.animatorController = animatorController;
         this.targetLocker = targetLocker;
         this.attackSource = source;
@@ -17,10 +17,10 @@ public class CharacterEmitter : Emitter
 
     public override void StartEmit()
     {
-        if(spellInventory.CurrentItem == null)
+        if (spellInventory.CurrentItem == null)
         {
             Debug.Log("no spell available");
-            return; 
+            return;
         }
 
         var currentSpell = spellInventory.CurrentItem;
@@ -31,10 +31,10 @@ public class CharacterEmitter : Emitter
         animatorController.OverrideSpell(spell);
 
         base.StartEmit();
-        
+
         SetTargetData(targetLocker.CurrentTarget());
-            
-       
+
+
 
     }
 

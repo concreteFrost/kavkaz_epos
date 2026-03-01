@@ -8,7 +8,7 @@ public class CharacterSpellInventory : QuickAccessInventory
         if (spell == null) return;
 
         items.Add(spell);
-        Notify();
+        //Notify();
     }
 
     public void TopUpCurrentSpell(int quantity)
@@ -30,7 +30,7 @@ public class CharacterSpellInventory : QuickAccessInventory
             return;
         }
 
-        Notify();
+        Notify(); //уведомляет об уменьшении кол-ва предмета
     }
 
     //private void Update()

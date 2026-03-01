@@ -6,7 +6,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     IRagdollController ragdollController;
 
-	public void Init(
+    public void Init(
         Transform self,
         IHumanoidMovement motor,
         CharacterStatsController statsController,
@@ -14,13 +14,13 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         IRagdollController ragdollController,
         BaseHumanoidAnimatorController animatorController
         )
-	{
+    {
         BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
 
         this.ragdollController = ragdollController;
         ragdollController.Recovered += OnRecover;
 
-	}
+    }
 
     private void OnDisable()
     {
@@ -45,7 +45,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
             };
             TakeDamage(d, null);
         }
-       
+
     }
 
     protected override bool IsDamagingBlocked()
@@ -58,10 +58,10 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         base.TakeDamage(damageData, source);
 
         if (IsDead) return;
- 
+
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
-            
+
             Vector3 sourcePos = source != null ? source.position : self.position - self.forward;
             PerformKnockout(sourcePos, damageData.impactForce);
         }
@@ -75,7 +75,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     private void PerformKnockout(Vector3 source, float impactForce)
     {
-        ragdollController.Knockout(source,impactForce);
+        ragdollController.Knockout(source, impactForce);
         IsKnockedOut = true;
     }
 

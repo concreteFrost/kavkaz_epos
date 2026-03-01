@@ -21,14 +21,14 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     }
 
     public void Init(
-        PlayerMotor motor,   
+        PlayerMotor motor,
         ICollector interaction,
         IClimber climbing,
         PlayerActionGuards actionGuards,
         CharacterStatsController stats
         )
     {
-  
+
         this.motor = motor;
         this.interact = interaction;
         this.climbing = climbing;
@@ -71,7 +71,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         stats.Speed.SetSprint(motor.IsSprinting);
         stats.Speed.Tick(Time.deltaTime);
 
-       
+
         motor.moveSpeed = stats.Speed.Current;
         motor.MoveCharacter(dir);
     }
@@ -133,7 +133,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
         if (motor.IsSprinting)
         {
-            
+
             stats.Stamina.Reduce(stats.statsSO.staminaRunReducePenalty);
         }
 
@@ -161,7 +161,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     }
 
     #endregion
-   
+
 
     #region Interaction
     public void Interact()
@@ -187,6 +187,6 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         climbing.ExitClimb();
     }
 
- 
+
     #endregion
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuickSlotBreakableUI : QuickSlotItemUI
+public class QuickSlotBreakableUI : SlotItemUI
 {
     [SerializeField] Slider breakdownSlider;
     IBreakable currentWeapon;

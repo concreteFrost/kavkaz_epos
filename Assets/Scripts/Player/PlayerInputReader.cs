@@ -30,7 +30,6 @@ public class PlayerInputReader
     {
         controls = new PlayerControls();
         Bind();
-        BindUiInput();
         controls.Enable();
     }
 
@@ -68,11 +67,8 @@ public class PlayerInputReader
 
         controls.Player.SpellChange.performed += c =>
             SpellScroll = c.ReadValue<float>();
-    }
 
-    private void BindUiInput()
-    {
-        controls.UI.SwitchToGame.performed += _ => SwitchToGamePressed = true;
+        controls.UI.SwitchToGame.performed += _ => SwitchToGamePressed = true;  
     }
 
     public void Consume(ref bool flag) => flag = false;

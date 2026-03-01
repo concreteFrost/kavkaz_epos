@@ -16,7 +16,6 @@ public abstract class QuickAccessInventory : MonoBehaviour
         quickSlots[currentIndex]; // текущий предмет в быстром доступе
 
     public event Action<ItemData> OnCurrentItemChanged;
-    public event Action OnQuickAccessChanged;
 
     #region Quick Access
 
@@ -58,7 +57,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
         // Если все заняты — заменяем последний
         quickSlots[quickSlots.Length - 1] = item;
         currentIndex = quickSlots.Length - 1;
-        Notify();
+        //Notify();
     }
 
     public void RemoveFromQuickAccess(ItemData item)
@@ -107,7 +106,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
         }
         while (quickSlots[currentIndex] == null && currentIndex != startIndex);
 
-        NotifyCurrent();
+        Notify();
     }
 
     private void NormalizeCurrentIndex()
@@ -136,12 +135,6 @@ public abstract class QuickAccessInventory : MonoBehaviour
     #region Notify
 
     protected void Notify()
-    {
-        OnQuickAccessChanged?.Invoke();
-        NotifyCurrent();
-    }
-
-    private void NotifyCurrent()
     {
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }

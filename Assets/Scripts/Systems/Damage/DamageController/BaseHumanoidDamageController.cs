@@ -17,12 +17,12 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsDead { get; set; }
     public bool IsDamaged { get; set; }
     public CharacterType CharacterType { get; set; }
-    public Transform GetAimTransform()=> aimPosition;
+    public Transform GetAimTransform() => aimPosition;
     public Transform GetOrigin() => transform;
 
     public event Action<Transform> DamageTaken;
-    public bool IsKnockedOut {  get; set; } 
-    public bool InBlockingWindow {  get; set; } 
+    public bool IsKnockedOut { get; set; }
+    public bool InBlockingWindow { get; set; }
     #endregion
 
     protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
@@ -31,7 +31,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         this.statsModifier = statsModifier;
         this.stats = statsController;
         this.self = self;
-        this.motor = motor; 
+        this.motor = motor;
 
         CharacterType = this.stats.statsSO.characterType;
 
@@ -82,7 +82,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     protected IEnumerator DamagedCoroutine(string animationName)
     {
-       
+
         animatorController.Animator().applyRootMotion = true;
         IsDamaged = true;
         yield return AnimatorUtils.WaitForAnimationEnd(animatorController.Animator(), animationName, AnimatorParameters.damageLayer);
@@ -99,9 +99,9 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             case BalanceDamageType.High: return AnimatorParameters.midDamageClip;
             case BalanceDamageType.Extreme: return AnimatorParameters.highDamageClip;
             case BalanceDamageType.Blocked: return AnimatorParameters.shieldDamageClip;
-            default: return null;   
+            default: return null;
         }
     }
 
-   
+
 }

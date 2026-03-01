@@ -1,26 +1,26 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerLifecycle : CharacterLifecycle
 {
-    
-    PlayerInput input;
+
 
     public void Init(
-        IDamagable damagable,CharacterStatsController statsController,PlayerInput input, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
+     IDamagable damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
     {
-        BaseInit(statsController,statsModifier,damagable,startingPosition,self);  
-        this.input = input;
+        BaseInit(statsController, statsModifier, damagable, startingPosition, self);
+
     }
 
-  
+
     public override void Die()
     {
         if (damagable.IsDead) return;
 
         damagable.IsDead = true;
-        statsModifier.ClearAllStats();  
-        input.DisableInput();
+        statsModifier.ClearAllStats();
+        GameStateManager.GameStateChanged?.Invoke(GameState.Transition);
 
         StartCoroutine(RespawnCoroutine());
 
@@ -29,7 +29,7 @@ public class PlayerLifecycle : CharacterLifecycle
 
     public override void Respawn()
     {
-        input.EnableInput();
+        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
         statsController.ResetAllStats();
 
         ResetPosition();
