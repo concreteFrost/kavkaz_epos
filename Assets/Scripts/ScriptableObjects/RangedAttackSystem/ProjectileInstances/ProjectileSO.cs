@@ -26,4 +26,6 @@ public abstract class ProjectileSO : ItemSO
  
     public EmitStartingPosition emitStartingPosition;
 
+    public abstract bool CanEmit(IStatModel statModel);
+
 }

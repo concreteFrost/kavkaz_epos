@@ -1,18 +1,21 @@
 ﻿using System;
 
 [System.Serializable]
-public class HealthModel
+public class HealthModel : BaseStatModel
 {
-    public float Current;
-    public float Max { get; }
 
-    public event Action<float> Changed;
+
     public event Action Depleted;
 
-    public HealthModel(float max)
+    protected override float PerLevelBonus => 20f;
+    protected override float DiminishFactor => 0.9f;
+
+    public HealthModel(float baseHealth, int level)
     {
-        Max = max;
-        Current = max;
+
+        statType = global::StatType.Health;
+        base.level = level;   
+        Current = CurrentMax;
     }
 
     public void Reduce(float amount)
@@ -22,17 +25,16 @@ public class HealthModel
         Current -= amount;
         if (Current < 0) Current = 0;
 
-        Changed?.Invoke(Current);
+        NotifyChange(Current);
 
         if (Current == 0)
             Depleted?.Invoke();
-
-      
+  
     }
 
     public void ResetHealth()
     {
-        Current = Max;
-        Changed?.Invoke(Current);   
+        Current = CurrentMax;
+        NotifyChange(Current);   
     }
 }

@@ -2,15 +2,17 @@ using UnityEngine;
 public class CharacterEmitter : Emitter
 {
     CharacterSpellInventory spellInventory;
+    CharacterStatsController statsController;
     BaseHumanoidAnimatorController animatorController;
     ITargetLocker targetLocker;
 
-    public void Init(CharacterSpellInventory spellInventory, IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets)
+    public void Init(CharacterSpellInventory spellInventory, IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets, CharacterStatsController statsController)
     {
         this.spellInventory = spellInventory;
         this.animatorController = animatorController;
         this.targetLocker = targetLocker;
         this.attackSource = source;
+        this.statsController = statsController;
         this.emitSource = boneSockets.GetSpellCastSocket;
 
     }
@@ -26,17 +28,25 @@ public class CharacterEmitter : Emitter
         var currentSpell = spellInventory.CurrentItem;
 
         var spell = currentSpell.itemSO as SpellProjectileSO;
-        projectileSO = spell;
+        var requiredModel = statsController.GetRequiredModel(spell.Requirements.statType);
+
+        if(requiredModel == null)
+        {
+            Debug.Log("no rquired model found");
+            return;
+        }
+
+        if (!spell.CanEmit(requiredModel)) return;
 
         animatorController.OverrideSpell(spell);
 
+        projectileSO = spell;
         base.StartEmit();
 
         SetTargetData(targetLocker.CurrentTarget());
-
-
-
     }
+
+
 
     public override void Emit()
     {

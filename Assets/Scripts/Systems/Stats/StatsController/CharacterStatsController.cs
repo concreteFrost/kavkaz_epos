@@ -1,30 +1,45 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class CharacterStatsController : MonoBehaviour
+public class CharacterStatsController : BaseStatsController 
 {
     public HumanoidStatsSO statsSO;
-    
-    public SpeedModel Speed;
-    public HealthModel Health;
-    public StaminaModel Stamina;
 
+    
     [Header("jumping")]
     public float jumpHeight;
     public float jumpTimer;
 
+
+    public int currentHealthLevel;
+    public int currentStaminaLevel;
+
     public void Init()
     {
-
-        Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
 
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 
-        Health = new HealthModel(statsSO.health);
-        Stamina = new StaminaModel(statsSO.stamina, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
+        currentHealthLevel = statsSO.startHealthLevel;
+        currentStaminaLevel = statsSO.startStaminaLevel;
+
+        Health = new HealthModel(statsSO.baseHealth, currentHealthLevel);
+        Stamina = new StaminaModel(statsSO.baseStamina,currentStaminaLevel, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
+        Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
+
+        Health.UpdateMaxAndCurrent(currentHealthLevel, statsSO.baseHealth);
+        Stamina.UpdateMaxAndCurrent(currentStaminaLevel, statsSO.baseStamina);
+
 
         ResetAllStats();
     }
+
+    public void UpdateStat()
+    {
+        currentHealthLevel++;
+        Health.UpdateMaxAndCurrent(currentHealthLevel, statsSO.baseHealth);
+    }
+
 
     public void ResetAllStats()
     {
@@ -35,6 +50,11 @@ public class CharacterStatsController : MonoBehaviour
     private void Update()
     {
         HandleStaminaRegen();
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UpdateStat();   
+        }
     }
 
     #region Stamina Control

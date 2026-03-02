@@ -2,10 +2,8 @@
 using UnityEngine;
 
 [System.Serializable]   
-public class StaminaModel
+public class StaminaModel : BaseStatModel
 {
-    public float Current;
-    public float Max { get; }
     public float RegenTimer { get; private set; }
     public float MinRegenDelay { get; private set; }
     public float MaxRegenDelay { get; private set; }
@@ -14,13 +12,15 @@ public class StaminaModel
     private float DefaultRegenDelay;
     private float DefaultRegenRate;
 
-    public event Action<float> Changed;
+    protected override float PerLevelBonus => 10f;
+    protected override float DiminishFactor => 0.9f;
 
-
-    public StaminaModel(float max, float minRegenDelay, float maxRegenDelay, float rate)
+    public StaminaModel(float baseStamina,int level, float minRegenDelay, float maxRegenDelay, float rate)
 	{
-        Max = max;
-        Current = max;
+        statType = global::StatType.Stamina;
+
+        base.level = level;   
+        Current = CurrentMax;
         MinRegenDelay = minRegenDelay;
         MaxRegenDelay = maxRegenDelay;
         RegenRate = rate;
@@ -37,16 +37,16 @@ public class StaminaModel
         if (Current <=0) return;
 
         Current -= amount;  
-        RegenTimer = 0;  
-        
-        Changed?.Invoke(Current);   
+        RegenTimer = 0;
+
+        NotifyChange(Current);
     }
 
     public void Regen()
     {
-        if (Current >= Max)
+        if (Current >= CurrentMax)
         {
-            Current = Max;
+            Current = CurrentMax;
             return;
         }
 
@@ -59,15 +59,15 @@ public class StaminaModel
             return;
 
         Current += RegenRate * Time.deltaTime;
-        Current = Mathf.Clamp(Current, 0, Max);
+        Current = Mathf.Clamp(Current, 0, CurrentMax);
 
-        Changed?.Invoke(Current);
+        NotifyChange(Current);
     }
 
     public void ResetStamina()
     {
-        Current = Max;
-        Changed?.Invoke(Current);   
+        Current = CurrentMax;
+        NotifyChange(Current);
     }
 
     public void SetRegenDelay(float delay) => MinRegenDelay = delay;
@@ -77,4 +77,7 @@ public class StaminaModel
     public void ResetCurrentRegenDelay() => MinRegenDelay = DefaultRegenDelay;
 
     public void ResetRegenRate()=> RegenRate = DefaultRegenRate;
+
+
+   
 }

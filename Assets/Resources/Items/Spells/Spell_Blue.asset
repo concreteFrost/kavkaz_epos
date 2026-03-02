@@ -25,9 +25,14 @@ MonoBehaviour:
     balanceDamageType: 2
     impactForce: 500
     sideEffectData:
-      sideEffect: 0
+      type: 0
       duration: 0
-      effectMultiplier: 0
+      statsAffectMultiplier: 0
+      accumulationIncreaseMultiplier: 0
+      accumulationDecreaseMultiplier: 0
   emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10
+  Requirements:
+    statType: 0
+    minRequired: 0

@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: Stats_Player
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
   characterType: 0
-  health: 500
-  stamina: 200
   walkSpeed: 2.5
   runningSpeed: 6
   strafeSpeed: 1
   jumpTimer: 0.3
   jumpHeight: 4
-  maxStamina: 0
-  staminaRunReducePenalty: 0.03
+  baseHealth: 100
+  baseStamina: 100
+  staminaRunReducePenalty: 0.005
   staminaPushReducePenalty: 7
   staminaJumpReducePenalty: 7
   staminaDodgeReducePenalty: 10
   staminaMinRegenDelay: 2
   staminaMaxRegenDelay: 6
   staminaRegenRate: 15
+  startHealthLevel: 1
+  startStaminaLevel: 1
   eventListenDistance: 20

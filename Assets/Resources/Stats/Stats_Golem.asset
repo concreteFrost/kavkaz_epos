@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Stats_Golem
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
   characterType: 2
-  health: 60
-  stamina: 100
   walkSpeed: 2
   runningSpeed: 5
   strafeSpeed: 1
   jumpTimer: 0.3
   jumpHeight: 4
-  maxStamina: 0
+  baseHealth: 100
+  baseStamina: 100
   staminaRunReducePenalty: 0.03
   staminaPushReducePenalty: 15
   staminaJumpReducePenalty: 7
@@ -28,4 +27,6 @@ MonoBehaviour:
   staminaMinRegenDelay: 2
   staminaMaxRegenDelay: 6
   staminaRegenRate: 15
+  startHealthLevel: 1
+  startStaminaLevel: 1
   eventListenDistance: 100

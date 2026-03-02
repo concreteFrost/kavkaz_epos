@@ -2,20 +2,22 @@
 using UnityEngine;
 
 [Serializable]
-public class SpeedModel
+public class SpeedModel : BaseStatModel
 {
-    public float Current { get; private set; }
-
     public float WalkSpeed { get; }
     public float RunSpeed { get; }
     public float StrafeSpeed { get; }
 
     private float _targetSpeed;
 
+    protected override float PerLevelBonus => 10f;
+    protected override float DiminishFactor => 0.9f;
 
 
     public SpeedModel(float walk, float run, float strafe)
     {
+        statType = global::StatType.Speed;
+
         WalkSpeed = walk;
         RunSpeed = run;
         StrafeSpeed = strafe;
@@ -43,4 +45,6 @@ public class SpeedModel
 
         Current = newSpeed;
     }
+
+   
 }

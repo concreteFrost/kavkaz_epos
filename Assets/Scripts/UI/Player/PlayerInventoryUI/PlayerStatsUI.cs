@@ -21,10 +21,10 @@ public class PlayerStatsUI : MonoBehaviour
     {
         this.stats = stats;
 
-        healthSlider.maxValue = this.stats.Health.Max;
+        healthSlider.maxValue = this.stats.Health.CurrentMax;
         healthSlider.value = this.stats.Health.Current;
 
-        staminaSlider.maxValue = this.stats.Stamina.Max;
+        staminaSlider.maxValue = this.stats.Stamina.CurrentMax;
         staminaSlider.value = this.stats.Stamina.Current;
 
         this.stats.Health.Changed += UpdateHealthSlider;
@@ -78,5 +78,20 @@ public class PlayerStatsUI : MonoBehaviour
         }
 
         slider.value = targetValue;
+    }
+
+    IEnumerator UpdateMaxSlider(Slider slider, float newMax)
+    {
+        float initialMax = slider.maxValue;
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * sliderUpdateSpeed;
+            slider.maxValue = Mathf.Lerp(initialMax, newMax, Mathf.SmoothStep(0f, 1f, t));
+            yield return null;
+        }
+
+        slider.maxValue = newMax;
     }
 }

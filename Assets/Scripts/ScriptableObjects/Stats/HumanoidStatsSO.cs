@@ -4,8 +4,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Humanoid AI Stats", menuName = ScriptablePaths.CHARACTER_STATS_PATH + "/Humanoid AI Stats")]
 public class HumanoidStatsSO : BaseCharacterStatsSO
 {
-    [Header("stamina")]
-    public float maxStamina;
+    [Header("base stats")]
+    public float baseHealth = 100f;
+    public float baseStamina = 100f;
+
+    [Header("stamina modifiers")]
     public float staminaRunReducePenalty = 0.03f;
     public float staminaPushReducePenalty = 15f;
     public float staminaJumpReducePenalty = 7f;
@@ -14,8 +17,13 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float staminaMaxRegenDelay = 6f;
     public float staminaRegenRate = 15f;
 
+    [Header("stats level")]
+    public int startHealthLevel = 1;
+    public int startStaminaLevel = 1;  
+
     [Header("Listening")]
     public float eventListenDistance = 20f;
+
 
 
 }

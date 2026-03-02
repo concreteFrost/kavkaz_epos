@@ -138,7 +138,9 @@ public class PlayerServiceLocator : MonoBehaviour
             source: attackSource,
             animatorController: animatorController,
             targetLocker: targetLock,
-            boneSockets: boneSocket);
+            boneSockets: boneSocket,
+            statsController:stats
+            );
 
         pushController.Init(
             attackSource: attackSource,
