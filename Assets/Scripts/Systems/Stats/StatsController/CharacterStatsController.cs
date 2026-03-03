@@ -3,16 +3,21 @@ using UnityEngine;
 
 public class CharacterStatsController : BaseStatsController 
 {
-    public HumanoidStatsSO statsSO;
+    public KnowledgeModel Knowledge;
 
-    
+    public HumanoidStatsSO statsSO;
+    public CharacterStatsLevelSO statsLevelSO;
+
     [Header("jumping")]
     public float jumpHeight;
     public float jumpTimer;
 
+    [Header("Levels")]
+    public int healthLevel;
+    public int staminaLevel;
+    public int knowledgeLevel;
 
-    public int currentHealthLevel;
-    public int currentStaminaLevel;
+    public StatType statToUpdate;
 
     public void Init()
     {
@@ -20,25 +25,63 @@ public class CharacterStatsController : BaseStatsController
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 
-        currentHealthLevel = statsSO.startHealthLevel;
-        currentStaminaLevel = statsSO.startStaminaLevel;
+        healthLevel = statsLevelSO.startHealthLevel;
+        staminaLevel = statsLevelSO.startStaminaLevel;
+        knowledgeLevel = statsLevelSO.startKnowledgeLevel;
 
-        Health = new HealthModel(statsSO.baseHealth, currentHealthLevel);
-        Stamina = new StaminaModel(statsSO.baseStamina,currentStaminaLevel, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
+        Health = new HealthModel(statsSO.baseHealth);
+        Stamina = new StaminaModel(statsSO.baseStamina, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
         Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
-
-        Health.UpdateMaxAndCurrent(currentHealthLevel, statsSO.baseHealth);
-        Stamina.UpdateMaxAndCurrent(currentStaminaLevel, statsSO.baseStamina);
-
+        Knowledge = new KnowledgeModel();
 
         ResetAllStats();
     }
 
-    public void UpdateStat()
+    private void Start()
     {
-        currentHealthLevel++;
-        Health.UpdateMaxAndCurrent(currentHealthLevel, statsSO.baseHealth);
+        Health.UpdateMaxAndCurrent(healthLevel, statsSO.baseHealth);
+        Stamina.UpdateMaxAndCurrent(staminaLevel, statsSO.baseStamina);
+        Knowledge.UpdateMaxAndCurrent(staminaLevel, knowledgeLevel);
     }
+
+    private void Update()
+    {
+        Stamina.Regen();
+    }
+
+
+    public void IncreaseStat(StatType type)
+    {
+        switch (type)
+        {
+            case StatType.Health:
+                healthLevel++;
+                Health.UpdateMaxAndCurrent(healthLevel, statsSO.baseHealth);
+                break;
+            case StatType.Stamina:
+                staminaLevel++;
+                Stamina.UpdateMaxAndCurrent(staminaLevel, statsSO.baseStamina);
+                break;
+            case StatType.Knowledge:
+
+                knowledgeLevel++;
+                Knowledge.UpdateMaxAndCurrent(knowledgeLevel, 1);
+                break;
+        }
+    }
+
+    public int GetRequiredStatLevel(StatType model)
+    {
+        switch (model)
+        {
+            case StatType.Health: return knowledgeLevel;
+            case StatType.Stamina: return staminaLevel;
+            case StatType.Knowledge: return knowledgeLevel;
+        }
+
+        return 0;
+    }
+
 
 
     public void ResetAllStats()
@@ -47,21 +90,5 @@ public class CharacterStatsController : BaseStatsController
         Stamina.ResetStamina();
     }
 
-    private void Update()
-    {
-        HandleStaminaRegen();
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            UpdateStat();   
-        }
-    }
-
-    #region Stamina Control
-
-    public void HandleStaminaRegen()
-    {
-        Stamina.Regen();
-    }
-    #endregion
 }

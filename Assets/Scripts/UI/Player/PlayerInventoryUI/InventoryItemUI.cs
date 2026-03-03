@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler, IDeselectHandler, ISelectHandler
 {
     [SerializeField] protected Image outlineImage;
+    
     private Action<ItemData, Vector2> clickHandler;
     public Action<RectTransform> ItemSelected;
 

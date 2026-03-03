@@ -22,6 +22,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected HumanoidAIController controller;
 
     [Header("Статы")]
+    [SerializeField] protected CharacterLevelController levelController;
     [SerializeField] protected CharacterStatsController statsManager;
     [SerializeField] protected CharacterStatsModifier statsModifier;
 
@@ -83,6 +84,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     private void StatsInit()
     {
         statsManager.Init();
+        levelController.Init(statsController:statsManager);
         statsModifier.Init(statsManager,visualizer);
     }
 

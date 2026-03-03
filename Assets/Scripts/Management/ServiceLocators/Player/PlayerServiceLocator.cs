@@ -30,6 +30,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerQuickSlotActionHandler quickSlotHandler;
 
     [Header("Статы")]
+    [SerializeField] private CharacterLevelController levelController; 
     [SerializeField] private CharacterStatsController stats;
     [SerializeField] private CharacterStatsModifier statsModifier;
 
@@ -194,6 +195,7 @@ public class PlayerServiceLocator : MonoBehaviour
     private void InitStats()
     {
         stats.Init();
+        levelController.Init(statsController: stats);
         statsModifier.Init(stats, visualizer: effectVisualizer);
 
         damageController.Init(
@@ -230,6 +232,6 @@ public class PlayerServiceLocator : MonoBehaviour
             stats: stats,
             spellInventory: spellInventory,
             combatInventory: combatInventory,
-            targetLock: targetLock);
+            targetLock: targetLock,levelController:levelController);
     }
 }

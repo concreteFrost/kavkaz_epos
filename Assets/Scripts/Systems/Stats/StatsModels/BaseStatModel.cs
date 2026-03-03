@@ -3,16 +3,11 @@ using UnityEngine;
 
 public abstract class BaseStatModel : IStatModel
 {
-    [SerializeField] protected int level;
 
     public event Action<float> Changed;
-    public event Action<float> MaxChanged;
+    public event Action<int,float> MaxChanged;
 
     protected StatType statType;
-    public int CurrentLevel()
-    {
-        return level;
-    }
     
     public float Current;
     public float CurrentMax { get; set; }
@@ -37,26 +32,25 @@ public abstract class BaseStatModel : IStatModel
         return baseValue + totalBonus;
     }
 
-    public void UpdateMaxAndCurrent(int level, float baseValue)
+    public virtual void UpdateMaxAndCurrent(int level, float baseValue)
     {
-        this.level = level;
-        CurrentMax = Calculate(this.level, baseValue);
+        
+        CurrentMax = Calculate(level, baseValue);
         Current = CurrentMax;
+      
+        NotifyMaxChange(level, CurrentMax);
         NotifyChange(CurrentMax);
-        NotifyMaxChange(CurrentMax);
     }
 
-    public void UpdateMax(int level, float baseValue)
+    public virtual void UpdateMax(int level, float baseValue)
     {
-        this.level = level;
-        CurrentMax = Calculate(this.level, baseValue);
-
-        NotifyMaxChange(CurrentMax);
+        CurrentMax = Calculate(level, baseValue);
+        NotifyMaxChange(level, CurrentMax);
     }
 
     protected void NotifyChange(float amount) => Changed?.Invoke(amount);   
 
-    protected void NotifyMaxChange(float amount) => MaxChanged?.Invoke(amount);
+    protected void NotifyMaxChange(int level, float amount) => MaxChanged?.Invoke(level,amount);
 
     
 }

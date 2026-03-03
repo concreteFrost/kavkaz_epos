@@ -143,15 +143,25 @@ public class CharacterInspectorTool : EditorWindow
             EditorGUILayout.HelpBox("No stats assigned", MessageType.Warning);
         }
 
+        var newLevelStats = (CharacterStatsLevelSO)EditorGUILayout.ObjectField("Level Stats", statsController.statsLevelSO, typeof(CharacterStatsLevelSO), false); 
+
+        if(newLevelStats == null)
+        {
+            EditorGUILayout.HelpBox("No level stats assigned", MessageType.Warning);
+        }
+
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(statsController, "Change stats");
             statsController.statsSO = newStats;
+            statsController.statsLevelSO = newLevelStats;
             EditorUtility.SetDirty(statsController);    
         }
 
         EditorGUI.indentLevel--;    
     }
+
+
 
     private void DrawEnemyCombatInventory(GameObject go)
     {

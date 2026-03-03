@@ -1,4 +1,4 @@
 ﻿public interface IItemRequirements
 {
-    public bool CanUse(IStatModel model);
+    public bool CanUse(int level);
 }

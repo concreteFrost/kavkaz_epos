@@ -11,7 +11,7 @@ public abstract class BaseFallController : MonoBehaviour
     
     protected bool wasLastGroundedPositionRegistered;
 
-    protected const float fallDamageThreshold = 3f;
+    protected const float fallDamageThreshold = 5f;
     protected const float fallDamageMultiplier = 12f;
     protected abstract void TrackFall();
     protected abstract void CalculateFallDamage();

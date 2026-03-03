@@ -18,11 +18,21 @@ MonoBehaviour:
   prefab: {fileID: 6897423304324703046, guid: 630d132b300b266418da91ddc90783e7, type: 3}
   speed: 10
   lifetime: 10
+  amountToSpawn: 1
   attackSO: {fileID: 11400000, guid: a6f57c95cd5ca944ea12bc3cfab75801, type: 2}
   damageData:
     healthDamageMultiplier: 10
     balanceDamageType: 2
     impactForce: 500
+    sideEffectData:
+      type: 0
+      duration: 0
+      statsAffectMultiplier: 0
+      accumulationIncreaseMultiplier: 0
+      accumulationDecreaseMultiplier: 0
   emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10
+  Requirements:
+    statType: 2
+    minRequired: 1

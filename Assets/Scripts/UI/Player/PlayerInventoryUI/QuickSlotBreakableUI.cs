@@ -22,7 +22,10 @@ public class QuickSlotBreakableUI : SlotItemUI
             breakdownSlider.gameObject.SetActive(true);  
         }
 
+        
+
         quantityText.enabled = false;
+        cantUseImage.enabled = false;
 
 
     }

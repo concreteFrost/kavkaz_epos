@@ -7,13 +7,13 @@ public class SlotItemUI : MonoBehaviour
     [SerializeField] protected Image itemImage;
     [SerializeField] protected Image backgroundImage;
     [SerializeField] protected TextMeshProUGUI quantityText;
+    [SerializeField] protected Image cantUseImage;
 
     protected ItemData currentItem;
 
     public ItemData GetItem() => currentItem;
 
-
-    public void UpdateImageDate(ItemData data)
+    public void UpdateImageDate(ItemData data, CharacterStatsController statsController)
     {
 
         currentItem = data;
@@ -27,6 +27,18 @@ public class SlotItemUI : MonoBehaviour
 
         quantityText.enabled = true;
         quantityText.text = currentItem.quantity.ToString();
+
+        cantUseImage.gameObject.SetActive(false);
+       
+
+        if (currentItem.itemSO is SpellProjectileSO spell)
+        {
+            var requiredModel = statsController.GetRequiredStatLevel(spell.Requirements.statType);
+            bool canUse = spell.CanEmit(requiredModel);
+            ToggleCantUseImage(!canUse);
+           
+        }
+        
     }
 
 
@@ -37,6 +49,12 @@ public class SlotItemUI : MonoBehaviour
         backgroundImage.enabled = false;
         quantityText.enabled = false;
 
+    }
+
+    public void ToggleCantUseImage(bool value)
+    {
+        itemImage.color = value ? Color.red : Color.white;
+        //cantUseImage.gameObject.SetActive(value);
     }
 
 

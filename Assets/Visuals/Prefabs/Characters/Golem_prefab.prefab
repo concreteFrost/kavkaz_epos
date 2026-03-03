@@ -277,6 +277,7 @@ MonoBehaviour:
   agent: {fileID: 348251026276055827}
   motor: {fileID: 3299003110744848457}
   controller: {fileID: 5078802449260825446}
+  levelController: {fileID: 1611013291599762481}
   statsManager: {fileID: 3387867412571113007}
   statsModifier: {fileID: 6650483598761547998}
   damageController: {fileID: 8943507498973229792}
@@ -409,6 +410,7 @@ MonoBehaviour:
   animationSmooth: 1
   airSpeed: 5
   airSmooth: 6
+  airAcceleration: 70
   extraGravity: -10
   limitFallVelocity: -15
   groundLayer:
@@ -480,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95391240d9174704cad2109de73986d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
-  spells: []
+  items: []
 --- !u!1 &1551598284522656634
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +494,7 @@ GameObject:
   - component: {fileID: 5191409045240131854}
   - component: {fileID: 3387867412571113007}
   - component: {fileID: 6650483598761547998}
+  - component: {fileID: 1611013291599762481}
   m_Layer: 0
   m_Name: AI_Stats
   m_TagString: Untagged
@@ -526,13 +529,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ce2275a01ac5c4a85e44adc6191bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
-  statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
+  Speed:
+    Current: 0
   Health:
     Current: 0
   Stamina:
     Current: 0
+  Knowledge:
+    Current: 0
+  statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
+  statsLevelSO: {fileID: 11400000, guid: 3a8e90e550cd9304cbe893a99ab56730, type: 2}
   jumpHeight: 0
   jumpTimer: 0
+  healthLevel: 0
+  staminaLevel: 0
+  knowledgeLevel: 0
+  statToUpdate: 0
 --- !u!114 &6650483598761547998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,6 +558,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatsModifier
   activeEffects: []
+--- !u!114 &1611013291599762481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551598284522656634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ded1aebf7adc554bb7e4c7a2eb552d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterLevelController
+  levelData:
+    currentXP: 0
+    xpToNextLevel: 0
+    currentCharacterLevel: 1
+    unspentPoints: 0
+    baseLevelCost: 100
+    costMultiplier: 15
 --- !u!1 &1584109083511904176
 GameObject:
   m_ObjectHideFlags: 0

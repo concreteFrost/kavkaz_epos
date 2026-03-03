@@ -13,63 +13,91 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     [SerializeField] private SlotItemUI spellItem;
     [SerializeField] private SlotItemUI resourceItem;
 
+
     private HumanoidCombatInventory combatInventory;
     private QuickAccessInventory spellInventory;
+    private CharacterStatsController statsController;
 
     /// <summary>
     /// Инициализация UI
     /// </summary>
     /// <param name="combatInventory">Экипировка игрока</param>
     /// <param name="spellInventory">Инвентарь быстрых слотов (магия/ресурсы)</param>
-    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory)
+    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory, CharacterStatsController statsController)
     {
         this.combatInventory = combatInventory;
         this.spellInventory = spellInventory;
+        this.statsController = statsController;
 
         // Подписка на обновления текущего элемента инвентаря
         spellInventory.OnCurrentItemChanged += OnSpellUpdated;
+        statsController.Knowledge.MaxChanged += OnMaxKnowledgeChanged;
 
         // Подписка на обновления экипировки
         combatInventory.WeaponDataUpdated += OnWeaponUpdated;
         combatInventory.ShieldUpdated += OnShieldUpdated;
 
         // Инициализация текущих данных
-        OnSpellUpdated(spellInventory.CurrentItem);
+        
         combatInventory.GetCurrentWeaponData();
         combatInventory.GetCurrentShieldData();
+
+      
+    }
+
+    private void Start()
+    {
+        OnSpellUpdated(spellInventory.CurrentItem);
     }
 
     private void OnDisable()
     {
-        if (spellInventory != null)
-            spellInventory.OnCurrentItemChanged -= OnSpellUpdated;
 
-        if (combatInventory != null)
-        {
-            combatInventory.WeaponDataUpdated -= OnWeaponUpdated;
-            combatInventory.ShieldUpdated -= OnShieldUpdated;
-        }
+        spellInventory.OnCurrentItemChanged -= OnSpellUpdated;
+        statsController.Knowledge.MaxChanged -= OnMaxKnowledgeChanged;
+        combatInventory.WeaponDataUpdated -= OnWeaponUpdated;
+        combatInventory.ShieldUpdated -= OnShieldUpdated;
+
     }
 
     /// <summary>
-    /// Показать/скрыть все быстрые слоты
+    /// Показать/скрыть все быстрые слоты и обновить информацию о текущих предметах
     /// </summary>
-    public void SetSlotsVisible(bool visible) => wrapper.SetActive(visible);
+    public void SetPanelVisible(bool visible)
+    {
+        wrapper.SetActive(visible);
 
-    #region Quick Slots Handlers
+        if (visible)
+        {
+            OnSpellUpdated(spellInventory.CurrentItem);
+        }
+    }
 
+    #region Spell Slot
+
+    /// <summary>
+    /// Вызывается при измене уровня знаний у игрока для того чтобы убрать/показать иконку запрета на использование
+    /// </summary>
+    /// <param name="arg1"></param>
+    /// <param name="arg2"></param>
+    private void OnMaxKnowledgeChanged(int arg1, float arg2) => OnSpellUpdated(spellInventory.CurrentItem);
+
+    /// <summary>
+    /// Отображает актуальную информацию о текущем заклинании
+    /// </summary>
+    /// <param name="currentItem"></param>
     private void OnSpellUpdated(ItemData currentItem)
     {
         if (currentItem != null)
         {
-            
-            spellItem.UpdateImageDate(currentItem);
+            spellItem.UpdateImageDate(currentItem, statsController);
         }
         else
         {
             spellItem.RemoveData();
         }
     }
+
 
     #endregion
 

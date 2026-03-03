@@ -17,10 +17,6 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float staminaMaxRegenDelay = 6f;
     public float staminaRegenRate = 15f;
 
-    [Header("stats level")]
-    public int startHealthLevel = 1;
-    public int startStaminaLevel = 1;  
-
     [Header("Listening")]
     public float eventListenDistance = 20f;
 

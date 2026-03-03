@@ -2,6 +2,6 @@
 
 public interface IStatsController
 {
-    IStatModel GetRequiredModel(StatType type);
+   
 
 }

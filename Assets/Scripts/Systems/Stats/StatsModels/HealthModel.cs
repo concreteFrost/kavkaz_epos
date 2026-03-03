@@ -4,17 +4,15 @@
 public class HealthModel : BaseStatModel
 {
 
-
     public event Action Depleted;
 
-    protected override float PerLevelBonus => 20f;
-    protected override float DiminishFactor => 0.9f;
+    protected override float PerLevelBonus => 15f;
+    protected override float DiminishFactor => 0.85f;
 
-    public HealthModel(float baseHealth, int level)
+    public HealthModel(float baseHealth)
     {
 
         statType = global::StatType.Health;
-        base.level = level;   
         Current = CurrentMax;
     }
 

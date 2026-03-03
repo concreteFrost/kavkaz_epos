@@ -8,11 +8,10 @@ public class SpellProjectileSO : ProjectileSO
 
     public ItemRequirements Requirements;
 
-    public override bool CanEmit(IStatModel model)
+    public override bool CanEmit(int i)
     {
-        if (!Requirements.CanUse(model))
-        {
-            Debug.Log($"your current level is {model.CurrentLevel()} and this spell requires {Requirements.minRequired} ");
+        if (!Requirements.CanUse(i))
+        {  
             return false;
         }
 

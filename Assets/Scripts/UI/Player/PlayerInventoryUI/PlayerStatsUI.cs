@@ -6,8 +6,14 @@ public class PlayerStatsUI : MonoBehaviour
 {
     [SerializeField] private GameObject wrapper;
 
+  
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
+
+    RectTransform healthSliderRect;
+    RectTransform staminaSliderRect;
+
+    private float sliderScalingFactor = 2f;
 
     IEnumerator healthCoroutine;
     IEnumerator staminaCoroutine;
@@ -21,14 +27,21 @@ public class PlayerStatsUI : MonoBehaviour
     {
         this.stats = stats;
 
+        healthSliderRect = healthSlider.GetComponent<RectTransform>();
+        staminaSliderRect = staminaSlider.GetComponent<RectTransform>();
+       
         healthSlider.maxValue = this.stats.Health.CurrentMax;
         healthSlider.value = this.stats.Health.Current;
+        SetSliderSize(healthSliderRect, stats.Health.CurrentMax);
 
         staminaSlider.maxValue = this.stats.Stamina.CurrentMax;
         staminaSlider.value = this.stats.Stamina.Current;
+        SetSliderSize(staminaSliderRect, stats.Stamina.CurrentMax);
 
         this.stats.Health.Changed += UpdateHealthSlider;
         this.stats.Stamina.Changed += UpdateStaminaSlider;
+        this.stats.Health.MaxChanged += UpdateHealthSliderSize;
+        this.stats.Stamina.MaxChanged += UpdateStaminaSliderSize;
     }
 
 
@@ -36,6 +49,13 @@ public class PlayerStatsUI : MonoBehaviour
     {
         stats.Health.Changed -= UpdateHealthSlider;
         stats.Stamina.Changed -= UpdateStaminaSlider;
+        stats.Health.MaxChanged -= UpdateHealthSliderSize;
+        stats.Stamina.MaxChanged -= UpdateStaminaSliderSize;
+    }
+
+    private void SetSliderSize(RectTransform sliderRect, float value)
+    {
+        sliderRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, value * sliderScalingFactor);   
     }
 
     public void SetStatsVisible(bool isVisible) => wrapper.SetActive(isVisible);    
@@ -49,6 +69,18 @@ public class PlayerStatsUI : MonoBehaviour
     public void UpdateStaminaSlider(float value)
     {
         HandleStartCoroutine(ref staminaCoroutine,staminaSlider,value);
+    }
+
+    private void UpdateHealthSliderSize(int level, float value)
+    {
+        healthSlider.maxValue = value;  
+        SetSliderSize(healthSliderRect, value);
+    }
+
+    private void UpdateStaminaSliderSize(int level, float value)
+    {
+        staminaSlider.maxValue = value; 
+        SetSliderSize(staminaSliderRect, value);        
     }
 
     private void HandleStartCoroutine(ref IEnumerator coroutine, Slider slider, float val)
@@ -80,18 +112,5 @@ public class PlayerStatsUI : MonoBehaviour
         slider.value = targetValue;
     }
 
-    IEnumerator UpdateMaxSlider(Slider slider, float newMax)
-    {
-        float initialMax = slider.maxValue;
-        float t = 0f;
 
-        while (t < 1f)
-        {
-            t += Time.deltaTime * sliderUpdateSpeed;
-            slider.maxValue = Mathf.Lerp(initialMax, newMax, Mathf.SmoothStep(0f, 1f, t));
-            yield return null;
-        }
-
-        slider.maxValue = newMax;
-    }
 }

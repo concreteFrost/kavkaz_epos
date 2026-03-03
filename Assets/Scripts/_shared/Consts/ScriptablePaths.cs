@@ -18,6 +18,7 @@ public static class ScriptablePaths
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";
 
     public const string CHARACTER_STATS_PATH = CHARACTER_PATH + "/Stats";
+    public const string CHARACTER_LEVEL_PATH = CHARACTER_PATH + "/Level";
     public const string CHARACTER_BEHAVIOUR_STATS_PATH = CHARACTER_PATH + "/Behaviour Stats";
     public const string CHARACTER_BEHAVIOUR_PROFILES = CHARACTER_PATH + "/Behaviour Profiles";
     

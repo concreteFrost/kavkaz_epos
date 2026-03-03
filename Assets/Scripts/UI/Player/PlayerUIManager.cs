@@ -11,11 +11,11 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private PlayerInventoryContextMenuUI inventoryContextMenuUI;
  
-    public void Init(CharacterStatsController stats, CharacterSpellInventory spellInventory, HumanoidCombatInventory combatInventory, PlayerTargetLock targetLock)
+    public void Init(CharacterStatsController stats, CharacterSpellInventory spellInventory, HumanoidCombatInventory combatInventory, PlayerTargetLock targetLock, CharacterLevelController levelController)
     {
         playerStatsUI.Init(stats: stats);
-        quickSlotsUI.Init(combatInventory: combatInventory, spellInventory:spellInventory);
-        inventoryUI.Init(spellInventory:spellInventory,contextMenu:inventoryContextMenuUI);
+        quickSlotsUI.Init(combatInventory: combatInventory, statsController:stats, spellInventory:spellInventory);
+        inventoryUI.Init(spellInventory:spellInventory,contextMenu:inventoryContextMenuUI, statsController:stats );
         lockOnTargetUI.Init(targetLock: targetLock);
         inventoryContextMenuUI.Init(quickAccessInventory: spellInventory);
 
@@ -66,7 +66,7 @@ public class PlayerUIManager : MonoBehaviour
     private void ToggleInGamePanels(bool isVisible)
     {
         playerStatsUI.SetStatsVisible(isVisible);  
-        quickSlotsUI.SetSlotsVisible(isVisible);
+        quickSlotsUI.SetPanelVisible(isVisible);
 
     }
 

@@ -285,7 +285,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3972935063080875979, guid: 3e043410dd517ad4b9db6431ccc289ca, type: 3}
       propertyPath: m_Name
-      value: ItemIcon_Wrapper_Breakable
+      value: QuickSlot_Item_Breakable
       objectReference: {fileID: 0}
     - target: {fileID: 9118967739246535559, guid: 3e043410dd517ad4b9db6431ccc289ca, type: 3}
       propertyPath: m_Pivot.x
@@ -399,6 +399,7 @@ MonoBehaviour:
   itemImage: {fileID: 2888182925107153487}
   backgroundImage: {fileID: 6691972936951560011}
   quantityText: {fileID: 3789958681117661525}
+  cantUseImage: {fileID: 8192221275622630378}
   breakdownSlider: {fileID: 183813302068343627}
 --- !u!114 &2888182925107153487 stripped
 MonoBehaviour:
@@ -430,6 +431,17 @@ RectTransform:
 --- !u!114 &6691972936951560011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7452181199201598215, guid: 3e043410dd517ad4b9db6431ccc289ca, type: 3}
+  m_PrefabInstance: {fileID: 4302589931039427660}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &8192221275622630378 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5333743445685399462, guid: 3e043410dd517ad4b9db6431ccc289ca, type: 3}
   m_PrefabInstance: {fileID: 4302589931039427660}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

@@ -13,13 +13,12 @@ public class StaminaModel : BaseStatModel
     private float DefaultRegenRate;
 
     protected override float PerLevelBonus => 10f;
-    protected override float DiminishFactor => 0.9f;
+    protected override float DiminishFactor => 0.85f;
 
-    public StaminaModel(float baseStamina,int level, float minRegenDelay, float maxRegenDelay, float rate)
+    public StaminaModel(float baseStamina, float minRegenDelay, float maxRegenDelay, float rate)
 	{
         statType = global::StatType.Stamina;
 
-        base.level = level;   
         Current = CurrentMax;
         MinRegenDelay = minRegenDelay;
         MaxRegenDelay = maxRegenDelay;

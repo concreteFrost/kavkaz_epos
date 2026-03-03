@@ -35,7 +35,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public virtual void Init()
     {
 
-        Health = new HealthModel(defaultHealth,1);
+        Health = new HealthModel(defaultHealth);
 
         mat = GetComponent<MeshRenderer>();
         defaultCol = mat.material.color;

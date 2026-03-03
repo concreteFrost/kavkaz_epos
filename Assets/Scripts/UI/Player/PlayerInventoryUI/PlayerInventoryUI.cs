@@ -16,7 +16,7 @@ public enum InventorySection
 
 public class PlayerInventoryUI : MonoBehaviour
 {
-   
+    private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
 
     [SerializeField] GameObject mainWrapper;
@@ -38,9 +38,10 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public InventorySection currentSection { get; private set; }
 
-    public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu)
+    public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
     {
         this.contextMenu = contextMenu;
+        this.statsController = statsController; 
         contextMenu.OnContextMenuClosed += FocusFirstGridItem;
         contextMenu.UpdateQuickSlotsInfo += GetQuickSlotsInfo;
 
@@ -129,7 +130,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
         for (int i = 0; i < itemsToFill.Count; i++)
         {
-            quickSlotItems[i].UpdateImageDate(itemsToFill[i]);
+            quickSlotItems[i].UpdateImageDate(itemsToFill[i],statsController);
         }
 
     }
@@ -152,7 +153,9 @@ public class PlayerInventoryUI : MonoBehaviour
 
         for (int i = 0; i < itemsToFill.Count; i++)
         {
-            slotItems[i].UpdateImageDate(itemsToFill[i]);
+            slotItems[i].UpdateImageDate(itemsToFill[i],statsController );
+
+          
         }
     }
 
