@@ -21,12 +21,16 @@ public class CharacterLevelController : MonoBehaviour
     CharacterStatsController statsController;
     public CharacterLevelData levelData;
 
+    public Action XpGained;
+    public Action NewLevelReached;
+    public Action PointsSpent;
+
+    public CharacterStatsController GetStatsController() => statsController;
+
     public void Init(CharacterStatsController statsController)
     {
         levelData = new CharacterLevelData();
         this.statsController = statsController; 
-
-      
     }
 
     private void Start()
@@ -37,6 +41,7 @@ public class CharacterLevelController : MonoBehaviour
     public void AddXP(int amount)
     {
         levelData.currentXP += amount;
+        XpGained?.Invoke();
 
         //автоматический апп очков если они превышает порог вхождени€ на следующий уровень
         while (levelData.currentXP >= levelData.xpToNextLevel)
@@ -51,6 +56,9 @@ public class CharacterLevelController : MonoBehaviour
         levelData.currentCharacterLevel++;
         levelData.unspentPoints += 3;
         CalculateXPToNextLevel();   
+
+        statsController.Health.ResetHealth();
+        NewLevelReached?.Invoke();  
     }
 
     private void CalculateXPToNextLevel()
@@ -60,13 +68,21 @@ public class CharacterLevelController : MonoBehaviour
                                   levelData.costMultiplier;
     }
 
-    public bool SpendPoint(StatType type)
+    public void SpendPoint(StatType type)
     {
-        if (levelData.unspentPoints <= 0)
-            return false;
-
-        levelData.unspentPoints--;
-        statsController.IncreaseStat(type);
-        return true;
+        statsController.IncreaseStat(type);      
     }
+
+    public int GetUnspentPoints()=> levelData.unspentPoints;
+
+    public void ReserveSpendPoint() => levelData.unspentPoints--;
+
+    public void RefundSpendPoint()
+    {
+        // ћаксимум не больше начального количества очков на уровне
+        if (levelData.unspentPoints < 3)
+            levelData.unspentPoints++;
+    }
+
+
 }

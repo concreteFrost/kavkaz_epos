@@ -7,6 +7,7 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     [Header("base stats")]
     public float baseHealth = 100f;
     public float baseStamina = 100f;
+    public float baseKnowledge = 100f;
 
     [Header("stamina modifiers")]
     public float staminaRunReducePenalty = 0.03f;

@@ -6,12 +6,15 @@ public class HumanoidAiLifecycle : CharacterLifecycle
    
     IRagdollController ragdollController;
     IBrain brain;
+    PointsEmitter pointsEmitter;
 
-    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self)
+    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter)
     {
         BaseInit(statsController, statsModifier, damagable, startingPosition, self);
         this.ragdollController = ragdollController;
         this.brain = brain; 
+
+        this.pointsEmitter = pointsEmitter;
 
     }
 
@@ -26,6 +29,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
             ragdollController.EnableRagdoll(Vector3.zero, 0);
         }
        
+        pointsEmitter.DropPoints(); 
         statsModifier.ClearAllStats();
         brain.ForceStop();
 

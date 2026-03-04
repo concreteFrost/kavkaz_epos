@@ -32,16 +32,16 @@ public class CharacterStatsController : BaseStatsController
         Health = new HealthModel(statsSO.baseHealth);
         Stamina = new StaminaModel(statsSO.baseStamina, statsSO.staminaMinRegenDelay, statsSO.staminaMaxRegenDelay, statsSO.staminaRegenRate);
         Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
-        Knowledge = new KnowledgeModel();
+        Knowledge = new KnowledgeModel(statsSO.baseKnowledge);
 
         ResetAllStats();
     }
 
     private void Start()
     {
-        Health.UpdateMaxAndCurrent(healthLevel, statsSO.baseHealth);
-        Stamina.UpdateMaxAndCurrent(staminaLevel, statsSO.baseStamina);
-        Knowledge.UpdateMaxAndCurrent(staminaLevel, knowledgeLevel);
+        Health.UpdateMaxAndCurrent(healthLevel);
+        Stamina.UpdateMaxAndCurrent(staminaLevel);
+        Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
     }
 
     private void Update()
@@ -49,6 +49,23 @@ public class CharacterStatsController : BaseStatsController
         Stamina.Regen();
     }
 
+    public IStatModel GetStatModel(StatType type)
+    {
+        switch (type)
+        {
+            case StatType.Health:
+                return Health;
+
+            case StatType.Stamina:
+                return Stamina;
+
+            case StatType.Knowledge:
+                return Knowledge;
+
+            default:
+                return null;
+        }
+    }
 
     public void IncreaseStat(StatType type)
     {
@@ -56,25 +73,25 @@ public class CharacterStatsController : BaseStatsController
         {
             case StatType.Health:
                 healthLevel++;
-                Health.UpdateMaxAndCurrent(healthLevel, statsSO.baseHealth);
+                Health.UpdateMaxAndCurrent(healthLevel);
                 break;
             case StatType.Stamina:
                 staminaLevel++;
-                Stamina.UpdateMaxAndCurrent(staminaLevel, statsSO.baseStamina);
+                Stamina.UpdateMaxAndCurrent(staminaLevel);
                 break;
             case StatType.Knowledge:
 
                 knowledgeLevel++;
-                Knowledge.UpdateMaxAndCurrent(knowledgeLevel, 1);
+                Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
                 break;
         }
     }
 
-    public int GetRequiredStatLevel(StatType model)
+    public int GetCurrentStatLevel(StatType model)
     {
         switch (model)
         {
-            case StatType.Health: return knowledgeLevel;
+            case StatType.Health: return healthLevel;
             case StatType.Stamina: return staminaLevel;
             case StatType.Knowledge: return knowledgeLevel;
         }

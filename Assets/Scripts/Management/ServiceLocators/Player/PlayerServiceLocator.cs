@@ -34,6 +34,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterStatsController stats;
     [SerializeField] private CharacterStatsModifier statsModifier;
 
+    [Header("Система очков")]
+    [SerializeField] private PlayerPointsCollector pointsCollector; 
+
     [Header("Система взаимодействия")]
     [SerializeField] private ItemCollector interaction;
 
@@ -76,6 +79,7 @@ public class PlayerServiceLocator : MonoBehaviour
         InitCombat();
         InitMovement();
         InitStats();
+        InitPoints();
         InitInventories();
         InitLifecycle();
         InitUI();
@@ -203,6 +207,11 @@ public class PlayerServiceLocator : MonoBehaviour
             statsController: stats,
             animatorController: animatorController,
             statsModifier: statsModifier);
+    }
+
+    private void InitPoints()
+    {
+        pointsCollector.Init(levelController: levelController);
     }
 
     private void InitInventories()

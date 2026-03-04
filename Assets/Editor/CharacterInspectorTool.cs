@@ -84,6 +84,7 @@ public class CharacterInspectorTool : EditorWindow
             DrawBehaviourStats(obj);    
             DrawEnemyCombatInventory(obj);
             DrawEnemySpellInventory(obj);
+            DrawPointsData(obj);
         }
 
         EditorGUILayout.EndVertical();
@@ -227,5 +228,33 @@ public class CharacterInspectorTool : EditorWindow
         }
 
         EditorGUI.indentLevel--;
+    }
+
+    private void DrawPointsData(GameObject obj)
+    {
+        var pointsEmitter = obj.GetComponentInChildren<PointsEmitter>();
+
+        if (pointsEmitter == null)
+        {
+            EditorGUILayout.HelpBox("No PointsEmitter found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Points to collect", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;    
+
+        SerializedObject so = new SerializedObject(pointsEmitter);
+        SerializedProperty points = so.FindProperty("points");
+
+        so.Update(); 
+        EditorGUILayout.PropertyField(points, true);
+
+        if (so.ApplyModifiedProperties())
+        {
+            Undo.RecordObject(pointsEmitter, "Modify points");
+            EditorUtility.SetDirty(pointsEmitter);  
+        }
+
+        EditorGUI.indentLevel--;    
     }
 }

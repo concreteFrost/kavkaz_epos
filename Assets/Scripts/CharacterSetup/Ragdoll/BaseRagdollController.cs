@@ -25,6 +25,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     protected Transform _hipsBone; // центральная кость (таз)
     protected Transform[] _bones; // кости относящиеся к ragdoll
+    private Transform _chestBone;
     protected Rigidbody hipsRb;
 
     protected CharacterBoneTransform[] _faceupBoneTransforms;
@@ -58,6 +59,7 @@ public abstract class BaseRagdollController : IRagdollController
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
         _hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
+        _chestBone = anim.Animator().GetBoneTransform(HumanBodyBones.Chest);
         hipsRb = _hipsBone.GetComponent<Rigidbody>();
 
         InitBones();
@@ -266,7 +268,9 @@ public abstract class BaseRagdollController : IRagdollController
             yield return null;
         }
 
-        isFacingUp = _hipsBone.forward.y > 0;
+        //isFacingUp = _hipsBone.forward.y > 0;
+        Vector3 hipsToChest = (_chestBone.position - _hipsBone.position).normalized;
+        isFacingUp = Vector3.Dot(hipsToChest, Vector3.up) > 0f;
 
         AlignRotationToHips();
         AlignPositionToHips();

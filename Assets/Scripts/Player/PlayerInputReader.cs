@@ -22,6 +22,7 @@ public class PlayerInputReader
     public bool LockPressed;
     public bool InteractPressed;
     public bool InventoryPressed;
+    public bool MenuPressed;
 
     public float SpellScroll;
 
@@ -74,6 +75,7 @@ public class PlayerInputReader
         controls.Player.LockTarget.performed += _ => LockPressed = true;
         controls.Player.Interaction.performed += _ => InteractPressed = true;
         controls.Player.Inventory.performed += _ => InventoryPressed = true;
+        controls.Player.Menu.performed += _ => MenuPressed = true;  
 
         controls.Player.SpellChange.performed += c =>
             SpellScroll = c.ReadValue<float>();

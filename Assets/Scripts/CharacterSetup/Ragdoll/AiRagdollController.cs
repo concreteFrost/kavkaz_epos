@@ -31,8 +31,6 @@ public class AiRagdollController : BaseRagdollController
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            Debug.Log("enabled");
-
         }
 
         ApplyImpulseFromSource(force,from);

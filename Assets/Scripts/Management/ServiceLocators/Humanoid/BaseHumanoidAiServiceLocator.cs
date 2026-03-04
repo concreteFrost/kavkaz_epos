@@ -26,18 +26,19 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected CharacterStatsController statsManager;
     [SerializeField] protected CharacterStatsModifier statsModifier;
 
-
     [Header("Система урона")]
     [SerializeField] protected HumanoidAIDamageController damageController;
     [SerializeField] protected HumanoidAIPushReceiver pushReceiver;
     [SerializeField] protected AiFallController fallController;
+
+    [Header("Очки")]
+    [SerializeField] protected PointsEmitter pointsEmitter;
 
     [Header("Визуальные эффекты")]
     [SerializeField] protected CharacterEffectVisualizer visualizer;
 
     [Header("Жизненый цикл")]
     [SerializeField] protected HumanoidAiLifecycle lifecycle;
-
 
     protected string uid;
     protected AiRagdollController ragdollController;
@@ -104,6 +105,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
         pushReceiver.Init(damageController: damageController, animatorController: animatorController, ragdollController: ragdollController, self: transform);
         fallController.Init(ragdollController: ragdollController, damagable: damageController, self: transform);
     }
+
 
     protected abstract void LifecycleInit();
   

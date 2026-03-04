@@ -11,8 +11,11 @@ public class HealthModel : BaseStatModel
 
     public HealthModel(float baseHealth)
     {
-
+       
         statType = global::StatType.Health;
+
+        baseValue = baseHealth; 
+        CurrentMax = baseValue;
         Current = CurrentMax;
     }
 

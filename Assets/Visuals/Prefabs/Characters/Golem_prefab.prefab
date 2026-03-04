@@ -283,6 +283,7 @@ MonoBehaviour:
   damageController: {fileID: 8943507498973229792}
   pushReceiver: {fileID: 9127203704873688318}
   fallController: {fileID: 3911399293853715009}
+  pointsEmitter: {fileID: 7146188031349536765}
   visualizer: {fileID: 2035188261503769948}
   lifecycle: {fileID: 3278313199481351946}
   interaction: {fileID: 3010707744199399342}
@@ -324,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_ddf48cb7-6d8d-4079-8ccd-bcc1c418c695
+  uniqueId: uid_d0238e0d-6bd1-40a5-af95-78c94222f02c
 --- !u!195 &348251026276055827
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1299,6 +1300,7 @@ Transform:
   - {fileID: 4611751968977714257}
   - {fileID: 9132160930134766617}
   - {fileID: 3073379454201708769}
+  - {fileID: 1408037564006403159}
   m_Father: {fileID: 455387850651665373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5944858926164015045
@@ -1392,6 +1394,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   aimPosition: {fileID: 4953969913014891369}
+--- !u!1 &6173579764692180649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1408037564006403159}
+  - component: {fileID: 7146188031349536765}
+  m_Layer: 0
+  m_Name: AI_Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1408037564006403159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173579764692180649}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2530020144617652671}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7146188031349536765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173579764692180649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ae02974ae138c4d9dbe085ebdf1b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointsEmitter
+  points: 0
 --- !u!1 &6717586996907319133
 GameObject:
   m_ObjectHideFlags: 0

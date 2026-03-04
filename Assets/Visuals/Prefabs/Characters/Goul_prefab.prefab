@@ -42,6 +42,7 @@ Transform:
   - {fileID: 2248916987601853972}
   - {fileID: 4828770120571156539}
   - {fileID: 1711113652051936224}
+  - {fileID: 7377179265506277881}
   m_Father: {fileID: 9166727822812391018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &241067611607711645
@@ -338,6 +339,7 @@ MonoBehaviour:
   damageController: {fileID: 1007171283521907894}
   pushReceiver: {fileID: 1737182500981193628}
   fallController: {fileID: 8669864891053469228}
+  pointsEmitter: {fileID: 3537132878642011212}
   visualizer: {fileID: 665039933024682901}
   lifecycle: {fileID: 5871193750833694611}
   interaction: {fileID: 6583377933518813573}
@@ -1328,6 +1330,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1711113652051936224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6002108665679659897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7377179265506277881}
+  - component: {fileID: 3537132878642011212}
+  m_Layer: 0
+  m_Name: AI_Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7377179265506277881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6002108665679659897}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9038665148088118433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3537132878642011212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6002108665679659897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ae02974ae138c4d9dbe085ebdf1b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointsEmitter
+  points: 30
 --- !u!1 &6182434149915885681
 GameObject:
   m_ObjectHideFlags: 0

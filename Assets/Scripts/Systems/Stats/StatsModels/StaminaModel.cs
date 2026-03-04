@@ -19,6 +19,8 @@ public class StaminaModel : BaseStatModel
 	{
         statType = global::StatType.Stamina;
 
+        baseValue = baseStamina;    
+        CurrentMax = baseValue;   
         Current = CurrentMax;
         MinRegenDelay = minRegenDelay;
         MaxRegenDelay = maxRegenDelay;

@@ -28,7 +28,7 @@ public class CharacterEmitter : Emitter
         var currentSpell = spellInventory.CurrentItem;
 
         var spell = currentSpell.itemSO as SpellProjectileSO;
-        var requiredModel = statsController.GetRequiredStatLevel(spell.Requirements.statType);
+        var requiredModel = statsController.GetCurrentStatLevel(spell.Requirements.statType);
 
         if(requiredModel == 0)
         {

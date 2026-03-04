@@ -6,6 +6,7 @@ public enum GameState
     Game = 0,
     Inventory = 1,
     Transition = 2,
+    Menu= 3,
 
 }
 public class GameStateManager : MonoBehaviour

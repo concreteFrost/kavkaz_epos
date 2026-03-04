@@ -33,6 +33,7 @@ public class PlayerGameInput : MonoBehaviour
         HandleMovement();
         HandleCombat();
         HandleInteraction();
+        HandeMenuPressed(); 
         HandleOpenInventory();
 
     }
@@ -136,6 +137,13 @@ public class PlayerGameInput : MonoBehaviour
 
         reader.Consume(ref reader.InventoryPressed);
         GameStateManager.GameStateChanged?.Invoke(GameState.Inventory);
+    }
+
+    private void HandeMenuPressed()
+    {
+        if (!reader.MenuPressed) return;
+        reader.Consume(ref reader.MenuPressed);
+        GameStateManager.GameStateChanged?.Invoke(GameState.Menu);
     }
 
 }

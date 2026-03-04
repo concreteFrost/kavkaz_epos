@@ -32,6 +32,7 @@ public class PlayerInputManager : MonoBehaviour
             case GameState.Game:
                 SetGameMode();
                 break;
+            case GameState.Menu:
             case GameState.Inventory:
                 SetUIMode();
                 break;

@@ -33,7 +33,7 @@ public class SlotItemUI : MonoBehaviour
 
         if (currentItem.itemSO is SpellProjectileSO spell)
         {
-            var requiredModel = statsController.GetRequiredStatLevel(spell.Requirements.statType);
+            var requiredModel = statsController.GetCurrentStatLevel(spell.Requirements.statType);
             bool canUse = spell.CanEmit(requiredModel);
             ToggleCantUseImage(!canUse);
            

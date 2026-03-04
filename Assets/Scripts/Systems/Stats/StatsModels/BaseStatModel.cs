@@ -8,6 +8,8 @@ public abstract class BaseStatModel : IStatModel
     public event Action<int,float> MaxChanged;
 
     protected StatType statType;
+
+    protected float baseValue;
     
     public float Current;
     public float CurrentMax { get; set; }
@@ -32,7 +34,7 @@ public abstract class BaseStatModel : IStatModel
         return baseValue + totalBonus;
     }
 
-    public virtual void UpdateMaxAndCurrent(int level, float baseValue)
+    public virtual void UpdateMaxAndCurrent(int level)
     {
         
         CurrentMax = Calculate(level, baseValue);
@@ -42,7 +44,7 @@ public abstract class BaseStatModel : IStatModel
         NotifyChange(CurrentMax);
     }
 
-    public virtual void UpdateMax(int level, float baseValue)
+    public virtual void UpdateMax(int level)
     {
         CurrentMax = Calculate(level, baseValue);
         NotifyMaxChange(level, CurrentMax);
