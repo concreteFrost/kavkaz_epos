@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 4192861585032197807}
   - component: {fileID: 8395550709058625607}
   - component: {fileID: 4784911758359576001}
+  - component: {fileID: 8050301752918984609}
   m_Layer: 0
   m_Name: Inventory_Item
   m_TagString: Untagged
@@ -317,9 +318,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.9811321, g: 0.69298404, b: 0.42114633, a: 1}
+    m_HighlightedColor: {r: 0.8113208, g: 0.5557867, b: 0, a: 1}
+    m_PressedColor: {r: 1, g: 0.6862745, b: 0.003921569, a: 1}
+    m_SelectedColor: {r: 0.7169812, g: 0.43744305, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -356,6 +357,19 @@ MonoBehaviour:
   quantityText: {fileID: 1093668720454800665}
   cantUseImage: {fileID: 5849484008855460510}
   outlineImage: {fileID: 2604181610229126025}
+--- !u!114 &8050301752918984609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3972935063080875979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447471b422c67f84d8df5d9c87a6b16e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISelectableStyle
+  style: {fileID: 11400000, guid: 95d0b49c83bf40a48b8440d560ab2237, type: 2}
 --- !u!1 &5155103778380547829
 GameObject:
   m_ObjectHideFlags: 0

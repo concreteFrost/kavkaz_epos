@@ -31,7 +31,7 @@ public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandl
         levelController.CurrentSelected = this.GetComponent<Selectable>();
     }
 
-    public void SetButtonActive(bool isActive) => upgradeBtn.interactable = isActive;   
+    public void SetButtonActive(bool isActive) => upgradeBtn.interactable = isActive;
 
     public void OnSubmit(BaseEventData eventData)
     {

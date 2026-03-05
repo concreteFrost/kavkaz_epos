@@ -13,6 +13,7 @@ public static class ScriptablePaths
     public const string ANIMATION_PATH = BASE_PATH + "/Animation";
     public const string PROJECTILE_PATH = BASE_PATH + "/Projectile";
     public const string VFX_PATH = BASE_PATH + "/VFX";
+    public const string UI_STYLES_PATH = BASE_PATH + "/UI Styles";
 
     //под-домены
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";

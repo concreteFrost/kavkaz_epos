@@ -87,7 +87,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
 
     }
 
-    private void UpdateUpgradeButtonState()
+    public void UpdateUpgradeButtonState()
     {
         bool hasPoints = false;
 
@@ -151,7 +151,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
                 panel.RemoveAccumulatedPoint();
 
             upgraderPanelUI.UpdateUnspentPointsText(levelController.levelData.unspentPoints);
-            UpdateUpgradeButtonState();
+            
         }
     }
 

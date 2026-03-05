@@ -59,7 +59,9 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
 
         accumulatedPoints++;
         levelController.ReserveSpendPoint();
+        uiController.UpdateUpgradeButtonState();
         UpdatePointsUI();
+        
     }
 
     public void RemoveAccumulatedPoint()
@@ -70,6 +72,7 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
 
         accumulatedPoints--;
         levelController.RefundSpendPoint();
+        uiController.UpdateUpgradeButtonState();
         UpdatePointsUI();
     }
 
