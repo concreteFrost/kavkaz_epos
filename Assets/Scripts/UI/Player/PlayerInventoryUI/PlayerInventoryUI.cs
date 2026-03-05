@@ -36,6 +36,8 @@ public class PlayerInventoryUI : MonoBehaviour
 
     GridLayoutGroup grid;
 
+    public bool IsOpened()=>mainWrapper.activeInHierarchy;
+
     public InventorySection currentSection { get; private set; }
 
     public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
@@ -224,7 +226,7 @@ public class PlayerInventoryUI : MonoBehaviour
        
         float result = val >= 0 ? -0.25f : 0.25f;
         scrollSlider.value += result;
-        Debug.Log(val);
+        
         //scrollSlider.value += c.ReadValue<Vector2>().;
     }
 }

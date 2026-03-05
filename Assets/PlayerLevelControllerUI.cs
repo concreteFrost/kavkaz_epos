@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,19 +9,28 @@ public class PlayerLevelControllerUI : MonoBehaviour
 
     [SerializeField] GameObject wrapper;
     [SerializeField] Transform statPanelsWrapper;
+    [SerializeField] GameObject statInfoPanelPrefab;
     [SerializeField] GameObject upgraderPanelPrefab;
 
-    Dictionary<StatUpgraderPanelUI, StatType> statDatas = new Dictionary<StatUpgraderPanelUI, StatType>();
+    public Action<int> PointsUpdated;
+    public Action<int> LevelUpdated;
+
+    Dictionary<StatInfoPanelUI, StatType> statDatas = new Dictionary<StatInfoPanelUI, StatType>();
+    StatsUpgraderPanelUI upgraderPanelUI;
 
     private List<Selectable> selectablePanels = new List<Selectable>();
 
     private Selectable currentSelected;
+
+    public Selectable CurrentSelected { get => currentSelected; set => currentSelected = value; }
+
+    public bool IsOpened() => wrapper.activeInHierarchy;
     public void Init(CharacterLevelController levelController)
     {
         this.levelController = levelController;
 
         InstantiateStats();
-        ToggleLevelControllerPanel(false);    
+        ToggleLevelControllerPanel(false);
 
     }
 
@@ -35,36 +45,62 @@ public class PlayerLevelControllerUI : MonoBehaviour
 
         foreach (StatType statType in statsToUpgrade)
         {
-            GameObject go = Instantiate(upgraderPanelPrefab, statPanelsWrapper);
+            GameObject go = Instantiate(statInfoPanelPrefab, statPanelsWrapper);
 
-            var panel = go.GetComponent<StatUpgraderPanelUI>();
+            var panel = go.GetComponent<StatInfoPanelUI>();
 
-            panel.Init(levelController, statType);
+            panel.Init(levelController, statType, this);
             panel.AddButtonListeners();
-            panel.UpdatePointsUI(); 
+            panel.UpdatePointsUI();
 
             statDatas.Add(panel, statType);
-            selectablePanels.Add(go.GetComponent<Selectable>());    
+            selectablePanels.Add(go.GetComponent<Selectable>());
         }
+
+        GameObject upgraderPrefab = Instantiate(upgraderPanelPrefab, statPanelsWrapper);
+        
+        StatsUpgraderPanelUI panelUI = upgraderPrefab.GetComponent<StatsUpgraderPanelUI>();
+        panelUI.Init(this);
+        
+        upgraderPanelUI = panelUI;
+        selectablePanels.Add(panelUI.GetComponent<Selectable>());
     }
 
     public void ToggleLevelControllerPanel(bool isVisible)
     {
-        // ≈сли скрываем панель, автоматически примен€ем очки
-        if (!isVisible)
-        {
-            Upgrade();
-        }
 
         wrapper.SetActive(isVisible);
 
+        if (!isVisible) return;
         // ќбновл€ем UI независимо от видимости
-        foreach (StatUpgraderPanelUI panel in statDatas.Keys)
+        foreach (StatInfoPanelUI panel in statDatas.Keys)
         {
             panel.UpdatePointsUI();
         }
 
+        upgraderPanelUI.UpdateCharacterLevelText(levelController.levelData.currentCharacterLevel);
+        upgraderPanelUI.UpdateUnspentPointsText(levelController.levelData.unspentPoints);
+
+        UpdateUpgradeButtonState();
+
         HighlightFirst();
+
+    }
+
+    private void UpdateUpgradeButtonState()
+    {
+        bool hasPoints = false;
+
+        foreach (var panel in statDatas.Keys)
+        {
+            if (panel.HasAccumulatedPoints())
+            {
+                hasPoints = true;
+                break;
+            }
+        }
+
+        upgraderPanelUI.SetButtonActive(hasPoints);
     }
 
     public void Upgrade()
@@ -80,10 +116,11 @@ public class PlayerLevelControllerUI : MonoBehaviour
                 points--;
             }
         }
-       
+
+        UpdateUpgradeButtonState();
     }
 
-    #region Gamepad PanelsInteraction
+    #region Gamepad Panels Interaction
     private void HighlightFirst()
     {
         UINavigationUtils.ClampVerticalNavigation(selectablePanels);
@@ -97,13 +134,25 @@ public class PlayerLevelControllerUI : MonoBehaviour
     {
         if (currentSelected == null) return;
 
-        var panel = currentSelected.GetComponent<StatUpgraderPanelUI>();
-        if (panel == null) return;
+        if (currentSelected.TryGetComponent<StatInfoPanelUI>(out StatInfoPanelUI panel))
+        {
+            if (panel == null)
+            {
+                return;
+            }
 
-        if (val > 0)
-            panel.AccumulatePoint();
-        else if (val < 0)
-            panel.RemoveAccumulatedPoint();
+            if (val > 0)
+            {
+                panel.AccumulatePoint();
+            }
+               
+
+            else if (val < 0)
+                panel.RemoveAccumulatedPoint();
+
+            upgraderPanelUI.UpdateUnspentPointsText(levelController.levelData.unspentPoints);
+            UpdateUpgradeButtonState();
+        }
     }
 
     #endregion

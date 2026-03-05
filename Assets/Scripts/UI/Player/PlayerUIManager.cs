@@ -142,12 +142,12 @@ public class PlayerUIManager : MonoBehaviour
 
     public void ReadSliderValue(float value)
     {
-        if (inventoryUI.gameObject.activeInHierarchy)
+        if (inventoryUI.IsOpened())
         {
             inventoryUI.RedSliderValue(value);
             return;
         }
-        if (levelControllerUI.gameObject.activeInHierarchy)
+        if (levelControllerUI.IsOpened())
         {
             levelControllerUI.HandleStatChange(value);
             return;

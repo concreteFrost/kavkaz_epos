@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StatUpgraderPanelUI : MonoBehaviour
+public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
 {
     CharacterLevelController levelController;
     
@@ -11,15 +12,18 @@ public class StatUpgraderPanelUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI currentLevelText;
     [SerializeField] Button updateStatBtn;
     [SerializeField] Button downgradeStatBtn;
+
+    PlayerLevelControllerUI uiController;
    
     StatType statType;
 
     private int accumulatedPoints;
 
-    public void Init(CharacterLevelController levelController, StatType statType)
+    public void Init(CharacterLevelController levelController, StatType statType , PlayerLevelControllerUI uiController)
     {
         this.levelController = levelController;
         this.statType = statType;
+        this.uiController = uiController;   
 
         statNameText.text = statType.ToString();
         accumulatedPoints = 0;
@@ -44,6 +48,11 @@ public class StatUpgraderPanelUI : MonoBehaviour
         pointsText.text = total.ToString();
     }
 
+    public bool HasAccumulatedPoints()
+    {
+        return accumulatedPoints > 0;
+    }
+
     public void AccumulatePoint()
     {
         if (levelController.GetUnspentPoints() == 0) return;
@@ -55,7 +64,7 @@ public class StatUpgraderPanelUI : MonoBehaviour
 
     public void RemoveAccumulatedPoint()
     {
-        Debug.Log("removing unspent point");
+        
         if (accumulatedPoints <= 0)
             return; // нечего возвращать
 
@@ -69,9 +78,13 @@ public class StatUpgraderPanelUI : MonoBehaviour
     {
         int points = accumulatedPoints;
         accumulatedPoints = 0;
-        UpdatePointsUI();
+       
         return points;
     }
 
 
+    public void OnSelect(BaseEventData eventData)
+    {
+        uiController.CurrentSelected = this.GetComponent<Selectable>(); 
+    }
 }
