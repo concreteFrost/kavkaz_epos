@@ -5,6 +5,7 @@ public class StatusEffectInstance
 {
     public readonly StatusEffectData data;
 
+    private float defaultDuration;
     public float duration;
     public float accumulation;
     public bool isActive;
@@ -13,14 +14,15 @@ public class StatusEffectInstance
     {
         this.data = data;
         duration = data.duration;
+        defaultDuration = duration;
         accumulation = 0;
         isActive = false;
     }
 
     public void IncreaseDuration()
     {
-        
-        duration += 0.2f;
+
+        duration = defaultDuration;
 
     }
 
