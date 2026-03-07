@@ -7,9 +7,9 @@ public class CharacterEffectVisualizer : MonoBehaviour
     [SerializeField] private StatusEffectDataBaseSO effectDataBaseSO;
     [SerializeField] private Transform effectPosition;
 
-    private Dictionary<SideEffectType, GameObject> activeInstances = new();
+    private Dictionary<StatusEffectType, GameObject> activeInstances = new();
 
-    public void ShowEffect(SideEffectType type)
+    public void ShowEffect(StatusEffectType type)
     {
         if (activeInstances.TryGetValue(type, out var existingInstance))
         {
@@ -29,7 +29,7 @@ public class CharacterEffectVisualizer : MonoBehaviour
         StartCoroutine(GraduateFXToggle(instance, true));
     }
 
-    public void HideEffect(SideEffectType type)
+    public void HideEffect(StatusEffectType type)
     {
         if (activeInstances.TryGetValue(type, out var instance))
         {

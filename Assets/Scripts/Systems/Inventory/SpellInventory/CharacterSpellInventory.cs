@@ -1,23 +1,11 @@
-using System.Linq;
-using UnityEngine;
 
 public class CharacterSpellInventory : QuickAccessInventory
 {
-    public void AddSpell(ItemData spell)
+    public void Init()
     {
-        if (spell == null) return;
-
-        items.Add(spell);
-        //Notify();
+        BaseInit();
     }
-
-    public void TopUpCurrentSpell(int quantity)
-    {
-        if (CurrentItem != null)
-            CurrentItem.quantity += quantity;
-    }
-
-    public void UseSpell()
+    public override void UseItem()
     {
         if (CurrentItem == null) return;
 
@@ -26,19 +14,11 @@ public class CharacterSpellInventory : QuickAccessInventory
 
         if (item.quantity <= 0)
         {
+
             RemoveFromInventory(item);
             return;
         }
 
-        Notify(); //уведомляет об уменьшении кол-ва предмета
+        Notify(); //уведомляет
     }
-
-    //private void Update()
-    //{
-    //    TestQuickSlot();
-    //}
-
-                                                     
-
-   
 }

@@ -158,6 +158,11 @@ public class MeleeWeapon : IWeapon
         //��� �������������
     }
 
+    public void IncreaseDurability(float amount)
+    {
+
+    }
+
     public void AssignToOwner(ICollector source)
     {
         //��� �������������

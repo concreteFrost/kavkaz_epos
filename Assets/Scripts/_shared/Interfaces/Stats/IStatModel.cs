@@ -2,7 +2,7 @@
 {
 
     public float CurrentMax { get; set; }   
-    public StatType StatType();
-
+    void ReduceCurrent(float value);    
+    void IncreaseCurrent(float value);
 
 }

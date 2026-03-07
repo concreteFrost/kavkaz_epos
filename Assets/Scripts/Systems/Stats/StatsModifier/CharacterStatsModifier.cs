@@ -25,12 +25,12 @@ public class CharacterStatsModifier : MonoBehaviour
 
             if (effect.Tick(Time.deltaTime, statsController))
             {
-                activeEffects.RemoveAt(i);
-                visualizer.HideEffect(effect.data.type);
+                CancelStatEffect(effect);
+                continue;
             }
 
             if (effect.isActive)
-                visualizer.ShowEffect(effect.data.type);
+                visualizer.ShowEffect(effect.data.effectType);
         }
     }
 
@@ -41,10 +41,40 @@ public class CharacterStatsModifier : MonoBehaviour
 
     }
 
-    public void AddSideEffect(StatusEffectData data)
+    private void CancelStatEffect(StatusEffectInstance instance)
     {
-        var match = activeEffects.Find(x => x.data.type == data.type);
+        activeEffects.Remove(instance);
+        visualizer.HideEffect(instance.data.effectType);
+    }
 
+    public void TryCancelStatusEffects(List<StatusEffectType> types)
+    {
+        if (types.Count == 0) return;
+
+
+        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        {
+
+            var effect = activeEffects[i];
+
+            if (types.Contains(effect.data.effectType))
+            {
+                CancelStatEffect(effect);
+            }
+        }
+    }
+
+    public void ApplyInstantSideEffect(StatusEffectData data)
+    {
+        TryCancelStatusEffects(data.effectsToCancel);
+        data.Apply(statsController);
+    }
+
+    public void AddSideEffect(ContiniousStatusEffectData data)
+    {
+        TryCancelStatusEffects(data.effectsToCancel);
+
+        var match = activeEffects.Find(x => x.data.effectType == data.effectType);
 
         if (match != null)
         {
@@ -52,7 +82,6 @@ public class CharacterStatsModifier : MonoBehaviour
             if (!match.isActive)
             {
                 match.IncreaseDuration();
-
             }
 
             return;
@@ -63,6 +92,5 @@ public class CharacterStatsModifier : MonoBehaviour
         activeEffects.Add(newEffect);
     }
 
-
-
+   
 }

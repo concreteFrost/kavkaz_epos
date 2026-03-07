@@ -33,7 +33,7 @@ public class StaminaModel : BaseStatModel
         
     }
 
-    public void Reduce(float amount)
+    public override void ReduceCurrent(float amount)
     {
         if (Current <=0) return;
 
@@ -41,6 +41,11 @@ public class StaminaModel : BaseStatModel
         RegenTimer = 0;
 
         NotifyChange(Current);
+    }
+
+    public override void IncreaseCurrent(float value)
+    {
+        //без имплементации
     }
 
     public void Regen()

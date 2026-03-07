@@ -38,8 +38,6 @@ public class Weapon : CombatItem, IWeapon
     public float GetDurability() => breakdownThreshold;
     #endregion
 
-
-
     public override void Init(ItemSO itemData)
     {
         
@@ -117,6 +115,18 @@ public class Weapon : CombatItem, IWeapon
         {
             Owner.CombatInventory.ResetWeapon();
             DropWeapon();
+        }
+
+
+    }
+
+    public void IncreaseDurability(float amount)
+    {
+        breakdownThreshold += amount;
+
+        if (breakdownThreshold >= 100f)
+        {
+            breakdownThreshold = 100f;
         }
 
 

@@ -54,5 +54,7 @@ public abstract class BaseStatModel : IStatModel
 
     protected void NotifyMaxChange(int level, float amount) => MaxChanged?.Invoke(level,amount);
 
-    
+    public abstract void ReduceCurrent(float value);
+
+    public abstract void IncreaseCurrent(float value);
 }

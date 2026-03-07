@@ -19,7 +19,7 @@ public class HealthModel : BaseStatModel
         Current = CurrentMax;
     }
 
-    public void Reduce(float amount)
+    public override void ReduceCurrent(float amount)
     {
         if (Current <= 0) return;
 
@@ -33,6 +33,13 @@ public class HealthModel : BaseStatModel
   
     }
 
+    public override void IncreaseCurrent(float amount)
+    {
+        if(Current >= CurrentMax) return;   
+        Current += amount;
+
+        NotifyChange(Current);  
+    } 
     public void ResetHealth()
     {
         Current = CurrentMax;

@@ -103,7 +103,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
     {
         if (spellInventory.CurrentItem.quantity <= 1)
         {
-            spellInventory.TopUpCurrentSpell(20);
+            spellInventory.TopUpCurrentItem(20);
         }
 
         emitter.StartEmit();

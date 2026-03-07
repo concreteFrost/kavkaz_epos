@@ -9,10 +9,8 @@ public abstract class CombatItem : Item, IPickable
 
     public float breakdownThreshold;
 
-
     public abstract void PickUp(ICollector interractor);
    
-
     public override void Init(ItemSO itemData)
     {
        base.Init(itemData);

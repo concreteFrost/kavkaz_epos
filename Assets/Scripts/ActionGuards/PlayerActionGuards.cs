@@ -14,6 +14,7 @@ public class PlayerActionGuards
     private IClimber climbing;
     private IEmitter emitter;   
     private IHumanoidMeleeCombat meleeCombat;
+    private CharacterConsumeController consumeController;
 
     PlayerMode mode;
 
@@ -24,7 +25,8 @@ public class PlayerActionGuards
         IDamagable damageController,
         IClimber climbing,
         IEmitter emitter,
-        IHumanoidMeleeCombat meleeCombat)
+        IHumanoidMeleeCombat meleeCombat,
+        CharacterConsumeController consumeController)
     {
 
         this.locomotion = locomotion;
@@ -35,6 +37,7 @@ public class PlayerActionGuards
         mode = PlayerMode.Locomotion;
         this.emitter = emitter;
         this.meleeCombat = meleeCombat;
+        this.consumeController = consumeController;
     }
 
     public PlayerMode Mode => mode;
@@ -101,6 +104,8 @@ public class PlayerActionGuards
         return true;
     }
 
+ 
+
     public bool CanDodge()
     {
         if (mode != PlayerMode.Locomotion) return false;
@@ -163,7 +168,8 @@ public class PlayerActionGuards
 
         if (locomotion.StopMove) return false;
 
-        if (!locomotion.IsGrounded) return false;    
+        if (!locomotion.IsGrounded) return false;
+
 
         return true;
 
@@ -178,6 +184,7 @@ public class PlayerActionGuards
         if (locomotion.StopMove) return false;
 
         if (stats.Stamina.Current <= 0) return false;
+
 
         return true;
     }
@@ -194,6 +201,7 @@ public class PlayerActionGuards
 
         if (emitter.IsEmitting) return false;
 
+
         if(meleeCombat.IsAttacking) return false;   
 
         return true;
@@ -204,6 +212,25 @@ public class PlayerActionGuards
         if(mode != PlayerMode.Locomotion) return false;
 
         if (locomotion.StopMove) return false;
+
+        return true;
+    }
+
+    public bool CanConsume()
+    {
+        if (mode != PlayerMode.Locomotion) return false;
+
+        if (locomotion.StopMove) return false;
+
+        if (locomotion.IsDodging) return false;
+
+        if (!locomotion.IsGrounded) return false;
+
+        if (emitter.IsEmitting) return false;
+
+        if (meleeCombat.IsAttacking) return false;
+
+        if (consumeController.isConsuming) return false;
 
         return true;
     }

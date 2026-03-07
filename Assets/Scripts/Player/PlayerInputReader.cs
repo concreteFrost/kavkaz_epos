@@ -16,8 +16,10 @@ public class PlayerInputReader
     public bool ChargeHeld;
     public bool ThrowHeld;
     public bool BlockHeld;
+   
 
     public bool EmitPressed;
+    public bool ConsumePressed;
     public bool PushPressed;
     public bool LockPressed;
     public bool InteractPressed;
@@ -25,6 +27,7 @@ public class PlayerInputReader
     public bool MenuPressed;
 
     public float SpellScroll;
+    public float ConsumableScroll;
 
     #endregion
 
@@ -72,6 +75,7 @@ public class PlayerInputReader
         controls.Player.Emit.performed += _ => EmitPressed = true;
         controls.Player.AgressivePush.performed += _ => PushPressed = true;
 
+        controls.Player.Consume.performed += _ => ConsumePressed = true;    
         controls.Player.LockTarget.performed += _ => LockPressed = true;
         controls.Player.Interaction.performed += _ => InteractPressed = true;
         controls.Player.Inventory.performed += _ => InventoryPressed = true;
@@ -79,6 +83,8 @@ public class PlayerInputReader
 
         controls.Player.SpellChange.performed += c =>
             SpellScroll = c.ReadValue<float>();
+
+        controls.Player.ConsumableChange.performed += c => ConsumableScroll = c.ReadValue<float>();
 
        
     }

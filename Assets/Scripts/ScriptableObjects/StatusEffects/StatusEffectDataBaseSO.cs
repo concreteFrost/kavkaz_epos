@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatusEffectSO
 {
     public GameObject prefab;
-    public SideEffectType type;
+    public StatusEffectType type;
 }
 
 [CreateAssetMenu(fileName = "Side Effects Data", menuName = ScriptablePaths.VFX_SIDE_FX_PATH)]

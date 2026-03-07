@@ -39,6 +39,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система взаимодействия")]
     [SerializeField] private ItemCollector interaction;
+    [SerializeField] private CharacterConsumeController consumeController;  
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -51,6 +52,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Инвентари и быстрые слоты")]
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private CharacterSpellInventory spellInventory;
+    [SerializeField] private CharacterConsumableInventory consumableInventory;  
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -96,7 +98,8 @@ public class PlayerServiceLocator : MonoBehaviour
             damageController: damageController,
             climbing: climbing,
             emitter: emitterController,
-            meleeCombat: combatController);
+            meleeCombat: combatController,
+            consumeController:consumeController);
     }
 
     private void InitInput()
@@ -110,7 +113,8 @@ public class PlayerServiceLocator : MonoBehaviour
             combatHandler: combatHandler,
             animatorController: animatorController,
             targetLock: targetLock,
-            quickSlotHandler: quickSlotHandler);
+            quickSlotHandler: quickSlotHandler
+            );
 
         inputUI.Init(reader: inputReader);
     }
@@ -160,6 +164,8 @@ public class PlayerServiceLocator : MonoBehaviour
             damageController: damageController,
             attackSource: attackSource);
 
+        consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
+
         combatHandler.Init(
             actionGuards: actionGuards,
             combatController: combatController,
@@ -168,6 +174,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         quickSlotHandler.Init(
             spellInventory: spellInventory,
+            consumableInventory: consumableInventory,   
             actionGuards: actionGuards);
     }
 
@@ -193,7 +200,8 @@ public class PlayerServiceLocator : MonoBehaviour
             interaction: interaction,
             actionGuards: actionGuards,
             stats: stats,
-            climbing: climbing);
+            climbing: climbing,
+            consumeController:consumeController);
     }
 
     private void InitStats()
@@ -223,6 +231,7 @@ public class PlayerServiceLocator : MonoBehaviour
             collector: interaction);
 
         spellInventory.Init();
+        consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier);
     }
 
     private void InitLifecycle()
@@ -240,6 +249,7 @@ public class PlayerServiceLocator : MonoBehaviour
         uiManager.Init(
             stats: stats,
             spellInventory: spellInventory,
+            consumableInventory: consumableInventory,   
             combatInventory: combatInventory,
             targetLock: targetLock,levelController:levelController);
     }

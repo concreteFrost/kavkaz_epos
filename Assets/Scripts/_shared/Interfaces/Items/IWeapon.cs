@@ -38,6 +38,8 @@ public interface IWeapon : IBreakable
     /// <param name="amount">урон по состоянию</param>
     public void ReduceDurability(float amount);
 
+    public void IncreaseDurability(float amount);
+
     /// <summary>
     /// Выбирает атаку из списка предоставленного WeaponSO
     /// </summary>

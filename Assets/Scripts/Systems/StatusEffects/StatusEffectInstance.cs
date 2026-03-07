@@ -3,20 +3,22 @@
 [System.Serializable]
 public class StatusEffectInstance
 {
-    public readonly StatusEffectData data;
+    public readonly ContiniousStatusEffectData data;
 
     private float defaultDuration;
     public float duration;
     public float accumulation;
     public bool isActive;
 
-    public StatusEffectInstance(StatusEffectData data)
+    public StatusEffectInstance(ContiniousStatusEffectData data)
     {
         this.data = data;
+
         duration = data.duration;
         defaultDuration = duration;
         accumulation = 0;
         isActive = false;
+
     }
 
     public void IncreaseDuration()
@@ -58,27 +60,12 @@ public class StatusEffectInstance
         {
             accumulation -= dt * data.accumulationDecreaseMultiplier;
             duration = 0;
-            switch (data.type)
-            {
-                case SideEffectType.Burn:
-                case SideEffectType.Poison:
-                    stats.Health.Reduce(data.statsAffectMultiplier * dt);
-                    break;
-            }
+          
+            data.ApplyContinuous(stats,dt);
         }
 
 
         return accumulation <=0f;
     }
-}
 
-[System.Serializable]
-public struct StatusEffectData
-{
-    public SideEffectType type;
-    public float duration;
-    public float statsAffectMultiplier;
-    public float accumulationIncreaseMultiplier;
-    public float accumulationDecreaseMultiplier;
-  
 }

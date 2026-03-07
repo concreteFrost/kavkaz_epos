@@ -1,5 +1,6 @@
-public enum SideEffectType
+public enum StatusEffectType
 {
-    Burn = 0,
-    Poison = 1,
+    None = 0,   
+    Burn = 1,
+    Poison = 2,
 }

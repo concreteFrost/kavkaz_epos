@@ -12,10 +12,12 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     [Header("Quick Access Slots")]
     [SerializeField] private SlotItemUI spellItem;
     [SerializeField] private SlotItemUI resourceItem;
+    [SerializeField] private SlotItemUI consumableItem;
 
 
     private HumanoidCombatInventory combatInventory;
     private QuickAccessInventory spellInventory;
+    private QuickAccessInventory consumableInventory;
     private CharacterStatsController statsController;
 
     /// <summary>
@@ -23,14 +25,16 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     /// </summary>
     /// <param name="combatInventory">Экипировка игрока</param>
     /// <param name="spellInventory">Инвентарь быстрых слотов (магия/ресурсы)</param>
-    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory, CharacterStatsController statsController)
+    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory ,CharacterStatsController statsController)
     {
         this.combatInventory = combatInventory;
         this.spellInventory = spellInventory;
         this.statsController = statsController;
+        this.consumableInventory = consumableInventory;
 
         // Подписка на обновления текущего элемента инвентаря
         spellInventory.OnCurrentItemChanged += OnSpellUpdated;
+        consumableInventory.OnCurrentItemChanged += OnConsumableUpdated;
         statsController.Knowledge.MaxChanged += OnMaxKnowledgeChanged;
 
         // Подписка на обновления экипировки
@@ -54,6 +58,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     {
 
         spellInventory.OnCurrentItemChanged -= OnSpellUpdated;
+        consumableInventory.OnCurrentItemChanged -= OnConsumableUpdated;    
         statsController.Knowledge.MaxChanged -= OnMaxKnowledgeChanged;
         combatInventory.WeaponDataUpdated -= OnWeaponUpdated;
         combatInventory.ShieldUpdated -= OnShieldUpdated;
@@ -65,12 +70,10 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     /// </summary>
     public void SetPanelVisible(bool visible)
     {
-        wrapper.SetActive(visible);
+        if (!visible) return;
 
-        if (visible)
-        {
-            OnSpellUpdated(spellInventory.CurrentItem);
-        }
+        OnSpellUpdated(spellInventory.CurrentItem);
+        OnConsumableUpdated(consumableInventory.CurrentItem);
     }
 
     #region Spell Slot
@@ -95,6 +98,29 @@ public class PlayerQuickSlotsUI : MonoBehaviour
         else
         {
             spellItem.RemoveData();
+        }
+    }
+
+
+    #endregion
+
+    #region Consumable Slot
+
+
+
+    /// <summary>
+    /// Отображает актуальную информацию о текущем заклинании
+    /// </summary>
+    /// <param name="currentItem"></param>
+    private void OnConsumableUpdated(ItemData currentItem)
+    {
+        if (currentItem != null)
+        {
+            consumableItem.UpdateImageDate(currentItem, statsController);
+        }
+        else
+        {
+            consumableItem.RemoveData();
         }
     }
 

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +8,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     [SerializeField] GameObject wrapper;
     [SerializeField] Button addToSlotBtn;
     [SerializeField] Button removeFromSlotBtn;
+    [SerializeField] Button useBtn;
 
     RectTransform _rectTransform;
     ItemData currentItem;
@@ -19,14 +20,27 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     QuickAccessInventory quickAccessInventory;
 
-    public void Init(QuickAccessInventory quickAccessInventory)
+    public void Init()
     {
-        this.quickAccessInventory = quickAccessInventory;
+        
         allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
         SetupAction(addToSlotBtn, AddFromContext);
         SetupAction(removeFromSlotBtn, RemoveFromContext);
+        SetupAction(useBtn, UseItemFromContext);
 
+    }
+
+    public void SetCurrentInbentory(QuickAccessInventory inv)
+    {
+        quickAccessInventory = inv;
+
+        SetContextButtons();    
+    }
+
+    private void SetContextButtons()
+    {
+        useBtn.gameObject.SetActive(quickAccessInventory is CharacterConsumableInventory);
     }
 
     /// <summary>
@@ -42,6 +56,17 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     {
         quickAccessInventory.RemoveFromQuickAccess(item);
         UpdateQuickSlotsInfo?.Invoke();
+    }
+
+    private void UseItemFromContext()
+    {
+        if (currentItem == null) return;
+
+        if (quickAccessInventory is CharacterConsumableInventory consumableInventory)
+        {
+            
+            consumableInventory.UseItem(); // גûחûגאול Use ף Consumable
+        }
     }
 
     /// <summary>

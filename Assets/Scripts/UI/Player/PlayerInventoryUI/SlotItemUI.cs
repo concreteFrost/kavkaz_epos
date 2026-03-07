@@ -22,7 +22,7 @@ public class SlotItemUI : MonoBehaviour
         itemImage.enabled = true;
         backgroundImage.enabled = true;
     
-        itemImage.sprite = currentItem.itemSO.itemImage;
+        itemImage.sprite = currentItem.itemSO.itemImage ?? null;
         backgroundImage.enabled = true;
 
         quantityText.enabled = true;

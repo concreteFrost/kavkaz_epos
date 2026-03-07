@@ -51,6 +51,6 @@ public class CharacterEmitter : Emitter
     public override void Emit()
     {
         base.Emit();
-        spellInventory.UseSpell();
+        spellInventory.UseItem();
     }
 }

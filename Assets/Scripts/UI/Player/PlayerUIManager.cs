@@ -27,11 +27,12 @@ public class PlayerUIManager : MonoBehaviour
     public void Init(
         CharacterStatsController stats,
         CharacterSpellInventory spellInventory,
+        CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
         PlayerTargetLock targetLock,
         CharacterLevelController levelController)
     {
-        InitCorePanels(stats, spellInventory, combatInventory, targetLock);
+        InitCorePanels(stats, spellInventory,consumableInventory, combatInventory, targetLock);
         InitProgression(levelController);
         InitMenu();
 
@@ -41,13 +42,14 @@ public class PlayerUIManager : MonoBehaviour
     private void InitCorePanels(
         CharacterStatsController stats,
         CharacterSpellInventory spellInventory,
+        CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
         PlayerTargetLock targetLock)
     {
         playerStatsUI.Init(stats);
-        quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,statsController:stats);
-        inventoryUI.Init(spellInventory, inventoryContextMenuUI, stats);
-        inventoryContextMenuUI.Init(spellInventory);
+        quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,consumableInventory:consumableInventory,statsController:stats);
+        inventoryUI.Init(spellInventory,consumableInventory, inventoryContextMenuUI, stats);
+        inventoryContextMenuUI.Init();
         lockOnTargetUI.Init(targetLock);
     }
 

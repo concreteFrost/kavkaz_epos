@@ -125,6 +125,13 @@ public abstract class BaseHumanoidAnimatorController
         animator.CrossFade("Spell_Cast", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 
+    public void OverrideConsume(AnimationInfoSO animation)
+    {
+        overrideController["Consume"] =animation.clip;
+        animator.speed = animation.animationSpeed;
+        animator.CrossFade("Consume", AnimatorParameters.transitionSpeed, AnimatorParameters.interractionLayer);
+    }
+
     public void OverrideArmed(IWeapon w)
     {
         if (w.WeaponData().idleAnimation == null) return;

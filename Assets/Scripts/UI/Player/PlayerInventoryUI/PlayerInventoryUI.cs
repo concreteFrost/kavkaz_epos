@@ -22,6 +22,10 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Scrollbar scrollSlider;
     [SerializeField] ScrollRect scrollRect;
 
+    [SerializeField] Button magicSectionBtn;
+    [SerializeField] Button consumableSectionBtn;
+    //[SerializeField] Button resourcesSectionBtn;
+
     private List<InventoryItemUI> slotItems = new List<InventoryItemUI>();
     private int totalCellsToInit = 30;
 
@@ -37,7 +41,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public InventorySection currentSection { get; private set; }
 
-    public void Init(QuickAccessInventory spellInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
+    public void Init(QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
     {
         this.contextMenu = contextMenu;
         this.statsController = statsController; 
@@ -50,16 +54,21 @@ public class PlayerInventoryUI : MonoBehaviour
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
     {
         { InventorySection.Magic,spellInventory },
+            {InventorySection.Consumables, consumableInventory },
+           
 
     };
 
-
+       
         InitInventoryCells();
         InitQuickAccessCells();
+
+        BindSectionButtons();
     }
 
     private void OnDisable()
     {
+        RemoveButtonListeners();
         contextMenu.OnContextMenuClosed -= FocusFirstGridItem;  
         contextMenu.UpdateQuickSlotsInfo -= GetQuickSlotsInfo; 
     }
@@ -71,6 +80,22 @@ public class PlayerInventoryUI : MonoBehaviour
     public void ToggleInventory(bool isVisible)
     {
         mainWrapper.SetActive(isVisible);
+    }
+
+    private void BindSectionButtons()
+    {
+        RemoveButtonListeners();    
+
+        magicSectionBtn.onClick.AddListener(()=>GetSection(InventorySection.Magic));
+        consumableSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Consumables));
+        //resourcesSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Resources));
+    }
+
+    private void RemoveButtonListeners()
+    {
+        magicSectionBtn.onClick.RemoveAllListeners();
+        consumableSectionBtn.onClick.RemoveAllListeners();
+        //resourcesSectionBtn.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -118,18 +143,9 @@ public class PlayerInventoryUI : MonoBehaviour
 
         quickSlotItems.ForEach((s) => s.RemoveData());
 
-        List<ItemData> itemsToFill = new List<ItemData>();
-
-        switch (currentSection)
+        for (int i = 0; i < currentInventory.GetQuickAccessData().Count; i++)
         {
-            case InventorySection.Magic:
-                itemsToFill =currentInventory.GetQuickAccessData();
-                break;
-        }
-
-        for (int i = 0; i < itemsToFill.Count; i++)
-        {
-            quickSlotItems[i].UpdateImageDate(itemsToFill[i],statsController);
+            quickSlotItems[i].UpdateImageDate(currentInventory.GetQuickAccessData()[i],statsController);
         }
 
     }
@@ -139,21 +155,11 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void GetSlotsInfo()
     {
-        List<ItemData> itemsToFill = new List<ItemData>();
+        
 
-        switch (currentSection)
+        for (int i = 0; i < currentInventory.items.Count; i++)
         {
-            case InventorySection.Magic:
-                itemsToFill.AddRange(currentInventory.items);
-                break;
-        }
-
-        if (itemsToFill.Count == 0) return;
-
-        for (int i = 0; i < itemsToFill.Count; i++)
-        {
-            slotItems[i].UpdateImageDate(itemsToFill[i],statsController );
-
+            slotItems[i].UpdateImageDate(currentInventory.items[i], statsController);
           
         }
     }
@@ -177,6 +183,7 @@ public class PlayerInventoryUI : MonoBehaviour
         currentSection = section;
         currentInventory = inventories[section];
 
+        contextMenu.SetCurrentInbentory(currentInventory);  
         ClearCellsData();
 
         GetSlotsInfo();

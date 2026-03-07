@@ -10,6 +10,7 @@ public class PlayerGameInput : MonoBehaviour
     private PlayerTargetLock targetLock;
     private PlayerAnimatorController animator;
 
+
     public void Init(
         PlayerInputReader reader,
         PlayerLocomotionActionHandler locomotion,
@@ -17,6 +18,7 @@ public class PlayerGameInput : MonoBehaviour
         PlayerQuickSlotActionHandler quickSlotHandler,
         PlayerAnimatorController animatorController,
         PlayerTargetLock targetLock
+      
         )
     {
         this.reader = reader;
@@ -24,7 +26,7 @@ public class PlayerGameInput : MonoBehaviour
         this.combat = combatHandler;
         this.quickSlots = quickSlotHandler;
         this.animator = animatorController;
-        this.targetLock = targetLock;
+        this.targetLock = targetLock; 
     }
 
 
@@ -49,6 +51,7 @@ public class PlayerGameInput : MonoBehaviour
         locomotion.MoveAndRotate(moveDir);
 
         locomotion.Sprint(reader.SprintHeld);
+
 
         if (reader.JumpPressed)
         {
@@ -82,6 +85,7 @@ public class PlayerGameInput : MonoBehaviour
 
             reader.Consume(ref reader.AttackPressed);
         }
+
 
         if (reader.EmitPressed)
         {
@@ -120,6 +124,8 @@ public class PlayerGameInput : MonoBehaviour
             quickSlots.ChangeSpell(reader.SpellScroll > 0 ? 1 : -1);
             reader.ConsumeScroll(ref reader.SpellScroll);
         }
+
+     
     }
 
     private void HandleInteraction()
@@ -128,6 +134,19 @@ public class PlayerGameInput : MonoBehaviour
         {
             locomotion.Interact();
             reader.Consume(ref reader.InteractPressed);
+        }
+
+        if (reader.ConsumableScroll != 0)
+        {
+            quickSlots.ChangeConsumable(reader.ConsumableScroll > 0 ? 1 : -1);
+            reader.ConsumeScroll(ref reader.ConsumableScroll);
+        }
+
+
+        if (reader.ConsumePressed)
+        {
+            locomotion.Consume();
+            reader.Consume(ref reader.ConsumePressed);
         }
     }
 

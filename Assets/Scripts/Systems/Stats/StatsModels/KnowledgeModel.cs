@@ -9,4 +9,13 @@ public class KnowledgeModel : BaseStatModel
         baseValue = baseKnowledge;  
     }
 
+    public override void ReduceCurrent(float value)
+    {
+       //без имплементации
+    }
+
+    public override void IncreaseCurrent(float value)
+    {
+        //без имплементации
+    }
 }

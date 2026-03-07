@@ -55,7 +55,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             statsModifier.AddSideEffect(damageData.sideEffectData);
         }
 
-        stats.Health.Reduce(damageData.healthDamageMultiplier);
+        stats.Health.ReduceCurrent(damageData.healthDamageMultiplier);
         InvokeDamageTaken(source);
 
 

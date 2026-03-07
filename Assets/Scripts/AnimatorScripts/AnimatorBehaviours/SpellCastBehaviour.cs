@@ -48,7 +48,7 @@ public class SpellCastBehaviour : StateMachineBehaviour
         if (!hitActive && t >= animation.hitStartFrame)
         {
             emitter.Emit();
-            stats.Stamina.Reduce(spell.staminaPenalty);
+            stats.Stamina.ReduceCurrent(spell.staminaPenalty);
             hitActive = true;
         }
 

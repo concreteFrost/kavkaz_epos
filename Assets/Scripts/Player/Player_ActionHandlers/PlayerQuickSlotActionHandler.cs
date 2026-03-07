@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerQuickSlotActionHandler : MonoBehaviour
 {
     [SerializeField] CharacterSpellInventory spellInventory;
+    [SerializeField] CharacterConsumableInventory consumableInventory;
     PlayerActionGuards actionGuards;    
-    public void Init(CharacterSpellInventory spellInventory, PlayerActionGuards actionGuards)
+    public void Init(CharacterSpellInventory spellInventory, CharacterConsumableInventory consumableInventory, PlayerActionGuards actionGuards)
     {
         this.spellInventory = spellInventory;
         this.actionGuards = actionGuards;   
@@ -15,5 +16,10 @@ public class PlayerQuickSlotActionHandler : MonoBehaviour
         if (!actionGuards.CanSwapSpell()) return;
 
         spellInventory.Change(dir);
+    }
+
+    public void ChangeConsumable(int dir)
+    {
+        consumableInventory.Change(dir);
     }
 }

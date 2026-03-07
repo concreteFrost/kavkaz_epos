@@ -5,6 +5,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     PlayerMotor motor;
     PlayerActionGuards actionGuards;
     CharacterStatsController stats;
+    CharacterConsumeController consumeController;
     ICollector interact;
     IClimber climbing;
 
@@ -25,7 +26,8 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         ICollector interaction,
         IClimber climbing,
         PlayerActionGuards actionGuards,
-        CharacterStatsController stats
+        CharacterStatsController stats,
+        CharacterConsumeController consumeController
         )
     {
 
@@ -34,6 +36,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         this.climbing = climbing;
         this.stats = stats;
         this.actionGuards = actionGuards;
+        this.consumeController = consumeController; 
 
     }
 
@@ -103,7 +106,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (!actionGuards.CanDodge()) return;
 
         motor.Dodge(dir);
-        stats.Stamina.Reduce(stats.statsSO.staminaDodgeReducePenalty);
+        stats.Stamina.ReduceCurrent(stats.statsSO.staminaDodgeReducePenalty);
 
     }
 
@@ -112,7 +115,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (!actionGuards.CanJump()) return;
 
         motor.Jump(stats.jumpTimer);
-        stats.Stamina.Reduce(stats.statsSO.staminaJumpReducePenalty);
+        stats.Stamina.ReduceCurrent(stats.statsSO.staminaJumpReducePenalty);
     }
 
     public void HandleJumpOrDodge(Vector3 dir)
@@ -134,7 +137,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (motor.IsSprinting)
         {
 
-            stats.Stamina.Reduce(stats.statsSO.staminaRunReducePenalty);
+            stats.Stamina.ReduceCurrent(stats.statsSO.staminaRunReducePenalty);
         }
 
     }
@@ -170,6 +173,13 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (!actionGuards.CanInteract()) return;
 
         interact.StartInteracion();
+    }
+
+    public void Consume()
+    {
+        if(!actionGuards.CanConsume()) return;
+
+        consumeController.StartConsume();
     }
     #endregion
 
