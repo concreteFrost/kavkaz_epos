@@ -1,4 +1,3 @@
-using NUnit;
 using UnityEngine;
 
 public class SpellCastBehaviour : StateMachineBehaviour
@@ -16,7 +15,6 @@ public class SpellCastBehaviour : StateMachineBehaviour
     {
         emitter = animator.GetComponentInChildren<IEmitter>();
 
-     
         motor = animator.GetComponent<IHumanoidMovement>();
         stats = animator.GetComponentInChildren<CharacterStatsController>();
         damageController = animator.GetComponentInChildren<IDamagable>();
@@ -38,7 +36,7 @@ public class SpellCastBehaviour : StateMachineBehaviour
         var spell = emitter.Projectile() as SpellProjectileSO;
         var animation = spell.animation;
 
-
+        //animator.speed = animation.animationSpeed;
         //if (attack == null) return;
 
         //animator.speed = attack.animationInfo.animationSpeed;

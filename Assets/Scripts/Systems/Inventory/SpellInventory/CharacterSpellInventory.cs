@@ -5,11 +5,11 @@ public class CharacterSpellInventory : QuickAccessInventory
     {
         BaseInit();
     }
-    public override void UseItem()
+    public override void UseItem(ItemData data)
     {
-        if (CurrentItem == null) return;
+        if (data == null) return;
 
-        var item = CurrentItem;
+        var item = data;
         item.quantity--;
 
         if (item.quantity <= 0)

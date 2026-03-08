@@ -19,10 +19,11 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     public Action UpdateQuickSlotsInfo; //обновляет быстрые слоты в основном инвентаре
 
     QuickAccessInventory quickAccessInventory;
+    CharacterConsumeController consumableController;
 
-    public void Init()
+    public void Init(CharacterConsumeController consumableController)
     {
-        
+        this.consumableController = consumableController;   
         allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
         SetupAction(addToSlotBtn, AddFromContext);
@@ -31,7 +32,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     }
 
-    public void SetCurrentInbentory(QuickAccessInventory inv)
+    public void SetCurrentInventory(QuickAccessInventory inv)
     {
         quickAccessInventory = inv;
 
@@ -62,11 +63,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     {
         if (currentItem == null) return;
 
-        if (quickAccessInventory is CharacterConsumableInventory consumableInventory)
-        {
-            
-            consumableInventory.UseItem(); // вызываем Use у Consumable
-        }
+        consumableController.StartConsumeFromContext(currentItem);
+        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
 
     /// <summary>
@@ -126,6 +124,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         }
 
         currentItem = data;
+       
 
         wrapper.SetActive(true);
 

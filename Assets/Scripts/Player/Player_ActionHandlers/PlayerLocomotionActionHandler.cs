@@ -181,6 +181,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
         consumeController.StartConsume();
     }
+
     #endregion
 
     #region Climbing

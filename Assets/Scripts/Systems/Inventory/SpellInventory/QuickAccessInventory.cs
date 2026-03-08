@@ -29,7 +29,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
     protected void BaseInit()
     {
         quickSlots = new ItemData[QUICK_SLOTS_COUNT];
-        SetDefaultQuickSlotData();
+        //SetDefaultQuickSlotData();
     }
 
     public void SetDefaultQuickSlotData()
@@ -109,7 +109,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
         //Notify();
     }
 
-    public abstract void UseItem();
+    public abstract void UseItem(ItemData data);
 
 
     protected void RemoveFromInventory(ItemData item)

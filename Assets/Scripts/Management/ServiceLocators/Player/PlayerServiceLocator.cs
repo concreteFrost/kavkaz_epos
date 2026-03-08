@@ -251,6 +251,7 @@ public class PlayerServiceLocator : MonoBehaviour
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,   
             combatInventory: combatInventory,
-            targetLock: targetLock,levelController:levelController);
+            targetLock: targetLock,levelController:levelController,
+            consumeController:consumeController);
     }
 }

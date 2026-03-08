@@ -6,6 +6,7 @@ public class CharacterConsumeController : MonoBehaviour
     public bool isConsuming = false;
     BaseHumanoidAnimatorController animatorController;
     CharacterConsumableInventory inventory;
+    public ItemData currentItem;
     public void Init(BaseHumanoidAnimatorController animatorController, CharacterConsumableInventory inventory)
     {
         this.animatorController = animatorController;
@@ -17,40 +18,46 @@ public class CharacterConsumeController : MonoBehaviour
     {
         if (inventory.CurrentItem == null) return;
 
-        var contextItem = GetAnimtionClip();
+        currentItem = inventory.CurrentItem;
 
-        if(contextItem == null)
+        var consumable = (ConsumableItemSO)currentItem.itemSO;
+
+        if (consumable.consumableAnimation == null)
         {
             Consume();
             return;
         }
 
-        animatorController.OverrideConsume(contextItem);
+        animatorController.OverrideConsume(consumable.consumableAnimation);
         isConsuming = true;
     }
 
+    public void StartConsumeFromContext(ItemData data)
+    {
+        currentItem = data;
+
+        var consumable = (ConsumableItemSO)currentItem.itemSO;
+
+        if ( consumable.consumableAnimation == null)
+        {
+            Consume();
+            return;
+        }
+
+        animatorController.OverrideConsume(consumable.consumableAnimation);
+    }
+
+
     public void Consume()
     {
-        inventory.UseItem();
+        inventory.UseItem(currentItem);
     }
 
     internal void EndConsume()
     {
         isConsuming = false;
+        currentItem = null;
     }
 
-    public AnimationInfoSO GetAnimtionClip()
-    {
-        if(inventory.CurrentItem ==null) return null;
-
-        switch (inventory.CurrentItem.itemSO)
-        {
-            case WeaponModifierItemSO weaponItem:
-                return weaponItem.consumableAnimation;          
-            case InstantStatModifierItemSO statItem:
-                return statItem.consumableAnimation;
-            default:
-                return null;
-        }
-    }
+  
 }

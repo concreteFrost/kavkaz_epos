@@ -80,14 +80,21 @@ public class CharacterInspectorTool : EditorWindow
         if (foldoutStates[id])
         {
             EditorGUILayout.Space(5);
-            DrawStatsInfo(obj);
-            DrawBehaviourStats(obj);    
-            DrawEnemyCombatInventory(obj);
-            DrawEnemySpellInventory(obj);
-            DrawPointsData(obj);
+            DrawBaseComponents(obj);    
+    
         }
 
         EditorGUILayout.EndVertical();
+    }
+
+    private void DrawBaseComponents(GameObject obj)
+    {
+        DrawStatsInfo(obj);
+        DrawCombatInventory(obj);
+        DrawSpellInventory(obj);
+        DrawConsumableInventory(obj);
+        DrawPointsData(obj);
+        DrawBehaviourStats(obj);
     }
 
     private void DrawBehaviourStats(GameObject go)
@@ -164,7 +171,7 @@ public class CharacterInspectorTool : EditorWindow
 
 
 
-    private void DrawEnemyCombatInventory(GameObject go)
+    private void DrawCombatInventory(GameObject go)
     {
         var combatInventory = go.GetComponentInChildren<HumanoidCombatInventory>();
 
@@ -201,7 +208,7 @@ public class CharacterInspectorTool : EditorWindow
         EditorGUI.indentLevel--;
     }
 
-    private void DrawEnemySpellInventory(GameObject obj)
+    private void DrawSpellInventory(GameObject obj)
     {
         var spellInventory = obj.GetComponentInChildren<CharacterSpellInventory>();
 
@@ -225,6 +232,35 @@ public class CharacterInspectorTool : EditorWindow
         {
             Undo.RecordObject(spellInventory, "Modify Spell List");
             EditorUtility.SetDirty(spellInventory);
+        }
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void DrawConsumableInventory(GameObject obj)
+    {
+        var consumableInventory = obj.GetComponentInChildren<CharacterConsumableInventory>();
+
+        if (consumableInventory == null)
+        {
+            EditorGUILayout.HelpBox("No CharacterConsumableInventory found", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.LabelField("Consumable Inventory", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        SerializedObject so = new SerializedObject(consumableInventory);
+        SerializedProperty consumableProp = so.FindProperty("items");
+
+        so.Update();
+
+        EditorGUILayout.PropertyField(consumableProp, true); // true = рисовать весь список
+
+        if (so.ApplyModifiedProperties())
+        {
+            Undo.RecordObject(consumableInventory, "Modify Consumable List");
+            EditorUtility.SetDirty(consumableInventory);
         }
 
         EditorGUI.indentLevel--;

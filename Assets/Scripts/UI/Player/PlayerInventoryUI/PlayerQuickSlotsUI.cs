@@ -46,7 +46,6 @@ public class PlayerQuickSlotsUI : MonoBehaviour
         combatInventory.GetCurrentWeaponData();
         combatInventory.GetCurrentShieldData();
 
-      
     }
 
     private void Start()
@@ -106,16 +105,15 @@ public class PlayerQuickSlotsUI : MonoBehaviour
 
     #region Consumable Slot
 
-
-
     /// <summary>
-    /// Отображает актуальную информацию о текущем заклинании
+    /// Отображает актуальную информацию о текущем потребляемом ресурсе
     /// </summary>
     /// <param name="currentItem"></param>
     private void OnConsumableUpdated(ItemData currentItem)
     {
         if (currentItem != null)
         {
+            
             consumableItem.UpdateImageDate(currentItem, statsController);
         }
         else

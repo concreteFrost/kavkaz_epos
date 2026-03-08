@@ -183,7 +183,8 @@ public class PlayerInventoryUI : MonoBehaviour
         currentSection = section;
         currentInventory = inventories[section];
 
-        contextMenu.SetCurrentInbentory(currentInventory);  
+        contextMenu.SetCurrentInventory(currentInventory);  
+        contextMenu.HideContextMenu();
         ClearCellsData();
 
         GetSlotsInfo();

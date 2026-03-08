@@ -15,6 +15,7 @@ public class ConsumeBehaviour : StateMachineBehaviour
         damagable = animator.GetComponentInChildren<IDamagable>();
 
         animator.applyRootMotion = true;
+       
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,7 +27,11 @@ public class ConsumeBehaviour : StateMachineBehaviour
         if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
 
-        AnimationInfoSO clip = consumeController.GetAnimtionClip();
+        if(!motor.BlockRotation)
+            motor.BlockRotation = true;
+
+        ConsumableItemSO consumableData =(ConsumableItemSO)consumeController.currentItem.itemSO;
+        var clip = consumableData.consumableAnimation;
 
         if (clip == null) return;
 
@@ -46,9 +51,10 @@ public class ConsumeBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor.StopMove = false;
+        motor.BlockRotation = false;
         animator.applyRootMotion = false;
         hasInteracted = false;
-
+       
         animator.speed = 1;
 
         consumeController.EndConsume();

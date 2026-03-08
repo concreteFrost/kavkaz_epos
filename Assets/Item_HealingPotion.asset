@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 901f13f828e707f4489c046e1eaf05a5, type: 3}
-  m_Name: Character Status Effect Item
+  m_Name: Item_HealingPotion
   m_EditorClassIdentifier: Assembly-CSharp::StatModifierItemSO
   id: 933fda5b-f12a-495e-85aa-2d5a1d73d71c
   itemName: Healing Potion
   itemImage: {fileID: 21300000, guid: 4e8b35477a7fb5a46870c1973a523722, type: 3}
+  consumableAnimation: {fileID: 11400000, guid: e9e8347e42633104b997df1eb717075c, type: 2}
   effectData:
     operationType: 0
     effectType: 0
     statToAffect: 0
-    effectsToCancel: 
+    effectsToCancel: 01000000
     statsAffectMultiplier: 25
-  consumableAnimation: {fileID: 11400000, guid: e9e8347e42633104b997df1eb717075c, type: 2}

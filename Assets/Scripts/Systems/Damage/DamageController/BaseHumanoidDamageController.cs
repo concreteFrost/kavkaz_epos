@@ -50,7 +50,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             return;
         }
 
-        if (damageData.sideEffectData.duration > 0)
+        if (damageData.sideEffectData != null)
         {
             statsModifier.AddSideEffect(damageData.sideEffectData);
         }

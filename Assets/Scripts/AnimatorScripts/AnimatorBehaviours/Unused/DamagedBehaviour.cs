@@ -12,14 +12,12 @@ public class DamagedBehaviour : StateMachineBehaviour
         dm = animator.GetComponentInChildren<IDamagable>();
         motor = animator.GetComponent<IHumanoidMovement>();
         animator.applyRootMotion = true;
-        //animator.speed = 1; 
+        animator.speed = 1; 
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-
 
         if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
@@ -28,7 +26,6 @@ public class DamagedBehaviour : StateMachineBehaviour
         dm.IsDamaged = true;
 
         //float t = stateInfo.normalizedTime;
-
         //if(t > 0.95f)
         //{
         //    dm.IsDamaged = false;

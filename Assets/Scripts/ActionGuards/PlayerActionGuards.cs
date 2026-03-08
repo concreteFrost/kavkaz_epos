@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 public enum PlayerMode
 {
@@ -155,6 +154,8 @@ public class PlayerActionGuards
 
         if (stats.Stamina.Current <= 0) return false;
 
+        if(consumeController.isConsuming) return false;
+
         if(emitter.IsEmitting) return false;
 
         return true;
@@ -167,6 +168,8 @@ public class PlayerActionGuards
         if(damageController.IsDamaged) return false;
 
         if (locomotion.StopMove) return false;
+
+        if (consumeController.isConsuming) return false;
 
         if (!locomotion.IsGrounded) return false;
 
@@ -185,6 +188,8 @@ public class PlayerActionGuards
 
         if (stats.Stamina.Current <= 0) return false;
 
+        if (consumeController.isConsuming) return false;
+
 
         return true;
     }
@@ -201,8 +206,9 @@ public class PlayerActionGuards
 
         if (emitter.IsEmitting) return false;
 
+        if (consumeController.isConsuming) return false;
 
-        if(meleeCombat.IsAttacking) return false;   
+        if (meleeCombat.IsAttacking) return false;   
 
         return true;
     }
@@ -220,8 +226,6 @@ public class PlayerActionGuards
     {
         if (mode != PlayerMode.Locomotion) return false;
 
-        if (locomotion.StopMove) return false;
-
         if (locomotion.IsDodging) return false;
 
         if (!locomotion.IsGrounded) return false;
@@ -229,6 +233,8 @@ public class PlayerActionGuards
         if (emitter.IsEmitting) return false;
 
         if (meleeCombat.IsAttacking) return false;
+
+        if(damageController.IsDamaged) return false;    
 
         if (consumeController.isConsuming) return false;
 
@@ -238,6 +244,13 @@ public class PlayerActionGuards
     public bool CanSwapSpell()
     {
         if (emitter.IsEmitting) return false;
+
+        return true;
+    }
+
+    public bool CanSwapConsumables()
+    {
+        if (consumeController.isConsuming) return false;
 
         return true;
     }

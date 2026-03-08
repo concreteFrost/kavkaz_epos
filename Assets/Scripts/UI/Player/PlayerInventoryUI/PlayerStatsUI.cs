@@ -5,7 +5,6 @@ using System.Collections;
 public class PlayerStatsUI : MonoBehaviour
 {
     [SerializeField] private GameObject wrapper;
-
   
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;

@@ -1722,8 +1722,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   items:
+  - itemSO: {fileID: 11400000, guid: dab9ba17143eff648af10774db44ca8c, type: 2}
+    quantity: 2
   - itemSO: {fileID: 11400000, guid: c0c5738ed23b55d4db1ea45147fcd533, type: 2}
-    quantity: 20
+    quantity: 2
   quickSlots: []
 --- !u!1 &182918903
 GameObject:
@@ -12335,7 +12337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e485a76575a50479f6653c6c1673ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  wrapper: {fileID: 538519203}
+  wrapper: {fileID: 1420125529}
   levelControllerBtn: {fileID: 601453737}
   gameSettingsBtn: {fileID: 471863557}
 --- !u!1 &1025860546
@@ -15905,7 +15907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1350731678
 Transform:
   m_ObjectHideFlags: 0
@@ -28074,7 +28076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa803f0f7f6e934d909f85ae168bf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  wrapper: {fileID: 4092526170103799048}
+  wrapper: {fileID: 3004749339609987600}
   healthSlider: {fileID: 1517149561}
   staminaSlider: {fileID: 1491990648}
   sliderUpdateSpeed: 3
@@ -28881,6 +28883,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConsumeController
   isConsuming: 0
+  currentItem:
+    itemSO: {fileID: 0}
+    quantity: 0
 --- !u!1 &9141421986860229047
 GameObject:
   m_ObjectHideFlags: 0

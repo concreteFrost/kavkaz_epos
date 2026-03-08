@@ -12,11 +12,12 @@ public class CharacterConsumableInventory : QuickAccessInventory
         this.statsModifier = statsModifier;  
     }
 
-    public override void UseItem()
-    {
-        if (CurrentItem == null) return;
 
-        var item = CurrentItem;
+    public override void UseItem(ItemData data)
+    {
+        if (data == null) return;
+
+        var item = data;
         item.quantity--;
 
         if (item.quantity <= 0)
@@ -27,7 +28,7 @@ public class CharacterConsumableInventory : QuickAccessInventory
 
         Notify(); //уведомляет
 
-        ApplyItemEffect(item);  
+        ApplyItemEffect(item);
     }
 
     private void ApplyItemEffect(ItemData item)
@@ -37,9 +38,11 @@ public class CharacterConsumableInventory : QuickAccessInventory
             case WeaponModifierItemSO weaponItem:
                 weaponItem.UseItem(combatInventory);
                 break;
-
-            case InstantStatModifierItemSO statItem:
-                statItem.UseItem(statsModifier);
+            case ContinuousStatModifierItemSO continuousItem:
+                continuousItem.UseItem(statsModifier);
+                break;
+            case InstantStatModifierItemSO instantItem:
+               instantItem.UseItem(statsModifier);
                 break;
 
             default:

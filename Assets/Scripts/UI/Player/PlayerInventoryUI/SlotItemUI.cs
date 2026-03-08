@@ -15,21 +15,23 @@ public class SlotItemUI : MonoBehaviour
 
     public void UpdateImageDate(ItemData data, CharacterStatsController statsController)
     {
+        cantUseImage.gameObject.SetActive(false);
+
+        if (data == null) return;
 
         currentItem = data;
         var itemSo = currentItem.itemSO;
 
         itemImage.enabled = true;
         backgroundImage.enabled = true;
-    
-        itemImage.sprite = currentItem.itemSO.itemImage ?? null;
+
+
+        itemImage.sprite = currentItem.itemSO.itemImage;
+
         backgroundImage.enabled = true;
 
         quantityText.enabled = true;
         quantityText.text = currentItem.quantity.ToString();
-
-        cantUseImage.gameObject.SetActive(false);
-       
 
         if (currentItem.itemSO is SpellProjectileSO spell)
         {

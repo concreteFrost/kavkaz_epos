@@ -20,6 +20,7 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private PlayerMenuOptionsUI menuOptionsUI;
 
+
     #endregion
 
     #region Initialization
@@ -30,9 +31,10 @@ public class PlayerUIManager : MonoBehaviour
         CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
         PlayerTargetLock targetLock,
-        CharacterLevelController levelController)
+        CharacterLevelController levelController,
+        CharacterConsumeController consumeController)
     {
-        InitCorePanels(stats, spellInventory,consumableInventory, combatInventory, targetLock);
+        InitCorePanels(stats:stats,spellInventory: spellInventory,consumableInventory: consumableInventory,combatInventory: combatInventory,targetLock: targetLock, consumeController:consumeController );
         InitProgression(levelController);
         InitMenu();
 
@@ -44,12 +46,13 @@ public class PlayerUIManager : MonoBehaviour
         CharacterSpellInventory spellInventory,
         CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
+        CharacterConsumeController consumeController,
         PlayerTargetLock targetLock)
     {
         playerStatsUI.Init(stats);
         quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,consumableInventory:consumableInventory,statsController:stats);
         inventoryUI.Init(spellInventory,consumableInventory, inventoryContextMenuUI, stats);
-        inventoryContextMenuUI.Init();
+        inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
     }
 

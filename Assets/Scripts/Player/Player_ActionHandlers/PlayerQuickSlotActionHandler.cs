@@ -8,7 +8,8 @@ public class PlayerQuickSlotActionHandler : MonoBehaviour
     public void Init(CharacterSpellInventory spellInventory, CharacterConsumableInventory consumableInventory, PlayerActionGuards actionGuards)
     {
         this.spellInventory = spellInventory;
-        this.actionGuards = actionGuards;   
+        this.actionGuards = actionGuards;
+        this.consumableInventory = consumableInventory; 
     }
     
     public void ChangeSpell(int dir)
@@ -20,6 +21,8 @@ public class PlayerQuickSlotActionHandler : MonoBehaviour
 
     public void ChangeConsumable(int dir)
     {
+        if(!actionGuards.CanSwapConsumables()) return;
+
         consumableInventory.Change(dir);
     }
 }

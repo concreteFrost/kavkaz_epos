@@ -130,6 +130,7 @@ public abstract class BaseHumanoidAnimatorController
         overrideController["Consume"] =animation.clip;
         animator.speed = animation.animationSpeed;
         animator.CrossFade("Consume", AnimatorParameters.transitionSpeed, AnimatorParameters.interractionLayer);
+        Debug.Log("overriging consume");
     }
 
     public void OverrideArmed(IWeapon w)
