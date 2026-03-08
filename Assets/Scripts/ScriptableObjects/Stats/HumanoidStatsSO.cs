@@ -9,14 +9,16 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float baseStamina = 100f;
     public float baseKnowledge = 100f;
 
+    [Header("stats regen ")]
+    public float statMinRegenDelay = 2f;
+    public float statMaxRegenDelay = 6f;
+    public float statRegenRate = 15f;
+
     [Header("stamina modifiers")]
     public float staminaRunReducePenalty = 0.03f;
     public float staminaPushReducePenalty = 15f;
     public float staminaJumpReducePenalty = 7f;
     public float staminaDodgeReducePenalty = 10f;
-    public float staminaMinRegenDelay = 2f;
-    public float staminaMaxRegenDelay = 6f;
-    public float staminaRegenRate = 15f;
 
     [Header("Listening")]
     public float eventListenDistance = 20f;

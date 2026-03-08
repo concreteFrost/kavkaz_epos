@@ -3,14 +3,14 @@
 [System.Serializable]
 public class StatusEffectInstance
 {
-    public readonly ContiniousStatusEffectData data;
+    public readonly ContinuousStatusEffectSO data;
 
     private float defaultDuration;
     public float duration;
     public float accumulation;
     public bool isActive;
 
-    public StatusEffectInstance(ContiniousStatusEffectData data)
+    public StatusEffectInstance(ContinuousStatusEffectSO data)
     {
         this.data = data;
 

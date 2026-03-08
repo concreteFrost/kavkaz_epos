@@ -14,6 +14,7 @@ public static class ScriptablePaths
     public const string PROJECTILE_PATH = BASE_PATH + "/Projectile";
     public const string VFX_PATH = BASE_PATH + "/VFX";
     public const string UI_STYLES_PATH = BASE_PATH + "/UI Styles";
+    public const string STATUS_FX_PATH = BASE_PATH + "/Status Effects";
     
 
     //под-домены

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CharacterEffectVisualizer : MonoBehaviour
 {
-    [SerializeField] private StatusEffectDataBaseSO effectDataBaseSO;
+    [SerializeField] private VisualStatusEffectDataBaseSO effectDataBaseSO;
     [SerializeField] private Transform effectPosition;
 
     private Dictionary<StatusEffectType, GameObject> activeInstances = new();

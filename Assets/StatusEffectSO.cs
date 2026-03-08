@@ -1,18 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using UnityEngine;
 
-
-public enum StatModifierOperation
-{
-    Increase = 0,
-    Decrease = 1
-}
-
-[System.Serializable]   
-public class StatusEffectData
+[CreateAssetMenu(fileName = "Instant Status Effect", menuName = ScriptablePaths.STATUS_FX_PATH + "/Instant Status Effect")]
+public class StatusEffectSO : ScriptableObject
 {
     public StatModifierOperation operationType;
     public StatusEffectType effectType;
-    public StatType statToAffect;
+    public ModifiedModelType statToAffect;
 
     public List<StatusEffectType> effectsToCancel = new List<StatusEffectType>();
 
@@ -20,16 +14,14 @@ public class StatusEffectData
 
     public void Apply(CharacterStatsController stats)
     {
-
-        var affectedStat = stats.GetStatModel(statToAffect);
+        var affectedStat = stats.GetModifiedStat(statToAffect);
 
         if (affectedStat == null) return;
 
         if (operationType == StatModifierOperation.Increase)
             affectedStat.IncreaseCurrent(statsAffectMultiplier);
-
         else
             affectedStat.ReduceCurrent(statsAffectMultiplier);
     }
-
 }
+

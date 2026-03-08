@@ -37,8 +37,8 @@ public class PlayerStatsUI : MonoBehaviour
         staminaSlider.value = this.stats.Stamina.Current;
         SetSliderSize(staminaSliderRect, stats.Stamina.CurrentMax);
 
-        this.stats.Health.Changed += UpdateHealthSlider;
-        this.stats.Stamina.Changed += UpdateStaminaSlider;
+        this.stats.Health.CurrentChanged += UpdateHealthSlider;
+        this.stats.Stamina.CurrentChanged += UpdateStaminaSlider;
         this.stats.Health.MaxChanged += UpdateHealthSliderSize;
         this.stats.Stamina.MaxChanged += UpdateStaminaSliderSize;
     }
@@ -46,8 +46,8 @@ public class PlayerStatsUI : MonoBehaviour
 
     private void OnDisable()
     {
-        stats.Health.Changed -= UpdateHealthSlider;
-        stats.Stamina.Changed -= UpdateStaminaSlider;
+        stats.Health.CurrentChanged -= UpdateHealthSlider;
+        stats.Stamina.CurrentChanged -= UpdateStaminaSlider;
         stats.Health.MaxChanged -= UpdateHealthSliderSize;
         stats.Stamina.MaxChanged -= UpdateStaminaSliderSize;
     }

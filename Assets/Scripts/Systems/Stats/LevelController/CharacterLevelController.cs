@@ -57,7 +57,7 @@ public class CharacterLevelController : MonoBehaviour
         levelData.unspentPoints += 3;
         CalculateXPToNextLevel();   
 
-        statsController.Health.ResetHealth();
+        statsController.Health.ResetCurrent();
         NewLevelReached?.Invoke();  
     }
 
@@ -70,7 +70,7 @@ public class CharacterLevelController : MonoBehaviour
 
     public void SpendPoint(StatType type)
     {
-        statsController.IncreaseStat(type);      
+        statsController.IncreaseStatLevel(type);      
     }
 
     public int GetUnspentPoints()=> levelData.unspentPoints;

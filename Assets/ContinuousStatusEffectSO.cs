@@ -1,9 +1,8 @@
-﻿
+using UnityEngine;
 
-[System.Serializable]
-public class ContiniousStatusEffectData : StatusEffectData
+[CreateAssetMenu(fileName = "Continuous Status Effect", menuName = ScriptablePaths.STATUS_FX_PATH + "/Continuous Status Effect")]
+public class ContinuousStatusEffectSO : StatusEffectSO
 {
-
     public float duration;
 
     public float accumulationIncreaseMultiplier;
@@ -11,7 +10,7 @@ public class ContiniousStatusEffectData : StatusEffectData
 
     public void ApplyContinuous(CharacterStatsController stats, float deltaTime)
     {
-        var affectedStat = stats.GetStatModel(statToAffect);
+        var affectedStat = stats.GetModifiedStat(statToAffect);
         if (affectedStat == null) return;
 
         float amount = statsAffectMultiplier * deltaTime;
@@ -21,5 +20,5 @@ public class ContiniousStatusEffectData : StatusEffectData
         else
             affectedStat.ReduceCurrent(amount);
     }
-
 }
+

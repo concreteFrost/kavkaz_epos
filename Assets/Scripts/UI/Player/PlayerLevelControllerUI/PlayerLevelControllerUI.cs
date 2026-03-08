@@ -118,6 +118,12 @@ public class PlayerLevelControllerUI : MonoBehaviour
         }
 
         UpdateUpgradeButtonState();
+        
+        foreach (StatInfoPanelUI panel in statDatas.Keys)
+        {
+            panel.UpdatePointsUI();
+        }
+
     }
 
     #region Gamepad Panels Interaction

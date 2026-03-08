@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class SpeedModel : BaseStatModel
+public class SpeedModel : ResourceStatModel
 {
     public float WalkSpeed { get; }
     public float RunSpeed { get; }
@@ -46,13 +46,5 @@ public class SpeedModel : BaseStatModel
         Current = newSpeed;
     }
 
-    public override void ReduceCurrent(float value)
-    {
-        //без имплементации
-    }
-
-    public override void IncreaseCurrent(float value)
-    {
-        //без имплементации
-    }
+  
 }

@@ -45,7 +45,7 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
         var statsController = levelController.GetStatsController();
         var total = statsController.GetCurrentStatLevel(statType) + accumulatedPoints;
         currentLevelText.text = statsController.GetStatModel(statType).CurrentMax.ToString();   
-        pointsText.text = total.ToString();
+        pointsText.text = total.ToString(); 
     }
 
     public bool HasAccumulatedPoints()

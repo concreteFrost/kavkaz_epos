@@ -38,11 +38,8 @@ public class CharacterConsumableInventory : QuickAccessInventory
             case WeaponModifierItemSO weaponItem:
                 weaponItem.UseItem(combatInventory);
                 break;
-            case ContinuousStatModifierItemSO continuousItem:
+            case StatModifierItemSO continuousItem:
                 continuousItem.UseItem(statsModifier);
-                break;
-            case InstantStatModifierItemSO instantItem:
-               instantItem.UseItem(statsModifier);
                 break;
 
             default:

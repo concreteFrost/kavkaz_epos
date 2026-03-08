@@ -6,7 +6,7 @@ public class DamageData
     public float healthDamageMultiplier;
     public BalanceDamageType balanceDamageType;
     public float impactForce;
-    public ContiniousStatusEffectData sideEffectData;
+    public StatusEffectSO sideEffectData;
 
 }
 

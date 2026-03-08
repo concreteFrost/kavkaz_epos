@@ -52,7 +52,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
         if (damageData.sideEffectData != null)
         {
-            statsModifier.AddSideEffect(damageData.sideEffectData);
+            statsModifier.GetAndApplyStatusEffect(damageData.sideEffectData);
         }
 
         stats.Health.ReduceCurrent(damageData.healthDamageMultiplier);

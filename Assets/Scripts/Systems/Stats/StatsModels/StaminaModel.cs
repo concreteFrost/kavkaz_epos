@@ -1,89 +1,31 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]   
-public class StaminaModel : BaseStatModel
+public class StaminaModel : ResourceStatModel
 {
-    public float RegenTimer { get; private set; }
-    public float MinRegenDelay { get; private set; }
-    public float MaxRegenDelay { get; private set; }
-    public float RegenRate { get; private set; }
-
-    private float DefaultRegenDelay;
-    private float DefaultRegenRate;
 
     protected override float PerLevelBonus => 10f;
     protected override float DiminishFactor => 0.85f;
 
-    public StaminaModel(float baseStamina, float minRegenDelay, float maxRegenDelay, float rate)
+    public StaminaModel(float baseStamina, float minRegenDelay=0, float maxRegenDelay = 0, float rate = 0)
 	{
         statType = global::StatType.Stamina;
+        modelType = global::ModifiedModelType.Stamina;  
 
-        baseValue = baseStamina;    
-        CurrentMax = baseValue;   
-        Current = CurrentMax;
-        MinRegenDelay = minRegenDelay;
-        MaxRegenDelay = maxRegenDelay;
-        RegenRate = rate;
-
-        DefaultRegenDelay = MinRegenDelay;
-        DefaultRegenRate = RegenRate;
-
-        RegenTimer = 0;
+        BaseInit(baseStamina, minRegenDelay, maxRegenDelay, rate);
         
     }
 
     public override void ReduceCurrent(float amount)
     {
-        if (Current <=0) return;
+        if (Current <= 0) return;
 
-        Current -= amount;  
+        Current -= amount;
         RegenTimer = 0;
 
-        NotifyChange(Current);
+        NotifyCurrentChange(Current);
+
     }
-
-    public override void IncreaseCurrent(float value)
-    {
-        //без имплементации
-    }
-
-    public void Regen()
-    {
-        if (Current >= CurrentMax)
-        {
-            Current = CurrentMax;
-            return;
-        }
-
-        float regenDelay =
-            Current <= 0.1f ? MaxRegenDelay : MinRegenDelay;
-
-        RegenTimer += Time.deltaTime;
-
-        if (RegenTimer < regenDelay)
-            return;
-
-        Current += RegenRate * Time.deltaTime;
-        Current = Mathf.Clamp(Current, 0, CurrentMax);
-
-        NotifyChange(Current);
-    }
-
-    public void ResetStamina()
-    {
-        Current = CurrentMax;
-        NotifyChange(Current);
-    }
-
-    public void SetRegenDelay(float delay) => MinRegenDelay = delay;
-
-    public void SetRegenRate(float rate)=> RegenRate = rate;
-
-    public void ResetCurrentRegenDelay() => MinRegenDelay = DefaultRegenDelay;
-
-    public void ResetRegenRate()=> RegenRate = DefaultRegenRate;
-
 
    
 }

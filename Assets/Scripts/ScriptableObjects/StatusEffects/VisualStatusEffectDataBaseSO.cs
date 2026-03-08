@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]   
-public class StatusEffectSO
+public class VisualStatusEffect
 {
     public GameObject prefab;
     public StatusEffectType type;
 }
 
 [CreateAssetMenu(fileName = "Side Effects Data", menuName = ScriptablePaths.VFX_SIDE_FX_PATH)]
-public class StatusEffectDataBaseSO : ScriptableObject
+public class VisualStatusEffectDataBaseSO : ScriptableObject
 {
-    public List<StatusEffectSO> sideEffects;
+    public List<VisualStatusEffect> sideEffects;
 }

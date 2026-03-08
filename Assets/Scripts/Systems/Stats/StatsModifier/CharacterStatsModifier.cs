@@ -64,13 +64,19 @@ public class CharacterStatsModifier : MonoBehaviour
         }
     }
 
-    public void ApplyInstantSideEffect(StatusEffectData data)
+    public void GetAndApplyStatusEffect(StatusEffectSO effect)
+    {
+        if (effect is ContinuousStatusEffectSO) { AddContiniousSideEffect(effect as ContinuousStatusEffectSO); return; }
+        if (effect is StatusEffectSO) { ApplyInstantSideEffect(effect as StatusEffectSO); return; }
+    }
+
+    private void ApplyInstantSideEffect(StatusEffectSO data)
     {
         TryCancelStatusEffects(data.effectsToCancel);
         data.Apply(statsController);
     }
 
-    public void AddSideEffect(ContiniousStatusEffectData data)
+    private void AddContiniousSideEffect(ContinuousStatusEffectSO data)
     {
         TryCancelStatusEffects(data.effectsToCancel);
 
@@ -92,5 +98,5 @@ public class CharacterStatsModifier : MonoBehaviour
         activeEffects.Add(newEffect);
     }
 
-   
+
 }
