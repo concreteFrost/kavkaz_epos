@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 939020930680930360}
   - component: {fileID: 8329810915716569827}
   - component: {fileID: 5234568876965363844}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Goul_prefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1035,7 +1035,6 @@ MonoBehaviour:
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0
-  statToUpdate: 0
 --- !u!114 &7636700873293036408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1779,6 +1778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1780154547917969194}
   - component: {fileID: 1007171283521907894}
+  - component: {fileID: 1473472548642542617}
   m_Layer: 0
   m_Name: AI_DamageController
   m_TagString: Untagged
@@ -1816,6 +1816,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   aimPosition: {fileID: 8215545615593885791}
+--- !u!136 &1473472548642542617
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239843163239270507}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.21
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.08, z: 0}
 --- !u!1 &8785117827451663517
 GameObject:
   m_ObjectHideFlags: 0

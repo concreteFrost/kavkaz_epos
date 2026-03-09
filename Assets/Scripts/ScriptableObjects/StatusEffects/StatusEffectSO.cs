@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class StatusEffectSO : ScriptableObject
 
     public List<StatusEffectType> effectsToCancel = new List<StatusEffectType>();
 
-    public void Apply(CharacterStatsController stats, float amount=1)
+    public virtual void Apply(CharacterStatsController stats, float amount=1)
     {
         var affectedStat = stats.GetModifiedStat(statToAffect);
 
@@ -22,4 +23,6 @@ public class StatusEffectSO : ScriptableObject
             affectedStat.ReduceCurrent(amount);
     }
 }
+
+
 

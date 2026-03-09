@@ -3,55 +3,67 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
+    // Источник атаки (обычно Transform игрока или врага)
     protected Transform attackSource;
+
+    // Коллайдер, используемый для нанесения урона
     protected Collider damageCollider;
 
+    // Список уже поражённых коллайдеров, чтобы не наносить урон дважды
     protected readonly HashSet<Collider> hitColliders = new();
 
+    // Данные о уроне для текущей атаки
     DamageData damageData;
+
+    // Список типов персонажей, которым не наносится урон
     List<CharacterType> objectsToIgnore;
 
-    [HideInInspector] public bool attackInterrupted;
-    public bool isAttackRegistered =false;
+    [HideInInspector] public bool attackInterrupted; // флаг прерывания атаки (например, блок щитом)
+    public bool isAttackRegistered = false;         // флаг того, что атака уже зарегистрирована
 
-    private Vector3 lastPosition;
+    private Vector3 lastPosition; // позиция коллайдера в предыдущем кадре для расчёта движения
 
+    // Инициализация коллайдера
     public void Init()
     {
         damageCollider = GetComponent<Collider>();
-        damageCollider.isTrigger = true;
+        damageCollider.isTrigger = true; // триггер, чтобы не было физического столкновения
         damageCollider.enabled = false;
 
         lastPosition = transform.position;
-        
-        DisableCollider();
+
+        DisableCollider(); // выключаем коллайдер по умолчанию
     }
 
+    // FixedUpdate используется для физики
     private void FixedUpdate()
     {
         if (!damageCollider.enabled || attackInterrupted) return;
 
+        // Вычисляем направление и дистанцию движения коллайдера
         Vector3 moveDir = transform.position - lastPosition;
         float moveDist = moveDir.magnitude;
 
         if (moveDist > 0f)
         {
+            // "Протаскиваем" коллайдер по траектории и получаем все пересечения
             Collider[] hits = SweepColliders(lastPosition, moveDir.normalized, moveDist);
 
             foreach (var col in hits)
             {
                 HandleCollision(col);
-                if (attackInterrupted) break; // удар прервался щитом или нанесен урон
+                if (attackInterrupted) break; // остановка при блоке или успешном ударе
             }
         }
 
         lastPosition = transform.position;
     }
 
-    public virtual void EnableCollider(DamageData damageData,List<CharacterType> targetsToIgnore, Transform attackSource)
+    // Включение коллайдера для атаки
+    public virtual void EnableCollider(DamageData damageData, List<CharacterType> targetsToIgnore, Transform attackSource)
     {
         this.damageData = damageData;
-        this.attackSource = attackSource;   
+        this.attackSource = attackSource;
         objectsToIgnore = targetsToIgnore;
 
         attackInterrupted = false;
@@ -59,10 +71,9 @@ public class DamageCollider : MonoBehaviour
 
         damageCollider.enabled = true;
         lastPosition = transform.position;
-
-        
     }
 
+    // Выключение коллайдера после атаки
     public virtual void DisableCollider()
     {
         attackSource = null;
@@ -72,6 +83,7 @@ public class DamageCollider : MonoBehaviour
         objectsToIgnore = null;
     }
 
+    // Метод "протаскивания" коллайдера и получение пересечений
     protected virtual Collider[] SweepColliders(Vector3 origin, Vector3 direction, float distance)
     {
         if (damageCollider == null) return System.Array.Empty<Collider>();
@@ -105,58 +117,81 @@ public class DamageCollider : MonoBehaviour
         }
     }
 
+    // Обработка коллизий с другими объектами
     protected virtual void HandleCollision(Collider other)
     {
         if (attackInterrupted) return;
 
         isAttackRegistered = true;
 
-        var defence = other.GetComponent<DefenceCollider>();
-      
-       
-        if (defence != null)
+        // Проверка на щит/защиту через DefenceCollider
+        if (other.TryGetComponent(out DefenceCollider defence))
         {
-            var owner = defence.Shield.Owner.Damagable;
-            if (NotInTargetList(owner)) return;
-
-            defence.ProcessDamage(damageData, attackSource);
-            attackInterrupted = true;
-            return;
-           
+            defence.ProcessDamage();
         }
 
+        // Проверка, можно ли нанести урон этому объекту
         if (!TryGetDamagable(other, out var damagable)) return;
-        
         if (NotInTargetList(damagable)) return;
-
         if (!hitColliders.Add(other)) return;
 
-        if(damagable.InBlockingWindow) return;
+        if(damagable.IsDead) return;
+        if (damagable.InBlockingWindow) return; // если цель временно неуязвима
 
-        ApplyDamage(damagable);
-      
-        //attackInterrupted = true;
+        // Проверка блока щитом с пересчётом урона
+        if (damagable.Protection != null )
+        {
+            if(damagable.Protection.IsProtectionActive && IsFacingTarget(damagable))
+            {
+                DamageData recalculatedDamage = new DamageData(); // создаём отдельный объект
+                recalculatedDamage.healthDamageMultiplier = damageData.healthDamageMultiplier * damagable.Protection.ShieldData().defenceBonus;
+                recalculatedDamage.balanceDamageType = BalanceDamageType.Blocked;
+                recalculatedDamage.statusEffectData = damageData.statusEffectData;
+                recalculatedDamage.impactForce = damageData.impactForce;
+
+                damagable.Protection.ReduceDurability();
+                ApplyDamage(damagable, recalculatedDamage);
+                return; // атака прервана блоком
+            }
+          
+        }
+
+        // Наносим обычный урон
+        ApplyDamage(damagable, damageData);
     }
 
-    protected virtual void ApplyDamage(IDamagable target)
+    // Метод применения урона
+    protected virtual void ApplyDamage(IDamagable target, DamageData data)
     {
-        target.TakeDamage(damageData, attackSource);
+        target.TakeDamage(data, attackSource);
     }
 
+    // Проверка, есть ли компонент IDamagable
     protected bool TryGetDamagable(Collider other, out IDamagable damagable)
     {
-        damagable = other.GetComponentInChildren<IDamagable>() ?? other.GetComponent<IDamagable>();
+        damagable = other.GetComponent<IDamagable>();
         return damagable != null;
     }
 
+    // Проверка, можно ли атаковать цель по типу персонажа
     protected bool NotInTargetList(IDamagable damagable)
     {
-        
         if (objectsToIgnore == null || objectsToIgnore.Count == 0) return true;
         return objectsToIgnore.Contains(damagable.CharacterType);
     }
+
+    // Проверка, смотрит ли цель на атакующего (для блока щитом)
+    private bool IsFacingTarget(IDamagable target)
+    {
+        Vector3 toTarget = (target.GetOrigin().position - attackSource.position).normalized;
+        Vector3 targetForward = target.GetOrigin().forward;
+        float angle = Vector3.Angle(-toTarget, targetForward);
+
+        return angle < 45f; // угол, в пределах которого блок считается действительным
+    }
 }
 
+// Расширение для конвертации RaycastHit[] в Collider[]
 public static class ColliderExtensions
 {
     public static Collider[] ConvertHitsToColliders(this RaycastHit[] hits)

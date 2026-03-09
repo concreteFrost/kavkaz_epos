@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
 public class StatusEffectInstance
@@ -7,6 +8,7 @@ public class StatusEffectInstance
 
     private float defaultDuration;
     public float duration;
+
     public float accumulation = 1f;
     public float amount;
   
@@ -22,14 +24,15 @@ public class StatusEffectInstance
         isActive = false;
         this.amount = amount;
 
+
     }
 
     public void IncreaseDuration()
     {
-
         duration = defaultDuration;
-
     }
+
+   
 
     /// <summary>
     /// Tick вызывается каждый кадр.

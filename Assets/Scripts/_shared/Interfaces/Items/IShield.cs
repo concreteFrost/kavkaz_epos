@@ -2,10 +2,11 @@
 public interface IShield : IBreakable
 {
     ICollector Owner { get; set; }
+    bool IsProtectionActive { get; set; }
 
     public ShieldSO ShieldData();
 
-    public void ReduceDurability(float amount);
+    public void ReduceDurability();
 
     public void PerformDefence();
 

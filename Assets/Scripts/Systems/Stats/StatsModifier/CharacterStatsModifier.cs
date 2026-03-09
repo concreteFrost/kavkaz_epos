@@ -28,6 +28,7 @@ public class CharacterStatsModifier : MonoBehaviour
             var effect = activeEffects[i];
 
             EffectUpdated?.Invoke(effect.data.effectType, effect.accumulation);
+
             if (effect.Tick(Time.deltaTime, statsController))
             {
                 CancelStatEffect(effect);

@@ -22,6 +22,9 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public bool IsDamaged { get; set; }
     public bool IsKnockedOut {  get; set; } 
     public bool InBlockingWindow { get; set; }
+    //public bool IsDefended {  get; set; } = false;
+    //public float DefenceBonus { get; set; } = 0;
+    public IShield Protection { get; set; } = null; 
 
     public event Action<Transform> DamageTaken = null;
 

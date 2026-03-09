@@ -32,19 +32,9 @@ public class DefenceCollider : MonoBehaviour
     }
 
 
-    public void ProcessDamage(DamageData damageData, Transform source)
+    public void ProcessDamage()
     {
-
-        Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
-
-        DamageData processedDamage = new DamageData();
-
-        processedDamage.healthDamageMultiplier = damageData.healthDamageMultiplier * Shield.ShieldData().defenceBonus;
-        processedDamage.balanceDamageType = BalanceDamageType.Blocked;
-
-        Shield.Owner.Damagable.TakeDamage(processedDamage, source); 
-
-
+        //Shield.ReduceDurability(Shield.ShieldData().breakdownPenalty);
     }
 
    

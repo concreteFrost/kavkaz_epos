@@ -4,9 +4,8 @@ public class Shield : CombatItem, IShield, IBreakable
 {
     public ShieldSO shieldSO;
 
-    [SerializeField] private DefenceCollider defenceCollider;
-
     #region IShield Variables
+    public bool IsProtectionActive { get; set; } = false;
     public ICollector Owner { get; set; }
     public ShieldSO ShieldData() => shieldSO;
     #endregion
@@ -21,22 +20,23 @@ public class Shield : CombatItem, IShield, IBreakable
         base.Init(itemData);
         ToggleInteraction(true);
 
-        defenceCollider.Init();
-        defenceCollider.SetShieldData(this);
-        defenceCollider.DisableCollider();
-
-
     }
 
     public void PerformDefence()
     {
-        defenceCollider.EnableCollider();
+        //defenceCollider.EnableCollider();
+        IsProtectionActive = true;
+        //Owner.Damagable.IsDefended = true;
+        //Owner.Damagable.DefenceBonus = shieldSO.defenceBonus;
 
     }
 
     public void CancelDefence()
     {
-        defenceCollider.DisableCollider();
+        //defenceCollider.DisableCollider();
+        IsProtectionActive = false; 
+        //Owner.Damagable.IsDefended = false;
+        //Owner.Damagable.DefenceBonus = 0;
     }
 
     public override void PickUp(ICollector collector)
@@ -66,12 +66,12 @@ public class Shield : CombatItem, IShield, IBreakable
 
     }
 
-    public void ReduceDurability(float amount)
+    public void ReduceDurability()
     {
         if (Owner == null) return;
-        if (Owner.CanPreventWeaponDamage()) return;
+        //if (Owner.CanPreventWeaponDamage()) return;
 
-        breakdownThreshold -= amount;
+        breakdownThreshold -= shieldSO.breakdownPenalty;
 
         if (breakdownThreshold <= 0)
         {
@@ -84,8 +84,7 @@ public class Shield : CombatItem, IShield, IBreakable
     {
         ResetParent();
         ToggleInteraction(true);
-        defenceCollider.DisableCollider();
-
+       
         Owner.CombatInventory.ResetShield();
         Owner = null;
 

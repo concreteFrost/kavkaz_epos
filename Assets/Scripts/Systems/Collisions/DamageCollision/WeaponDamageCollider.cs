@@ -9,14 +9,16 @@ public class WeaponDamageCollider : DamageCollider
         weaponData = weapon;
     }
 
-    protected override void ApplyDamage(IDamagable target)
+    protected override void ApplyDamage(IDamagable target, DamageData data)
     {
-        weaponData.ReduceDurability(
-           weaponData.WeaponData().GetBreakdownPenalty()
-       );
-
-        base.ApplyDamage(target);
-
        
+
+        base.ApplyDamage(target,data);
+
+        weaponData.ReduceDurability(
+          weaponData.WeaponData().GetBreakdownPenalty()
+      );
+
+
     }
 }

@@ -14,6 +14,9 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     protected CharacterStatsModifier statsModifier;
 
     #region IDamagable Contract
+    //public bool IsDefended { get; set; }
+    //public float DefenceBonus { get; set; } = 0;
+    public IShield Protection { get; set; } = null;
     public bool IsDead { get; set; }
     public bool IsDamaged { get; set; }
     public CharacterType CharacterType { get; set; }

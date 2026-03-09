@@ -24,8 +24,10 @@ MonoBehaviour:
     healthDamageMultiplier: 5
     balanceDamageType: 1
     impactForce: 500
-    sideEffectData: {fileID: 0}
-  emitStartingPosition: 2
+    statusEffectData:
+      statusEffectSO: {fileID: 11400000, guid: 40c83e9e0010cad40a72bc83a9cfae52, type: 2}
+      healthDamageMultiplier: 0
+  emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10
   Requirements:

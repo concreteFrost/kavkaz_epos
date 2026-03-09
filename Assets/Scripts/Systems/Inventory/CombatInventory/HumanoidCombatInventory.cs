@@ -8,6 +8,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
     public Action<ItemSO, IBreakable> WeaponDataUpdated;
     public Action<ItemSO, IBreakable> ShieldUpdated;
+    private ICollector Collector;
 
     public void Init(
         CharacterBoneSocket boneSocket,
@@ -19,7 +20,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
         this.boneSocket = boneSocket;
         this.combatController = combatController;
         this.animatorController = animatorController;
-
+        this.Collector = collector; 
         //InitializeBarehands();
 
         DefaultWeapon = InitializeBarehands(collector);
@@ -70,7 +71,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
     public override void SetShield(IShield w)
     {
         ShieldWeapon = w;
-
+        Collector.Damagable.Protection = w;
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
     }
 
@@ -90,7 +91,7 @@ public class HumanoidCombatInventory : BaseCombatInventory
         if (ShieldWeapon == null) return;
 
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), null);
-
+        Collector.Damagable.Protection = null;
         ShieldWeapon = null;
         combatController.IsShieldRaised = false;
 

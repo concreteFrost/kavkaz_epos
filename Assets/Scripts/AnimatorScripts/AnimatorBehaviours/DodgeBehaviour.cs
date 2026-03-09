@@ -22,7 +22,7 @@ public class DodgeBehaviour : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime % 1;
 
-        dm.InBlockingWindow = t > 0.2f && t < 0.9f;
+        dm.InBlockingWindow = t > 0.07f && t < 0.9f;
             
 
     }
