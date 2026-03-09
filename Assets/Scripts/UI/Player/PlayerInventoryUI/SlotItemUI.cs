@@ -26,7 +26,7 @@ public class SlotItemUI : MonoBehaviour
         backgroundImage.enabled = true;
 
 
-        itemImage.sprite = currentItem.itemSO.itemImage;
+        itemImage.sprite = currentItem.itemSO.itemImage ?? null;
 
         backgroundImage.enabled = true;
 

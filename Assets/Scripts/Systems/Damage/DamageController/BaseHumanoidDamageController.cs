@@ -44,15 +44,16 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
+
+        if (damageData.statusEffectData != null)
+        {
+            statsModifier.GetAndApplyStatusEffect(damageData.statusEffectData.statusEffectSO, damageData.statusEffectData.healthDamageMultiplier);
+        }
+
         if (IsDamagingBlocked())
         {
             Debug.Log("Damage was blocked");
             return;
-        }
-
-        if (damageData.sideEffectData != null)
-        {
-            statsModifier.GetAndApplyStatusEffect(damageData.sideEffectData);
         }
 
         stats.Health.ReduceCurrent(damageData.healthDamageMultiplier);

@@ -6,6 +6,8 @@ public class VisualStatusEffect
 {
     public GameObject prefab;
     public StatusEffectType type;
+    public Sprite effectImage;
+    public Color effectColor;
 }
 
 [CreateAssetMenu(fileName = "Side Effects Data", menuName = ScriptablePaths.VFX_SIDE_FX_PATH)]

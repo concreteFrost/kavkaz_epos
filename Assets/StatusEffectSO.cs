@@ -10,18 +10,16 @@ public class StatusEffectSO : ScriptableObject
 
     public List<StatusEffectType> effectsToCancel = new List<StatusEffectType>();
 
-    public float statsAffectMultiplier;
-
-    public void Apply(CharacterStatsController stats)
+    public void Apply(CharacterStatsController stats, float amount=1)
     {
         var affectedStat = stats.GetModifiedStat(statToAffect);
 
         if (affectedStat == null) return;
 
         if (operationType == StatModifierOperation.Increase)
-            affectedStat.IncreaseCurrent(statsAffectMultiplier);
+            affectedStat.IncreaseCurrent(amount);
         else
-            affectedStat.ReduceCurrent(statsAffectMultiplier);
+            affectedStat.ReduceCurrent(amount);
     }
 }
 

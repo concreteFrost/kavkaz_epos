@@ -9,6 +9,7 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
+    [SerializeField] private PlayerStatusEffectsUI statusEffectsUI;   
 
     [Header("Inventory")]
     [SerializeField] private PlayerInventoryContextMenuUI inventoryContextMenuUI;
@@ -27,6 +28,7 @@ public class PlayerUIManager : MonoBehaviour
 
     public void Init(
         CharacterStatsController stats,
+        CharacterStatsModifier statsModifier,
         CharacterSpellInventory spellInventory,
         CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
@@ -34,7 +36,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterLevelController levelController,
         CharacterConsumeController consumeController)
     {
-        InitCorePanels(stats:stats,spellInventory: spellInventory,consumableInventory: consumableInventory,combatInventory: combatInventory,targetLock: targetLock, consumeController:consumeController );
+        InitCorePanels(stats:stats,statsModifier:statsModifier,spellInventory: spellInventory,consumableInventory: consumableInventory,combatInventory: combatInventory,targetLock: targetLock, consumeController:consumeController );
         InitProgression(levelController);
         InitMenu();
 
@@ -43,6 +45,7 @@ public class PlayerUIManager : MonoBehaviour
 
     private void InitCorePanels(
         CharacterStatsController stats,
+        CharacterStatsModifier statsModifier,
         CharacterSpellInventory spellInventory,
         CharacterConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
@@ -54,6 +57,7 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.Init(spellInventory,consumableInventory, inventoryContextMenuUI, stats);
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
+        statusEffectsUI.Init(statsModifier: statsModifier);
     }
 
     private void InitProgression(CharacterLevelController levelController)

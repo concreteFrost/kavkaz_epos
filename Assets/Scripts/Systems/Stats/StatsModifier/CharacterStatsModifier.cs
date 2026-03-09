@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,10 @@ public class CharacterStatsModifier : MonoBehaviour
     public List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();
     CharacterStatsController statsController;
     CharacterEffectVisualizer visualizer;
+
+    public Action<StatusEffectType, float> EffectAdded;
+    public Action<StatusEffectType, float> EffectUpdated;
+    public Action<StatusEffectType> EffectRemoved;
 
     public void Init(CharacterStatsController statsController, CharacterEffectVisualizer visualizer)
     {
@@ -22,10 +27,11 @@ public class CharacterStatsModifier : MonoBehaviour
         {
             var effect = activeEffects[i];
 
-
+            EffectUpdated?.Invoke(effect.data.effectType, effect.accumulation);
             if (effect.Tick(Time.deltaTime, statsController))
             {
                 CancelStatEffect(effect);
+               
                 continue;
             }
 
@@ -45,6 +51,7 @@ public class CharacterStatsModifier : MonoBehaviour
     {
         activeEffects.Remove(instance);
         visualizer.HideEffect(instance.data.effectType);
+        EffectRemoved?.Invoke(instance.data.effectType);
     }
 
     public void TryCancelStatusEffects(List<StatusEffectType> types)
@@ -64,19 +71,19 @@ public class CharacterStatsModifier : MonoBehaviour
         }
     }
 
-    public void GetAndApplyStatusEffect(StatusEffectSO effect)
+    public void GetAndApplyStatusEffect(StatusEffectSO effect,float amount)
     {
-        if (effect is ContinuousStatusEffectSO) { AddContiniousSideEffect(effect as ContinuousStatusEffectSO); return; }
-        if (effect is StatusEffectSO) { ApplyInstantSideEffect(effect as StatusEffectSO); return; }
+        if (effect is ContinuousStatusEffectSO) { AddContiniousSideEffect(effect as ContinuousStatusEffectSO,amount); return; }
+        if (effect is StatusEffectSO) { ApplyInstantSideEffect(effect as StatusEffectSO,amount); return; }
     }
 
-    private void ApplyInstantSideEffect(StatusEffectSO data)
+    private void ApplyInstantSideEffect(StatusEffectSO data, float amount)
     {
         TryCancelStatusEffects(data.effectsToCancel);
-        data.Apply(statsController);
+        data.Apply(statsController,amount);
     }
 
-    private void AddContiniousSideEffect(ContinuousStatusEffectSO data)
+    private void AddContiniousSideEffect(ContinuousStatusEffectSO data, float amount)
     {
         TryCancelStatusEffects(data.effectsToCancel);
 
@@ -93,9 +100,10 @@ public class CharacterStatsModifier : MonoBehaviour
             return;
         }
 
-        var newEffect = new StatusEffectInstance(data);
+        var newEffect = new StatusEffectInstance(data,amount);
 
         activeEffects.Add(newEffect);
+        EffectAdded?.Invoke(data.effectType, 0);
     }
 
 

@@ -248,6 +248,7 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         uiManager.Init(
             stats: stats,
+            statsModifier:statsModifier,
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,   
             combatInventory: combatInventory,

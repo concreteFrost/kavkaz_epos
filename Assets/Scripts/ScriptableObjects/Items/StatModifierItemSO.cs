@@ -4,10 +4,12 @@ using UnityEngine;
 public class StatModifierItemSO : ConsumableItemSO
 {
     public StatusEffectSO effectData;
+    
+
     public void UseItem(CharacterStatsModifier ctx)
     {
         if (effectData == null) return;
-        ctx.GetAndApplyStatusEffect(effectData);
+        ctx.GetAndApplyStatusEffect(effectData, effectAmount);
     }
 
 }

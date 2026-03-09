@@ -7,10 +7,12 @@ public class StatusEffectInstance
 
     private float defaultDuration;
     public float duration;
-    public float accumulation;
+    public float accumulation = 1f;
+    public float amount;
+  
     public bool isActive;
 
-    public StatusEffectInstance(ContinuousStatusEffectSO data)
+    public StatusEffectInstance(ContinuousStatusEffectSO data, float amount)
     {
         this.data = data;
 
@@ -18,6 +20,7 @@ public class StatusEffectInstance
         defaultDuration = duration;
         accumulation = 0;
         isActive = false;
+        this.amount = amount;
 
     }
 
@@ -35,7 +38,6 @@ public class StatusEffectInstance
     {
         duration -= dt; 
         
-
         if (duration <= 0f)
         {
             accumulation -= dt * data.accumulationDecreaseMultiplier;
@@ -60,8 +62,8 @@ public class StatusEffectInstance
         {
             accumulation -= dt * data.accumulationDecreaseMultiplier;
             duration = 0;
-          
-            data.ApplyContinuous(stats,dt);
+            float finalAmount = amount * Time.deltaTime;
+            data.Apply(stats,finalAmount);
         }
 
 

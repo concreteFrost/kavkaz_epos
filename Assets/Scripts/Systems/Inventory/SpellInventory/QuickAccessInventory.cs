@@ -9,7 +9,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
     public List<ItemData> items = new List<ItemData>(); // основной инвентарь
 
-    public ItemData[] quickSlots;
+    private ItemData[] quickSlots;
     private int currentIndex; //текущий индекс предмета в быстром слоте
 
     public ItemData CurrentItem =>
