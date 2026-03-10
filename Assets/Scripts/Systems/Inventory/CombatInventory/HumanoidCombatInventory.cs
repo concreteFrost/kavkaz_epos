@@ -8,25 +8,29 @@ public class HumanoidCombatInventory : BaseCombatInventory
 
     public Action<ItemSO, IBreakable> WeaponDataUpdated;
     public Action<ItemSO, IBreakable> ShieldUpdated;
-    private ICollector Collector;
+
+    public bool enableWeponBreakdown;
+
 
     public void Init(
         CharacterBoneSocket boneSocket,
         BaseHumanoidAnimatorController animatorController,
         IHumanoidMeleeCombat combatController,
-        ICollector collector)
+        ICollector collector,
+        bool enableWeaponBreakdown)
     {
         
         this.boneSocket = boneSocket;
         this.combatController = combatController;
         this.animatorController = animatorController;
         this.Collector = collector; 
-        //InitializeBarehands();
+        this.enableWeponBreakdown = enableWeaponBreakdown;
+
 
         DefaultWeapon = InitializeBarehands(collector);
 
-        SetWeapon(GetStarterWeapon(collector) ?? DefaultWeapon);
-        ShieldWeapon = GetStarterShield(collector) ?? null;
+        SetWeapon(GetStarterWeapon(collector,this.enableWeponBreakdown) ?? DefaultWeapon);
+        ShieldWeapon = GetStarterShield(collector,this.enableWeponBreakdown) ?? null;
 
     }
     // для UI обновления
@@ -75,17 +79,31 @@ public class HumanoidCombatInventory : BaseCombatInventory
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
     }
 
-    public override void ResetWeapon()
+    public override void ResetCombatItem(CombatItem i)
     {
+        switch (i)
+        {
+            case Weapon:
+                ResetWeapon();
+                break;
+            case Shield:
+                ResetShield();
+                break;
+            default: break;
+        }
+        
+        
+    }
 
+    public void ResetWeapon()
+    {
         CurrentWeapon = DefaultWeapon;
         combatController.IsWeaponed = false;
-
         WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
 
     }
 
-    public override void ResetShield()
+    public void ResetShield()
     {
 
         if (ShieldWeapon == null) return;

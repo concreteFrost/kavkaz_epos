@@ -21,7 +21,7 @@ public class CharacterEmitter : Emitter
     {
         if (spellInventory.CurrentItem == null)
         {
-            Debug.Log("no spell available");
+            
             return;
         }
 

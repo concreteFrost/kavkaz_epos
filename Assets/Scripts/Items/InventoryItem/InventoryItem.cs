@@ -2,7 +2,7 @@
 public class InventoryItem : Item
 {
     public ItemSO itemSO;
-    public void PickUp(ICollector s)
+    public override void PickUp(ICollector s)
     {
         interactionCollder.DisableCollider();
         gameObject.SetActive(false);

@@ -35,7 +35,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
         {
 
             inv.CurrentWeapon.ThrowWeapon(animator.transform, 100f);
-            inv.ResetWeapon();
+            //inv.
           
             weaponThrowed = true;
             

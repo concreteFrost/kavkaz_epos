@@ -228,7 +228,8 @@ public class PlayerServiceLocator : MonoBehaviour
             boneSocket: boneSocket,
             animatorController: animatorController,
             combatController: combatController,
-            collector: interaction);
+            collector: interaction,
+            enableWeaponBreakdown:true);
 
         spellInventory.Init();
         consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier);

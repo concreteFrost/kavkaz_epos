@@ -8,14 +8,14 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     protected Transform self;
     protected CharacterStatsController stats;
     protected IHumanoidMovement motor;
+    protected Collider damagableCollider;
 
     [SerializeField] protected Transform aimPosition;
     protected BaseHumanoidAnimatorController animatorController;
     protected CharacterStatsModifier statsModifier;
 
     #region IDamagable Contract
-    //public bool IsDefended { get; set; }
-    //public float DefenceBonus { get; set; } = 0;
+    public Collider DamageCollider() => damagableCollider;
     public IShield Protection { get; set; } = null;
     public bool IsDead { get; set; }
     public bool IsDamaged { get; set; }
@@ -36,6 +36,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         this.self = self;
         this.motor = motor;
 
+        damagableCollider = GetComponent<Collider>();
+
         CharacterType = this.stats.statsSO.characterType;
 
         if (aimPosition == null)
@@ -43,6 +45,13 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             Debug.Log("no aim position assigned");
         }
 
+    }
+
+    private void Update()
+    {
+        //if (damagableCollider == null) return;
+
+        damagableCollider.enabled = !IsDamagingBlocked();
     }
 
     public virtual void TakeDamage(DamageData damageData, Transform source)
@@ -55,6 +64,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
         if (IsDamagingBlocked())
         {
+            
             Debug.Log("Damage was blocked");
             return;
         }

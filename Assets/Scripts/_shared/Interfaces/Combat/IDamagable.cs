@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IDamagable
 {
+    Collider DamageCollider();
     CharacterType CharacterType { get; set; }
     // Тип персонажа (например, игрок, враг) для фильтрации атак и логики целей
 

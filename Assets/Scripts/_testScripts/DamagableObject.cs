@@ -13,7 +13,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
     Color defaultCol;
     MeshRenderer mat;
 
+    Collider damagableCollider;
+
     #region IDamagable Contract
+    public Collider DamageCollider() => damagableCollider;
     public CharacterType CharacterType { get => characterType; set => characterType = value; }
     public Transform GetAimTransform() => transform;
     public Transform GetOrigin() => transform;
@@ -33,6 +36,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
     private void Awake()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        if(damagableCollider == null) return;
+
+        damagableCollider.enabled = !IsDead || !IsKnockedOut;
     }
 
     public virtual void Init()

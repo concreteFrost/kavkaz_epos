@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Target Move", menuName = ScriptablePaths.PROJECTILE_MOVE_PATH + "/Target Move")]
 public class TargetMoveSO : ProjectileMoveSO
 {
-    [SerializeField] float turnSpeed = 100f;
+    [SerializeField] float turnSpeed = 3f;
     [SerializeField] float homingDuration = 1.5f;
 
     public override Vector3 Move(

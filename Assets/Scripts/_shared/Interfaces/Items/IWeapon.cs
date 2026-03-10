@@ -1,9 +1,8 @@
 
 using UnityEngine;
 
-public interface IWeapon : IBreakable
+public interface IWeapon : ICombatItem
 {
-    ICollector Owner { get; set; }
     /// <summary>
     /// Данные оружия
     /// </summary>
@@ -21,24 +20,12 @@ public interface IWeapon : IBreakable
     public void CancelAttack();
 
     /// <summary>
-    /// Выбрасывает оружие
-    /// </summary>
-    public void DropWeapon();
-
-    /// <summary>
     /// Выкидывает оружие от владельца по направлению вперед 
     /// </summary>
     /// <param name="from">владелец</param>
     /// <param name="force">сила броска</param>
     public void ThrowWeapon(Transform from, float force);
 
-    /// <summary>
-    /// Снижает состояние оружие
-    /// </summary>
-    /// <param name="amount">урон по состоянию</param>
-    public void ReduceDurability(float amount);
-
-    public void IncreaseDurability(float amount);
 
     /// <summary>
     /// Выбирает атаку из списка предоставленного WeaponSO
@@ -53,7 +40,5 @@ public interface IWeapon : IBreakable
     /// </summary>
     /// <returns></returns>
     public WeaponAttack CurrentAttack();
-
-    public void AssignToOwner(ICollector collecter);
 
 }

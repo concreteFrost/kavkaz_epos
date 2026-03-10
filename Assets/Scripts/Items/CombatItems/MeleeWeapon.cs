@@ -67,6 +67,9 @@ public class MeleeWeapon : IWeapon
     #region IWeapon Contract
 
     public ICollector Owner { get; set; }
+    public bool IsBreakdownEnabled { get; set; } = true;
+    public bool IsBroken { get; set; }= false;
+
     public WeaponSO WeaponData() => weaponSO;
 
     public WeaponAttack CurrentAttack() => currentAttack;
@@ -143,7 +146,7 @@ public class MeleeWeapon : IWeapon
     }
 
 
-    public void DropWeapon()
+    public void Drop()
     {
         //��� �������������
     }
@@ -168,5 +171,18 @@ public class MeleeWeapon : IWeapon
         //��� �������������
     }
 
+    public void SetBreakdownEnabled(bool isEnabled)
+    {
+       //
+    }
 
+    public void Break()
+    {
+        //
+    }
+
+    public void Recover()
+    {
+       //
+    }
 }

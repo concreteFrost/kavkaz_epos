@@ -135,9 +135,6 @@ public class DamageCollider : MonoBehaviour
         if (NotInTargetList(damagable)) return;
         if (!hitColliders.Add(other)) return;
 
-        if(damagable.IsDead) return;
-        if (damagable.InBlockingWindow) return; // если цель временно неуязвима
-
         // Проверка блока щитом с пересчётом урона
         if (damagable.Protection != null )
         {
@@ -149,7 +146,7 @@ public class DamageCollider : MonoBehaviour
                 recalculatedDamage.statusEffectData = damageData.statusEffectData;
                 recalculatedDamage.impactForce = damageData.impactForce;
 
-                damagable.Protection.ReduceDurability();
+                damagable.Protection.ReduceDurability(damagable.Protection.ShieldData().breakdownPenalty);
                 ApplyDamage(damagable, recalculatedDamage);
                 return; // атака прервана блоком
             }

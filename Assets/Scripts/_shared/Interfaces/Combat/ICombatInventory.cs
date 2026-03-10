@@ -34,17 +34,8 @@ public interface ICombatInventory
     /// <summary>
     /// —брос оружи€. CurrentWeapon = DefaultWeapon
     /// </summary>
-    public abstract void ResetWeapon();
+    public abstract void ResetCombatItem(CombatItem item);
 
-    /// <summary>
-    /// —брос щита. ShieldWeapon = null
-    /// </summary>
-    public abstract void ResetShield();
-
-    /// <summary>
-    /// »спользуетс€ дл€ назначени€ положени€ оружи€ в правой руке
-    /// </summary>
-    /// <returns></returns>
     public Transform GetRightHand();
 
     /// <summary>
@@ -53,5 +44,4 @@ public interface ICombatInventory
     /// <returns></returns>
     public Transform GetLeftHand();
 
-    public bool CanPickWeapon();
 }

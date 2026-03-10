@@ -19,9 +19,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     public abstract void SetShield(IShield w);
 
-    public abstract void ResetWeapon();
-
-    public abstract void ResetShield();
+    public abstract void ResetCombatItem(CombatItem i);
 
     public IWeapon DefaultWeapon { get; set; } = null;
 
@@ -29,12 +27,12 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     public IShield ShieldWeapon { get; set; } = null;
 
-    public bool CanPickWeapon() => CurrentWeapon.WeaponData().canOverride;
+    protected ICollector Collector;
 
     #endregion
 
 
-    public IWeapon GetStarterWeapon(ICollector source)
+    public IWeapon GetStarterWeapon(ICollector source , bool predictWeaponDamage)
     {
         if (starterSet == null) return null;
 
@@ -46,7 +44,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
             weapon.Init(weapon.ItemData);
             weapon.AssignToOwner(source);
-     
+            weapon.SetBreakdownEnabled(predictWeaponDamage);
 
             return weapon;  
         }
@@ -54,7 +52,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
         return null;
     }
 
-    public IShield GetStarterShield(ICollector source)
+    public IShield GetStarterShield(ICollector source, bool predictWeaponDamage)
     {
         if (starterSet == null) return null;
 
@@ -65,7 +63,8 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
             Shield shield = go.GetComponent<Shield>();  
 
             shield.Init(shield.ItemData);   
-            shield.AssignToOwner(source);   
+            shield.AssignToOwner(source);
+            shield.SetBreakdownEnabled(predictWeaponDamage);
 
             return shield;  
         }

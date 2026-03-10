@@ -1,17 +1,12 @@
 using UnityEngine;
 
-public class Shield : CombatItem, IShield, IBreakable
+public class Shield : CombatItem, IShield
 {
     public ShieldSO shieldSO;
 
     #region IShield Variables
     public bool IsProtectionActive { get; set; } = false;
-    public ICollector Owner { get; set; }
     public ShieldSO ShieldData() => shieldSO;
-    #endregion
-
-    #region IBreakable Contract
-    public float GetDurability() => breakdownThreshold;
     #endregion
 
     public override void Init(ItemSO itemData)
@@ -24,19 +19,17 @@ public class Shield : CombatItem, IShield, IBreakable
 
     public void PerformDefence()
     {
-        //defenceCollider.EnableCollider();
         IsProtectionActive = true;
-        //Owner.Damagable.IsDefended = true;
-        //Owner.Damagable.DefenceBonus = shieldSO.defenceBonus;
-
     }
 
     public void CancelDefence()
     {
-        //defenceCollider.DisableCollider();
         IsProtectionActive = false; 
-        //Owner.Damagable.IsDefended = false;
-        //Owner.Damagable.DefenceBonus = 0;
+    }
+
+    public void ThrowShield()
+    {
+        Drop();
     }
 
     public override void PickUp(ICollector collector)
@@ -56,7 +49,7 @@ public class Shield : CombatItem, IShield, IBreakable
 
     }
 
-    public void AssignToOwner(ICollector collector)
+    public override void AssignToOwner(ICollector collector)
     {
         Owner = collector;
 
@@ -66,28 +59,4 @@ public class Shield : CombatItem, IShield, IBreakable
 
     }
 
-    public void ReduceDurability()
-    {
-        if (Owner == null) return;
-        //if (Owner.CanPreventWeaponDamage()) return;
-
-        breakdownThreshold -= shieldSO.breakdownPenalty;
-
-        if (breakdownThreshold <= 0)
-        {
-
-            ThrowShield();
-        }
-    }
-
-    public void ThrowShield()
-    {
-        ResetParent();
-        ToggleInteraction(true);
-       
-        Owner.CombatInventory.ResetShield();
-        Owner = null;
-
-
-    }
 }

@@ -62,7 +62,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         //всегда инициализировать ранььше combatInventory потому что переставив их местами у оружия attack source может быть null
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
         combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
-        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction);
+        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction, enableWeaponBreakdown:false);
     }
 
     private void SpellInit()

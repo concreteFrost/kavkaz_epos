@@ -9,13 +9,12 @@ public class Weapon : CombatItem, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    public ICollector Owner { get; set; }
-
     private float minStopVelocity = 0.2f;
 
     int currentAttackIndex = 0;
 
     #region IWeapon Contract
+
     public WeaponSO WeaponData() => weaponSO;
     public WeaponAttack CurrentAttack() => currentAttack;
     public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
@@ -34,8 +33,6 @@ public class Weapon : CombatItem, IWeapon
 
         currentAttack = list[currentAttackIndex];
     }
-
-    public float GetDurability() => breakdownThreshold;
     #endregion
 
     public override void Init(ItemSO itemData)
@@ -54,7 +51,8 @@ public class Weapon : CombatItem, IWeapon
 
     public void PerformAttack()
     {
-        if (currentAttack == null) return;
+        if (currentAttack == null || Owner == null) return;
+        
 
         DamageData damageData = new DamageData()
         {
@@ -78,7 +76,9 @@ public class Weapon : CombatItem, IWeapon
     }
     public override void PickUp(ICollector collector)
     {
-        if (!collector.CombatInventory.CanPickWeapon()) return;
+        var currWeapon = collector.CombatInventory.CurrentWeapon.WeaponData();
+        if (!currWeapon.canOverride) return;
+        if (WeaponData().weaponType == WeaponType.TwoHands && collector.CombatInventory.ShieldWeapon != null) return;
 
         if (breakdownThreshold <= 0)
         {
@@ -90,7 +90,8 @@ public class Weapon : CombatItem, IWeapon
 
     }
 
-    public void AssignToOwner(ICollector target)
+
+    public override void AssignToOwner(ICollector target)
     {
         Owner = target;
 
@@ -104,42 +105,7 @@ public class Weapon : CombatItem, IWeapon
         target.CombatInventory.SetWeapon(this);
     }
 
-    public void ReduceDurability(float amount)
-    {
-        if(Owner == null) return;
-        //if (Owner.CanPreventWeaponDamage()) return;
 
-        breakdownThreshold -= amount;
-
-        if (breakdownThreshold <= 0)
-        {
-            Owner.CombatInventory.ResetWeapon();
-            DropWeapon();
-        }
-
-
-    }
-
-    public void IncreaseDurability(float amount)
-    {
-        breakdownThreshold += amount;
-
-        if (breakdownThreshold >= 100f)
-        {
-            breakdownThreshold = 100f;
-        }
-
-
-    }
-
-    public void DropWeapon()
-    {
-        ResetParent();
-        ResetOwner();
-        ToggleInteraction(true);
-
-
-    }
 
     public void ThrowWeapon(Transform from, float force)
     {
@@ -158,12 +124,6 @@ public class Weapon : CombatItem, IWeapon
      
     }
 
-    private void ResetOwner()
-    {
-        Owner.CombatInventory.ResetWeapon();
-        Owner = null;
-        //damageCollider.SetDamageSource(null);
-    }
 
     IEnumerator ThrowCoroutine(List<CharacterType> targetsToIgnore, Transform source)
     {
@@ -187,13 +147,14 @@ public class Weapon : CombatItem, IWeapon
 
         yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.15f);
 
+        Owner.CombatInventory.ResetCombatItem(this); //убираем оружие сразу на случай если оно никогда не остановится в полёте
 
         while (true)
         {
             if (rb.linearVelocity.magnitude < minStopVelocity)
             {
                 damageCollider.DisableCollider();
-                ResetOwner();
+                Owner = null;
                 yield break;
             }
 
@@ -202,5 +163,5 @@ public class Weapon : CombatItem, IWeapon
 
     }
 
-
+   
 }

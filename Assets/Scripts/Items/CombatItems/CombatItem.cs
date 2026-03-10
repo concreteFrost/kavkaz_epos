@@ -1,27 +1,40 @@
-using NUnit.Framework.Interfaces;
+using System.Collections;
 using UnityEngine;
 
-public abstract class CombatItem : Item, IPickable
+public abstract class CombatItem : Item, ICombatItem , IBreakable
 {
 
     protected Rigidbody rb;
     protected Collider physicsCollider;
-
+    protected MeshRenderer meshRenderer;
     public float breakdownThreshold;
 
-    public abstract void PickUp(ICollector interractor);
-   
+    Coroutine breakCoroutine = null;
+
+    #region ICombatItem Contract
+    public ICollector Owner { get; set; } = null;
+
+    #endregion
+
+    #region IBreakable Contract
+    public bool IsBreakdownEnabled { get; set; } = true;
+    public bool IsBroken { get; set; } = false;
+    public float GetDurability() => breakdownThreshold;
+    public void SetBreakdownEnabled(bool isEnabled) => IsBreakdownEnabled = isEnabled;
+
+    #endregion
+
     public override void Init(ItemSO itemData)
     {
-       base.Init(itemData);
+        base.Init(itemData);
 
         rb = GetComponent<Rigidbody>();
         physicsCollider = GetComponent<Collider>();
-        breakdownThreshold = 100;
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-     
+        breakdownThreshold = 100;    
+
     }
-
 
     protected void ToggleInteraction(bool canInteract)
     {
@@ -49,5 +62,105 @@ public abstract class CombatItem : Item, IPickable
     {
         transform.SetParent(null);
     }
+
+    public void Recover()
+    {
+        if(breakCoroutine != null)
+        {
+            StopCoroutine(BreakCoroutine());
+            breakCoroutine = null;  
+        }
+
+        transform.position = InitialPosition;
+        meshRenderer.enabled = true;
+        breakdownThreshold = 100f;
+
+        ToggleInteraction(true);
+    }
+
+    public void ReduceDurability(float amount)
+    {
+        if (Owner == null) return;
+        if (!IsBreakdownEnabled) return;
+
+        breakdownThreshold -= amount;
+
+        if (breakdownThreshold <= 0)
+        {
+            Owner.CombatInventory.ResetCombatItem(this);
+            
+            Drop();
+            StartBreakCoroutine();
+        }
+
+
+    }
+
+    public void IncreaseDurability(float amount)
+    {
+        breakdownThreshold += amount;
+
+        if (breakdownThreshold >= 100f)
+        {
+            breakdownThreshold = 100f;
+        }
+
+
+    }
+
+    public void Drop()
+    {
+        ResetParent();
+        ResetOwner();
+        ToggleInteraction(true);
+
+    }
+
+    public abstract void AssignToOwner(ICollector target);
+   
+    protected void ResetOwner()
+    {
+        Owner.CombatInventory.ResetCombatItem(this);
+        Owner = null;
+        //damageCollider.SetDamageSource(null);
+    }
+
+
+
+    #region Break Methods
+
+    protected void StartBreakCoroutine()
+    {
+        if(breakCoroutine == null)
+        {
+            breakCoroutine = StartCoroutine(BreakCoroutine());
+        }
+        
+    }
+
+    private IEnumerator BreakCoroutine()
+    {
+        yield return new WaitForSeconds(5);
+        Break();
+        yield return new WaitForSeconds(3);
+        Recover();
+        breakCoroutine = null;
+    }
+
+    public void Break()
+    {
+        ToggleInteraction(false);
+        meshRenderer.enabled = false;
+        IsBroken = true;
+
+    }
+
+    #endregion
+
+
+
+ 
+
+
 
 }

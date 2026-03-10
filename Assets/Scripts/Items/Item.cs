@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour, IPickable
 {
-
+    public Vector3 InitialPosition { get; set; }
     public bool IsPicked { get; set; }
 
     public ItemSO ItemData { get; set; }
@@ -17,10 +17,12 @@ public abstract class Item : MonoBehaviour
         {
             interactionCollder.Init();
         }
+
+        InitialPosition = transform.position;
        
     }
 
-
+    public abstract void PickUp(ICollector interractor);
 
 
 

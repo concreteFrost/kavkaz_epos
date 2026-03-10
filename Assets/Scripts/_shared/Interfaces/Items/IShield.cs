@@ -1,18 +1,15 @@
 
-public interface IShield : IBreakable
+public interface IShield : ICombatItem
 {
-    ICollector Owner { get; set; }
     bool IsProtectionActive { get; set; }
 
     public ShieldSO ShieldData();
 
-    public void ReduceDurability();
-
     public void PerformDefence();
+
+    void ThrowShield();
 
     public void CancelDefence();
 
-    public void ThrowShield();
 
-    public void AssignToOwner(ICollector owner);
 }

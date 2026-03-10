@@ -32,25 +32,25 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         IsKnockedOut = false;
     }
 
-    private void Update()
-    {
+    //private void Update()
+    //{
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            DamageData d = new DamageData
-            {
-                healthDamageMultiplier = 30f,
-                balanceDamageType = BalanceDamageType.Extreme,
-                impactForce = 20f
-            };
-            TakeDamage(d, null);
-        }
+    //    if (Input.GetKeyDown(KeyCode.C))
+    //    {
+    //        DamageData d = new DamageData
+    //        {
+    //            healthDamageMultiplier = 30f,
+    //            balanceDamageType = BalanceDamageType.Extreme,
+    //            impactForce = 20f
+    //        };
+    //        TakeDamage(d, null);
+    //    }
 
-    }
+    //}
 
     protected override bool IsDamagingBlocked()
     {
-        return InBlockingWindow || IsDead;
+        return InBlockingWindow || IsDead || IsKnockedOut;
     }
 
     public override void TakeDamage(DamageData damageData, Transform source)
