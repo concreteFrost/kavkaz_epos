@@ -59,7 +59,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
         if (damageData.statusEffectData != null)
         {
-            statsModifier.GetAndApplyStatusEffect(damageData.statusEffectData.statusEffectSO, damageData.statusEffectData.healthDamageMultiplier);
+            statsModifier.GetAndApplyStatusEffect(damageData.statusEffectData);
         }
 
         if (IsDamagingBlocked())
@@ -69,7 +69,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             return;
         }
 
-        stats.Health.ReduceCurrent(damageData.healthDamageMultiplier);
+        stats.Health.ChangeCurrent(damageData.healthDamageMultiplier, OperationType.Negative);
         InvokeDamageTaken(source);
 
 

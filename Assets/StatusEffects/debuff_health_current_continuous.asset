@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f524bc326c6ec204fbb7414937f6b66e, type: 3}
-  m_Name: ContinuousStatusEffect_Burn
+  m_Name: debuff_health_current_continuous
   m_EditorClassIdentifier: Assembly-CSharp::ContinuousStatusEffectSO
+  id: 71ec7b21-88fd-43ae-ac0a-64d03e3c45da
+  effectImage: {fileID: 21300000, guid: 89a7c2b9294dbaa4985085575713504f, type: 3}
+  colorType: 3
+  statOperation: 1
   operationType: 1
-  effectType: 1
+  effectType: 0
   statToAffect: 0
-  effectsToCancel: 
-  duration: 20
   accumulationIncreaseMultiplier: 0.12
   accumulationDecreaseMultiplier: 0.1
+  useAccumulation: 0

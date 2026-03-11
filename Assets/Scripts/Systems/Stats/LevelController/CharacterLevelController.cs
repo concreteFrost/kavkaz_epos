@@ -33,11 +33,6 @@ public class CharacterLevelController : MonoBehaviour
         this.statsController = statsController; 
     }
 
-    private void Start()
-    {
-        CalculateXPToNextLevel();
-    }
-
     public void AddXP(int amount)
     {
         levelData.currentXP += amount;

@@ -1708,6 +1708,7 @@ MonoBehaviour:
     leftDamageCollider: {fileID: 2464713508558155554}
     rightDamageCollider: {fileID: 7425235913522902822}
     current: {fileID: 0}
+  enableWeponBreakdown: 0
 --- !u!114 &134820642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1722,7 +1723,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   items:
   - itemSO: {fileID: 11400000, guid: 03efb9436ef9e6e42af67c9db9377498, type: 2}
-    quantity: 2
+    quantity: 20
+  - itemSO: {fileID: 11400000, guid: f7d4c2afc44569c4ab92e8334949a1cc, type: 2}
+    quantity: 20
 --- !u!1 &182918903
 GameObject:
   m_ObjectHideFlags: 0

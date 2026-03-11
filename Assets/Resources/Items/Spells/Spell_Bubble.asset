@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   id: ee5b344e-5144-4801-8c05-fc602dbda1d4
   itemName: 
-  itemImage: {fileID: 21300000, guid: b2afa56667af6a249ba292fc371eb496, type: 3}
+  itemImage: {fileID: 21300000, guid: 8d43b83d0338c994db662371b1cdbbc8, type: 3}
   prefab: {fileID: 6897423304324703046, guid: 630d132b300b266418da91ddc90783e7, type: 3}
   speed: 10
   lifetime: 10
@@ -24,7 +24,11 @@ MonoBehaviour:
     healthDamageMultiplier: 10
     balanceDamageType: 2
     impactForce: 500
-    sideEffectData: {fileID: 0}
+    statusEffectData:
+      statusEffectSO: {fileID: 0}
+      effectAmount: 0
+      duration: 0
+      effectsToCancel: []
   emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10

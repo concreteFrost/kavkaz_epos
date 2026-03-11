@@ -6,14 +6,7 @@ public class DamageData
     public float healthDamageMultiplier;
     public BalanceDamageType balanceDamageType;
     public float impactForce;
-    public DamageStatusEffectData statusEffectData;
+    public StatusEffectData statusEffectData;
 
-}
-
-[System.Serializable]
-public class DamageStatusEffectData
-{
-    public StatusEffectSO statusEffectSO;
-    public float healthDamageMultiplier;
 }
 

@@ -21,7 +21,7 @@ public class PushBehaviour : StateMachineBehaviour
         combat = animator.GetComponentInChildren<IHumanoidMeleeCombat>();
         stats = animator.GetComponentInChildren<CharacterStatsController>();
 
-        stats.Stamina.ReduceCurrent(stats.statsSO.staminaPushReducePenalty);
+        stats.Stamina.ChangeCurrent(stats.statsSO.staminaPushReducePenalty, OperationType.Negative);
 
         animator.applyRootMotion = true;
         pushActive = false;

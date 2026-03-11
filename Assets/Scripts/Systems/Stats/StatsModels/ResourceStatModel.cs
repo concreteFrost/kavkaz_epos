@@ -9,12 +9,13 @@ public abstract class ResourceStatModel : LevelStatModel , IStatModifier
     public float RegenTimer { get; protected set; }
     public float MinRegenDelay { get; protected set; }
     public float MaxRegenDelay { get; protected set; }
-    public float RegenRate { get; protected set; }
+    public float CurrentRegenRate { get; protected set; }
+
+    protected float TempRegenRate;
 
     protected float DefaultRegenDelay;
     protected float DefaultRegenRate;
 
-    public event Action Depleted;
 
     protected void BaseInit(
         float baseValue,
@@ -26,37 +27,14 @@ public abstract class ResourceStatModel : LevelStatModel , IStatModifier
 
         MinRegenDelay = minRegenDelay;
         MaxRegenDelay = maxRegenDelay;
-        RegenRate = rate;
+        CurrentRegenRate = rate;
 
         DefaultRegenDelay = MinRegenDelay;
-        DefaultRegenRate = RegenRate;
+        DefaultRegenRate = CurrentRegenRate;
 
         RegenTimer = 0;
     }
 
-
-    public virtual void ReduceCurrent(float amount)
-    {
-        if (Current <= 0) return;
-
-        Current -= amount;
-        if (Current < 0) Current = 0;
-
-        NotifyCurrentChange(Current);
-
-        if (Current == 0)
-            Depleted?.Invoke();
-    }
-
-    public virtual void IncreaseCurrent(float amount)
-    {
-        if (Current >= CurrentMax) return;
-
-        Current += amount;
-        Current = Mathf.Clamp(Current, 0, CurrentMax);
-
-        NotifyCurrentChange(Current);
-    }
 
     public void Regen()
     {
@@ -74,22 +52,47 @@ public abstract class ResourceStatModel : LevelStatModel , IStatModifier
         if (RegenTimer < regenDelay)
             return;
 
-        Current += RegenRate * Time.deltaTime;
+        Current += CurrentRegenRate * Time.deltaTime;
         Current = Mathf.Clamp(Current, 0, CurrentMax);
 
         NotifyCurrentChange(Current);
     }
 
-    public void SetRegenDelay(float delay) => MinRegenDelay = delay;
-
-    public void ResetCurrentRegenDelay() => MinRegenDelay = DefaultRegenDelay;
-
-    public void ResetRegenRate() => RegenRate = DefaultRegenRate;
-
-    public void ResetCurrent()
+    public void ChangeRegenRate(string id, float val, OperationType operationType)
     {
-        Current = CurrentMax;
-        NotifyCurrentChange(Current);
+        // вычисляем положительное или отрицательное изменение
+        float delta = operationType == OperationType.Positive ? val : -val;
+
+        // если эффект уже есть — суммируем
+        if (tempModifiers.ContainsKey(id))
+            tempModifiers[id] += delta;
+        else
+            tempModifiers[id] = delta;
+
+        // пересчитываем текущую скорость с учётом всех модификаторов
+        RecalculateRegenRate();
     }
+
+    // отдельный метод пересчёта, чтобы избежать дублирования
+    private void RecalculateRegenRate()
+    {
+        float total = 0f;
+        foreach (var v in tempModifiers.Values)
+            total += v;
+
+        CurrentRegenRate = DefaultRegenRate + total;
+
+        // минимальное ограничение
+        if (CurrentRegenRate < 0)
+            CurrentRegenRate = 0;
+    }
+
+    public void ResetRegenRate()
+    {
+        CurrentRegenRate = DefaultRegenRate;
+        TempRegenRate = 0;
+    }
+
+
 
 }

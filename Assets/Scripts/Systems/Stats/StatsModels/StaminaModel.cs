@@ -16,16 +16,33 @@ public class StaminaModel : ResourceStatModel
         
     }
 
-    public override void ReduceCurrent(float amount)
-    {
-        if (Current <= 0) return;
+    //public override void ReduceCurrent(float amount)
+    //{
+    //    if (Current <= 0) return;
 
-        Current -= amount;
-        RegenTimer = 0;
+    //    Current -= amount;
+    //    RegenTimer = 0;
+
+    //    NotifyCurrentChange(Current);
+
+    //}
+
+    public override void ChangeCurrent(float amount, OperationType operationType)
+    {
+        float delta = operationType == OperationType.Positive ? amount : -amount;
+
+        if (delta > 0 && Current >= CurrentMax) return;
+        if (delta < 0 && Current <= 0) return;
+
+        Current += delta;
+        Current = Mathf.Clamp(Current, 0, CurrentMax);
+
+        if (delta < 0)
+            RegenTimer = 0;
 
         NotifyCurrentChange(Current);
 
     }
 
-   
+
 }

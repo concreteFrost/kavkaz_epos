@@ -16,6 +16,7 @@ public class SlotItemUI : MonoBehaviour
     public void UpdateImageDate(ItemData data, CharacterStatsController statsController)
     {
         cantUseImage.gameObject.SetActive(false);
+        ToggleCantUseImage(false);
 
         if (data == null) return;
 

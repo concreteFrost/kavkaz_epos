@@ -106,7 +106,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (!actionGuards.CanDodge()) return;
 
         motor.Dodge(dir);
-        stats.Stamina.ReduceCurrent(stats.statsSO.staminaDodgeReducePenalty);
+        stats.Stamina.ChangeCurrent(stats.statsSO.staminaDodgeReducePenalty, OperationType.Negative);
 
     }
 
@@ -115,7 +115,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (!actionGuards.CanJump()) return;
 
         motor.Jump(stats.jumpTimer);
-        stats.Stamina.ReduceCurrent(stats.statsSO.staminaJumpReducePenalty);
+        stats.Stamina.ChangeCurrent(stats.statsSO.staminaJumpReducePenalty, OperationType.Negative);
     }
 
     public void HandleJumpOrDodge(Vector3 dir)
@@ -137,7 +137,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         if (motor.IsSprinting)
         {
 
-            stats.Stamina.ReduceCurrent(stats.statsSO.staminaRunReducePenalty);
+            stats.Stamina.ChangeCurrent(stats.statsSO.staminaRunReducePenalty, OperationType.Negative);
         }
 
     }

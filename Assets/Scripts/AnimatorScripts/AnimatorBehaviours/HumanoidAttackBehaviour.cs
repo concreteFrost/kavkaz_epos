@@ -25,7 +25,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         if(inv.CurrentWeapon != null)
         {
-            stats.Stamina.ReduceCurrent(inv.CurrentWeapon.CurrentAttack().staminaPenalty);
+            stats.Stamina.ChangeCurrent(inv.CurrentWeapon.CurrentAttack().staminaPenalty,OperationType.Negative);
         }
         
         animator.applyRootMotion = true;

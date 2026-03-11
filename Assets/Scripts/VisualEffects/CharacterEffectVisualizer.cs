@@ -7,11 +7,11 @@ public class CharacterEffectVisualizer : MonoBehaviour
     [SerializeField] private VisualStatusEffectDataBaseSO effectDataBaseSO;
     [SerializeField] private Transform effectPosition;
 
-    private Dictionary<StatusEffectType, GameObject> activeInstances = new();
+    private Dictionary<string, GameObject> activeInstances = new();
 
-    public void ShowEffect(StatusEffectType type)
+    public void ShowEffect(string id)
     {
-        if (activeInstances.TryGetValue(type, out var existingInstance))
+        if (activeInstances.TryGetValue(id, out var existingInstance))
         {
             if (existingInstance.activeInHierarchy) return;
 
@@ -19,19 +19,19 @@ public class CharacterEffectVisualizer : MonoBehaviour
             return;
         }
 
-        var effectData = effectDataBaseSO.sideEffects.Find(e => e.type == type);
+        var effectData = effectDataBaseSO.sideEffects.Find(e => e.effectData.id == id );
         if (effectData == null || effectData.prefab == null)
             return;
 
         var instance = Instantiate(effectData.prefab, effectPosition);
-        activeInstances[type] = instance;
+        activeInstances[id] = instance;
 
         StartCoroutine(GraduateFXToggle(instance, true));
     }
 
-    public void HideEffect(StatusEffectType type)
+    public void HideEffect(string id)
     {
-        if (activeInstances.TryGetValue(type, out var instance))
+        if (activeInstances.TryGetValue(id, out var instance))
         {
             StartCoroutine(GraduateFXToggle(instance, false));
         }

@@ -7,7 +7,7 @@ public class PlayerStatusEffectsUI : MonoBehaviour
     public GameObject sliderPrefab;
     public Transform slidersParent;
     public VisualStatusEffectDataBaseSO statusEffectsDB;
-    Dictionary<StatusEffectType, StatusEffectSliderUI> sliderMap = new Dictionary<StatusEffectType, StatusEffectSliderUI>();
+    Dictionary<string, StatusEffectSliderUI> sliderMap = new Dictionary<string, StatusEffectSliderUI>();
 
     public void Init(CharacterStatsModifier statsModifier)
     {
@@ -35,33 +35,31 @@ public class PlayerStatusEffectsUI : MonoBehaviour
             GameObject go = Instantiate(sliderPrefab, slidersParent);
 
             StatusEffectSliderUI data = go.GetComponent<StatusEffectSliderUI>();
-            sliderMap[e.type] = data;
-            data.SetEffect(e.type, e.effectImage,e.effectColor);
+            sliderMap[e.effectData.id] = data;
+            data.SetEffect(e.effectData);
             data.Hide();
-            
-            
+                    
         }
       
     }
 
-    void OnEffectAdded(StatusEffectType type, float amount)
+    void OnEffectAdded(string id, float amount)
     {
-        if (!sliderMap.TryGetValue(type, out var sliderUI)) return;
-
+        if (!sliderMap.TryGetValue(id, out var sliderUI)) return;
         sliderUI.Show();
        
     }
 
-    void OnEffectUpdated(StatusEffectType type, float amount)
+    void OnEffectUpdated(string id, float amount)
     {
-        if (!sliderMap.TryGetValue(type, out var sliderUI)) return;
+        if (!sliderMap.TryGetValue(id, out var sliderUI)) return;
 
         sliderUI.Tick(amount);
     }
 
-    void OnEffectRemoved(StatusEffectType type)
+    void OnEffectRemoved(string id)
     {
-        if (!sliderMap.TryGetValue(type, out var sliderUI)) return;
+        if (!sliderMap.TryGetValue(id, out var sliderUI)) return;
 
         sliderUI.Hide();    
     }

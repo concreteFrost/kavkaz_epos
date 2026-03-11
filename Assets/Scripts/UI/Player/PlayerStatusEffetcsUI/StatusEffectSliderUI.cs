@@ -4,16 +4,16 @@ using UnityEngine.UI;
 public class StatusEffectSliderUI : MonoBehaviour
 {
 
-    public StatusEffectType effectType;
     public Slider slider;
     public Image effectImage;
     public Image fillImage;
+    public string id;
 
-    public void SetEffect(StatusEffectType effectType, Sprite img, Color sliderColor)
+    public void SetEffect(StatusEffectSO data)
     {
-        this.effectType = effectType;  
-        effectImage.sprite = img;
-        fillImage.color = sliderColor;
+        this.id = data.id;
+        effectImage.sprite =data.effectImage;
+        fillImage.color =data.effectColor;
       
     }
 
