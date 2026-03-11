@@ -45,6 +45,7 @@ public class CharacterConsumeController : MonoBehaviour
         }
 
         animatorController.OverrideConsume(consumable.consumableAnimation);
+        isConsuming = true;
     }
 
 

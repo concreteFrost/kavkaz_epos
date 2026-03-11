@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Fireball
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   id: 6f127f4d-7e2a-4ae0-a7d8-f8d7d96bcc1a
-  itemName: 
+  itemName: Fireball
   itemImage: {fileID: 21300000, guid: 4a8b11548ae1ade4ba8602f9191f1807, type: 3}
   prefab: {fileID: 6897423304324703046, guid: 577c20299e00e45458d06e48d2474674, type: 3}
   speed: 4.5
@@ -25,10 +25,11 @@ MonoBehaviour:
     balanceDamageType: 1
     impactForce: 500
     statusEffectData:
-      statusEffectSO: {fileID: 11400000, guid: 5b005f3ecc2cafe41a6451cb553cb4f5, type: 2}
-      effectAmount: 1
-      duration: 6
-      effectsToCancel: []
+      effects:
+      - effect: {fileID: 11400000, guid: 5b005f3ecc2cafe41a6451cb553cb4f5, type: 2}
+        amount: 1
+        duration: 10
+        effectsToCancel: []
   emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10

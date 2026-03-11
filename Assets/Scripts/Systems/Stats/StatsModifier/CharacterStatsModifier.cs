@@ -77,43 +77,59 @@ public class CharacterStatsModifier : MonoBehaviour
         }
     }
 
-    public void GetAndApplyStatusEffect(StatusEffectData effectData)
+    public void GetAndApplyStatusEffect(StatusEffectData data)
     {
-        if (effectData.statusEffectSO is ContinuousStatusEffectSO) { AddContiniousSideEffect(effectData); return; }
-        if (effectData.statusEffectSO is StatusEffectSO) { ApplyInstantSideEffect(effectData); return; }
+        if (data == null || data.effects == null) return;
+
+        foreach (var entry in data.effects)
+        {
+            TryCancelStatusEffects(entry.effectsToCancel);
+
+            if (entry.effect is ContinuousStatusEffectSO continuous)
+            {
+                AddContiniousSideEffect(continuous, entry.amount, entry.duration);
+            }
+            else
+            {
+                ApplyInstantSideEffect(entry);
+            }
+        }
     }
 
-    private void ApplyInstantSideEffect(StatusEffectData effectData)
+    private void ApplyInstantSideEffect(StatusEffectEntry entry)
     {
-        TryCancelStatusEffects(effectData.effectsToCancel);
-        effectData.statusEffectSO.Apply(statsController, effectData.effectAmount);
+        if (entry == null || entry.effect == null) return;
+
+        // отменяем нужные эффекты
+        TryCancelStatusEffects(entry.effectsToCancel);
+
+        // применяем сам эффект
+        entry.effect.Apply(statsController, entry.amount);
     }
 
-    private void AddContiniousSideEffect(StatusEffectData effectData)
+    private void AddContiniousSideEffect(
+     ContinuousStatusEffectSO effect,
+     float amount,
+     float duration)
     {
-        var continuousEffect = effectData.statusEffectSO as ContinuousStatusEffectSO;
-        TryCancelStatusEffects(effectData.effectsToCancel);
-
-        var match = activeEffects.Find(x => x.data.id == effectData.statusEffectSO.id);
+        var match = activeEffects.Find(x => x.data.id == effect.id);
 
         if (match != null)
         {
-            // если не используем накопление или эффект ещё не активен
-            if (!continuousEffect.useAccumulation || !match.isActive)
+            if (!effect.useAccumulation || !match.isActive)
             {
                 match.IncreaseDuration();
             }
             return;
         }
 
-        var newEffect = new StatusEffectInstance(continuousEffect,effectData.effectAmount, effectData.duration);
+        var newEffect = new StatusEffectInstance(effect, amount, duration);
 
         activeEffects.Add(newEffect);
 
-        continuousEffect.OnApply(statsController, effectData.effectAmount);
-        EffectAdded?.Invoke(continuousEffect.id, 0);
+        effect.OnApply(statsController, amount);
 
+        EffectAdded?.Invoke(effect.id, 0);
     }
-
 
 }

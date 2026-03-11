@@ -14,11 +14,6 @@ public enum OperationType
     Negative = 1
 }
 
-public enum ModifierValueType
-{
-    Flat = 0,
-    Percent = 1
-}
 
 [System.Serializable]
 public enum BuffColorType
@@ -46,7 +41,6 @@ public class StatusEffectSO : ScriptableObject
     public StatModifierOperation statOperation;
     public OperationType operationType;
 
-    public ModifierValueType modifierValueType = ModifierValueType.Flat;
 
 
     private static readonly Color[] buffColors = new Color[]
@@ -68,22 +62,6 @@ public class StatusEffectSO : ScriptableObject
             affectedStat.ChangeCurrent(amount,operationType);
    
     }
-
-    // ѕревращаем effectAmount в число дл€ применени€
-    public float CalculateAmount(LevelStatModel stat, float effectAmount)
-    {
-        // ≈сли Percent, считаем от текущего максимума
-        float result = modifierValueType == ModifierValueType.Percent
-            ? stat.CurrentMax * (effectAmount / 100f)
-            : effectAmount;
-
-        // «десь можно добавить любые дополнительные правила
-        // Ќапример, ограничение максимума, минимальное изменение и т.д.
-
-        return result;
-    }
-
-
 
 #if UNITY_EDITOR
     private void OnValidate()

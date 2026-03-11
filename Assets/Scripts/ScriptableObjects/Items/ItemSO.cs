@@ -14,8 +14,8 @@ public abstract class ItemSO : ScriptableObject
         if (string.IsNullOrEmpty(id))
         {
             id = Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
         }
     }
-
 #endif
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Blue
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   id: 93043f3d-92a7-4fa7-aa05-1ae385508428
-  itemName: 
+  itemName: Blue Ball
   itemImage: {fileID: 21300000, guid: 3defc2a84ba699f47a176a36e891bc67, type: 3}
   prefab: {fileID: 6897423304324703046, guid: 34626e59f39d96944bc8390168ff55fb, type: 3}
   speed: 5
@@ -24,12 +24,8 @@ MonoBehaviour:
     healthDamageMultiplier: 10
     balanceDamageType: 2
     impactForce: 500
-    sideEffectData:
-      type: 0
-      duration: 0
-      statsAffectMultiplier: 0
-      accumulationIncreaseMultiplier: 0
-      accumulationDecreaseMultiplier: 0
+    statusEffectData:
+      effects: []
   emitStartingPosition: 0
   animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10
