@@ -18,16 +18,13 @@ public class WeaponAttack
 
     public AnimationInfoSO animationInfo;
 
+    public float GetFinalHealthDamage(float baseDamage)=> baseDamage + (baseDamage * damageData.healthDamageMultiplier);
+
     public FromHand SourceHand() => fromHand;
 
-    public float GetFinalDamage(float baseDamage, float strength)
+    public float GetClipDuration(Animator animator)
     {
-        strength = Mathf.Max(1f, strength);
-
-        float finalDamage = baseDamage * (strength / 100f) * (1 + damageData.healthDamageMultiplier);
-
-        Debug.Log(finalDamage);
-        return finalDamage;
+        return animationInfo.clip.length / Mathf.Max(animator.speed, 0.0001f);
     }
 }
 
@@ -39,7 +36,5 @@ public class AttackSO : ScriptableObject
     public List<WeaponAttack> attackList;
 
     public WeaponAttack powerAttack;
-
-   
  
 }

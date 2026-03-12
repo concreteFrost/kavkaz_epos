@@ -11,7 +11,7 @@ public class CharacterLevelTesterWindow : EditorWindow
     int addXPAmount = 100;
     StatType statToSpend = StatType.Health;
 
-    [MenuItem("Tools/Character Tools/Level Tester")]
+    [MenuItem("Tools/Level Tester")]
     public static void ShowWindow()
     {
         GetWindow<CharacterLevelTesterWindow>("Level Tester");
@@ -67,10 +67,8 @@ public class CharacterLevelTesterWindow : EditorWindow
 
         EditorGUILayout.LabelField("Stamina Level", statsController.staminaLevel.ToString());
         EditorGUILayout.LabelField("Knowledge Level", statsController.knowledgeLevel.ToString());
-        EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("Strength Level", statsController.strengthLevel.ToString()); 
-        EditorGUILayout.LabelField("Current Strength Points", statsController.Strength.CurrentMax.ToString());  
+        EditorGUILayout.Space();
 
         // Добавление XP
         addXPAmount = EditorGUILayout.IntField("Add XP amount", addXPAmount);

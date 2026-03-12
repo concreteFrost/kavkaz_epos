@@ -40,9 +40,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
     {
         StatType.Health,
         StatType.Stamina,
-        StatType.Knowledge,
-        StatType.Strength
-
+        StatType.Knowledge
     };
 
         foreach (StatType statType in statsToUpgrade)

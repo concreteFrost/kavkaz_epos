@@ -18,12 +18,11 @@ public enum OperationType
 [System.Serializable]
 public enum BuffColorType
 {
-    Fire=0,
-    Health=1,
-    Poison=2,
-    Blood=3,
-    Stamina=4,
-    Strength=5
+    Fire,
+    Health,
+    Poison,
+    Blood,
+    Stamina
 }
 
 
@@ -50,8 +49,7 @@ public class StatusEffectSO : ScriptableObject
         new Color(0.2f, 1f, 0.2f),  // Health
         new Color(0.6f, 0f, 0.8f),  // Poison
         new Color(1f, 0f, 0f),      // Blood
-        new Color(0.1f, 0.6f, 1f),  // Stamina
-        new Color(1,1,1,1)          // Strength
+        new Color(0.1f, 0.6f, 1f)   // Stamina
    };
 
     public virtual void Apply(CharacterStatsController stats, float amount=1)

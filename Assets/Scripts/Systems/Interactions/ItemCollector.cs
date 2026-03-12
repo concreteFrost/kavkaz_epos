@@ -10,10 +10,9 @@ public class ItemCollector : MonoBehaviour, ICollector
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
 
-    public CharacterStatsController StatsController { get; set; }=null;
     public ICombatInventory CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
-    public IAttackSource AttackSource { get; set; } = null;
+    public IAttackSource AttackSource { get; set; }
 
     private IPickable pickable = null;
     public IPickable PickableItem
@@ -28,7 +27,6 @@ public class ItemCollector : MonoBehaviour, ICollector
 
     public void Init(
         Transform self,
-        CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
         ICombatInventory combatInventory,
         IDamagable damageController,
@@ -37,7 +35,6 @@ public class ItemCollector : MonoBehaviour, ICollector
         )
     {
         this.self = self;
-        this.StatsController = statsController; 
         this.animatorController = animatorController;
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;

@@ -1,15 +1,12 @@
 ﻿[System.Serializable]
-public class KnowledgeModel : ResourceStatModel
+public class KnowledgeModel : LevelStatModel
 {
-    protected override float PerLevelBonus => 12f;
+    protected override float PerLevelBonus => 20f;
     protected override float DiminishFactor => 0.9f;
 
-    public KnowledgeModel(float baseKnowledge, float minRegenDelay = 0, float maxRegenDelay = 0, float rate = 0)
+    public KnowledgeModel(float baseKnowledge)
     {
-        statType = global::StatType.Knowledge;  
-        modelType = global::ModifiedModelType.Knowledge;
-        BaseInit(baseKnowledge, minRegenDelay, maxRegenDelay, rate); 
-
+        BaseInit(baseKnowledge); 
     }
 
    

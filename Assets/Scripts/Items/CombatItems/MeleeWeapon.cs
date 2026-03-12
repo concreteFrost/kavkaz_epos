@@ -109,8 +109,6 @@ public class MeleeWeapon : IWeapon
         this.meleeData.Init(meleeData, this, this.Owner.AttackSource.Source());
 
     }
-
-
     public void CancelAttack()
     {
         meleeData.CancelAttack();
@@ -126,16 +124,11 @@ public class MeleeWeapon : IWeapon
 
         }
 
-        var baseWeaponDamage = WeaponData().GetBaseDamage();
-        var ownerStrengthMultiplier = Owner.StatsController.Strength.CurrentMax;
-
         DamageData damageData = new DamageData()
         {
-            healthDamageMultiplier = currentAttack.GetFinalDamage(baseWeaponDamage, ownerStrengthMultiplier),
+            healthDamageMultiplier = currentAttack.GetFinalHealthDamage(weaponSO.GetBaseDamage()),
             balanceDamageType = currentAttack.damageData.balanceDamageType,
-            impactForce = currentAttack.damageData.impactForce,
-            statusEffectData = currentAttack.damageData.statusEffectData
-
+            impactForce = currentAttack.damageData.impactForce
         };
 
         meleeData.SetCurrentCollider(currentAttack);

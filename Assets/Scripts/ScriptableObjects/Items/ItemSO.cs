@@ -4,7 +4,7 @@ using UnityEngine;
 //[CreateAssetMenu(fileName = "Item", menuName = ScriptablePaths.ITEMS_PATH + "/Item")]
 public abstract class ItemSO : ScriptableObject
 {
-    [HideInInspector] public string id;
+    public string id;
     public string itemName;
     public Sprite itemImage;
 

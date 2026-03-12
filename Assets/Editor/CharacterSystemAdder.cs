@@ -11,7 +11,7 @@ public class CharacterSystemAdder : EditorWindow
     private string locatorFieldName = "newSystem";
     private string systemsRootName = "Systems";
 
-    [MenuItem("Tools/Character Tools/Character System Tool")]
+    [MenuItem("Tools/Character System Tool")]
     public static void Open()
     {
         GetWindow<CharacterSystemAdder>("Enemy System Tool");

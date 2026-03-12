@@ -8,7 +8,6 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float baseHealth = 100f;
     public float baseStamina = 100f;
     public float baseKnowledge = 100f;
-    public float baseStrength = 1.0f;   
 
     [Header("stats regen ")]
     public float statMinRegenDelay = 2f;

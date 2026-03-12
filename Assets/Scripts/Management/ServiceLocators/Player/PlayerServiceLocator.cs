@@ -159,7 +159,6 @@ public class PlayerServiceLocator : MonoBehaviour
 
         interaction.Init(
             self: transform,
-            statsController:stats,
             animatorController: animatorController,
             combatInventory: combatInventory,
             damageController: damageController,

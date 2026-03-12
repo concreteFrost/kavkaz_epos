@@ -16,6 +16,16 @@ public class StaminaModel : ResourceStatModel
         
     }
 
+    //public override void ReduceCurrent(float amount)
+    //{
+    //    if (Current <= 0) return;
+
+    //    Current -= amount;
+    //    RegenTimer = 0;
+
+    //    NotifyCurrentChange(Current);
+
+    //}
 
     public override void ChangeCurrent(float amount, OperationType operationType)
     {

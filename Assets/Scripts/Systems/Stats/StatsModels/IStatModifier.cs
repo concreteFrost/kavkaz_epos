@@ -1,4 +1,4 @@
-﻿public interface IModifiedStat
+﻿public interface IStatModifier
 {
 
     ModifiedModelType ModifiedModelType();

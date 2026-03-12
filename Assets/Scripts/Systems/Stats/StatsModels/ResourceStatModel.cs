@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
+public abstract class ResourceStatModel : LevelStatModel , IStatModifier
 {
     protected ModifiedModelType modelType;
     public ModifiedModelType ModifiedModelType()=>modelType;   

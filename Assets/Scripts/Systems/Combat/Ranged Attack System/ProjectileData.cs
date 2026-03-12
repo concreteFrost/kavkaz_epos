@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileData
+public struct ProjectileData
 {
 
     public IDamagable target;
@@ -11,16 +11,5 @@ public class ProjectileData
     public IAttackSource attackSource;
 
     public ProjectileSO projectileSO;
-    //public DamageData finalDamageData;
-
-    //public float GetFinalDamage(float baseDamage, float strength)
-    //{
-    //    strength = Mathf.Max(1f, strength);
-
-    //    float finalDamage = baseDamage * (strength / 100f) * (1 + finalDamageData.healthDamageMultiplier);
-
-    //    Debug.Log(finalDamage);
-    //    return finalDamage;
-    //}
 
 }
