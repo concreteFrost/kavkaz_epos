@@ -7,4 +7,5 @@ public class CharacterStatsLevelSO : ScriptableObject
     public int startHealthLevel = 1;
     public int startStaminaLevel = 1;
     public int startKnowledgeLevel = 1;
+    public int startStrengthLevel = 1;
 }

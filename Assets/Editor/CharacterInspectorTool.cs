@@ -7,7 +7,7 @@ public class CharacterInspectorTool : EditorWindow
     private Vector2 scroll;
     private Dictionary<int, bool> foldoutStates = new();
 
-    [MenuItem("Tools/Character Inspector")]
+    [MenuItem("Tools/Character Tools/Character Inspector")]
     public static void ShowWindow()
     {
         GetWindow<CharacterInspectorTool>("Character Inspector");

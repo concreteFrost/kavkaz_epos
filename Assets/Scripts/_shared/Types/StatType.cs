@@ -4,4 +4,5 @@ public enum StatType
     Stamina = 1,
     Knowledge = 2,
     Speed = 3,
+    Strength= 4,
 }

@@ -8,7 +8,7 @@ public class EnemyPassiveInterruptionHandler
     Vector3 interruptionPosition;
     
     private float interruptionTimer=0f;
-    private float maxInterruptionTimer = 5f;    
+    private float maxInterruptionTimer = 2f;    
 
     public bool IsInterrupted() => isInterrupted;
 

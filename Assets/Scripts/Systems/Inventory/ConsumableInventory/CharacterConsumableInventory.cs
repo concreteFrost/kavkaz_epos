@@ -40,7 +40,7 @@ public class CharacterConsumableInventory : QuickAccessInventory
                 break;
             case StatModifierItemSO continuousItem:
                 continuousItem.UseItem(statsModifier);
-                Debug.Log("item used");
+              
                 break;
 
             default:

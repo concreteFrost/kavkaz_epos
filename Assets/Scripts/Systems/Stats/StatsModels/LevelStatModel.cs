@@ -9,7 +9,7 @@ public abstract class LevelStatModel
     protected int currentLevel = 1;
     protected float baseValue;
     public float Current;
-    public float CurrentMax { get; set; }
+    public float CurrentMax;
     protected abstract float PerLevelBonus { get; }
     protected abstract float DiminishFactor { get; }
 
@@ -40,13 +40,7 @@ public abstract class LevelStatModel
     {
         currentLevel = Mathf.Max(1, level);
 
-        float totalBonus = 0f;
-
-        for (int i = 1; i < currentLevel; i++)
-        {
-            float levelBonus = PerLevelBonus * Mathf.Pow(DiminishFactor, i - 1);
-            totalBonus += Mathf.Floor(levelBonus);
-        }
+        float totalBonus = PerLevelBonus * (1 - Mathf.Pow(DiminishFactor, currentLevel - 1)) / (1 - DiminishFactor);
 
         return baseValue + totalBonus;
     }
@@ -67,7 +61,7 @@ public abstract class LevelStatModel
         CurrentMax = CalculateNextLevel(currentLevel) + CalculateTempMax();
 
         // минимальное ограничение
-        CurrentMax = Mathf.Max(1, CurrentMax);
+        CurrentMax = Mathf.Max(0, CurrentMax);
 
         // текущее не может быть выше максимума
         if (Current > CurrentMax)

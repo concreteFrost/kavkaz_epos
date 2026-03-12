@@ -15,8 +15,6 @@ public enum EmitStartingPosition
 public abstract class ProjectileSO : ItemSO
 {
     public GameObject prefab;
-
-    [Header("Base stats")]
     public float speed = 3f;
     public float lifetime = 10f;
     public int amountToSpawn = 1;

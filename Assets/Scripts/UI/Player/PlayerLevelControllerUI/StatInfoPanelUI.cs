@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
 {
     CharacterLevelController levelController;
-    
+
     [SerializeField] TextMeshProUGUI statNameText;
     [SerializeField] TextMeshProUGUI pointsText;
     [SerializeField] TextMeshProUGUI currentLevelText;
@@ -14,21 +14,21 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
     [SerializeField] Button downgradeStatBtn;
 
     PlayerLevelControllerUI uiController;
-   
+
     StatType statType;
 
     private int accumulatedPoints;
 
-    public void Init(CharacterLevelController levelController, StatType statType , PlayerLevelControllerUI uiController)
+    public void Init(CharacterLevelController levelController, StatType statType, PlayerLevelControllerUI uiController)
     {
         this.levelController = levelController;
         this.statType = statType;
-        this.uiController = uiController;   
+        this.uiController = uiController;
 
         statNameText.text = statType.ToString();
         accumulatedPoints = 0;
         currentLevelText.text = "";
- 
+
     }
 
     public void AddButtonListeners()
@@ -44,8 +44,11 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
     {
         var statsController = levelController.GetStatsController();
         var total = statsController.GetCurrentStatLevel(statType) + accumulatedPoints;
-        currentLevelText.text = statsController.GetStatModel(statType).CurrentMax.ToString();   
-        pointsText.text = total.ToString(); 
+        currentLevelText.text = statsController
+    .GetStatModel(statType)
+    .CurrentMax
+    .ToString("0.#");
+        pointsText.text = total.ToString();
     }
 
     public bool HasAccumulatedPoints()
@@ -61,12 +64,12 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
         levelController.ReserveSpendPoint();
         uiController.UpdateUpgradeButtonState();
         UpdatePointsUI();
-        
+
     }
 
     public void RemoveAccumulatedPoint()
     {
-        
+
         if (accumulatedPoints <= 0)
             return; // нечего возвращать
 
@@ -81,13 +84,13 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
     {
         int points = accumulatedPoints;
         accumulatedPoints = 0;
-       
+
         return points;
     }
 
 
     public void OnSelect(BaseEventData eventData)
     {
-        uiController.CurrentSelected = this.GetComponent<Selectable>(); 
+        uiController.CurrentSelected = this.GetComponent<Selectable>();
     }
 }

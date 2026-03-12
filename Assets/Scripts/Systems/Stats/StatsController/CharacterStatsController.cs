@@ -1,9 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CharacterStatsController : BaseStatsController 
+public class CharacterStatsController : BaseStatsController
 {
     public KnowledgeModel Knowledge;
+    public StrengthModel Strength;
 
     public HumanoidStatsSO statsSO;
     public CharacterStatsLevelSO statsLevelSO;
@@ -16,6 +17,7 @@ public class CharacterStatsController : BaseStatsController
     public int healthLevel;
     public int staminaLevel;
     public int knowledgeLevel;
+    public int strengthLevel;
 
     public void Init()
     {
@@ -26,11 +28,14 @@ public class CharacterStatsController : BaseStatsController
         healthLevel = statsLevelSO.startHealthLevel;
         staminaLevel = statsLevelSO.startStaminaLevel;
         knowledgeLevel = statsLevelSO.startKnowledgeLevel;
+        strengthLevel = statsLevelSO.startStrengthLevel;
 
         Health = new HealthModel(statsSO.baseHealth, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Stamina = new StaminaModel(statsSO.baseStamina, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
         Knowledge = new KnowledgeModel(statsSO.baseKnowledge);
+        Strength = new StrengthModel(statsSO.baseStrength);
+
 
         ResetAllStats();
     }
@@ -40,6 +45,7 @@ public class CharacterStatsController : BaseStatsController
         Health.UpdateMaxAndCurrent(healthLevel);
         Stamina.UpdateMaxAndCurrent(staminaLevel);
         Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
+        Strength.UpdateMaxAndCurrent(strengthLevel);
     }
 
     private void Update()
@@ -57,12 +63,14 @@ public class CharacterStatsController : BaseStatsController
                 return Stamina;
             case StatType.Knowledge:
                 return Knowledge;
+            case StatType.Strength:
+                return Strength;
             default:
                 return null;
         }
     }
 
-    public IStatModifier GetModifiedStat(ModifiedModelType type)
+    public IModifiedStat GetModifiedStat(ModifiedModelType type)
     {
         switch (type)
         {
@@ -70,6 +78,10 @@ public class CharacterStatsController : BaseStatsController
                 return Health;
             case ModifiedModelType.Stamina:
                 return Stamina;
+            case ModifiedModelType.Strength:
+                return Strength;
+            case ModifiedModelType.Knowledge:
+                return Knowledge;
             default:
                 return null;
         }
@@ -91,6 +103,10 @@ public class CharacterStatsController : BaseStatsController
                 knowledgeLevel++;
                 Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
                 break;
+            case StatType.Strength:
+                strengthLevel++;
+                Strength.UpdateMaxAndCurrent(strengthLevel);
+                break;
         }
     }
 
@@ -101,6 +117,7 @@ public class CharacterStatsController : BaseStatsController
             case StatType.Health: return healthLevel;
             case StatType.Stamina: return staminaLevel;
             case StatType.Knowledge: return knowledgeLevel;
+            case StatType.Strength: return strengthLevel;
         }
 
         return 0;
@@ -111,7 +128,8 @@ public class CharacterStatsController : BaseStatsController
     public void ResetAllStats()
     {
         Health.ResetCurrent();
-        Stamina.ResetCurrent(); 
+        Stamina.ResetCurrent();
+        Strength.ResetCurrent();
     }
 
 
