@@ -1726,6 +1726,8 @@ MonoBehaviour:
     quantity: 10
   - itemSO: {fileID: 11400000, guid: babe16fac20812b40945cee589e35fce, type: 2}
     quantity: 10
+  - itemSO: {fileID: 11400000, guid: 6361638be22d7ba47a922a937e101e08, type: 2}
+    quantity: 10
 --- !u!1 &182918903
 GameObject:
   m_ObjectHideFlags: 0
@@ -20565,6 +20567,7 @@ MonoBehaviour:
   defaultHealth: 20
   Health:
     Current: 0
+    CurrentMax: 0
 --- !u!208 &1862491720
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -23608,7 +23611,7 @@ Transform:
   m_GameObject: {fileID: 1693495520089540946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26, y: 0.086, z: -7.29}
+  m_LocalPosition: {x: 26, y: 0.086, z: -3.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29066,12 +29069,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
   Speed:
     Current: 0
+    CurrentMax: 0
   Health:
     Current: 0
+    CurrentMax: 0
   Stamina:
     Current: 0
+    CurrentMax: 0
   Knowledge:
     Current: 0
+    CurrentMax: 0
+  Strength:
+    Current: 0
+    CurrentMax: 0
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   statsLevelSO: {fileID: 11400000, guid: 82e33664c8d3466408e6c4a8027edbdc, type: 2}
   jumpHeight: 0
@@ -29079,6 +29089,7 @@ MonoBehaviour:
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0
+  strengthLevel: 0
 --- !u!4 &9050337073930575017
 Transform:
   m_ObjectHideFlags: 0
