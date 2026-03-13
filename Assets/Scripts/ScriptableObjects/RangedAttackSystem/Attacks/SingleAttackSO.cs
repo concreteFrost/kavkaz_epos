@@ -1,22 +1,24 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SingleAttack", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/SingleAttack")]
+[CreateAssetMenu(fileName = "ProjectileAttack_Single", menuName = ScriptablePaths.PROJECTILE_ATTACK_PATH + "/Single Attack")]
 public class SingleAttackSO : ProjectileAttackSO
 {
-    [SerializeField] ProjectileMoveSO moveSO;
-    public override void Execute(IEmitter emitter)
+
+    public override void Execute(IEmitter emitter, int amount, float spawnDelay)
     {
-       
-        Vector3 dir = emitter.Origin().forward;
+        amount = 1;
 
-        ProjectileDirection directionData = new ProjectileDirection()
-        {
-            MoveBehaviour = moveSO,
-            baseDir = dir,
-        };
+        var proj = emitter.Projectile();
 
-      
-        var b = emitter.NewProjectile(directionData);
+        proj.CreateProjectile(
+            emitter.StartingPosition(),
+            emitter.Target(),
+            emitter.AttackSource(),
+            emitter.Origin().forward,
+            emitter.DamageMultiplier()
+        );
 
     }
 }
+

@@ -45,7 +45,7 @@ public class AiFallController : BaseFallController
 
             DamageData damageData = new DamageData
             {
-                healthDamageMultiplier = damage,
+                damageMultiplier = damage,
                 balanceDamageType = BalanceDamageType.High,
                 impactForce = 0,
             };

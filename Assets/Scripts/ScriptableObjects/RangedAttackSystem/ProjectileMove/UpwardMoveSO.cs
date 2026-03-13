@@ -4,6 +4,7 @@ using UnityEngine;
 public class UpwardMoveSO : ProjectileMoveSO
 {
     public override Vector3 Move(
+    Transform emitSource,
     Transform self,
     IDamagable target,
     Vector3 baseDir,

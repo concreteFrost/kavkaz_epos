@@ -233,6 +233,7 @@ public class PlayerServiceLocator : MonoBehaviour
             enableWeaponBreakdown:true);
 
         spellInventory.Init();
+        spellInventory.SetDefaultQuickSlotData();
         consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier);
     }
 

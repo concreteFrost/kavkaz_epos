@@ -151,8 +151,8 @@ public class SpellProjectileViewer : EditorWindow
         if (proj.Requirements != null)
             EditorGUILayout.LabelField("Requirements", proj.Requirements.minRequired.ToString());
 
-        if (proj.attackSO != null)
-            EditorGUILayout.ObjectField("AttackSO", proj.attackSO, typeof(Object), false);
+        //if (proj.attackSO != null)
+        //    EditorGUILayout.ObjectField("AttackSO", proj.attackSO, typeof(Object), false);
 
         if (proj.animation != null)
             EditorGUILayout.ObjectField("Animation", proj.animation, typeof(Object), false);
@@ -162,14 +162,13 @@ public class SpellProjectileViewer : EditorWindow
 
     private void DrawDamageBlock(SpellProjectileSO proj)
     {
-        if (proj.damageData == null)
-            return;
+
 
         EditorGUILayout.BeginVertical("box");
 
         EditorGUILayout.LabelField("Damage", EditorStyles.boldLabel);
 
-        EditorGUILayout.LabelField("Health Multiplier", proj.damageData.healthDamageMultiplier.ToString());
+        EditorGUILayout.LabelField("Health Multiplier", proj.damageData.damageMultiplier.ToString());
         EditorGUILayout.LabelField("Balance Type", proj.damageData.balanceDamageType.ToString());
         EditorGUILayout.LabelField("Impact Force", proj.damageData.impactForce.ToString());
 

@@ -6,7 +6,7 @@ public class TargetMoveSO : ProjectileMoveSO
     [SerializeField] float turnSpeed = 3f;
     [SerializeField] float homingDuration = 1.5f;
 
-    public override Vector3 Move(
+    public override Vector3 Move(Transform emitSource,
      Transform self,
      IDamagable target,
      Vector3 baseDir,
@@ -30,3 +30,4 @@ public class TargetMoveSO : ProjectileMoveSO
         return finalDir * speed;
     }
 }
+

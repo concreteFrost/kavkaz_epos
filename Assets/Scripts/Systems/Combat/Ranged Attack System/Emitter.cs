@@ -13,11 +13,16 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     protected IDamagable target;
     protected IAttackSource attackSource;
 
+    protected float damageMultiplier = 100f;
+
     #region IEmitter Contract
     public bool IsEmitting { get; set; }
     public Transform Origin() => attackSource != null ? attackSource.Source() : transform;
     public IDamagable Target() => target;
+    public IAttackSource AttackSource() => attackSource;
     public ProjectileSO Projectile() => projectileSO;
+    public float DamageMultiplier() => damageMultiplier;
+
     #endregion
 
     protected void SetTargetData(IDamagable target)
@@ -25,21 +30,17 @@ public abstract class Emitter : MonoBehaviour , IEmitter
         this.target = target;
     }
 
-    public virtual void StartEmit()
-    {
-        IsEmitting = true;  
-    }
+    protected void SetDamageMultiplier(float multiplier)=> damageMultiplier = multiplier;
+
+    public virtual void StartEmit() => IsEmitting = true;
+    public void EndEmit() => IsEmitting = false;
 
     public virtual void Emit()
     {
-        var attack = projectileSO.attackSO;
-        attack.Execute(this);
+        //var attack = projectileSO.attackSO;
+        //attack.Execute(this);
+        projectileSO.attackSO.Execute(this,projectileSO.amountToSpawn,projectileSO.spawnDelay);    
        
-    }
-
-    public void EndEmit()
-    {
-        IsEmitting = false;
     }
 
     public Coroutine EmitWithDelay(IEnumerator cor)
@@ -47,22 +48,8 @@ public abstract class Emitter : MonoBehaviour , IEmitter
         return StartCoroutine(cor);
     }
 
-    public IProjectile NewProjectile(ProjectileDirection direction)
-    {
-        Vector3 startPos = StartingPosition();
-        GameObject clone = Instantiate(projectileSO.prefab, startPos, Quaternion.identity);
-        var projectile = clone.GetComponent<IProjectile>();
-        projectile.Init(new ProjectileData
-        {
-            target = target,
-            attackSource = attackSource,
-            projectileSO = projectileSO,
-            direction = direction
-        });
-        return projectile;
-    }
 
-    private Vector3 StartingPosition()
+    public Vector3 StartingPosition()
     {
       
         switch (projectileSO.emitStartingPosition)

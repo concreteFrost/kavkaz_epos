@@ -14,14 +14,17 @@ public class Projectile : MonoBehaviour, IProjectile
     [SerializeField] GameObject hitParticles;
 
     Coroutine destroyCoroutine = null;
+
+    Transform emitterPosition;
     
     void Update()
     {
-        Vector3 velocity = data.direction.MoveBehaviour.Move(
+        Vector3 velocity = data.moveSO.Move(
+            emitterPosition,
             transform,
             data.target,
             currentDir,
-            data.projectileSO.speed,
+            data.speed,
             aliveTime
         );
 
@@ -42,7 +45,7 @@ public class Projectile : MonoBehaviour, IProjectile
             PerformDestroy();
         }
 
-        if (currLifeTime >= data.projectileSO.lifetime)
+        if (currLifeTime >= data.lifetime)
         {
             damageCollider.DisableCollider();
             PerformDestroy();
@@ -53,7 +56,8 @@ public class Projectile : MonoBehaviour, IProjectile
     public void Init(ProjectileData data)
     {
         this.data = data;
-        currentDir = data.direction.baseDir;
+        currentDir = data.baseDir;
+        emitterPosition = data.source.Source();
 
         if (damageCollider == null)
         {
@@ -61,7 +65,7 @@ public class Projectile : MonoBehaviour, IProjectile
         }
 
         damageCollider.Init();
-        damageCollider.EnableCollider(data.projectileSO.damageData, data.attackSource.TargetsToIgnore, data.attackSource.Source());
+        damageCollider.EnableCollider(data.damageData, data.source.TargetsToIgnore, data.source.Source());
 
         ActivateLifetimeParticles();
 
@@ -70,7 +74,6 @@ public class Projectile : MonoBehaviour, IProjectile
     private void PerformDestroy()
     {
         if (destroyCoroutine != null) return;
-
         destroyCoroutine = StartCoroutine(DestroyCoroutine());  
     }
 
@@ -93,27 +96,4 @@ public class Projectile : MonoBehaviour, IProjectile
     }
 
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.GetComponent<Projectile>() != null) return;
-
-    //    if (TryGetDamagable(other, out var damagable))
-    //    {
-    //        ApplyDamage(data, damagable);
-    //    }
-
-       
-    //    Destroy(gameObject);
-    //}
-
-    //protected bool TryGetDamagable(Collider other, out IDamagable damagable)
-    //{
-    //    damagable = other.GetComponentInChildren<IDamagable>() ?? other.GetComponent<IDamagable>();
-    //    return damagable != null;
-    //}
-
-    //protected virtual void ApplyDamage(ProjectileData data,IDamagable target)
-    //{
-    //    target.TakeDamage(data.damageData, data.source);
-    //}
 }

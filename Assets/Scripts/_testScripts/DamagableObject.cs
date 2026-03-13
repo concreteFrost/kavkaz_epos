@@ -62,7 +62,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     {
         if (IsDead) return;
         
-        Health.Current -= damageData.healthDamageMultiplier;
+        Health.Current -= damageData.damageMultiplier;
         StartCoroutine(DamageCoroutine());
 
         DamageTaken?.Invoke(source);

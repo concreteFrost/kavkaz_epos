@@ -20,15 +20,15 @@ public class WeaponAttack
 
     public FromHand SourceHand() => fromHand;
 
-    public float GetFinalDamage(float baseDamage, float strength)
-    {
-        strength = Mathf.Max(1f, strength);
+    //public float GetFinalDamage(float baseDamage, float strength)
+    //{
+    //    strength = Mathf.Max(1f, strength);
 
-        float finalDamage = baseDamage * (strength / 100f) * (1 + damageData.healthDamageMultiplier);
+    //    float finalDamage = baseDamage * (strength / 100f) * (1 + damageData.damageMultiplier);
 
-        Debug.Log(finalDamage);
-        return finalDamage;
-    }
+    //    Debug.Log(finalDamage);
+    //    return finalDamage;
+    //}
 }
 
 

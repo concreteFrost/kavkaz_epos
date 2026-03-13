@@ -129,17 +129,17 @@ public class MeleeWeapon : IWeapon
         var baseWeaponDamage = WeaponData().GetBaseDamage();
         var ownerStrengthMultiplier = Owner.StatsController.Strength.CurrentMax;
 
-        DamageData damageData = new DamageData()
-        {
-            healthDamageMultiplier = currentAttack.GetFinalDamage(baseWeaponDamage, ownerStrengthMultiplier),
-            balanceDamageType = currentAttack.damageData.balanceDamageType,
-            impactForce = currentAttack.damageData.impactForce,
-            statusEffectData = currentAttack.damageData.statusEffectData
+        //DamageData damageData = new DamageData()
+        //{
+        //    damageMultiplier = currentAttack.GetFinalDamage(baseWeaponDamage, ownerStrengthMultiplier),
+        //    balanceDamageType = currentAttack.damageData.balanceDamageType,
+        //    impactForce = currentAttack.damageData.impactForce,
+        //    statusEffectData = currentAttack.damageData.statusEffectData
 
-        };
-
+        //};
+        currentAttack.damageData.SetFinalDamage(baseWeaponDamage, ownerStrengthMultiplier);
         meleeData.SetCurrentCollider(currentAttack);
-        meleeData.PerformAttack(damageData, Owner.AttackSource);
+        meleeData.PerformAttack(currentAttack.damageData, Owner.AttackSource);
     }
 
     public void PerformPush()

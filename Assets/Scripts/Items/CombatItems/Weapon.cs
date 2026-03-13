@@ -47,8 +47,6 @@ public class Weapon : CombatItem, IWeapon
 
     }
 
-
-
     public void PerformAttack()
     {
         if (currentAttack == null || Owner == null) return;
@@ -56,17 +54,11 @@ public class Weapon : CombatItem, IWeapon
         var baseWeaponDamage = WeaponData().GetBaseDamage();
         var ownerStrengthMultiplier = Owner.StatsController.Strength.CurrentMax;
 
-        DamageData damageData = new DamageData()
-        {
-            healthDamageMultiplier = currentAttack.GetFinalDamage(baseWeaponDamage,ownerStrengthMultiplier),
-            balanceDamageType = currentAttack.damageData.balanceDamageType,
-            impactForce = currentAttack.damageData.impactForce,
-            statusEffectData = currentAttack.damageData.statusEffectData
-
-        };
+        DamageData damageData = currentAttack.damageData;
+        damageData.SetFinalDamage(baseWeaponDamage,ownerStrengthMultiplier);
 
         damageCollider.EnableCollider(
-            currentAttack.damageData,
+            damageData,
             Owner.AttackSource.TargetsToIgnore,
             Owner.AttackSource.Source()
         );
@@ -131,7 +123,7 @@ public class Weapon : CombatItem, IWeapon
     {
         DamageData damageData = new DamageData()
         {
-            healthDamageMultiplier = weaponSO.GetBaseDamage(),
+            damageMultiplier = weaponSO.GetBaseDamage(),
             balanceDamageType = BalanceDamageType.High,
             impactForce = 10f
         };

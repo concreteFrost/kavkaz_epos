@@ -20565,6 +20565,7 @@ MonoBehaviour:
   defaultHealth: 20
   Health:
     Current: 0
+    CurrentMax: 0
 --- !u!208 &1862491720
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -24642,7 +24643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1770877511817958936, guid: 3db115e36202ae542a5ddb6ae13f1174, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3537132878642011212, guid: 3db115e36202ae542a5ddb6ae13f1174, type: 3}
       propertyPath: points
@@ -29066,12 +29067,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
   Speed:
     Current: 0
+    CurrentMax: 0
   Health:
     Current: 0
+    CurrentMax: 0
   Stamina:
     Current: 0
+    CurrentMax: 0
   Knowledge:
     Current: 0
+    CurrentMax: 0
+  Strength:
+    Current: 0
+    CurrentMax: 0
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   statsLevelSO: {fileID: 11400000, guid: 82e33664c8d3466408e6c4a8027edbdc, type: 2}
   jumpHeight: 0
@@ -29079,6 +29087,7 @@ MonoBehaviour:
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0
+  strengthLevel: 0
 --- !u!4 &9050337073930575017
 Transform:
   m_ObjectHideFlags: 0

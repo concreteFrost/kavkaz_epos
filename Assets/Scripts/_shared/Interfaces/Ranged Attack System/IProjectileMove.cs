@@ -11,5 +11,5 @@ public interface IProjectileMove
     /// <param name="speed">Скорость передвижения</param>
     /// <param name="aliveTime">Время жизни снаряда</param>
     /// <returns></returns>
-    Vector3 Move(Transform self, IDamagable target, Vector3 baseDir, float speed, float aliveTime);
+    Vector3 Move(Transform emitSource, Transform self, IDamagable target, Vector3 baseDir, float speed, float aliveTime);
 }

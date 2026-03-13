@@ -41,9 +41,12 @@ public class CharacterEmitter : Emitter
         animatorController.OverrideSpell(spell);
 
         projectileSO = spell;
-        base.StartEmit();
+       
 
         SetTargetData(targetLocker.CurrentTarget());
+        SetDamageMultiplier(statsController.Knowledge.CurrentMax);
+
+        base.StartEmit();
     }
 
 

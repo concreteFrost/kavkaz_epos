@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IEmitter
 {
+    Vector3 StartingPosition();
     //IHumanoidMeleeCombat MeleeCombat();
     /// <summary>
     /// Transform эмитера
@@ -15,6 +16,8 @@ public interface IEmitter
     /// </summary>
     /// <returns></returns>
     IDamagable Target();
+
+    IAttackSource AttackSource();
 
     /// <summary>
     /// Данные снаряда
@@ -30,6 +33,8 @@ public interface IEmitter
 
     void StartEmit();
 
+    float DamageMultiplier();
+
     /// <summary>
     /// Запуск снаряда
     /// </summary>
@@ -44,12 +49,6 @@ public interface IEmitter
     /// <param name="coroutine">Корутина запуска</param>
     /// <returns></returns>
     Coroutine EmitWithDelay(IEnumerator coroutine);
-
-    /// <summary>
-    /// Создает новый снаряд с заполнеными данными
-    /// </summary>
-    /// <returns></returns>
-    IProjectile NewProjectile(ProjectileDirection dir);
 
     bool IsEmitting { get; set; }
 

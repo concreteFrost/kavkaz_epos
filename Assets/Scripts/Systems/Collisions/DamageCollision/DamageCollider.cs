@@ -60,7 +60,7 @@ public class DamageCollider : MonoBehaviour
     }
 
     // Включение коллайдера для атаки
-    public virtual void EnableCollider(DamageData damageData, List<CharacterType> targetsToIgnore, Transform attackSource)
+    public virtual void EnableCollider(DamageData damageData ,List<CharacterType> targetsToIgnore, Transform attackSource)
     {
         this.damageData = damageData;
         this.attackSource = attackSource;
@@ -122,8 +122,6 @@ public class DamageCollider : MonoBehaviour
     {
         if (attackInterrupted) return;
 
-        isAttackRegistered = true;
-
         // Проверка на щит/защиту через DefenceCollider
         if (other.TryGetComponent(out DefenceCollider defence))
         {
@@ -131,7 +129,13 @@ public class DamageCollider : MonoBehaviour
         }
 
         // Проверка, можно ли нанести урон этому объекту
-        if (!TryGetDamagable(other, out var damagable)) return;
+        if (!TryGetDamagable(other, out var damagable))
+        {
+            isAttackRegistered = true;
+            
+            return;
+        }
+
         if (NotInTargetList(damagable)) return;
         if (!hitColliders.Add(other)) return;
 
@@ -141,7 +145,7 @@ public class DamageCollider : MonoBehaviour
             if(damagable.Protection.IsProtectionActive && IsFacingTarget(damagable))
             {
                 DamageData recalculatedDamage = new DamageData(); // создаём отдельный объект
-                recalculatedDamage.healthDamageMultiplier = damageData.healthDamageMultiplier * damagable.Protection.ShieldData().defenceBonus;
+                recalculatedDamage.damageMultiplier = damageData.damageMultiplier * damagable.Protection.ShieldData().defenceBonus;
                 recalculatedDamage.balanceDamageType = BalanceDamageType.Blocked;
                 recalculatedDamage.statusEffectData = damageData.statusEffectData;
                 recalculatedDamage.impactForce = damageData.impactForce;
@@ -153,6 +157,7 @@ public class DamageCollider : MonoBehaviour
           
         }
 
+        isAttackRegistered = true;
         // Наносим обычный урон
         ApplyDamage(damagable, damageData);
     }
