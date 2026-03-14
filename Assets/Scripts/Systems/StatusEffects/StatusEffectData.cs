@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class StatusEffectData
 {
     public List<StatusEffectEntry> effects = new List<StatusEffectEntry>();
+    public List<StatusEffectSO> effectsToCancel = new List<StatusEffectSO>();
 }
 
 [System.Serializable]
@@ -15,5 +16,5 @@ public class StatusEffectEntry
     public float amount;
     public float duration;
 
-    public List<StatusEffectSO> effectsToCancel = new List<StatusEffectSO>();
+   
 }

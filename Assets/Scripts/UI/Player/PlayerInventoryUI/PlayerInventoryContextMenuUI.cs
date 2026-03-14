@@ -41,7 +41,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     private void SetContextButtons()
     {
-        useBtn.gameObject.SetActive(quickAccessInventory is CharacterConsumableInventory);
+        useBtn.gameObject.SetActive(quickAccessInventory is PlayerConsumableInventory);
     }
 
     /// <summary>

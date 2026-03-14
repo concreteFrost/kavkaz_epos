@@ -1721,11 +1721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1504dcfb9f40b4d8232581d2c2cdf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  items:
-  - itemSO: {fileID: 11400000, guid: fae44c0fd64b3a54980df281d3ac8a32, type: 2}
-    quantity: 10
-  - itemSO: {fileID: 11400000, guid: babe16fac20812b40945cee589e35fce, type: 2}
-    quantity: 10
+  items: []
 --- !u!1 &182918903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,6 +2254,51 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &246596485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246596486}
+  - component: {fileID: 246596487}
+  m_Layer: 0
+  m_Name: Player_Constructor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246596486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246596485}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7772546930860212039}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246596487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246596485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
+  hasAllConsumables: 1
 --- !u!43 &262543376
 Mesh:
   m_ObjectHideFlags: 0
@@ -24136,6 +24177,7 @@ MonoBehaviour:
   fallController: {fileID: 3966138468898898658}
   effectVisualizer: {fileID: 5721654076844464836}
   lifecycle: {fileID: 6991813148858601806}
+  constructor: {fileID: 246596487}
   targetLock: {fileID: 1723462171400256178}
   uiManager: {fileID: 7674261359428750876}
 --- !u!222 &1148714361164654858
@@ -28005,6 +28047,7 @@ Transform:
   - {fileID: 7976839323692803057}
   - {fileID: 134820638}
   - {fileID: 293790339}
+  - {fileID: 246596486}
   m_Father: {fileID: 4312729080633377069}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7829757621747326555

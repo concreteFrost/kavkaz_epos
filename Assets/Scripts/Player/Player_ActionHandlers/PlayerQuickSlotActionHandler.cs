@@ -3,9 +3,9 @@ using UnityEngine;
 public class PlayerQuickSlotActionHandler : MonoBehaviour
 {
     [SerializeField] CharacterSpellInventory spellInventory;
-    [SerializeField] CharacterConsumableInventory consumableInventory;
+    [SerializeField] PlayerConsumableInventory consumableInventory;
     PlayerActionGuards actionGuards;    
-    public void Init(CharacterSpellInventory spellInventory, CharacterConsumableInventory consumableInventory, PlayerActionGuards actionGuards)
+    public void Init(CharacterSpellInventory spellInventory, PlayerConsumableInventory consumableInventory, PlayerActionGuards actionGuards)
     {
         this.spellInventory = spellInventory;
         this.actionGuards = actionGuards;

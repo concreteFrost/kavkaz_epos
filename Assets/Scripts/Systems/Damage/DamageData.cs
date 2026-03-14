@@ -16,7 +16,7 @@ public struct DamageData
     {
         strength = Mathf.Max(1f, strength);
         finalDamage = baseDamage * (strength / 100f) * (1 + damageMultiplier);
-
+        Debug.Log(finalDamage);
        
     }
 

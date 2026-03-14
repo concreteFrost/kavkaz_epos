@@ -8,6 +8,9 @@ public abstract class ItemSO : ScriptableObject
     public string itemName;
     public Sprite itemImage;
 
+    [TextArea]
+    public string itemDescription;
+
 #if UNITY_EDITOR
     private void OnValidate()
     {

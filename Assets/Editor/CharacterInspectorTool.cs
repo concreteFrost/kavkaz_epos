@@ -239,7 +239,7 @@ public class CharacterInspectorTool : EditorWindow
 
     private void DrawConsumableInventory(GameObject obj)
     {
-        var consumableInventory = obj.GetComponentInChildren<CharacterConsumableInventory>();
+        var consumableInventory = obj.GetComponentInChildren<PlayerConsumableInventory>();
 
         if (consumableInventory == null)
         {

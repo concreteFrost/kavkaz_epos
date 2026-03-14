@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0a24842a96d42846a979a8407bac1bd, type: 3}
-  m_Name: '[DEV]_healing_potion'
+  m_Name: '[DEV]_strength_max_increase_potion'
   m_EditorClassIdentifier: Assembly-CSharp::StatModifierItemSO
-  id: 68ada198-d817-4fda-bb04-e0cc56669824
-  itemName: '[DEV]_healing_potion'
-  itemImage: {fileID: 21300000, guid: 4e8b35477a7fb5a46870c1973a523722, type: 3}
+  id: ee68e430-4e2f-4b5e-aad3-f2b0b7a04fd9
+  itemName: '[DEV]_strength_max_increase_potion'
+  itemImage: {fileID: 21300000, guid: da3489a989b315644b2918cb9df15709, type: 3}
   consumableAnimation: {fileID: 11400000, guid: e9e8347e42633104b997df1eb717075c, type: 2}
   effectData:
     effects:
-    - effect: {fileID: 11400000, guid: 8a5866f69ec8abf4f94001855813435a, type: 2}
+    - effect: {fileID: 11400000, guid: f8e840c8edda69c4da93a9f04c2bce3d, type: 2}
       amount: 20
-      duration: 30
-      effectsToCancel:
-      - {fileID: 11400000, guid: 5b005f3ecc2cafe41a6451cb553cb4f5, type: 2}
-      - {fileID: 11400000, guid: 45b9cdbb280810c49985f9e3b1ef235d, type: 2}
+      duration: 20
+      effectsToCancel: []

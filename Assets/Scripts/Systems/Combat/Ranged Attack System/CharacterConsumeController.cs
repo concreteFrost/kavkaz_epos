@@ -5,9 +5,9 @@ public class CharacterConsumeController : MonoBehaviour
 {
     public bool isConsuming = false;
     BaseHumanoidAnimatorController animatorController;
-    CharacterConsumableInventory inventory;
+    PlayerConsumableInventory inventory;
     public ItemData currentItem;
-    public void Init(BaseHumanoidAnimatorController animatorController, CharacterConsumableInventory inventory)
+    public void Init(BaseHumanoidAnimatorController animatorController, PlayerConsumableInventory inventory)
     {
         this.animatorController = animatorController;
         this.inventory = inventory; 

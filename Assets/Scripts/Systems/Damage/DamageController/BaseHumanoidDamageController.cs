@@ -64,8 +64,6 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
         if (IsDamagingBlocked())
         {
-            
-            Debug.Log("Damage was blocked");
             return;
         }
 

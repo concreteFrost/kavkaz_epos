@@ -30,7 +30,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsController stats,
         CharacterStatsModifier statsModifier,
         CharacterSpellInventory spellInventory,
-        CharacterConsumableInventory consumableInventory,
+        PlayerConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
         PlayerTargetLock targetLock,
         CharacterLevelController levelController,
@@ -47,7 +47,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsController stats,
         CharacterStatsModifier statsModifier,
         CharacterSpellInventory spellInventory,
-        CharacterConsumableInventory consumableInventory,
+        PlayerConsumableInventory consumableInventory,
         HumanoidCombatInventory combatInventory,
         CharacterConsumeController consumeController,
         PlayerTargetLock targetLock)

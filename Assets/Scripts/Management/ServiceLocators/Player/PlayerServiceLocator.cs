@@ -52,7 +52,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Инвентари и быстрые слоты")]
     [SerializeField] private HumanoidCombatInventory combatInventory;
     [SerializeField] private CharacterSpellInventory spellInventory;
-    [SerializeField] private CharacterConsumableInventory consumableInventory;  
+    [SerializeField] private PlayerConsumableInventory consumableInventory;  
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -64,6 +64,9 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Жизненный цикл")]
     [SerializeField] private PlayerLifecycle lifecycle;
+
+    [Header("Конструктор персонажа")]
+    [SerializeField] private CharacterConstructor constructor;
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
@@ -84,6 +87,7 @@ public class PlayerServiceLocator : MonoBehaviour
         InitPoints();
         InitInventories();
         InitLifecycle();
+        InitCharacterConstructor(); 
         InitUI();
     }
 
@@ -234,7 +238,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         spellInventory.Init();
         spellInventory.SetDefaultQuickSlotData();
-        consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier);
+        consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier,pointsCollector:pointsCollector);
     }
 
     private void InitLifecycle()
@@ -257,5 +261,10 @@ public class PlayerServiceLocator : MonoBehaviour
             combatInventory: combatInventory,
             targetLock: targetLock,levelController:levelController,
             consumeController:consumeController);
+    }
+
+    private void InitCharacterConstructor()
+    {
+        constructor.Init(consumableInventory: consumableInventory);
     }
 }

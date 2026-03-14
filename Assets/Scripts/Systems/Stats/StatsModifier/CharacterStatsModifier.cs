@@ -81,9 +81,11 @@ public class CharacterStatsModifier : MonoBehaviour
     {
         if (data == null || data.effects == null) return;
 
+        TryCancelStatusEffects(data.effectsToCancel);
+
         foreach (var entry in data.effects)
         {
-            TryCancelStatusEffects(entry.effectsToCancel);
+            
 
             if (entry.effect is ContinuousStatusEffectSO continuous)
             {
@@ -94,14 +96,14 @@ public class CharacterStatsModifier : MonoBehaviour
                 ApplyInstantSideEffect(entry);
             }
         }
+
+      
     }
 
     private void ApplyInstantSideEffect(StatusEffectEntry entry)
     {
         if (entry == null || entry.effect == null) return;
 
-        // отменяем нужные эффекты
-        TryCancelStatusEffects(entry.effectsToCancel);
 
         // применяем сам эффект
         entry.effect.Apply(statsController, entry.amount);

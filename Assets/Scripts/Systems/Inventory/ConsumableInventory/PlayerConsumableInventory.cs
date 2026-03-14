@@ -1,15 +1,17 @@
 using UnityEngine;
 
-public class CharacterConsumableInventory : QuickAccessInventory
+public class PlayerConsumableInventory : QuickAccessInventory
 {
     ICombatInventory combatInventory;
     CharacterStatsModifier statsModifier;
+    PlayerPointsCollector pointsCollector;
    
-    public void Init(ICombatInventory combatInventory, CharacterStatsModifier statsModifier)
+    public void Init(ICombatInventory combatInventory, CharacterStatsModifier statsModifier, PlayerPointsCollector pointsCollector)
     {
         BaseInit();
         this.combatInventory = combatInventory;
-        this.statsModifier = statsModifier;  
+        this.statsModifier = statsModifier; 
+        this.pointsCollector = pointsCollector; 
     }
 
 
@@ -40,12 +42,32 @@ public class CharacterConsumableInventory : QuickAccessInventory
                 break;
             case StatModifierItemSO continuousItem:
                 continuousItem.UseItem(statsModifier);
-              
                 break;
-
+            case PointsEmitterItemSO pointsEmitter:
+                pointsEmitter.UseItem(pointsCollector);
+                break;
             default:
                 Debug.LogWarning($"UseItem: непредусмотренный тип предмета {item.itemSO.GetType().Name}");
                 break;
+        }
+    }
+
+    public void AddAllItemsOnStart()
+    {
+        var allItems = Resources.LoadAll<ItemSO>("Items/Consumable_Items/");
+
+
+        foreach (var item in allItems)
+        {
+            var data = new ItemData
+            {
+                itemSO = item,
+                quantity = 20
+            };
+
+            AddItemToInventory(data);
+            AddToQuickAccess(data);
+
         }
     }
 }

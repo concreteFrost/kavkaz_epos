@@ -25,7 +25,7 @@ public class PlayerPointsCollector : MonoBehaviour
         }
     }
 
-    private void AddPoints(int points)
+    public void AddPoints(int points)
     {
         levelController.AddXP(points);
     }
