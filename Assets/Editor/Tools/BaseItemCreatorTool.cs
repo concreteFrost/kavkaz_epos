@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ConsumableItemSO
+public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
 {
     protected Vector2 scroll;
     protected List<T> items = new();
@@ -11,24 +11,76 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : Consumable
     protected Dictionary<T, bool> foldouts = new();
     protected Dictionary<T, SerializedObject> serializedCache = new();
 
-    protected string basePath = "Assets/Resources/Items/Consumable_Items";
+    protected string newItemName = string.Empty;    
+
+    protected string basePath = "Assets/Resources/Items";
     protected virtual string ItemFolder { get; }
+    
+ 
 
     protected virtual void OnEnable() => RefreshItems();
 
+    public void DrawWindow()
+    {
+        DrawToolbar();
+        DrawScrollView();
+    }
+
     protected void DrawToolbar()
     {
+        // ---------- TOP BAR
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
+        DrawRefreshButton();
+        DrawItemCreate();
+
+        EditorGUILayout.EndHorizontal();
+
+        // ---------- SEARCH BAR
+        DrawSearch();
+
+        EditorGUILayout.Space(10);
+    }
+
+    private void DrawRefreshButton()
+    {
         if (GUILayout.Button("Refresh", EditorStyles.toolbarButton, GUILayout.Width(70)))
             RefreshItems();
 
         GUILayout.Space(10);
-        search = GUILayout.TextField(search, EditorStyles.toolbarTextField, GUILayout.Width(200));
-        GUILayout.FlexibleSpace();
+    }
+
+    private void DrawItemCreate()
+    {
+        GUILayout.Label("New Item:", GUILayout.Width(65));
+
+        newItemName = GUILayout.TextField(
+            newItemName,
+            EditorStyles.toolbarTextField,
+            GUILayout.Width(200)
+        );
+
+        GUI.enabled = !string.IsNullOrWhiteSpace(newItemName);
 
         if (GUILayout.Button("Create Item", EditorStyles.toolbarButton, GUILayout.Width(100)))
             CreateItem();
+
+        GUI.enabled = true;
+
+        GUILayout.FlexibleSpace();
+    }
+
+    private void DrawSearch()
+    {
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+
+        GUILayout.Label("Search:", GUILayout.Width(50));
+
+        search = GUILayout.TextField(
+            search,
+            EditorStyles.toolbarTextField,
+            GUILayout.ExpandWidth(true)
+        );
 
         EditorGUILayout.EndHorizontal();
     }
@@ -104,6 +156,7 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : Consumable
         SerializedProperty id = so.FindProperty("id");
         SerializedProperty itemName = so.FindProperty("itemName");
         SerializedProperty description = so.FindProperty("itemDescription");
+        SerializedProperty itemIcon = so.FindProperty("itemImage");
 
         EditorGUILayout.BeginVertical();
         EditorGUI.BeginDisabledGroup(true);
@@ -112,6 +165,8 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : Consumable
         EditorGUI.EndDisabledGroup();
 
         EditorGUILayout.PropertyField(itemName, GUILayout.Width(500));
+        EditorGUILayout.PropertyField(itemIcon, GUILayout.Width(500));
+        EditorGUILayout.LabelField("Description");
         description.stringValue = EditorGUILayout.TextArea(
     description.stringValue,
     GUILayout.Width(500),
@@ -144,11 +199,15 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : Consumable
 
     protected T CreateItem()
     {
+
         T item = ScriptableObject.CreateInstance<T>();
-        string path = AssetDatabase.GenerateUniqueAssetPath($"{ItemFolder}/{typeof(T).Name}.asset");
+        string path = AssetDatabase.GenerateUniqueAssetPath($"{ItemFolder}/{newItemName}.asset");
         AssetDatabase.CreateAsset(item, path);
+        item.id = Guid.NewGuid().ToString();
+        item.itemName = newItemName;
         AssetDatabase.SaveAssets();
         RefreshItems();
+        newItemName = string.Empty;
         Selection.activeObject = item;
         return item;
     }

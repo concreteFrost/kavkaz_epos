@@ -15,20 +15,25 @@ MonoBehaviour:
   id: ee5b344e-5144-4801-8c05-fc602dbda1d4
   itemName: Pink Ball
   itemImage: {fileID: 21300000, guid: 8d43b83d0338c994db662371b1cdbbc8, type: 3}
+  itemDescription: 
   prefab: {fileID: 6897423304324703046, guid: 630d132b300b266418da91ddc90783e7, type: 3}
-  speed: 10
-  lifetime: 10
-  amountToSpawn: 5
-  attackSO: {fileID: 11400000, guid: 9348b390a12eacf4e960161be394fbda, type: 2}
+  baseDamage: 1
   damageData:
-    healthDamageMultiplier: 10
+    damageMultiplier: 0
     balanceDamageType: 2
     impactForce: 500
     statusEffectData:
       effects: []
+      effectsToCancel: []
+  attackSO: {fileID: 11400000, guid: 9348b390a12eacf4e960161be394fbda, type: 2}
+  amountToSpawn: 5
+  spawnDelay: 0.1
   emitStartingPosition: 0
-  animation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  moveSO: {fileID: 0}
+  speed: 10
+  lifetime: 10
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 10
-  Requirements:
-    statType: 2
-    minRequired: 1
+  requirements:
+    statType: 0
+    minRequired: 0

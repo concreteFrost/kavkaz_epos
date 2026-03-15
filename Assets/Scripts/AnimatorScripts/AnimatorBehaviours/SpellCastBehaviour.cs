@@ -34,7 +34,7 @@ public class SpellCastBehaviour : StateMachineBehaviour
         if (damageController.IsDamaged || pushable.IsPushed) return;
 
         var spell = emitter.Projectile() as SpellProjectileSO;
-        var animation = spell.animation;
+        var animation = spell.castAnimation;
 
         //animator.speed = animation.animationSpeed;
         //if (attack == null) return;

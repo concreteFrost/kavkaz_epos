@@ -3,12 +3,20 @@ using UnityEngine;
 [System.Serializable]
 public struct DamageData
 {
+    [Tooltip("Дополнительный множитель урона. Например 0.5 = +50% к итоговому урону. Применяется для оружейных атак.")]
     public float damageMultiplier;
+
+    [Tooltip("Тип урона для системы баланса (например Slash, Fire, Magic). Используется для резистов и уязвимостей.")]
     public BalanceDamageType balanceDamageType;
+
+    [Tooltip("Сила физического воздействия при попадании (отбрасывание, stagger и т.п.).")]
     public float impactForce;
+
+    [Tooltip("Статус-эффекты, которые применяются при попадании.")]
     public StatusEffectData statusEffectData;
 
-    [SerializeField] private float finalDamage;
+    [Tooltip("Финальный рассчитанный урон после всех множителей. Заполняется автоматически во время атаки.")]
+    private float finalDamage;
 
     public float GetFinalDamage() => finalDamage;
 

@@ -1,6 +1,4 @@
 using System;
-using System.Drawing;
-using UnityEditor;
 using UnityEngine;
 
 public enum StatModifierOperation
@@ -20,15 +18,22 @@ public enum OperationType
 [CreateAssetMenu(fileName = "Instant Status Effect", menuName = ScriptablePaths.STATUS_FX_PATH + "/Instant Status Effect")]
 public class StatusEffectSO : ScriptableObject
 {
+    [Tooltip("Уникальный идентификатор эффекта. Генерируется автоматически если поле пустое.")]
     public string id;
+
+    [Tooltip("Иконка эффекта, отображаемая в UI (баффы/дебаффы).")]
     public Sprite effectImage;
 
-
-
+    [Tooltip("Тип статус-эффекта ")]
     public StatusEffectType effectType;
+
+    [Tooltip("Характеристика персонажа, на которую влияет эффект")]
     public ModifiedModelType statToAffect;
 
+    [Tooltip("Какой параметр характеристики изменяется: текущее значение, максимум или скорость регенерации.")]
     public StatModifierOperation statOperation;
+
+    [Tooltip("Определяет является ли эффект положительным (бафф) или отрицательным (дебафф).")]
     public OperationType operationType;
 
 

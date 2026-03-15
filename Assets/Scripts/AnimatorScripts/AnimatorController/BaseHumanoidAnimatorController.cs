@@ -118,9 +118,9 @@ public abstract class BaseHumanoidAnimatorController
 
     public void OverrideSpell(SpellProjectileSO spell)
     {
-        overrideController["Spell_Cast"] = spell.animation.clip;
+        overrideController["Spell_Cast"] = spell.castAnimation.clip;
 
-        animator.speed = spell.animation.animationSpeed;
+        animator.speed = spell.castAnimation.animationSpeed;
         animator.CrossFade("Spell_Cast", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
     }
 

@@ -3,13 +3,7 @@ using UnityEngine;
 
 public class WeaponModifierItemsCreatorTool : BaseItemCreatorTool<WeaponModifierItemSO>
 {
-    protected override string ItemFolder => $"{basePath}/WeaponRepair_Items/";
-
-    public void DrawWindow()
-    {
-        DrawToolbar();
-        DrawScrollView();
-    }
+    protected override string ItemFolder => $"{basePath}/Consumable/WeaponRepair_Items/";
 
     // Полный контент при раскрытии
     protected override void DrawItem(WeaponModifierItemSO item)

@@ -3,13 +3,8 @@ using UnityEngine;
 
 public class PointsEmitterItemsCreatorTool : BaseItemCreatorTool<PointsEmitterItemSO>
 {
-    protected override string ItemFolder => $"{basePath}/PointsEmitter_Items/";
+    protected override string ItemFolder => $"{basePath}/Consumable/PointsEmitter_Items/";
 
-    public void DrawWindow()
-    {
-        DrawToolbar();
-        DrawScrollView();
-    }
 
     // Полный контент при раскрытии
     protected override void DrawItem(PointsEmitterItemSO item)

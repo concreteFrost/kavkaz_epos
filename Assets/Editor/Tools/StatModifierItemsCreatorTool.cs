@@ -3,13 +3,8 @@ using UnityEngine;
 
 public class StatModifierItemsCreatorTool : BaseItemCreatorTool<StatModifierItemSO>
 {
-    protected override string ItemFolder => $"{basePath}/StatusEffect_Items/";
+    protected override string ItemFolder => $"{basePath}/Consumable/StatusEffect_Items/";
 
-    public void DrawWindow()
-    {
-        DrawToolbar();
-        DrawScrollView();
-    }
 
     // Полный контент раскрываемого элемента
     protected override void DrawItem(StatModifierItemSO item)

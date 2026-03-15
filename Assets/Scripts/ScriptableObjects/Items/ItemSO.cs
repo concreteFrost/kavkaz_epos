@@ -5,10 +5,16 @@ using UnityEngine;
 public abstract class ItemSO : ScriptableObject
 {
     [HideInInspector] public string id;
+
+    [Tooltip("Имя предмета")]
     public string itemName;
+
+    [Tooltip("Иконка отображаемая в инвентаре")]
     public Sprite itemImage;
 
+    [Header("Description")]
     [TextArea]
+    [Tooltip("Описание предмета")]
     public string itemDescription;
 
 #if UNITY_EDITOR

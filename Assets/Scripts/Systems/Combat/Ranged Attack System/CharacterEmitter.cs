@@ -20,15 +20,14 @@ public class CharacterEmitter : Emitter
     public override void StartEmit()
     {
         if (spellInventory.CurrentItem == null)
-        {
-            
+        {   
             return;
         }
 
         var currentSpell = spellInventory.CurrentItem;
 
         var spell = currentSpell.itemSO as SpellProjectileSO;
-        var requiredModel = statsController.GetCurrentStatLevel(spell.Requirements.statType);
+        var requiredModel = statsController.GetCurrentStatLevel(spell.requirements.statType);
 
         if(requiredModel == 0)
         {
@@ -38,11 +37,11 @@ public class CharacterEmitter : Emitter
 
         if (!spell.CanEmit(requiredModel)) return;
 
-        animatorController.OverrideSpell(spell);
+        if(spell.castAnimation != null)
+            animatorController.OverrideSpell(spell);
 
         projectileSO = spell;
        
-
         SetTargetData(targetLocker.CurrentTarget());
         SetDamageMultiplier(statsController.Knowledge.CurrentMax);
 

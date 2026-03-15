@@ -10,21 +10,23 @@ public enum WeaponType
 public class WeaponSO : BreakablleItemSO
 {
 
-    [Tooltip("Определяет может ли игрок брать другое оружие поверх этого")]
+    [Tooltip("Определяет может ли игрок брать другое оружие поверх этого.")]
     public bool canOverride = false;
 
+    [Header("Weapon Type")]
+    [Tooltip("Тип оружия (одноручное,двуручное).")]
     public WeaponType weaponType;
 
     [Header("Базовый урон")]
-    [Tooltip("Сырой урон без мультипликаторов")]
+    [Tooltip("Сырой урон без мультипликаторов.")]
     [SerializeField] private float baseDamage;
 
-
-
     [Header("Набор атак")]
+    [Tooltip("Набор атак.")]
     public AttackSO attackSet;
 
     [Header("Idle анимация оружия")]
+    [Tooltip("Анимация воспроизводимая в Idle состоянии когда игрок держит оружие в руке.")]
     public AnimationClip idleAnimation;
 
     public float GetBreakdownPenalty() {
