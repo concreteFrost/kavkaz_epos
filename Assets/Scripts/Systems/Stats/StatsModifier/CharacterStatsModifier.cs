@@ -51,7 +51,6 @@ public class CharacterStatsModifier : MonoBehaviour
     private void CancelStatEffect(StatusEffectInstance instance)
     {
         instance.data.OnRemove(statsController);
-
         activeEffects.Remove(instance);
         visualizer.HideEffect(instance.data.id);
         EffectRemoved?.Invoke(instance.data.id);
@@ -70,6 +69,7 @@ public class CharacterStatsModifier : MonoBehaviour
             {
                 if (effect.data.id == cancelEffect.id)
                 {
+                    
                     CancelStatEffect(effect);
                     break; // раз нашли Ч дальше не ищем
                 }

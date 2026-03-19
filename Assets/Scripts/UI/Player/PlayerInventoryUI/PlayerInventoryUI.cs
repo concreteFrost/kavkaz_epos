@@ -15,6 +15,7 @@ public class PlayerInventoryUI : MonoBehaviour
 {
     private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
+    private ItemDescriptionPanel descriptionPanel;
 
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
@@ -41,8 +42,9 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public InventorySection currentSection { get; private set; }
 
-    public void Init(QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
+    public void Init(ItemDescriptionPanel descriptionPanel, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
     {
+        this.descriptionPanel = descriptionPanel;   
         this.contextMenu = contextMenu;
         this.statsController = statsController; 
         contextMenu.OnContextMenuClosed += FocusFirstGridItem;
@@ -80,6 +82,8 @@ public class PlayerInventoryUI : MonoBehaviour
     public void ToggleInventory(bool isVisible)
     {
         mainWrapper.SetActive(isVisible);
+
+        if (!isVisible) descriptionPanel.ClearCommonItemInfo();
     }
 
     private void BindSectionButtons()
@@ -112,6 +116,7 @@ public class PlayerInventoryUI : MonoBehaviour
             slotItem.InitInInventory((item,pos)=>contextMenu.ShowContextMenu(item,pos));
             slotItem.RemoveData();
             slotItem.FitToCell(grid.cellSize);
+            slotItem.ItemOutlined += OnItemOutlined;
             slotItems.Add(slotItem);
    
         }
@@ -226,12 +231,17 @@ public class PlayerInventoryUI : MonoBehaviour
        
     }
 
+    private void OnItemOutlined(ItemSO item)
+    {
+        descriptionPanel.ShowPanel(item);
+    }
+
     internal void RedSliderValue(float val)
     {
-       
+
         float result = val >= 0 ? -0.25f : 0.25f;
         scrollSlider.value += result;
-        
+
         //scrollSlider.value += c.ReadValue<Vector2>().;
     }
 }

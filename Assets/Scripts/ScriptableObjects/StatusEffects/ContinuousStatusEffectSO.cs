@@ -39,7 +39,7 @@ public class ContinuousStatusEffectSO : StatusEffectSO
                 stat.ResetMax(id);
                 break;
             case StatModifierOperation.ChangeRegenRate:
-                stat.ResetRegenRate();
+                stat.ResetRegenRate(id);
                 break;
         }
     }

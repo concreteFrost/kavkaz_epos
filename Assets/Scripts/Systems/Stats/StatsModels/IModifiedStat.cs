@@ -7,5 +7,5 @@
     void ChangeRegenRate(string id, float val, OperationType type);
 
     void ResetMax(string id);
-    void ResetRegenRate();
+    void ResetRegenRate(string id);
 }

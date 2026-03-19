@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +16,8 @@ public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
 
     protected float DefaultRegenDelay;
     protected float DefaultRegenRate;
+
+    protected Dictionary<string, float> regenModifiers = new Dictionary<string, float>();
 
 
     protected void BaseInit(
@@ -60,16 +63,13 @@ public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
 
     public void ChangeRegenRate(string id, float val, OperationType operationType)
     {
-        // вычисляем положительное или отрицательное изменение
         float delta = operationType == OperationType.Positive ? val : -val;
 
-        // если эффект уже есть — суммируем
-        if (tempModifiers.ContainsKey(id))
-            tempModifiers[id] += delta;
+        if (regenModifiers.ContainsKey(id))
+            regenModifiers[id] += delta;
         else
-            tempModifiers[id] = delta;
+            regenModifiers[id] = delta;
 
-        // пересчитываем текущую скорость с учётом всех модификаторов
         RecalculateRegenRate();
     }
 
@@ -77,20 +77,19 @@ public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
     private void RecalculateRegenRate()
     {
         float total = 0f;
-        foreach (var v in tempModifiers.Values)
+        foreach (var v in regenModifiers.Values)
             total += v;
 
         CurrentRegenRate = DefaultRegenRate + total;
 
-        // минимальное ограничение
         if (CurrentRegenRate < 0)
             CurrentRegenRate = 0;
     }
 
-    public void ResetRegenRate()
+    public void ResetRegenRate(string id)
     {
-        CurrentRegenRate = DefaultRegenRate;
-        TempRegenRate = 0;
+        if (regenModifiers.Remove(id))
+            RecalculateRegenRate();
     }
 
 

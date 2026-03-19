@@ -20,6 +20,7 @@ public class CharacterEffectVisualizer : MonoBehaviour
             return;
         }
 
+        if (effect.visualAppearance == null) return;
         // Создаём новый экземпляр эффекта
         var instance = Instantiate(effect.visualAppearance, effectPosition);
         activeInstances[effect.id] = instance;

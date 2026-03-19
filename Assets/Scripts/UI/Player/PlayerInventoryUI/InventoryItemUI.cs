@@ -9,7 +9,9 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     [SerializeField] protected Image outlineImage;
     
     private Action<ItemData, Vector2> clickHandler;
+    
     public Action<RectTransform> ItemSelected;
+    public Action<ItemSO> ItemOutlined;
 
 
     private void Awake()
@@ -75,8 +77,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     public void OnSelect(BaseEventData eventData)
     {
         ToggleOutlineImage(true);
-       
-
+        if(currentItem !=null) ItemOutlined?.Invoke(currentItem.itemSO);
    
     }
     public void OnDeselect(BaseEventData eventData)

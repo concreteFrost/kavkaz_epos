@@ -6,10 +6,12 @@ public class PlayerUIManager : MonoBehaviour
 
     [Header("Main Panels")]
     [SerializeField] private PlayerInventoryUI inventoryUI;
+    [SerializeField] private ItemDescriptionPanel itemDescriptionPanel;
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
-    [SerializeField] private PlayerStatusEffectsUI statusEffectsUI;   
+    [SerializeField] private PlayerStatusEffectsUI statusEffectsUI; 
+    
 
     [Header("Inventory")]
     [SerializeField] private PlayerInventoryContextMenuUI inventoryContextMenuUI;
@@ -54,7 +56,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         playerStatsUI.Init(stats);
         quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,consumableInventory:consumableInventory,statsController:stats);
-        inventoryUI.Init(spellInventory,consumableInventory, inventoryContextMenuUI, stats);
+        inventoryUI.Init(descriptionPanel:itemDescriptionPanel, spellInventory,consumableInventory, inventoryContextMenuUI, stats);
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
