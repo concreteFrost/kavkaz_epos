@@ -9,7 +9,7 @@ public class CharacterStatsModifier : MonoBehaviour
     CharacterStatsController statsController;
     CharacterEffectVisualizer visualizer;
 
-    public Action<string, float> EffectAdded;
+    public Action<ContinuousStatusEffectSO, float> EffectAdded;
     public Action<string, float> EffectUpdated;
     public Action<string> EffectRemoved;
 
@@ -37,7 +37,7 @@ public class CharacterStatsModifier : MonoBehaviour
             }
 
             if (effect.isActive)
-                visualizer.ShowEffect(effect.data.id);
+                visualizer.ShowEffect(effect.data);
         }
     }
 
@@ -131,7 +131,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
         effect.OnApply(statsController, amount);
 
-        EffectAdded?.Invoke(effect.id, 0);
+        EffectAdded?.Invoke(effect, 0);
     }
 
 }

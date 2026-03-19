@@ -24,6 +24,9 @@ public class StatusEffectSO : ScriptableObject
     [Tooltip("Иконка эффекта, отображаемая в UI (баффы/дебаффы).")]
     public Sprite effectImage;
 
+    [Tooltip("Иконка влияния на стат (стрелка вниз/вверх)")]
+    public Sprite affectionTypeImage;
+
     [Tooltip("Тип статус-эффекта ")]
     public StatusEffectType effectType;
 

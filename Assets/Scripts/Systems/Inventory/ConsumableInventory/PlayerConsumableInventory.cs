@@ -54,7 +54,7 @@ public class PlayerConsumableInventory : QuickAccessInventory
 
     public void AddAllItemsOnStart()
     {
-        var allItems = Resources.LoadAll<ItemSO>("Items/Consumable_Items/");
+        var allItems = Resources.LoadAll<ConsumableItemSO>("Items/Consumable/");
 
 
         foreach (var item in allItems)

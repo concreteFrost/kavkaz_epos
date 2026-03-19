@@ -1,7 +1,5 @@
 using UnityEngine;
 
-
-
 [CreateAssetMenu(fileName = "Continuous Status Effect", menuName = ScriptablePaths.STATUS_FX_PATH + "/Continuous Status Effect")]
 public class ContinuousStatusEffectSO : StatusEffectSO
 {
@@ -9,6 +7,7 @@ public class ContinuousStatusEffectSO : StatusEffectSO
     [HideInInspector] public float accumulationIncreaseMultiplier = 0.12f;
     [HideInInspector] public float accumulationDecreaseMultiplier = 0.1f;
 
+    public GameObject visualAppearance;
     public bool useAccumulation = false;
 
     public void OnApply(CharacterStatsController stats, float amount)

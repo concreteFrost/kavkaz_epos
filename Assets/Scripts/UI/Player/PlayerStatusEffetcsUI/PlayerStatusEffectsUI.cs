@@ -6,7 +6,7 @@ public class PlayerStatusEffectsUI : MonoBehaviour
 
     public GameObject sliderPrefab;
     public Transform slidersParent;
-    public VisualStatusEffectDataBaseSO statusEffectsDB;
+
     Dictionary<string, StatusEffectSliderUI> sliderMap = new Dictionary<string, StatusEffectSliderUI>();
 
     public void Init(CharacterStatsModifier statsModifier)
@@ -17,8 +17,6 @@ public class PlayerStatusEffectsUI : MonoBehaviour
         statsModifier.EffectRemoved += OnEffectRemoved;
         statsModifier.EffectUpdated += OnEffectUpdated;
 
-        InitPrefabs();
-
     }
 
     private void OnDisable()
@@ -28,26 +26,20 @@ public class PlayerStatusEffectsUI : MonoBehaviour
         statsModifier.EffectUpdated -= OnEffectUpdated;
     }
 
-    private void InitPrefabs()
+
+
+    void OnEffectAdded(ContinuousStatusEffectSO effect, float amount)
     {
-        foreach(var e in statusEffectsDB.sideEffects)
+        if (!sliderMap.TryGetValue(effect.id, out var sliderUI))
         {
             GameObject go = Instantiate(sliderPrefab, slidersParent);
 
-            StatusEffectSliderUI data = go.GetComponent<StatusEffectSliderUI>();
-            sliderMap[e.effectData.id] = data;
-            data.SetEffect(e.effectData);
-            data.Hide();
-                    
+            sliderUI = go.GetComponent<StatusEffectSliderUI>();
+            sliderMap[effect.id] = sliderUI;
+            sliderUI.SetEffect(effect);
+            //sliderUI.Hide();
         }
-      
-    }
-
-    void OnEffectAdded(string id, float amount)
-    {
-        if (!sliderMap.TryGetValue(id, out var sliderUI)) return;
         sliderUI.Show();
-       
     }
 
     void OnEffectUpdated(string id, float amount)

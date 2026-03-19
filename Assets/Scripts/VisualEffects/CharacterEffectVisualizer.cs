@@ -1,17 +1,18 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CharacterEffectVisualizer : MonoBehaviour
 {
-    [SerializeField] private VisualStatusEffectDataBaseSO effectDataBaseSO;
+
     [SerializeField] private Transform effectPosition;
 
     private Dictionary<string, GameObject> activeInstances = new();
 
-    public void ShowEffect(string id)
+    public void ShowEffect(ContinuousStatusEffectSO effect)
     {
-        if (activeInstances.TryGetValue(id, out var existingInstance))
+        if (activeInstances.TryGetValue(effect.id, out var existingInstance))
         {
             if (existingInstance.activeInHierarchy) return;
 
@@ -19,12 +20,9 @@ public class CharacterEffectVisualizer : MonoBehaviour
             return;
         }
 
-        var effectData = effectDataBaseSO.sideEffects.Find(e => e.effectData.id == id );
-        if (effectData == null || effectData.prefab == null)
-            return;
-
-        var instance = Instantiate(effectData.prefab, effectPosition);
-        activeInstances[id] = instance;
+        // Создаём новый экземпляр эффекта
+        var instance = Instantiate(effect.visualAppearance, effectPosition);
+        activeInstances[effect.id] = instance;
 
         StartCoroutine(GraduateFXToggle(instance, true));
     }

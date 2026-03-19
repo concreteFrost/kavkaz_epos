@@ -15,7 +15,7 @@ public class ItemCreationTool : EditorWindow
     private Vector2 tabScrollPos; // добавляем поле для прокрутки
    
 
-    [MenuItem("Tools/Items Viewer/Items Creator")]
+    [MenuItem("Tools/Items Tools/Items Creator")]
     public static void Open() => GetWindow<ItemCreationTool>("Items Creator");
 
     private void OnEnable()
@@ -31,7 +31,7 @@ public class ItemCreationTool : EditorWindow
     private void OnGUI()
     {
 
-        tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.Height(40), GUILayout.ExpandWidth(true));
+        tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.Height(50), GUILayout.ExpandWidth(true));
         selectedTab = GUILayout.Toolbar(selectedTab, tabs, GUILayout.Height(25));
         EditorGUILayout.EndScrollView();
         GUILayout.Space(5);
