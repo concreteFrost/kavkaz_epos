@@ -10,29 +10,8 @@ public class ShieldSO : BreakablleItemSO
     [Tooltip("Степень защиты")]
     public float defenceBonus;
 
-    [Tooltip("Поглощение утраты баланса")]
-    public float balanceBlockFactor;
+    //[Tooltip("Поглощение утраты баланса")]
+    //public float balanceBlockFactor;
 
-
-    public float GetDefenceBonus()
-    {
-        if (defenceBonus <= 0) return 0.01f;
-
-        return defenceBonus;
-    }
-
-    public float GetBalanceBlockFactor()
-    {
-        if (balanceBlockFactor <= 0) return 0.01f;
-
-        return balanceBlockFactor;  
-    }
-
-    public float GetBreakdownPenalty()
-    {
-        if (breakdownPenalty <= 0) return 0.01f;
-
-        return breakdownPenalty;
-    }
 
 }
