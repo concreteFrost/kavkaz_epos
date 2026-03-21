@@ -24,11 +24,11 @@ public class ItemDescriptionPanel : MonoBehaviour
 
     [Header("Status Effects Info")]
     [SerializeField] GameObject effectsPanelWrapper;
-    [SerializeField] GameObject effectInstancesParent;
+    [SerializeField] GameObject activeEffectInstancesParent;
+    [SerializeField] GameObject cancelEffectInstancesParent;
     [SerializeField] GameObject effectInstancePrefab;
-    private List<StatusEffectPanelUI> statusEffectsPool = new List<StatusEffectPanelUI>();
-
-
+    private List<StatusEffectPanelUI> activeStatusEffectsPool = new List<StatusEffectPanelUI>();
+    private List<Image> cancelsStatusEffectsPool = new List<Image>();   
 
     public void ShowPanel(ItemSO item)
     {
@@ -82,12 +82,12 @@ public class ItemDescriptionPanel : MonoBehaviour
             case StatModifierItemSO:
                 var statModifierItem = (StatModifierItemSO)item;
                 ShowEffectsPanel(); 
-                SetupEffectsPanel(statModifierItem.effectData.effects);
+                SetupEffectsPanel(statModifierItem.effectData);
                 break;
             case SpellProjectileSO:
                 var spellItem = (SpellProjectileSO)item;
                 ShowEffectsPanel();
-                SetupEffectsPanel(spellItem.damageData.statusEffectData.effects);
+                SetupEffectsPanel(spellItem.damageData.statusEffectData);
                 break;
           
         }
@@ -109,38 +109,43 @@ public class ItemDescriptionPanel : MonoBehaviour
 
     private void HideEffectsPanel() => effectsPanelWrapper.SetActive(false);
     private void ShowEffectsPanel()=> effectsPanelWrapper.SetActive(true);
-    private void SetupEffectsPanel(List<StatusEffectEntry> effects)
+    private void SetupEffectsPanel(StatusEffectData effects)
     {
         DisableAllEffects();
 
-        if (effects == null || effects.Count == 0)
-        {
-            effectInstancesParent.SetActive(false);
-            return;
-        }
 
-        effectInstancesParent.SetActive(true);
-
-        foreach (var effect in effects)
+        foreach (var effect in effects.effects)
         {
             var ui = GetEffectInstance();
             ui.SetupEffectInfo(effect);
+        }
+
+
+        foreach (var effect in effects.effectsToCancel)
+        {
+            var ui = GetCancelEffectImage();
+            ui.sprite = effect.effectImage;
         }
     }
 
 
     private void DisableAllEffects()
     {
-        foreach (var effectUI in statusEffectsPool)
+        foreach (var effectUI in activeStatusEffectsPool)
         {
             effectUI.ClearEffectInfo();
+            effectUI.gameObject.SetActive(false);
+        }
+
+        foreach(var effectUI in cancelsStatusEffectsPool)
+        {
             effectUI.gameObject.SetActive(false);
         }
     }
 
     private StatusEffectPanelUI GetEffectInstance()
     {
-        foreach (var effectUI in statusEffectsPool)
+        foreach (var effectUI in activeStatusEffectsPool)
         {
             if (!effectUI.gameObject.activeSelf)
             {
@@ -150,11 +155,29 @@ public class ItemDescriptionPanel : MonoBehaviour
         }
 
         // если свободных нет Ч создаЄм новый
-        var instance = Instantiate(effectInstancePrefab, effectInstancesParent.transform);
+        var instance = Instantiate(effectInstancePrefab, activeEffectInstancesParent.transform);
         var ui = instance.GetComponent<StatusEffectPanelUI>();
 
-        statusEffectsPool.Add(ui);
+        activeStatusEffectsPool.Add(ui);
         return ui;
+    }
+
+    private Image GetCancelEffectImage()
+    {
+        foreach(var img in cancelsStatusEffectsPool)
+        {
+            if (!img.gameObject.activeSelf)
+            {
+                img.gameObject.SetActive(true);
+                return img; 
+            }
+        }
+
+        var instance = Instantiate(new GameObject(), cancelEffectInstancesParent.transform);
+        instance.AddComponent<Image>();
+        var newImg = instance.GetComponent<Image>();   
+        cancelsStatusEffectsPool.Add(newImg);
+        return newImg;
     }
 
     #endregion
