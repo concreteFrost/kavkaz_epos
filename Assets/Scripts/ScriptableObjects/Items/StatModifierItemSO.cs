@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ScriptablePaths.CONSUMABLE_ITEM_PATH + "/Stat Modifier Item", fileName = "Stat Modifier Item")]
@@ -9,5 +10,6 @@ public class StatModifierItemSO : ConsumableItemSO
         if (effectData == null) return;
         ctx.GetAndApplyStatusEffect(effectData);
     }
+
 
 }

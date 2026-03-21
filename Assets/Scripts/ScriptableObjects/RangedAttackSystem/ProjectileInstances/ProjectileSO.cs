@@ -14,7 +14,7 @@ public abstract class ProjectileSO : ItemSO
 
     [Header("Damage")]
     [Tooltip("Базовый урон снаряда до применения множителей (бафов, крита и т.п.).")]
-    public float baseDamage = 1f;
+    [SerializeField] float baseDamage;
 
     [Tooltip("Дополнительные параметры урона: тип, эффекты и другая логика обработки.")]
     public DamageData damageData;
@@ -43,6 +43,8 @@ public abstract class ProjectileSO : ItemSO
     [Tooltip("Максимальное время жизни снаряда в секундах. После этого он уничтожается.")]
     public float lifetime = 10f;
 
+    public float GetBaseDamage() => baseDamage;
+
     public abstract bool CanEmit(int level);
 
 
@@ -59,7 +61,7 @@ public abstract class ProjectileSO : ItemSO
         data.baseDir = baseDir;
 
         data.damageData = damageData;
-        data.damageData.SetFinalDamage(baseDamage, attackMultiplier);   
+        data.damageData.SetFinalDamage(GetBaseDamage(), attackMultiplier);   
 
         GameObject clone = Instantiate(prefab, startingPosition, Quaternion.identity);
         var projectile = clone.GetComponent<IProjectile>();

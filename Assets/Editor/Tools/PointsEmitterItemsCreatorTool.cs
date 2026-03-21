@@ -25,9 +25,8 @@ public class PointsEmitterItemsCreatorTool : BaseItemCreatorTool<PointsEmitterIt
         // Здесь только расширенный контент
 
         // Поля для оружейного предмета
-        SerializedProperty topUpAmount = so.FindProperty("amount");
-        EditorGUILayout.LabelField("Top up amount:");
-        EditorGUILayout.PropertyField(topUpAmount, GUIContent.none);
+        SerializedProperty topUpAmount = so.FindProperty("pointsToGain");
+        EditorGUILayout.PropertyField(topUpAmount);
 
         EditorGUILayout.EndVertical();
 

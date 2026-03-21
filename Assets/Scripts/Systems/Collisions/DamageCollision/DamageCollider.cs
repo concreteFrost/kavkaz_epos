@@ -122,12 +122,6 @@ public class DamageCollider : MonoBehaviour
     {
         if (attackInterrupted) return;
 
-        // Проверка на щит/защиту через DefenceCollider
-        if (other.TryGetComponent(out DefenceCollider defence))
-        {
-            defence.ProcessDamage();
-        }
-
         // Проверка, можно ли нанести урон этому объекту
         if (!TryGetDamagable(other, out var damagable))
         {
@@ -145,19 +139,21 @@ public class DamageCollider : MonoBehaviour
             if(damagable.Protection.IsProtectionActive && IsFacingTarget(damagable))
             {
                 DamageData recalculatedDamage = new DamageData(); // создаём отдельный объект
-                recalculatedDamage.damageMultiplier = damageData.damageMultiplier * damagable.Protection.ShieldData().defenceBonus;
+              
+                recalculatedDamage.damageMultiplier = damageData.damageMultiplier;
                 recalculatedDamage.balanceDamageType = BalanceDamageType.Blocked;
                 recalculatedDamage.statusEffectData = damageData.statusEffectData;
                 recalculatedDamage.impactForce = damageData.impactForce;
+                recalculatedDamage.finalDamage = damageData.finalDamage *(1f - damagable.Protection.ShieldData().GetDefenceBonus());
 
-                damagable.Protection.ReduceDurability(damagable.Protection.ShieldData().breakdownPenalty);
+                damagable.Protection.ReduceDurability(damagable.Protection.ShieldData().GetBreakdownPenalty());
                 ApplyDamage(damagable, recalculatedDamage);
                 return; // атака прервана блоком
             }
           
         }
 
-        isAttackRegistered = true;
+       
         // Наносим обычный урон
         ApplyDamage(damagable, damageData);
     }
@@ -166,6 +162,8 @@ public class DamageCollider : MonoBehaviour
     protected virtual void ApplyDamage(IDamagable target, DamageData data)
     {
         target.TakeDamage(data, attackSource);
+
+        isAttackRegistered = true;
     }
 
     // Проверка, есть ли компонент IDamagable

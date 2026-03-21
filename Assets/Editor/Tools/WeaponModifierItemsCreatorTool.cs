@@ -24,9 +24,9 @@ public class WeaponModifierItemsCreatorTool : BaseItemCreatorTool<WeaponModifier
         // Здесь только расширенный контент
 
         // Поля для оружейного предмета
-        SerializedProperty topUpAmount = so.FindProperty("amount");
-        EditorGUILayout.LabelField("Top up amount:");
-        EditorGUILayout.PropertyField(topUpAmount, GUIContent.none);
+        SerializedProperty topUpAmount = so.FindProperty("durabilityToGain");
+
+        EditorGUILayout.PropertyField(topUpAmount);
 
         EditorGUILayout.EndVertical();
 

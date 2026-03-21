@@ -13,6 +13,8 @@ public class QuickSlotBreakableUI : SlotItemUI
         itemImage.enabled = true;
         backgroundImage.enabled = true;
 
+        breakdownSlider.maxValue = 100f;
+
         itemImage.sprite = data.itemImage;
         
         backgroundImage.enabled = true;
@@ -47,8 +49,5 @@ public class QuickSlotBreakableUI : SlotItemUI
         breakdownSlider.gameObject.SetActive(false);
     }
 
-    public void UpdateBreakdownSlider(IBreakable breakdown)
-    {
-        breakdownSlider.value = breakdown.GetDurability();
-    }
+  
 }

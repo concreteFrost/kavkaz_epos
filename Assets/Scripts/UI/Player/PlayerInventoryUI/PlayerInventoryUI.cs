@@ -28,7 +28,7 @@ public class PlayerInventoryUI : MonoBehaviour
     //[SerializeField] Button resourcesSectionBtn;
 
     private List<InventoryItemUI> slotItems = new List<InventoryItemUI>();
-    private int totalCellsToInit = 30;
+    private int totalCellsToInit = 50;
 
     [SerializeField] Transform quickSlotsContainer;
     private List<InventoryItemUI> quickSlotItems = new List<InventoryItemUI>();

@@ -9,7 +9,6 @@ public class PointsEmitter : MonoBehaviour
 
     public void DropPoints()
     {
-
         PointsDropped?.Invoke(points);
     }
 }

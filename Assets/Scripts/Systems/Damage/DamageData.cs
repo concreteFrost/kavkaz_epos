@@ -16,15 +16,12 @@ public struct DamageData
     public StatusEffectData statusEffectData;
 
     [Tooltip("‘инальный рассчитанный урон после всех множителей. «аполн€етс€ автоматически во врем€ атаки.")]
-    private float finalDamage;
-
-    public float GetFinalDamage() => finalDamage;
+    [HideInInspector] public float finalDamage;
 
     public void SetFinalDamage(float baseDamage, float strength)
     {
         strength = Mathf.Max(1f, strength);
         finalDamage = baseDamage * (strength / 100f) * (1 + damageMultiplier);
-        Debug.Log(finalDamage);
        
     }
 

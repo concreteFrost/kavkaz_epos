@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
+
 
 //[CreateAssetMenu(fileName = "Item", menuName = ScriptablePaths.ITEMS_PATH + "/Item")]
 public abstract class ItemSO : ScriptableObject
@@ -17,6 +19,7 @@ public abstract class ItemSO : ScriptableObject
     [Tooltip("Описание предмета")]
     public string itemDescription;
 
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
@@ -28,3 +31,5 @@ public abstract class ItemSO : ScriptableObject
     }
 #endif
 }
+
+

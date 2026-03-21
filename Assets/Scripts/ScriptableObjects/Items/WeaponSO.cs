@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum WeaponType
@@ -29,11 +30,8 @@ public class WeaponSO : BreakablleItemSO
     [Tooltip("Анимация воспроизводимая в Idle состоянии когда игрок держит оружие в руке.")]
     public AnimationClip idleAnimation;
 
-    public float GetBreakdownPenalty() {
-        if (breakdownPenalty == 0) return 0.001f;
 
-        return breakdownPenalty;    
-    }
+    public float GetBaseDamage()=> baseDamage;
 
-    public float GetBaseDamage()=> baseDamage;  
+  
 }

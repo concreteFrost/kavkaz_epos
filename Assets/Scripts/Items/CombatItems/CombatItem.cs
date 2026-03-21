@@ -32,7 +32,7 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
         physicsCollider = GetComponent<Collider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
 
-        breakdownThreshold = 100;    
+        breakdownThreshold = 100f;    
 
     }
 
@@ -80,32 +80,21 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
 
     public void ReduceDurability(float amount)
     {
-        if (Owner == null) return;
-        if (!IsBreakdownEnabled) return;
+        if (Owner == null || !IsBreakdownEnabled) return;
 
         breakdownThreshold -= amount;
 
-        if (breakdownThreshold <= 0)
+        if (breakdownThreshold <= 0f)
         {
             Owner.CombatInventory.ResetCombatItem(this);
-            
             Drop();
             StartBreakCoroutine();
         }
-
-
     }
 
     public void IncreaseDurability(float amount)
     {
-        breakdownThreshold += amount;
-
-        if (breakdownThreshold >= 100f)
-        {
-            breakdownThreshold = 100f;
-        }
-
-
+        breakdownThreshold = Mathf.Clamp01(breakdownThreshold + amount);
     }
 
     public void Drop()

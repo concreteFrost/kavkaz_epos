@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,9 +7,11 @@ public class ShieldSO : BreakablleItemSO
 {
 
     [Space(10)]
-    [Header("Защита")]
-    [Tooltip("Степень защиты")]
-    public float defenceBonus;
+
+    [Tooltip("Степень защиты в процентах")]
+    [SerializeField] float defenceAmount;
+
+    public float GetDefenceBonus() => defenceAmount;
 
     //[Tooltip("Поглощение утраты баланса")]
     //public float balanceBlockFactor;

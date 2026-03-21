@@ -27,6 +27,9 @@ public class WeaponCreatorTool : BaseItemCreatorTool<WeaponSO>
         DrawAttackSet(so);
         EditorGUILayout.Space(10);
 
+        DrawBreakdown(so);
+        EditorGUILayout.Space(10);
+
         DrawAnimation(so);
 
         EditorGUILayout.EndVertical();
@@ -50,6 +53,12 @@ public class WeaponCreatorTool : BaseItemCreatorTool<WeaponSO>
     {
         SerializedProperty baseDamage = so.FindProperty("baseDamage");
         EditorGUILayout.PropertyField(baseDamage);
+    }
+
+    private void DrawBreakdown(SerializedObject so)
+    {
+        SerializedProperty breakdown = so.FindProperty("brakdownPenalty");
+        EditorGUILayout.PropertyField(breakdown);
     }
 
     private void DrawAttackSet(SerializedObject so)

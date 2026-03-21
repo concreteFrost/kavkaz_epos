@@ -24,7 +24,7 @@ public class SpellProjectileCreatorTool : BaseItemCreatorTool<SpellProjectileSO>
         DrawAnimation(so);
         EditorGUILayout.Space(20);
 
-        DrawDamage(so);
+        DrawBaseDamage(so);
         EditorGUILayout.Space(20);
 
         DrawAttack(so);
@@ -55,7 +55,7 @@ public class SpellProjectileCreatorTool : BaseItemCreatorTool<SpellProjectileSO>
         EditorGUILayout.PropertyField(castAnimation);
     }
 
-    private void DrawDamage(SerializedObject so)
+    private void DrawBaseDamage(SerializedObject so)
     {
 
         SerializedProperty baseDamage = so.FindProperty("baseDamage");

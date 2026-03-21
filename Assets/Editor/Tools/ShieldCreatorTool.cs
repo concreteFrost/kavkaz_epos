@@ -17,8 +17,11 @@ public class ShieldCreatorTool : BaseItemCreatorTool<ShieldSO>
 
         EditorGUILayout.BeginVertical("box");
 
-        SerializedProperty defenceBonus = so.FindProperty("defenceBonus");
-        EditorGUILayout.PropertyField(defenceBonus);    
+        SerializedProperty defenceBonus = so.FindProperty("defenceAmount");
+        EditorGUILayout.PropertyField(defenceBonus);
+
+        SerializedProperty breakdown = so.FindProperty("brakdownPenalty");
+        EditorGUILayout.PropertyField(breakdown);
 
         EditorGUILayout.EndVertical();
 

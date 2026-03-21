@@ -1,9 +1,12 @@
 using UnityEngine;
 
 
-public class BreakablleItemSO : ItemSO
+public abstract class BreakablleItemSO : ItemSO
 {
-    [Header("Поломка")]
-    [Tooltip("Сколько снимать от состояния при ударе")]
-    public float breakdownPenalty;
+
+    [Tooltip("Сколько снимать от состояния при ударе (в единицах)")]
+
+    [SerializeField] float brakdownPenalty;
+
+    public float GetBreakdownPenalty() => brakdownPenalty;
 }

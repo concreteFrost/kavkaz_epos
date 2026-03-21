@@ -108,7 +108,7 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
             var item = items[i];
             if (!PassSearch(item)) continue;
 
-            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.BeginVertical();
 
             DrawItemHeaderCompact(item);
 

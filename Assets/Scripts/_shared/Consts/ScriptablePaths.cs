@@ -15,10 +15,11 @@ public static class ScriptablePaths
     public const string VFX_PATH = BASE_PATH + "/VFX";
     public const string UI_STYLES_PATH = BASE_PATH + "/UI Styles";
     public const string STATUS_FX_PATH = BASE_PATH + "/Status Effects";
-    
-
+   
     //под-домены
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";
+
+    public const string ITEM_STAT_PATH = ITEMS_PATH + "/Item Stats";
 
     public const string CHARACTER_STATS_PATH = CHARACTER_PATH + "/Stats";
     public const string CHARACTER_LEVEL_PATH = CHARACTER_PATH + "/Level";
@@ -32,9 +33,5 @@ public static class ScriptablePaths
     public const string PROJECTILE_MOVE_PATH = PROJECTILE_PATH + "/Movement";
 
     public const string VFX_SIDE_FX_PATH = VFX_PATH + "/Side Effects Data";
-
-   
-
-
 
 }

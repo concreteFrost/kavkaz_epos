@@ -67,7 +67,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
             return;
         }
 
-        stats.Health.ChangeCurrent(damageData.GetFinalDamage(), OperationType.Negative);
+        stats.Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
         InvokeDamageTaken(source);
 
 

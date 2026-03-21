@@ -14,13 +14,7 @@ public class ItemDescriptionPanel : MonoBehaviour
 
     [Header("Weapon Info")]
     [SerializeField] GameObject weaponPanel;
-    [SerializeField] TextMeshProUGUI weaponDamageText;
-    [SerializeField] TextMeshProUGUI weaponDurabilityText;
 
-    [Header("Shield Info")]
-    [SerializeField] GameObject shieldPanel;
-    [SerializeField] TextMeshProUGUI shieldDefenceBonusText;
-    [SerializeField] TextMeshProUGUI shieldDurabilityText;
 
     [Header("Status Effects Info")]
     [SerializeField] GameObject effectsPanelWrapper;
@@ -62,7 +56,6 @@ public class ItemDescriptionPanel : MonoBehaviour
     private void DeactivateAllAdditionalPanels()
     {
         weaponPanel.SetActive(false);
-        shieldPanel.SetActive(false);
     }
 
     private void DefineActivePanel(ItemSO item)
@@ -71,14 +64,6 @@ public class ItemDescriptionPanel : MonoBehaviour
           
         switch (item)
         {
-            case WeaponSO:
-                weaponPanel.SetActive(true);
-                SetupWeapon(item as WeaponSO);
-                break;
-            case ShieldSO:
-                shieldPanel.SetActive(true);    
-                SetupShield(item as ShieldSO);
-                break;
             case StatModifierItemSO:
                 var statModifierItem = (StatModifierItemSO)item;
                 ShowEffectsPanel(); 
@@ -91,18 +76,6 @@ public class ItemDescriptionPanel : MonoBehaviour
                 break;
           
         }
-    }
-
-    private void SetupWeapon(WeaponSO weapon)
-    {
-        weaponDamageText.text = weapon.GetBaseDamage().ToString();
-        weaponDurabilityText.text = weapon.breakdownPenalty.ToString();
-    }
-
-    private void SetupShield(ShieldSO shield)
-    {
-        shieldDefenceBonusText.text = shield.defenceBonus.ToString();
-        shieldDurabilityText.text = shield.breakdownPenalty.ToString();
     }
 
     #region Effects
