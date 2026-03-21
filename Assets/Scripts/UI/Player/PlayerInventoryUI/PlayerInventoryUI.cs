@@ -15,7 +15,7 @@ public class PlayerInventoryUI : MonoBehaviour
 {
     private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
-    private ItemDescriptionPanel descriptionPanel;
+    private ItemDescriptionPanelUI descriptionPanel;
 
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
@@ -42,7 +42,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public InventorySection currentSection { get; private set; }
 
-    public void Init(ItemDescriptionPanel descriptionPanel, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
+    public void Init(ItemDescriptionPanelUI descriptionPanel, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
     {
         this.descriptionPanel = descriptionPanel;   
         this.contextMenu = contextMenu;

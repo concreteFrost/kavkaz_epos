@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemDescriptionPanel : MonoBehaviour
+public class ItemDescriptionPanelUI : MonoBehaviour
 {
+    [SerializeField] ItemStatsPanelUI itemStatPanel;
+
     [SerializeField] GameObject wrapper;
 
     [Header("Common Info")]
     [SerializeField] TextMeshProUGUI itemNameText;
     [SerializeField] Image itemIcon;
     [SerializeField] TextMeshProUGUI itemDescriptionText;
-
-    [Header("Weapon Info")]
-    [SerializeField] GameObject weaponPanel;
 
 
     [Header("Status Effects Info")]
@@ -27,7 +27,6 @@ public class ItemDescriptionPanel : MonoBehaviour
     public void ShowPanel(ItemSO item)
     {
         wrapper.SetActive(true);
-        DeactivateAllAdditionalPanels();    
 
         ShowCommonInfo(item);
         DefineActivePanel(item);
@@ -53,15 +52,12 @@ public class ItemDescriptionPanel : MonoBehaviour
         itemIcon.sprite = null;
     }
 
-    private void DeactivateAllAdditionalPanels()
-    {
-        weaponPanel.SetActive(false);
-    }
+
 
     private void DefineActivePanel(ItemSO item)
     {
         HideEffectsPanel();
-          
+ 
         switch (item)
         {
             case StatModifierItemSO:
@@ -75,6 +71,16 @@ public class ItemDescriptionPanel : MonoBehaviour
                 SetupEffectsPanel(spellItem.damageData.statusEffectData);
                 break;
           
+        }
+
+        if (item is IItemStats itemStats)
+        {
+            
+            itemStatPanel.GetPanel(itemStats);
+        }
+        else
+        {
+            itemStatPanel.HidePanel();
         }
     }
 

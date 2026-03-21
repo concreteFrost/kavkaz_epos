@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EmitStartingPosition
@@ -6,7 +7,7 @@ public enum EmitStartingPosition
     Ground = 1,
     Sky = 2,
 }
-public abstract class ProjectileSO : ItemSO
+public abstract class ProjectileSO : ItemSO , IItemStats
 {
     [Header("Prefab")]
     [Tooltip("Prefab снаряда, который будет создаваться при использовании способности.")]
@@ -44,6 +45,13 @@ public abstract class ProjectileSO : ItemSO
     public float lifetime = 10f;
 
     public float GetBaseDamage() => baseDamage;
+
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    {
+        new ItemStat(ItemStatType.baseDamage, GetBaseDamage(), ItemStatFormatType.flat),
+       
+    };
+
 
     public abstract bool CanEmit(int level);
 

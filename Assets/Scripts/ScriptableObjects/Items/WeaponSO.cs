@@ -3,12 +3,12 @@ using UnityEngine;
 
 public enum WeaponType
 {
-    OneHand =0,
-    TwoHands =1,
+    OneHand = 0,
+    TwoHands = 1,
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
-public class WeaponSO : BreakablleItemSO
+public class WeaponSO : BreakablleItemSO, IItemStats
 {
 
     [Tooltip("Определяет может ли игрок брать другое оружие поверх этого.")]
@@ -31,7 +31,14 @@ public class WeaponSO : BreakablleItemSO
     public AnimationClip idleAnimation;
 
 
-    public float GetBaseDamage()=> baseDamage;
+    public float GetBaseDamage() => baseDamage;
 
-  
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    {
+        new ItemStat(ItemStatType.baseDamage, GetBaseDamage(), ItemStatFormatType.flat),
+        new ItemStat(ItemStatType.perHitCost, GetBreakdownPenalty(), ItemStatFormatType.flat)   
+    };
+
+
+
 }

@@ -17,9 +17,7 @@ MonoBehaviour:
   itemImage: {fileID: 21300000, guid: 8d43b83d0338c994db662371b1cdbbc8, type: 3}
   itemDescription: 
   prefab: {fileID: 6897423304324703046, guid: 630d132b300b266418da91ddc90783e7, type: 3}
-  baseDamageStat:
-    statSO: {fileID: 11400000, guid: e577f2de0e21c8b4a84a70ab3ae02604, type: 2}
-    amount: 7
+  baseDamage: 4
   damageData:
     damageMultiplier: 0
     balanceDamageType: 2
@@ -27,6 +25,7 @@ MonoBehaviour:
     statusEffectData:
       effects: []
       effectsToCancel: []
+    finalDamage: 0
   attackSO: {fileID: 11400000, guid: 9b06992940cd82441a5df1351e4d6279, type: 2}
   amountToSpawn: 5
   spawnDelay: 0.1

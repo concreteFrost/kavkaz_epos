@@ -6,7 +6,7 @@ public class PlayerUIManager : MonoBehaviour
 
     [Header("Main Panels")]
     [SerializeField] private PlayerInventoryUI inventoryUI;
-    [SerializeField] private ItemDescriptionPanel itemDescriptionPanel;
+    [SerializeField] private ItemDescriptionPanelUI itemDescriptionPanel;
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
