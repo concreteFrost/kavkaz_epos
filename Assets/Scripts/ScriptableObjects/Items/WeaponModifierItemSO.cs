@@ -18,7 +18,7 @@ public class WeaponModifierItemSO : ConsumableItemSO, IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat(ItemStatType.durabilityTopUp,GetDurabilityTopUpAmount(), ItemStatFormatType.percent),
+        new ItemStat("weapon repait",GetDurabilityTopUpAmount(), ItemStatFormatType.flat),
        
     };
 

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler, IDeselectHandler, ISelectHandler
+public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler, IDeselectHandler, ISelectHandler 
 {
     [SerializeField] protected Image outlineImage;
     
@@ -59,13 +59,22 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     #region Event Handlers
     private void HandleItemEvent()
     {
-        if (currentItem == null) return;
+        
+        if (currentItem == null)
+        {
+            clickHandler?.Invoke(null,GetAnchoredPosition());   
+            return;
+        }
 
         clickHandler?.Invoke(currentItem, GetAnchoredPosition());
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        var clickCount = eventData.clickCount;
+
+        if (clickCount < 2) return;
+
         HandleItemEvent();
     }
 

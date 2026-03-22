@@ -56,7 +56,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         playerStatsUI.Init(stats);
         quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,consumableInventory:consumableInventory,statsController:stats);
-        inventoryUI.Init(descriptionPanel:itemDescriptionPanel, spellInventory,consumableInventory, inventoryContextMenuUI, stats);
+        inventoryUI.Init(descriptionPanel:itemDescriptionPanel, spellInventory,consumableInventory, inventoryContextMenuUI, stats, combatInventory);
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
@@ -164,6 +164,13 @@ public class PlayerUIManager : MonoBehaviour
             return;
         }
         
+    }
+
+    public void ChangeInventorySection(int value)
+    {
+        if (!inventoryUI.IsOpened()) return;
+
+        inventoryUI.SwitchSectionOnInputChange(value);  
     }
 
     #endregion

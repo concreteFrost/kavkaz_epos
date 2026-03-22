@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     public void Init(CharacterConsumeController consumableController)
     {
-        this.consumableController = consumableController;   
+        this.consumableController = consumableController;
         allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
         SetupAction(addToSlotBtn, AddFromContext);
@@ -36,7 +37,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     {
         quickAccessInventory = inv;
 
-        SetContextButtons();    
+        SetContextButtons();
     }
 
     private void SetContextButtons()
@@ -76,7 +77,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// Удаляет указанный предмет из быстрого слота по нажатию на его иконку.
     /// </summary>
     /// <param name="d">Данные предмета, который нужно удалить из быстрых слотов.</param>
-    public void RemoveOnItemClick(ItemData d)=> RemoveItem(d);
+    public void RemoveOnItemClick(ItemData d) => RemoveItem(d);
 
     /// <summary>
     /// Назначает действие для кнопки контекстного меню.
@@ -124,7 +125,6 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         }
 
         currentItem = data;
-       
 
         wrapper.SetActive(true);
 
@@ -132,7 +132,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         _rectTransform.localPosition = position;
 
         UINavigationUtils.ClampVerticalNavigation(allSelectables);
-        StartCoroutine(UINavigationUtils.SelectWithDelay(allSelectables[0].gameObject));
+        var fistActiveSelectable = UINavigationUtils.GetFirstActive(allSelectables);
+        StartCoroutine(UINavigationUtils.SelectWithDelay(fistActiveSelectable));
     }
 
     /// <summary>
@@ -146,7 +147,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// </returns>
     private bool WillShowContextMenu(ItemData data)
     {
-        
+        if (data == null) return false;
+        if (data.itemSO is WeaponSO || data.itemSO is ShieldSO) return false;
         if (currentItem != null)
         {
             if (currentItem.itemSO.id == data.itemSO.id)

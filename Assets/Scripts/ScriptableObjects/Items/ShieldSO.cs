@@ -15,8 +15,8 @@ public class ShieldSO : BreakablleItemSO, IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat(ItemStatType.defence, GetDefenceBonus(), ItemStatFormatType.percent),
-        new ItemStat(ItemStatType.perHitCost, GetBreakdownPenalty(), ItemStatFormatType.flat)
+        new ItemStat("defence bonus", GetDefenceBonus(), ItemStatFormatType.percent),
+        new ItemStat("cost per hit", GetBreakdownPenalty(), ItemStatFormatType.flat)
     };
 
     //[Tooltip("Поглощение утраты баланса")]

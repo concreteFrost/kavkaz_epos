@@ -39,7 +39,7 @@ public class ItemStatsPanelUI : MonoBehaviour
     private void SetupItemStatPanel(GameObject go, ItemStat stat)
     {
         var label = go.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-        label.text = stat.type.ToString();
+        label.text = stat.key;
         var valueText = go.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
         valueText.text = FormatStatValue(stat);
     }

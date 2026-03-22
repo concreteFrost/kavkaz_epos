@@ -48,7 +48,7 @@ public abstract class ProjectileSO : ItemSO , IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat(ItemStatType.baseDamage, GetBaseDamage(), ItemStatFormatType.flat),
+        new ItemStat("base damage", GetBaseDamage(), ItemStatFormatType.flat),
        
     };
 

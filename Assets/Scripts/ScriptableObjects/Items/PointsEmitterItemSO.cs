@@ -17,7 +17,7 @@ public class PointsEmitterItemSO : ConsumableItemSO,IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat(ItemStatType.pointsTopUp, GetEmittedAmount(), ItemStatFormatType.flat),
+        new ItemStat("points topup", GetEmittedAmount(), ItemStatFormatType.flat),
         
     };
 

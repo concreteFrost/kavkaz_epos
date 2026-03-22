@@ -5,7 +5,6 @@ public class PlayerUIInput : MonoBehaviour
     private PlayerInputReader reader;
     [SerializeField] private PlayerUIManager manager;    
 
-
     public void Init(PlayerInputReader reader)
     {
         this.reader = reader;
@@ -25,6 +24,14 @@ public class PlayerUIInput : MonoBehaviour
         {
             manager.HideContextMenu();
             reader.Consume(ref reader.HideContextPressed);
+        }
+
+        if (reader.ChangeUISection != 0)
+        {
+            int value = Mathf.RoundToInt(reader.ChangeUISection);
+         
+            manager.ChangeInventorySection(value);
+            reader.ConsumeScroll(ref reader.ChangeUISection);     
         }
     }
 

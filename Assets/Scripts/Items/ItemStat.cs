@@ -6,14 +6,14 @@ public enum ItemStatFormatType
 
 public struct ItemStat
 {
-    public ItemStatType type;
+    public string key;
     public float value;
     public ItemStatFormatType formatType;
 
 
-    public ItemStat(ItemStatType type, float value, ItemStatFormatType formatType)
+    public ItemStat(string key, float value, ItemStatFormatType formatType)
     {
-        this.type = type;
+        this.key = key;
         this.value = value;
         this.formatType = formatType;   
     }

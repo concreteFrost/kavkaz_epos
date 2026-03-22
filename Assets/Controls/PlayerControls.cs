@@ -992,6 +992,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeUISection"",
+                    ""type"": ""Button"",
+                    ""id"": ""a418c4c6-d27c-4a69-9b47-ef2faf0d4e8f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1390,6 +1399,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Slider"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""b3726229-5aa7-4ed1-9b87-0f85a7c8b1a5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeUISection"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""48269e2f-9fa0-4ac6-be49-d65e5ccb9157"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ChangeUISection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""0e162571-9ab8-4674-8afc-cfedcbf70ce6"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ChangeUISection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -1493,6 +1535,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_SwitchToGame = m_UI.FindAction("SwitchToGame", throwIfNotFound: true);
         m_UI_HideAdditionalPanel = m_UI.FindAction("HideAdditionalPanel", throwIfNotFound: true);
         m_UI_Slider = m_UI.FindAction("Slider", throwIfNotFound: true);
+        m_UI_ChangeUISection = m_UI.FindAction("ChangeUISection", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1881,6 +1924,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_SwitchToGame;
     private readonly InputAction m_UI_HideAdditionalPanel;
     private readonly InputAction m_UI_Slider;
+    private readonly InputAction m_UI_ChangeUISection;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1944,6 +1988,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Slider".
         /// </summary>
         public InputAction @Slider => m_Wrapper.m_UI_Slider;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/ChangeUISection".
+        /// </summary>
+        public InputAction @ChangeUISection => m_Wrapper.m_UI_ChangeUISection;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2009,6 +2057,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Slider.started += instance.OnSlider;
             @Slider.performed += instance.OnSlider;
             @Slider.canceled += instance.OnSlider;
+            @ChangeUISection.started += instance.OnChangeUISection;
+            @ChangeUISection.performed += instance.OnChangeUISection;
+            @ChangeUISection.canceled += instance.OnChangeUISection;
         }
 
         /// <summary>
@@ -2059,6 +2110,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Slider.started -= instance.OnSlider;
             @Slider.performed -= instance.OnSlider;
             @Slider.canceled -= instance.OnSlider;
+            @ChangeUISection.started -= instance.OnChangeUISection;
+            @ChangeUISection.performed -= instance.OnChangeUISection;
+            @ChangeUISection.canceled -= instance.OnChangeUISection;
         }
 
         /// <summary>
@@ -2396,5 +2450,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSlider(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeUISection" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeUISection(InputAction.CallbackContext context);
     }
 }

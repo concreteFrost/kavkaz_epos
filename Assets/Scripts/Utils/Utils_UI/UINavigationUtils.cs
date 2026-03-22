@@ -13,12 +13,13 @@ public static class UINavigationUtils
     /// <param name="buttons">Список кнопок</param>
     /// <param name="columns">Кол-во элементов помещающихся в строку</param>
     /// </summary>
-    public static void SetupGridNavigation(List<Button> buttons, int columns)
+    public static void SetupGridNavigation(
+        List<Selectable> buttons,
+        int columns,
+        List<Selectable> leftPanel = null)
     {
         if (buttons == null || buttons.Count == 0 || columns <= 0)
             return;
-
-        int rowCount = Mathf.CeilToInt((float)buttons.Count / columns);
 
         for (int i = 0; i < buttons.Count; i++)
         {
@@ -30,19 +31,30 @@ public static class UINavigationUtils
 
             // Вверх
             int upIndex = i - columns;
-            while (upIndex >= 0 && upIndex >= buttons.Count)
-                upIndex -= columns;
             nav.selectOnUp = (upIndex >= 0) ? buttons[upIndex] : null;
 
             // Вниз
             int downIndex = i + columns;
-            while (downIndex >= buttons.Count && downIndex > i) // ищем следующий ряд с элементом
-                downIndex--;
-            nav.selectOnDown = (downIndex < buttons.Count && downIndex > i) ? buttons[downIndex] : null;
+            nav.selectOnDown = (downIndex < buttons.Count) ? buttons[downIndex] : null;
 
             // Влево
-            int leftIndex = (col > 0) ? i - 1 : -1;
-            nav.selectOnLeft = (leftIndex >= 0) ? buttons[leftIndex] : null;
+            if (col > 0)
+            {
+                nav.selectOnLeft = buttons[i - 1];
+            }
+            else
+            {
+                // переход в левую панель
+                if (leftPanel != null && leftPanel.Count > 0)
+                {
+                    int targetRow = Mathf.Clamp(row, 0, leftPanel.Count - 1);
+                    nav.selectOnLeft = leftPanel[targetRow];
+                }
+                else
+                {
+                    nav.selectOnLeft = null;
+                }
+            }
 
             // Вправо
             int rightIndex = (col < columns - 1) ? i + 1 : -1;
@@ -109,7 +121,7 @@ public static class UINavigationUtils
         }
     }
 
-    public static void ClampVerticalNavigation(List<Selectable> btnList)
+    public static void ClampVerticalNavigation(List<Selectable> btnList, List<Selectable> additionalPanel = null)
     {
         if (btnList == null || btnList.Count == 0) return;
 
@@ -121,6 +133,8 @@ public static class UINavigationUtils
 
             nav.selectOnUp = i > 0 ? btnList[i - 1] : null;
             nav.selectOnDown = i < btnList.Count - 1 ? btnList[i + 1] : null;
+            nav.selectOnRight = additionalPanel != null ? additionalPanel[0] : null;
+            nav.selectOnLeft = additionalPanel != null ? additionalPanel[0] : null;
 
             btn.navigation = nav;
         }
@@ -140,9 +154,9 @@ public static class UINavigationUtils
     }
 
 
-    public static GameObject GetFirstActive(GameObject panel)
+    public static GameObject GetFirstActive(List<Selectable> selectables)
     {
-        return panel.GetComponentsInChildren<Selectable>()?.FirstOrDefault(x => x.gameObject.activeInHierarchy).gameObject;
+        return selectables.FirstOrDefault(x => x.gameObject.activeInHierarchy).gameObject;
     }
 
 

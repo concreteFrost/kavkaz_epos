@@ -36,6 +36,7 @@ public class PlayerInputReader
     public bool HideContextPressed;
     
     public float SliderScroll;
+    public float ChangeUISection;
 
     #endregion
     public void Init()
@@ -94,6 +95,7 @@ public class PlayerInputReader
         controls.UI.SwitchToGame.performed += _ => SwitchToGamePressed = true;
         controls.UI.HideAdditionalPanel.performed += _ => HideContextPressed = true;
         controls.UI.Slider.performed += c => SliderScroll = c.ReadValue<float>();
+        controls.UI.ChangeUISection.performed += c => ChangeUISection = c.ReadValue<float>();
     }
 
     public void Consume(ref bool flag) => flag = false;

@@ -35,8 +35,8 @@ public class WeaponSO : BreakablleItemSO, IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat(ItemStatType.baseDamage, GetBaseDamage(), ItemStatFormatType.flat),
-        new ItemStat(ItemStatType.perHitCost, GetBreakdownPenalty(), ItemStatFormatType.flat)   
+        new ItemStat("base damage", GetBaseDamage(), ItemStatFormatType.flat),
+        new ItemStat("cost per hit", GetBreakdownPenalty(), ItemStatFormatType.flat)   
     };
 
 
