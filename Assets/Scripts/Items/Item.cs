@@ -3,15 +3,16 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour, IPickable
 {
     public Vector3 InitialPosition { get; set; }
-    public bool IsPicked { get; set; }
+    public bool HasInteracted { get; set; }
 
-    public ItemSO ItemData { get; set; }
+    public bool CanInteract() => true;
+    //public ItemSO ItemData { get; set; }
 
     [SerializeField] protected InteractionCollider interactionCollder;
 
-    public virtual void Init(ItemSO itemData)
+    public virtual void Init()
     {
-        ItemData = itemData;    
+        //ItemData = itemData;    
 
         if(interactionCollder != null)
         {

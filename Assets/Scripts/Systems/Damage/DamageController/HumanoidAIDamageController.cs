@@ -50,7 +50,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     protected override bool IsDamagingBlocked()
     {
-        return InBlockingWindow || IsDead || IsKnockedOut;
+        return InBlockingWindow || IsDead ;
     }
 
     public override void TakeDamage(DamageData damageData, Transform source)

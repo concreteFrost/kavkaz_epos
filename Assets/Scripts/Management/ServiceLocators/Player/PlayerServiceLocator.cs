@@ -38,7 +38,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerPointsCollector pointsCollector; 
 
     [Header("Система взаимодействия")]
-    [SerializeField] private ItemCollector interaction;
+    [SerializeField] private PlayerItemsCollector interaction;
     [SerializeField] private CharacterConsumeController consumeController;  
 
     [Header("Боевая система")]
@@ -167,7 +167,9 @@ public class PlayerServiceLocator : MonoBehaviour
             animatorController: animatorController,
             combatInventory: combatInventory,
             damageController: damageController,
-            attackSource: attackSource);
+            attackSource: attackSource,
+            spellInventory:spellInventory,
+            consumableInventory:consumableInventory);
 
         consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
 
@@ -194,7 +196,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
         fallController.Init(
             motor: motor,
-            damageController: damageController);
+            damageController: damageController, self:transform);
 
         targetLock.Init(
             controller: locomotionHandler,
@@ -213,7 +215,7 @@ public class PlayerServiceLocator : MonoBehaviour
     {
         stats.Init();
         levelController.Init(statsController: stats);
-        statsModifier.Init(stats, visualizer: effectVisualizer);
+        statsModifier.Init(stats, visualizer: effectVisualizer,damageController);
 
         damageController.Init(
             motor: motor,

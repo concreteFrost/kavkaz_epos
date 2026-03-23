@@ -106,7 +106,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
         match.quantity += item.quantity;
 
-        //Notify();
+        Notify();
     }
 
     public abstract void UseItem(ItemData data);

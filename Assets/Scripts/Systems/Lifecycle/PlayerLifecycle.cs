@@ -30,8 +30,8 @@ public class PlayerLifecycle : CharacterLifecycle
     public override void Respawn()
     {
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+        statsModifier.ClearAllStats();
         statsController.ResetAllStats();
-
         ResetPosition();
 
         damagable.IsDead = false;

@@ -7,9 +7,9 @@ using System.Linq;
 public class CharacterSystemAdder : EditorWindow
 {
     private MonoScript scriptAsset;
-    private string childObjectName = "Core";
+    private string childObjectName = "";
     private string locatorFieldName = "newSystem";
-    private string systemsRootName = "Systems";
+    private string systemsRootName = "Core";
 
     [MenuItem("Tools/Character Tools/Character System Tool")]
     public static void Open()

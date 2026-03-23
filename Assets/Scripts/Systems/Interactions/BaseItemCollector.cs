@@ -5,7 +5,7 @@ enum InteractionType
     FromFloor = 0,
     BodyLevel = 1
 }
-public class ItemCollector : MonoBehaviour, ICollector
+public abstract class BaseItemCollector : MonoBehaviour, ICollector
 {
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
@@ -22,29 +22,26 @@ public class ItemCollector : MonoBehaviour, ICollector
         set => pickable = value;
     }
 
+
     public bool CanPreventWeaponDamage() => Damagable.CharacterType != CharacterType.Player; // оружие ломается только у игрока
 
-    private float interactRadius;
+    private float interactRadius=1f;
 
-    public void Init(
-        Transform self,
+    protected void BaseInit(Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
         ICombatInventory combatInventory,
         IDamagable damageController,
-        IAttackSource attackSource
-
-        )
+        IAttackSource attackSource)
     {
         this.self = self;
-        this.StatsController = statsController; 
+        this.StatsController = statsController;
         this.animatorController = animatorController;
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;
         this.Damagable = damageController;
 
         interactRadius = 1f;
-
     }
 
 
@@ -63,7 +60,7 @@ public class ItemCollector : MonoBehaviour, ICollector
             if (!hit.TryGetComponent(out IPickable candidate))
                 continue;
 
-            if (candidate.IsPicked)
+            if (candidate.HasInteracted)
                 continue;
 
             float distance = Vector3.SqrMagnitude(
@@ -79,6 +76,8 @@ public class ItemCollector : MonoBehaviour, ICollector
 
         return nearest;
     }
+
+
 
     public void StartInteracion()
     {
@@ -98,4 +97,6 @@ public class ItemCollector : MonoBehaviour, ICollector
         pickable.PickUp(this);
         pickable = null;
     }
+
+    public abstract void DistributeItemToInventory(ItemData data);
 }

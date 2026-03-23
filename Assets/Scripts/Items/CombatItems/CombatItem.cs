@@ -24,9 +24,9 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
 
     #endregion
 
-    public override void Init(ItemSO itemData)
+    public override void Init()
     {
-        base.Init(itemData);
+        base.Init();
 
         rb = GetComponent<Rigidbody>();
         physicsCollider = GetComponent<Collider>();

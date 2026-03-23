@@ -12,7 +12,7 @@ public class ItemsInitializer : MonoBehaviour
 
         foreach (var child in children)
         {
-            child.Init(child.ItemData); 
+            child.Init(); 
         }
     }
 

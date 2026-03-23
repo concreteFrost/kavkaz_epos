@@ -13,10 +13,13 @@ public class CharacterStatsModifier : MonoBehaviour
     public Action<string, float> EffectUpdated;
     public Action<string> EffectRemoved;
 
-    public void Init(CharacterStatsController statsController, CharacterEffectVisualizer visualizer)
+    IDamagable damagable;
+
+    public void Init(CharacterStatsController statsController, CharacterEffectVisualizer visualizer, IDamagable damagable)
     {
         this.statsController = statsController;
         this.visualizer = visualizer;
+        this.damagable = damagable;
     }
 
     private void Update()
@@ -43,6 +46,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void ClearAllStats()
     {
+        Debug.Log("clearing all stats");
         visualizer.HideAllEffects();
         activeEffects.Clear();
 
@@ -79,6 +83,8 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void GetAndApplyStatusEffect(StatusEffectData data)
     {
+        if(damagable.IsDead) return;    
+
         if (data == null || data.effects == null) return;
 
         TryCancelStatusEffects(data.effectsToCancel);

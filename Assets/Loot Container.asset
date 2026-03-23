@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577c6654f302e254895fb3655bbe0f66, type: 3}
+  m_Name: Loot Container
+  m_EditorClassIdentifier: Assembly-CSharp::LootContainerSO
+  lootContainerPrefab: {fileID: 1772375270392505616, guid: 13e402582929bf7409f2e2a473588895, type: 3}
+  possibleItems:
+  - itemSO: {fileID: 11400000, guid: fae44c0fd64b3a54980df281d3ac8a32, type: 2}
+    minQuantity: 1
+    maxQuantity: 2
+    dropChance: 1
+  - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
+    minQuantity: 1
+    maxQuantity: 2
+    dropChance: 1

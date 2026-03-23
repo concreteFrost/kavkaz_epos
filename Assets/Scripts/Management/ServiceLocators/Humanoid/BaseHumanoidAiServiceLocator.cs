@@ -34,6 +34,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [Header("Очки")]
     [SerializeField] protected PointsEmitter pointsEmitter;
 
+    [Header("Лут")]
+    [SerializeField] protected CharacterLootDistributer lootDistributer;
+ 
     [Header("Визуальные эффекты")]
     [SerializeField] protected CharacterEffectVisualizer visualizer;
 
@@ -64,6 +67,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
         ControllerInit();
         StatsInit();
         DamageInit();
+        DistributerInit();
         LifecycleInit();
     }
 
@@ -86,7 +90,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     {
         statsManager.Init();
         levelController.Init(statsController:statsManager);
-        statsModifier.Init(statsManager,visualizer);
+        statsModifier.Init(statsManager,visualizer,damageController);
     }
 
     private void ControllerInit()
@@ -106,6 +110,10 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
         fallController.Init(ragdollController: ragdollController, damagable: damageController, self: transform);
     }
 
+    private void DistributerInit()
+    {
+
+    }
 
     protected abstract void LifecycleInit();
   

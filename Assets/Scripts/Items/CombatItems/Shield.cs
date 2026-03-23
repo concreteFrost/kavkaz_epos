@@ -9,10 +9,10 @@ public class Shield : CombatItem, IShield
     public ShieldSO ShieldData() => shieldSO;
     #endregion
 
-    public override void Init(ItemSO itemData)
+    public override void Init()
     {
 
-        base.Init(itemData);
+        base.Init();
         ToggleInteraction(true);
 
     }

@@ -7,4 +7,6 @@ public interface ICollector
     IPickable PickableItem { get; set; }
     void StartInteracion();
     void FinishInteraction();
+
+    void DistributeItemToInventory(ItemData data);
 }

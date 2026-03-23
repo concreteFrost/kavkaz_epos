@@ -12,12 +12,12 @@ public class InventoryItem : Item
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init(itemSO);
+        //Init(itemSO);
     }
 
     // Update is called once per frame
-    public override void Init(ItemSO itemData)
+    public override void Init()
     {
-        base.Init(itemData);    
+        base.Init();    
     }
 }

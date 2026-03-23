@@ -4,7 +4,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
 
     [Header("Система взаимодействия")]
-    [SerializeField] private ItemCollector interaction;
+    [SerializeField] private HumanoidAIItemCollector interaction;
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -81,7 +81,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void LifecycleInit()
     {
-        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform);
+        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform, distributer:lootDistributer);
     }
 
 

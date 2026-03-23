@@ -46,10 +46,8 @@ public class EnemyMageAttackState : BaseEnemyAttackState
   
     IEnumerator AttackCoroutine()
     {
-        if(spellInventory.CurrentItem.quantity <= 1)
-        {
-            spellInventory.TopUpCurrentItem(20);
-        }
+        //пополняем запасы чтобы магия не истощалась 
+        spellInventory.TopUpCurrentItem(1);
 
         emitter.StartEmit();
         while (emitter.IsEmitting)

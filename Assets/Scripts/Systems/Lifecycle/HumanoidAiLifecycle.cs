@@ -7,12 +7,14 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     IRagdollController ragdollController;
     IBrain brain;
     PointsEmitter pointsEmitter;
+    CharacterLootDistributer distributer;
 
-    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter)
+    public void Init(IDamagable damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter, CharacterLootDistributer distributer)
     {
         BaseInit(statsController, statsModifier, damagable, startingPosition, self);
         this.ragdollController = ragdollController;
         this.brain = brain; 
+        this.distributer = distributer; 
 
         this.pointsEmitter = pointsEmitter;
 
@@ -29,10 +31,12 @@ public class HumanoidAiLifecycle : CharacterLifecycle
             ragdollController.EnableRagdoll(Vector3.zero, 0);
         }
        
-        pointsEmitter.DropPoints(); 
+        pointsEmitter.DropPoints();
+        distributer.HandleLootGenerate(damagable.GetOrigin().transform.position);
+
         statsModifier.ClearAllStats();
         brain.ForceStop();
-
+      
         StartCoroutine(RespawnCoroutine());
        
     }
@@ -43,6 +47,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
 
         ResetPosition();
         ragdollController.DisableRagdoll();
+        statsModifier.ClearAllStats();
         brain.SetInitialState();
         statsController.ResetAllStats();
     }

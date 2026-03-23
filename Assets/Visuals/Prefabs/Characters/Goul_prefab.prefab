@@ -43,6 +43,7 @@ Transform:
   - {fileID: 4828770120571156539}
   - {fileID: 1711113652051936224}
   - {fileID: 7377179265506277881}
+  - {fileID: 4408438955272773765}
   m_Father: {fileID: 9166727822812391018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &241067611607711645
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 254557506594778108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d3e93eb2a9b704cb46e874993a0773, type: 3}
+  m_Script: {fileID: 11500000, guid: 830be7b074c1222488b262d28946eaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
 --- !u!1 &637889619166706780
@@ -242,6 +243,7 @@ MonoBehaviour:
     leftDamageCollider: {fileID: 2232760149199845294}
     rightDamageCollider: {fileID: 4637655278660892820}
     current: {fileID: 0}
+  enableWeponBreakdown: 0
 --- !u!1 &957857383728718771
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +342,7 @@ MonoBehaviour:
   pushReceiver: {fileID: 1737182500981193628}
   fallController: {fileID: 8669864891053469228}
   pointsEmitter: {fileID: 3537132878642011212}
+  lootDistributer: {fileID: 5148042447466027631}
   visualizer: {fileID: 665039933024682901}
   lifecycle: {fileID: 5871193750833694611}
   interaction: {fileID: 6583377933518813573}
@@ -381,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_cd10bc36-6f68-469e-acef-ceae067b81dd
+  uniqueId: uid_d5858764-7249-4d62-b17a-1c024ac0f6d4
 --- !u!195 &4827920263752337557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1022,12 +1025,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsController
   Speed:
     Current: 0
+    CurrentMax: 0
   Health:
     Current: 0
+    CurrentMax: 0
   Stamina:
     Current: 0
+    CurrentMax: 0
   Knowledge:
     Current: 0
+    CurrentMax: 0
+  Strength:
+    Current: 0
+    CurrentMax: 0
   statsSO: {fileID: 11400000, guid: 1b40c5c21d646ef4b8abd89d5879e4c4, type: 2}
   statsLevelSO: {fileID: 11400000, guid: 3a8e90e550cd9304cbe893a99ab56730, type: 2}
   jumpHeight: 0
@@ -1035,6 +1045,7 @@ MonoBehaviour:
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0
+  strengthLevel: 0
 --- !u!114 &7636700873293036408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,6 +1385,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointsEmitter
   points: 30
+--- !u!1 &6101407025184381157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4408438955272773765}
+  - component: {fileID: 5148042447466027631}
+  m_Layer: 0
+  m_Name: AI_LootDistributer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4408438955272773765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101407025184381157}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9038665148088118433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5148042447466027631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6101407025184381157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2401abb5bf6cfa6419f8d87122517d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterLootDistributer
+  listSO: {fileID: 11400000, guid: a85865d9e28d91c40b12ff7a9de4df80, type: 2}
+  hasDroped: 0
 --- !u!1 &6182434149915885681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1419,7 +1476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848af25f6dae84f42960bb34fe046bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEffectVisualizer
-  effectDataBaseSO: {fileID: 11400000, guid: 11f1f426b85db1c4aae7ee7398b15003, type: 2}
   effectPosition: {fileID: 5653105344246890859}
 --- !u!1 &6473184139319585268
 GameObject:

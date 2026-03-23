@@ -42,7 +42,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
             Weapon weapon = go.GetComponent<Weapon>();
 
-            weapon.Init(weapon.ItemData);
+            weapon.Init();
             weapon.AssignToOwner(source);
             weapon.SetBreakdownEnabled(predictWeaponDamage);
 
@@ -62,7 +62,7 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
             Shield shield = go.GetComponent<Shield>();  
 
-            shield.Init(shield.ItemData);   
+            shield.Init();   
             shield.AssignToOwner(source);
             shield.SetBreakdownEnabled(predictWeaponDamage);
 

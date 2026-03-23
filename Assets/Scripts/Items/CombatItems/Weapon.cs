@@ -35,10 +35,10 @@ public class Weapon : CombatItem, IWeapon
     }
     #endregion
 
-    public override void Init(ItemSO itemData)
+    public override void Init()
     {
         
-        base.Init(itemData);
+        base.Init();
 
         ToggleInteraction(true);
 

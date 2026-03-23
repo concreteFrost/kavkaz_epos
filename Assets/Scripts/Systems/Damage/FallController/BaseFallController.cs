@@ -14,7 +14,31 @@ public abstract class BaseFallController : MonoBehaviour
     protected const float fallDamageThreshold = 5f;
     protected const float fallDamageMultiplier = 12f;
     protected abstract void TrackFall();
-    protected abstract void CalculateFallDamage();
+    protected virtual void CalculateFallDamage()
+    {
+        var fallHeight = lastGroundedPosition.y - self.position.y;
+
+        if (fallHeight > fallDamageThreshold)
+        {
+            float damage = (fallHeight - fallDamageThreshold) * fallDamageMultiplier;
+
+            DamageData damageData = new DamageData
+            {
+                damageMultiplier = 0,
+                finalDamage = damage,
+                balanceDamageType = BalanceDamageType.High,
+                impactForce = 0,
+            };
+
+            Debug.Log(damageData.finalDamage);
+            damagable.TakeDamage(damageData);
+
+            //playerStatsModifier.StartFallPenalty(penaltyDuration, damage);
+
+        }
+    }
+
+   
 
     
 }

@@ -609,7 +609,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4231907f-741f-4a87-96ee-6c0b185be0db"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/alt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",

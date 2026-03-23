@@ -26,34 +26,13 @@ public class AiFallController : BaseFallController
             wasLastGroundedPositionRegistered = true;
             lastGroundedPosition = self.position;
         }
-        else if (!ragdollController.IsBonesMoving(threshold:0.1f) && wasLastGroundedPositionRegistered)
+        else if (!ragdollController.IsBonesMoving() && wasLastGroundedPositionRegistered)
         {
+            Debug.Log("bones not moving");
             wasLastGroundedPositionRegistered = false;
             CalculateFallDamage();
         }
     }
 
-    protected override void CalculateFallDamage()
-    {
-
-        var fallHeight = lastGroundedPosition.y - self.position.y;
-
-
-        if (fallHeight > fallDamageThreshold)
-        {
-            float damage = (fallHeight - fallDamageThreshold) * fallDamageMultiplier;
-
-            DamageData damageData = new DamageData
-            {
-                damageMultiplier = damage,
-                balanceDamageType = BalanceDamageType.High,
-                impactForce = 0,
-            };
-
-            damagable.TakeDamage(damageData);
-
-           
-        }
-
-    }
+   
 }
