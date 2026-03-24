@@ -68,7 +68,7 @@ public class Weapon : CombatItem, IWeapon
     {
         damageCollider.DisableCollider();
     }
-    public override void PickUp(ICollector collector)
+    public override void Interact(ICollector collector)
     {
         var currWeapon = collector.CombatInventory.CurrentWeapon.WeaponData();
         if (!currWeapon.canOverride) return;

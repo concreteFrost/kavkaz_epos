@@ -7,6 +7,8 @@ public class DynamicLootHolder : BaseLootHolder
 
     public Vector3 currentPoisiton;
 
+    public override ItemInteractionType InteractType()=> ItemInteractionType.Item; 
+
     public override void Init()
     {
         base.Init();        
@@ -17,9 +19,9 @@ public class DynamicLootHolder : BaseLootHolder
         itemsToDrop.Clear();
         itemsToDrop.AddRange(list);
     }
-    public override void PickUp(ICollector collector)
+    public override void Interact(ICollector collector)
     {
-        base.PickUp(collector);
+        base.Interact(collector);
         Destroy(this.gameObject); 
     }
 

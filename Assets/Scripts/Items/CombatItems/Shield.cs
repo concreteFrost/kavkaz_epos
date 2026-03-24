@@ -32,7 +32,7 @@ public class Shield : CombatItem, IShield
         Drop();
     }
 
-    public override void PickUp(ICollector collector)
+    public override void Interact(ICollector collector)
     {
         if (collector.CombatInventory.ShieldWeapon != null) return;
 

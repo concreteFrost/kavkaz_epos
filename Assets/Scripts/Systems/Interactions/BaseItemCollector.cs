@@ -1,10 +1,6 @@
 using UnityEngine;
 
-enum InteractionType
-{
-    FromFloor = 0,
-    BodyLevel = 1
-}
+
 public abstract class BaseItemCollector : MonoBehaviour, ICollector
 {
     private Transform self;
@@ -15,8 +11,8 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     public IDamagable Damagable { get; set; } = null;
     public IAttackSource AttackSource { get; set; } = null;
 
-    private IPickable pickable = null;
-    public IPickable PickableItem
+    private IInteractable pickable = null;
+    public IInteractable PickableItem
     {
         get => pickable;
         set => pickable = value;
@@ -45,7 +41,7 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     }
 
 
-    public IPickable UpdatePickable()
+    public IInteractable UpdatePickable()
     {
         Collider[] hits = Physics.OverlapSphere(
             self.position,
@@ -53,11 +49,11 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
         );
 
         float minDistance = float.MaxValue;
-        IPickable nearest = null;
+        IInteractable nearest = null;
 
         foreach (var hit in hits)
         {
-            if (!hit.TryGetComponent(out IPickable candidate))
+            if (!hit.TryGetComponent(out IInteractable candidate))
                 continue;
 
             if (candidate.HasInteracted)
@@ -77,25 +73,62 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
         return nearest;
     }
 
-
+    protected void GetInteractionAnimation(ItemInteractionType type)
+    {
+        switch (type)
+        {
+            case ItemInteractionType.Item:
+                animatorController.PlayClipCrossFade(AnimatorParameters.itemInteract);
+                break;
+            case ItemInteractionType.Chest:
+                animatorController.PlayClipCrossFade(AnimatorParameters.chsetInteract);
+                break;
+            default:
+                animatorController.PlayClipCrossFade(AnimatorParameters.itemInteract);
+                break;
+        }
+    }
 
     public void StartInteracion()
     {
+        var candidate = UpdatePickable();
 
-        if (UpdatePickable() == null)
+        if (candidate == null)
             return;
 
-        PickableItem = UpdatePickable();
+        //проверяем угол только для сундуков и дверей
+        var type = candidate.InteractType();
 
-        //PickableItem.PickUp(this);
-        animatorController.PlayClipCrossFade(AnimatorParameters.interactMidLevelClip); 
-        //PickableItem = null;
+        if (type == ItemInteractionType.Chest || type == ItemInteractionType.Door)
+        {
+            Transform targetTransform = ((MonoBehaviour)candidate).transform;
+
+            if (!IsFacingTarget(targetTransform))
+                return; //не смотрим — не даём взаимодействовать
+        }
+
+        PickableItem = candidate;
+
+        GetInteractionAnimation(type);
     }
 
     public void FinishInteraction()
     {
-        pickable.PickUp(this);
+        pickable.Interact(this);
         pickable = null;
+    }
+
+    private bool IsFacingTarget(Transform target, float maxAngle = 60f)
+    {
+        Vector3 directionToTarget = (target.position - self.position).normalized;
+        directionToTarget.y = 0f;
+
+        Vector3 forward = self.forward;
+        forward.y = 0f;
+
+        float angle = Vector3.Angle(forward, directionToTarget);
+
+        return angle <= maxAngle;
     }
 
     public abstract void DistributeItemToInventory(ItemData data);

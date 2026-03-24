@@ -29,7 +29,8 @@ public class AnimatorParameters
 
     
 
-    public const string interactMidLevelClip = "Interact_Mid_Level";
+    public const string itemInteract = "Item_Interact";
+    public const string chsetInteract = "Chest_Interact";
 
     public const string climbUpClip = "Climb_Up";
 

@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseLootHolder : MonoBehaviour, IPickable
+public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 {
 
     public List<ItemData> itemsToDrop = new List<ItemData>();
 
+    #region IInteractable Contract
     public bool HasInteracted { get; set; }
     public bool CanInteract() => itemsToDrop.Count > 0;
     public Vector3 InitialPosition { get; set; }
 
-    //private void Start()
-    //{
-    //    Init();
-    //}
+    public abstract ItemInteractionType InteractType();
+
+    #endregion
+
 
     public virtual void Init()
     {
@@ -40,9 +41,9 @@ public abstract class BaseLootHolder : MonoBehaviour, IPickable
         itemsToDrop.Clear();
     }
 
-    public virtual void PickUp(ICollector collector)
+    public virtual void Interact(ICollector collector)
     {
-        
+        HasInteracted = true;
         TransferItemsToCollector(collector);
         //interactionCollider.DisableCollider();
     }

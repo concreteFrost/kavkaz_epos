@@ -4,6 +4,8 @@ using UnityEngine;
 public class StaticLootHolder : BaseLootHolder
 {
 
+    public override ItemInteractionType InteractType() => ItemInteractionType.Item;
+
     public List<ItemData> guaranteedItems = new List<ItemData>();
 
     private void Start()
@@ -18,4 +20,6 @@ public class StaticLootHolder : BaseLootHolder
             AddItemsToDrop(i.itemSO, i.quantity);
         }
     }
+
+   
 }

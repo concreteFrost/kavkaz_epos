@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour, IPickable
+public abstract class Item : MonoBehaviour, IInteractable
 {
     public Vector3 InitialPosition { get; set; }
     public bool HasInteracted { get; set; }
 
     public bool CanInteract() => true;
+
+    public ItemInteractionType InteractType() => ItemInteractionType.Item;
     //public ItemSO ItemData { get; set; }
 
     [SerializeField] protected InteractionCollider interactionCollder;
@@ -23,7 +25,7 @@ public abstract class Item : MonoBehaviour, IPickable
        
     }
 
-    public abstract void PickUp(ICollector interractor);
+    public abstract void Interact(ICollector interractor);
 
 
 
