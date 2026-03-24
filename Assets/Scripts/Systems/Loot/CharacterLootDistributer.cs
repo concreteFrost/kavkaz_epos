@@ -46,7 +46,7 @@ public class CharacterLootDistributer : MonoBehaviour
         else
         {
             // fallback Ч тут уже тво€ логика
-            Debug.Log("loot spawned in invalid area");
+          
             LootDroppedInInvalidArea?.Invoke(generatedItems); // лучше List<ItemData>
            
         }

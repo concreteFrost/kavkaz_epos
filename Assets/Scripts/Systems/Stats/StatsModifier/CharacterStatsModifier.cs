@@ -46,7 +46,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void ClearAllStats()
     {
-        Debug.Log("clearing all stats");
+       
         visualizer.HideAllEffects();
         activeEffects.Clear();
 

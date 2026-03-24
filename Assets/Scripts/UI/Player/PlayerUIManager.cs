@@ -10,7 +10,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerStatsUI playerStatsUI;
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
-    [SerializeField] private PlayerStatusEffectsUI statusEffectsUI; 
+    [SerializeField] private PlayerStatusEffectsUI statusEffectsUI;
+    [SerializeField] private PlayerLootPanelUI lootPanelUI; 
     
 
     [Header("Inventory")]
@@ -60,6 +61,7 @@ public class PlayerUIManager : MonoBehaviour
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
+        lootPanelUI.Init();
     }
 
     private void InitProgression(CharacterLevelController levelController)

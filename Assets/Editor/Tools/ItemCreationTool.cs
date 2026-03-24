@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+
 public class ItemCreationTool : EditorWindow
 {
     private StatModifierItemsCreatorTool statModifierItemsTool;
@@ -31,6 +32,8 @@ public class ItemCreationTool : EditorWindow
     private void OnGUI()
     {
 
+        
+        
         tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.Height(50), GUILayout.ExpandWidth(true));
         selectedTab = GUILayout.Toolbar(selectedTab, tabs, GUILayout.Height(25));
         EditorGUILayout.EndScrollView();

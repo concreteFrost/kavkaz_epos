@@ -15,8 +15,6 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
 
     protected string basePath = "Assets/Resources/Items";
     protected virtual string ItemFolder { get; }
-    
- 
 
     protected virtual void OnEnable() => RefreshItems();
 

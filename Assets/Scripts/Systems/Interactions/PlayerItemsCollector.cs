@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerItemsCollector : BaseItemCollector
@@ -5,6 +6,8 @@ public class PlayerItemsCollector : BaseItemCollector
 
     CharacterSpellInventory spellInventory;
     PlayerConsumableInventory consumableInventory;
+
+    public static Action<ItemData> LootCollected;
     public void Init(Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
@@ -22,7 +25,9 @@ public class PlayerItemsCollector : BaseItemCollector
     public override void DistributeItemToInventory(ItemData data)
     {
         
-        if (data.itemSO is SpellProjectileSO) spellInventory.AddItemToInventory(data);
+        if(data.itemSO is SpellProjectileSO) spellInventory.AddItemToInventory(data);
         if(data.itemSO is ConsumableItemSO) consumableInventory.AddItemToInventory(data);
+
+        LootCollected?.Invoke(data);    
     }
 }

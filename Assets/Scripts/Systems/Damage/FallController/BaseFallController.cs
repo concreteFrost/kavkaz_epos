@@ -30,7 +30,7 @@ public abstract class BaseFallController : MonoBehaviour
                 impactForce = 0,
             };
 
-            Debug.Log(damageData.finalDamage);
+           
             damagable.TakeDamage(damageData);
 
             //playerStatsModifier.StartFallPenalty(penaltyDuration, damage);
