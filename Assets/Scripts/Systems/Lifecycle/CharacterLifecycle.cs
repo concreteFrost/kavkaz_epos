@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class CharacterLifecycle : MonoBehaviour
 {
 
-    protected IDamagable damagable;
+    protected BaseHumanoidDamageController damagable;
     protected CharacterStatsController statsController;
     protected CharacterStatsModifier statsModifier;
     protected Vector3 startingPosition;
@@ -12,7 +12,7 @@ public abstract class CharacterLifecycle : MonoBehaviour
     public abstract void Die();
     public abstract void Respawn();
 
-    protected void BaseInit(CharacterStatsController statsController, CharacterStatsModifier statsModifier, IDamagable damageController, Vector3 startingPostion, Transform self)
+    protected void BaseInit(CharacterStatsController statsController, CharacterStatsModifier statsModifier, BaseHumanoidDamageController damageController, Vector3 startingPostion, Transform self)
     {
         this.statsModifier = statsModifier;
         this.statsController = statsController;

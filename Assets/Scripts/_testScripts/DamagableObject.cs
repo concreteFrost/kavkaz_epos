@@ -68,6 +68,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         DamageTaken?.Invoke(source);
     }
 
+    public void TakeMaxDamage()
+    {
+        Health.Current -= Health.CurrentMax;
+    }
 
     IEnumerator DamageCoroutine()
     {

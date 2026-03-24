@@ -22,6 +22,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     }
 
+
     private void OnDisable()
     {
         ragdollController.Recovered -= OnRecover;
@@ -30,23 +31,17 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
     private void OnRecover()
     {
         IsKnockedOut = false;
+        ResetOriginPosition();
+
     }
 
-    //private void Update()
-    //{
+    private void PerformKnockout(Vector3 source, float impactForce)
+    {
+        ragdollController.Knockout(source, impactForce);
+        GetOrigin().SetParent(ragdollController.GetHipsTransform());
+        IsKnockedOut = true;
+    }
 
-    //    if (Input.GetKeyDown(KeyCode.C))
-    //    {
-    //        DamageData d = new DamageData
-    //        {
-    //            healthDamageMultiplier = 30f,
-    //            balanceDamageType = BalanceDamageType.Extreme,
-    //            impactForce = 20f
-    //        };
-    //        TakeDamage(d, null);
-    //    }
-
-    //}
 
     protected override bool IsDamagingBlocked()
     {
@@ -73,11 +68,6 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     }
 
-    private void PerformKnockout(Vector3 source, float impactForce)
-    {
-        ragdollController.Knockout(source, impactForce);
-        IsKnockedOut = true;
-    }
 
 
 

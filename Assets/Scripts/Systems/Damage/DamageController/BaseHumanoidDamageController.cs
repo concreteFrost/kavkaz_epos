@@ -14,6 +14,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     protected BaseHumanoidAnimatorController animatorController;
     protected CharacterStatsModifier statsModifier;
 
+    [SerializeField] protected Transform defaultTransformParent;
+
     #region IDamagable Contract
     public Collider DamageCollider() => damagableCollider;
     public IShield Protection { get; set; } = null;
@@ -54,6 +56,13 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         damagableCollider.enabled = !IsDamagingBlocked();
     }
 
+    public void ResetOriginPosition()
+    {
+        GetOrigin().SetParent(defaultTransformParent);
+        GetOrigin().localPosition = Vector3.zero;
+        GetOrigin().localRotation = Quaternion.identity;
+    }
+
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
 
@@ -71,6 +80,12 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         InvokeDamageTaken(source);
 
 
+    }
+
+    public void TakeMaxDamage()
+    {
+        stats.Health.ChangeCurrent(stats.Health.CurrentMax, OperationType.Negative);
+        InvokeDamageTaken(null);
     }
 
     protected void InvokeDamageTaken(Transform source)

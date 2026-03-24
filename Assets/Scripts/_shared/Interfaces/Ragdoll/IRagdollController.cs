@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IRagdollController
 {
+    Transform GetHipsTransform();
+
     void EnableRagdoll(Vector3 from,float force=0);
     void DisableRagdoll();
 

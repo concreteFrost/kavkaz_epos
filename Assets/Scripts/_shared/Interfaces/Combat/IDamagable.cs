@@ -7,6 +7,7 @@ public interface IDamagable
     CharacterType CharacterType { get; set; }
     // Тип персонажа (например, игрок, враг) для фильтрации атак и логики целей
 
+    void TakeMaxDamage();
     void TakeDamage(DamageData damageData, Transform source = null);
     // Метод нанесения урона; source указывает, кто атакует
 

@@ -39,7 +39,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система взаимодействия")]
     [SerializeField] private PlayerItemsCollector interaction;
-    [SerializeField] private CharacterConsumeController consumeController;  
+    [SerializeField] private CharacterConsumeController consumeController;
+    [SerializeField] private PlayerInvalidLootCollector invalidLootCollector;
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -81,11 +82,13 @@ public class PlayerServiceLocator : MonoBehaviour
         InitCore();
         InitInput();
         InitAnimation();
+        InitInteraction();
         InitCombat();
         InitMovement();
         InitStats();
         InitPoints();
         InitInventories();
+      
         InitLifecycle();
         InitCharacterConstructor(); 
         InitUI();
@@ -161,17 +164,8 @@ public class PlayerServiceLocator : MonoBehaviour
             animatorController: animatorController,
             self: transform);
 
-        interaction.Init(
-            self: transform,
-            statsController:stats,
-            animatorController: animatorController,
-            combatInventory: combatInventory,
-            damageController: damageController,
-            attackSource: attackSource,
-            spellInventory:spellInventory,
-            consumableInventory:consumableInventory);
 
-        consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
+      
 
         combatHandler.Init(
             actionGuards: actionGuards,
@@ -183,6 +177,25 @@ public class PlayerServiceLocator : MonoBehaviour
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,   
             actionGuards: actionGuards);
+    }
+
+    private void InitInteraction()
+    {
+
+        interaction.Init(
+            self: transform,
+            statsController: stats,
+            animatorController: animatorController,
+            combatInventory: combatInventory,
+            damageController: damageController,
+            attackSource: attackSource,
+            spellInventory: spellInventory,
+            consumableInventory: consumableInventory);
+
+        consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
+
+        invalidLootCollector.Init(collector: interaction);
+
     }
 
     private void InitMovement()

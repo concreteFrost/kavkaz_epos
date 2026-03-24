@@ -23,7 +23,7 @@ public abstract class BaseRagdollController : IRagdollController
     protected Transform self;
 
 
-    protected Transform _hipsBone; // центральная кость (таз)
+    protected Transform hipsBone; // центральная кость (таз)
     protected Transform[] _bones; // кости относящиеся к ragdoll
     private Transform _chestBone;
     protected Rigidbody hipsRb;
@@ -37,7 +37,10 @@ public abstract class BaseRagdollController : IRagdollController
     protected float blendDuration = 0.5f; // время перехода между ragdoll и анимацией
     protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
 
-    #region IRagdollControlerContract
+    #region IRagdoll Controler Contract
+    public Transform GetHipsTransform() => hipsBone;
+
+    public Vector3 GetHipsPosition() => hipsBone.position;
     public abstract void DisableRagdoll();
     public abstract void EnableRagdoll(Vector3 from, float force = 0);
 
@@ -58,9 +61,9 @@ public abstract class BaseRagdollController : IRagdollController
         this.self = self;
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
-        _hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
+        hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
         _chestBone = anim.Animator().GetBoneTransform(HumanBodyBones.Chest);
-        hipsRb = _hipsBone.GetComponent<Rigidbody>();
+        hipsRb = hipsBone.GetComponent<Rigidbody>();
 
         InitBones();
         AddRigidbodies();
@@ -76,7 +79,7 @@ public abstract class BaseRagdollController : IRagdollController
     /// </summary>
     private void InitBones()
     {
-        _bones = _hipsBone.GetComponentsInChildren<Transform>();
+        _bones = hipsBone.GetComponentsInChildren<Transform>();
 
         _faceupBoneTransforms = new CharacterBoneTransform[_bones.Length];
         _facedownBoneTransforms = new CharacterBoneTransform[_bones.Length];
@@ -96,9 +99,9 @@ public abstract class BaseRagdollController : IRagdollController
     private void AddRigidbodies()
     {
 
-        rigidbodies.Add(_hipsBone.GetComponent<Rigidbody>());
+        rigidbodies.Add(hipsBone.GetComponent<Rigidbody>());
 
-        rigidbodies.AddRange(_hipsBone
+        rigidbodies.AddRange(hipsBone
      .GetComponentsInChildren<Joint>()
      .Select(j => j.GetComponent<Rigidbody>())
      .Where(rb => rb != null)
@@ -169,10 +172,10 @@ public abstract class BaseRagdollController : IRagdollController
     /// </summary>
     protected void AlignRotationToHips()
     {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        Quaternion originalHipsRotation = _hipsBone.rotation;
+        Vector3 originalHipsPosition = hipsBone.position;
+        Quaternion originalHipsRotation = hipsBone.rotation;
 
-        Vector3 desiredDirection = _hipsBone.up;
+        Vector3 desiredDirection = hipsBone.up;
 
         if (isFacingUp)
         {
@@ -185,8 +188,8 @@ public abstract class BaseRagdollController : IRagdollController
         Quaternion fromToRotation = Quaternion.FromToRotation(self.forward, desiredDirection);
         self.rotation *= fromToRotation;
 
-        _hipsBone.position = originalHipsPosition;
-        _hipsBone.rotation = originalHipsRotation;
+        hipsBone.position = originalHipsPosition;
+        hipsBone.rotation = originalHipsRotation;
     }
 
     /// <summary>
@@ -195,8 +198,8 @@ public abstract class BaseRagdollController : IRagdollController
 
     protected void AlignPositionToHips()
     {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        self.position = _hipsBone.position;
+        Vector3 originalHipsPosition = hipsBone.position;
+        self.position = hipsBone.position;
 
         Vector3 positionOffset = GetStandUpBoneTransforms()[0].position;
         positionOffset.y = 0;
@@ -208,7 +211,7 @@ public abstract class BaseRagdollController : IRagdollController
             self.position = new Vector3(self.position.x, hitInfo.point.y, self.position.z);
         }
 
-        _hipsBone.position = originalHipsPosition;
+        hipsBone.position = originalHipsPosition;
     }
 
     #endregion
@@ -231,7 +234,7 @@ public abstract class BaseRagdollController : IRagdollController
     /// <param name="from">от какого источника</param>
     protected void ApplyImpulseFromSource(float force, Vector3 from)
     {
-        Vector3 direction = (_hipsBone.position - from).normalized;
+        Vector3 direction = (hipsBone.position - from).normalized;
 
         direction.y = Mathf.Max(direction.y, 0.2f);
         direction.Normalize();
@@ -249,6 +252,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     public IEnumerator Recover()
     {
+       
         // 1. Ждём минимальное время, чтобы ragdoll успел распасться
         yield return new WaitForSeconds(0.5f);
 
@@ -269,7 +273,7 @@ public abstract class BaseRagdollController : IRagdollController
         }
 
         //isFacingUp = _hipsBone.forward.y > 0;
-        Vector3 hipsToChest = (_chestBone.position - _hipsBone.position).normalized;
+        Vector3 hipsToChest = (_chestBone.position - hipsBone.position).normalized;
         isFacingUp = Vector3.Dot(hipsToChest, Vector3.up) > 0f;
 
         AlignRotationToHips();

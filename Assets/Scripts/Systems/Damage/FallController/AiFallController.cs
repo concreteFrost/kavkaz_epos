@@ -20,6 +20,7 @@ public class AiFallController : BaseFallController
     protected override void TrackFall()
     {
         if (damagable.IsDead) return;
+        
 
         if (ragdollController.IsKnockedOut && !wasLastGroundedPositionRegistered)
         {
