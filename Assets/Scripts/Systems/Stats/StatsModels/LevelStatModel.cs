@@ -114,5 +114,5 @@ public abstract class LevelStatModel
 
     protected void NotifyMaxChange(int leve, float value) => MaxChanged?.Invoke(leve, value);
 
-    protected void NotifyCurrentChange(float amount) => CurrentChanged?.Invoke(amount);
+    public void NotifyCurrentChange(float amount) => CurrentChanged?.Invoke(amount);
 }

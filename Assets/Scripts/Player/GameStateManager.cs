@@ -1,6 +1,12 @@
 ﻿using System;
 using UnityEngine;
 
+public enum GameMode
+{
+    NewGame = 0,
+    LoadGame = 1
+}
+
 public enum GameState
 {
     Game = 0,
@@ -15,6 +21,7 @@ public class GameStateManager : MonoBehaviour
 
     public static Action<GameState> GameStateChanged;
     public GameState CurrentState;
+    public GameMode GameMode = GameMode.NewGame;
 
     private void Awake()
     {

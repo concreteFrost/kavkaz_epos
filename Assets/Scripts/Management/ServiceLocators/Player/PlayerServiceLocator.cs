@@ -30,9 +30,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerQuickSlotActionHandler quickSlotHandler;
 
     [Header("Статы")]
-    [SerializeField] private CharacterLevelController levelController; 
-    [SerializeField] private CharacterStatsController stats;
-    [SerializeField] private CharacterStatsModifier statsModifier;
+    [SerializeField] public CharacterLevelController levelController; 
+    [SerializeField] public CharacterStatsController stats;
+    [SerializeField] public CharacterStatsModifier statsModifier;
 
     [Header("Система очков")]
     [SerializeField] private PlayerPointsCollector pointsCollector; 
@@ -77,7 +77,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private PlayerActionGuards actionGuards;
 
-    private void Awake()
+    public void Init()
     {
         InitCore();
         InitInput();

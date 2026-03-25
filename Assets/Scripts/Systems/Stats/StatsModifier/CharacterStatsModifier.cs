@@ -1,13 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+[System.Serializable]
+public class SavedEffectData
+{
+    public string effectId;
+    public float duration;
+    public float amount;
+    public bool isActive;
+    public float defaultDuration;
+    public float accumulation;
+}
 
 public class CharacterStatsModifier : MonoBehaviour
 {
-
     public List<StatusEffectInstance> activeEffects = new List<StatusEffectInstance>();
     CharacterStatsController statsController;
     CharacterEffectVisualizer visualizer;
+
 
     public Action<ContinuousStatusEffectSO, float> EffectAdded;
     public Action<string, float> EffectUpdated;
@@ -20,6 +32,7 @@ public class CharacterStatsModifier : MonoBehaviour
         this.statsController = statsController;
         this.visualizer = visualizer;
         this.damagable = damagable;
+
     }
 
     private void Update()
@@ -44,9 +57,48 @@ public class CharacterStatsModifier : MonoBehaviour
         }
     }
 
+    public List<SavedEffectData> SaveEffectData()
+    {
+        List<SavedEffectData> savedEffectData = new List<SavedEffectData>();
+        foreach (var effect in activeEffects)
+        {
+            SavedEffectData effectData = new SavedEffectData()
+            {
+                effectId = effect.data.id,
+                duration = effect.duration,
+                defaultDuration = effect.DefaultDuration,
+                accumulation = effect.Accumulation,
+                amount = effect.amount,
+                isActive = effect.isActive
+            };
+
+            savedEffectData.Add(effectData);
+        }
+
+        return savedEffectData;
+    }
+
+    public void LoadEffectsData(List<SavedEffectData> effectData)
+    {
+        ClearAllStats();
+
+        List<ContinuousStatusEffectSO> effectsDB = Resources.LoadAll<ContinuousStatusEffectSO>("StatusEffects").ToList();
+
+        foreach (var saved in effectData)
+        {
+            var match = effectsDB.Find((x) => x.id == saved.effectId);
+
+            if (match == null) continue;
+
+            AddContiniousSideEffectFromSave(match, saved);
+
+        }
+    }
+
+
     public void ClearAllStats()
     {
-       
+
         visualizer.HideAllEffects();
         activeEffects.Clear();
 
@@ -73,7 +125,7 @@ public class CharacterStatsModifier : MonoBehaviour
             {
                 if (effect.data.id == cancelEffect.id)
                 {
-                    
+
                     CancelStatEffect(effect);
                     break; // раз нашли Ч дальше не ищем
                 }
@@ -83,7 +135,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void GetAndApplyStatusEffect(StatusEffectData data)
     {
-        if(damagable.IsDead) return;    
+        if (damagable.IsDead) return;
 
         if (data == null || data.effects == null) return;
 
@@ -91,7 +143,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
         foreach (var entry in data.effects)
         {
-            
+
 
             if (entry.effect is ContinuousStatusEffectSO continuous)
             {
@@ -103,7 +155,7 @@ public class CharacterStatsModifier : MonoBehaviour
             }
         }
 
-      
+
     }
 
     private void ApplyInstantSideEffect(StatusEffectEntry entry)
@@ -138,6 +190,35 @@ public class CharacterStatsModifier : MonoBehaviour
         effect.OnApply(statsController, amount);
 
         EffectAdded?.Invoke(effect, 0);
+    }
+
+    private void AddContiniousSideEffectFromSave(
+    ContinuousStatusEffectSO effect,
+    SavedEffectData data
+   )
+    {
+        // важно: Ќ≈ ищем match и не стакаем
+        // мы восстанавливаем как есть
+
+        var instance = StatusEffectInstance.Load(
+           effect,
+           data.amount,
+            data.duration,
+            data.defaultDuration,
+            data.accumulation,
+            data.isActive
+        );
+
+        activeEffects.Add(instance);
+        effect.OnApply(statsController, data.amount);
+
+        // если эффект уже активен Ч примен€ем визуал
+        if (data.isActive)
+            visualizer.ShowEffect(effect);
+
+        // уведомл€ем UI (если нужно)
+        EffectAdded?.Invoke(effect, instance.Progress);
+
     }
 
 }

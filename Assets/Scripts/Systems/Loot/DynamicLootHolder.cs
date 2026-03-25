@@ -25,4 +25,11 @@ public class DynamicLootHolder : BaseLootHolder
         Destroy(this.gameObject); 
     }
 
+    public override void LoadLootData(LootState state)
+    {
+        
+    }
+
+  
+
 }

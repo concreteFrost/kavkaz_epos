@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-[System.Serializable]
+
+[Serializable]
 public class CharacterLevelData
 {
 
@@ -22,6 +23,7 @@ public class CharacterLevelController : MonoBehaviour
     public CharacterLevelData levelData;
 
     public Action XpGained;
+    public Action NewLevelReachedWithMessage;
     public Action NewLevelReached;
     public Action PointsSpent;
 
@@ -31,6 +33,29 @@ public class CharacterLevelController : MonoBehaviour
     {
         levelData = new CharacterLevelData();
         this.statsController = statsController; 
+    }
+
+    public CharacterLevelData SaveLevelData()
+    {
+        return new CharacterLevelData()
+        {
+            currentXP = levelData.currentXP,
+            currentCharacterLevel = levelData.currentCharacterLevel,
+            unspentPoints = levelData.unspentPoints
+        };
+    }
+
+    public void LoadLevelData(CharacterLevelData data)
+    {
+        levelData.currentXP = data.currentXP;
+        levelData.unspentPoints = data.unspentPoints;
+        levelData.currentCharacterLevel = data.currentCharacterLevel;
+
+        CalculateXPToNextLevel();
+        XpGained?.Invoke();
+        PointsSpent?.Invoke();  
+        NewLevelReached?.Invoke();  
+       
     }
 
     public void AddXP(int amount)
@@ -53,7 +78,7 @@ public class CharacterLevelController : MonoBehaviour
         CalculateXPToNextLevel();   
 
         statsController.Health.ResetCurrent();
-        NewLevelReached?.Invoke();  
+        NewLevelReachedWithMessage?.Invoke();  
     }
 
     private void CalculateXPToNextLevel()

@@ -19,19 +19,19 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Z))
-    //    {
-    //        DamageData d = new DamageData
-    //        {
-    //            healthDamageMultiplier = 10f,
-    //            balanceDamageType = BalanceDamageType.Extreme,
-    //            impactForce = 20f
-    //        };
-    //        TakeDamage(d, null);
-    //    }
-    //}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            DamageData d = new DamageData
+            {
+                finalDamage  = 20f,
+                balanceDamageType = BalanceDamageType.Extreme,
+                impactForce = 20f
+            };
+            TakeDamage(d, null);
+        }
+    }
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {

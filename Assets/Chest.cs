@@ -1,33 +1,27 @@
 using UnityEngine;
 
-public class Chest : MonoBehaviour, IInteractable
+public class Chest : StaticLootHolder
 {
     Animator animator;
     public bool isOpened;
-    [SerializeField] StaticLootHolder lootHolder;
 
-    #region IInteractable Contract
+    [SerializeField] private ParticleSystem lootParticles;
 
-    public ItemInteractionType InteractType() => ItemInteractionType.Chest;
+    private ItemInteractionType interactionType = ItemInteractionType.Chest;
 
-    public bool CanInteract() => !isOpened;
-    public bool HasInteracted { get; set; }
-    public Vector3 InitialPosition {  get; set; }
-
-    #endregion
+    public override ItemInteractionType InteractType() => interactionType;
 
     private void Start()
     {
         Init();
     }
 
-    public void Init()
+    public override void Init()
     {
-        InitialPosition = transform.position;
+        base.Init();    
+
         animator = GetComponent<Animator>();
-   
-        lootHolder.Init();
-        lootHolder.gameObject.SetActive(false);
+        lootParticles.Stop();   
         CloseChest();
     }
 
@@ -40,13 +34,18 @@ public class Chest : MonoBehaviour, IInteractable
         }
     }
 
-    public  void Interact(ICollector collector)
+    public override void Interact(ICollector collector)
     {
         if (!isOpened)
         {
-            HasInteracted = true;
-            lootHolder.gameObject.SetActive(true);
             OpenChest();
+            interactionType = ItemInteractionType.Item;
+        }
+        else
+        {
+            
+            lootParticles.Stop();
+            TransferItemsToCollector(collector);
         }
         
     }
@@ -55,12 +54,33 @@ public class Chest : MonoBehaviour, IInteractable
     {
         animator.SetBool("Open", true);
         isOpened = true;
+
+        if (!HasInteracted) lootParticles.Play();
     }
 
     public void CloseChest()
     {
         animator.SetBool("Open", false);
         isOpened = false;
+
+        lootParticles.Stop();
         
+    }
+
+    public override void LoadLootData(LootState data)
+    {
+        HasInteracted = data.hasCollected;
+
+        if (data.hasCollected)
+        {
+            OpenChest();
+            lootParticles.Stop();
+            itemsToDrop.Clear();
+
+        }
+        else
+        {
+            CloseChest();  
+        }
     }
 }

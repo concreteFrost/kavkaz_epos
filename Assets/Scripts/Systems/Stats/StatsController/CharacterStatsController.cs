@@ -1,5 +1,21 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+
+[Serializable]
+public class CharacterStatsData
+{
+    public int healthLevel;
+    public int staminaLevel;
+    public int knowledgeLevel;
+    public int strengthLevel;
+
+    public float currentHealth;
+    public float currentStamina;
+    public float currentKnowledge;
+    public float currentStrength;
+}
+
 
 public class CharacterStatsController : BaseStatsController
 {
@@ -52,6 +68,55 @@ public class CharacterStatsController : BaseStatsController
     {
         Stamina.Regen();
     }
+
+
+    public CharacterStatsData SaveStatsData()
+    {
+        return new CharacterStatsData()
+        {
+            healthLevel = healthLevel,
+            staminaLevel = staminaLevel,
+            knowledgeLevel = knowledgeLevel,
+            strengthLevel = strengthLevel,
+            currentHealth = Health.Current,
+            currentStamina = Stamina.Current,
+            currentKnowledge = Knowledge.Current,
+            currentStrength = Strength.Current
+        };
+    }
+
+    public void LoadStatsData(CharacterStatsData statsData)
+    {
+
+        
+        healthLevel = statsData.healthLevel;
+        staminaLevel = statsData.staminaLevel;
+        knowledgeLevel = statsData.knowledgeLevel;
+        strengthLevel = statsData.strengthLevel;
+
+
+        Health.UpdateMaxAndCurrent(healthLevel);
+        Health.Current = statsData.currentHealth;
+        Health.NotifyCurrentChange(Health.Current);
+        Health.CalculateNextLevel(healthLevel);
+
+        Strength.UpdateMaxAndCurrent(strengthLevel);
+        Strength.Current = statsData.currentStrength;
+        Strength.NotifyCurrentChange(Strength.Current);
+        Strength.CalculateNextLevel(strengthLevel);
+
+        Stamina.UpdateMaxAndCurrent(staminaLevel);
+        Stamina.Current = statsData.currentStamina;
+        Stamina.NotifyCurrentChange(Stamina.Current);
+        Stamina.CalculateNextLevel(staminaLevel);
+
+        Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
+        Knowledge.Current = statsData.currentKnowledge;
+        Knowledge.NotifyCurrentChange(Knowledge.Current);
+        Knowledge.CalculateNextLevel(knowledgeLevel);
+
+    }
+
 
     public LevelStatModel GetStatModel(StatType type)
     {

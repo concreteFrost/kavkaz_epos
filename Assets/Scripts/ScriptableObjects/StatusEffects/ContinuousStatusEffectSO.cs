@@ -4,8 +4,8 @@ using UnityEngine;
 public class ContinuousStatusEffectSO : StatusEffectSO
 {
 
-    [HideInInspector] public float accumulationIncreaseMultiplier = 0.12f;
-    [HideInInspector] public float accumulationDecreaseMultiplier = 0.1f;
+    //public float accumulationIncreaseMultiplier = 0.12f;
+    //public float accumulationDecreaseMultiplier = 0.01f;
 
     public GameObject visualAppearance;
     public bool useAccumulation = false;

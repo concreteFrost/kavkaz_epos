@@ -33,9 +33,9 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         animatorController = new HumanoidAIAnimatorController();
         animatorController.Init(animator: animator, overrideController: overrideController, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
     }
-    protected override void CoreInit()
+    public override void Init()
     {
-        base.CoreInit();
+        base.Init();
 
         InterruptorsInit();
         InteractionInit();

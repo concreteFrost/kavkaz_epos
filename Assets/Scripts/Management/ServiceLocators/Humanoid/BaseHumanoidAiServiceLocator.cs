@@ -48,16 +48,11 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     protected HumanoidAIAnimatorController animatorController;
     protected HumanoidAgentController agentController;
 
-    private void Awake()
+
+    public virtual void Init()
     {
         uid = uniqueId.uniqueId;
-        CoreInit();
-        
-    }
 
-    protected virtual void CoreInit()
-    {
-       
         AnimatorInit();
         boneSocket.Init(animator);
         AgentInit();

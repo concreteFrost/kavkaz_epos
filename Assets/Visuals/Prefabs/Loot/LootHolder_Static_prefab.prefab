@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5291247308744787209}
+  - component: {fileID: 1931144389355884070}
   - component: {fileID: 7793560571238482614}
-  - component: {fileID: -5270972435032879766}
+  - component: {fileID: 4450052446352410796}
   m_Layer: 2
-  m_Name: LootHolder_Dynamic_prefab
+  m_Name: LootHolder_Static_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,12 +29,28 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6715617932682427274}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1931144389355884070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463624092011238556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6f0e87dd383e444962992b107c7720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaticLootHolder
+  id: 
+  itemsToDrop: []
+  visual: {fileID: 3965398975241148698}
+  guaranteedItems: []
 --- !u!135 &7793560571238482614
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -55,7 +72,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-5270972435032879766
+--- !u!114 &4450052446352410796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,11 +81,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3463624092011238556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e252d87e89747a14291452deb06a9cf9, type: 3}
+  m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DynamicLootHolder
-  itemsToDrop: []
-  currentPoisiton: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::UniqueId
+  uniqueId: uid_38fd58fd-17d9-4ffd-b69c-12229c9f208a
 --- !u!1001 &3892339296911716114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,6 +154,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
+--- !u!1 &3965398975241148698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 73096273598952968, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
+  m_PrefabInstance: {fileID: 3892339296911716114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6715617932682427274 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}

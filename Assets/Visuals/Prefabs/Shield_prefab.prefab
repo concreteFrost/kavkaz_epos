@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 4134873691407384374}
   - component: {fileID: 7485148907650295780}
   - component: {fileID: 6054064764918884102}
+  - component: {fileID: -9090936707582929807}
   m_Layer: 2
   m_Name: Shield_prefab
   m_TagString: Untagged
@@ -165,7 +166,26 @@ MonoBehaviour:
   interactionCollder: {fileID: 7463870308691895986}
   breakdownThreshold: 0
   shieldSO: {fileID: 11400000, guid: 1feb83e5356c87a4382a907b433ce869, type: 2}
-  defenceCollider: {fileID: 0}
+--- !u!114 &-9090936707582929807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255179769068497855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &2907503581148464619
 PrefabInstance:
   m_ObjectHideFlags: 0

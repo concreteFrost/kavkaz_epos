@@ -25,6 +25,7 @@ public class PlayerPointsControllerUI : MonoBehaviour
         newLevelText.gameObject.SetActive(false);   
 
         levelController.XpGained += OnPointsDropped;
+        levelController.NewLevelReachedWithMessage += OnNewLevelReachedWithMessage;
         levelController.NewLevelReached += OnNewLevelReached;
       
     }
@@ -33,7 +34,8 @@ public class PlayerPointsControllerUI : MonoBehaviour
     {
 
         levelController.XpGained -= OnPointsDropped;
-        levelController.NewLevelReached -= OnNewLevelReached;
+        levelController.NewLevelReached -= OnNewLevelReached;   
+        levelController.NewLevelReachedWithMessage -= OnNewLevelReachedWithMessage;
     }
 
    
@@ -60,6 +62,11 @@ public class PlayerPointsControllerUI : MonoBehaviour
     {
         SetSliderValues();
         GetCurrentPointsInfo();
+    }
+
+    private void OnNewLevelReachedWithMessage()
+    {
+        OnNewLevelReached();
         ShowLevelUpdated();
     }
 
