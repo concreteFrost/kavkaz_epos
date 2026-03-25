@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerConsumableInventory : QuickAccessInventory
@@ -70,4 +71,5 @@ public class PlayerConsumableInventory : QuickAccessInventory
 
         }
     }
+
 }

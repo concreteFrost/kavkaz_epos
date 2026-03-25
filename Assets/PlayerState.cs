@@ -9,5 +9,7 @@ public class PlayerState
     public CharacterStatsData statsData;
     public CharacterLevelData levelData;
     public List<SavedEffectData> effectData;
+    public SaveInventoryData spellInventoryData;
+    public SaveInventoryData consumableInventoryData;
 
 }

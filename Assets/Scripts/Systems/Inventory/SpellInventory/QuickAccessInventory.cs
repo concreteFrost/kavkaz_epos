@@ -3,14 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
+public class InventoryItemSaveData
+{
+    public string id;
+    public int quantity;
+    public int quickSlotIndex; // -1 если нет
+}
+
+[Serializable]
+public class SaveInventoryData
+{
+    public List<InventoryItemSaveData> items;
+    public int currentIndex;
+}
+
+
 public abstract class QuickAccessInventory : MonoBehaviour
 {
     public static int QUICK_SLOTS_COUNT = 5;
 
     public List<ItemData> items = new List<ItemData>(); // основной инвентарь
 
-    private ItemData[] quickSlots;
-    private int currentIndex; //текущий индекс предмета в быстром слоте
+    protected ItemData[] quickSlots;
+    protected int currentIndex; //текущий индекс предмета в быстром слоте
 
     public ItemData CurrentItem =>
         quickSlots[currentIndex]; // текущий предмет в быстром доступе
@@ -30,6 +46,93 @@ public abstract class QuickAccessInventory : MonoBehaviour
     {
         quickSlots = new ItemData[QUICK_SLOTS_COUNT];
         //SetDefaultQuickSlotData();
+    }
+
+    public SaveInventoryData SaveInventoryData()
+    {
+        List<InventoryItemSaveData> datas = new List<InventoryItemSaveData>();
+
+        foreach(ItemData item in items)
+        {
+
+            int quickSlotIndex = -1;
+
+            for (int i = 0; i < quickSlots.Length; i++)
+            {
+                if (quickSlots[i] == item)
+                {
+                    quickSlotIndex = i;
+                    break;
+                }
+            }
+
+
+            InventoryItemSaveData data = new InventoryItemSaveData()
+            {
+                id = item.itemSO.id,
+                quantity = item.quantity,
+                quickSlotIndex = quickSlotIndex
+            };
+
+            datas.Add(data);
+        }
+
+        return new SaveInventoryData()
+        {
+            items = datas,
+            currentIndex = currentIndex,
+        };
+    }
+
+    public virtual void LoadInventoryData(SaveInventoryData data)
+    {
+        if (data == null) return;
+
+        var consumables = Resources.LoadAll<ItemSO>($"Items/");
+
+        Dictionary<string, ItemSO> itemsMap = new Dictionary<string, ItemSO>();
+
+        foreach (var item in consumables)
+        {
+            itemsMap[item.id] = item;
+        }
+
+        items = new List<ItemData>();
+
+        foreach (var item in data.items)
+        {
+            if (!itemsMap.TryGetValue(item.id, out var so))
+            {
+                continue;
+            }
+
+            items.Add(new ItemData() { itemSO = so, quantity = item.quantity });
+
+
+        }
+
+        quickSlots = new ItemData[QUICK_SLOTS_COUNT];
+
+        foreach (var savedItem in data.items)
+        {
+            if (savedItem.quickSlotIndex < 0 || savedItem.quickSlotIndex >= QUICK_SLOTS_COUNT)
+                continue;
+
+            var item = items.Find(x => x.itemSO.id == savedItem.id);
+
+            if (item != null)
+            {
+                quickSlots[savedItem.quickSlotIndex] = item;
+            }
+        }
+
+        currentIndex = data.currentIndex;
+
+        NormalizeCurrentIndex();
+
+        // 6. Обновляем UI / подписчиков
+        Notify();
+
     }
 
     public void SetDefaultQuickSlotData()
@@ -125,6 +228,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
     #region Selection
 
     public virtual void Change(int direction)
+
     {
         if (quickSlots.All(x => x == null))
             return;
@@ -140,7 +244,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
         Notify();
     }
 
-    private void NormalizeCurrentIndex()
+    protected void NormalizeCurrentIndex()
     {
         if (quickSlots.All(x => x == null))
         {

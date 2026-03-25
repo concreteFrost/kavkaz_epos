@@ -52,8 +52,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Инвентари и быстрые слоты")]
     [SerializeField] private HumanoidCombatInventory combatInventory;
-    [SerializeField] private CharacterSpellInventory spellInventory;
-    [SerializeField] private PlayerConsumableInventory consumableInventory;  
+    [SerializeField] public CharacterSpellInventory spellInventory;
+    [SerializeField] public PlayerConsumableInventory consumableInventory;  
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;

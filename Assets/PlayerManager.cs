@@ -22,6 +22,8 @@ public class PlayerManager : MonoBehaviour
         playerState.statsData = serviceLocator.stats.SaveStatsData();
         playerState.levelData = serviceLocator.levelController.SaveLevelData();
         playerState.effectData = serviceLocator.statsModifier.SaveEffectData();
+        playerState.consumableInventoryData = serviceLocator.consumableInventory.SaveInventoryData();
+        playerState.spellInventoryData = serviceLocator.spellInventory.SaveInventoryData(); 
 
         return playerState;
     }
@@ -33,5 +35,7 @@ public class PlayerManager : MonoBehaviour
         serviceLocator.stats.LoadStatsData(state.statsData);
         serviceLocator.levelController.LoadLevelData(state.levelData);
         serviceLocator.statsModifier.LoadEffectsData(state.effectData);
+        serviceLocator.consumableInventory.LoadInventoryData(state.consumableInventoryData);
+        serviceLocator.spellInventory.LoadInventoryData(state.spellInventoryData);  
     }
 }
