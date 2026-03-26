@@ -1,15 +1,10 @@
 using UnityEngine;
 
-[System.Serializable]
-public class CombatItemData
-{
-    public float breakdownThreshold;
-}
 
-public abstract class CombatItem : Item, ICombatItem , IBreakable
+public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 {
 
-    [SerializeField] protected CombatItemData data;
+    protected ItemData data;
     protected Collider physicsCollider;
     protected MeshRenderer meshRenderer;
 
@@ -22,32 +17,23 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
     #region IBreakable Contract
     public bool IsBreakdownEnabled { get; set; } = true;
     public bool IsBroken { get; set; } = false;
-    public float GetDurability() => data.breakdownThreshold;
+    public float GetDurability() => data.durability;
     public void SetBreakdownEnabled(bool isEnabled) => IsBreakdownEnabled = isEnabled;
 
     #endregion
 
-    public override void Init()
+    public virtual void Init(ItemData data)
     {
-
+        this.data = data;
         physicsCollider = GetComponent<Collider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        data.breakdownThreshold = 100f;
-
-    }
     
-    public CombatItemData SaveCombatItemData()
-    { 
-        return new CombatItemData()
-        {       
-            breakdownThreshold = data.breakdownThreshold, 
-        };
     }
 
-    public void LoadData(CombatItemData loadedData)
+    public void ToggleVisibility(bool enabled)
     {
-         data.breakdownThreshold = loadedData.breakdownThreshold;   
-
+        meshRenderer.enabled = enabled;
+       
     }
 
     protected void AssignParent(Transform t)
@@ -67,9 +53,9 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
     {
         if (Owner == null || !IsBreakdownEnabled) return;
 
-        data.breakdownThreshold -= amount;
+        data.durability -= amount;
 
-        if (data.breakdownThreshold <= 0f)
+        if (data.durability <= 0f)
         {
             Debug.Log("weapon is broken");
         }
@@ -77,7 +63,7 @@ public abstract class CombatItem : Item, ICombatItem , IBreakable
 
     public void IncreaseDurability(float amount)
     {
-        data.breakdownThreshold = Mathf.Clamp01(data.breakdownThreshold + amount);
+        data.durability = Mathf.Clamp01(data.durability + amount);
     }
 
     public abstract void AssignToOwner(ICollector target);

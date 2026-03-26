@@ -134,7 +134,11 @@ public abstract class BaseHumanoidAnimatorController
 
     public void OverrideArmed(IWeapon w)
     {
-        if (w.WeaponData().idleAnimation == null) return;
+        if (w.WeaponData().idleAnimation == null)
+        {
+            overrideController["Armed"] = null;
+            return;
+        }
 
         overrideController["Armed"] = w.WeaponData().idleAnimation;
         animator.CrossFade("Armed", AnimatorParameters.transitionSpeed, AnimatorParameters.armedLayer);

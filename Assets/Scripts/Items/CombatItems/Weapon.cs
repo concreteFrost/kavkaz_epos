@@ -33,10 +33,10 @@ public class Weapon : CombatItem, IWeapon
     }
     #endregion
 
-    public override void Init()
+    public override void Init(ItemData data)
     {
+        base.Init(data);
 
-        base.Init();
         damageCollider.Init();
         damageCollider.SetWeaponData(this);
 
@@ -47,6 +47,10 @@ public class Weapon : CombatItem, IWeapon
         if (currentAttack == null || Owner == null) return;
 
         var baseWeaponDamage = WeaponData().GetBaseDamage();
+
+        if (data.durability <= 0) 
+            baseWeaponDamage = baseWeaponDamage * 0.5f;
+
         var ownerStrengthMultiplier = Owner.StatsController.Strength.CurrentMax;
 
         DamageData damageData = currentAttack.damageData;
@@ -63,22 +67,6 @@ public class Weapon : CombatItem, IWeapon
     {
         damageCollider.DisableCollider();
     }
-    public override void Interact(ICollector collector)
-    {
-        var currWeapon = collector.CombatInventory.CurrentWeapon.WeaponData();
-        if (!currWeapon.canOverride) return;
-        if (WeaponData().weaponType == WeaponType.TwoHands && collector.CombatInventory.ShieldWeapon != null) return;
-
-        if (GetDurability() <= 0)
-        {
-            Debug.Log("this weapon is broken");
-            return;
-        }
-
-        AssignToOwner(collector);
-
-    }
-
 
     public override void AssignToOwner(ICollector target)
     {

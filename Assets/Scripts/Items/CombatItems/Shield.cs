@@ -19,22 +19,6 @@ public class Shield : CombatItem, IShield
         IsProtectionActive = false; 
     }
 
-    public override void Interact(ICollector collector)
-    {
-        if (collector.CombatInventory.ShieldWeapon != null) return;
-
-        var currentWeaponData = collector.CombatInventory.CurrentWeapon.WeaponData();
-        if (currentWeaponData.weaponType == WeaponType.TwoHands) return;
-
-        if (GetDurability() <= 0)
-        {
-            Debug.Log("this shield is broken");
-            return;
-        }
-
-        AssignToOwner(collector);
-
-    }
 
     public override void AssignToOwner(ICollector collector)
     {

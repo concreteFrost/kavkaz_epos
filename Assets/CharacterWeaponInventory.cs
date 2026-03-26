@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,59 +9,64 @@ public class CharacterWeaponInventory : QuickAccessInventory
 
     private HumanoidWeaponSetter weaponSetter;
     private Dictionary<string, GameObject> weaponPool = new Dictionary<string, GameObject>();
+    private WeaponDataBaseSO weaponDataBaseSO;
 
     public void Init(HumanoidWeaponSetter setter)
     {
         base.BaseInit();
         weaponSetter = setter;
+        
+        var resources = Resources.Load<WeaponDataBaseSO>("DataBases/DataBase_Weapons");
+        weaponDataBaseSO = resources;
 
         if (starterSet == null) return;
-
 
         if (starterSet.initialWeapon != null)
         {
             var weaponSo = starterSet.initialWeapon.GetComponent<Weapon>().WeaponData();
-            AddWeaponToInventory(weaponSo);
-            EquipStartingWeapon(weaponSo);
+            var weaponData = AddCombatItemToInventory(weaponSo);
+            EquipStartingWeapon(weaponData);
         }
-           
+
         if (starterSet.initialShield != null)
         {
-            var shieldSo = starterSet.initialShield.GetComponent<Shield>().ShieldData();    
-            AddShieldToInventory(shieldSo);
-            EquipStartingShield(shieldSo);
+            var shieldSo = starterSet.initialShield.GetComponent<Shield>().ShieldData();
+            var shieldData = AddCombatItemToInventory(shieldSo);
+            EquipStartingShield(shieldData);
         }
-           
+
     }
 
-    public void AddWeaponToInventory(ItemSO weaponSO)
+    // возвращаем созданный ItemData
+    public ItemData AddCombatItemToInventory(ItemSO weaponSO, float durability = 100f)
     {
-        if (weaponSO == null) return;
+        if (weaponSO == null) return null;
 
-        ItemData data = new ItemData { itemSO = weaponSO, quantity = 1 };
+        ItemData data = new ItemData
+        {
+            itemSO = weaponSO,
+            quantity = 1,
+            instanceId = Guid.NewGuid().ToString(),
+            durability = durability
+        };
+
         AddItemToInventory(data);
+        return data; // возвращаем созданный экземпляр
     }
 
-    public void AddShieldToInventory(ItemSO shieldSO)
-    {
-        if (shieldSO == null) return;
 
-        ItemData data = new ItemData { itemSO = shieldSO, quantity = 1 };
-        AddItemToInventory(data);
-       
-    }
 
-    private void EquipStartingWeapon(ItemSO weaponSO)
+    private void EquipStartingWeapon(ItemData data)
     {
-        GameObject obj = GetWeaponObject(weaponSO.id);
+        GameObject obj = GetWeaponObject(data);
         var weapon = obj.GetComponent<IWeapon>();
 
         weaponSetter.SetWeapon(weapon);
     }
 
-    private void EquipStartingShield(ItemSO shieldSO)
+    private void EquipStartingShield(ItemData data)
     {
-        GameObject obj = GetWeaponObject(shieldSO.id);
+        GameObject obj = GetWeaponObject(data);
         var shield = obj.GetComponent<IShield>();
 
         weaponSetter.SetShield(shield);
@@ -69,17 +75,15 @@ public class CharacterWeaponInventory : QuickAccessInventory
 
 
     // Пулл объектов: возвращаем GameObject для экипировки
-    public GameObject GetWeaponObject(string id)
+    public GameObject GetWeaponObject(ItemData data)
     {
-        if (!weaponPool.TryGetValue(id, out var obj))
+        if (!weaponPool.TryGetValue(data.instanceId, out var obj))
         {
-            var weapons = Resources.Load<WeaponDataBaseSO>("DataBases/DataBase_Weapons");
-           
-            var targetWeapon = weapons.Get(id);
-            obj = Instantiate(targetWeapon);
+            var template = weaponDataBaseSO.Get(data.itemSO.id);
+            obj = Instantiate(template);
             var combatItem = obj.GetComponent<CombatItem>();
-            combatItem.Init();
-            weaponPool[id] = obj;
+            combatItem.Init(data);   
+            weaponPool[data.instanceId] = obj;
         }
 
         obj.SetActive(true);
@@ -98,18 +102,24 @@ public class CharacterWeaponInventory : QuickAccessInventory
     {
         if (data == null || weaponSetter == null) return;
 
-        GameObject obj = GetWeaponObject(data.itemSO.id);
+        GameObject obj = GetWeaponObject(data);
 
         var weapon = obj.GetComponent<IWeapon>();
+       
         if (weapon != null)
         {
+
+            weaponSetter.ResetWeapon();
             weaponSetter.SetWeapon(weapon);
+
             return;
         }
 
         var shield = obj.GetComponent<IShield>();
+        
         if (shield != null)
         {
+            weaponSetter.ResetShield();
             weaponSetter.SetShield(shield);
         }
     }

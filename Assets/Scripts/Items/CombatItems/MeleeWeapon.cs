@@ -142,21 +142,11 @@ public class MeleeWeapon : IWeapon
         meleeData.PerformAttack(currentAttack.damageData, Owner.AttackSource);
     }
 
-    public void PerformPush()
+    public void ToggleVisibility(bool toggle)
     {
-
+        ///
     }
-
-    public void CancelPush()
-    {
-
-    }
-
-
-    public void Drop()
-    {
-        //��� �������������
-    }
+    
 
     public void ThrowWeapon(Transform from, float force)
     {
@@ -183,13 +173,5 @@ public class MeleeWeapon : IWeapon
        //
     }
 
-    public void Break()
-    {
-        //
-    }
 
-    public void Recover()
-    {
-       //
-    }
 }
