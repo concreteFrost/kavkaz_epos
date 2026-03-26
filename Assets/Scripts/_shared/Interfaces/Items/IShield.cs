@@ -7,7 +7,6 @@ public interface IShield : ICombatItem
 
     public void PerformDefence();
 
-    void ThrowShield();
 
     public void CancelDefence();
 

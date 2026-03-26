@@ -15,10 +15,13 @@ public class SlotItemUI : MonoBehaviour
 
     public void UpdateImageDate(ItemData data, CharacterStatsController statsController)
     {
+        if(data.itemSO == null)
+        {
+            RemoveData();
+            return;
+        }
         cantUseImage.gameObject.SetActive(false);
         ToggleCantUseImage(false);
-
-        if (data == null) return;
 
         currentItem = data;
         var itemSo = currentItem.itemSO;
@@ -26,13 +29,19 @@ public class SlotItemUI : MonoBehaviour
         itemImage.enabled = true;
         backgroundImage.enabled = true;
 
-
         itemImage.sprite = currentItem.itemSO.itemImage ?? null;
 
         backgroundImage.enabled = true;
 
-        quantityText.enabled = true;
-        quantityText.text = currentItem.quantity.ToString();
+        if (data.itemSO.IsStackable())
+        {
+            quantityText.enabled = true;
+            quantityText.text = currentItem.quantity.ToString();
+        }
+        else
+        {
+            quantityText.enabled = false;
+        }
 
         if (currentItem.itemSO is SpellProjectileSO spell)
         {

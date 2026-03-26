@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 
 
-public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
+public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 {
-    public CombatInventorySO starterSet;
+    [Header("Bare Hands Settings")]
+    [SerializeField] private MeleeData meleeData;
 
     protected BaseHumanoidAnimatorController animatorController;
     protected CharacterBoneSocket boneSocket;
@@ -20,7 +21,6 @@ public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
     public Transform GetRightHand() => boneSocket.GetWeaponHolder;
     public Transform GetLeftHand() => boneSocket.GetShieldHolder;
 
-
     public IWeapon DefaultWeapon { get; set; } = null;
 
     public IWeapon CurrentWeapon { get; set; } = null;
@@ -31,6 +31,36 @@ public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
 
     #endregion
 
+    public void Init(
+        CharacterBoneSocket boneSocket,
+        BaseHumanoidAnimatorController animatorController,
+        IHumanoidMeleeCombat combatController,
+        ICollector collector,
+        bool enableWeaponBreakdown)
+    {
+
+        this.boneSocket = boneSocket;
+        this.combatController = combatController;
+        this.animatorController = animatorController;
+        this.Collector = collector;
+        this.enableWeponBreakdown = enableWeaponBreakdown;
+
+        DefaultWeapon = InitializeBarehands(collector);
+        SetWeapon(DefaultWeapon);
+
+    }
+
+    private IWeapon InitializeBarehands(ICollector attackSource)
+    {
+
+        meleeData.leftDamageCollider = boneSocket.GetLeftMeleeSocket.GetComponent<WeaponDamageCollider>();
+        meleeData.rightDamageCollider = boneSocket.GetRightMeleeSocket.GetComponent<WeaponDamageCollider>();
+        var bareHands = new MeleeWeapon();
+        bareHands.Init(meleeData, attackSource);
+        return bareHands;
+
+    }
+
     public void SetWeapon(IWeapon w)
     {
         if (w == null)
@@ -40,6 +70,8 @@ public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
         }
 
         CurrentWeapon = w;
+        CurrentWeapon.AssignToOwner(Collector);
+     
         combatController.IsWeaponed = true;
 
         animatorController.OverrideArmed(w);
@@ -53,25 +85,25 @@ public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
         if (w == null) return;
         ShieldWeapon = w;
         Collector.Damagable.Protection = w;
-
+        ShieldWeapon.AssignToOwner(Collector);
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
     }
 
 
-    public void ResetCombatItem(CombatItem i)
-    {
-        switch (i)
-        {
-            case Weapon:
-                ResetWeapon();
-                break;
-            case Shield:
-                ResetShield();
-                break;
-            default: break;
-        }
+    //public void ResetCombatItem(CombatItem i)
+    //{
+    //    switch (i)
+    //    {
+    //        case Weapon:
+    //            ResetWeapon();
+    //            break;
+    //        case Shield:
+    //            ResetShield();
+    //            break;
+    //        default: break;
+    //    }
 
-    }
+    //}
 
     public void ResetWeapon()
     {

@@ -10,6 +10,7 @@ public enum WeaponType
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
 public class WeaponSO : BreakablleItemSO, IItemStats
 {
+    public override bool IsStackable() => false;
 
     [Tooltip("Определяет может ли игрок брать другое оружие поверх этого.")]
     public bool canOverride = false;

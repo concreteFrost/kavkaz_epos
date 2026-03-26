@@ -3,7 +3,7 @@ using UnityEngine;
 public class WeaponThrowBehavior : StateMachineBehaviour
 {
 
-    ICombatInventory inv;
+    IWeaponSetter inv;
     IHumanoidMovement motor;
     IDamagable damagable;   
     bool weaponThrowed = false;
@@ -12,7 +12,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor = animator.GetComponent<IHumanoidMovement>();
-        inv = animator.GetComponentInChildren<ICombatInventory>();
+        inv = animator.GetComponentInChildren<IWeaponSetter>();
         damagable = animator.GetComponentInChildren<IDamagable>();
 
         animator.applyRootMotion = true;
@@ -34,7 +34,7 @@ public class WeaponThrowBehavior : StateMachineBehaviour
         if (t >= 0.4f && !weaponThrowed)
         {
 
-            inv.CurrentWeapon.ThrowWeapon(animator.transform, 100f);
+            //inv.CurrentWeapon.ThrowWeapon(animator.transform, 100f);
             //inv.
           
             weaponThrowed = true;

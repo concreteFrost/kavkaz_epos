@@ -165,15 +165,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ThrowItem"",
-                    ""type"": ""Button"",
-                    ""id"": ""2abe05dd-b567-4054-a8d5-a7dfee7bb41b"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""LockTarget"",
                     ""type"": ""Button"",
                     ""id"": ""a2ea93e9-dd47-4633-b29b-f84de1120da0"",
@@ -548,17 +539,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f0fc4aeb-75b0-4341-a36b-77375e8c2d1c"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ThrowItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1509,7 +1489,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        m_Player_ThrowItem = m_Player.FindAction("ThrowItem", throwIfNotFound: true);
         m_Player_LockTarget = m_Player.FindAction("LockTarget", throwIfNotFound: true);
         m_Player_PowerAttackHold = m_Player.FindAction("PowerAttackHold", throwIfNotFound: true);
         m_Player_PowerAttackGamepad = m_Player.FindAction("PowerAttackGamepad", throwIfNotFound: true);
@@ -1625,7 +1604,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Interaction;
-    private readonly InputAction m_Player_ThrowItem;
     private readonly InputAction m_Player_LockTarget;
     private readonly InputAction m_Player_PowerAttackHold;
     private readonly InputAction m_Player_PowerAttackGamepad;
@@ -1679,10 +1657,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Interaction".
         /// </summary>
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ThrowItem".
-        /// </summary>
-        public InputAction @ThrowItem => m_Wrapper.m_Player_ThrowItem;
         /// <summary>
         /// Provides access to the underlying input action "Player/LockTarget".
         /// </summary>
@@ -1773,9 +1747,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
-            @ThrowItem.started += instance.OnThrowItem;
-            @ThrowItem.performed += instance.OnThrowItem;
-            @ThrowItem.canceled += instance.OnThrowItem;
             @LockTarget.started += instance.OnLockTarget;
             @LockTarget.performed += instance.OnLockTarget;
             @LockTarget.canceled += instance.OnLockTarget;
@@ -1841,9 +1812,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
-            @ThrowItem.started -= instance.OnThrowItem;
-            @ThrowItem.performed -= instance.OnThrowItem;
-            @ThrowItem.canceled -= instance.OnThrowItem;
             @LockTarget.started -= instance.OnLockTarget;
             @LockTarget.performed -= instance.OnLockTarget;
             @LockTarget.canceled -= instance.OnLockTarget;
@@ -2274,13 +2242,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteraction(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "ThrowItem" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnThrowItem(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "LockTarget" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

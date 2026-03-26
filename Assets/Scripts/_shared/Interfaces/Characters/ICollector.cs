@@ -2,7 +2,7 @@ public interface ICollector
 {
     string CollectorId();
     CharacterStatsController StatsController { get; set; }
-    ICombatInventory CombatInventory { get; set; }
+    IWeaponSetter CombatInventory { get; set; }
     IAttackSource AttackSource { get; set; }
     IDamagable Damagable { get; set; }
     IInteractable PickableItem { get; set; }

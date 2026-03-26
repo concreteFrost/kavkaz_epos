@@ -3,7 +3,7 @@ using UnityEngine;
 public class HumanoidAttackBehaviour : StateMachineBehaviour
 {
 
-    ICombatInventory inv;
+    IWeaponSetter inv;
     IHumanoidMeleeCombat combatAnimData;
     IHumanoidMovement motor;
     CharacterStatsController stats;
@@ -16,7 +16,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        inv = animator.GetComponentInChildren<ICombatInventory>();
+        inv = animator.GetComponentInChildren<IWeaponSetter>();
         combatAnimData = animator.GetComponentInChildren<IHumanoidMeleeCombat>();
         motor = animator.GetComponent<IHumanoidMovement>();
         stats = animator.GetComponentInChildren<CharacterStatsController>();

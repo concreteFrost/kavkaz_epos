@@ -11,8 +11,6 @@ public interface IHumanoidMeleeCombat
     void PerformPowerAttack();
     void PerformBlock();
     void CancelBlock();
-    void ThrowWeapon();
-    void ThrowShield();
     void ResetCombo();
 
     float AttackBufferTime { get; set; }

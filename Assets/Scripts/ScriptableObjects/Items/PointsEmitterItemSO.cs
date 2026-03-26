@@ -6,6 +6,9 @@ public class PointsEmitterItemSO : ConsumableItemSO,IItemStats
 {
     [SerializeField] int pointsToGain;
 
+    public override bool IsStackable() => true;
+   
+
     public int GetEmittedAmount() => pointsToGain;
 
 

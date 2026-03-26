@@ -11,7 +11,7 @@ public class PlayerItemsCollector : BaseItemCollector
     public void Init(string collectorId, Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
-        ICombatInventory combatInventory,
+        IWeaponSetter combatInventory,
         IDamagable damageController,
         IAttackSource attackSource,
         CharacterSpellInventory spellInventory,

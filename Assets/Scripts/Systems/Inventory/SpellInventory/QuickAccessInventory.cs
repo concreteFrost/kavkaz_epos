@@ -133,6 +133,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
     public List<ItemData> GetQuickAccessData()
     {
+        
         if (quickSlots.Length == 0) return null;
         return quickSlots.Where(x => x != null).ToList();
 
@@ -193,15 +194,24 @@ public abstract class QuickAccessInventory : MonoBehaviour
     {
         if (item == null) return;
 
-        var match = items.Find((x) => x.itemSO.id == item.itemSO.id);
-
-        if (match == null)
+        // ≈сли предмет неаккумулируемый Ч всегда добавл€ем новый экземпл€р
+        if (!item.itemSO.IsStackable())
         {
             items.Add(item);
+            Notify();
             return;
         }
 
-        match.quantity += item.quantity;
+        // ƒл€ аккумулируемых ищем существующий слот
+        var match = items.Find(x => x.itemSO.id == item.itemSO.id);
+        if (match == null)
+        {
+            items.Add(item);
+        }
+        else
+        {
+            match.quantity += item.quantity;
+        }
 
         Notify();
     }

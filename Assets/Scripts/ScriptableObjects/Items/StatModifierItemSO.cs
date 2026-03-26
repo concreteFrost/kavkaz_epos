@@ -5,6 +5,8 @@ using UnityEngine;
 public class StatModifierItemSO : ConsumableItemSO
 {
     public StatusEffectData effectData;
+
+    public override bool IsStackable() => true;
     public void UseItem(CharacterStatsModifier ctx)
     {
         if (effectData == null) return;

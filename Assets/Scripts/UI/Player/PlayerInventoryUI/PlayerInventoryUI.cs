@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public enum InventorySection
 {
-    Magic = 0,
-    Consumables = 1,
+    Weapons=0,
+    Magic = 1,
+    Consumables = 2,
 }
 
 public class PlayerInventoryUI : MonoBehaviour
@@ -15,7 +16,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
     private ItemDescriptionPanelUI descriptionPanel;
-    private ICombatInventory combatInventory;
+    private IWeaponSetter combatInventory;
    
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
@@ -26,6 +27,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
     [SerializeField] Button magicSectionBtn;
     [SerializeField] Button consumableSectionBtn;
+    [SerializeField] Button weaponsSectionBtn;
     //[SerializeField] Button resourcesSectionBtn;
 
 
@@ -50,16 +52,17 @@ public class PlayerInventoryUI : MonoBehaviour
     // для переключения контроллером
     private List<InventorySection> sectionOrder = new List<InventorySection>
 {
+    InventorySection.Weapons,
     InventorySection.Magic,
     InventorySection.Consumables
 };
 
-    public void Init(ItemDescriptionPanelUI descriptionPanel, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController, ICombatInventory combatInventory)
+    public void Init(ItemDescriptionPanelUI descriptionPanel,QuickAccessInventory weaponInventory, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController, IWeaponSetter weaponSetter)
     {
         this.descriptionPanel = descriptionPanel;   
         this.contextMenu = contextMenu;
         this.statsController = statsController; 
-        this.combatInventory = combatInventory; 
+        this.combatInventory = weaponSetter; 
         contextMenu.OnContextMenuClosed += FocusFirstGridItem;
         contextMenu.UpdateQuickSlotsInfo += GetQuickSlotsInfo;
 
@@ -68,9 +71,9 @@ public class PlayerInventoryUI : MonoBehaviour
         //динамическое назначение инвентарей
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
     {
+        {InventorySection.Weapons, weaponInventory },
         {InventorySection.Magic,spellInventory },
         {InventorySection.Consumables, consumableInventory },
-
     };
 
        
@@ -105,6 +108,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
         magicSectionBtn.onClick.AddListener(()=>GetSection(InventorySection.Magic));
         consumableSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Consumables));
+        weaponsSectionBtn.onClick.AddListener(()=>GetSection(InventorySection.Weapons));
         //resourcesSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Resources));
     }
 
@@ -112,6 +116,7 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         magicSectionBtn.onClick.RemoveAllListeners();
         consumableSectionBtn.onClick.RemoveAllListeners();
+        weaponsSectionBtn.onClick.RemoveAllListeners();    
         //resourcesSectionBtn.onClick.RemoveAllListeners();
     }
 
@@ -217,13 +222,15 @@ public class PlayerInventoryUI : MonoBehaviour
             tempWeaponData.itemSO = combatInventory.CurrentWeapon.WeaponData();
             tempWeaponData.quantity = 1;
             weaponItems[0].UpdateImageDate(tempWeaponData, statsController);
+            weaponItems[0].enabled = false;
         }
         if(combatInventory.ShieldWeapon != null)
         {
             var tempShieldData = new ItemData();
             tempShieldData.itemSO = combatInventory.ShieldWeapon.ShieldData();
             tempShieldData.quantity = 1;
-            weaponItems[1].UpdateImageDate(tempShieldData, statsController);    
+            weaponItems[1].UpdateImageDate(tempShieldData, statsController);
+            weaponItems[1].enabled = false; 
         }
             
     }

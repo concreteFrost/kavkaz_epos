@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICombatInventory
+public interface IWeaponSetter
 {
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface ICombatInventory
     /// <summary>
     /// —брос оружи€. CurrentWeapon = DefaultWeapon
     /// </summary>
-    public abstract void ResetCombatItem(CombatItem item);
+    //public abstract void ResetCombatItem(CombatItem item);
 
     public Transform GetRightHand();
 

@@ -7,9 +7,12 @@ public class WeaponModifierItemSO : ConsumableItemSO, IItemStats
     [Tooltip("Процент восполнения прочности оружия (в единицах)")]
     [SerializeField] private float durabilityToGain;
 
+    public override bool IsStackable() => true;
+
+
     public float GetDurabilityTopUpAmount() => durabilityToGain;
 
-    public  void UseItem(ICombatInventory ctx)
+    public  void UseItem(IWeaponSetter ctx)
     {
         if (ctx.CurrentWeapon == null) return;
 

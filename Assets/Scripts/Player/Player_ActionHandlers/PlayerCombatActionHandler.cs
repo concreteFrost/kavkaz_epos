@@ -30,19 +30,6 @@ public class PlayerCombatActionHandler : MonoBehaviour
         combatController.PerformPowerAttack();
     }
 
-    public void ThrowWeapon()
-    {
-        if (!actionGuards.CanThrowWeapon()) return;
-
-        combatController.ThrowWeapon();
-    }
-    public void ThrowShield()
-    {
-        if (!actionGuards.CanThrowWeapon()) return;
-
-        combatController.ThrowShield();
-    }
-
     public void PerformBlock()
     {
         if (!actionGuards.CanBlock()) return;

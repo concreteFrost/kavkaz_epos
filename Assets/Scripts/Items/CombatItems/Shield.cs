@@ -9,19 +9,6 @@ public class Shield : CombatItem, IShield
     public ShieldSO ShieldData() => shieldSO;
     #endregion
 
-    public override void Init()
-    {
-
-        base.Init();
-        ToggleInteraction(true);
-
-    }
-
-
-
-    public override string GetDataId() => ShieldData().id;
-
-
     public void PerformDefence()
     {
         IsProtectionActive = true;
@@ -30,11 +17,6 @@ public class Shield : CombatItem, IShield
     public void CancelDefence()
     {
         IsProtectionActive = false; 
-    }
-
-    public void ThrowShield()
-    {
-        Drop();
     }
 
     public override void Interact(ICollector collector)
@@ -57,10 +39,7 @@ public class Shield : CombatItem, IShield
     public override void AssignToOwner(ICollector collector)
     {
         Owner = collector;
-
         AssignParent(Owner.CombatInventory.GetLeftHand());
-        ToggleInteraction(false);
-        collector.CombatInventory.SetShield(this);
 
     }
 

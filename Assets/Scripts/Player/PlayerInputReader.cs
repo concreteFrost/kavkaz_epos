@@ -14,7 +14,6 @@ public class PlayerInputReader
     public bool AttackPressed;
     public bool PowerAttackGamepadPressed;
     public bool ChargeHeld;
-    public bool ThrowHeld;
     public bool BlockHeld;
    
 
@@ -66,9 +65,6 @@ public class PlayerInputReader
 
         controls.Player.PowerAttackHold.performed += _ => ChargeHeld = true;
         controls.Player.PowerAttackHold.canceled += _ => ChargeHeld = false;
-
-        controls.Player.ThrowItem.performed += _ => ThrowHeld = true;
-        controls.Player.ThrowItem.canceled += _ => ThrowHeld = false;
 
         controls.Player.Block.performed += _ => BlockHeld = true;
         controls.Player.Block.canceled += _ => BlockHeld = false;

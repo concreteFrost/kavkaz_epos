@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5408012577201723460}
   - component: {fileID: 6429206234790216515}
-  - component: {fileID: 5586387104702930198}
-  - component: {fileID: 5290998130690224182}
   - component: {fileID: -4117007764060175743}
   - component: {fileID: 7877353121385896796}
   m_Layer: 0
@@ -51,69 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9252a1d4d7e6904392a41e72f835335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  instanceId: 
-  interactionCollder: {fileID: 1249627329746634573}
   data:
-    inWorldPosition:
-    - 0
-    - 0
-    - 0
-    itemSOid: 
-    itemInstanceId: 
     breakdownThreshold: 0
-    ownerId: 
-    isDefaultWeapon: 0
-  breakdownThreshold: 0
   weaponSO: {fileID: 11400000, guid: 8d619d7c7d0f48f4eabc68aeb306de32, type: 2}
   damageCollider: {fileID: 6596508924225042948}
---- !u!65 &5586387104702930198
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18204287337618311}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.08, y: 2.0648196, z: 0.19}
-  m_Center: {x: 0, y: 0.50251377, z: 0}
---- !u!54 &5290998130690224182
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18204287337618311}
-  serializedVersion: 5
-  m_Mass: 10
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!114 &-4117007764060175743
 MonoBehaviour:
   m_ObjectHideFlags: 0

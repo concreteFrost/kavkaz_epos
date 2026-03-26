@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PlayerConsumableInventory : QuickAccessInventory
 {
-    ICombatInventory combatInventory;
+    IWeaponSetter combatInventory;
     CharacterStatsModifier statsModifier;
     PlayerPointsCollector pointsCollector;
    
-    public void Init(ICombatInventory combatInventory, CharacterStatsModifier statsModifier, PlayerPointsCollector pointsCollector)
+    public void Init(IWeaponSetter combatInventory, CharacterStatsModifier statsModifier, PlayerPointsCollector pointsCollector)
     {
         BaseInit();
         this.combatInventory = combatInventory;

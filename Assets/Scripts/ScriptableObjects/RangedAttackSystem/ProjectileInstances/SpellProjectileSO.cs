@@ -13,7 +13,7 @@ public class SpellProjectileSO : ProjectileSO
     [Tooltip("Требования к характеристикам или уровню для использования заклинания.")]
     public ItemRequirements requirements;
 
-
+    public override bool IsStackable() => true;
     public override bool CanEmit(int i)
     {
         if (!requirements.CanUse(i))

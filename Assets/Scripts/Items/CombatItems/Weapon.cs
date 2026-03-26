@@ -9,8 +9,6 @@ public class Weapon : CombatItem, IWeapon
 
     [SerializeField] private WeaponDamageCollider damageCollider;
 
-    private float minStopVelocity = 0.2f;
-
     int currentAttackIndex = 0;
 
     #region IWeapon Contract
@@ -39,15 +37,10 @@ public class Weapon : CombatItem, IWeapon
     {
 
         base.Init();
-
-        ToggleInteraction(true);
-
         damageCollider.Init();
         damageCollider.SetWeaponData(this);
 
     }
-
-    public override string GetDataId() => WeaponData().id;
 
     public void PerformAttack()
     {
@@ -92,69 +85,10 @@ public class Weapon : CombatItem, IWeapon
         Owner = target;
 
         damageCollider.SetWeaponData(this);
-        //damageCollider.SetDamageSource(Owner.AttackSource.Source());
 
         AssignParent(Owner.CombatInventory.GetRightHand());
-        ToggleInteraction(false);
-
-
-        target.CombatInventory.SetWeapon(this);
     }
 
-
-
-    public void ThrowWeapon(Transform from, float force)
-    {
-        var tempTargets = Owner.AttackSource.TargetsToIgnore;
-        var source = Owner.AttackSource.Source();
-
-        Drop();
-
-        rb.AddForce(from.forward * force, ForceMode.Impulse);
-
-        StartCoroutine(ThrowCoroutine(tempTargets, source));
-        StartCoroutine(DisableColliderWhenStopped());
-
-     
-    }
-
-
-    IEnumerator ThrowCoroutine(List<CharacterType> targetsToIgnore, Transform source)
-    {
-        DamageData damageData = new DamageData()
-        {
-            damageMultiplier = weaponSO.GetBaseDamage(),
-            balanceDamageType = BalanceDamageType.High,
-            impactForce = 10f,
-              
-        };
-
-        //damageCollider.SetDamageSource(source);
-        damageCollider.EnableCollider(damageData, targetsToIgnore, source);
-
-        yield return null;
-
-        
-    }
-
-    IEnumerator DisableColliderWhenStopped()
-    {
-
-        yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.15f);
-
-        while (true)
-        {
-            if (rb.linearVelocity.magnitude < minStopVelocity)
-            {
-                damageCollider.DisableCollider();
-              
-                yield break;
-            }
-
-            yield return null;
-        }
-
-    }
 
    
 }

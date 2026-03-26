@@ -85,6 +85,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
 
     public void OnSelect(BaseEventData eventData)
     {
+
         ToggleOutlineImage(true);
         if(currentItem !=null) ItemOutlined?.Invoke(currentItem.itemSO);
    

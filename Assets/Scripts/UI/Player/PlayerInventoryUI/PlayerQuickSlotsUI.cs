@@ -15,7 +15,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     [SerializeField] private SlotItemUI consumableItem;
 
 
-    private HumanoidCombatInventory combatInventory;
+    private HumanoidWeaponSetter weaponSetter;
     private QuickAccessInventory spellInventory;
     private QuickAccessInventory consumableInventory;
     private CharacterStatsController statsController;
@@ -23,11 +23,11 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     /// <summary>
     /// Инициализация UI
     /// </summary>
-    /// <param name="combatInventory">Экипировка игрока</param>
+    /// <param name="weaponSetter">Экипировка игрока</param>
     /// <param name="spellInventory">Инвентарь быстрых слотов (магия/ресурсы)</param>
-    public void Init(HumanoidCombatInventory combatInventory, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory ,CharacterStatsController statsController)
+    public void Init(HumanoidWeaponSetter weaponSetter, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory ,CharacterStatsController statsController)
     {
-        this.combatInventory = combatInventory;
+        this.weaponSetter = weaponSetter;
         this.spellInventory = spellInventory;
         this.statsController = statsController;
         this.consumableInventory = consumableInventory;
@@ -38,13 +38,13 @@ public class PlayerQuickSlotsUI : MonoBehaviour
         statsController.Knowledge.MaxChanged += OnMaxKnowledgeChanged;
 
         // Подписка на обновления экипировки
-        combatInventory.WeaponDataUpdated += OnWeaponUpdated;
-        combatInventory.ShieldUpdated += OnShieldUpdated;
+        weaponSetter.WeaponDataUpdated += OnWeaponUpdated;
+        weaponSetter.ShieldUpdated += OnShieldUpdated;
 
         // Инициализация текущих данных
         
-        combatInventory.GetCurrentWeaponData();
-        combatInventory.GetCurrentShieldData();
+        weaponSetter.GetCurrentWeaponData();
+        weaponSetter.GetCurrentShieldData();
 
     }
 
@@ -59,8 +59,8 @@ public class PlayerQuickSlotsUI : MonoBehaviour
         spellInventory.OnCurrentItemChanged -= OnSpellUpdated;
         consumableInventory.OnCurrentItemChanged -= OnConsumableUpdated;    
         statsController.Knowledge.MaxChanged -= OnMaxKnowledgeChanged;
-        combatInventory.WeaponDataUpdated -= OnWeaponUpdated;
-        combatInventory.ShieldUpdated -= OnShieldUpdated;
+        weaponSetter.WeaponDataUpdated -= OnWeaponUpdated;
+        weaponSetter.ShieldUpdated -= OnShieldUpdated;
 
     }
 
@@ -129,7 +129,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
 
     private void OnWeaponUpdated(ItemSO data, IBreakable weapon)
     {
-        if (weapon == combatInventory.DefaultWeapon || weapon == null)
+        if (weapon == weaponSetter.DefaultWeapon || weapon == null)
         {
             weaponItem.RemoveData();
             return;

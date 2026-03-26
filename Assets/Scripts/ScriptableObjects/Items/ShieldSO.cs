@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Shield", menuName = ScriptablePaths.ITEMS_PATH + "/Shields/Shield")]
 public class ShieldSO : BreakablleItemSO, IItemStats
 {
+    public override bool IsStackable() => false;
 
     [Space(10)]
 

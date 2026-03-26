@@ -1,23 +1,11 @@
 
-public class InventoryItem : Item
+using UnityEngine;
+
+public class InventoryItem : MonoBehaviour
 {
     public ItemSO itemSO;
-    public override void Interact(ICollector s)
-    {
-        interactionCollder.DisableCollider();
-        gameObject.SetActive(false);
-       
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        //Init(itemSO);
-    }
+   
 
     // Update is called once per frame
-    public override void Init()
-    {
-        base.Init();    
-    }
+ 
 }

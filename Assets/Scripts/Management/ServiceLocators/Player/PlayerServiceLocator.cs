@@ -43,6 +43,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerInvalidLootCollector invalidLootCollector;
 
     [Header("Боевая система")]
+    [SerializeField] public HumanoidWeaponSetter weaponSetter;
     [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;
@@ -51,7 +52,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterEmitter emitterController;
 
     [Header("Инвентари и быстрые слоты")]
-    [SerializeField] public HumanoidCombatInventory combatInventory;
+    [SerializeField] public CharacterWeaponInventory weaponInventory;
     [SerializeField] public CharacterSpellInventory spellInventory;
     [SerializeField] public PlayerConsumableInventory consumableInventory;  
 
@@ -145,7 +146,7 @@ public class PlayerServiceLocator : MonoBehaviour
             sourceId: (int)damageController.CharacterType);
 
         combatController.Init(
-            combatInventory: combatInventory,
+            combatInventory: weaponSetter,
             animatorController: animatorController,
             damageController: damageController);
 
@@ -187,7 +188,7 @@ public class PlayerServiceLocator : MonoBehaviour
             self: transform,
             statsController: stats,
             animatorController: animatorController,
-            combatInventory: combatInventory,
+            combatInventory: weaponSetter,
             damageController: damageController,
             attackSource: attackSource,
             spellInventory: spellInventory,
@@ -245,16 +246,17 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private void InitInventories()
     {
-        combatInventory.Init(
+        weaponSetter.Init(
             boneSocket: boneSocket,
             animatorController: animatorController,
             combatController: combatController,
             collector: interaction,
             enableWeaponBreakdown:true);
 
+        weaponInventory.Init(weaponSetter);
         spellInventory.Init();
         spellInventory.SetDefaultQuickSlotData();
-        consumableInventory.Init(combatInventory:combatInventory,statsModifier:statsModifier,pointsCollector:pointsCollector);
+        consumableInventory.Init(combatInventory:weaponSetter,statsModifier:statsModifier,pointsCollector:pointsCollector);
     }
 
     private void InitLifecycle()
@@ -273,8 +275,9 @@ public class PlayerServiceLocator : MonoBehaviour
             stats: stats,
             statsModifier:statsModifier,
             spellInventory: spellInventory,
-            consumableInventory: consumableInventory,   
-            combatInventory: combatInventory,
+            consumableInventory: consumableInventory, 
+            weaponInventory: weaponInventory,
+            weaponSetter: weaponSetter,
             targetLock: targetLock,levelController:levelController,
             consumeController:consumeController);
     }

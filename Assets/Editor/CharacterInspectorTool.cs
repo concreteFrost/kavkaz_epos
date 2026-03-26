@@ -173,7 +173,7 @@ public class CharacterInspectorTool : EditorWindow
 
     private void DrawCombatInventory(GameObject go)
     {
-        var combatInventory = go.GetComponentInChildren<HumanoidCombatInventory>();
+        var combatInventory = go.GetComponentInChildren<CharacterWeaponInventory>();
 
         if (combatInventory == null)
         {

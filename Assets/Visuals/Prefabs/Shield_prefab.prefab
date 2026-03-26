@@ -75,8 +75,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7047170653988915332}
-  - component: {fileID: 4134873691407384374}
-  - component: {fileID: 7485148907650295780}
   - component: {fileID: 6054064764918884102}
   - component: {fileID: -9090936707582929807}
   - component: {fileID: -3639841317419468173}
@@ -104,54 +102,6 @@ Transform:
   - {fileID: 3169800221959045778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &4134873691407384374
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3255179769068497855}
-  serializedVersion: 5
-  m_Mass: 15
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
---- !u!65 &7485148907650295780
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3255179769068497855}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.99830234, z: 0.09}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6054064764918884102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,19 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57260287b9dd65a4da78d89ca6804883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shield
-  instanceId: 
-  interactionCollder: {fileID: 7463870308691895986}
   data:
-    inWorldPosition:
-    - 0
-    - 0
-    - 0
-    itemSOid: 
-    itemInstanceId: 
     breakdownThreshold: 0
-    ownerId: 
-    isDefaultWeapon: 0
-  breakdownThreshold: 0
   shieldSO: {fileID: 11400000, guid: 1feb83e5356c87a4382a907b433ce869, type: 2}
 --- !u!114 &-9090936707582929807
 MonoBehaviour:

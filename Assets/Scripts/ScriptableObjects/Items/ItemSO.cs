@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class ItemSO : ScriptableObject
 {
     [HideInInspector] public string id;
+    public abstract bool IsStackable();
 
     [Tooltip("Имя предмета")]
     public string itemName;

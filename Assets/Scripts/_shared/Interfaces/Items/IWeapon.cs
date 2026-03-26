@@ -19,13 +19,6 @@ public interface IWeapon : ICombatItem
     /// </summary>
     public void CancelAttack();
 
-    /// <summary>
-    /// ¬ыкидывает оружие от владельца по направлению вперед 
-    /// </summary>
-    /// <param name="from">владелец</param>
-    /// <param name="force">сила броска</param>
-    public void ThrowWeapon(Transform from, float force);
-
 
     /// <summary>
     /// ¬ыбирает атаку из списка предоставленного WeaponSO

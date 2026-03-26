@@ -10,7 +10,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
     private EnemyFOVController fov;
     private HumanoidAIMotor motor;
     private IHumanoidMeleeCombat combatController;
-    private HumanoidCombatInventory inventory;
+    private HumanoidWeaponSetter weaponSetter;
 
     public override void Enter()
     {
@@ -19,7 +19,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         strafeHandler = context.stateTracker.strafeHandler;
         combatHandler = context.stateTracker.combatHandler;
         combatController = context.combat;
-        inventory = context.inventory;
+        weaponSetter = context.weaponSetter;
 
         motor = context.motor;
 
@@ -54,7 +54,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        combatHandler.ToggleShield(true, inventory, combatController);
+        combatHandler.ToggleShield(true, weaponSetter, combatController);
 
         Transform target = context.fov.currentTarget.GetOrigin();
 
@@ -92,7 +92,7 @@ public class EnemyStrafeState : AIState<EnemyBrainContext>
         motor.SetStrafe(false);
         //fov.ToggleLockState(false);
 
-        combatHandler.ToggleShield(false, inventory, combatController);
+        combatHandler.ToggleShield(false, weaponSetter, combatController);
     }
 
    

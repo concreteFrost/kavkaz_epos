@@ -4,7 +4,7 @@ using System;
 public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 {
     //ÒÒ˚ÎÍË
-    public ICombatInventory inventory;
+    public IWeaponSetter inventory;
     protected IDamagable damageController;
     protected BaseHumanoidAnimatorController animatorController;
 
@@ -28,7 +28,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     public bool IsShieldRaised { get; set; }
 
     public void Init(
-        ICombatInventory combatInventory,
+        IWeaponSetter combatInventory,
         BaseHumanoidAnimatorController animatorController,
         IDamagable damageController)
     {
@@ -97,18 +97,6 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
     }
 
-    public void ThrowWeapon()
-    {
-        ResetCombo();
-        //isThrowingWeapon = true;
-        animatorController.PlayClipCrossFade("Throw_Weapon");
-    }
-
-    public void ThrowShield()
-    {
-        if (inventory.ShieldWeapon == null) return;
-        inventory.ShieldWeapon.ThrowShield();
-    }
 
     // =================  ŒÃ¡Œ =================
     internal void StartNextAttack()

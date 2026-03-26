@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class EnemyMeleeAttackState : BaseEnemyAttackState
 {
-    protected HumanoidCombatInventory inventory;
+    protected HumanoidWeaponSetter weaponSetter;
 
     protected override void Init()
     {
         combatController = context.combat;
-        inventory = context.inventory;
+        weaponSetter = context.weaponSetter;
     }
 
 
@@ -36,7 +36,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
 
     protected override void HandleDefense(bool willDefend)
     {
-        combatHandler?.ToggleShield(willDefend, inventory, combatController);
+        combatHandler?.ToggleShield(willDefend, weaponSetter, combatController);
     }
 
  

@@ -78,10 +78,7 @@ public class PlayerGameInput : MonoBehaviour
 
         if (reader.AttackPressed)
         {
-            if (reader.ThrowHeld)
-                combat.ThrowWeapon();
-            else
-                combat.PerformAttack();
+            combat.PerformAttack();
 
             reader.Consume(ref reader.AttackPressed);
         }
@@ -101,10 +98,8 @@ public class PlayerGameInput : MonoBehaviour
 
         if (reader.BlockHeld)
         {
-            if (reader.ThrowHeld)
-                combat.ThrowShield();
-            else
-                combat.PerformBlock();
+            combat.PerformBlock();
+
         }
         else
         {

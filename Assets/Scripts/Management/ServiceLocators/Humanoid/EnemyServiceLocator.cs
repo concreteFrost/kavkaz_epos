@@ -8,8 +8,9 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     [Header("Ѕоева€ система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
-    [SerializeField] private HumanoidCombatInventory combatInventory;
+    [SerializeField] private HumanoidWeaponSetter weaponSetter;
     [SerializeField] private AttackSource attackSource;
+    [SerializeField] private CharacterWeaponInventory weaponInventory;
 
     [Header("ћагичкеска€ система")]
     [SerializeField] private CharacterEmitter emitter;
@@ -54,15 +55,16 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void InteractionInit()
     {
-        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager, animatorController: animatorController, combatInventory: combatInventory, damageController: damageController, attackSource: attackSource);
+        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager, animatorController: animatorController, combatInventory: weaponSetter, damageController: damageController, attackSource: attackSource);
     }
 
     private void CombatInit()
     {
         //всегда инициализировать ранььше combatInventory потому что переставив их местами у оружи€ attack source может быть null
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
-        combatController.Init(combatInventory: combatInventory, animatorController: animatorController, damageController: damageController);
-        combatInventory.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction, enableWeaponBreakdown:false);
+        combatController.Init(combatInventory: weaponSetter, animatorController: animatorController, damageController: damageController);
+        weaponSetter.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction, enableWeaponBreakdown:false);
+        weaponInventory.Init(weaponSetter);
     }
 
     private void SpellInit()
@@ -100,7 +102,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             stats = statsManager,
             damageController = damageController,
             combat = combatController,
-            inventory = combatInventory,
+            weaponSetter = weaponSetter,
             emitter = emitter,
             spellInventory = spellInventory,
             fov = fovController,

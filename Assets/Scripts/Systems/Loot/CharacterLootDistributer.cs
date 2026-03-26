@@ -10,9 +10,6 @@ public class CharacterLootDistributer : MonoBehaviour
 
     public static Action<List<ItemData>> LootDroppedInInvalidArea;
 
-    public void Init()
-    {
-    }
    
     private List<ItemData> GenerateItemsToDrop(List<DropableItem> possibleItems)
     {

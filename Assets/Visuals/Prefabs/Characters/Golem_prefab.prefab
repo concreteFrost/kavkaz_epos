@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 1564219040176278036}
   - component: {fileID: 3424087448107213392}
   - component: {fileID: 4900989399092666842}
+  - component: {fileID: 672173098841650555}
   m_Layer: 0
   m_Name: AI_CombatController
   m_TagString: Untagged
@@ -164,16 +165,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1073168300087538723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
+  m_Script: {fileID: 11500000, guid: d19e7d775006dc7428c1791e5b47c723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
   meleeData:
     barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-    leftDamageCollider: {fileID: 885389317401462378}
-    rightDamageCollider: {fileID: 134523195480518702}
+    leftDamageCollider: {fileID: 0}
+    rightDamageCollider: {fileID: 0}
     current: {fileID: 0}
   enableWeponBreakdown: 0
+--- !u!114 &672173098841650555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073168300087538723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5862fe54e32c9ad48be284aaeee1d439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
+  items: []
+  starterSet: {fileID: 11400000, guid: 5cb86c109bb5aac418d01e4bd9e88a47, type: 2}
 --- !u!1 &1102985710917084863
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,8 +304,9 @@ MonoBehaviour:
   lifecycle: {fileID: 3278313199481351946}
   interaction: {fileID: 3010707744199399342}
   combatController: {fileID: 1564219040176278036}
-  combatInventory: {fileID: 4900989399092666842}
+  weaponSetter: {fileID: 4900989399092666842}
   attackSource: {fileID: 3424087448107213392}
+  weaponInventory: {fileID: 672173098841650555}
   emitter: {fileID: 5629539080328873029}
   spellInventory: {fileID: 3290893348049035584}
   interruptionManager: {fileID: 4660253066039093221}
@@ -547,7 +562,7 @@ MonoBehaviour:
   Strength:
     Current: 0
     CurrentMax: 0
-  statsSO: {fileID: 11400000, guid: 2e48fd414082b0046a8d0fa26430b5b8, type: 2}
+  statsSO: {fileID: 11400000, guid: 305bbc00def23884cbb82e47915de8ba, type: 2}
   statsLevelSO: {fileID: 11400000, guid: 3a8e90e550cd9304cbe893a99ab56730, type: 2}
   jumpHeight: 0
   jumpTimer: 0

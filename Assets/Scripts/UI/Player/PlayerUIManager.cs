@@ -32,14 +32,23 @@ public class PlayerUIManager : MonoBehaviour
     public void Init(
         CharacterStatsController stats,
         CharacterStatsModifier statsModifier,
+        CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory,
-        HumanoidCombatInventory combatInventory,
+        HumanoidWeaponSetter weaponSetter,
         PlayerTargetLock targetLock,
         CharacterLevelController levelController,
         CharacterConsumeController consumeController)
     {
-        InitCorePanels(stats:stats,statsModifier:statsModifier,spellInventory: spellInventory,consumableInventory: consumableInventory,combatInventory: combatInventory,targetLock: targetLock, consumeController:consumeController );
+        InitCorePanels(stats:stats,
+            statsModifier:statsModifier,
+            spellInventory:spellInventory,
+            weaponInventory:weaponInventory, 
+            consumableInventory: consumableInventory,
+            weaponSetter: weaponSetter,
+            targetLock: targetLock, 
+            consumeController:consumeController
+            );
         InitProgression(levelController);
         InitMenu();
 
@@ -49,15 +58,26 @@ public class PlayerUIManager : MonoBehaviour
     private void InitCorePanels(
         CharacterStatsController stats,
         CharacterStatsModifier statsModifier,
+        CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory,
-        HumanoidCombatInventory combatInventory,
+        HumanoidWeaponSetter weaponSetter,
         CharacterConsumeController consumeController,
         PlayerTargetLock targetLock)
     {
         playerStatsUI.Init(stats);
-        quickSlotsUI.Init(combatInventory:combatInventory,spellInventory:spellInventory,consumableInventory:consumableInventory,statsController:stats);
-        inventoryUI.Init(descriptionPanel:itemDescriptionPanel, spellInventory,consumableInventory, inventoryContextMenuUI, stats, combatInventory);
+        quickSlotsUI.Init(
+            weaponSetter:weaponSetter,
+            spellInventory:spellInventory,
+            consumableInventory:consumableInventory,
+            statsController:stats);
+        inventoryUI.Init(descriptionPanel:itemDescriptionPanel,
+            weaponInventory:weaponInventory,
+            spellInventory:spellInventory,
+            consumableInventory:consumableInventory,
+            contextMenu:inventoryContextMenuUI,
+            statsController:stats,
+            weaponSetter:weaponSetter);
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);

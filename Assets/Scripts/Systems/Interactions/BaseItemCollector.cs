@@ -9,7 +9,7 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     private string collectorId;
     public string CollectorId() => collectorId;
     public CharacterStatsController StatsController { get; set; }=null;
-    public ICombatInventory CombatInventory { get; set; } = null;
+    public IWeaponSetter CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
     public IAttackSource AttackSource { get; set; } = null;
 
@@ -28,7 +28,7 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     protected void BaseInit(string uniqueId, Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
-        ICombatInventory combatInventory,
+        IWeaponSetter combatInventory,
         IDamagable damageController,
         IAttackSource attackSource)
     {

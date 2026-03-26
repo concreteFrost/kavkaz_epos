@@ -16,7 +16,7 @@ public class EnemyBrainContext
     public IRagdollController ragdollController;
 
     public IHumanoidMeleeCombat combat;
-    public HumanoidCombatInventory inventory;
+    public HumanoidWeaponSetter weaponSetter;
 
     public CharacterEmitter emitter;
     public CharacterSpellInventory spellInventory;

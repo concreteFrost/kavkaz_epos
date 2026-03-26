@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 3118476409945897385}
   - component: {fileID: 8728934627980869809}
   - component: {fileID: 5427426186474516590}
+  - component: {fileID: 7412718368845306261}
   m_Layer: 0
   m_Name: AI_CombatController
   m_TagString: Untagged
@@ -234,16 +235,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 655288877297172516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6021f98346c4c04e83054dbf8733399, type: 3}
+  m_Script: {fileID: 11500000, guid: d19e7d775006dc7428c1791e5b47c723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatInventory
-  starterSet: {fileID: 11400000, guid: 647dae21e94af814586f8d52e9b71363, type: 2}
   meleeData:
     barehandsData: {fileID: 11400000, guid: 7ddaed5915a73f543a4841d3255d4dd7, type: 2}
-    leftDamageCollider: {fileID: 2232760149199845294}
-    rightDamageCollider: {fileID: 4637655278660892820}
+    leftDamageCollider: {fileID: 0}
+    rightDamageCollider: {fileID: 0}
     current: {fileID: 0}
   enableWeponBreakdown: 0
+--- !u!114 &7412718368845306261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655288877297172516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5862fe54e32c9ad48be284aaeee1d439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
+  items: []
+  starterSet: {fileID: 11400000, guid: 647dae21e94af814586f8d52e9b71363, type: 2}
 --- !u!1 &957857383728718771
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,8 +361,9 @@ MonoBehaviour:
   lifecycle: {fileID: 5871193750833694611}
   interaction: {fileID: 6583377933518813573}
   combatController: {fileID: 3118476409945897385}
-  combatInventory: {fileID: 5427426186474516590}
+  weaponSetter: {fileID: 5427426186474516590}
   attackSource: {fileID: 8728934627980869809}
+  weaponInventory: {fileID: 7412718368845306261}
   emitter: {fileID: 5835124149879147389}
   spellInventory: {fileID: 5145074045657262434}
   interruptionManager: {fileID: 37901411775099764}

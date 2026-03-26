@@ -10,6 +10,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     [SerializeField] Button addToSlotBtn;
     [SerializeField] Button removeFromSlotBtn;
     [SerializeField] Button useBtn;
+    [SerializeField] Button equipBtn;
 
     RectTransform _rectTransform;
     ItemData currentItem;
@@ -27,22 +28,27 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         this.consumableController = consumableController;
         allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
+        
         SetupAction(addToSlotBtn, AddFromContext);
         SetupAction(removeFromSlotBtn, RemoveFromContext);
-        SetupAction(useBtn, UseItemFromContext);
+        SetupAction(useBtn, ConsumetemFromContext);
+        SetupAction(equipBtn, EquipItemFromContext);
+
 
     }
 
     public void SetCurrentInventory(QuickAccessInventory inv)
     {
         quickAccessInventory = inv;
-
         SetContextButtons();
     }
 
     private void SetContextButtons()
     {
         useBtn.gameObject.SetActive(quickAccessInventory is PlayerConsumableInventory);
+        equipBtn.gameObject.SetActive(quickAccessInventory is CharacterWeaponInventory);
+        addToSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
+        removeFromSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
     }
 
     /// <summary>
@@ -60,7 +66,16 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         UpdateQuickSlotsInfo?.Invoke();
     }
 
-    private void UseItemFromContext()
+    private void EquipItemFromContext()
+    {
+        if(currentItem == null) return;
+
+        quickAccessInventory.UseItem(currentItem);
+        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+    }
+
+
+    private void ConsumetemFromContext()
     {
         if (currentItem == null) return;
 
@@ -147,8 +162,12 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// </returns>
     private bool WillShowContextMenu(ItemData data)
     {
-        if (data == null) return false;
-        if (data.itemSO is WeaponSO || data.itemSO is ShieldSO) return false;
+        if (data == null)
+        {
+            Debug.Log("data is null");
+            return false;   
+        }
+
         if (currentItem != null)
         {
             if (currentItem.itemSO.id == data.itemSO.id)
