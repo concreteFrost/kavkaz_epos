@@ -21,6 +21,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     public bool HasInteracted { get; set; }
     public bool CanInteract() => itemsToDrop.Count > 0;
     public Vector3 InitialPosition { get; set; }
+    public Vector3 InitialRotation { get; set; }    
 
     public abstract ItemInteractionType InteractType();
 

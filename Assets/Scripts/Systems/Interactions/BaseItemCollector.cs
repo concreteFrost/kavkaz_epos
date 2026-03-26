@@ -6,6 +6,8 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
 
+    private string collectorId;
+    public string CollectorId() => collectorId;
     public CharacterStatsController StatsController { get; set; }=null;
     public ICombatInventory CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
@@ -23,13 +25,14 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
 
     private float interactRadius=1f;
 
-    protected void BaseInit(Transform self,
+    protected void BaseInit(string uniqueId, Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
         ICombatInventory combatInventory,
         IDamagable damageController,
         IAttackSource attackSource)
     {
+        this.collectorId = uniqueId;
         this.self = self;
         this.StatsController = statsController;
         this.animatorController = animatorController;

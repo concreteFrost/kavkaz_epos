@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5586387104702930198}
   - component: {fileID: 5290998130690224182}
   - component: {fileID: -4117007764060175743}
+  - component: {fileID: 7877353121385896796}
   m_Layer: 0
   m_Name: Spear_prefab
   m_TagString: Untagged
@@ -50,7 +51,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9252a1d4d7e6904392a41e72f835335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  instanceId: 
   interactionCollder: {fileID: 1249627329746634573}
+  data:
+    inWorldPosition:
+    - 0
+    - 0
+    - 0
+    itemSOid: 
+    itemInstanceId: 
+    breakdownThreshold: 0
+    ownerId: 
+    isDefaultWeapon: 0
   breakdownThreshold: 0
   weaponSO: {fileID: 11400000, guid: 8d619d7c7d0f48f4eabc68aeb306de32, type: 2}
   damageCollider: {fileID: 6596508924225042948}
@@ -122,6 +134,19 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &7877353121385896796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18204287337618311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniqueId
+  uniqueId: 
 --- !u!1 &3366594387873492907
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 
 
-public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
+public abstract class BaseCombatInventory : MonoBehaviour, ICombatInventory
 {
     public CombatInventorySO starterSet;
 
@@ -10,16 +11,15 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     protected IHumanoidMeleeCombat combatController;
 
-    #region ICombatInventory Contract
+    public bool enableWeponBreakdown;
 
+    public Action<ItemSO, IBreakable> WeaponDataUpdated;
+    public Action<ItemSO, IBreakable> ShieldUpdated;
+
+    #region ICombatInventory Contract
     public Transform GetRightHand() => boneSocket.GetWeaponHolder;
     public Transform GetLeftHand() => boneSocket.GetShieldHolder;
 
-    public abstract void SetWeapon(IWeapon w);
-
-    public abstract void SetShield(IShield w);
-
-    public abstract void ResetCombatItem(CombatItem i);
 
     public IWeapon DefaultWeapon { get; set; } = null;
 
@@ -27,49 +27,88 @@ public abstract class BaseCombatInventory : MonoBehaviour , ICombatInventory
 
     public IShield ShieldWeapon { get; set; } = null;
 
-    protected ICollector Collector;
+    public ICollector Collector;
 
     #endregion
 
-
-    public IWeapon GetStarterWeapon(ICollector source , bool predictWeaponDamage)
+    public void SetWeapon(IWeapon w)
     {
-        if (starterSet == null) return null;
-
-        if(starterSet.initialWeapon != null)
+        if (w == null)
         {
-            GameObject go = Instantiate(starterSet.initialWeapon);
-
-            Weapon weapon = go.GetComponent<Weapon>();
-
-            weapon.Init();
-            weapon.AssignToOwner(source);
-            weapon.SetBreakdownEnabled(predictWeaponDamage);
-
-            return weapon;  
+            CurrentWeapon = DefaultWeapon;
+            return;
         }
 
-        return null;
+        CurrentWeapon = w;
+        combatController.IsWeaponed = true;
+
+        animatorController.OverrideArmed(w);
+
+        WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
+
     }
 
-    public IShield GetStarterShield(ICollector source, bool predictWeaponDamage)
+    public void SetShield(IShield w)
     {
-        if (starterSet == null) return null;
+        if (w == null) return;
+        ShieldWeapon = w;
+        Collector.Damagable.Protection = w;
 
-        if (starterSet.initialShield != null)
+        ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
+    }
+
+
+    public void ResetCombatItem(CombatItem i)
+    {
+        switch (i)
         {
-            GameObject go = Instantiate(starterSet.initialShield);
-
-            Shield shield = go.GetComponent<Shield>();  
-
-            shield.Init();   
-            shield.AssignToOwner(source);
-            shield.SetBreakdownEnabled(predictWeaponDamage);
-
-            return shield;  
+            case Weapon:
+                ResetWeapon();
+                break;
+            case Shield:
+                ResetShield();
+                break;
+            default: break;
         }
 
-        return null;
+    }
+
+    public void ResetWeapon()
+    {
+        CurrentWeapon = DefaultWeapon;
+        combatController.IsWeaponed = false;
+        WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
+
+    }
+
+    public void ResetShield()
+    {
+
+        if (ShieldWeapon == null) return;
+
+        ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), null);
+        Collector.Damagable.Protection = null;
+        ShieldWeapon = null;
+        combatController.IsShieldRaised = false;
+
+    }
+
+    // для UI обновления
+    public void GetCurrentWeaponData()
+    {
+        WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
+    }
+
+    //для Ui обновления на старте
+    public void GetCurrentShieldData()
+    {
+        if (ShieldWeapon == null)
+        {
+            ShieldUpdated?.Invoke(null, ShieldWeapon);
+            return;
+        }
+
+        ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
     }
 
 

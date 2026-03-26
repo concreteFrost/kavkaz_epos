@@ -33,21 +33,13 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
     public event Action<ItemData> OnCurrentItemChanged;
 
-    #region Quick Access
-
-    public List<ItemData> GetQuickAccessData()
-    {
-       if(quickSlots.Length == 0) return null;
-       return quickSlots.Where(x => x != null).ToList();
-
-    }
-
     protected void BaseInit()
     {
         quickSlots = new ItemData[QUICK_SLOTS_COUNT];
         //SetDefaultQuickSlotData();
     }
 
+    #region Save/Load
     public SaveInventoryData SaveInventoryData()
     {
         List<InventoryItemSaveData> datas = new List<InventoryItemSaveData>();
@@ -135,6 +127,16 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Quick Slot
+
+    public List<ItemData> GetQuickAccessData()
+    {
+        if (quickSlots.Length == 0) return null;
+        return quickSlots.Where(x => x != null).ToList();
+
+    }
     public void SetDefaultQuickSlotData()
     {
         if (items.Count == 0) return;
@@ -183,14 +185,6 @@ public abstract class QuickAccessInventory : MonoBehaviour
         NormalizeCurrentIndex();
         Notify();
     }
-
-    public void TopUpCurrentItem(int quantity)
-    {
-        if (CurrentItem != null)
-            CurrentItem.quantity += quantity;
-    }
-
-
     #endregion
 
     #region Inventory
@@ -222,6 +216,13 @@ public abstract class QuickAccessInventory : MonoBehaviour
         items.Remove(item);
         RemoveFromQuickAccess(item); // автоматическая синхронизация
     }
+
+    public void TopUpCurrentItem(int quantity)
+    {
+        if (CurrentItem != null)
+            CurrentItem.quantity += quantity;
+    }
+
 
     #endregion
 

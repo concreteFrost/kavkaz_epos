@@ -7,8 +7,8 @@ public class LevelState
 {
     public string levelId;
 
-    public List<LootState> lootData = new List<LootState>(); 
-    //public List<CombatItem> weaponState = new List<CombatItem>();
+    public List<LootState> lootDatas = new List<LootState>(); 
+    public List<CombatItemData> combatItemDatas = new List<CombatItemData>();
     //public List<BaseHumanoidAiServiceLocator> chracters = new List<BaseHumanoidAiServiceLocator>(); 
 
 

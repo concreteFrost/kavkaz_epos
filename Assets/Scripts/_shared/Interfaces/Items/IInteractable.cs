@@ -11,7 +11,8 @@ public enum ItemInteractionType
 public interface IInteractable
 {
     ItemInteractionType InteractType();
-    Vector3 InitialPosition { get; set; }   
+    Vector3 InitialPosition { get; set; }  
+    Vector3 InitialRotation { get; set; }
     public bool HasInteracted { get; set; }
     bool CanInteract();
 

@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour, IInteractable
 {
     public Vector3 InitialPosition { get; set; }
+    public Vector3 InitialRotation { get; set; }
     public bool HasInteracted { get; set; }
 
     public bool CanInteract() => true;
@@ -22,6 +23,8 @@ public abstract class Item : MonoBehaviour, IInteractable
         }
 
         InitialPosition = transform.position;
+        InitialRotation = transform.eulerAngles;
+
        
     }
 

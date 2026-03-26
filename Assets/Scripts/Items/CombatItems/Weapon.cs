@@ -37,7 +37,7 @@ public class Weapon : CombatItem, IWeapon
 
     public override void Init()
     {
-        
+
         base.Init();
 
         ToggleInteraction(true);
@@ -46,6 +46,8 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.SetWeaponData(this);
 
     }
+
+    public override string GetDataId() => WeaponData().id;
 
     public void PerformAttack()
     {
@@ -74,7 +76,7 @@ public class Weapon : CombatItem, IWeapon
         if (!currWeapon.canOverride) return;
         if (WeaponData().weaponType == WeaponType.TwoHands && collector.CombatInventory.ShieldWeapon != null) return;
 
-        if (breakdownThreshold <= 0)
+        if (GetDurability() <= 0)
         {
             Debug.Log("this weapon is broken");
             return;
@@ -106,9 +108,7 @@ public class Weapon : CombatItem, IWeapon
         var tempTargets = Owner.AttackSource.TargetsToIgnore;
         var source = Owner.AttackSource.Source();
 
-        ResetParent();
-        ToggleInteraction(true);
-       
+        Drop();
 
         rb.AddForce(from.forward * force, ForceMode.Impulse);
 
@@ -125,7 +125,8 @@ public class Weapon : CombatItem, IWeapon
         {
             damageMultiplier = weaponSO.GetBaseDamage(),
             balanceDamageType = BalanceDamageType.High,
-            impactForce = 10f
+            impactForce = 10f,
+              
         };
 
         //damageCollider.SetDamageSource(source);
@@ -141,14 +142,12 @@ public class Weapon : CombatItem, IWeapon
 
         yield return new WaitUntil(() => rb.linearVelocity.sqrMagnitude > 0.15f);
 
-        Owner.CombatInventory.ResetCombatItem(this); //убираем оружие сразу на случай если оно никогда не остановится в полёте
-
         while (true)
         {
             if (rb.linearVelocity.magnitude < minStopVelocity)
             {
                 damageCollider.DisableCollider();
-                Owner = null;
+              
                 yield break;
             }
 

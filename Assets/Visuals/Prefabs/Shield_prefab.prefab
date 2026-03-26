@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 7485148907650295780}
   - component: {fileID: 6054064764918884102}
   - component: {fileID: -9090936707582929807}
+  - component: {fileID: -3639841317419468173}
   m_Layer: 2
   m_Name: Shield_prefab
   m_TagString: Untagged
@@ -163,7 +164,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57260287b9dd65a4da78d89ca6804883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shield
+  instanceId: 
   interactionCollder: {fileID: 7463870308691895986}
+  data:
+    inWorldPosition:
+    - 0
+    - 0
+    - 0
+    itemSOid: 
+    itemInstanceId: 
+    breakdownThreshold: 0
+    ownerId: 
+    isDefaultWeapon: 0
   breakdownThreshold: 0
   shieldSO: {fileID: 11400000, guid: 1feb83e5356c87a4382a907b433ce869, type: 2}
 --- !u!114 &-9090936707582929807
@@ -186,6 +198,19 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &-3639841317419468173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255179769068497855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniqueId
+  uniqueId: 
 --- !u!1001 &2907503581148464619
 PrefabInstance:
   m_ObjectHideFlags: 0

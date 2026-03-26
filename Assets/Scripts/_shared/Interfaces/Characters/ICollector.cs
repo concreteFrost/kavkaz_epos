@@ -1,5 +1,6 @@
 public interface ICollector
 {
+    string CollectorId();
     CharacterStatsController StatsController { get; set; }
     ICombatInventory CombatInventory { get; set; }
     IAttackSource AttackSource { get; set; }

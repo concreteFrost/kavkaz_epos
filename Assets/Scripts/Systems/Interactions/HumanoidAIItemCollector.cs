@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HumanoidAIItemCollector : BaseItemCollector
 {
-    public void Init(Transform self,
+    public void Init(string collectorId, Transform self,
        CharacterStatsController statsController,
        BaseHumanoidAnimatorController animatorController,
        ICombatInventory combatInventory,
@@ -10,7 +10,7 @@ public class HumanoidAIItemCollector : BaseItemCollector
        IAttackSource attackSource
       )
     {
-        BaseInit(self, statsController, animatorController, combatInventory, damageController, attackSource);
+        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource);
        
     }
 

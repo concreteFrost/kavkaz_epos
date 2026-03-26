@@ -15,15 +15,15 @@ public class LevelManager : MonoBehaviour
         levelState = new LevelState();
         levelState.levelId = SceneManager.GetActiveScene().name;
 
-        lootManager.Init();
-        weaponsManager.Init();
+        lootManager.Init();    
         charactersManager.Init();
+        weaponsManager.Init();
     }
 
     public LevelState SaveLevelState()
     {
-        levelState.lootData = lootManager.SaveLootData(); 
-
+        levelState.lootDatas = lootManager.SaveLootData(); 
+        levelState.combatItemDatas = weaponsManager.SaveCombatItemData();
         return levelState;
 
     }
@@ -32,7 +32,8 @@ public class LevelManager : MonoBehaviour
     {
         levelState = state;
 
-        lootManager.LoadLootData(state.lootData);
+        lootManager.LoadLootData(state.lootDatas);
+        weaponsManager.LoadItemData(state.combatItemDatas); 
     }
     
 }

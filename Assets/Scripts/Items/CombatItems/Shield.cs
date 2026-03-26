@@ -17,6 +17,11 @@ public class Shield : CombatItem, IShield
 
     }
 
+
+
+    public override string GetDataId() => ShieldData().id;
+
+
     public void PerformDefence()
     {
         IsProtectionActive = true;
@@ -39,7 +44,7 @@ public class Shield : CombatItem, IShield
         var currentWeaponData = collector.CombatInventory.CurrentWeapon.WeaponData();
         if (currentWeaponData.weaponType == WeaponType.TwoHands) return;
 
-        if (breakdownThreshold <= 0)
+        if (GetDurability() <= 0)
         {
             Debug.Log("this shield is broken");
             return;

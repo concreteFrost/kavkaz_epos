@@ -8,7 +8,7 @@ public class PlayerItemsCollector : BaseItemCollector
     PlayerConsumableInventory consumableInventory;
 
     public static Action<ItemData> LootCollected;
-    public void Init(Transform self,
+    public void Init(string collectorId, Transform self,
         CharacterStatsController statsController,
         BaseHumanoidAnimatorController animatorController,
         ICombatInventory combatInventory,
@@ -17,7 +17,7 @@ public class PlayerItemsCollector : BaseItemCollector
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory)
     {
-        BaseInit(self, statsController, animatorController, combatInventory, damageController, attackSource);
+        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource);
         this.spellInventory = spellInventory;
         this.consumableInventory = consumableInventory; 
     }

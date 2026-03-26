@@ -51,7 +51,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterEmitter emitterController;
 
     [Header("Инвентари и быстрые слоты")]
-    [SerializeField] private HumanoidCombatInventory combatInventory;
+    [SerializeField] public HumanoidCombatInventory combatInventory;
     [SerializeField] public CharacterSpellInventory spellInventory;
     [SerializeField] public PlayerConsumableInventory consumableInventory;  
 
@@ -183,6 +183,7 @@ public class PlayerServiceLocator : MonoBehaviour
     {
 
         interaction.Init(
+            collectorId:uid,
             self: transform,
             statsController: stats,
             animatorController: animatorController,
