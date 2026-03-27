@@ -8,8 +8,6 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     protected Collider physicsCollider;
     protected MeshRenderer meshRenderer;
 
-    
-
 
     #region ICombatItem Contract
     public ICollector Owner { get; set; } = null;
@@ -17,6 +15,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     #endregion
 
     #region IBreakable Contract
+    public string InstanceID() => data.instanceId;
     public bool IsBreakdownEnabled { get; set; } = true;
     public bool IsBroken { get; set; } = false;
     public float GetDurability() => data.durability;

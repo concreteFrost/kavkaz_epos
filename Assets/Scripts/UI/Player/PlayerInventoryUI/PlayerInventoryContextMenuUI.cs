@@ -11,17 +11,21 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     [SerializeField] Button removeFromSlotBtn;
     [SerializeField] Button useBtn;
     [SerializeField] Button equipBtn;
+    [SerializeField] Button destroyBtn;
 
     RectTransform _rectTransform;
     ItemData currentItem;
 
     public List<Selectable> allSelectables = new List<Selectable>();
 
-    public Action<ItemData> OnContextMenuClosed; //вызывает фокус на активный предмет в инвентаре
+    public Action<ItemData> ContextMenuClosed; //вызывает фокус на активный предмет в инвентаре
     public Action UpdateQuickSlotsInfo; //обновляет быстрые слоты в основном инвентаре
+    public Action ItemDestroyed;
 
     QuickAccessInventory quickAccessInventory;
     CharacterConsumeController consumableController;
+
+
 
     public void Init(CharacterConsumeController consumableController)
     {
@@ -31,8 +35,9 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         
         SetupAction(addToSlotBtn, AddFromContext);
         SetupAction(removeFromSlotBtn, RemoveFromContext);
-        SetupAction(useBtn, ConsumetemFromContext);
+        SetupAction(useBtn, ConsumeItemFromContext);
         SetupAction(equipBtn, EquipItemFromContext);
+        SetupAction(destroyBtn, DestroyItemFromContextMenu);
 
 
     }
@@ -51,6 +56,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         removeFromSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
     }
 
+
+    #region Button Actions
     /// <summary>
     /// Добавляет текущий предмет в быстрый слот из контекстного меню.
     /// </summary>
@@ -75,13 +82,24 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
 
 
-    private void ConsumetemFromContext()
+    private void ConsumeItemFromContext()
     {
         if (currentItem == null) return;
 
         consumableController.StartConsumeFromContext(currentItem);
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
+
+    private void DestroyItemFromContextMenu()
+    {
+        if (currentItem == null) return;
+
+        quickAccessInventory.RemoveFromInventory(currentItem);
+        HideContextMenu();
+        ItemDestroyed?.Invoke();
+         
+    }
+    #endregion
 
     /// <summary>
     /// Удаляет текущий предмет из быстрого слота через контекстное меню.
@@ -119,7 +137,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// </summary>
     public void HideContextMenu()
     {
-        OnContextMenuClosed?.Invoke(currentItem);
+        ContextMenuClosed?.Invoke(currentItem);
         wrapper.SetActive(false);
         currentItem = null;
     }

@@ -16,12 +16,14 @@ public class PlayerInventoryUI : MonoBehaviour
     private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
     private ItemDescriptionPanelUI descriptionPanel;
-    private IWeaponSetter combatInventory;
+    private IWeaponSetter weaponSetter;
    
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
+    
     [SerializeField] Transform weaponCellsContainer;
     [SerializeField] Transform cellsContainer;
+   
     [SerializeField] Scrollbar scrollSlider;
     [SerializeField] ScrollRect scrollRect;
 
@@ -62,9 +64,10 @@ public class PlayerInventoryUI : MonoBehaviour
         this.descriptionPanel = descriptionPanel;   
         this.contextMenu = contextMenu;
         this.statsController = statsController; 
-        this.combatInventory = weaponSetter; 
-        contextMenu.OnContextMenuClosed += FocusFirstGridItem;
-        contextMenu.UpdateQuickSlotsInfo += GetQuickSlotsInfo;
+        this.weaponSetter = weaponSetter;
+        contextMenu.ContextMenuClosed += OnContextMenuClosed;
+        contextMenu.UpdateQuickSlotsInfo += OnQuickSlotsInfoUpdate;
+        contextMenu.ItemDestroyed += OnItemDestroyed;
 
         grid = cellsContainer.GetComponent<GridLayoutGroup>();
 
@@ -87,8 +90,9 @@ public class PlayerInventoryUI : MonoBehaviour
     private void OnDisable()
     {
         RemoveButtonListeners();
-        contextMenu.OnContextMenuClosed -= FocusFirstGridItem;  
-        contextMenu.UpdateQuickSlotsInfo -= GetQuickSlotsInfo; 
+        contextMenu.ContextMenuClosed -= OnContextMenuClosed;
+        contextMenu.UpdateQuickSlotsInfo -= OnQuickSlotsInfoUpdate;
+        contextMenu.ItemDestroyed -= OnItemDestroyed;
     }
 
     /// <summary>
@@ -102,6 +106,9 @@ public class PlayerInventoryUI : MonoBehaviour
         if (!isVisible) descriptionPanel.ClearCommonItemInfo();
     }
 
+    /// <summary>
+    /// Привязывает обработчики событий клика к кнопкам разделов для переключения между разделами инвентаря.
+    /// </summary>
     private void BindSectionButtons()
     {
         RemoveButtonListeners();    
@@ -112,6 +119,9 @@ public class PlayerInventoryUI : MonoBehaviour
         //resourcesSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Resources));
     }
 
+    /// <summary>
+    /// Удаляет все обработчики событий клика для кнопок в разделах магии, расходных материалов и оружия.
+    /// </summary>
     private void RemoveButtonListeners()
     {
         magicSectionBtn.onClick.RemoveAllListeners();
@@ -150,7 +160,9 @@ public class PlayerInventoryUI : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// Создает иконки для экипированых оружейных слотов
+    /// </summary>
     private void InitWeaponCells()
     {
         for(int i = 0; i < 2; i++)
@@ -203,11 +215,13 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void GetSlotsInfo()
     {
-        
-        for (int i = 0; i < currentInventory.items.Count; i++)
+        slotItems.ForEach(s => s.RemoveData());
+
+        int count = Mathf.Min(currentInventory.items.Count, slotItems.Count);
+
+        for (int i = 0; i < count; i++)
         {
             slotItems[i].UpdateImageDate(currentInventory.items[i], statsController);
-          
         }
     }
 
@@ -216,25 +230,24 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void GetWeaponsInfo()
     {
-        if (combatInventory.CurrentWeapon != null)
+        if (weaponSetter.CurrentWeapon != null)
         {
             var tempWeaponData = new ItemData();
-            tempWeaponData.itemSO = combatInventory.CurrentWeapon.WeaponData();
+            tempWeaponData.itemSO = weaponSetter.CurrentWeapon.WeaponData();
             tempWeaponData.quantity = 1;
             weaponItems[0].UpdateImageDate(tempWeaponData, statsController);
             weaponItems[0].enabled = false;
         }
-        if(combatInventory.ShieldWeapon != null)
+        if(weaponSetter.ShieldWeapon != null)
         {
             var tempShieldData = new ItemData();
-            tempShieldData.itemSO = combatInventory.ShieldWeapon.ShieldData();
+            tempShieldData.itemSO = weaponSetter.ShieldWeapon.ShieldData();
             tempShieldData.quantity = 1;
             weaponItems[1].UpdateImageDate(tempShieldData, statsController);
             weaponItems[1].enabled = false; 
         }
             
     }
-
   
     /// <summary>
     /// Очищает неактульную информацию о предметах в инвентаре и быстром доступе
@@ -285,6 +298,20 @@ public class PlayerInventoryUI : MonoBehaviour
 
       
     }
+
+    #region Events Listeners
+    private void OnItemDestroyed()
+    {
+        GetQuickSlotsInfo();
+        GetSlotsInfo();
+        GetWeaponsInfo();
+    }
+
+    private void OnContextMenuClosed(ItemData data) => FocusFirstGridItem(data);
+
+    private void OnQuickSlotsInfoUpdate()=>GetQuickSlotsInfo();
+
+    #endregion
 
     #region UI Visual Helpers
 

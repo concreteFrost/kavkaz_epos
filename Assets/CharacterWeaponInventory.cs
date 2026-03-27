@@ -35,7 +35,7 @@ public class CharacterWeaponInventory : QuickAccessInventory
             };
 
             AddCombatItemToInventory(itemData);
-            EquipWeapon(itemData);
+            EquipItem(itemData);
         }
 
         if (starterSet.initialShield != null)
@@ -50,7 +50,7 @@ public class CharacterWeaponInventory : QuickAccessInventory
             };
            
             AddCombatItemToInventory(itemData);
-            EquipShield(itemData);
+            EquipItem(itemData);
 
         }
 
@@ -60,7 +60,7 @@ public class CharacterWeaponInventory : QuickAccessInventory
     {
         base.LoadInventoryData(data);
 
-        if (data == null) return;
+        weaponSetter.ResetAllCombatItems();
 
         //ВАЖНО: пересобираем items с учетом instanceId и durability
         items = new List<ItemData>();
@@ -79,7 +79,6 @@ public class CharacterWeaponInventory : QuickAccessInventory
             {
                 itemSO = so,
                 quantity = saved.quantity,
-
                 instanceId = saved.instanceId,   
                 durability = saved.durability,   
                 isEquiped = saved.isEquiped     
@@ -90,15 +89,29 @@ public class CharacterWeaponInventory : QuickAccessInventory
             // Если предмет был экипирован — восстанавливаем
             if (newItem.isEquiped)
             {
-                if (so is WeaponSO)
-                    EquipWeapon(newItem);
-
-                if (so is ShieldSO)
-                    EquipShield(newItem);
+                EquipItem(newItem);
             }
         }
 
         Notify();
+    }
+
+    // Пулл объектов: возвращаем GameObject для экипировки
+    public ICombatItem GetWeaponObject(ItemData data)
+    {
+        if (!weaponPool.TryGetValue(data.instanceId, out var obj))
+        {
+            var template = weaponDataBaseSO.Get(data.itemSO.id);
+            GameObject go = Instantiate(template);
+            var combatItem = go.GetComponent<CombatItem>();
+            combatItem.Init(data);
+
+            obj = combatItem;
+
+            weaponPool[data.instanceId] = obj;
+        }
+
+        return obj;
     }
 
     // возвращаем созданный ItemData
@@ -116,59 +129,36 @@ public class CharacterWeaponInventory : QuickAccessInventory
     }
 
 
-
-    private void EquipWeapon(ItemData data)
+    private void EquipItem(ItemData data)
     {
-        weaponSetter.ResetWeapon();
-
         ICombatItem obj = GetWeaponObject(data);
-        weaponSetter.SetWeapon(obj as IWeapon);
+        weaponSetter.HandleSetCombatItem(obj);  
     }
 
-    private void EquipShield(ItemData data)
+    private void UnequipItem(ItemData data)
     {
-        weaponSetter.ResetShield();
-
         ICombatItem obj = GetWeaponObject(data);
-        weaponSetter.SetShield(obj as IShield);
+        weaponSetter.HandleResetCombatItem(obj);
     }
 
 
-
-    // Пулл объектов: возвращаем GameObject для экипировки
-    public ICombatItem GetWeaponObject(ItemData data)
-    {
-        if (!weaponPool.TryGetValue(data.instanceId, out var obj))
-        {
-            var template = weaponDataBaseSO.Get(data.itemSO.id);
-            GameObject go = Instantiate(template);
-            var combatItem = go.GetComponent<CombatItem>();
-            combatItem.Init(data);
-
-            obj = combatItem;
-
-            weaponPool[data.instanceId] = obj;
-        }
-
-
-        return obj;
-    }
 
     public override void UseItem(ItemData data)
     {
         if (data == null || weaponSetter == null) return;
 
-        if (data.itemSO is WeaponSO)
-        {
-            EquipWeapon(data);
-            return;
-        }
+         EquipItem(data);
 
-        if(data.itemSO is ShieldSO)
-        {
-            EquipShield(data);
-        }
-           
+    }
+
+    public override void RemoveFromInventory(ItemData item)
+    {
+        base.RemoveFromInventory(item);
+
+        if (weaponSetter.CurrentWeapon.InstanceID() != item.instanceId) return;
+
+        UnequipItem(item);
+
     }
 
 

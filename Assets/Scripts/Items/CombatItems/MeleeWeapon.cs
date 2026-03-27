@@ -65,7 +65,7 @@ public class MeleeWeapon : IWeapon
     int currentAttackIndex = 0;
 
     #region IWeapon Contract
-
+    public string InstanceID() => string.Empty;
     public ICollector Owner { get; set; }
     public bool IsBreakdownEnabled { get; set; } = true;
     public bool IsBroken { get; set; }= false;

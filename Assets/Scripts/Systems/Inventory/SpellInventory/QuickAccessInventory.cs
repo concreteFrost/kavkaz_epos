@@ -87,6 +87,8 @@ public abstract class QuickAccessInventory : MonoBehaviour
     {
         if (data == null) return;
 
+
+
         var consumables = Resources.LoadAll<ItemSO>($"Items/");
 
         Dictionary<string, ItemSO> itemsMap = new Dictionary<string, ItemSO>();
@@ -226,12 +228,13 @@ public abstract class QuickAccessInventory : MonoBehaviour
     public abstract void UseItem(ItemData data);
 
 
-    protected void RemoveFromInventory(ItemData item)
+    public virtual void RemoveFromInventory(ItemData item)
     {
         if (item == null) return;
 
         items.Remove(item);
         RemoveFromQuickAccess(item); // автоматическая синхронизация
+        Notify();
     }
 
     public void TopUpCurrentItem(int quantity)

@@ -72,7 +72,45 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     }
 
-    public void SetWeapon(IWeapon w)
+    public void ResetAllCombatItems()
+    {
+        ResetWeapon();
+        ResetShield();  
+    }
+
+    public void HandleSetCombatItem(ICombatItem item)
+    {
+        if(item is IWeapon)
+        {
+            ResetWeapon();
+            SetWeapon((IWeapon)item);
+            return;
+        }
+
+        if(item is IShield)
+        {
+            ResetShield();
+            SetShield((IShield)item);
+        }
+
+    }
+
+    public void HandleResetCombatItem(ICombatItem item)
+    {
+        if(item is IWeapon)
+        {
+            ResetWeapon();
+            return;
+        }
+
+        if(item is IShield)
+        {
+            ResetShield();
+            return;
+        }
+    }
+
+    private void SetWeapon(IWeapon w)
     {
 
         if (w == null)
@@ -100,13 +138,12 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     }
 
-    public void SetShield(IShield w)
+    private void SetShield(IShield w)
     {
 
         if (w == null) return;
         if (CurrentWeapon.WeaponData().weaponType == WeaponType.TwoHands) return;
-
-       
+  
         ShieldWeapon = w;
 
         ShieldWeapon.SetEquiped(true);
@@ -115,7 +152,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
     }
 
-    public void ResetWeapon()
+    private void ResetWeapon()
     {
         CurrentWeapon.SetEquiped(false);
         CurrentWeapon = DefaultWeapon;
@@ -124,7 +161,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     }
 
-    public void ResetShield()
+    private void ResetShield()
     {
 
         if (ShieldWeapon == null) return;
