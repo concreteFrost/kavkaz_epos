@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum InventorySection
 {
@@ -16,8 +17,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private CharacterStatsController statsController;  
     private PlayerInventoryContextMenuUI contextMenu;
     private ItemDescriptionPanelUI descriptionPanel;
-    private IWeaponSetter weaponSetter;
-   
+
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
     
@@ -31,6 +31,10 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Button consumableSectionBtn;
     [SerializeField] Button weaponsSectionBtn;
     //[SerializeField] Button resourcesSectionBtn;
+
+    PlayerConsumableInventory consumableInventory;
+    CharacterSpellInventory spellInventory;
+    CharacterWeaponInventory weaponInventory;
 
 
     private List<InventoryItemUI> weaponItems = new List<InventoryItemUI>();
@@ -59,12 +63,16 @@ public class PlayerInventoryUI : MonoBehaviour
     InventorySection.Consumables
 };
 
-    public void Init(ItemDescriptionPanelUI descriptionPanel,QuickAccessInventory weaponInventory, QuickAccessInventory spellInventory,QuickAccessInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController, IWeaponSetter weaponSetter)
+    public void Init(ItemDescriptionPanelUI descriptionPanel,CharacterWeaponInventory weaponInventory, CharacterSpellInventory spellInventory,PlayerConsumableInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
     {
         this.descriptionPanel = descriptionPanel;   
         this.contextMenu = contextMenu;
-        this.statsController = statsController; 
-        this.weaponSetter = weaponSetter;
+        this.statsController = statsController;
+
+        this.consumableInventory = consumableInventory;
+        this.weaponInventory = weaponInventory;
+        this.spellInventory = spellInventory;   
+      
         contextMenu.ContextMenuClosed += OnContextMenuClosed;
         contextMenu.UpdateQuickSlotsInfo += OnQuickSlotsInfoUpdate;
         contextMenu.ItemDestroyed += OnItemDestroyed;
@@ -74,9 +82,9 @@ public class PlayerInventoryUI : MonoBehaviour
         //динамическое назначение инвентарей
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
     {
-        {InventorySection.Weapons, weaponInventory },
-        {InventorySection.Magic,spellInventory },
-        {InventorySection.Consumables, consumableInventory },
+        {InventorySection.Weapons, this.weaponInventory },
+        {InventorySection.Magic,this.spellInventory },
+        {InventorySection.Consumables, this.consumableInventory },
     };
 
        
@@ -136,8 +144,20 @@ public class PlayerInventoryUI : MonoBehaviour
     /// <param name="item"></param>
     private void OnItemOutlined(ItemSO item)
     {
-
         descriptionPanel.ShowPanel(item);
+    }
+
+    private InventoryItemUI InstantiateInventoryCell(Transform container, Action<ItemData,Vector2> action)
+    {
+        GameObject go = Instantiate(itemCellPrefab, container);
+        InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
+
+        slotItem.InitInInventory(action);
+        slotItem.RemoveData();
+        slotItem.FitToCell(grid.cellSize);
+        slotItem.ItemOutlined += OnItemOutlined;
+
+        return slotItem;
     }
 
     /// <summary>
@@ -148,15 +168,8 @@ public class PlayerInventoryUI : MonoBehaviour
         //создание основной сетки
         for (int i = 0; i < totalCellsToInit; i++)
         {
-            GameObject go = Instantiate(itemCellPrefab, cellsContainer);
-            InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
-
-            slotItem.InitInInventory((item,pos)=>contextMenu.ShowContextMenu(item,pos));
-            slotItem.RemoveData();
-            slotItem.FitToCell(grid.cellSize);
-            slotItem.ItemOutlined += OnItemOutlined;
-            slotItems.Add(slotItem);
-   
+            var newCell = InstantiateInventoryCell(cellsContainer,(item,pos)=> contextMenu.ShowContextMenu(item,pos));
+            slotItems.Add(newCell);  
         }
 
     }
@@ -167,16 +180,12 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         for(int i = 0; i < 2; i++)
         {
-            GameObject go = Instantiate(itemCellPrefab, weaponCellsContainer);
-            InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
-
-            slotItem.InitInInventory((item, pos) => contextMenu.ShowContextMenu(item, pos));
-            slotItem.RemoveData();
-            slotItem.FitToCell(grid.cellSize);
-            slotItem.ItemOutlined += OnItemOutlined;
-            weaponItems.Add(slotItem);
+            var newCell = InstantiateInventoryCell(weaponCellsContainer, (item, pos) => HandleUnequipItem(item,pos));
+            weaponItems.Add(newCell);
         }
     }
+
+ 
 
     /// <summary>
     /// Динамически создает сетку быстрого доступа
@@ -199,7 +208,6 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void GetQuickSlotsInfo()
     {
-        //if (!mainWrapper.activeInHierarchy) return;   i
 
         quickSlotItems.ForEach((s) => s.RemoveData());
 
@@ -225,28 +233,23 @@ public class PlayerInventoryUI : MonoBehaviour
         }
     }
 
+    private void HandleUnequipItem(ItemData data, Vector2 pos)
+    {
+
+        weaponInventory.UnequipItem(data);
+        GetWeaponsInfo();
+
+    }
+
     /// <summary>
     /// Показывает актуальную информацию об оружие или щите
     /// </summary>
     private void GetWeaponsInfo()
     {
-        if (weaponSetter.CurrentWeapon != null)
-        {
-            var tempWeaponData = new ItemData();
-            tempWeaponData.itemSO = weaponSetter.CurrentWeapon.WeaponData();
-            tempWeaponData.quantity = 1;
-            weaponItems[0].UpdateImageDate(tempWeaponData, statsController);
-            weaponItems[0].enabled = false;
-        }
-        if(weaponSetter.ShieldWeapon != null)
-        {
-            var tempShieldData = new ItemData();
-            tempShieldData.itemSO = weaponSetter.ShieldWeapon.ShieldData();
-            tempShieldData.quantity = 1;
-            weaponItems[1].UpdateImageDate(tempShieldData, statsController);
-            weaponItems[1].enabled = false; 
-        }
-            
+
+        weaponItems[0].UpdateImageDate(weaponInventory.GetCurrentWeaponData(), statsController);
+        weaponItems[1].UpdateImageDate(weaponInventory.GetCurrentShieldData(), statsController);    
+
     }
   
     /// <summary>

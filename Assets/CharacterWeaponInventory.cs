@@ -129,37 +129,31 @@ public class CharacterWeaponInventory : QuickAccessInventory
     }
 
 
-    private void EquipItem(ItemData data)
+    public void EquipItem(ItemData data)
     {
+        
         ICombatItem obj = GetWeaponObject(data);
         weaponSetter.HandleSetCombatItem(obj);  
     }
 
-    private void UnequipItem(ItemData data)
+    public void UnequipItem(ItemData data)
     {
         ICombatItem obj = GetWeaponObject(data);
-        weaponSetter.HandleResetCombatItem(obj);
+        weaponSetter.HandleResetCombatItem(data.instanceId);
     }
-
-
 
     public override void UseItem(ItemData data)
     {
-        if (data == null || weaponSetter == null) return;
-
          EquipItem(data);
-
     }
 
     public override void RemoveFromInventory(ItemData item)
     {
         base.RemoveFromInventory(item);
-
-        if (weaponSetter.CurrentWeapon.InstanceID() != item.instanceId) return;
-
-        UnequipItem(item);
-
+        weaponSetter.HandleResetCombatItem(item.instanceId);
     }
 
+    public ItemData GetCurrentWeaponData() => weaponSetter.CurrentWeapon.GetItemData();
+    public ItemData GetCurrentShieldData() => weaponSetter.ShieldWeapon != null ? weaponSetter.ShieldWeapon.GetItemData() : null;    
 
 }

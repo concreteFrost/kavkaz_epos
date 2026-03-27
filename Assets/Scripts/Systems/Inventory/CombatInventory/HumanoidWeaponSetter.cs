@@ -95,19 +95,14 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     }
 
-    public void HandleResetCombatItem(ICombatItem item)
+    public void HandleResetCombatItem(string id)
     {
-        if(item is IWeapon)
-        {
+        if (CurrentWeapon.GetItemData().instanceId == id)
             ResetWeapon();
-            return;
-        }
 
-        if(item is IShield)
-        {
+        if(ShieldWeapon != null && ShieldWeapon.GetItemData().instanceId == id)
             ResetShield();
-            return;
-        }
+       
     }
 
     private void SetWeapon(IWeapon w)

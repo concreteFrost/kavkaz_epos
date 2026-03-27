@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -65,6 +66,9 @@ public class MeleeWeapon : IWeapon
     int currentAttackIndex = 0;
 
     #region IWeapon Contract
+
+    private ItemData data;
+    public ItemData GetItemData() => data;
     public string InstanceID() => string.Empty;
     public ICollector Owner { get; set; }
     public bool IsBreakdownEnabled { get; set; } = true;
@@ -76,7 +80,7 @@ public class MeleeWeapon : IWeapon
 
     public void SetCurrentAttack(WeaponAttack attack) => currentAttack = attack;
 
-    public float GetDurability() => 0; // заглушка
+    public float GetDurability() => 100f; // заглушка
 
     public void SelectAttack(int index)
     {
@@ -96,10 +100,7 @@ public class MeleeWeapon : IWeapon
 
     #endregion
 
-    //private void Start()
-    //{
-    //    Init();
-    //}
+
     public void Init(MeleeData meleeData,ICollector owner)
     {
         this.weaponSO = meleeData.barehandsData;
@@ -107,6 +108,13 @@ public class MeleeWeapon : IWeapon
 
         this.meleeData = new MeleeData();
         this.meleeData.Init(meleeData, this, this.Owner.AttackSource.Source());
+
+        data = new ItemData()
+        {
+            itemSO = weaponSO,
+            instanceId = Guid.NewGuid().ToString(),
+            durability = 100,
+        };
 
     }
 

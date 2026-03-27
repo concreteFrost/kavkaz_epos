@@ -71,13 +71,13 @@ public class PlayerUIManager : MonoBehaviour
             spellInventory:spellInventory,
             consumableInventory:consumableInventory,
             statsController:stats);
-        inventoryUI.Init(descriptionPanel:itemDescriptionPanel,
-            weaponInventory:weaponInventory,
-            spellInventory:spellInventory,
-            consumableInventory:consumableInventory,
-            contextMenu:inventoryContextMenuUI,
-            statsController:stats,
-            weaponSetter:weaponSetter);
+        inventoryUI.Init(descriptionPanel: itemDescriptionPanel,
+            weaponInventory: weaponInventory,
+            spellInventory: spellInventory,
+            consumableInventory: consumableInventory,
+            contextMenu: inventoryContextMenuUI,
+            statsController: stats);
+           
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);

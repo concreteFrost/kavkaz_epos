@@ -26,7 +26,6 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     CharacterConsumeController consumableController;
 
 
-
     public void Init(CharacterConsumeController consumableController)
     {
         this.consumableController = consumableController;
@@ -75,8 +74,6 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     private void EquipItemFromContext()
     {
-        if(currentItem == null) return;
-
         quickAccessInventory.UseItem(currentItem);
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
@@ -84,17 +81,14 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     private void ConsumeItemFromContext()
     {
-        if (currentItem == null) return;
-
         consumableController.StartConsumeFromContext(currentItem);
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
 
     private void DestroyItemFromContextMenu()
     {
-        if (currentItem == null) return;
-
         quickAccessInventory.RemoveFromInventory(currentItem);
+        
         HideContextMenu();
         ItemDestroyed?.Invoke();
          

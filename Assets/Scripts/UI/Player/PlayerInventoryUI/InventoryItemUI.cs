@@ -13,7 +13,6 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     public Action<RectTransform> ItemSelected;
     public Action<ItemSO> ItemOutlined;
 
-
     private void Awake()
     {
         
@@ -27,35 +26,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
         clickHandler = onClick;
     }
 
-    public void FitToCell(Vector2 cellSize)
-    {
-        Vector2 baseSize = transform.localScale;
-        float scaleX = cellSize.x / baseSize.x;
-        float scaleY = cellSize.y / baseSize.y;
-
-        float scale = Mathf.Min(scaleX, scaleY);
-
-        transform.localScale = Vector3.one * (scale * 0.01f);
-    }
-
-    public Vector2 GetAnchoredPosition()
-    {
-        // получаем RectTransform канваса
-        RectTransform canvasRect = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
-
-        // конвертируем позицию слота в локальные координаты канваса
-        RectTransform slotRect = GetComponent<RectTransform>();
-        Vector2 anchoredPos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            slotRect.position,
-            canvasRect.GetComponent<Canvas>().worldCamera,
-            out anchoredPos
-        );
-
-        return anchoredPos;
-    }
-
+ 
     #region Event Handlers
     private void HandleItemEvent()
     {
