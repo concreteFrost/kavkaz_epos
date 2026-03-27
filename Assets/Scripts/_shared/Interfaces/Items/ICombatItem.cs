@@ -2,11 +2,10 @@
 
 public interface ICombatItem : IBreakable
 {
-
     ICollector Owner { get; set; }
 
     void AssignToOwner(ICollector collecter);
 
-    void ToggleVisibility(bool  visible);   
+    void SetEquiped(bool equiped);
 
 }

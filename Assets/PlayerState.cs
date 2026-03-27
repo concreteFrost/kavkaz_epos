@@ -11,5 +11,6 @@ public class PlayerState
     public List<SavedEffectData> effectData;
     public SaveInventoryData spellInventoryData;
     public SaveInventoryData consumableInventoryData;
+    public SaveInventoryData weaponsData;
 
 }

@@ -192,7 +192,8 @@ public class PlayerServiceLocator : MonoBehaviour
             damageController: damageController,
             attackSource: attackSource,
             spellInventory: spellInventory,
-            consumableInventory: consumableInventory);
+            consumableInventory: consumableInventory,
+            weaponInventory:weaponInventory);
 
         consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
 

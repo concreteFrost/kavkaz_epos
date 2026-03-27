@@ -8,6 +8,8 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     protected Collider physicsCollider;
     protected MeshRenderer meshRenderer;
 
+    
+
 
     #region ICombatItem Contract
     public ICollector Owner { get; set; } = null;
@@ -30,10 +32,10 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     
     }
 
-    public void ToggleVisibility(bool enabled)
+    public void SetEquiped(bool equiped)
     {
-        meshRenderer.enabled = enabled;
-       
+        meshRenderer.enabled = equiped;
+        data.isEquiped = equiped;   
     }
 
     protected void AssignParent(Transform t)
@@ -41,11 +43,6 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
         transform.SetParent(t);
         transform.position = t.position;
         transform.rotation = t.rotation;
-    }
-
-    protected void ResetParent()
-    {
-        transform.SetParent(null);
     }
 
 
@@ -67,17 +64,9 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     }
 
     public abstract void AssignToOwner(ICollector target);
+
    
-    protected void ResetOwner()
-    {
-        if(Owner == null) return;   
-
-        //Owner.CombatInventory.ResetCombatItem(this);
-        Owner = null;
-        //damageCollider.SetDamageSource(null);
-    }
-
-
+   
 
 
 }

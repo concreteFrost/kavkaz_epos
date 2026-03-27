@@ -9,6 +9,10 @@ public class InventoryItemSaveData
     public string id;
     public int quantity;
     public int quickSlotIndex; // -1 если нет
+
+    public string instanceId;
+    public bool isEquiped;
+    public float durability;
 }
 
 [Serializable]
@@ -63,7 +67,10 @@ public abstract class QuickAccessInventory : MonoBehaviour
             {
                 id = item.itemSO.id,
                 quantity = item.quantity,
-                quickSlotIndex = quickSlotIndex
+                quickSlotIndex = quickSlotIndex,
+                isEquiped = item.isEquiped,
+                instanceId = item.instanceId,
+                durability = item.durability,   
             };
 
             datas.Add(data);

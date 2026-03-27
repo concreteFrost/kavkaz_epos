@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public abstract class BreakablleItemSO : ItemSO
+public abstract class CombatItemSO : ItemSO
 {
 
     [Tooltip("—колько снимать от состо€ни€ при ударе (в единицах)")]

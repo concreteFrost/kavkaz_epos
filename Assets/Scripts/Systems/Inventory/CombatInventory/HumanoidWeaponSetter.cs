@@ -74,6 +74,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     public void SetWeapon(IWeapon w)
     {
+
         if (w == null)
         {
             CurrentWeapon = DefaultWeapon;
@@ -81,7 +82,8 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
         }
 
         CurrentWeapon = w;
-        CurrentWeapon.ToggleVisibility(true);
+        
+        CurrentWeapon.SetEquiped(true);
         CurrentWeapon.AssignToOwner(Collector);
      
         combatController.IsWeaponed = true;
@@ -100,11 +102,14 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     public void SetShield(IShield w)
     {
+
         if (w == null) return;
         if (CurrentWeapon.WeaponData().weaponType == WeaponType.TwoHands) return;
-      
+
+       
         ShieldWeapon = w;
-        ShieldWeapon.ToggleVisibility(true);
+
+        ShieldWeapon.SetEquiped(true);
         Collector.Damagable.Protection = w;
         ShieldWeapon.AssignToOwner(Collector);
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), ShieldWeapon);
@@ -112,7 +117,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     public void ResetWeapon()
     {
-        CurrentWeapon.ToggleVisibility(false);
+        CurrentWeapon.SetEquiped(false);
         CurrentWeapon = DefaultWeapon;
         combatController.IsWeaponed = false;
         WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
@@ -124,7 +129,8 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
         if (ShieldWeapon == null) return;
 
-        ShieldWeapon.ToggleVisibility(false);
+
+        ShieldWeapon.SetEquiped(false);
         ShieldUpdated?.Invoke(ShieldWeapon.ShieldData(), null);
         Collector.Damagable.Protection = null;
         ShieldWeapon = null;

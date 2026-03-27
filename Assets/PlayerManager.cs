@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviour
         playerState.effectData = serviceLocator.statsModifier.SaveEffectData();
         playerState.consumableInventoryData = serviceLocator.consumableInventory.SaveInventoryData();
         playerState.spellInventoryData = serviceLocator.spellInventory.SaveInventoryData(); 
+        playerState.weaponsData = serviceLocator.weaponInventory.SaveInventoryData();   
 
         return playerState;
     }
@@ -36,6 +37,7 @@ public class PlayerManager : MonoBehaviour
         serviceLocator.levelController.LoadLevelData(state.levelData);
         serviceLocator.statsModifier.LoadEffectsData(state.effectData);
         serviceLocator.consumableInventory.LoadInventoryData(state.consumableInventoryData);
-        serviceLocator.spellInventory.LoadInventoryData(state.spellInventoryData);  
+        serviceLocator.spellInventory.LoadInventoryData(state.spellInventoryData);
+        serviceLocator.weaponInventory.LoadInventoryData(state.weaponsData);
     }
 }

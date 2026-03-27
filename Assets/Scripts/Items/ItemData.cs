@@ -6,4 +6,6 @@ public class ItemData
 
     public string instanceId;
     public float durability; // для оружия и щитов
+
+    public bool isEquiped;
 }

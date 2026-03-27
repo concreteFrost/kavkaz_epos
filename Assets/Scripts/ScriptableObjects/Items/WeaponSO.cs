@@ -8,7 +8,7 @@ public enum WeaponType
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
-public class WeaponSO : BreakablleItemSO, IItemStats
+public class WeaponSO : CombatItemSO, IItemStats
 {
     public override bool IsStackable() => false;
 

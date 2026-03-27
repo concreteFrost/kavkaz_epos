@@ -60,7 +60,7 @@ public class MeleeWeapon : IWeapon
     private WeaponAttack currentAttack;
 
     public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
-    
+
 
     int currentAttackIndex = 0;
 
@@ -142,16 +142,7 @@ public class MeleeWeapon : IWeapon
         meleeData.PerformAttack(currentAttack.damageData, Owner.AttackSource);
     }
 
-    public void ToggleVisibility(bool toggle)
-    {
-        ///
-    }
-    
-
-    public void ThrowWeapon(Transform from, float force)
-    {
-        //��� �������������
-    }
+    #region Unused IWeapon Contract Methods
 
     public void ReduceDurability(float amount)
     {
@@ -172,6 +163,15 @@ public class MeleeWeapon : IWeapon
     {
        //
     }
+
+    public void SetEquiped(bool equiped)
+    {
+
+    }
+
+
+    #endregion
+
 
 
 }
