@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -7,40 +7,37 @@ using System;
 
 public enum InventorySection
 {
-    Weapons=0,
+    Weapons = 0,
     Magic = 1,
     Consumables = 2,
 }
 
 public class PlayerInventoryUI : MonoBehaviour
 {
-    private CharacterStatsController statsController;  
+    private CharacterStatsController statsController;
     private PlayerInventoryContextMenuUI contextMenu;
     private ItemDescriptionPanelUI descriptionPanel;
 
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
-    
+
     [SerializeField] Transform weaponCellsContainer;
     [SerializeField] Transform cellsContainer;
-   
+
     [SerializeField] Scrollbar scrollSlider;
     [SerializeField] ScrollRect scrollRect;
 
     [SerializeField] Button magicSectionBtn;
     [SerializeField] Button consumableSectionBtn;
     [SerializeField] Button weaponsSectionBtn;
-    //[SerializeField] Button resourcesSectionBtn;
 
-    PlayerConsumableInventory consumableInventory;
-    CharacterSpellInventory spellInventory;
-    CharacterWeaponInventory weaponInventory;
-
+    private PlayerConsumableInventory consumableInventory;
+    private CharacterSpellInventory spellInventory;
+    private CharacterWeaponInventory weaponInventory;
 
     private List<InventoryItemUI> weaponItems = new List<InventoryItemUI>();
-
     private List<InventoryItemUI> slotItems = new List<InventoryItemUI>();
-    private int totalCellsToInit = 50;
+    private int totalCellsToInit = 70;
 
     [SerializeField] Transform quickSlotsContainer;
     private List<InventoryItemUI> quickSlotItems = new List<InventoryItemUI>();
@@ -48,14 +45,12 @@ public class PlayerInventoryUI : MonoBehaviour
     private QuickAccessInventory currentInventory;
     Dictionary<InventorySection, QuickAccessInventory> inventories;
 
-    GridLayoutGroup grid;
-
-    public bool IsOpened()=>mainWrapper.activeInHierarchy;
+    private GridLayoutGroup grid;
+    public bool IsOpened() => mainWrapper.activeInHierarchy;
 
     public InventorySection currentSection { get; private set; }
 
-
-    // для переключения контроллером
+    // РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРј
     private List<InventorySection> sectionOrder = new List<InventorySection>
 {
     InventorySection.Weapons,
@@ -63,23 +58,29 @@ public class PlayerInventoryUI : MonoBehaviour
     InventorySection.Consumables
 };
 
-    public void Init(ItemDescriptionPanelUI descriptionPanel,CharacterWeaponInventory weaponInventory, CharacterSpellInventory spellInventory,PlayerConsumableInventory consumableInventory, PlayerInventoryContextMenuUI contextMenu, CharacterStatsController statsController)
+    public void Init(ItemDescriptionPanelUI descriptionPanel,
+        CharacterWeaponInventory weaponInventory,
+        CharacterSpellInventory spellInventory,
+        PlayerConsumableInventory consumableInventory,
+        PlayerInventoryContextMenuUI contextMenu,
+        CharacterStatsController statsController)
     {
-        this.descriptionPanel = descriptionPanel;   
+        this.descriptionPanel = descriptionPanel;
         this.contextMenu = contextMenu;
         this.statsController = statsController;
 
         this.consumableInventory = consumableInventory;
         this.weaponInventory = weaponInventory;
-        this.spellInventory = spellInventory;   
-      
+        this.spellInventory = spellInventory;
+
         contextMenu.ContextMenuClosed += OnContextMenuClosed;
         contextMenu.UpdateQuickSlotsInfo += OnQuickSlotsInfoUpdate;
         contextMenu.ItemDestroyed += OnItemDestroyed;
+        contextMenu.ItemEquiped += OnItemEquipped;
 
         grid = cellsContainer.GetComponent<GridLayoutGroup>();
 
-        //динамическое назначение инвентарей
+        //РґРёРЅР°РјРёС‡РµСЃРєРѕРµ РЅР°Р·РЅР°С‡РµРЅРёРµ РёРЅРІРµРЅС‚Р°СЂРµР№
         inventories = new Dictionary<InventorySection, QuickAccessInventory>
     {
         {InventorySection.Weapons, this.weaponInventory },
@@ -87,7 +88,7 @@ public class PlayerInventoryUI : MonoBehaviour
         {InventorySection.Consumables, this.consumableInventory },
     };
 
-       
+
         InitInventoryCells();
         InitQuickAccessCells();
         InitWeaponCells();
@@ -101,10 +102,11 @@ public class PlayerInventoryUI : MonoBehaviour
         contextMenu.ContextMenuClosed -= OnContextMenuClosed;
         contextMenu.UpdateQuickSlotsInfo -= OnQuickSlotsInfoUpdate;
         contextMenu.ItemDestroyed -= OnItemDestroyed;
+        contextMenu.ItemEquiped -= OnItemEquipped;
     }
 
     /// <summary>
-    /// Управление состоянием видимости инвентаря
+    /// РЈРїСЂР°РІР»РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёРµРј РІРёРґРёРјРѕСЃС‚Рё РёРЅРІРµРЅС‚Р°СЂСЏ
     /// </summary>
     /// <param name="isVisible"></param>
     public void ToggleInventory(bool isVisible)
@@ -114,40 +116,40 @@ public class PlayerInventoryUI : MonoBehaviour
         if (!isVisible) descriptionPanel.ClearCommonItemInfo();
     }
 
+    #region Buttons Event Binders/Removals
     /// <summary>
-    /// Привязывает обработчики событий клика к кнопкам разделов для переключения между разделами инвентаря.
+    /// РџСЂРёРІСЏР·С‹РІР°РµС‚ РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№ РєР»РёРєР° Рє РєРЅРѕРїРєР°Рј СЂР°Р·РґРµР»РѕРІ РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ РјРµР¶РґСѓ СЂР°Р·РґРµР»Р°РјРё РёРЅРІРµРЅС‚Р°СЂСЏ.
     /// </summary>
     private void BindSectionButtons()
     {
-        RemoveButtonListeners();    
+        RemoveButtonListeners();
 
-        magicSectionBtn.onClick.AddListener(()=>GetSection(InventorySection.Magic));
+        magicSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Magic));
         consumableSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Consumables));
-        weaponsSectionBtn.onClick.AddListener(()=>GetSection(InventorySection.Weapons));
+        weaponsSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Weapons));
         //resourcesSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Resources));
     }
 
     /// <summary>
-    /// Удаляет все обработчики событий клика для кнопок в разделах магии, расходных материалов и оружия.
+    /// РЈРґР°Р»СЏРµС‚ РІСЃРµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№ РєР»РёРєР° РґР»СЏ РєРЅРѕРїРѕРє РІ СЂР°Р·РґРµР»Р°С… РјР°РіРёРё, СЂР°СЃС…РѕРґРЅС‹С… РјР°С‚РµСЂРёР°Р»РѕРІ Рё РѕСЂСѓР¶РёСЏ.
     /// </summary>
     private void RemoveButtonListeners()
     {
         magicSectionBtn.onClick.RemoveAllListeners();
         consumableSectionBtn.onClick.RemoveAllListeners();
-        weaponsSectionBtn.onClick.RemoveAllListeners();    
+        weaponsSectionBtn.onClick.RemoveAllListeners();
         //resourcesSectionBtn.onClick.RemoveAllListeners();
     }
+    #endregion
 
+    #region Main Grid And Quick Slots Init
     /// <summary>
-    /// Открывает панель описания предмета
+    /// РЎРѕР·РґР°РµС‚ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ СЏС‡РµР№РєРё РёРЅРІРµРЅС‚Р°СЂСЏ РєР°Рє РґРѕС‡РµСЂРЅРёР№ СЌР»РµРјРµРЅС‚ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РєРѕРЅС‚РµР№РЅРµСЂР°.
     /// </summary>
-    /// <param name="item"></param>
-    private void OnItemOutlined(ItemSO item)
-    {
-        descriptionPanel.ShowPanel(item);
-    }
-
-    private InventoryItemUI InstantiateInventoryCell(Transform container, Action<ItemData,Vector2> action)
+    /// <param name="container">Р РѕРґРёС‚РµР»СЊСЃРєРёР№ СЌР»РµРјРµРЅС‚ СЏС‡РµР№РєРё</param>
+    /// <param name="action">Р”РµР№СЃС‚РІРёСЏ РїРѕ РЅР°Р¶Р°С‚РёРµ РЅР° СЏС‡РµР№РєСѓ</param>
+    /// <returns></returns>
+    private InventoryItemUI InstantiateInventoryCell(Transform container, Action<ItemData, Vector2> action)
     {
         GameObject go = Instantiate(itemCellPrefab, container);
         InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
@@ -161,65 +163,103 @@ public class PlayerInventoryUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Динамически создает QuickSlotItemUI в контейнере
+    /// Р”РёРЅР°РјРёС‡РµСЃРєРё СЃРѕР·РґР°РµС‚ QuickSlotItemUI РІ РєРѕРЅС‚РµР№РЅРµСЂРµ
     /// </summary>
     private void InitInventoryCells()
     {
-        //создание основной сетки
+        //СЃРѕР·РґР°РЅРёРµ РѕСЃРЅРѕРІРЅРѕР№ СЃРµС‚РєРё
         for (int i = 0; i < totalCellsToInit; i++)
         {
-            var newCell = InstantiateInventoryCell(cellsContainer,(item,pos)=> contextMenu.ShowContextMenu(item,pos));
-            slotItems.Add(newCell);  
+            var newCell = InstantiateInventoryCell(cellsContainer, (item, pos) => contextMenu.ShowContextMenu(item, pos));
+            slotItems.Add(newCell);
         }
 
     }
     /// <summary>
-    /// Создает иконки для экипированых оружейных слотов
+    /// РЎРѕР·РґР°РµС‚ РёРєРѕРЅРєРё РґР»СЏ СЌРєРёРїРёСЂРѕРІР°РЅС‹С… РѕСЂСѓР¶РµР№РЅС‹С… СЃР»РѕС‚РѕРІ
     /// </summary>
     private void InitWeaponCells()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            var newCell = InstantiateInventoryCell(weaponCellsContainer, (item, pos) => HandleUnequipItem(item,pos));
+            var newCell = InstantiateInventoryCell(weaponCellsContainer, (item, pos) => HandleUnequipItem(item, pos));
             weaponItems.Add(newCell);
         }
     }
 
- 
-
     /// <summary>
-    /// Динамически создает сетку быстрого доступа
+    /// Р”РёРЅР°РјРёС‡РµСЃРєРё СЃРѕР·РґР°РµС‚ СЃРµС‚РєСѓ Р±С‹СЃС‚СЂРѕРіРѕ РґРѕСЃС‚СѓРїР°
     /// </summary>
     private void InitQuickAccessCells()
     {
-        //создание сетки быстрого доступа
+        //СЃРѕР·РґР°РЅРёРµ СЃРµС‚РєРё Р±С‹СЃС‚СЂРѕРіРѕ РґРѕСЃС‚СѓРїР°
         for (int i = 0; i < QuickAccessInventory.QUICK_SLOTS_COUNT; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<InventoryItemUI>();
             data.InitInInventory((item, pos) => contextMenu.RemoveOnItemClick(item));
-            
+
             quickSlotItems.Add(data);
         }
     }
+    #endregion
+
+    #region Grid And Quick Slots Redrawing Methods
+    /// <summary>
+    /// РћС‚РѕР±СЂР°Р¶Р°РµС‚ РїСЂРµРґРјРµС‚С‹ РІ РёРЅРІРµРЅС‚Р°СЂРµ Рё Р±С‹СЃС‚СЂРѕРј РґРѕСЃС‚СѓРїРµ, РєРѕС‚РѕСЂС‹Рµ Р°РєС‚СѓР°Р»СЊРЅС‹ РґР»СЏ РґР°РЅРЅРѕР№ СЃРµРєС†РёРё
+    /// </summary>
+    /// <param name="section"></param>
+    public void GetSection(InventorySection section)
+    {
+
+        //descriptionPanel.HidePanel();
+
+        currentSection = section;
+        currentInventory = inventories[section];
+
+        contextMenu.SetCurrentInventory(currentInventory);
+        contextMenu.HideContextMenu(false);
+
+        ClearCellsData();
+
+        GetWeaponsInfo();
+        GetSlotsInfo();
+        GetQuickSlotsInfo();
+
+        Canvas.ForceUpdateCanvases();          // РІР°Р¶РЅРѕ
+        scrollRect.verticalNormalizedPosition = 1f;
+
+        // РџСЂРµРѕР±СЂР°Р·СѓРµРј QuickSlotItemUI РІ Button
+        var mainGridButtons = slotItems.Select(s => s.GetComponent<Selectable>()).ToList();
+        // РќР°СЃС‚СЂР°РёРІР°РµРј СЃРµС‚РѕС‡РЅСѓСЋ РЅР°РІРёРіР°С†РёСЋ
+        var weaponButtons = weaponCellsContainer.GetComponentsInChildren<Selectable>().ToList();
+        UINavigationUtils.SetupGridNavigation(mainGridButtons, 5, weaponButtons);
+
+        // РќР°СЃС‚СЂР°РёРІР°РµРј РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ РїР°РЅРµР»СЊ РґР»СЏ РѕСЂСѓР¶РёСЏ СЃ СѓС‡С‘С‚РѕРј РїРµСЂРµС…РѕРґР° РЅР° РїСЂР°РІСѓСЋ РїР°РЅРµР»СЊ
+        UINavigationUtils.ClampVerticalNavigation(weaponButtons, mainGridButtons);
+
+        FocusFirstGridItem(null);
+
+        SetButtonState(magicSectionBtn, section == InventorySection.Magic);
+        SetButtonState(consumableSectionBtn, section == InventorySection.Consumables);
+        SetButtonState(weaponsSectionBtn, section == InventorySection.Weapons); 
+    }
 
     /// <summary>
-    /// Показывает актуально информацию о предметах в быстром доступе
+    /// РџРѕРєР°Р·С‹РІР°РµС‚ Р°РєС‚СѓР°Р»СЊРЅРѕ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїСЂРµРґРјРµС‚Р°С… РІ Р±С‹СЃС‚СЂРѕРј РґРѕСЃС‚СѓРїРµ
     /// </summary>
     private void GetQuickSlotsInfo()
     {
-
         quickSlotItems.ForEach((s) => s.RemoveData());
 
         for (int i = 0; i < currentInventory.GetQuickAccessData().Count; i++)
         {
-            quickSlotItems[i].UpdateImageDate(currentInventory.GetQuickAccessData()[i],statsController);
+            quickSlotItems[i].UpdateImageDate(currentInventory.GetQuickAccessData()[i], statsController);
         }
-
     }
 
     /// <summary>
-    /// Показывает актуальную информацию о предметах в иневентаре
+    /// РџРѕРєР°Р·С‹РІР°РµС‚ Р°РєС‚СѓР°Р»СЊРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїСЂРµРґРјРµС‚Р°С… РІ РёРЅРµРІРµРЅС‚Р°СЂРµ
     /// </summary>
     private void GetSlotsInfo()
     {
@@ -233,93 +273,89 @@ public class PlayerInventoryUI : MonoBehaviour
         }
     }
 
-    private void HandleUnequipItem(ItemData data, Vector2 pos)
-    {
-
-        weaponInventory.UnequipItem(data);
-        GetWeaponsInfo();
-
-    }
 
     /// <summary>
-    /// Показывает актуальную информацию об оружие или щите
+    /// РџРѕРєР°Р·С‹РІР°РµС‚ Р°РєС‚СѓР°Р»СЊРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РѕСЂСѓР¶РёРµ РёР»Рё С‰РёС‚Рµ
     /// </summary>
     private void GetWeaponsInfo()
     {
-
         weaponItems[0].UpdateImageDate(weaponInventory.GetCurrentWeaponData(), statsController);
-        weaponItems[1].UpdateImageDate(weaponInventory.GetCurrentShieldData(), statsController);    
-
+        weaponItems[1].UpdateImageDate(weaponInventory.GetCurrentShieldData(), statsController);
     }
-  
+
     /// <summary>
-    /// Очищает неактульную информацию о предметах в инвентаре и быстром доступе
+    /// РћС‡РёС‰Р°РµС‚ РЅРµР°РєС‚СѓР»СЊРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїСЂРµРґРјРµС‚Р°С… РІ РёРЅРІРµРЅС‚Р°СЂРµ Рё Р±С‹СЃС‚СЂРѕРј РґРѕСЃС‚СѓРїРµ
     /// </summary>
     private void ClearCellsData()
     {
         slotItems.ForEach((s) => s.RemoveData());
         quickSlotItems.ForEach((s) => s.RemoveData());
-        weaponItems.ForEach((s) => s.RemoveData()); 
+        weaponItems.ForEach((s) => s.RemoveData());
+    }
+    #endregion
+
+    #region Events Listeners
+
+    private void OnItemEquipped() => GetWeaponsInfo();
+
+    /// <summary>
+    /// РћС‚РєСЂС‹РІР°РµС‚ РїР°РЅРµР»СЊ РѕРїРёСЃР°РЅРёСЏ РїСЂРµРґРјРµС‚Р°
+    /// </summary>
+    /// <param name="item"></param>
+    private void OnItemOutlined(ItemSO item)
+    {
+
+        if (item == null)
+        {
+            descriptionPanel.HidePanel();
+            return;
+        }
+
+        contextMenu.HideContextMenu(false);
+        descriptionPanel.ShowPanel(item);
     }
 
     /// <summary>
-    /// Отображает предметы в инвентаре и быстром доступе, которые актуальны для данной секции
+    /// РћР±РЅРѕРІР»СЏРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ Р±С‹СЃС‚СЂС‹С… СЃР»РѕС‚Р°С…, СЃР»РѕС‚Р°С… Рё вЂ‹вЂ‹РѕСЂСѓР¶РёРё РїСЂРё СѓРЅРёС‡С‚РѕР¶РµРЅРёРё РїСЂРµРґРјРµС‚Р°.
     /// </summary>
-    /// <param name="section"></param>
-    public void GetSection(InventorySection section)
-    {
-
-        descriptionPanel.HidePanel();
-
-        currentSection = section;
-        currentInventory = inventories[section];
-
-        contextMenu.SetCurrentInventory(currentInventory);  
-        contextMenu.HideContextMenu();
-        ClearCellsData();
-
-        GetWeaponsInfo();
-        GetSlotsInfo();
-        GetQuickSlotsInfo();
-
-        Canvas.ForceUpdateCanvases();          // важно
-        scrollRect.verticalNormalizedPosition = 1f;
-
-        // Преобразуем QuickSlotItemUI в Button
-        var mainGridButtons = slotItems.Select(s => s.GetComponent<Selectable>()).ToList();
-        // Настраиваем сеточную навигацию
-        var weaponButtons = weaponCellsContainer.GetComponentsInChildren<Selectable>().ToList();
-        UINavigationUtils.SetupGridNavigation(mainGridButtons, 5,weaponButtons);
-
-        // Настраиваем вертикальную панель для оружия с учётом перехода на правую панель
-        UINavigationUtils.ClampVerticalNavigation(weaponButtons,mainGridButtons);
-        
-        FocusFirstGridItem(null);
-
-        SetButtonState(magicSectionBtn, section == InventorySection.Magic);
-        SetButtonState(consumableSectionBtn, section == InventorySection.Consumables);
-
-      
-    }
-
-    #region Events Listeners
     private void OnItemDestroyed()
     {
+        if (currentInventory.items.Count == 0)
+        {
+            descriptionPanel.HidePanel();
+        }
+
         GetQuickSlotsInfo();
         GetSlotsInfo();
         GetWeaponsInfo();
     }
 
-    private void OnContextMenuClosed(ItemData data) => FocusFirstGridItem(data);
+    /// <summary>
+    /// РЈРґР°Р»СЏРµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ РїСЂРµРґРјРµС‚ РёР· РёРЅРІРµРЅС‚Р°СЂСЏ РѕСЂСѓР¶РёСЏ Рё РѕР±РЅРѕРІР»СЏРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РѕСЂСѓР¶РёРё.
+    /// </summary>
+    /// <param name="data">Р­Р»РµРјРµРЅС‚ РґР»СЏ СЃРЅСЏС‚РёСЏ</param>
+    /// <param name="pos">РџРѕР·РёС†РёСЏ СЌР»РµРјРµРЅС‚Р° СЃРµС‚РєРё</param>
+    private void HandleUnequipItem(ItemData data, Vector2 pos)
+    {
+        
+        weaponInventory.UnequipItem(data);
+        GetWeaponsInfo();
+    }
 
-    private void OnQuickSlotsInfoUpdate()=>GetQuickSlotsInfo();
+    /// <summary>
+    /// Р¤РѕРєСѓСЃРёСЂСѓРµС‚СЃСЏ РЅР° РїРµСЂРІРѕРј СЌР»РµРјРµРЅС‚Рµ СЃРµС‚РєРё РїСЂРё Р·Р°РєСЂС‹С‚РёРё РєРѕРЅС‚РµРєСЃС‚РЅРѕРіРѕ РјРµРЅСЋ
+    /// </summary>
+    /// <param name="data">.</param>
+    private void OnContextMenuClosed(ItemData data)=>FocusFirstGridItem(data);
+
+    private void OnQuickSlotsInfoUpdate() => GetQuickSlotsInfo();
 
     #endregion
 
     #region UI Visual Helpers
 
     /// <summary>
-    /// Подсвечивает актуальную кнопку секции инвентаря
+    /// РџРѕРґСЃРІРµС‡РёРІР°РµС‚ Р°РєС‚СѓР°Р»СЊРЅСѓСЋ РєРЅРѕРїРєСѓ СЃРµРєС†РёРё РёРЅРІРµРЅС‚Р°СЂСЏ
     /// </summary>
     /// <param name="button"></param>
     /// <param name="active"></param>
@@ -329,7 +365,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
         if (active)
         {
-            button.image.color = colors.selectedColor; // или свой цвет
+            button.image.color = colors.selectedColor; // РёР»Рё СЃРІРѕР№ С†РІРµС‚
         }
         else
         {
@@ -339,7 +375,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
 
     /// <summary>
-    /// Выбирает первый предмет в основной сетке предметов
+    /// Р’С‹Р±РёСЂР°РµС‚ РїРµСЂРІС‹Р№ РїСЂРµРґРјРµС‚ РІ РѕСЃРЅРѕРІРЅРѕР№ СЃРµС‚РєРµ РїСЂРµРґРјРµС‚РѕРІ
     /// </summary>
     /// <param name="data"></param>
     private void FocusFirstGridItem(ItemData data)
@@ -350,9 +386,9 @@ public class PlayerInventoryUI : MonoBehaviour
 
         if (data != null)
         {
-            foreach(var item in slotItems)
+            foreach (var item in slotItems)
             {
-                if(item.GetItem().itemSO.id == data.itemSO.id)
+                if (item.GetItem().itemSO.id == data.itemSO.id)
                 {
                     toSelect = item.gameObject;
                     break;
@@ -362,14 +398,14 @@ public class PlayerInventoryUI : MonoBehaviour
 
 
         StartCoroutine(UINavigationUtils.SelectWithDelay(toSelect));
-       
+
     }
     #endregion
 
     #region Gamepad Input Handlers
 
     /// <summary>
-    /// Меняет секции инвентаря по нажатию кнопок (L1,R1)
+    /// РњРµРЅСЏРµС‚ СЃРµРєС†РёРё РёРЅРІРµРЅС‚Р°СЂСЏ РїРѕ РЅР°Р¶Р°С‚РёСЋ РєРЅРѕРїРѕРє (L1,R1)
     /// </summary>
     /// <param name="direction"></param>
     public void SwitchSectionOnInputChange(int direction)
@@ -389,7 +425,7 @@ public class PlayerInventoryUI : MonoBehaviour
 
 
     /// <summary>
-    /// Листает сетку инвентаря (L2, R2)
+    /// Р›РёСЃС‚Р°РµС‚ СЃРµС‚РєСѓ РёРЅРІРµРЅС‚Р°СЂСЏ (L2, R2)
     /// </summary>
     /// <param name="val"></param>
     internal void RedSliderValue(float val)

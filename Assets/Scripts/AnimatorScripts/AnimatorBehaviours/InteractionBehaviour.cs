@@ -23,8 +23,13 @@ public class InteractionBehaviour : StateMachineBehaviour
         if (!motor.StopMove) 
             motor.StopMove = true;
 
+        if(!motor.BlockRotation)
+            motor.BlockRotation = true; 
+
         if (animator.applyRootMotion == false)
             animator.applyRootMotion = true;
+
+        
 
         float t = stateInfo.normalizedTime;
 
@@ -42,8 +47,10 @@ public class InteractionBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         motor.StopMove = false;
+        motor.BlockRotation = false;
         animator.applyRootMotion = false;
         hasInteracted = false;
+       
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

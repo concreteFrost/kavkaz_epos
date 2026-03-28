@@ -20,7 +20,17 @@ public class HumanoidAiLifecycle : CharacterLifecycle
 
     }
 
+
     public override void Die()
+    {
+        PerformDeath();
+
+        pointsEmitter.DropPoints();
+        distributer.HandleLootGenerate(damagable.GetOrigin().transform.position);
+
+    }
+
+    public void PerformDeath()
     {
         if (damagable.IsDead) return;
 
@@ -30,14 +40,10 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         {
             ragdollController.EnableRagdoll(Vector3.zero, 0);
         }
-       
-        pointsEmitter.DropPoints();
-        distributer.HandleLootGenerate(damagable.GetOrigin().transform.position);
 
         brain.ForceStop();
-      
-        StartCoroutine(RespawnCoroutine());
-       
+
+        //StartCoroutine(RespawnCoroutine());
     }
 
     public override void Respawn()

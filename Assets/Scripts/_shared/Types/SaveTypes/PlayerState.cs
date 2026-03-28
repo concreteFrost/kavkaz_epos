@@ -14,3 +14,14 @@ public class PlayerState
     public SaveInventoryData weaponsData;
 
 }
+
+[Serializable]
+public class EnemyState
+{
+    public string enemyId;
+    public float[] enemyPosition = new float[3];    
+
+    public CharacterStatsData statsData;
+    public List<SavedEffectData> effectData;
+
+}

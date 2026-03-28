@@ -21,6 +21,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     public Action<ItemData> ContextMenuClosed; //вызывает фокус на активный предмет в инвентаре
     public Action UpdateQuickSlotsInfo; //обновляет быстрые слоты в основном инвентаре
     public Action ItemDestroyed;
+    public Action ItemEquiped;
 
     QuickAccessInventory quickAccessInventory;
     CharacterConsumeController consumableController;
@@ -31,7 +32,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         this.consumableController = consumableController;
         allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
-        
+
         SetupAction(addToSlotBtn, AddFromContext);
         SetupAction(removeFromSlotBtn, RemoveFromContext);
         SetupAction(useBtn, ConsumeItemFromContext);
@@ -44,13 +45,13 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     public void SetCurrentInventory(QuickAccessInventory inv)
     {
         quickAccessInventory = inv;
-        SetContextButtons();
+
     }
 
     private void SetContextButtons()
     {
         useBtn.gameObject.SetActive(quickAccessInventory is PlayerConsumableInventory);
-        equipBtn.gameObject.SetActive(quickAccessInventory is CharacterWeaponInventory);
+        equipBtn.gameObject.SetActive(quickAccessInventory is CharacterWeaponInventory && !currentItem.isEquiped);
         addToSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
         removeFromSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
     }
@@ -75,7 +76,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     private void EquipItemFromContext()
     {
         quickAccessInventory.UseItem(currentItem);
-        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+        ItemEquiped?.Invoke();
+        //GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
 
 
@@ -88,10 +90,10 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     private void DestroyItemFromContextMenu()
     {
         quickAccessInventory.RemoveFromInventory(currentItem);
-        
-        HideContextMenu();
+
+        HideContextMenu(true);
         ItemDestroyed?.Invoke();
-         
+
     }
     #endregion
 
@@ -120,7 +122,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         btn.onClick.AddListener(() =>
         {
             action?.Invoke();
-            HideContextMenu();
+            HideContextMenu(true);
         });
     }
 
@@ -129,9 +131,11 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// сбрасывает текущий выбранный предмет
     /// и уведомляет подписчиков о закрытии.
     /// </summary>
-    public void HideContextMenu()
+    public void HideContextMenu(bool invokeEvent)
     {
-        ContextMenuClosed?.Invoke(currentItem);
+        if (invokeEvent)
+            ContextMenuClosed?.Invoke(currentItem);
+
         wrapper.SetActive(false);
         currentItem = null;
     }
@@ -147,13 +151,14 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     {
         if (!WillShowContextMenu(data))
         {
-            HideContextMenu();
+            HideContextMenu(true);
             return;
         }
 
         currentItem = data;
 
         wrapper.SetActive(true);
+        SetContextButtons();
 
         position.y -= 90;
         _rectTransform.localPosition = position;
@@ -177,7 +182,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         if (data == null)
         {
             Debug.Log("data is null");
-            return false;   
+            return false;
         }
 
         if (currentItem != null)

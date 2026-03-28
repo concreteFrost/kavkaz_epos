@@ -48,19 +48,22 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     public void ReduceDurability(float amount)
     {
-        if (Owner == null || !IsBreakdownEnabled) return;
+        if (!IsBreakdownEnabled) return;
 
         data.durability -= amount;
 
         if (data.durability <= 0f)
         {
-            Debug.Log("weapon is broken");
+           data.durability = 0f;    
         }
     }
 
     public void IncreaseDurability(float amount)
     {
-        data.durability = Mathf.Clamp01(data.durability + amount);
+        data.durability += amount;
+
+        if (data.durability > 100f)
+            data.durability = 100f;
     }
 
     public abstract void AssignToOwner(ICollector target);

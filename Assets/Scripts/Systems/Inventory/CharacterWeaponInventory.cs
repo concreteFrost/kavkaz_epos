@@ -138,7 +138,11 @@ public class CharacterWeaponInventory : QuickAccessInventory
 
     public void UnequipItem(ItemData data)
     {
-        ICombatItem obj = GetWeaponObject(data);
+        if(weaponSetter.CurrentWeapon != weaponSetter.DefaultWeapon)
+        {
+            ICombatItem obj = GetWeaponObject(data);
+        }
+           
         weaponSetter.HandleResetCombatItem(data.instanceId);
     }
 

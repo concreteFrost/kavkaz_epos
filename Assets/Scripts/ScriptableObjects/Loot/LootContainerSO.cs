@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,11 +29,17 @@ public class DropableItem
 [CreateAssetMenu(menuName = ScriptablePaths.LOOT_PATH + "/Loot Container", fileName ="Loot Container")]
 public class LootContainerSO : ScriptableObject
 {
-    public GameObject lootContainerPrefab;
+    public string id;
     public List<DropableItem> possibleItems = new List<DropableItem>();
 
     private void OnValidate()
     {
+        if (string.IsNullOrEmpty(id))
+        {
+            id = Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
         foreach (var item in possibleItems)
         {
             item.OnValidate();

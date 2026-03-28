@@ -38,25 +38,32 @@ public class CharacterLootDistributer : MonoBehaviour
 
         if (TryGetValidDropPosition(dropPosition, out var validPosition))
         {
-            DropLoot(validPosition, generatedItems);
+            var lootData = new DynamicLootState();
+            lootData.instanceId = Guid.NewGuid().ToString();
+            lootData.lootPosition = new float[3]
+            {
+            validPosition.x,
+            validPosition.y,
+            validPosition.z
+            };
+
+            foreach (var item in generatedItems)
+            {
+                lootData.droppedItems.Add(new DroppedItemsData
+                {
+                    itemId = item.itemSO.id,
+                    quantity = item.quantity
+                });
+            }
+
+            DynamicLootManager.DynamicLootDropped?.Invoke(lootData);
         }
         else
         {
-            // fallback Ч тут уже тво€ логика
-          
-            LootDroppedInInvalidArea?.Invoke(generatedItems); // лучше List<ItemData>
-           
+            LootDroppedInInvalidArea?.Invoke(generatedItems);
         }
     }
 
-    private void DropLoot(Vector3 dropPosition, List<ItemData> generatedItems)
-    {
-        var go = Instantiate(listSO.lootContainerPrefab, dropPosition, Quaternion.identity);
-
-        var holder = go.GetComponent<DynamicLootHolder>();
-        holder.Init();
-        holder.AddItemsFromDistributer(generatedItems);
-    }
 
     private bool TryGetValidDropPosition(Vector3 originalPosition, out Vector3 result)
     {

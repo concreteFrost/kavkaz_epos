@@ -142,7 +142,7 @@ public class PlayerUIManager : MonoBehaviour
         SetCursorState(false);
         ToggleInGamePanels(true);
 
-        inventoryContextMenuUI.HideContextMenu();
+        inventoryContextMenuUI.HideContextMenu(false);
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
@@ -170,7 +170,7 @@ public class PlayerUIManager : MonoBehaviour
 
     public void HideContextMenu()
     {
-        inventoryContextMenuUI.HideContextMenu();
+        inventoryContextMenuUI.HideContextMenu(true);
     }
 
     public void ReadSliderValue(float value)

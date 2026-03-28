@@ -8,7 +8,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
 {
     [SerializeField] protected Image outlineImage;
     
-    private Action<ItemData, Vector2> clickHandler;
+    private Action<ItemData, Vector2> ItemClicked;
     
     public Action<RectTransform> ItemSelected;
     public Action<ItemSO> ItemOutlined;
@@ -23,7 +23,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
 
     public void InitInInventory(Action<ItemData, Vector2> onClick)
     {
-        clickHandler = onClick;
+        ItemClicked = onClick;
     }
 
  
@@ -33,11 +33,11 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
         
         if (currentItem == null)
         {
-            clickHandler?.Invoke(null,GetAnchoredPosition());   
+            ItemClicked?.Invoke(null,GetAnchoredPosition());   
             return;
         }
 
-        clickHandler?.Invoke(currentItem, GetAnchoredPosition());
+        ItemClicked?.Invoke(currentItem, GetAnchoredPosition());
     }
 
     public void OnPointerClick(PointerEventData eventData)

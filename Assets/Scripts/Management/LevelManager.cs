@@ -20,9 +20,17 @@ public class LevelManager : MonoBehaviour
         //weaponsManager.Init();
     }
 
+    public void ResetCharacters()
+    {
+         charactersManager.RespawnAllCharacters();  
+    }
+
     public LevelState SaveLevelState()
     {
-        levelState.lootDatas = lootManager.SaveLootData(); 
+        levelState.lootDatas = lootManager.SaveLootData();
+        levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
+        levelState.enemyDatas = charactersManager.SaveEnemies();
+        
         //levelState.combatItemDatas = weaponsManager.SaveCombatItemData();
         return levelState;
 
@@ -32,7 +40,9 @@ public class LevelManager : MonoBehaviour
     {
         levelState = state;
 
-        lootManager.LoadLootData(state.lootDatas);
+        lootManager.LoadLootData(state);
+        lootManager.LoadDynamicLoot(state);
+        charactersManager.LoadCharactersData(state);
         //weaponsManager.LoadItemData(state.combatItemDatas); 
     }
     

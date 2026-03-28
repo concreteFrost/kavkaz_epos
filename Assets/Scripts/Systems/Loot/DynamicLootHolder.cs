@@ -1,28 +1,35 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
 
 public class DynamicLootHolder : BaseLootHolder
 {
-
-    public Vector3 currentPoisiton;
+    private string instanceId; //генерируется при дропе лута чтобы корректно сохранять/загружать данные
 
     public override ItemInteractionType InteractType()=> ItemInteractionType.Item; 
 
     public override void Init()
     {
-        base.Init();        
+        base.Init();
+       
     }
 
-    public void AddItemsFromDistributer(List<ItemData> list)
+    public void SetInstanceId(string instanceId)=>this.instanceId = instanceId; 
+
+    public void AddItemsFromDistributer(List<ItemData> data)
     {
         itemsToDrop.Clear();
-        itemsToDrop.AddRange(list);
+        itemsToDrop.AddRange(data);
+      
+
     }
     public override void Interact(ICollector collector)
     {
         base.Interact(collector);
-        Destroy(this.gameObject); 
+
+        DynamicLootManager.LootCollected?.Invoke(instanceId);
+        Destroy(gameObject);
     }
 
     public override void LoadLootData(LootState state)

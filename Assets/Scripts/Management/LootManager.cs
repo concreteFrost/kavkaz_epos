@@ -4,9 +4,17 @@ using UnityEngine;
 public class LootManager : MonoBehaviour
 {
     public List<BaseLootHolder> loots = new List<BaseLootHolder>(); 
-
+    [SerializeField] private DynamicLootManager dynamicLootManager;  
     public void Init()
     {
+
+        if (dynamicLootManager == null)
+        {
+            dynamicLootManager = FindAnyObjectByType<DynamicLootManager>();
+        }
+
+        dynamicLootManager.Init();  
+
         loots.Clear();
         loots.AddRange(GetComponentsInChildren<BaseLootHolder>());
             
@@ -28,14 +36,19 @@ public class LootManager : MonoBehaviour
         return savedLoot;
     }
 
-    public void LoadLootData(List<LootState> savedLoot)
+    public List<DynamicLootState> SaveDynamicLoot()=> dynamicLootManager.SaveDynamicLoot();
+
+    public void LoadDynamicLoot(LevelState state) => dynamicLootManager.LoadDynamicLootData(state.dynamicLootDatas);
+
+    public void LoadLootData(LevelState state)
     {
+        var savedLoot = state.lootDatas;
         foreach (var loot in loots)
         {
-            var state = savedLoot.Find(x => x.lootId == loot.id);
-            if (state != null)
+            var match = savedLoot.Find(x => x.lootId == loot.id);
+            if (match != null)
             {
-                loot.LoadLootData(state);   
+                loot.LoadLootData(match);   
             }
         }
     }

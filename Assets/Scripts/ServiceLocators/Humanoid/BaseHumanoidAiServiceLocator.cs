@@ -22,9 +22,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected HumanoidAIController controller;
 
     [Header("Статы")]
-    [SerializeField] protected CharacterLevelController levelController;
-    [SerializeField] protected CharacterStatsController statsManager;
-    [SerializeField] protected CharacterStatsModifier statsModifier;
+    public CharacterLevelController levelController;
+    public CharacterStatsController statsManager;
+    public CharacterStatsModifier statsModifier;
 
     [Header("Система урона")]
     [SerializeField] protected HumanoidAIDamageController damageController;
@@ -41,9 +41,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected CharacterEffectVisualizer visualizer;
 
     [Header("Жизненый цикл")]
-    [SerializeField] protected HumanoidAiLifecycle lifecycle;
+    public HumanoidAiLifecycle lifecycle;
 
-    protected string uid;
+    public string uid;
     protected AiRagdollController ragdollController;
     protected HumanoidAIAnimatorController animatorController;
     protected HumanoidAgentController agentController;
