@@ -56,6 +56,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         damagableCollider.enabled = !IsDamagingBlocked();
     }
 
+    public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = GameStateManager.Instance.CurrentState != GameState.Bonfire;
+
     public void ResetOriginPosition()
     {
         GetOrigin().SetParent(defaultTransformParent);

@@ -60,7 +60,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     }
 
 
-    public void TransferItemsToCollector(ICollector collector)
+    public void TransferItemsToCollector(IInteractor collector)
     {
         foreach(var item in itemsToDrop)
         {
@@ -71,7 +71,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
         HasInteracted = true;
     }
 
-    public virtual void Interact(ICollector collector)
+    public virtual void Interact(IInteractor collector)
     {
        
         TransferItemsToCollector(collector);

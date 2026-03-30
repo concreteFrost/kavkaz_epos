@@ -34,11 +34,13 @@ public class PlayerInputManager : MonoBehaviour
                 break;
             case GameState.Menu:
             case GameState.Inventory:
+            case GameState.Bonfire:
                 SetUIMode();
                 break;
             case GameState.Transition:
                 DisableAll();
                 break;
+
         }
     }
 
@@ -56,9 +58,9 @@ public class PlayerInputManager : MonoBehaviour
        
     }
 
+
     private void DisableAll()
     {
         reader.controls.Disable();
- 
     }
 }

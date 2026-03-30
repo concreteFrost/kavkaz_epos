@@ -8,28 +8,53 @@ public class LevelManager : MonoBehaviour
     [SerializeField] LootManager lootManager;
     //[SerializeField] WeaponsManager weaponsManager;
     [SerializeField] CharactersManager charactersManager;
+    [SerializeField] BonfireManager bonfireManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+   
     public void Init()
     {
         levelState = new LevelState();
         levelState.levelId = SceneManager.GetActiveScene().name;
+        
+        if(lootManager == null) lootManager = FindAnyObjectByType<LootManager>();   
+        if(charactersManager == null) charactersManager = FindAnyObjectByType<CharactersManager>();
+        if(bonfireManager == null) bonfireManager = FindAnyObjectByType<BonfireManager>();  
 
         lootManager.Init();    
         charactersManager.Init();
-        //weaponsManager.Init();
+        bonfireManager.Init();  
+
+        Bonfire.BonfireInteracted += ReloadLevelOnRest;
+       
     }
 
-    public void ResetCharacters()
+    private void OnDisable()
     {
-         charactersManager.RespawnAllCharacters();  
+        Bonfire.BonfireInteracted -= ReloadLevelOnRest; 
     }
 
+    #region Level State Control
+    public void ReloadWholeLevelState()
+    {
+         charactersManager.RespawnAllCharacters();
+         lootManager.ClearDynamicLoot();
+    }
+
+    public void ReloadLevelOnRest()
+    {
+        charactersManager.RespawnAllCharacters();
+    }
+    #endregion
+
+
+    #region Save/Load
     public LevelState SaveLevelState()
     {
         levelState.lootDatas = lootManager.SaveLootData();
         levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
         levelState.enemyDatas = charactersManager.SaveEnemies();
+        levelState.bonfireDatas = bonfireManager.SaveBonfireStates();
         
         //levelState.combatItemDatas = weaponsManager.SaveCombatItemData();
         return levelState;
@@ -43,7 +68,8 @@ public class LevelManager : MonoBehaviour
         lootManager.LoadLootData(state);
         lootManager.LoadDynamicLoot(state);
         charactersManager.LoadCharactersData(state);
+        bonfireManager.LoadBonfireDatas(state);
         //weaponsManager.LoadItemData(state.combatItemDatas); 
     }
-    
+    #endregion
 }

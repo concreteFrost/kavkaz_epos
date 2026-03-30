@@ -38,7 +38,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private PlayerPointsCollector pointsCollector; 
 
     [Header("Система взаимодействия")]
-    [SerializeField] private PlayerItemsCollector interaction;
+    [SerializeField] private PlayerInteractionController interaction;
     [SerializeField] private CharacterConsumeController consumeController;
     [SerializeField] private PlayerInvalidLootCollector invalidLootCollector;
 
@@ -65,7 +65,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private CharacterEffectVisualizer effectVisualizer;
 
     [Header("Жизненный цикл")]
-    [SerializeField] private PlayerLifecycle lifecycle;
+    public PlayerLifecycle lifecycle;
 
     [Header("Конструктор персонажа")]
     [SerializeField] private CharacterConstructor constructor;
@@ -193,7 +193,8 @@ public class PlayerServiceLocator : MonoBehaviour
             attackSource: attackSource,
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,
-            weaponInventory:weaponInventory);
+            weaponInventory:weaponInventory,
+            lifeCycle:lifecycle);
 
         consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
 

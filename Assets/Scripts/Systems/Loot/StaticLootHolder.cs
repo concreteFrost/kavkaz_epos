@@ -21,7 +21,7 @@ public class StaticLootHolder : BaseLootHolder
         }
     }
 
-    public override void Interact(ICollector collector)
+    public override void Interact(IInteractor collector)
     {
         base.Interact(collector);
         DeactivateVisual();

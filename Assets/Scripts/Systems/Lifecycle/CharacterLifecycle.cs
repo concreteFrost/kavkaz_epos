@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public abstract class CharacterLifecycle : MonoBehaviour
+public abstract class CharacterLifecycle : MonoBehaviour , ICharacterLifeCycle
 {
 
     protected BaseHumanoidDamageController damagable;
     protected CharacterStatsController statsController;
     protected CharacterStatsModifier statsModifier;
-    protected Vector3 startingPosition;
+    public Vector3 respawnPosition;
     protected Transform self;
 
     public abstract void Die();
@@ -17,7 +17,7 @@ public abstract class CharacterLifecycle : MonoBehaviour
         this.statsModifier = statsModifier;
         this.statsController = statsController;
         this.damagable = damageController;
-        this.startingPosition = startingPostion;
+        this.respawnPosition = startingPostion;
         this.self = self;
 
         statsController.Health.Depleted += Die;
@@ -27,10 +27,15 @@ public abstract class CharacterLifecycle : MonoBehaviour
     {
         statsController.Health.Depleted -= Die;
     }
-
-    protected void ResetPosition()
+    
+    public void SetStartingPosition(Vector3 pos)
     {
-        self.position = startingPosition;
+        respawnPosition = pos;
+    }
+
+    public void ResetPosition()
+    {
+        self.position = respawnPosition;
     }
 
 }

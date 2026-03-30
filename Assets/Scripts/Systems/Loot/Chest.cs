@@ -34,7 +34,7 @@ public class Chest : StaticLootHolder
         }
     }
 
-    public override void Interact(ICollector collector)
+    public override void Interact(IInteractor collector)
     {
         if (!isOpened)
         {

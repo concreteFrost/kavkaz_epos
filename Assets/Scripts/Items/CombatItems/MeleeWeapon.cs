@@ -70,7 +70,7 @@ public class MeleeWeapon : IWeapon
     private ItemData data;
     public ItemData GetItemData() => data;
     public string InstanceID() => string.Empty;
-    public ICollector Owner { get; set; }
+    public IInteractor Owner { get; set; }
     public bool IsBreakdownEnabled { get; set; } = true;
     public bool IsBroken { get; set; }= false;
 
@@ -101,7 +101,7 @@ public class MeleeWeapon : IWeapon
     #endregion
 
 
-    public void Init(MeleeData meleeData,ICollector owner)
+    public void Init(MeleeData meleeData,IInteractor owner)
     {
         this.weaponSO = meleeData.barehandsData;
         this.Owner = owner;
@@ -162,7 +162,7 @@ public class MeleeWeapon : IWeapon
 
     }
 
-    public void AssignToOwner(ICollector source)
+    public void AssignToOwner(IInteractor source)
     {
         //��� �������������
     }

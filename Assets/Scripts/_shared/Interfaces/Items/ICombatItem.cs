@@ -2,11 +2,11 @@
 
 public interface ICombatItem : IBreakable
 {
-    ICollector Owner { get; set; }
+    IInteractor Owner { get; set; }
 
     ItemData GetItemData();
     string InstanceID();
-    void AssignToOwner(ICollector collecter);
+    void AssignToOwner(IInteractor collecter);
 
     void SetEquiped(bool equiped);
 

@@ -11,7 +11,6 @@ public class PlayerLifecycle : CharacterLifecycle
 
     }
 
-
     public override void Die()
     {
         if (damagable.IsDead) return;

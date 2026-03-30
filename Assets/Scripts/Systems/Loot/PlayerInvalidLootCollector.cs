@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PlayerInvalidLootCollector : MonoBehaviour
 {
-    PlayerItemsCollector collector;
+    PlayerInteractionController collector;
 
 
-    public void Init(PlayerItemsCollector collector)
+    public void Init(PlayerInteractionController collector)
     {
         this.collector = collector;
         CharacterLootDistributer.LootDroppedInInvalidArea += OnLootDroppedInInvalidArea;

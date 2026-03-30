@@ -25,6 +25,9 @@ public class LootManager : MonoBehaviour
         }
     }
 
+    public void ClearDynamicLoot() => dynamicLootManager.CleadDynamicLoot();
+
+    #region Save/Load
     public List<LootState> SaveLootData()
     {
         List<LootState> savedLoot = new List<LootState>();
@@ -52,4 +55,5 @@ public class LootManager : MonoBehaviour
             }
         }
     }
+    #endregion 
 }

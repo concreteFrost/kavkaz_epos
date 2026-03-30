@@ -22,7 +22,7 @@ public class PlayerUIInput : MonoBehaviour
 
         if (reader.HideContextPressed)
         {
-            manager.HideContextMenu();
+            manager.HideAdditionalPanels(GameStateManager.Instance.CurrentState);
             reader.Consume(ref reader.HideContextPressed);
         }
 

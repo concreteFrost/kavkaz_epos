@@ -11,7 +11,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     #region ICombatItem Contract
     public ItemData GetItemData() => data;
-    public ICollector Owner { get; set; } = null;
+    public IInteractor Owner { get; set; } = null;
 
     #endregion
 
@@ -66,7 +66,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
             data.durability = 100f;
     }
 
-    public abstract void AssignToOwner(ICollector target);
+    public abstract void AssignToOwner(IInteractor target);
 
    
    

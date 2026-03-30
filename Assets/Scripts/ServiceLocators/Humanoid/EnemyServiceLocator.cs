@@ -4,7 +4,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
 
     [Header("Система взаимодействия")]
-    [SerializeField] private HumanoidAIItemCollector interaction;
+    [SerializeField] private HumanoidAiInteractionController interaction;
 
     [Header("Боевая система")]
     [SerializeField] private BaseHumanoidCombatController combatController;
@@ -55,7 +55,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void InteractionInit()
     {
-        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager, animatorController: animatorController, combatInventory: weaponSetter, damageController: damageController, attackSource: attackSource);
+        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager, animatorController: animatorController, combatInventory: weaponSetter, damageController: damageController, attackSource: attackSource,lifeCycle:lifecycle);
     }
 
     private void CombatInit()

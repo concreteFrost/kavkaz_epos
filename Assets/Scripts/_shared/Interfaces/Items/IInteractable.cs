@@ -16,7 +16,7 @@ public interface IInteractable
     public bool HasInteracted { get; set; }
     bool CanInteract();
 
-    void Interact(ICollector picker);
+    void Interact(IInteractor picker);
 
 }
 

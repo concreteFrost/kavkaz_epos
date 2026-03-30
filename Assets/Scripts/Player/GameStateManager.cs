@@ -13,6 +13,7 @@ public enum GameState
     Inventory = 1,
     Transition = 2,
     Menu= 3,
+    Bonfire = 4,
 
 }
 public class GameStateManager : MonoBehaviour
@@ -28,6 +29,16 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
  
+    }
+
+    private void OnEnable()
+    {
+        GameStateChanged += SetState;
+    }
+
+    private void OnDisable()
+    {
+        GameStateChanged -= SetState;   
     }
 
     private void Start()

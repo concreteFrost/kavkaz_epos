@@ -5,6 +5,7 @@ using System;
 public class PlayerState
 {
     public float[] playerPosition = new float[3];
+    public float[] respawnPosition = new float[3];  
     //player stats
     public CharacterStatsData statsData;
     public CharacterLevelData levelData;

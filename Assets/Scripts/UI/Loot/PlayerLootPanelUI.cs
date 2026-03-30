@@ -18,13 +18,13 @@ public class PlayerLootPanelUI : MonoBehaviour
     {
         lootPanelsPool.Clear();
         lootQueue.Clear();
-        PlayerItemsCollector.LootCollected += OnLootCollected;
+        PlayerInteractionController.LootCollected += OnLootCollected;
 
     }
 
     private void OnDisable()
     {
-        PlayerItemsCollector.LootCollected -= OnLootCollected;
+        PlayerInteractionController.LootCollected -= OnLootCollected;
     }
 
     private void OnLootCollected(ItemData data)

@@ -23,7 +23,7 @@ public class EnemyBrainContext
 
     public EnemyFOVController fov;
     public EnemyStateTracker stateTracker;
-    public BaseItemCollector interact;
+    public BaseCharacterInteractor interact;
 
     public InterruptionManager interruptionManager;
 

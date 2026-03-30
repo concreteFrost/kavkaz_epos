@@ -58,6 +58,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
         
     }
 
+    public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = isActive;
+
     public void TakeDamage(DamageData damageData,Transform source)
     {
         if (IsDead) return;

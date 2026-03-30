@@ -6,7 +6,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     PlayerActionGuards actionGuards;
     CharacterStatsController stats;
     CharacterConsumeController consumeController;
-    ICollector interact;
+    IInteractor interact;
     IClimber climbing;
 
 
@@ -23,7 +23,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
     public void Init(
         PlayerMotor motor,
-        ICollector interaction,
+        IInteractor interaction,
         IClimber climbing,
         PlayerActionGuards actionGuards,
         CharacterStatsController stats,

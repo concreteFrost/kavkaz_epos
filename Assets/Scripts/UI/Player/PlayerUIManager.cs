@@ -11,7 +11,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
     [SerializeField] private PlayerStatusEffectsUI statusEffectsUI;
-    [SerializeField] private PlayerLootPanelUI lootPanelUI; 
+    [SerializeField] private PlayerLootPanelUI lootPanelUI;
+    [SerializeField] private BonfirePanelUI bonfirePanelUI;
     
 
     [Header("Inventory")]
@@ -82,6 +83,7 @@ public class PlayerUIManager : MonoBehaviour
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
         lootPanelUI.Init();
+        bonfirePanelUI.Init();
     }
 
     private void InitProgression(CharacterLevelController levelController)
@@ -108,19 +110,27 @@ public class PlayerUIManager : MonoBehaviour
     {
         if (state == GameState.Inventory)
         {
-            OpenInventory();
+            OpenInventoryPanel();
             return;
         }
         if(state == GameState.Menu)
         {
-            OpenMenu();
+            OpenMenuPanel();
             return;
         }
+        if(state == GameState.Bonfire)
+        {
+            //open bonfire
+            OpenBonfirePanel();
+            return;
+
+        }
+
 
         CloseAllPanels();
     }
 
-    private void OpenInventory()
+    private void OpenInventoryPanel()
     {
         SetCursorState(true);
         ToggleInGamePanels(false);
@@ -129,12 +139,21 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.GetSection(InventorySection.Magic);
     }
 
-    private void OpenMenu()
+    private void OpenMenuPanel()
     {
         SetCursorState(true);
         ToggleInGamePanels(false);
 
         menuOptionsUI.ToggleMenuOptions(true);
+    }
+
+    private void OpenBonfirePanel()
+    {
+        SetCursorState(true);
+        ToggleInGamePanels(false);
+
+        bonfirePanelUI.ToggleMainPanel(true);
+
     }
 
     private void CloseAllPanels()
@@ -146,6 +165,7 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
+        bonfirePanelUI.HideAllPanels();
     }
 
     #endregion
@@ -168,9 +188,21 @@ public class PlayerUIManager : MonoBehaviour
         menuOptionsUI.ToggleMenuOptions(isVisible);
     }
 
-    public void HideContextMenu()
+    public void HideAdditionalPanels(GameState state)
     {
-        inventoryContextMenuUI.HideContextMenu(true);
+        if (state == GameState.Inventory)
+        {
+            Debug.Log("toggle invento");
+            inventoryContextMenuUI.HideContextMenu(true);
+            return;
+        }
+        if (state == GameState.Bonfire)
+        {
+            Debug.Log("toggle travel panel");
+            bonfirePanelUI.HideTravelPanel(true);
+            return;
+        }
+       
     }
 
     public void ReadSliderValue(float value)

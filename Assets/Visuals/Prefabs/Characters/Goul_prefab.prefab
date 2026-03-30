@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 254557506594778108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830be7b074c1222488b262d28946eaaa, type: 3}
+  m_Script: {fileID: 11500000, guid: e76895bdd05364a4295fc8c77c6a7bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
 --- !u!1 &637889619166706780
@@ -359,6 +359,7 @@ MonoBehaviour:
   lootDistributer: {fileID: 5148042447466027631}
   visualizer: {fileID: 665039933024682901}
   lifecycle: {fileID: 5871193750833694611}
+  uid: 
   interaction: {fileID: 6583377933518813573}
   combatController: {fileID: 3118476409945897385}
   weaponSetter: {fileID: 5427426186474516590}
@@ -879,6 +880,9 @@ MonoBehaviour:
   items:
   - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
     quantity: 5
+    instanceId: 
+    durability: 0
+    isEquiped: 0
 --- !u!1 &3905528556958098778
 GameObject:
   m_ObjectHideFlags: 0

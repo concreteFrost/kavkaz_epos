@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerItemsCollector : BaseItemCollector
+public class PlayerInteractionController : BaseCharacterInteractor
 {
 
     CharacterSpellInventory spellInventory;
@@ -15,11 +15,12 @@ public class PlayerItemsCollector : BaseItemCollector
         IWeaponSetter combatInventory,
         IDamagable damageController,
         IAttackSource attackSource,
+        ICharacterLifeCycle lifeCycle,
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory,
         CharacterWeaponInventory weaponInventory)
     {
-        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource);
+        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource, lifeCycle);
         this.spellInventory = spellInventory;
         this.consumableInventory = consumableInventory; 
         this.weaponInventory = weaponInventory;

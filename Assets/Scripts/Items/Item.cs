@@ -6,7 +6,7 @@ public abstract class Item : MonoBehaviour
 
     public abstract void Init();
 
-    public abstract void Interact(ICollector interractor);
+    public abstract void Interact(IInteractor interractor);
 
 
 

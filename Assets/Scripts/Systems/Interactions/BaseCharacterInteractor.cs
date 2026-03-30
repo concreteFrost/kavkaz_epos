@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public abstract class BaseItemCollector : MonoBehaviour, ICollector
+public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
 {
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
@@ -9,6 +9,7 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
     private string collectorId;
     public string CollectorId() => collectorId;
     public CharacterStatsController StatsController { get; set; }=null;
+    public ICharacterLifeCycle LifeCycleController { get; set; }=null;  
     public IWeaponSetter CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
     public IAttackSource AttackSource { get; set; } = null;
@@ -30,7 +31,9 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
         BaseHumanoidAnimatorController animatorController,
         IWeaponSetter combatInventory,
         IDamagable damageController,
-        IAttackSource attackSource)
+        IAttackSource attackSource,
+        ICharacterLifeCycle lifeCycleController
+        )
     {
         this.collectorId = uniqueId;
         this.self = self;
@@ -39,6 +42,7 @@ public abstract class BaseItemCollector : MonoBehaviour, ICollector
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;
         this.Damagable = damageController;
+        this.LifeCycleController = lifeCycleController;
 
         interactRadius = 1f;
     }

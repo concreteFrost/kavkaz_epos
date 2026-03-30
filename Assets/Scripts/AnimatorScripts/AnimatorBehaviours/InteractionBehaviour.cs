@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InteractionBehaviour : StateMachineBehaviour
 {
-    ICollector collector;
+    IInteractor collector;
     IHumanoidMovement motor;
     IDamagable damagable;
     [SerializeField] private AnimationInfoSO clip;
@@ -10,7 +10,7 @@ public class InteractionBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        collector = animator.GetComponentInChildren<ICollector>();
+        collector = animator.GetComponentInChildren<IInteractor>();
         motor = animator.GetComponent<IHumanoidMovement>();
         damagable = animator.GetComponentInChildren<IDamagable>();  
 

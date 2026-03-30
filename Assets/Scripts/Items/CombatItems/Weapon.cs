@@ -68,7 +68,7 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.DisableCollider();
     }
 
-    public override void AssignToOwner(ICollector target)
+    public override void AssignToOwner(IInteractor target)
     {
         Owner = target;
 

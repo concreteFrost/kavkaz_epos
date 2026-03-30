@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public PlayerState playerState;
-    [SerializeField] private PlayerServiceLocator serviceLocator; 
+    public PlayerServiceLocator serviceLocator; 
 
     public void Init()
     {
@@ -18,6 +18,12 @@ public class PlayerManager : MonoBehaviour
         playerState.playerPosition[0] = position.x;
         playerState.playerPosition[1] = position.y;
         playerState.playerPosition[2] = position.z;
+
+        Vector3 respawnPosition = serviceLocator.lifecycle.respawnPosition;
+
+        playerState.respawnPosition[0] = respawnPosition.x;
+        playerState.respawnPosition[1] = respawnPosition.y;
+        playerState.respawnPosition[2] = respawnPosition.z;
 
         playerState.statsData = serviceLocator.stats.SaveStatsData();
         playerState.levelData = serviceLocator.levelController.SaveLevelData();
@@ -39,5 +45,8 @@ public class PlayerManager : MonoBehaviour
         serviceLocator.consumableInventory.LoadInventoryData(state.consumableInventoryData);
         serviceLocator.spellInventory.LoadInventoryData(state.spellInventoryData);
         serviceLocator.weaponInventory.LoadInventoryData(state.weaponsData);
+
+        Vector3 respawnPosition = new Vector3(state.respawnPosition[0], state.respawnPosition[1], state.respawnPosition[2]);
+        serviceLocator.lifecycle.SetStartingPosition(respawnPosition);
     }
 }

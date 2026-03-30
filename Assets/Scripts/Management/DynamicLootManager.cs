@@ -45,23 +45,22 @@ public class DynamicLootManager : MonoBehaviour
         DynamicLootDropped -= OnDynamicLootDropped;
     }
 
-    public void OnDynamicLootDropped(DynamicLootState data)
+
+    public void CleadDynamicLoot()
     {
-        dynamicLootData.Add(data);
+        // 1. Удаляем все текущие объекты
+        foreach (Transform t in transform)
+        {
+            Destroy(t.gameObject);
+        }
 
-        Vector3 pos = new Vector3(
-            data.lootPosition[0],
-            data.lootPosition[1],
-            data.lootPosition[2]);
-
-        DropLoot(data);
+        // 2. Очищаем runtime данные
+        dynamicLootData.Clear();
     }
-
-    public void OnLootCollected(string id) => RemoveLoot(id);   
 
     private List<ItemData> GetItemsFromDataBase(List<DroppedItemsData> data)
     {
-        List<ItemData> items = new List<ItemData>();    
+        List<ItemData> items = new List<ItemData>();
         foreach (var dropped in data)
         {
             var match = dataBaseItems.Find((x) => x.id == dropped.itemId);
@@ -78,19 +77,37 @@ public class DynamicLootManager : MonoBehaviour
             }
         }
 
-        return items;   
+        return items;
     }
 
+    private void DropLoot(DynamicLootState data)
+    {
+        Vector3 dropPosition = new Vector3(data.lootPosition[0], data.lootPosition[1], data.lootPosition[2]);
+        var go = Instantiate(lootPrefab, dropPosition, Quaternion.identity, this.transform);
+
+        var holder = go.GetComponent<DynamicLootHolder>();
+
+        holder.Init();
+        holder.SetInstanceId(data.instanceId);
+        holder.AddItemsFromDistributer(GetItemsFromDataBase(data.droppedItems));
+    }
+
+    private void RemoveLoot(string id)
+    {
+        dynamicLootData.RemoveAll(x => x.instanceId == id);
+    }
+
+    #region Save/Load
     public List<DynamicLootState> SaveDynamicLoot()
     {
-        List<DynamicLootState> dynamic = new List<DynamicLootState>();    
+        List<DynamicLootState> dynamic = new List<DynamicLootState>();
 
-        foreach(var item in dynamicLootData)
+        foreach (var item in dynamicLootData)
         {
             DynamicLootState dynamicLoot = new DynamicLootState();
-            dynamicLoot.instanceId = item.instanceId;   
+            dynamicLoot.instanceId = item.instanceId;
             dynamicLoot.lootPosition = item.lootPosition;
-            dynamicLoot.droppedItems = item.droppedItems;   
+            dynamicLoot.droppedItems = item.droppedItems;
 
             dynamic.Add(dynamicLoot);
         }
@@ -100,14 +117,7 @@ public class DynamicLootManager : MonoBehaviour
 
     public void LoadDynamicLootData(List<DynamicLootState> loadedLoot)
     {
-        // 1. Удаляем все текущие объекты
-        foreach (Transform t in transform)
-        {
-            Destroy(t.gameObject);
-        }
-
-        // 2. Очищаем runtime данные
-        dynamicLootData.Clear();
+       CleadDynamicLoot();
 
         if (loadedLoot == null || loadedLoot.Count == 0)
             return;
@@ -125,20 +135,25 @@ public class DynamicLootManager : MonoBehaviour
         }
     }
 
-    private void DropLoot(DynamicLootState data)
-    {
-        Vector3 dropPosition = new Vector3(data.lootPosition[0], data.lootPosition[1],data.lootPosition[2]);    
-        var go = Instantiate(lootPrefab,dropPosition, Quaternion.identity,this.transform);
+    #endregion
 
-        var holder = go.GetComponent<DynamicLootHolder>();
-       
-        holder.Init();
-        holder.SetInstanceId(data.instanceId);
-        holder.AddItemsFromDistributer(GetItemsFromDataBase(data.droppedItems));
+    #region Event Listeners
+    public void OnDynamicLootDropped(DynamicLootState data)
+    {
+        dynamicLootData.Add(data);
+
+        Vector3 pos = new Vector3(
+            data.lootPosition[0],
+            data.lootPosition[1],
+            data.lootPosition[2]);
+
+        DropLoot(data);
     }
 
-    private void RemoveLoot(string id)
-    {
-        dynamicLootData.RemoveAll(x => x.instanceId == id);
-    }
+    public void OnLootCollected(string id) => RemoveLoot(id);
+
+    #endregion
+
+
+
 }

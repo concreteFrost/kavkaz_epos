@@ -27,7 +27,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     public IShield ShieldWeapon { get; set; } = null;
 
-    public ICollector Collector;
+    public IInteractor Collector;
 
     #endregion
 
@@ -46,7 +46,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
         CharacterBoneSocket boneSocket,
         BaseHumanoidAnimatorController animatorController,
         IHumanoidMeleeCombat combatController,
-        ICollector collector,
+        IInteractor collector,
         bool enableWeaponBreakdown)
     {
 
@@ -61,7 +61,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     }
 
-    private IWeapon InitializeBarehands(ICollector attackSource)
+    private IWeapon InitializeBarehands(IInteractor attackSource)
     {
 
         meleeData.leftDamageCollider = boneSocket.GetLeftMeleeSocket.GetComponent<WeaponDamageCollider>();
