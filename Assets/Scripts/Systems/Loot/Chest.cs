@@ -11,10 +11,6 @@ public class Chest : StaticLootHolder
 
     public override ItemInteractionType InteractType() => interactionType;
 
-    private void Start()
-    {
-        Init();
-    }
 
     public override void Init()
     {
@@ -22,7 +18,7 @@ public class Chest : StaticLootHolder
 
         animator = GetComponent<Animator>();
         lootParticles.Stop();   
-        CloseChest();
+      
     }
 
     private void Update()

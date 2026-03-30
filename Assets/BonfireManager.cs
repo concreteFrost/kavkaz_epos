@@ -13,6 +13,11 @@ public class BonfireManager : MonoBehaviour
         bonfires.AddRange(GetComponentsInChildren<Bonfire>());
         playerManager = FindAnyObjectByType<PlayerManager>();
 
+        foreach (var item in bonfires)
+        {
+            item.Init();    
+        }
+
         if(playerManager == null)
         {
             Debug.Log("no player manager found");

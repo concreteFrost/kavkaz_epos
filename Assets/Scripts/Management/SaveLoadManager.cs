@@ -4,18 +4,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 
-[Serializable]
-public class SaveLevelData
-{
-    public string levelName;
-    public LevelState levelState;
-}
 
 [Serializable]
 public class SaveGameData
 {
     public PlayerState playerState;
     public List<SaveLevelData> levelDatas;
+    public string currentLevelName;
+
 }
 
 public static class SaveLoadManager

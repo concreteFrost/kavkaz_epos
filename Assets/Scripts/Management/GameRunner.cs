@@ -1,35 +1,34 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
-using Zenject.SpaceFighter;
+using UnityEngine.SceneManagement;
 
 public class GameRunner : MonoBehaviour
 {
     public static GameRunner Instance;
+    public GameObject playerPrefab;
+    public PlayerManager Player { get; private set; }
 
-    PlayerManager playerManager;
-    Dictionary<string,LevelState> allLevels = new Dictionary<string,LevelState>();  
+    Dictionary<string, LevelState> allLevels = new Dictionary<string, LevelState>();
     LevelManager activeLevel;
-   
+
     private void Awake()
     {
-
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);  
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject);    
+            Destroy(gameObject);
+            return;
         }
-
-        playerManager = FindAnyObjectByType<PlayerManager>();
-        playerManager.Init();
-
-        activeLevel = FindAnyObjectByType<LevelManager>();
-        activeLevel.Init(); 
+     
+        Bootstrap();
+        SpawnAtLevelStart();
 
     }
+
 
     private void Update()
     {
@@ -43,20 +42,98 @@ public class GameRunner : MonoBehaviour
         }
     }
 
-    public void SaveGame()
+    private void Bootstrap()
     {
+        BootstrapPlayer();
+        BootstrapLevel();
+    }
+
+    private void BootstrapPlayer()
+    {
+
+        var scenePlayer = FindAnyObjectByType<PlayerManager>();
+        if (scenePlayer != null)
+        {
+            Destroy(scenePlayer.gameObject);    
+        }
+
+        // 3. Р•СЃР»Рё РЅРµС‚ РЅРё РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ, РЅРё РЅР° СЃС†РµРЅРµ вЂ” СЃРѕР·РґР°С‘Рј prefab
+        Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
+        Player.Init();
+    }
+
+    private void BootstrapLevel()
+    {
+        activeLevel = FindAnyObjectByType<LevelManager>();
+
         if (activeLevel != null)
         {
-            // Сохраняем текущий уровень в словарь
+            activeLevel.Init();
+        }
+    }
+
+
+    private void SpawnAtLevelStart()
+    {
+        Vector3 pos = activeLevel.startingPosition.position;
+
+        Player.serviceLocator.transform.position = pos;
+        Player.serviceLocator.lifecycle.respawnPosition = pos;
+    }
+
+
+    public void TravelToLevel(string sceneName)
+    {
+        // 1. РЎРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ
+        if (activeLevel != null)
+        {
             LevelState currentState = activeLevel.SaveLevelState();
             allLevels[currentState.levelId] = currentState;
         }
 
-        // Создаём объект для сериализации
-        SaveGameData saveGameData = new SaveGameData();
-        saveGameData.playerState = playerManager.SavePlayer();
+        // 2. РџРѕРґРїРёСЃС‹РІР°РµРјСЃСЏ РЅР° Р·Р°РіСЂСѓР·РєСѓ СЃС†РµРЅС‹
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
-        // Переносим все уровни в List<SaveLevelData>
+        // 3. Р—Р°РіСЂСѓР¶Р°РµРј СЃС†РµРЅСѓ
+        SceneManager.LoadScene(sceneName);
+
+    }
+
+
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        // 4. РќР°С…РѕРґРёРј Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РЅРѕРІС‹Р№ СѓСЂРѕРІРµРЅСЊ
+        activeLevel = FindAnyObjectByType<LevelManager>();
+        activeLevel.Init();
+
+        // 5. Р—Р°РіСЂСѓР¶Р°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ СѓСЂРѕРІРЅСЏ (РµСЃР»Рё РµСЃС‚СЊ)
+        if (allLevels.TryGetValue(scene.name, out LevelState state))
+        {
+            activeLevel.LoadLevelState(state);
+            activeLevel.ReloadWholeLevelState();
+        }
+
+        SpawnAtLevelStart();
+        
+    }
+
+    public void SaveGame()
+    {
+        if (activeLevel != null)
+        {
+            // РЎРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰РёР№ СѓСЂРѕРІРµРЅСЊ РІ СЃР»РѕРІР°СЂСЊ
+            LevelState currentState = activeLevel.SaveLevelState();
+            allLevels[currentState.levelId] = currentState;
+        }
+
+        // РЎРѕР·РґР°С‘Рј РѕР±СЉРµРєС‚ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё
+        SaveGameData saveGameData = new SaveGameData();
+        saveGameData.playerState = Player.SavePlayer();
+
+        // РџРµСЂРµРЅРѕСЃРёРј РІСЃРµ СѓСЂРѕРІРЅРё РІ List<SaveLevelData>
         saveGameData.levelDatas = new List<SaveLevelData>();
         foreach (var kv in allLevels)
         {
@@ -67,9 +144,11 @@ public class GameRunner : MonoBehaviour
             });
         }
 
-        // Сохраняем на диск
+        saveGameData.currentLevelName = activeLevel.GetLevelName();
+
+        // РЎРѕС…СЂР°РЅСЏРµРј РЅР° РґРёСЃРє
         SaveLoadManager.SaveGameData(saveGameData);
-        
+
     }
 
     public void LoadGame()
@@ -77,18 +156,18 @@ public class GameRunner : MonoBehaviour
         SaveGameData loadedData = SaveLoadManager.LoadGameData();
         if (loadedData == null) return;
 
-        // Загружаем игрока
-        playerManager.LoadState(loadedData.playerState);
-        
+        // Р—Р°РіСЂСѓР¶Р°РµРј РёРіСЂРѕРєР°
+        Player.LoadState(loadedData.playerState);
 
-        // Загружаем словарь всех уровней
+
+        // Р—Р°РіСЂСѓР¶Р°РµРј СЃР»РѕРІР°СЂСЊ РІСЃРµС… СѓСЂРѕРІРЅРµР№
         allLevels.Clear();
         foreach (var levelData in loadedData.levelDatas)
         {
             allLevels[levelData.levelName] = levelData.levelState;
         }
 
-        // Восстанавливаем состояние текущего уровня
+        // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СѓСЂРѕРІРЅСЏ
         string currentLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (allLevels.TryGetValue(currentLevel, out LevelState currentState))
         {

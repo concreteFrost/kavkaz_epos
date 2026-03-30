@@ -3,12 +3,30 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager instance;
     public PlayerState playerState;
-    public PlayerServiceLocator serviceLocator; 
+    public PlayerServiceLocator serviceLocator;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            playerState = new PlayerState();
+
+        }
+        else
+        {
+            // Если глобальный игрок уже есть — уничтожаем локального, но без вызовов Init и без доступа к дочерним объектам
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     public void Init()
     {
-        playerState = new PlayerState();
+  
         serviceLocator.Init();
     }
 

@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[Serializable]
+public class SaveLevelData
+{
+    public string levelName;
+    public LevelState levelState;
+}
+
+
 public class LevelManager : MonoBehaviour
 {
-    public LevelState levelState; 
+    public LevelState levelState;
+
+    public Transform startingPosition;
 
     [SerializeField] LootManager lootManager;
     //[SerializeField] WeaponsManager weaponsManager;
@@ -11,7 +22,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] BonfireManager bonfireManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-   
+    
     public void Init()
     {
         levelState = new LevelState();
@@ -33,6 +44,8 @@ public class LevelManager : MonoBehaviour
     {
         Bonfire.BonfireInteracted -= ReloadLevelOnRest; 
     }
+
+    public string GetLevelName() => levelState.levelId;
 
     #region Level State Control
     public void ReloadWholeLevelState()
@@ -71,5 +84,16 @@ public class LevelManager : MonoBehaviour
         bonfireManager.LoadBonfireDatas(state);
         //weaponsManager.LoadItemData(state.combatItemDatas); 
     }
+
+
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        if (startingPosition == null) return;
+
+        Gizmos.color = new Color(0f, 0f, 1f, 1f);
+        Gizmos.DrawSphere(startingPosition.position, .5f);
+
+    }
 }

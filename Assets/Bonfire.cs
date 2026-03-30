@@ -17,11 +17,10 @@ public class Bonfire : MonoBehaviour, IInteractable
 
     public string id;
 
-    public string GetBonfireName()=> bonfireName;
+    public string GetBonfireName() => bonfireName;
     public Vector3 GetRespawnPosition() => respawnPosition.position;
 
     public bool isDiscovered;
-    public bool isLastInChain = false;
 
     public static Action BonfireInteracted;
 
@@ -29,17 +28,12 @@ public class Bonfire : MonoBehaviour, IInteractable
     public Vector3 InitialPosition { get; set; }
     public Vector3 InitialRotation { get; set; }
 
-    public bool HasInteracted { get => false; set => value=false; } // с этим предметом можно взаимодействовать всегда
+    public bool HasInteracted { get => false; set => value = false; } // с этим предметом можно взаимодействовать всегда
 
     public ItemInteractionType InteractType() => ItemInteractionType.Item;
 
     public bool CanInteract() => !HasInteracted;
     #endregion
-
-    private void Awake()
-    {
-        Init();
-    }
 
     public void Init()
     {
@@ -53,20 +47,28 @@ public class Bonfire : MonoBehaviour, IInteractable
         particles.Stop();
     }
 
-    public void Interact(IInteractor interactor)
+    public virtual void Interact(IInteractor interactor)
     {
         if (!isDiscovered)
         {
-            particles.Play();
-            isDiscovered = true;    
-
+            DiscoverBonfire();
             return;
         }
+       
 
         interactor.LifeCycleController.SetStartingPosition(respawnPosition.position);
-       
+
         BonfireInteracted?.Invoke();
         GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
+
+        interactor.StatsController.ResetAllStats();
+
+    }
+
+    protected void DiscoverBonfire()
+    {
+        particles.Play();
+        isDiscovered = true; 
 
     }
 
@@ -86,7 +88,7 @@ public class Bonfire : MonoBehaviour, IInteractable
         }
     }
 
- 
+
 
     private void OnDrawGizmos()
     {

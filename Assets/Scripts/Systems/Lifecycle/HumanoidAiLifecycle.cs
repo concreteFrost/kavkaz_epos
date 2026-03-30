@@ -25,6 +25,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     {
         PerformDeath();
 
+        statsModifier.ClearAllStats();
         pointsEmitter.DropPoints();
         distributer.HandleLootGenerate(damagable.GetOrigin().transform.position);
 
