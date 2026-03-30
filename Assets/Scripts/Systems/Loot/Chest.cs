@@ -21,14 +21,6 @@ public class Chest : StaticLootHolder
       
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            if (!isOpened) OpenChest();
-            else CloseChest();
-        }
-    }
 
     public override void Interact(IInteractor collector)
     {
