@@ -32,7 +32,8 @@ public class CharacterLevelController : MonoBehaviour
     public void Init(CharacterStatsController statsController)
     {
         levelData = new CharacterLevelData();
-        this.statsController = statsController; 
+        this.statsController = statsController;
+        CalculateXPToNextLevel();
     }
 
     public CharacterLevelData SaveLevelData()

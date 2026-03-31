@@ -31,16 +31,16 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
     #endregion
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (CurrentWeapon != null)
-            {
-                CurrentWeapon.ReduceDurability(10f);
-            }
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.K))
+    //    {
+    //        if (CurrentWeapon != null)
+    //        {
+    //            CurrentWeapon.ReduceDurability(10f);
+    //        }
+    //    }
+    //}
 
     public void Init(
         CharacterBoneSocket boneSocket,

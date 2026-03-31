@@ -28,6 +28,7 @@ public class BonfirePanelUI : MonoBehaviour
     public void Init()
     {
         bonfireManager = FindAnyObjectByType<BonfireManager>();
+      
     }
 
     private void OnEnable()

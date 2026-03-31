@@ -14,7 +14,7 @@ public class SaveGameData
 
 }
 
-public static class SaveLoadManager
+public static class SaveLoadSystem
 {
     private static string savePath => Path.Combine(Application.persistentDataPath, "save.dat");
 

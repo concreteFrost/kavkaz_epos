@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     
-    public void Init()
+    private void Awake()
     {
         levelState = new LevelState();
         levelState.levelId = SceneManager.GetActiveScene().name;
@@ -32,9 +32,9 @@ public class LevelManager : MonoBehaviour
         if(charactersManager == null) charactersManager = FindAnyObjectByType<CharactersManager>();
         if(bonfireManager == null) bonfireManager = FindAnyObjectByType<BonfireManager>();  
 
-        lootManager.Init();    
-        charactersManager.Init();
-        bonfireManager.Init();  
+        lootManager?.Init();    
+        charactersManager?.Init();
+        bonfireManager?.Init();  
 
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
        

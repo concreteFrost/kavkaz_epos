@@ -8,7 +8,7 @@ public class LastBonfire : Bonfire
     public override void Interact(IInteractor interactor)
     {
         interactor.StatsController.ResetAllStats();
-        GameRunner.Instance.TravelToLevel(targetScene);
+        SaveLoadManager.Instance.TravelToLevel(targetScene);
     }
 
 }

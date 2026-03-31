@@ -59,9 +59,4 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         statsController.ResetAllStats();
     }
 
-    private IEnumerator RespawnCoroutine()
-    {
-        yield return new WaitForSeconds(7f);
-        Respawn();
-    }
 }

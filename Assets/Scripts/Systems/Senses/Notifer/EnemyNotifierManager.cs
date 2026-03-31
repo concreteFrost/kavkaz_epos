@@ -6,10 +6,11 @@ public class EnemyNotifierManager : MonoBehaviour
     private float eventListenDistance;
 
     EnemyNotifierListener listener;
-    EnemyNotifier notifier = new EnemyNotifier();
+    EnemyNotifier notifier;
 
     public void Init(Transform self,EnemyFOVController fov)
     {
+        notifier = new EnemyNotifier();
         SetEventListenDistance(notifierDataSO);
 
         listener = new EnemyNotifierListener(self, fov, eventListenDistance);

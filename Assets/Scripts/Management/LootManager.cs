@@ -8,7 +8,6 @@ public class LootManager : MonoBehaviour
     public void Init()
     {
 
-        Debug.Log("init loot manager");
         if (dynamicLootManager == null)
         {
             dynamicLootManager = FindAnyObjectByType<DynamicLootManager>();

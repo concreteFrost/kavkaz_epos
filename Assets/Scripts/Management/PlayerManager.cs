@@ -35,8 +35,8 @@ public class PlayerManager : MonoBehaviour
         playerState.levelData = serviceLocator.levelController.SaveLevelData();
         playerState.effectData = serviceLocator.statsModifier.SaveEffectData();
         playerState.consumableInventoryData = serviceLocator.consumableInventory.SaveInventoryData();
-        playerState.spellInventoryData = serviceLocator.spellInventory.SaveInventoryData(); 
-        playerState.weaponsData = serviceLocator.weaponInventory.SaveInventoryData();   
+        playerState.spellInventoryData = serviceLocator.spellInventory.SaveInventoryData();
+        playerState.weaponsData = serviceLocator.weaponInventory.SaveInventoryData();
 
         return playerState;
     }
