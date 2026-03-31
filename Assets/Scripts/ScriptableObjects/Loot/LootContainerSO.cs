@@ -37,7 +37,9 @@ public class LootContainerSO : ScriptableObject
         if (string.IsNullOrEmpty(id))
         {
             id = Guid.NewGuid().ToString();
+#if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         foreach (var item in possibleItems)
