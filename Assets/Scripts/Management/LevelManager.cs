@@ -40,6 +40,11 @@ public class LevelManager : MonoBehaviour
        
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void OnDisable()
     {
         Bonfire.BonfireInteracted -= ReloadLevelOnRest; 

@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -15,11 +15,16 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
             SaveGame();
+        }
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            LoadGame();
         }
 
     }
@@ -35,11 +40,11 @@ public class SaveLoadManager : MonoBehaviour
             allLevels[currentState.levelId] = currentState;
         }
 
-        StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
+        StartCoroutine(LoadSceneAfterTravelCoroutine(sceneName));
 
     }
 
-    IEnumerator LoadSceneAsyncCoroutine(string sceneName)
+    IEnumerator LoadSceneAfterTravelCoroutine(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
@@ -56,18 +61,60 @@ public class SaveLoadManager : MonoBehaviour
             yield return null;
         }
 
-        var activeLevel = GameRunner.Instance.activeLevel;
+        GameRunner.Instance.BootstrapLevel();
+
         var allLevels = GameRunner.Instance.allLevels;
-
-        activeLevel = FindAnyObjectByType<LevelManager>();
-
         // 5. Загружаем состояние уровня (если есть)
         if (allLevels.TryGetValue(sceneName, out LevelState state))
         {
-            activeLevel.LoadLevelState(state);
+            GameRunner.Instance.activeLevel.LoadLevelState(state);
             //activeLevel.ReloadWholeLevelState();
 
         }
+
+        GameRunner.Instance.SpawnAtLevelStart();
+
+    }
+
+    public void LoadGame()
+    {
+        SaveGameData sv = SaveLoadSystem.LoadGameData();
+        StartCoroutine(LoadGameCoroutine(sv));
+    }
+
+    IEnumerator LoadGameCoroutine(SaveGameData data)
+    {
+        var sceneName = data.currentLevelName;
+
+        // Загружаем сцену
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+            yield return null;
+        }
+
+        GameRunner.Instance.BootstrapLevel();
+        
+        var allLevels = GameRunner.Instance.allLevels;
+        foreach (var levelData in data.levelDatas)
+        {
+            allLevels[levelData.levelName] = levelData.levelState;
+        }
+
+        if (allLevels.TryGetValue(sceneName, out LevelState state))
+        {
+           GameRunner.Instance.activeLevel.LoadLevelState(state);
+        }
+
+        // Если игрок ещё не создан, создаём
+
+        GameRunner.Instance.Player.LoadState(data.playerState);
 
     }
 

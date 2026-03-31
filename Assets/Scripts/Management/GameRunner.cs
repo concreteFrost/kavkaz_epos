@@ -32,7 +32,7 @@ public class GameRunner : MonoBehaviour
 
 
  
-    private void Bootstrap()
+    public void Bootstrap()
     {
         BootstrapPlayer();
         BootstrapLevel();
@@ -52,15 +52,14 @@ public class GameRunner : MonoBehaviour
         Player.Init();
     }
 
-    private void BootstrapLevel()
+    public void BootstrapLevel()
     {
         activeLevel = FindAnyObjectByType<LevelManager>();
 
-       
     }
 
 
-    private void SpawnAtLevelStart()
+    public void SpawnAtLevelStart()
     {
         Vector3 pos = activeLevel.startingPosition.position;
 
