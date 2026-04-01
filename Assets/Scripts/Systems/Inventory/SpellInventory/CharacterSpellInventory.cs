@@ -4,6 +4,12 @@ public class CharacterSpellInventory : QuickAccessInventory
     public void Init()
     {
         BaseInit();
+        
+    }
+
+    private void Start()
+    {
+        Notify();
     }
     public override void UseItem(ItemData data)
     {

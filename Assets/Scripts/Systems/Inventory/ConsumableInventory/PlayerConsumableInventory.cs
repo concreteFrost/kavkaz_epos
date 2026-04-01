@@ -15,6 +15,11 @@ public class PlayerConsumableInventory : QuickAccessInventory
         this.pointsCollector = pointsCollector; 
     }
 
+    private void Start()
+    {
+        Notify();
+    }
+
 
     public override void UseItem(ItemData data)
     {

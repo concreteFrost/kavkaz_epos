@@ -48,10 +48,10 @@ public class PlayerQuickSlotsUI : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        OnSpellUpdated(spellInventory.CurrentItem);
-    }
+    //private void Start()
+    //{
+    //    OnSpellUpdated(spellInventory.CurrentItem);
+    //}
 
     private void OnDisable()
     {

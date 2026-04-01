@@ -12,6 +12,8 @@ public class PlayerInputManager : MonoBehaviour
         this.reader = reader;
         reader.controls.Enable();   
         GameStateManager.GameStateChanged += OnGameStateChanged;
+
+        SetGameMode(); // по умолчанию
     }
 
 
@@ -22,7 +24,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Start()
     {
-        SetGameMode(); // по умолчанию
+       
     }
 
     private void OnGameStateChanged(GameState state)

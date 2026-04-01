@@ -21,6 +21,7 @@ public class GameRunner : MonoBehaviour
         }
         else
         {
+            
             Destroy(gameObject);
             return;
         }
@@ -61,9 +62,10 @@ public class GameRunner : MonoBehaviour
             Destroy(scenePlayer.gameObject);
         }
 
-        // 3. Если нет ни глобального, ни на сцене — создаём prefab
+        // Если нет ни глобального, ни на сцене — создаём prefab
         Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
         Player.Init();
+        DontDestroyOnLoad(Player);
     }
 
     public void BootstrapLevel()

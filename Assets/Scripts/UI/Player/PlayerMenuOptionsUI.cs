@@ -13,7 +13,7 @@ public class PlayerMenuOptionsUI : MonoBehaviour
 
     PlayerLevelControllerUI levelControllerUI;
 
-    private List<Selectable> allSelectables;
+    private List<Selectable> allSelectables = new List<Selectable>();
 
     public void Init(PlayerLevelControllerUI levelControllerUI)
     {
@@ -23,15 +23,17 @@ public class PlayerMenuOptionsUI : MonoBehaviour
         levelControllerBtn.onClick.AddListener(ShowLevelController);
 
         quitToMainMenuBtn.onClick.AddListener(QuitToMainMenu);
+
         allSelectables = new List<Selectable>
         {
             levelControllerBtn,
-            gameSettingsBtn
+            gameSettingsBtn,
+            quitToMainMenuBtn,
         };
 
-        ToggleMenuOptions(false);
 
     }
+
 
     private void QuitToMainMenu()
     {
@@ -41,6 +43,8 @@ public class PlayerMenuOptionsUI : MonoBehaviour
     public void ToggleMenuOptions(bool isVisible)
     {
         wrapper.SetActive(isVisible);
+
+        if (!isVisible) return;
 
         UINavigationUtils.ClampVerticalNavigation(allSelectables);
         StartCoroutine(UINavigationUtils.SelectWithDelay(allSelectables[0].gameObject));
