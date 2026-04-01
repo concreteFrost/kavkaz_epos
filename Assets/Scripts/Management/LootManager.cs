@@ -7,7 +7,7 @@ public class LootManager : MonoBehaviour
     public List<BaseLootHolder> loots = new List<BaseLootHolder>(); 
     [SerializeField] private DynamicLootManager dynamicLootManager;
 
-    public static Action<int, int> StaticLootDataUpdated;
+    public static Action StaticLootDataUpdated; // для ui обновлений
     public void Init()
     {
 
@@ -26,22 +26,13 @@ public class LootManager : MonoBehaviour
         {
             loot.Init();
         }
+
+        StaticLootDataUpdated?.Invoke();
     }
+
 
     public void ClearDynamicLoot() => dynamicLootManager.CleadDynamicLoot();
 
-    #region Loot Info Update
-
-    private void GetDynamicLootDataInfo()
-    {
-        
-    }
-
-    private void GetStaticLootDataInfo()
-    {
-
-    }
-    #endregion
 
     #region Save/Load
     public List<LootState> SaveLootData()
@@ -70,6 +61,8 @@ public class LootManager : MonoBehaviour
                 loot.LoadLootData(match);   
             }
         }
+
+        StaticLootDataUpdated?.Invoke();
     }
     #endregion 
 }

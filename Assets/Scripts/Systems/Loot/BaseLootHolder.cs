@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -75,6 +76,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     {
        
         TransferItemsToCollector(collector);
+        LootManager.StaticLootDataUpdated?.Invoke();
         //interactionCollider.DisableCollider();
     }
 

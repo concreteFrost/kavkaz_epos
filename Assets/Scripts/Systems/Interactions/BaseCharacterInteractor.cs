@@ -9,6 +9,7 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     private string collectorId;
     public string CollectorId() => collectorId;
     public CharacterStatsController StatsController { get; set; }=null;
+    public CharacterStatsModifier StatsModifier { get; set; } = null;   
     public ICharacterLifeCycle LifeCycleController { get; set; }=null;  
     public IWeaponSetter CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
@@ -26,8 +27,11 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
 
     private float interactRadius=1f;
 
-    protected void BaseInit(string uniqueId, Transform self,
+    protected void BaseInit(
+        string uniqueId, 
+        Transform self,
         CharacterStatsController statsController,
+        CharacterStatsModifier statsModifier,
         BaseHumanoidAnimatorController animatorController,
         IWeaponSetter combatInventory,
         IDamagable damageController,
@@ -38,6 +42,7 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         this.collectorId = uniqueId;
         this.self = self;
         this.StatsController = statsController;
+        this.StatsModifier = statsModifier; 
         this.animatorController = animatorController;
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;

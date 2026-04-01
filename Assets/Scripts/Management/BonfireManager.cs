@@ -8,6 +8,8 @@ public class BonfireManager : MonoBehaviour
 
     public List<Bonfire> bonfires = new List<Bonfire>();
     public static Action<Vector3> FastTravelStarted;
+    public static Action BonfireStatesUpdated; // для обновления levelInfoUI
+
 
     public void Init()
     {
@@ -18,6 +20,8 @@ public class BonfireManager : MonoBehaviour
         {
             item.Init();    
         }
+
+        BonfireStatesUpdated?.Invoke(); 
 
     }
 
@@ -65,7 +69,9 @@ public class BonfireManager : MonoBehaviour
                 match.LoadData(data);
             }
         }
-       
+
+        BonfireStatesUpdated?.Invoke();
+
     }
 
     public List<Bonfire> GetDiscoveredBonfires()

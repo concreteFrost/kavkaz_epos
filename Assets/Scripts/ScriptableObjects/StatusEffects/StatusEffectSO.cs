@@ -39,6 +39,8 @@ public class StatusEffectSO : ScriptableObject
     [Tooltip("Определяет является ли эффект положительным (бафф) или отрицательным (дебафф).")]
     public OperationType operationType;
 
+    public bool isNegative = false;
+
 
     private static readonly Color32[] buffColors = new Color32[]
    {

@@ -187,6 +187,7 @@ public class PlayerServiceLocator : MonoBehaviour
             collectorId:uid,
             self: transform,
             statsController: stats,
+            statsModifier:statsModifier,
             animatorController: animatorController,
             combatInventory: weaponSetter,
             damageController: damageController,

@@ -62,6 +62,9 @@ public class Bonfire : MonoBehaviour, IInteractable
         GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
 
         interactor.StatsController.ResetAllStats();
+        interactor.StatsModifier.ClearNegativeStatEffects();
+
+        SaveLoadManager.Instance.SaveGame();
 
     }
 
@@ -69,6 +72,7 @@ public class Bonfire : MonoBehaviour, IInteractable
     {
         particles.Play();
         isDiscovered = true; 
+        BonfireManager.BonfireStatesUpdated?.Invoke();
 
     }
 

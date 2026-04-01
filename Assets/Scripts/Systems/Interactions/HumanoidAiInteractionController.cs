@@ -4,6 +4,7 @@ public class HumanoidAiInteractionController : BaseCharacterInteractor
 {
     public void Init(string collectorId, Transform self,
        CharacterStatsController statsController,
+       CharacterStatsModifier statsModifier,
        BaseHumanoidAnimatorController animatorController,
        IWeaponSetter combatInventory,
        IDamagable damageController,
@@ -11,7 +12,7 @@ public class HumanoidAiInteractionController : BaseCharacterInteractor
        ICharacterLifeCycle lifeCycle
       )
     {
-        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource, lifeCycle);
+        BaseInit(collectorId, self, statsController,statsModifier, animatorController, combatInventory, damageController, attackSource, lifeCycle);
        
     }
 

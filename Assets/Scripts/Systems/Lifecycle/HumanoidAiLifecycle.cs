@@ -44,6 +44,8 @@ public class HumanoidAiLifecycle : CharacterLifecycle
 
         brain.ForceStop();
 
+        CharactersManager.CharacterStatesUpdated?.Invoke(); 
+
         //StartCoroutine(RespawnCoroutine());
     }
 
@@ -57,6 +59,8 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         statsModifier.ClearAllStats();
         brain.SetInitialState();
         statsController.ResetAllStats();
+
+        CharactersManager.CharacterStatesUpdated?.Invoke();
     }
 
 }

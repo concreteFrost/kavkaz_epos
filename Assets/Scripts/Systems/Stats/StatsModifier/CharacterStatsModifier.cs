@@ -95,6 +95,17 @@ public class CharacterStatsModifier : MonoBehaviour
         }
     }
 
+    public void ClearNegativeStatEffects()
+    {
+        if(activeEffects.Count == 0) return;
+
+        var allNegative = activeEffects.FindAll((x) => x.data.isNegative);
+        foreach (var effect in allNegative)
+        {
+           CancelStatEffect(effect);    
+        }
+    }
+
 
     public void ClearAllStats()
     {

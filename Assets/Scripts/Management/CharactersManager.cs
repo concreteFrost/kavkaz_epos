@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharactersManager : MonoBehaviour
 {
     public List<EnemyServiceLocator> enemies = new List<EnemyServiceLocator>();
-    public static Action CharacterManagerInitialized;
+    public static Action CharacterStatesUpdated;
 
     public void Init()
     {
@@ -15,6 +15,8 @@ public class CharactersManager : MonoBehaviour
         {
             locator.Init();
         }
+
+        CharacterStatesUpdated?.Invoke();   
     }
 
     public List<EnemyState> SaveEnemies()
@@ -66,6 +68,8 @@ public class CharactersManager : MonoBehaviour
                
             }
         }
+
+        CharacterStatesUpdated?.Invoke();
     }
 
 

@@ -55,7 +55,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void InteractionInit()
     {
-        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager, animatorController: animatorController, combatInventory: weaponSetter, damageController: damageController, attackSource: attackSource,lifeCycle:lifecycle);
+        interaction.Init(collectorId:uniqueId.uniqueId, self: transform,statsController:statsManager,statsModifier:statsModifier ,animatorController: animatorController, combatInventory: weaponSetter, damageController: damageController, attackSource: attackSource,lifeCycle:lifecycle);
     }
 
     private void CombatInit()

@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] BonfireManager bonfireManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public static Action<LevelState> LevelInfoUpdated;
+    public static Action<string> LevelInfoUpdated;
 
 
     private void Awake()
@@ -41,7 +41,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        LevelInfoUpdated?.Invoke(levelState);
+      
+        LevelInfoUpdated?.Invoke(levelState.levelId);
     }
 
     private void OnDisable()
@@ -88,7 +89,7 @@ public class LevelManager : MonoBehaviour
         bonfireManager.LoadBonfireDatas(state);
         //weaponsManager.LoadItemData(state.combatItemDatas); 
 
-        LevelInfoUpdated?.Invoke(levelState);
+        LevelInfoUpdated?.Invoke(levelState.levelId);
     }
 
 

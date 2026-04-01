@@ -72,7 +72,6 @@ public class GameRunner : MonoBehaviour
 
     }
 
-
     public void SpawnAtLevelStart()
     {
         Vector3 pos = activeLevel.startingPosition.position;
@@ -92,7 +91,6 @@ public class GameRunner : MonoBehaviour
 
     public void OnTravelStarted()
     {
-
         worldStateManager.SaveLevel(activeLevel);
     }
 
@@ -101,6 +99,8 @@ public class GameRunner : MonoBehaviour
        
         Bootstrap();
         SpawnAtLevelStart();
+
+       
     }
 
     public void OnSceneLoadedAfterTravel(string sceneName)
@@ -108,6 +108,8 @@ public class GameRunner : MonoBehaviour
         BootstrapLevel();
         worldStateManager.LoadLevel(activeLevel);
         SpawnAtLevelStart();
+
+        SaveLoadManager.Instance.SaveGame();
     }
 
     public void OnSaveLoaded(SaveGameData data)

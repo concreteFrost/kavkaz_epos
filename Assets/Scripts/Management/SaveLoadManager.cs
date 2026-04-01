@@ -35,7 +35,13 @@ public class SaveLoadManager : MonoBehaviour
     public void TravelToLevel(string sceneName)
     {
         TravelStarted?.Invoke();
-        StartCoroutine(LoadSceneAsync(sceneName, () => SceneLoadedAfterTravel?.Invoke(sceneName)));
+        StartCoroutine(LoadSceneAsync(sceneName, () => LoadSceneAfterTravel(sceneName)));
+    }
+
+    private void LoadSceneAfterTravel(string sceneName)
+    {
+        SceneLoadedAfterTravel?.Invoke(sceneName);
+       
     }
 
     public void StartNewGame(string sceneName)

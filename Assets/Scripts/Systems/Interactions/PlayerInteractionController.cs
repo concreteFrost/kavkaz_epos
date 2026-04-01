@@ -11,6 +11,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
     public static Action<ItemData> LootCollected;
     public void Init(string collectorId, Transform self,
         CharacterStatsController statsController,
+        CharacterStatsModifier statsModifier,
         BaseHumanoidAnimatorController animatorController,
         IWeaponSetter combatInventory,
         IDamagable damageController,
@@ -20,7 +21,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
         PlayerConsumableInventory consumableInventory,
         CharacterWeaponInventory weaponInventory)
     {
-        BaseInit(collectorId, self, statsController, animatorController, combatInventory, damageController, attackSource, lifeCycle);
+        BaseInit(collectorId, self, statsController,statsModifier, animatorController, combatInventory, damageController, attackSource, lifeCycle);
         this.spellInventory = spellInventory;
         this.consumableInventory = consumableInventory; 
         this.weaponInventory = weaponInventory;
