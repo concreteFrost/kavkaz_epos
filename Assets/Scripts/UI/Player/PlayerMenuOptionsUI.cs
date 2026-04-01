@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class PlayerMenuOptionsUI : MonoBehaviour
 
     [SerializeField] Button levelControllerBtn;
     [SerializeField] Button gameSettingsBtn;
+    [SerializeField] Button quitToMainMenuBtn;
 
     PlayerLevelControllerUI levelControllerUI;
 
@@ -17,10 +19,10 @@ public class PlayerMenuOptionsUI : MonoBehaviour
     {
         this.levelControllerUI = levelControllerUI; 
 
-        levelControllerBtn.onClick.RemoveAllListeners();
+
         levelControllerBtn.onClick.AddListener(ShowLevelController);
 
-
+        quitToMainMenuBtn.onClick.AddListener(QuitToMainMenu);
         allSelectables = new List<Selectable>
         {
             levelControllerBtn,
@@ -31,6 +33,10 @@ public class PlayerMenuOptionsUI : MonoBehaviour
 
     }
 
+    private void QuitToMainMenu()
+    {
+        SaveLoadManager.Instance.LoadMainMenu();    
+    }
 
     public void ToggleMenuOptions(bool isVisible)
     {

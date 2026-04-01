@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class BonfirePanelUI : MonoBehaviour
 {
-    private BonfireManager bonfireManager;
 
     [Header("Wrappers")]
     [SerializeField] private GameObject mainWrapper;
@@ -25,12 +24,6 @@ public class BonfirePanelUI : MonoBehaviour
 
     public GameObject activePanel;
 
-    public void Init()
-    {
-        bonfireManager = FindAnyObjectByType<BonfireManager>();
-      
-    }
-
     private void OnEnable()
     {
         travelSectionButton.onClick.AddListener(() => HideTravelPanel(false));
@@ -44,11 +37,11 @@ public class BonfirePanelUI : MonoBehaviour
 
     public void ToggleMainPanel(bool isActive)
     {
+       
         mainWrapper.SetActive(isActive);
         bonfirePanel.SetActive(isActive);
+        HideTravelPanel(true);
 
-        activePanel = bonfirePanel;
-        ClampActivePanel(activePanel);
 
 
     }
@@ -87,14 +80,23 @@ public class BonfirePanelUI : MonoBehaviour
 
     private void SetupTravelActions()
     {
+        var bonfireManager = FindAnyObjectByType<BonfireManager>();
 
-        var allActiveBonfires = bonfireManager.GetDiscoveredBonfires();
+        // Сначала скрываем все кнопки из пула
+        foreach (var btn in travelButtonsPool)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.gameObject.SetActive(false);
+        }
 
-        foreach (var bonfire in allActiveBonfires)
+        // Создаем/переиспользуем кнопки для текущего списка bonfires
+        foreach (var bonfire in bonfireManager.GetDiscoveredBonfires())
         {
             var bonfireButton = GetTravelButtonFromPool();
-            string id = bonfire.id; // копируем значение в локальную переменную
+
+            string id = bonfire.id;
             bonfireButton.onClick.AddListener(() => bonfireManager.FastTravel(id));
+
             var btnText = bonfireButton.GetComponentInChildren<TextMeshProUGUI>();
             btnText.text = bonfire.GetBonfireName();
         }
@@ -102,20 +104,19 @@ public class BonfirePanelUI : MonoBehaviour
 
     private Button GetTravelButtonFromPool()
     {
-        foreach(var btn in travelButtonsPool)
+        // Находим первую свободную кнопку
+        var btn = travelButtonsPool.FirstOrDefault(b => !b.gameObject.activeInHierarchy);
+        if (btn != null)
         {
-            if (!btn.gameObject.activeSelf)
-            {
-                btn.gameObject.SetActive(true);
-                return btn;
-            }
+            btn.gameObject.SetActive(true);
+            return btn;
         }
 
+        // Если нет свободной, создаём новую
         var go = Instantiate(travelButtonPrefab, travelWrapper.transform);
-
-        var newButton = go.GetComponent<Button>();
-        travelButtonsPool.Add(newButton);   
-        return newButton;
+        btn = go.GetComponent<Button>();
+        travelButtonsPool.Add(btn);
+        return btn;
     }
 
     private void HideAllButtons()

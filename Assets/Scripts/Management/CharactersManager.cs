@@ -1,15 +1,16 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharactersManager : MonoBehaviour
 {
     public List<EnemyServiceLocator> enemies = new List<EnemyServiceLocator>();
+    public static Action CharacterManagerInitialized;
 
     public void Init()
     {
-        enemies.Clear();
-        enemies.AddRange(GetComponentsInChildren<EnemyServiceLocator>());
-
+        enemies = GetComponentsInChildren<EnemyServiceLocator>().ToList();
         foreach (EnemyServiceLocator locator in enemies)
         {
             locator.Init();

@@ -5,10 +5,17 @@ public class PlayerLifecycle : CharacterLifecycle
 {
 
     public void Init(
-     BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
+    BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
     {
         BaseInit(statsController, statsModifier, damagable, startingPosition, self);
+        BonfireManager.FastTravelStarted += OnFastTravelStarted;
 
+
+    }
+
+    private void OnDisable()
+    {
+        BonfireManager.FastTravelStarted -= OnFastTravelStarted;    
     }
 
     public override void Die()
@@ -38,5 +45,11 @@ public class PlayerLifecycle : CharacterLifecycle
     {
         yield return new WaitForSeconds(5f);
         Respawn();
+    }
+
+    private void OnFastTravelStarted(Vector3 respPosition)
+    {
+       SetStartingPosition(respPosition);
+       Respawn();
     }
 }

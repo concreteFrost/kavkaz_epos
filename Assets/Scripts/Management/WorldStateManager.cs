@@ -1,34 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldStateManager : MonoBehaviour
+public class WorldStateManager
 {
-    public static WorldStateManager Instance;   
-    public WorldState worldState = new WorldState();
+    private Dictionary<string, LevelState> allLevels = new Dictionary<string, LevelState>();
 
-    private void Awake()
+    public void SaveLevel(LevelManager level)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
+        if (level == null) return;
+
+        LevelState state = level.SaveLevelState();
+        allLevels[state.levelId] = state;
     }
 
-    public LevelState GetLevelState(string levelId)
+    public void LoadLevel(LevelManager level)
     {
-        if (!worldState.levels.ContainsKey(levelId))
+        if (level == null) return;
+
+        if (allLevels.TryGetValue(level.GetLevelName(), out LevelState state))
         {
-            var newState = new LevelState
-            {
-                levelId = levelId,
-            };
-
-            worldState.levels[levelId] = newState;  
-        
+            level.LoadLevelState(state);
         }
+    }
 
-        return worldState.levels[levelId];  
+    public void LoadFromSaveData(List<SaveLevelData> levelDatas)
+    {
+        allLevels.Clear();
+        foreach (var data in levelDatas)
+        {
+            allLevels[data.levelName] = data.levelState;
+        }
+    }
 
+    public List<SaveLevelData> GetSaveData()
+    {
+        var list = new List<SaveLevelData>();
+        foreach (var kv in allLevels)
+        {
+            list.Add(new SaveLevelData
+            {
+                levelName = kv.Key,
+                levelState = kv.Value
+            });
+        }
+        return list;
     }
 }

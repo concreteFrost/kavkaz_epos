@@ -21,7 +21,6 @@ public class AiFallController : BaseFallController
     {
         if (damagable.IsDead) return;
         
-
         if (ragdollController.IsKnockedOut && !wasLastGroundedPositionRegistered)
         {
             wasLastGroundedPositionRegistered = true;

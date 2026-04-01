@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LootManager : MonoBehaviour
 {
     public List<BaseLootHolder> loots = new List<BaseLootHolder>(); 
-    [SerializeField] private DynamicLootManager dynamicLootManager;  
+    [SerializeField] private DynamicLootManager dynamicLootManager;
+
+    public static Action<int, int> StaticLootDataUpdated;
     public void Init()
     {
 
@@ -27,6 +30,19 @@ public class LootManager : MonoBehaviour
 
     public void ClearDynamicLoot() => dynamicLootManager.CleadDynamicLoot();
 
+    #region Loot Info Update
+
+    private void GetDynamicLootDataInfo()
+    {
+        
+    }
+
+    private void GetStaticLootDataInfo()
+    {
+
+    }
+    #endregion
+
     #region Save/Load
     public List<LootState> SaveLootData()
     {
@@ -45,7 +61,7 @@ public class LootManager : MonoBehaviour
 
     public void LoadLootData(LevelState state)
     {
-        var savedLoot = state.lootDatas;
+        var savedLoot = state.staticLootDatas;
         foreach (var loot in loots)
         {
             var match = savedLoot.Find(x => x.lootId == loot.id);

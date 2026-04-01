@@ -53,15 +53,21 @@ public class CharacterStatsController : BaseStatsController
         Strength = new StrengthModel(statsSO.baseStrength);
 
 
-        ResetAllStats();
-    }
 
-    private void Start()
-    {
+
         Health.UpdateMaxAndCurrent(healthLevel);
         Stamina.UpdateMaxAndCurrent(staminaLevel);
         Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
         Strength.UpdateMaxAndCurrent(strengthLevel);
+
+        ResetAllStats();
+
+
+    }
+
+    private void Start()
+    {
+       
     }
 
     private void Update()

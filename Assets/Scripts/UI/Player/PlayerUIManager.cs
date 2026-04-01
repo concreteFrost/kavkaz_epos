@@ -83,7 +83,6 @@ public class PlayerUIManager : MonoBehaviour
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
         lootPanelUI.Init();
-        bonfirePanelUI.Init();
     }
 
     private void InitProgression(CharacterLevelController levelController)

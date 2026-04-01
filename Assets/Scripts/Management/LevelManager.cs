@@ -12,6 +12,7 @@ public class SaveLevelData
 
 public class LevelManager : MonoBehaviour
 {
+   
     public LevelState levelState;
 
     public Transform startingPosition;
@@ -22,19 +23,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField] BonfireManager bonfireManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    
+    public static Action<LevelState> LevelInfoUpdated;
+
+
     private void Awake()
     {
         levelState = new LevelState();
         levelState.levelId = SceneManager.GetActiveScene().name;
         
-        if(lootManager == null) lootManager = FindAnyObjectByType<LootManager>();   
-        if(charactersManager == null) charactersManager = FindAnyObjectByType<CharactersManager>();
-        if(bonfireManager == null) bonfireManager = FindAnyObjectByType<BonfireManager>();  
-
-        lootManager?.Init();    
-        charactersManager?.Init();
-        bonfireManager?.Init();  
+        lootManager.Init();    
+        charactersManager.Init();
+        bonfireManager.Init();  
 
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
        
@@ -42,7 +41,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        
+        LevelInfoUpdated?.Invoke(levelState);
     }
 
     private void OnDisable()
@@ -69,7 +68,7 @@ public class LevelManager : MonoBehaviour
     #region Save/Load
     public LevelState SaveLevelState()
     {
-        levelState.lootDatas = lootManager.SaveLootData();
+        levelState.staticLootDatas = lootManager.SaveLootData();
         levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
         levelState.enemyDatas = charactersManager.SaveEnemies();
         levelState.bonfireDatas = bonfireManager.SaveBonfireStates();
@@ -88,6 +87,8 @@ public class LevelManager : MonoBehaviour
         charactersManager.LoadCharactersData(state);
         bonfireManager.LoadBonfireDatas(state);
         //weaponsManager.LoadItemData(state.combatItemDatas); 
+
+        LevelInfoUpdated?.Invoke(levelState);
     }
 
 

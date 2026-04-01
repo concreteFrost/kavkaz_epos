@@ -1,37 +1,35 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BonfireManager : MonoBehaviour
 {
 
-    public List<Bonfire> bonfires = new List<Bonfire>(); 
-    PlayerManager playerManager;    
+    public List<Bonfire> bonfires = new List<Bonfire>();
+    public static Action<Vector3> FastTravelStarted;
 
     public void Init()
     {
-        bonfires.Clear();   
-        bonfires.AddRange(GetComponentsInChildren<Bonfire>());
-        playerManager = FindAnyObjectByType<PlayerManager>();
-
+        bonfires.Clear();
+        bonfires = GetComponentsInChildren<Bonfire>().ToList();
+        
         foreach (var item in bonfires)
         {
             item.Init();    
         }
 
-        if(playerManager == null)
-        {
-            Debug.Log("no player manager found");
-        }
     }
 
     public void FastTravel(string bonfireId)
     {
         var match = bonfires.Find((x)=>x.id == bonfireId);  
 
-        if (match != null && playerManager !=null)
+     
+
+        if (match != null )
         {
-            playerManager.serviceLocator.lifecycle.SetStartingPosition(match.GetRespawnPosition());
-            playerManager.serviceLocator.lifecycle.Respawn();
+            FastTravelStarted?.Invoke(match.GetRespawnPosition());  
             GameStateManager.GameStateChanged?.Invoke(GameState.Game);
         }
     }
