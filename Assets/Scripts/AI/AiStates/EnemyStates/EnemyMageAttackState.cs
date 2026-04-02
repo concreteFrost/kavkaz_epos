@@ -7,13 +7,16 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     CharacterSpellInventory spellInventory;
     float meleeDistance = 1.3f;
 
-    protected override void Init()
+    public override float AttackRangeDistance() => 10f;
+
+    public override void Init()
     {
         emitter = context.emitter;
         spellInventory = context.spellInventory;
     }
 
-    protected override AIStateResult GetNextDecision()
+
+    public override AIStateResult GetNextDecision()
     {
         if (distance > 10f)
         {
@@ -25,7 +28,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     }
 
 
-    protected override void HandleAttack(Transform target)
+    public override void HandleAttack(Transform target)
     {
        
         if (distance < meleeDistance)
@@ -56,7 +59,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         FinishCombatAction();
     }
 
-    protected override bool ShouldExitCooldown()
+    public override bool ShouldExitCooldown()
     {
 
         if (distance < meleeDistance)
@@ -70,7 +73,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         return false;
     }
 
-    protected override void HandleCooldown()
+    public override void HandleCooldown()
     {
         float dist = Vector3.Distance(self.position, target.position);
 
@@ -84,7 +87,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         motor.MoveLocal(dir);
     }
 
-    protected override void HandleDefense(bool willDefend)
+    public override void HandleDefense(bool willDefend)
     {
         //
     }

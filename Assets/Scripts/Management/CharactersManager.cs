@@ -14,6 +14,7 @@ public class CharactersManager : MonoBehaviour
         foreach (EnemyServiceLocator locator in enemies)
         {
             locator.Init();
+            //locator.brain.ForceStop();
         }
 
         CharacterStatesUpdated?.Invoke();   

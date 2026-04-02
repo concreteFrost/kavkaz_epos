@@ -5,14 +5,15 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
 {
     protected HumanoidWeaponSetter weaponSetter;
 
-    protected override void Init()
+    public override float AttackRangeDistance() => 1.3f;
+    public override void Init()
     {
         combatController = context.combat;
         weaponSetter = context.weaponSetter;
     }
 
 
-    protected override void HandleAttack(Transform target)
+    public override void HandleAttack(Transform target)
     {
         if (combatHandler.WillPowerAttack())
             combatCoroutine = StartCoroutine(PowerAttackCoroutine());
@@ -34,13 +35,13 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         FinishCombatAction();
     }
 
-    protected override void HandleDefense(bool willDefend)
+    public override void HandleDefense(bool willDefend)
     {
         combatHandler?.ToggleShield(willDefend, weaponSetter, combatController);
     }
 
  
-    protected override bool ShouldExitCooldown()
+    public override bool ShouldExitCooldown()
     {
         float dist = Vector3.Distance(self.position, target.position);
 
@@ -53,7 +54,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         return false;
     }
 
-    protected override void HandleCooldown()
+    public override void HandleCooldown()
     {
         float dist = Vector3.Distance(self.position, target.position);
 

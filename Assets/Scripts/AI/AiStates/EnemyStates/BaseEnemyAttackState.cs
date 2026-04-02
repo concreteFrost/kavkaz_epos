@@ -9,7 +9,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     protected EnemyFOVController fov;
     protected HumanoidAIMotor motor;
 
-    protected EnemyCombatHandler combatHandler;
+    [HideInInspector] public EnemyCombatHandler combatHandler;
     protected HumanoidAgentController agentController;
     protected IHumanoidMeleeCombat combatController;
 
@@ -17,11 +17,13 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     protected Transform target;
     protected float distance;
 
-    protected abstract void Init();
+    public abstract float AttackRangeDistance();
+
+    public abstract void Init();
 
     public override void Enter()
     {
-        Init();
+        
         self = context.self;
         fov = context.fov;
         motor = context.motor;
@@ -31,6 +33,9 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatHandler = context.stateTracker.combatHandler;
         combatHandler.ResetCombatState();
         combatController = context.combat;
+        motor.IsSprinting = true;
+
+        Init();
     }
 
     public override AIStateResult Run()
@@ -40,52 +45,36 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
         target = fov.currentTarget.GetOrigin();
 
+        // --- базовая логика до inRange ---
         combatHandler.UpdateDodgeChance();
         if (combatHandler.IsStrafeBlocked())
             combatHandler.UpdateBlockStrafeTimer();
 
         distance = Vector3.Distance(self.position, target.position);
 
-        if (!combatHandler.IsCombatDistance(distance) || !fov.IsTargetVisible())
+        if (combatHandler.IsChaseDistance(distance) || !fov.IsTargetVisible())
             return AIStateResult.Chase;
 
-        if (combatCoroutine != null || cooldownCoroutine != null)
+        if (cooldownCoroutine != null)
             return AIStateResult.None;
 
-       
-        bool canSprint = combatHandler.IsRunningDistance(distance);
-        motor.IsSprinting = canSprint;
-
-        bool canLockOn = combatHandler.IsInAttackRange(distance);
-
-        if (!canLockOn)
-        {
-            motor.ResetLockTarget();
-            motor.SetStrafe(false);
-        }
-        else
+        if (combatCoroutine != null)
         {
             motor.SetLockTarget(fov.currentTarget.GetAimTransform());
             motor.SetStrafe(true);
+            motor.RotateToTarget(target.position);
+            return AIStateResult.None;
         }
+
+        motor.ResetLockTarget();
+        motor.SetStrafe(false);
 
         bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
         if (!canReach)
             return AIStateResult.Wait;
 
-
-        if (!combatHandler.IsInAttackRange(distance) || !fov.IsTargetVisible())
-        {
-
-            motor.MoveCharacter(target.position);
-            HandleDefense(true);
-            return AIStateResult.None;
-        }
-
-
-        HandleDefense(false);
-
-        return GetNextDecision();
+       
+        return HandleCombatBehavior();
     }
 
     public override void Exit()
@@ -93,15 +82,32 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         StopAllCoroutines();
         combatCoroutine = null;
         cooldownCoroutine = null;
+       
 
         HandleDefense(false);
         motor.ResetLockTarget();
         motor.SetStrafe(false);
     }
 
+    public virtual AIStateResult HandleCombatBehavior()
+    {
+        bool inRange = distance < AttackRangeDistance();
+
+        if (!inRange || !fov.IsTargetVisible())
+        {
+            motor.MoveCharacter(target.position);
+            HandleDefense(true);
+            return AIStateResult.None;
+        }
+
+        HandleDefense(false);
+
+        return GetNextDecision();
+    }
 
 
-    protected void FinishCombatAction()
+
+    protected virtual void FinishCombatAction()
     {
         //motor.ResetLockTarget();
         combatCoroutine = null;
@@ -122,7 +128,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatController.PerformAttack();
 
         while (executedAttacks < punchesCount - 1 &&
-               distance <= combatHandler.GetAttackDistanceWithOffset())
+               distance <= combatHandler.GetAttackDistanceWithOffset(AttackRangeDistance()))
         {
             yield return new WaitForSeconds(combatController.AttackBufferTime * 0.9f);
             combatController.PerformAttack();
@@ -169,15 +175,15 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     #endregion
 
     #region Abstract Methods
-    protected abstract void HandleDefense(bool willDefend);
-    protected abstract void HandleAttack(Transform target);
-    protected abstract bool ShouldExitCooldown();
-    protected abstract void HandleCooldown();
+    public abstract void HandleDefense(bool willDefend);
+    public abstract void HandleAttack(Transform target);
+    public abstract bool ShouldExitCooldown();
+    public abstract void HandleCooldown();
     #endregion
 
 
     #region Virtual Methods
-    protected virtual AIStateResult GetNextDecision()
+    public virtual AIStateResult GetNextDecision()
     {
         switch (combatHandler.GetNextDecision())
         {

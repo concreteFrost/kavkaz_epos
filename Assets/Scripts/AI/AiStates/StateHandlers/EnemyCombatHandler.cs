@@ -1,5 +1,11 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
+public enum CombatMode
+{
+    Melee = 0,
+    Magic = 1
+}
 public enum CombatTransition
 {
     Attack = 0,
@@ -13,7 +19,7 @@ public class EnemyCombatHandler
 {
     CharacterBehaviourStatsSO stats;
     CharacterStatsController statsController;
-
+    
     //[Header("Состояние боя")]
     //[SerializeField] private float currCombatCooldown;
     //[SerializeField] private float maxCombatCooldown;
@@ -68,10 +74,30 @@ public class EnemyCombatHandler
 
     public void SetCanAttack(bool val)=> canAttack = val;    
 
-    public float GetAttackDistanceWithOffset() => stats.attackDistance + comboDistanceOffset;
+    public float GetAttackDistanceWithOffset(float distance) => distance + comboDistanceOffset;
 
     public float GetMinAttackCooldown() => stats.minCombatCooldown;
     public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
+
+
+    //работает только для смешанных врагов
+    public CombatMode DecideCombatMode(float distance)
+    {
+        // Близко → почти всегда ближний бой
+        if (distance < 2f)
+        {
+            return Random.value < 0.8f ? CombatMode.Melee : CombatMode.Magic;
+        }
+
+        // Средняя дистанция → смешанное поведение
+        if (distance < 5f)
+        {
+            return Random.value < 0.5f ? CombatMode.Melee : CombatMode.Magic;
+        }
+
+        // Далеко → почти всегда магия
+        return Random.value < 0.8f ? CombatMode.Magic : CombatMode.Melee;
+    }
 
     #endregion
 
@@ -107,9 +133,9 @@ public class EnemyCombatHandler
     #endregion
 
     #region Distance to Target
-    public bool IsRunningDistance(float distance) => distance > stats.switchToRunDistance;
-    public bool IsCombatDistance(float distance) => distance < stats.maxCombatDistance;
-    public bool IsInAttackRange(float distance) => distance <= stats.attackDistance;
+    //public bool IsRunningDistance(float distance) => distance > stats.switchToRunDistance;
+    public bool IsChaseDistance(float distance) => distance >= stats.maxDistanceInCombat;
+    public bool IsLockOnDistance(float distance) => distance <= stats.targetLockOnDistance;
 
     #endregion
 
@@ -173,6 +199,7 @@ public class EnemyCombatHandler
     public bool IsStrafeBlocked() => isStrafeBlocked;
 
     #endregion
+
 
 
     public CombatTransition GetNextDecision()

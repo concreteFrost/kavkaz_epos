@@ -23,7 +23,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [SerializeField] private EnemyFOVController fovController;
 
     [Header("Мозг")]
-    [SerializeField] protected EnemyBrain brain;
+    public EnemyBrain brain;
     [SerializeField] protected EnemyStateTracker stateTracker;
 
     [Header("Система событий")]

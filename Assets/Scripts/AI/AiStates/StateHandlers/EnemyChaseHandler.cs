@@ -29,7 +29,7 @@ public class EnemyChaseHandler
 
     public bool IsTargetFar(float dist) => dist >= stats.maxChaseDistance;
 
-    public bool IsCloseToAttack(float dist) => dist < stats.chaseToCombatDistance;
+    public bool IsCloseToAttack(float dist) => dist <= stats.fromChaseToCombatDistance;
 
     #endregion
 }

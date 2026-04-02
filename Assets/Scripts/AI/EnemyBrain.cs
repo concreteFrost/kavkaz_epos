@@ -31,6 +31,8 @@ public class EnemyBrain : AIBrain
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
     [SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
 
+    public bool isActivated = false;
+
     
     public void Init(EnemyBrainContext context)
     {
@@ -39,19 +41,21 @@ public class EnemyBrain : AIBrain
         idle.Init(context);
         patrol.Init(context);
         chase.Init(context);
-        attack.Init(context);
+      
         strafe.Init(context);
         wait.Init(context);
         moveToStart.Init(context);
-        moveToInterruptor.Init(context);    
+        moveToInterruptor.Init(context);
 
-        stateMachine.ChangeState(idle);
+        attack.Init(context);
+
+        SetActivated(true);
 
     }
 
     void Update()
     {
-        if (context.damageController.IsDead || stateMachine.CurrentState == null)
+        if (context.damageController.IsDead || stateMachine.CurrentState == null )
         {
             stateMachine.ForceExit();
             return;
@@ -101,7 +105,13 @@ public class EnemyBrain : AIBrain
         stateMachine.ChangeState(idle);
     }
 
+    public void SetActivated(bool activated)
+    {
+        Debug.Log("brain activated");
+        isActivated = activated;
 
+        if(isActivated) SetInitialState();
+    }
     
 
 

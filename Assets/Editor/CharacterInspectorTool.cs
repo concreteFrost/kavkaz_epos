@@ -21,8 +21,11 @@ public class CharacterInspectorTool : EditorWindow
 
         var pl = GameObject.FindGameObjectWithTag("Player");
 
-        DrawBaseCharacterCard(pl);
-
+        if(pl != null)
+        {
+            DrawBaseCharacterCard(pl);
+        }
+       
         DrawHeader("Enemies");
 
 
