@@ -113,10 +113,6 @@ public class EnemyBrain : AIBrain
         stateMachine.ChangeState(idle);
     }
 
-    //public void ForceChase()
-    //{
-    //    stateMachine.ChangeState(chase);
-    //}
 
     public void SetActivated(bool activated)
     {

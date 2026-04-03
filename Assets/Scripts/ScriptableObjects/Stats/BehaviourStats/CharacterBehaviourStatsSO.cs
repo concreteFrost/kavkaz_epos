@@ -47,12 +47,15 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [Tooltip("Множитель увеличения шанса мощной атаки со временем")]
     public float powerAttackChanceMultiplier = 0.05f;
 
+
+    [Header("Combat Cooldown")]
     [Tooltip("Минимальная задержка между атаками (в секундах)")]
     public float minCombatCooldown = 0.2f;
 
     [Tooltip("Максимальная задержка между атаками (в секундах)")]
     public float maxCombatCooldown = 0.7f;
 
+    [Header("Dodge")]
     [Tooltip("Начальный шанс уклонения (0–1)")]
     [Range(0, 1f)]
     public float initialDodgeChance = 0.2f;
@@ -102,11 +105,11 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [Tooltip("Максимальная задержка перед сменой позиции (в секундах)")]
     public float maxRepositionCooldown = 4f;
 
-    [Header("Mixed Combat")]
-    [Tooltip("Выгода от рукопашной атаки на основе расстояния от цели")]
-    public float meleeScore = 2f;
+    //[Header("Mixed Combat")]
+    //[Tooltip("Выгода от рукопашной атаки на основе расстояния от цели")]
+    //public float meleeScore = 2f;
 
-    [Tooltip("Выгода от магической атаки на основе расстояния от цели")]
-    public float spellScore = 10f;
+    //[Tooltip("Выгода от магической атаки на основе расстояния от цели")]
+    //public float spellScore = 10f;
 
 }

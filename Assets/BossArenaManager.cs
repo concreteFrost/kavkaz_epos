@@ -24,19 +24,32 @@ public class BossSpecialAction
 
 [Serializable]
 public class BossArenaState {
-    public bool bossKilled;
+   
     public bool wasActivated;
+    public BossInfo bossInfo;
 
 }
+
+[Serializable]
+public class BossInfo
+{
+    public string bossName;
+    public HealthModel bossHealth;
+    public bool bossKilled;
+}
+
 public class BossArenaManager : MonoBehaviour
 {
     PlayerManager player;
+    BossArenaActivator activator;
+    public BossArenaUI arenaUI;
 
     public BossArenaState state;
     [SerializeField] Transform bossSpawnPosition;
     [SerializeField] GameObject bossPrefab;
-    BossArenaActivator activator;
-    EnemyServiceLocator bossServices;
+
+    [HideInInspector] public EnemyServiceLocator bossServices;
+    
     EnemyBrain bossBrain;
 
     public List<BossSpecialAction> specialActions = new List<BossSpecialAction>();  
@@ -44,10 +57,9 @@ public class BossArenaManager : MonoBehaviour
 
     private void Awake()
     {
-        state = new BossArenaState();   
-        activator  = GetComponentInChildren<BossArenaActivator>();  
-
        
+        activator  = GetComponentInChildren<BossArenaActivator>();
+        arenaUI = GetComponentInChildren<BossArenaUI>();
 
         if(activator != null)
         {
@@ -65,14 +77,14 @@ public class BossArenaManager : MonoBehaviour
 
     private void Update()
     {
-        if (!state.wasActivated || state.bossKilled) return;
+        if (!state.wasActivated || state.bossInfo.bossKilled) return;
 
         TryExecuteSpecial();
     }
 
     private void OnArenaEntered()
     {
-        if (state.wasActivated || state.bossKilled) return;
+        if (state.wasActivated || state.bossInfo.bossKilled) return;
 
         GameObject go = Instantiate(bossPrefab, bossSpawnPosition.position, Quaternion.identity);
 
@@ -87,7 +99,12 @@ public class BossArenaManager : MonoBehaviour
         bossServices.statsManager.Health.CurrentChanged += OnBossHealthChanged;
         bossServices.statsManager.Health.Depleted += OnBossDeath;
 
-        state.wasActivated = true;  
+        state.wasActivated = true;
+
+        string bossName = state.bossInfo.bossName;
+        float health = bossServices.statsManager.Health.Current;
+
+        arenaUI.ShowPanel(state.bossInfo.bossName,health);
     }
 
     private void TryExecuteSpecial()
@@ -111,13 +128,18 @@ public class BossArenaManager : MonoBehaviour
     private void OnBossHealthChanged(float current)
     {
         
-        Debug.Log("current health " +  current);    
+        arenaUI.UpdateHealthSlider(current);    
+           
     }
 
     private void OnBossDeath()
     {
-        Debug.Log("boss died");
+       
         bossServices.statsManager.Health.CurrentChanged -= OnBossHealthChanged;
         bossServices.statsManager.Health.Depleted -= OnBossDeath;
+
+        arenaUI.HidePanelWithDelay();
+
+       
     }
 }

@@ -21,16 +21,15 @@ MonoBehaviour:
   maxChaseDistance: 30
   maxWaitTimer: 3
   combatDistancesSO: {fileID: 11400000, guid: 037e07c283567cb43bacd60d97bebb29, type: 2}
-  attackTransitionChance: 0.7
+  attackTransitionChance: 0.5
   initialPoweAttackChance: 0.15
   powerAttackChanceMultiplier: 0.05
-  minCombatCooldown: 0.5
-  maxCombatCooldown: 3
+  minCombatCooldown: 1
+  maxCombatCooldown: 4
   initialDodgeChance: 0.078
   dodgeChanceMultiplier: 0.15
-  fromChaseToCombatDistance: 10
-  maxDistanceInCombat: 8
-  targetLockOnDistance: 2
+  fromChaseToCombatDistance: 8
+  maxDistanceInCombat: 10
   maxTargetDistanceInStrafe: 5
   minTimeInStrafeState: 3
   maxTimeInStrafeState: 7
