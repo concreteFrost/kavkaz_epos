@@ -20,7 +20,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [SerializeField] private InterruptionManager interruptionManager;
 
     [Header("Система зрения")]
-    [SerializeField] private EnemyFOVController fovController;
+    public EnemyFOVController fovController;
 
     [Header("Мозг")]
     public EnemyBrain brain;

@@ -20,6 +20,7 @@ public class EnemyBrain : AIBrain
     private AIStateMachine stateMachine = new AIStateMachine();
 
     public AIState<EnemyBrainContext> currentState;
+    
 
     [Header("Behaviours")]
     [SerializeField] private AIState<EnemyBrainContext> idle;
@@ -95,6 +96,13 @@ public class EnemyBrain : AIBrain
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
 
+    public void ForceChangeState(AIState<EnemyBrainContext> state)
+    {
+        
+        state.Init(context);
+        stateMachine.ChangeState(state);
+    }
+
     public override void ForceStop()
     {
         stateMachine.ForceExit();
@@ -105,9 +113,14 @@ public class EnemyBrain : AIBrain
         stateMachine.ChangeState(idle);
     }
 
+    //public void ForceChase()
+    //{
+    //    stateMachine.ChangeState(chase);
+    //}
+
     public void SetActivated(bool activated)
     {
-        Debug.Log("brain activated");
+      
         isActivated = activated;
 
         if(isActivated) SetInitialState();
