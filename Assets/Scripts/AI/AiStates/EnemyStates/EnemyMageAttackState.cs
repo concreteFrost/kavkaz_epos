@@ -18,7 +18,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
 
     public override AIStateResult GetNextDecision()
     {
-        if (distance > 10f)
+        if (distanceToTarget > 10f)
         {
             HandleAttack(target);
             return AIStateResult.None;
@@ -31,9 +31,10 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     public override void HandleAttack(Transform target)
     {
        
-        if (distance < meleeDistance)
+        if (distanceToTarget < meleeDistance)
         {
-            combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount:1));
+            int punchesSount = 1;
+            combatCoroutine = combatActions.StartMelee(combatController, combatHandler,punchesSount, AttackRangeDistance(),()=> distanceToTarget, FinishCombatAction);
             return;
         }
 
@@ -43,26 +44,15 @@ public class EnemyMageAttackState : BaseEnemyAttackState
             return;
         }
 
-        combatCoroutine = StartCoroutine(AttackCoroutine());
+        combatCoroutine = combatActions.StartSpell(emitter, spellInventory, FinishCombatAction);
     }
 
   
-    IEnumerator AttackCoroutine()
-    {
-        //пополняем запасы чтобы магия не истощалась 
-        spellInventory.TopUpCurrentItem(1);
-
-        emitter.StartEmit();
-        while (emitter.IsEmitting)
-            yield return null;
-
-        FinishCombatAction();
-    }
 
     public override bool ShouldExitCooldown()
     {
 
-        if (distance < meleeDistance)
+        if (distanceToTarget < meleeDistance)
             return true;
 
         if (!fov.IsTargetVisible())

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 
 public class EnemyMixedCombatState : BaseEnemyAttackState
@@ -18,7 +16,7 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
     {
         base.Enter();
 
-        currentMode = combatHandler.DecideCombatMode(distance);
+        currentMode = combatHandler.DecideCombatMode(distanceToTarget);
     }
 
     public override void Init()
@@ -30,12 +28,6 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
 
     }
 
-    //protected override AIStateResult HandleCombatBehavior()
-    //{
-    //    // если режим еще не выбран
-    //    return HandleCombatBehavior();
-    //}
-
     public override void HandleAttack(Transform target)
     {
         
@@ -43,11 +35,11 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
         {
 
             if (combatHandler.WillPowerAttack())
-                combatCoroutine = StartCoroutine(PowerAttackCoroutine());
+                combatCoroutine = combatActions.StartPowerAttack(combatController, combatHandler, FinishCombatAction);
             else
             {
                 int punchesCount = Random.Range(1, 5);
-                combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount));
+                combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount, AttackRangeDistance(),()=>distanceToTarget, FinishCombatAction);
             }
             return;
 
@@ -55,8 +47,8 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
 
         if (currentMode == CombatMode.Magic)
         {
-         
-            combatCoroutine = StartCoroutine(CastSpellCoroutine());
+
+            combatCoroutine = combatActions.StartSpell(emitter, spellInventory, FinishCombatAction);
         }
 
        
@@ -88,53 +80,11 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
     protected override void FinishCombatAction()
     {
         base.FinishCombatAction();
-        currentMode = combatHandler.DecideCombatMode(distance);   
+        currentMode = combatHandler.DecideCombatMode(distanceToTarget);   
     }
 
 
-    private IEnumerator PowerAttackCoroutine()
-    {
-        combatController.PerformPowerAttack();
-        while (combatController.IsAttacking)
-            yield return null;
 
-        combatHandler.ResetPowerAttackChance();
-        FinishCombatAction();
-    }
-
-    public override AIStateResult GetNextDecision()
-    {
-
-        switch (combatHandler.GetNextDecision())
-        {
-            case CombatTransition.Attack:
-                HandleAttack(target);
-                break;
-
-            case CombatTransition.Dodge:
-                combatCoroutine = StartCoroutine(DodgeCoroutine(target));
-                break;
-
-            case CombatTransition.Strafe:
-                return AIStateResult.Strafe;
-        }
-
-        return AIStateResult.None;
-    }
-
-    IEnumerator CastSpellCoroutine()
-    {
-        spellInventory.TopUpCurrentItem(1);
-
-        emitter.StartEmit();
-
-        while (emitter.IsEmitting)
-            yield return null;
-
-        FinishCombatAction();
-    }
-
-   
 
 
 }

@@ -12,10 +12,11 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     [HideInInspector] public EnemyCombatHandler combatHandler;
     protected HumanoidAgentController agentController;
     protected IHumanoidMeleeCombat combatController;
+    protected HumanoidAICombatActions combatActions;  
 
     protected Transform self;
     protected Transform target;
-    protected float distance;
+    protected float distanceToTarget;
 
     public abstract float AttackRangeDistance();
 
@@ -35,6 +36,11 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatController = context.combat;
         motor.IsSprinting = true;
 
+        if(combatActions == null)
+        {
+            combatActions = new HumanoidAICombatActions(this);
+        }
+
         Init();
     }
 
@@ -50,9 +56,9 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         if (combatHandler.IsStrafeBlocked())
             combatHandler.UpdateBlockStrafeTimer();
 
-        distance = Vector3.Distance(self.position, target.position);
+        distanceToTarget = Vector3.Distance(self.position, target.position);
 
-        if (combatHandler.IsChaseDistance(distance) || !fov.IsTargetVisible())
+        if (combatHandler.IsChaseDistance(distanceToTarget) || !fov.IsTargetVisible())
             return AIStateResult.Chase;
 
         if (cooldownCoroutine != null)
@@ -83,15 +89,16 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatCoroutine = null;
         cooldownCoroutine = null;
        
-
         HandleDefense(false);
         motor.ResetLockTarget();
         motor.SetStrafe(false);
+
+    
     }
 
     public virtual AIStateResult HandleCombatBehavior()
     {
-        bool inRange = distance < AttackRangeDistance();
+        bool inRange = distanceToTarget < AttackRangeDistance();
 
         if (!inRange || !fov.IsTargetVisible())
         {
@@ -118,39 +125,6 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
 
     #region Coroutines
-    protected IEnumerator MeleeCoroutine(int punchesCount)
-    {
-
-        int executedAttacks = 0;
-        void OnAttackEnd() => executedAttacks++;
-
-        combatController.OnAttackEnd += OnAttackEnd;
-        combatController.PerformAttack();
-
-        while (executedAttacks < punchesCount - 1 &&
-               distance <= combatHandler.GetAttackDistanceWithOffset(AttackRangeDistance()))
-        {
-            yield return new WaitForSeconds(combatController.AttackBufferTime * 0.9f);
-            combatController.PerformAttack();
-        }
-
-        combatController.OnAttackEnd -= OnAttackEnd;
-        FinishCombatAction();
-    }
-
-    protected IEnumerator DodgeCoroutine(Transform target)
-    {
-        motor.IsDodging = true;
-        combatHandler.ResetDodgeChance();
-
-        Vector3 fromTarget = (self.position - target.position).normalized;
-        motor.Dodge(fromTarget);
-
-        while (motor.IsDodging)
-            yield return null;
-
-        FinishCombatAction();
-    }
 
     protected IEnumerator CooldownCoroutine()
     {
@@ -191,7 +165,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
                 HandleAttack(target);
                 break;
             case CombatTransition.Dodge:
-                combatCoroutine = StartCoroutine(DodgeCoroutine(target));
+                combatCoroutine = combatActions.StartDodge(motor, self, target, combatHandler, FinishCombatAction);
                 break;
 
             case CombatTransition.Strafe:

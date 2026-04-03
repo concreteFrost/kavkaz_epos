@@ -135,7 +135,7 @@ public class EnemyCombatHandler
     #region Distance to Target
     //public bool IsRunningDistance(float distance) => distance > stats.switchToRunDistance;
     public bool IsChaseDistance(float distance) => distance >= stats.maxDistanceInCombat;
-    public bool IsLockOnDistance(float distance) => distance <= stats.targetLockOnDistance;
+    //public bool IsLockOnDistance(float distance) => distance <= stats.targetLockOnDistance;
 
     #endregion
 

@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_d0238e0d-6bd1-40a5-af95-78c94222f02c
+  uniqueId: uid_026f1117-4f1c-4863-8781-a4ad4d0af9c9
 --- !u!195 &348251026276055827
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1241,6 +1241,7 @@ MonoBehaviour:
   wait: {fileID: 4631304483567268768}
   moveToStart: {fileID: 7148945660883746550}
   moveToInterruptor: {fileID: 2745386518256877808}
+  isActivated: 0
 --- !u!114 &7994128896446123005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d3b4acd695cc44aa84d07bb3898a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateTracker
-  stats: {fileID: 11400000, guid: f72509af69e8c4541a2809aa4d598944, type: 2}
+  stats: {fileID: 11400000, guid: 78639a9f19ae8c64b863eeb7826daa1c, type: 2}
   idleHandler:
     currIdleTime: 0
     maxIdleTime: 0
@@ -1865,6 +1866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed77395f81b72b546a3b9bf9e7f569b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAiLifecycle
+  respawnPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &8460388769157121057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,6 +1955,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb40ba58ce8fef045bf849daee8692af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackState
+  combatHandler:
+    canAttack: 0
+    powerAttackChance: 0
+    lastDamageTime: 0
+    comboDistanceOffset: 0
+    currentDodgeChance: 0
+    dodgeCounterResetTimer: 0
+    blockStrafeCooldown: 0
+    maxBlockStrafeTimer: 0
+    isStrafeBlocked: 0
+    currAttackTransitionChance: 0
 --- !u!1 &9164213236121049931
 GameObject:
   m_ObjectHideFlags: 0

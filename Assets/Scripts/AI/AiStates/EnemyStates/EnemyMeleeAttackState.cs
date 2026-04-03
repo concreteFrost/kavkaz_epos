@@ -16,23 +16,13 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
     public override void HandleAttack(Transform target)
     {
         if (combatHandler.WillPowerAttack())
-            combatCoroutine = StartCoroutine(PowerAttackCoroutine());
+            combatCoroutine = combatActions.StartPowerAttack(combatController,combatHandler,FinishCombatAction);
         else
         {
             int punchesCount = Random.Range(1, 5);
-            combatCoroutine = StartCoroutine(MeleeCoroutine(punchesCount));
+            combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount, AttackRangeDistance(), () => distanceToTarget, FinishCombatAction);
         }
             
-    }
-
-    private IEnumerator PowerAttackCoroutine()
-    {
-        combatController.PerformPowerAttack();
-        while (combatController.IsAttacking)
-            yield return null;
-
-        combatHandler.ResetPowerAttackChance();
-        FinishCombatAction();
     }
 
     public override void HandleDefense(bool willDefend)

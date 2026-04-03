@@ -67,8 +67,9 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [Tooltip("Максимальная дистанция, на которой персонаж остается в бою")]
     public float maxDistanceInCombat = 8f;
 
-    [Tooltip("Дистанция на которой включается стрейф")]
-    public float targetLockOnDistance = 2f;
+    //[Tooltip("Дистанция на которой включается стрейф")]
+    //public float targetLockOnDistance = 2f;
+
     //[Tooltip("Дистанция, при которой персонаж переключается на бег во время боя. Оптимальное значение = 3")]
     //public float switchToRunDistance = 3f;
 

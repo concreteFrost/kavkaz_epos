@@ -3,9 +3,16 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class HumanoidAICombatActions : MonoBehaviour
+public class HumanoidAICombatActions 
 {
 
+    private readonly MonoBehaviour ctx;
+
+    public HumanoidAICombatActions(MonoBehaviour ctx)
+    {
+        this.ctx = ctx;
+        
+    }
     // =========================
     // MELEE
     // =========================
@@ -14,45 +21,49 @@ public class HumanoidAICombatActions : MonoBehaviour
         EnemyCombatHandler combatHandler,
         int punchesCount,
         float attackRange,
-        Func<float> getDistance,
+        Func<float> distanceToTarget,
         Action onFinish)
     {
-        return StartCoroutine(MeleeCoroutine(
+        return ctx.StartCoroutine(MeleeCoroutine(
             combat,
             combatHandler,
             punchesCount,
             attackRange,
-            getDistance,
+            distanceToTarget,
             onFinish));
     }
 
     private IEnumerator MeleeCoroutine(
-        IHumanoidMeleeCombat combat,
-        EnemyCombatHandler combatHandler,
-        int punchesCount,
-        float attackRange,
-        Func<float> getDistance,
-        Action onFinish)
+     IHumanoidMeleeCombat combat,
+     EnemyCombatHandler combatHandler,
+     int punchesCount,
+     float attackRange,
+     Func<float> getDistance,
+     Action onFinish)
     {
         int executed = 0;
         void OnAttackEnd() => executed++;
 
         combat.OnAttackEnd += OnAttackEnd;
 
-        combat.PerformAttack();
-
-        while (executed < punchesCount - 1 &&
-               getDistance() <= combatHandler.GetAttackDistanceWithOffset(attackRange))
+        try
         {
-            yield return new WaitForSeconds(combat.AttackBufferTime * 0.9f);
             combat.PerformAttack();
-        }
 
-        combat.OnAttackEnd -= OnAttackEnd;
+            while (executed < punchesCount - 1 &&
+                   getDistance() <= combatHandler.GetAttackDistanceWithOffset(attackRange))
+            {
+                yield return new WaitForSeconds(combat.AttackBufferTime * 0.9f);
+                combat.PerformAttack();
+            }
+        }
+        finally
+        {
+            combat.OnAttackEnd -= OnAttackEnd;
+        }
 
         onFinish?.Invoke();
     }
-
     // =========================
     // POWER ATTACK
     // =========================
@@ -61,7 +72,7 @@ public class HumanoidAICombatActions : MonoBehaviour
         EnemyCombatHandler combatHandler,
         Action onFinish)
     {
-        return StartCoroutine(PowerAttackCoroutine(combat, combatHandler, onFinish));
+        return ctx.StartCoroutine(PowerAttackCoroutine(combat, combatHandler, onFinish));
     }
 
     private IEnumerator PowerAttackCoroutine(
@@ -89,7 +100,7 @@ public class HumanoidAICombatActions : MonoBehaviour
         EnemyCombatHandler combatHandler,
         Action onFinish)
     {
-        return StartCoroutine(DodgeCoroutine(motor, self, target, combatHandler, onFinish));
+        return ctx.StartCoroutine(DodgeCoroutine(motor, self, target, combatHandler, onFinish));
     }
 
     private IEnumerator DodgeCoroutine(
@@ -119,7 +130,7 @@ public class HumanoidAICombatActions : MonoBehaviour
         CharacterSpellInventory inventory,
         Action onFinish)
     {
-        return StartCoroutine(SpellCoroutine(emitter, inventory, onFinish));
+        return ctx.StartCoroutine(SpellCoroutine(emitter, inventory, onFinish));
     }
 
     private IEnumerator SpellCoroutine(
