@@ -33,8 +33,6 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [Tooltip("Время ожидания (в секундах) перед сменой поведения во время преследования")]
     public float maxWaitTimer = 7f;
 
-    [Header("Combat Distance Settings")]
-    public CombatDistancesSO combatDistancesSO;
 
     [Header("Combat")]
 
