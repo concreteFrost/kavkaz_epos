@@ -1033,6 +1033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   constructionsManager: {fileID: 2133996519}
+  hubState:
+    constructions: []
 --- !u!43 &1128725212
 Mesh:
   m_ObjectHideFlags: 0
@@ -2112,6 +2114,8 @@ MonoBehaviour:
     enemyDatas: []
     bonfireDatas: []
     bossArenaStates: []
+    hubState:
+      constructions: []
   startingPosition: {fileID: 1185146930}
   lootManager: {fileID: 832759038}
   charactersManager: {fileID: 672885302}
@@ -2824,6 +2828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133996518}
   - component: {fileID: 2133996519}
+  - component: {fileID: 2133996520}
   m_Layer: 0
   m_Name: Manager_RepairableConstructions
   m_TagString: Untagged
@@ -2859,6 +2864,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   constructions: []
+--- !u!114 &2133996520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133996517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 049d09f6bd53bbd42a8bba1d405e9835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HubRestorationListener
+  questsToListen:
+  - {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
+  repairEffects:
+  - targetQuestSO: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
+    targetConstructionSO: {fileID: 11400000, guid: 99080d5036f357f48a8ca4d7ba8149df, type: 2}
+  constructionsManager: {fileID: 2133996519}
 --- !u!1001 &7975989700001274295
 PrefabInstance:
   m_ObjectHideFlags: 0

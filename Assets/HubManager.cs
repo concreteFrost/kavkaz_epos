@@ -15,7 +15,6 @@ public class HubManager : MonoBehaviour
     public void Init()
     {
         hubState = new HubState();
-
         constructionsManager?.Init();
 
     }

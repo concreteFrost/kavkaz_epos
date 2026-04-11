@@ -4405,6 +4405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossArenaManager
   arenaUI: {fileID: 0}
+  questToComplete: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
   bossSpawnPosition: {fileID: 1290581106}
   bossPrefab: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
   bossName: skeleton
@@ -19803,11 +19804,14 @@ MonoBehaviour:
     enemyDatas: []
     bonfireDatas: []
     bossArenaStates: []
+    hubState:
+      constructions: []
   startingPosition: {fileID: 1185146930}
   lootManager: {fileID: 832759038}
   charactersManager: {fileID: 672885302}
   bonfireManager: {fileID: 517640384}
   bossesManager: {fileID: 2031161160}
+  hubManager: {fileID: 0}
 --- !u!1001 &1937043701
 PrefabInstance:
   m_ObjectHideFlags: 0

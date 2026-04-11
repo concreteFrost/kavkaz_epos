@@ -27,18 +27,19 @@ public class RepairableConstruction : MonoBehaviour, IRepairable
     public void Repair()
     {
         visual.SetActive(true);
+        state.isRepaired = true;
     }
 
     public void Break()
     {
-        visual.SetActive(false);    
+        visual.SetActive(false);
+        state.isRepaired = false;
     }
 
     internal void LoadData(RepairableState construction)
     {
-        state.isRepaired = construction.isRepaired;     
 
-        if (state.isRepaired)
+        if (construction.isRepaired)
         {
             Repair();
             return;

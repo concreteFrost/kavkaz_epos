@@ -51,6 +51,7 @@ public class GameRunner : MonoBehaviour
     {
         BootstrapPlayer();
         BootstrapLevel();
+       
     }
 
     private void BootstrapPlayer()
@@ -110,7 +111,7 @@ public class GameRunner : MonoBehaviour
         BootstrapLevel();
         worldStateManager.LoadLevel(activeLevel);
         SpawnAtLevelStart();
-
+        GlobalQuestManager.Instance.GetCurrentQuestsState();
         SaveLoadManager.Instance.SaveGame();
     }
 

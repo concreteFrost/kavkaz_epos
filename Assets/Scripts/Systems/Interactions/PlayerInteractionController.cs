@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -27,6 +28,16 @@ public class PlayerInteractionController : BaseCharacterInteractor
         this.weaponInventory = weaponInventory;
     }
 
+    private void OnEnable()
+    {
+        QuestSO.RewardsGranted += OnRewardsGranted;
+    }
+
+    private void OnDisable()
+    {
+        QuestSO.RewardsGranted -= OnRewardsGranted; 
+    }
+
     public override void DistributeItemToInventory(ItemData data)
     {
         
@@ -35,5 +46,13 @@ public class PlayerInteractionController : BaseCharacterInteractor
         if(data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data);
 
         LootCollected?.Invoke(data);    
+    }
+
+    public void OnRewardsGranted(List<ItemData> rewards)
+    {
+        foreach(ItemData item in rewards)
+        {
+            DistributeItemToInventory(item);
+        }
     }
 }

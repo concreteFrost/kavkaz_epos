@@ -17,7 +17,8 @@ public class BossArenaManager : MonoBehaviour
     PlayerManager player;
     BossArenaActivator activator;
     public BossArenaUI arenaUI;
-  
+
+    [SerializeField] QuestSO questToComplete;
     [SerializeField] Transform bossSpawnPosition; // позиция спавна босса
     [SerializeField] GameObject bossPrefab;       // префаб босса
     [SerializeField] string bossName;
@@ -184,6 +185,11 @@ public class BossArenaManager : MonoBehaviour
             {
                 action.specialMove.OnFightEnded();
             }
+        }
+
+        if(questToComplete != null)
+        {
+            GlobalQuestManager.Instance.CompleteQuest(questToComplete);
         }
 
     }
