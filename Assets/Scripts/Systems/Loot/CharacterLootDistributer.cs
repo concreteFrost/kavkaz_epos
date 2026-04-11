@@ -31,6 +31,7 @@ public class CharacterLootDistributer : MonoBehaviour
 
     public void HandleLootGenerate(Vector3 dropPosition)
     {
+       
         hasDroped = true;
 
         var generatedItems = GenerateItemsToDrop(listSO.possibleItems);

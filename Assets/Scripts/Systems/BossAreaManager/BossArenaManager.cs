@@ -24,16 +24,21 @@ public class BossArenaManager : MonoBehaviour
     PlayerManager player;
     BossArenaActivator activator;
     public BossArenaUI arenaUI;
-
-    public BossArenaState state;
+  
     [SerializeField] Transform bossSpawnPosition; // позиция спавна босса
     [SerializeField] GameObject bossPrefab;       // префаб босса
 
     [HideInInspector] public EnemyServiceLocator bossServices; // ссылки на сервисы босса
     EnemyBrain bossBrain;
 
-    public List<EnemySpecialAction> specialActions = new List<EnemySpecialAction>();
-    public EnemySpecialAction currentSpecialAction; // текущий спецприем
+    public BossArenaState state;
+    public List<BossPhaseState> phases = new List<BossPhaseState>();
+    
+
+    //динамичные переменные
+    BossPhaseState currentPhase;
+    List<EnemySpecialAction> runtimeActions = new List<EnemySpecialAction>();
+    EnemySpecialAction currentSpecialAction; // текущий спецприем
 
     private void Awake()
     {
@@ -82,8 +87,10 @@ public class BossArenaManager : MonoBehaviour
         bossServices.statsManager.Health.CurrentChanged += OnBossHealthChanged;
         bossServices.statsManager.Health.Depleted += OnBossDeath;
 
+        SetPhase(phases[0]);
+
         // Инициализация всех спецприемов босса
-        foreach (var action in specialActions)
+        foreach (var action in currentPhase.specialActions)
             action.Init();
 
         ShuffleSpecialActions();  // выбираем первый спецприем
@@ -100,23 +107,62 @@ public class BossArenaManager : MonoBehaviour
         if (currentSpecialAction.isProcessing) return; // уже выполняется
         if (!currentSpecialAction.IsReady()) return;   // ещё не готов по кулдауну
 
-        StartCoroutine(currentSpecialAction.StartExecuteCoroutine(bossBrain, ShuffleSpecialActions));
+        StartCoroutine(currentSpecialAction.StartExecuteCoroutine(bossBrain, GetNextAction));
+    }
+
+    private void GetNextAction()
+    {
+        if(!currentSpecialAction.canRepeat) runtimeActions.Remove(currentSpecialAction);
+        
+        ShuffleSpecialActions();
     }
 
     // Выбирает случайный спецприем для следующего использования
     private void ShuffleSpecialActions()
     {
-        currentSpecialAction = null;
-
-        var rnd = UnityEngine.Random.Range(0, specialActions.Count);
-        currentSpecialAction = specialActions[rnd];
+        if(runtimeActions.Count == 0)
+        {
+            currentSpecialAction = null;
+            return;
+        }
+        
+        var rnd = UnityEngine.Random.Range(0, runtimeActions.Count);
+        currentSpecialAction = runtimeActions[rnd];
         currentSpecialAction.Init();
     }
 
-    // Обновление UI здоровья
-    private void OnBossHealthChanged(float current)
+    private float GetNormalizedHealth()
     {
-        arenaUI.UpdateHealthSlider(current);
+        var health = bossServices.statsManager.Health;
+        return health.Current / health.CurrentMax;
+    }
+
+    private void TryChangePhase()
+    {
+        float hp = GetNormalizedHealth();
+
+        foreach (var phase in phases)
+        {
+            if (phase.IsInPhase(hp) && phase != currentPhase)
+            {
+                SetPhase(phase);
+                break;
+            }
+        }
+    }
+
+    private void SetPhase(BossPhaseState newPhase)
+    {
+        currentSpecialAction?.specialMove.Exit();
+
+        currentPhase = newPhase;
+
+        runtimeActions = new List<EnemySpecialAction>(currentPhase.specialActions);
+
+        foreach (var action in currentPhase.specialActions)
+            action.Init();
+
+        ShuffleSpecialActions();
     }
 
     // Обработка смерти босса
@@ -124,7 +170,24 @@ public class BossArenaManager : MonoBehaviour
     {
         bossServices.statsManager.Health.CurrentChanged -= OnBossHealthChanged;
         bossServices.statsManager.Health.Depleted -= OnBossDeath;
-
+        state.bossInfo.bossKilled = true;
         arenaUI.HidePanelWithDelay();
+
+        foreach(var phase in phases)
+        {
+            foreach (var action in phase.specialActions)
+            {
+                action.specialMove.OnFightEnded();
+            }
+        }
     }
+
+
+    // Обновление UI здоровья
+    private void OnBossHealthChanged(float current)
+    {
+        arenaUI.UpdateHealthSlider(current);
+        TryChangePhase();
+    }
+
 }

@@ -8,6 +8,8 @@ public class LootManager : MonoBehaviour
     [SerializeField] private DynamicLootManager dynamicLootManager;
 
     public static Action StaticLootDataUpdated; // для ui обновлений
+
+
     public void Init()
     {
 
@@ -16,7 +18,7 @@ public class LootManager : MonoBehaviour
             dynamicLootManager = FindAnyObjectByType<DynamicLootManager>();
         }
 
-        dynamicLootManager.Init();  
+        dynamicLootManager?.Init();  
 
         loots.Clear();
         loots.AddRange(GetComponentsInChildren<BaseLootHolder>());

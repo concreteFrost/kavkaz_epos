@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpecialSummonAction : BaseAISpecialMove
@@ -7,9 +8,9 @@ public class SpecialSummonAction : BaseAISpecialMove
     [SerializeField] private int summonAmount = 1;
     [SerializeField] private float summonSpread = 1f;
 
+    List<EnemyServiceLocator> spawnedEnemies= new List<EnemyServiceLocator>();
+
     public bool wasSummoned = false;
-    public int summonAttempts = 0;
-    public int maxSummonAttempts = 1;
 
     PlayerManager player;
     IDamagable playerDamagable;
@@ -33,11 +34,11 @@ public class SpecialSummonAction : BaseAISpecialMove
             Debug.Log("summoning position was not assigned. State was interrupted");
             return AIStateResult.Chase;
         }
-        if (!wasSummoned && summonAttempts < maxSummonAttempts)
+        if (!wasSummoned)
         {
             Summon();
             wasSummoned = true;
-            summonAttempts++;   
+           
 
             return AIStateResult.Chase; 
         }
@@ -60,6 +61,8 @@ public class SpecialSummonAction : BaseAISpecialMove
             EnemyServiceLocator locator = go.GetComponent<EnemyServiceLocator>();
             locator.Init();
 
+            spawnedEnemies.Add(locator);
+
             if (playerDamagable != null)
                 locator.fovController.SetLockedTarget(playerDamagable);
 
@@ -73,5 +76,13 @@ public class SpecialSummonAction : BaseAISpecialMove
         Vector3 randomOffset = Random.insideUnitSphere * summonSpread;
         randomOffset.y = 0; // оставляем на уровне земли
         return summonPosition.position + randomOffset;
+    }
+
+    public override void OnFightEnded()
+    {
+        foreach(var locator in spawnedEnemies)
+        {
+            locator.lifecycle.PerformDeath();
+        }
     }
 }

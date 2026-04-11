@@ -22,6 +22,10 @@ public class BaseAISpecialMove : AIState<EnemyBrainContext>
         return AIStateResult.None;
     }
 
+    public virtual void OnFightEnded()
+    {
+
+    }
   
 
 }

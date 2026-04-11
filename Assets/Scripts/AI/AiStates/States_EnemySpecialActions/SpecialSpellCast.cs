@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SpecialSpellCast : BaseAISpecialMove
 {
-
+    HumanoidAIMotor motor;
     IEmitter emitter;
     CharacterSpellInventory spellInventory;
     public SpellProjectileSO specialSpell;
@@ -14,12 +14,14 @@ public class SpecialSpellCast : BaseAISpecialMove
 
     HumanoidAICombatActions combatActions;
 
+    float spawnStartTime = 0;
+    [SerializeField] float minSpawnStartTime=0.3f;
+    [SerializeField] float maxSpawnStartTime=0.7f;
+
     public override void Enter()
     {
-        Debug.Log("entering spell cast");
+       
         base.Enter();
-
-
 
         if (combatActions == null)
         {
@@ -31,10 +33,11 @@ public class SpecialSpellCast : BaseAISpecialMove
         lastSpell = spellInventory.CurrentItem.itemSO as SpellProjectileSO;
 
         spellInventory.CurrentItem.itemSO = specialSpell;
+        motor = context.motor;
 
         coroutine = null;
 
-       
+        spawnStartTime =  Random.Range(minSpawnStartTime, maxSpawnStartTime);   
 
 
     }
@@ -46,8 +49,8 @@ public class SpecialSpellCast : BaseAISpecialMove
 
         if (coroutine == null)
         {
-            Debug.Log("starting summon coroutine");
-            coroutine = combatActions.StartSpell(emitter, spellInventory, () => isFinished = true);
+            
+            coroutine = StartCoroutine(StartEmitWithDelay());
         }
           
 
@@ -67,7 +70,12 @@ public class SpecialSpellCast : BaseAISpecialMove
 
         base.Exit();
 
-       
+    }
 
+    IEnumerator StartEmitWithDelay()
+    {
+        motor.StopMovement();
+        yield return new WaitForSeconds(spawnStartTime);
+        combatActions.StartSpell(emitter, spellInventory, () => isFinished = true);
     }
 }

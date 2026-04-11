@@ -12,8 +12,10 @@ public class EnemySpecialAction
     public float minCooldown;
     public float maxCooldown;
 
-    public bool isProcessing = false;   // выполняется ли сейчас
-    public float currentCooldown;       // текущий кулдаун
+    public bool canRepeat = true;
+    [HideInInspector] public bool wasExecuted = false;
+    [HideInInspector] public bool isProcessing = false;   // выполняется ли сейчас
+    [HideInInspector] public float currentCooldown;       // текущий кулдаун
     [NonSerialized] public float lastTimeExecuted = 0f; // время последнего использования
 
     // Инициализация (выбор случайного кулдауна)
@@ -32,6 +34,7 @@ public class EnemySpecialAction
         lastTimeExecuted = Time.time;
         currentCooldown = UnityEngine.Random.Range(minCooldown, maxCooldown);
         isProcessing = false;
+        wasExecuted = true; 
     }
 
     // Запуск спецприема через корутину
