@@ -10,7 +10,7 @@ public class SaveLevelData
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] LevelInfoSO levelInfoSO;
+    [SerializeField] BiomInfoSO biomInfoSO;
 
     [HideInInspector] public LevelState levelState;
     public Transform startingPosition;
@@ -19,14 +19,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CharactersManager charactersManager;
     [SerializeField] private BonfireManager bonfireManager;
     [SerializeField] private BossesManager bossesManager;
-
+    [SerializeField] private HubManager hubManager; 
+ 
     public static Action<string> LevelInfoUpdated;
 
     private void Awake()
     {
         levelState = new LevelState();
 
-        levelState.levelId = levelInfoSO.id;
+        levelState.levelId = biomInfoSO.biomName;
 
         InitSystems();
 
@@ -35,7 +36,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        LevelInfoUpdated?.Invoke(levelInfoSO.levelName);
+        LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
     }
 
     private void OnDisable()
@@ -53,6 +54,7 @@ public class LevelManager : MonoBehaviour
         charactersManager?.Init();
         bonfireManager?.Init();
         bossesManager?.Init();
+        hubManager?.Init(); 
     }
 
     #endregion
@@ -97,6 +99,11 @@ public class LevelManager : MonoBehaviour
             levelState.bossArenaStates = bossesManager.SaveBossesState();
         }
 
+        if(hubManager != null)
+        {
+            levelState.hubState = hubManager.SaveHubState();    
+        }
+
         return levelState;
     }
 
@@ -116,8 +123,9 @@ public class LevelManager : MonoBehaviour
         charactersManager?.LoadCharactersData(state);
         bonfireManager?.LoadBonfireDatas(state);
         bossesManager?.LoadBossesState(state);
+        hubManager?.LoadHubState(state.hubState);
 
-        LevelInfoUpdated?.Invoke(levelInfoSO.levelName);
+        LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
     }
 
     #endregion

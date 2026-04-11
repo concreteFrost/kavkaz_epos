@@ -3,7 +3,7 @@ using UnityEngine;
 public class LastBonfire : Bonfire
 {
 
-    [SerializeField] private LevelInfoSO travelLevel;
+    [SerializeField] private BiomInfoSO travelLevel;
 
     public override void Interact(IInteractor interactor)
     {
@@ -12,8 +12,10 @@ public class LastBonfire : Bonfire
         interactor.StatsController.ResetAllStats();
         interactor.StatsModifier.ClearNegativeStatEffects();
 
-        SaveLoadManager.Instance.TravelToLevel(travelLevel.levelName);
+        SaveLoadManager.Instance.TravelToLevel(travelLevel.biomName);
 
     }
+
+    public string GetDestinationName() => travelLevel?.biomName;
 
 }

@@ -16,7 +16,7 @@ public static class ScriptablePaths
     public const string UI_STYLES_PATH = BASE_PATH + "/UI Styles";
     public const string STATUS_FX_PATH = BASE_PATH + "/Status Effects";
     public const string LOOT_PATH = BASE_PATH + "/Loot";
-    public const string LEVEL_PATH = BASE_PATH + "/Level";
+    public const string BIOM_PATH = BASE_PATH + "/Bioms";
    
     //под-домены
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";
