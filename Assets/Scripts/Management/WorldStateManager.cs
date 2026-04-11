@@ -28,7 +28,7 @@ public class WorldStateManager
         allLevels.Clear();
         foreach (var data in levelDatas)
         {
-            allLevels[data.levelName] = data.levelState;
+            allLevels[data.levelId] = data.levelState;
         }
     }
 
@@ -39,7 +39,7 @@ public class WorldStateManager
         {
             list.Add(new SaveLevelData
             {
-                levelName = kv.Key,
+                levelId = kv.Key,
                 levelState = kv.Value
             });
         }

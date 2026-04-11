@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 
 //[CreateAssetMenu(fileName = "Item", menuName = ScriptablePaths.ITEMS_PATH + "/Item")]
-public abstract class ItemSO : ScriptableObject
+public abstract class ItemSO : WithIdSO
 {
-    [HideInInspector] public string id;
+   
     public abstract bool IsStackable();
 
     [Tooltip("Имя предмета")]
@@ -19,17 +18,6 @@ public abstract class ItemSO : ScriptableObject
     [Tooltip("Описание предмета")]
     public string itemDescription;
 
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (string.IsNullOrEmpty(id))
-        {
-            id = Guid.NewGuid().ToString();
-            UnityEditor.EditorUtility.SetDirty(this);
-        }
-    }
-#endif
 }
 
 

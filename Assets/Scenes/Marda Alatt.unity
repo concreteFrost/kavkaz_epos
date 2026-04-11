@@ -10330,6 +10330,10 @@ PrefabInstance:
       propertyPath: targetScene
       value: Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 7468229661394355646, guid: 268a074067945394a96136367d842371, type: 3}
+      propertyPath: travelLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 580c2302df85a124993411783612a27f, type: 2}
     - target: {fileID: 7958063440805925676, guid: 268a074067945394a96136367d842371, type: 3}
       propertyPath: m_Name
       value: Bonfire_Last_prefab
@@ -17836,16 +17840,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fdc8aac283d4e4db32d26ad912b724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  levelInfoSO: {fileID: 11400000, guid: 62356a29b0541994fab656f4928af17f, type: 2}
   levelState:
     levelId: 
     staticLootDatas: []
     dynamicLootDatas: []
     enemyDatas: []
     bonfireDatas: []
+    bossArenaStates: []
   startingPosition: {fileID: 1185146930}
   lootManager: {fileID: 832759038}
   charactersManager: {fileID: 672885302}
   bonfireManager: {fileID: 517640384}
+  bossesManager: {fileID: 0}
 --- !u!1001 &1937043701
 PrefabInstance:
   m_ObjectHideFlags: 0

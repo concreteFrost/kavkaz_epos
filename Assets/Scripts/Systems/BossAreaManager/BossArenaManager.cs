@@ -6,17 +6,10 @@ using UnityEngine;
 [Serializable]
 public class BossArenaState
 {
+    public string arenaId;
     public bool wasActivated;   // активирована ли арена
-    public BossInfo bossInfo;   // информация о боссе
-}
-
-// Информация о боссе
-[Serializable]
-public class BossInfo
-{
-    public string bossName;
-    public HealthModel bossHealth;
     public bool bossKilled;
+
 }
 
 public class BossArenaManager : MonoBehaviour
@@ -27,28 +20,33 @@ public class BossArenaManager : MonoBehaviour
   
     [SerializeField] Transform bossSpawnPosition; // позиция спавна босса
     [SerializeField] GameObject bossPrefab;       // префаб босса
+    [SerializeField] string bossName;
 
     [HideInInspector] public EnemyServiceLocator bossServices; // ссылки на сервисы босса
     EnemyBrain bossBrain;
 
     public BossArenaState state;
+   
     public List<BossPhaseState> phases = new List<BossPhaseState>();
-    
 
+    
     //динамичные переменные
     BossPhaseState currentPhase;
     List<EnemySpecialAction> runtimeActions = new List<EnemySpecialAction>();
     EnemySpecialAction currentSpecialAction; // текущий спецприем
 
-    private void Awake()
+    public void Init()
     {
         activator = GetComponentInChildren<BossArenaActivator>();
         arenaUI = GetComponentInChildren<BossArenaUI>();
+        state.arenaId = GetComponent<UniqueId>().uniqueId;
 
         if (activator != null)
         {
             activator.ArenaEntered += OnArenaEntered;
         }
+
+
     }
 
     private void OnDisable()
@@ -62,15 +60,22 @@ public class BossArenaManager : MonoBehaviour
     private void Update()
     {
         // если арена не активна или босс убит — ничего не делать
-        if (!state.wasActivated || state.bossInfo.bossKilled) return;
+        if (!state.wasActivated || state.bossKilled) return;
 
         TryExecuteSpecial();
+    }
+
+    public void LoadData(BossArenaState loadState)
+    {
+        state.bossKilled = loadState.bossKilled;
+        state.wasActivated = loadState.wasActivated;    
+
     }
 
     // Вызывается при входе игрока в арену
     private void OnArenaEntered()
     {
-        if (state.wasActivated || state.bossInfo.bossKilled) return;
+        if (state.wasActivated || state.bossKilled) return;
 
         // Спавн босса
         GameObject go = Instantiate(bossPrefab, bossSpawnPosition.position, Quaternion.identity);
@@ -97,7 +102,7 @@ public class BossArenaManager : MonoBehaviour
 
         state.wasActivated = true;
 
-        arenaUI.ShowPanel(state.bossInfo.bossName, bossServices.statsManager.Health.Current);
+        arenaUI.ShowPanel(bossName, bossServices.statsManager.Health.Current);
     }
 
     // Пытается выполнить текущий спецприем
@@ -170,7 +175,7 @@ public class BossArenaManager : MonoBehaviour
     {
         bossServices.statsManager.Health.CurrentChanged -= OnBossHealthChanged;
         bossServices.statsManager.Health.Depleted -= OnBossDeath;
-        state.bossInfo.bossKilled = true;
+        state.bossKilled = true;
         arenaUI.HidePanelWithDelay();
 
         foreach(var phase in phases)
@@ -180,6 +185,7 @@ public class BossArenaManager : MonoBehaviour
                 action.specialMove.OnFightEnded();
             }
         }
+
     }
 
 
@@ -190,4 +196,10 @@ public class BossArenaManager : MonoBehaviour
         TryChangePhase();
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawSphere(bossSpawnPosition.position, .5f);
+    }
 }

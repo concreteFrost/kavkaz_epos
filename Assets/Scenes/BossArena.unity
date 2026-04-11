@@ -406,6 +406,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossArenaManager
   arenaUI: {fileID: 0}
+  bossSpawnPosition: {fileID: 816247948}
+  bossPrefab: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+  bossServices: {fileID: 0}
   state:
     wasActivated: 0
     bossInfo:
@@ -414,29 +417,31 @@ MonoBehaviour:
         Current: 0
         CurrentMax: 0
       bossKilled: 0
-  bossSpawnPosition: {fileID: 816247948}
-  bossPrefab: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
-  bossServices: {fileID: 0}
-  specialActions:
-  - debugName: spell cast action
-    specialMove: {fileID: 1960470905}
-    minCooldown: 3
-    maxCooldown: 5
-    isProcessing: 0
-    currentCooldown: 0
-  - debugName: summon action
-    specialMove: {fileID: 888565783}
-    minCooldown: 3
-    maxCooldown: 5
-    isProcessing: 0
-    currentCooldown: 0
-  currentSpecialAction:
-    debugName: 
-    specialMove: {fileID: 0}
-    minCooldown: 0
-    maxCooldown: 0
-    isProcessing: 0
-    currentCooldown: 0
+  phases:
+  - debugName: phase 1
+    minActivationValue: 1
+    maxActivationValue: 0.5
+    specialActions:
+    - debugName: Spell Action
+      specialMove: {fileID: 888565783}
+      minCooldown: 2
+      maxCooldown: 5
+      canRepeat: 0
+      wasExecuted: 0
+      isProcessing: 0
+      currentCooldown: 0
+  - debugName: phase 2
+    minActivationValue: 0
+    maxActivationValue: 0.5
+    specialActions:
+    - debugName: Summon
+      specialMove: {fileID: 888565783}
+      minCooldown: 2
+      maxCooldown: 5
+      canRepeat: 0
+      wasExecuted: 0
+      isProcessing: 0
+      currentCooldown: 0
 --- !u!4 &240411773
 Transform:
   m_ObjectHideFlags: 0
@@ -1540,6 +1545,52 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &720878665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 720878667}
+  - component: {fileID: 720878668}
+  m_Layer: 0
+  m_Name: LootManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &720878667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720878665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.66528, y: -0, z: -6.99175}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &720878668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720878665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd6fc1e20200c241933be457a69d799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicLootManager
+  dynamicLootData: []
+  lootPrefab: {fileID: 3463624092011238556, guid: 1d1c67767b0a2474a80f30322a053d76, type: 3}
 --- !u!1 &787815285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,8 +2080,6 @@ MonoBehaviour:
   summonAmount: 2
   summonSpread: 5
   wasSummoned: 0
-  summonAttempts: 0
-  maxSummonAttempts: 1
 --- !u!4 &888565784
 Transform:
   m_ObjectHideFlags: 0
@@ -3164,6 +3213,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5714980312273340033, guid: 6bf80b4dee9e56244879b01709f314e3, type: 3}
   m_PrefabInstance: {fileID: 9057798745766855587}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1237488536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1237488537}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1237488537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237488536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.66528, y: -0, z: -6.99175}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600173584
 GameObject:
   m_ObjectHideFlags: 0
@@ -4454,6 +4534,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpecialSpellCast
   isFinished: 0
   specialSpell: {fileID: 11400000, guid: be6bd478857ed604bab6276a126f5a98, type: 2}
+  minSpawnStartTime: 0.5
+  maxSpawnStartTime: 1.2
 --- !u!1 &1980969023
 GameObject:
   m_ObjectHideFlags: 0
@@ -5377,3 +5459,5 @@ SceneRoots:
   - {fileID: 2014334548}
   - {fileID: 240411773}
   - {fileID: 114053484}
+  - {fileID: 1237488537}
+  - {fileID: 720878667}

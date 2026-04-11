@@ -15,7 +15,7 @@ public class Bonfire : MonoBehaviour, IInteractable
     [SerializeField] private Transform respawnPosition;
     [SerializeField] private string bonfireName;
 
-    public string id;
+    [HideInInspector]  public string id;
 
     public string GetBonfireName() => bonfireName;
     public Vector3 GetRespawnPosition() => respawnPosition.position;

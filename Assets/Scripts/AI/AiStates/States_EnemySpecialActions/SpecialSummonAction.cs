@@ -85,4 +85,11 @@ public class SpecialSummonAction : BaseAISpecialMove
             locator.lifecycle.PerformDeath();
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawSphere(summonPosition.position, .5f);
+    }
 }

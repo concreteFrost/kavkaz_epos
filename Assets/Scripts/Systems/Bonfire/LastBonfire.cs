@@ -1,16 +1,18 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LastBonfire : Bonfire
 {
-    [SerializeField] private string targetScene;
+
+    [SerializeField] private LevelInfoSO travelLevel;
 
     public override void Interact(IInteractor interactor)
     {
+        if (travelLevel == null) return;
+
         interactor.StatsController.ResetAllStats();
         interactor.StatsModifier.ClearNegativeStatEffects();
 
-        SaveLoadManager.Instance.TravelToLevel(targetScene);
+        SaveLoadManager.Instance.TravelToLevel(travelLevel.levelName);
 
     }
 

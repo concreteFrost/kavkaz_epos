@@ -1,97 +1,124 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [Serializable]
 public class SaveLevelData
 {
-    public string levelName;
+    public string levelId;
     public LevelState levelState;
 }
 
-
 public class LevelManager : MonoBehaviour
 {
-   
-    public LevelState levelState;
+    [SerializeField] LevelInfoSO levelInfoSO;
 
+    [HideInInspector] public LevelState levelState;
     public Transform startingPosition;
 
-    [SerializeField] LootManager lootManager;
-    //[SerializeField] WeaponsManager weaponsManager;
-    [SerializeField] CharactersManager charactersManager;
-    [SerializeField] BonfireManager bonfireManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private LootManager lootManager;
+    [SerializeField] private CharactersManager charactersManager;
+    [SerializeField] private BonfireManager bonfireManager;
+    [SerializeField] private BossesManager bossesManager;
 
     public static Action<string> LevelInfoUpdated;
-
 
     private void Awake()
     {
         levelState = new LevelState();
-        levelState.levelId = SceneManager.GetActiveScene().name;
-        
-        lootManager.Init();    
-        charactersManager.Init();
-        bonfireManager.Init();  
+
+        levelState.levelId = levelInfoSO.id;
+
+        InitSystems();
 
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
-       
     }
 
     private void Start()
     {
-      
-        LevelInfoUpdated?.Invoke(levelState.levelId);
+        LevelInfoUpdated?.Invoke(levelInfoSO.levelName);
     }
 
     private void OnDisable()
     {
-        Bonfire.BonfireInteracted -= ReloadLevelOnRest; 
+        Bonfire.BonfireInteracted -= ReloadLevelOnRest;
     }
 
     public string GetLevelName() => levelState.levelId;
 
+    #region Init
+
+    private void InitSystems()
+    {
+        lootManager?.Init();
+        charactersManager?.Init();
+        bonfireManager?.Init();
+        bossesManager?.Init();
+    }
+
+    #endregion
+
     #region Level State Control
+
     public void ReloadWholeLevelState()
     {
-         charactersManager.RespawnAllCharacters();
-         lootManager.ClearDynamicLoot();
+        charactersManager?.RespawnAllCharacters();
+        lootManager?.ClearDynamicLoot();
     }
 
     public void ReloadLevelOnRest()
     {
-        charactersManager.RespawnAllCharacters();
+        charactersManager?.RespawnAllCharacters();
     }
+
     #endregion
 
-
     #region Save/Load
+
     public LevelState SaveLevelState()
     {
-        levelState.staticLootDatas = lootManager.SaveLootData();
-        levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
-        levelState.enemyDatas = charactersManager.SaveEnemies();
-        levelState.bonfireDatas = bonfireManager.SaveBonfireStates();
-        
-        //levelState.combatItemDatas = weaponsManager.SaveCombatItemData();
-        return levelState;
+        if (lootManager != null)
+        {
+            levelState.staticLootDatas = lootManager.SaveLootData();
+            levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
+        }
 
+        if (charactersManager != null)
+        {
+            levelState.enemyDatas = charactersManager.SaveEnemies();
+        }
+
+        if (bonfireManager != null)
+        {
+            levelState.bonfireDatas = bonfireManager.SaveBonfireStates();
+        }
+
+        if (bossesManager != null)
+        {
+            levelState.bossArenaStates = bossesManager.SaveBossesState();
+        }
+
+        return levelState;
     }
 
     public void LoadLevelState(LevelState state)
     {
+        if (state == null)
+        {
+            Debug.LogWarning("LevelState is null");
+            return;
+        }
+
         levelState = state;
 
-        lootManager.LoadLootData(state);
-        lootManager.LoadDynamicLoot(state);
-        charactersManager.LoadCharactersData(state);
-        bonfireManager.LoadBonfireDatas(state);
-        //weaponsManager.LoadItemData(state.combatItemDatas); 
+        lootManager?.LoadLootData(state);
+        lootManager?.LoadDynamicLoot(state);
 
-        LevelInfoUpdated?.Invoke(levelState.levelId);
+        charactersManager?.LoadCharactersData(state);
+        bonfireManager?.LoadBonfireDatas(state);
+        bossesManager?.LoadBossesState(state);
+
+        LevelInfoUpdated?.Invoke(levelInfoSO.levelName);
     }
-
 
     #endregion
 
@@ -99,8 +126,7 @@ public class LevelManager : MonoBehaviour
     {
         if (startingPosition == null) return;
 
-        Gizmos.color = new Color(0f, 0f, 1f, 1f);
-        Gizmos.DrawSphere(startingPosition.position, .5f);
-
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(startingPosition.position, 0.5f);
     }
 }
