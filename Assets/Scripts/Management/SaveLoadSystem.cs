@@ -11,6 +11,7 @@ public class SaveGameData
     public PlayerState playerState;
     public List<SaveLevelData> levelDatas;
     public string currentLevelName;
+    public List<QuestState> questsStates;
 
 }
 

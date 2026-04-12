@@ -9,10 +9,11 @@ public class QuestState
     public bool rewardTaken;
 }
 
+[Serializable]
 public class QuestInstance
 {
     public QuestState state;
-    public QuestSO definition;
+    [HideInInspector] public QuestSO definition;
     public static Action<QuestSO> QuestCompleted;
 
     public void Init(QuestSO questSO)
@@ -23,6 +24,17 @@ public class QuestInstance
         {
             questId = questSO.id,
             isCompleted = false
+        };
+    }
+
+    public void LoadQuest(QuestSO questSO, bool isCompleted)
+    {
+        definition = questSO;
+
+        state = new QuestState
+        {
+            questId = questSO.id,
+            isCompleted = isCompleted
         };
     }
 

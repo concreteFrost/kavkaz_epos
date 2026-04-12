@@ -124,6 +124,8 @@ public class GameRunner : MonoBehaviour
         worldStateManager.LoadFromSaveData(data.levelDatas);
 
         worldStateManager.LoadLevel(activeLevel);
+
+        GlobalQuestManager.Instance.LoadQuestsData(data);
     }
 
     public void OnGameSave()
@@ -134,6 +136,7 @@ public class GameRunner : MonoBehaviour
         saveGameData.playerState = Player.SavePlayer();
         saveGameData.levelDatas = worldStateManager.GetSaveData();
         saveGameData.currentLevelName = activeLevel.GetLevelName();
+        saveGameData.questsStates = GlobalQuestManager.Instance.SaveQuestsState();
 
         SaveLoadSystem.SaveGameData(saveGameData);
     }

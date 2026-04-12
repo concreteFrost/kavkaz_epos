@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,6 +62,49 @@ public class GlobalQuestManager : MonoBehaviour
                 quest.Complete();
             }
                
+        }
+    }
+
+    public List<QuestState> SaveQuestsState()
+    {
+        List<QuestState> questsToSave = new List<QuestState>();
+
+        foreach(var quest in allQuests)
+        {
+            QuestState questState = new QuestState
+            {
+                questId = quest.state.questId,
+                isCompleted = quest.state.isCompleted
+            };
+
+            questsToSave.Add(questState);   
+        }
+
+        return questsToSave;    
+    }
+
+    public void LoadQuestsData(SaveGameData data)
+    {
+        var questsData = data.questsStates;
+
+        if (questsData.Count == 0) return;
+
+        allQuests.Clear();
+
+        var resources = Resources.LoadAll<QuestSO>("Systems/Quests/");
+
+        foreach(var load in questsData)
+        {
+            foreach(var resourceQuest in resources)
+            {
+                if(load.questId == resourceQuest.id)
+                {
+                    QuestInstance loadedQuest = new QuestInstance();
+                    loadedQuest.LoadQuest(resourceQuest, load.isCompleted);
+
+                    allQuests.Add(loadedQuest); 
+                }
+            }
         }
     }
 
