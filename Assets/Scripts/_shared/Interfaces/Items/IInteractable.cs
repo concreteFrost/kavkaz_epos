@@ -6,6 +6,7 @@ public enum ItemInteractionType
     Item = 0,
     Chest = 1,
     Door = 2,
+    NPC = 3,
 }
 
 public interface IInteractable

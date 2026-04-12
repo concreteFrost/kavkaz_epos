@@ -34,22 +34,28 @@ public class GlobalQuestManager : MonoBehaviour
         }
     }
 
-    public void StartNewQuest(QuestSO questSO)
+    public QuestInstance StartNewQuest(QuestSO questSO)
     {
+    
         QuestInstance newQuest = new QuestInstance();
         newQuest.Init(questSO);
 
         allQuests.Add(newQuest);
+
+        return newQuest;    
     }
 
     public void CompleteQuest(QuestSO questSO)
     {
         var targetQuest = allQuests.Find(x => x.definition.id == questSO.id);
 
-        if(targetQuest != null)
+        if(targetQuest == null)
         {
-            targetQuest.Complete();
+           targetQuest = StartNewQuest(questSO);
+            
         }
+
+        targetQuest.Complete();
     }
 
     public void GetCurrentQuestsState()
@@ -58,11 +64,22 @@ public class GlobalQuestManager : MonoBehaviour
         {
             if(quest.state.isCompleted)
             {
-                Debug.Log("got completed quest");
+               
                 quest.Complete();
             }
                
         }
+    }
+
+    public bool IsQuestCompleted(QuestSO quest)
+    {
+        if(allQuests.Count == 0) return false;
+
+        var targetQuest = allQuests.Find((x) => x.state.questId == quest.id);
+
+        if(targetQuest == null) return false;   
+
+        return targetQuest.state.isCompleted;
     }
 
     public List<QuestState> SaveQuestsState()

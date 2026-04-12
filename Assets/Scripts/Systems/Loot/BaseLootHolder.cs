@@ -33,7 +33,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     {
         uniqueId = GetComponent<UniqueId>();
         id = uniqueId.uniqueId;
-        
+
         itemsToDrop.Clear();
         interactionCollider = GetComponent<Collider>(); 
 

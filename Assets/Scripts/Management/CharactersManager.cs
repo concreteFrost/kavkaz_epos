@@ -60,7 +60,7 @@ public class CharactersManager : MonoBehaviour
                 match.statsManager.LoadStatsData(enemy.statsData);
                 match.statsManager.LoadStatsData(enemy.statsData);
 
-                Debug.Log(match.statsManager.Health.Current);
+           
 
                 if(match.statsManager.Health.Current <= 0)
                 {

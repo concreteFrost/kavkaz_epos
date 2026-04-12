@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class RepairableState
 public class RepairableConstruction : MonoBehaviour, IRepairable
 {
     public RepairableState state;
-    
+
     [SerializeField] private RepairableConstructionSO repairableSO;
     [SerializeField] GameObject visual;
 
@@ -21,11 +22,12 @@ public class RepairableConstruction : MonoBehaviour, IRepairable
         state.id = repairableSO.id;
 
         Break();
-       
+
     }
 
     public void Repair()
     {
+
         visual.SetActive(true);
         state.isRepaired = true;
     }
@@ -48,3 +50,4 @@ public class RepairableConstruction : MonoBehaviour, IRepairable
         Break();
     }
 }
+

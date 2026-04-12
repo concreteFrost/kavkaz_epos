@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class StaticLootHolder : BaseLootHolder
 {
+
     public override ItemInteractionType InteractType() => ItemInteractionType.Item;
 
     public List<ItemData> guaranteedItems = new List<ItemData>();
@@ -14,8 +15,8 @@ public class StaticLootHolder : BaseLootHolder
     }
     public override void Init()
     {
-        base.Init();    
-        foreach(var i in guaranteedItems)
+        base.Init();
+        foreach (var i in guaranteedItems)
         {
             AddItemsToDrop(i.itemSO, i.quantity);
         }
@@ -25,6 +26,9 @@ public class StaticLootHolder : BaseLootHolder
     {
         base.Interact(collector);
         DeactivateVisual();
+      
+
+
     }
 
     public override void LoadLootData(LootState data)
@@ -40,5 +44,6 @@ public class StaticLootHolder : BaseLootHolder
 
     }
 
-   
+
 }
+

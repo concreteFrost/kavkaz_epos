@@ -1304,6 +1304,7 @@ GameObject:
   - component: {fileID: 8013920937491807215}
   - component: {fileID: 6574653808817284857}
   - component: {fileID: 5588260247171836811}
+  - component: {fileID: 4461967681895604459}
   m_Layer: 0
   m_Name: Player_Inventories
   m_TagString: Untagged
@@ -1404,6 +1405,19 @@ MonoBehaviour:
     rightDamageCollider: {fileID: 0}
     current: {fileID: 0}
   enableWeponBreakdown: 0
+--- !u!114 &4461967681895604459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239014841976667366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2e3c99a74a53c498f803404dbc558f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  items: []
 --- !u!1 &1309138202710186560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,6 +2282,7 @@ MonoBehaviour:
   weaponInventory: {fileID: 1889842615598910965}
   spellInventory: {fileID: 8013920937491807215}
   consumableInventory: {fileID: 6574653808817284857}
+  questItemsInventory: {fileID: 4461967681895604459}
   damageController: {fileID: 7700523214766766176}
   pushReceiver: {fileID: 2343980255667355799}
   fallController: {fileID: 7457852865517740124}
@@ -9387,6 +9402,9 @@ MonoBehaviour:
       items: []
       currentIndex: 0
     weaponsData:
+      items: []
+      currentIndex: 0
+    questItemsData:
       items: []
       currentIndex: 0
   serviceLocator: {fileID: 3859479080802778312}

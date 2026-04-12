@@ -16,10 +16,9 @@ public class HubRestorationListener : QuestCompletionListener
 
     protected override void React(QuestSO questSO)
     {
-        Debug.Log("Reacting");
+        
      
         if (constructionsManager.constructions.Count == 0) return;
-
 
         foreach (var repair in repairEffects)
         {

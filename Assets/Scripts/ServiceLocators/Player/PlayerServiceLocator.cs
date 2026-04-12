@@ -54,7 +54,8 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Инвентари и быстрые слоты")]
     [SerializeField] public CharacterWeaponInventory weaponInventory;
     [SerializeField] public CharacterSpellInventory spellInventory;
-    [SerializeField] public PlayerConsumableInventory consumableInventory;  
+    [SerializeField] public PlayerConsumableInventory consumableInventory;
+    [SerializeField] public PlayerQuestItemsInventory questItemsInventory;
 
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
@@ -195,6 +196,7 @@ public class PlayerServiceLocator : MonoBehaviour
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,
             weaponInventory:weaponInventory,
+            questItemsInventory:questItemsInventory,
             lifeCycle:lifecycle);
 
         consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
@@ -260,6 +262,7 @@ public class PlayerServiceLocator : MonoBehaviour
         spellInventory.Init();
         spellInventory.SetDefaultQuickSlotData();
         consumableInventory.Init(combatInventory:weaponSetter,statsModifier:statsModifier,pointsCollector:pointsCollector);
+        questItemsInventory.Init();
     }
 
     private void InitLifecycle()
