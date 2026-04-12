@@ -5333,7 +5333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517640382}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5341,7 +5341,7 @@ Transform:
   - {fileID: 59143441}
   - {fileID: 993276484}
   - {fileID: 1281633857}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 747452628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &517640384
 MonoBehaviour:
@@ -7219,13 +7219,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672885300}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1850822031}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 747452628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &672885302
 MonoBehaviour:
@@ -7773,6 +7773,42 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &747452627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 747452628}
+  m_Layer: 0
+  m_Name: LEVEL MANAGERS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &747452628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747452627}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1477593892}
+  - {fileID: 832759037}
+  - {fileID: 672885301}
+  - {fileID: 517640383}
+  - {fileID: 2031161159}
+  m_Father: {fileID: 1927399439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &756496855
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,7 +8424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832759036}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8397,7 +8433,7 @@ Transform:
   - {fileID: 1011359050}
   - {fileID: 1346807878}
   - {fileID: 1166051815}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 747452628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &832759038
 MonoBehaviour:
@@ -10929,6 +10965,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2070635446}
+    - target: {fileID: 2491812909645373708, guid: 268a074067945394a96136367d842371, type: 3}
+      propertyPath: uniqueId
+      value: uid_62f94679-4618-44a1-9795-3c7cdd0d2431
+      objectReference: {fileID: 0}
     - target: {fileID: 4029207937285373293, guid: 268a074067945394a96136367d842371, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -12170,6 +12210,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1166051815}
     m_Modifications:
+    - target: {fileID: 306112252632387035, guid: bf0f84abdb30cec4ba98b610f0d6592d, type: 3}
+      propertyPath: uniqueId
+      value: uid_dac7b815-7e44-408a-9329-49830814dfe0
+      objectReference: {fileID: 0}
     - target: {fileID: 679082928864831267, guid: bf0f84abdb30cec4ba98b610f0d6592d, type: 3}
       propertyPath: m_Name
       value: LootHolder_QuestItem_prefab
@@ -15943,6 +15987,51 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1477593890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1477593892}
+  - component: {fileID: 1477593891}
+  m_Layer: 0
+  m_Name: QUEST PROVIDERS MANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1477593891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477593890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7532136776cc00a4ba0ff340c0e08ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProvidersManager
+  baseQuestProviders: []
+--- !u!4 &1477593892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477593890}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 747452628}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1487070501
 GameObject:
   m_ObjectHideFlags: 0
@@ -19858,13 +19947,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 912440084}
+  - {fileID: 747452628}
   - {fileID: 1185146930}
   - {fileID: 1698556061}
   - {fileID: 2115226905}
-  - {fileID: 832759037}
-  - {fileID: 672885301}
-  - {fileID: 517640383}
-  - {fileID: 2031161159}
   - {fileID: 1270788408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19888,6 +19974,7 @@ MonoBehaviour:
     enemyDatas: []
     bonfireDatas: []
     bossArenaStates: []
+    questProviders: []
     hubState:
       constructions: []
   startingPosition: {fileID: 1185146930}
@@ -19896,6 +19983,7 @@ MonoBehaviour:
   bonfireManager: {fileID: 517640384}
   bossesManager: {fileID: 2031161160}
   hubManager: {fileID: 0}
+  questProvidersManager: {fileID: 1477593891}
 --- !u!1 &1941297606
 GameObject:
   m_ObjectHideFlags: 0
@@ -20685,6 +20773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031161159}
   - component: {fileID: 2031161160}
+  - component: {fileID: 2031161161}
   m_Layer: 0
   m_Name: BOSS AREAS MANAGER
   m_TagString: Untagged
@@ -20700,13 +20789,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031161158}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 411206062}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 747452628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2031161160
 MonoBehaviour:
@@ -20721,6 +20810,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bosses: []
+--- !u!114 &2031161161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031161158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21db3dffbf38ea64dbb796a53a7a904a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestCompletionTrigger
+  targetQuest: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
 --- !u!1001 &2046209975
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5057,7 +5057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517640382}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5065,7 +5065,7 @@ Transform:
   - {fileID: 59143441}
   - {fileID: 1281633857}
   - {fileID: 2141309623}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 715343031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &517640384
 MonoBehaviour:
@@ -7020,7 +7020,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672885300}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7030,7 +7030,7 @@ Transform:
   - {fileID: 2927225349483352990}
   - {fileID: 158670348}
   - {fileID: 2133529580}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 715343031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &672885302
 MonoBehaviour:
@@ -7223,6 +7223,41 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &715343030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715343031}
+  m_Layer: 0
+  m_Name: LEVEL MANAGERS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &715343031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715343030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 757824247}
+  - {fileID: 832759037}
+  - {fileID: 672885301}
+  - {fileID: 517640383}
+  m_Father: {fileID: 1927399439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &739361581
 GameObject:
   m_ObjectHideFlags: 0
@@ -7635,6 +7670,51 @@ MonoBehaviour:
   m_Bidirectional: 1
   m_AutoUpdatePosition: 0
   m_Area: 0
+--- !u!1 &757824245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757824247}
+  - component: {fileID: 757824246}
+  m_Layer: 0
+  m_Name: QUEST PROVIDERS MANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &757824246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757824245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7532136776cc00a4ba0ff340c0e08ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProvidersManager
+  baseQuestProviders: []
+--- !u!4 &757824247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757824245}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 715343031}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &802189899
 Mesh:
   m_ObjectHideFlags: 0
@@ -8193,7 +8273,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832759036}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8201,7 +8281,7 @@ Transform:
   - {fileID: 1487070502}
   - {fileID: 1011359050}
   - {fileID: 1346807878}
-  m_Father: {fileID: 1927399439}
+  m_Father: {fileID: 715343031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &832759038
 MonoBehaviour:
@@ -17821,13 +17901,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 715343031}
   - {fileID: 1379554820}
   - {fileID: 1185146930}
   - {fileID: 1698556061}
   - {fileID: 2115226905}
-  - {fileID: 832759037}
-  - {fileID: 672885301}
-  - {fileID: 517640383}
   - {fileID: 1270788408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17851,11 +17929,16 @@ MonoBehaviour:
     enemyDatas: []
     bonfireDatas: []
     bossArenaStates: []
+    questProviders: []
+    hubState:
+      constructions: []
   startingPosition: {fileID: 1185146930}
   lootManager: {fileID: 832759038}
   charactersManager: {fileID: 672885302}
   bonfireManager: {fileID: 517640384}
   bossesManager: {fileID: 0}
+  hubManager: {fileID: 0}
+  questProvidersManager: {fileID: 757824246}
 --- !u!1001 &1937043701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19827,7 +19910,7 @@ PrefabInstance:
     - target: {fileID: 406612405857073586, guid: 8bb34798bb85b14478fcd4259ed0042f, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1242049493}
+      objectReference: {fileID: 1245978314}
     - target: {fileID: 2491812909645373708, guid: 8bb34798bb85b14478fcd4259ed0042f, type: 3}
       propertyPath: uniqueId
       value: uid_c64955ff-acb9-4f2f-8527-87b612c06068

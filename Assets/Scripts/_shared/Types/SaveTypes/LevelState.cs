@@ -12,6 +12,7 @@ public class LevelState
     public List<EnemyState> enemyDatas = new List<EnemyState>();   
     public List<BonfireState> bonfireDatas = new List<BonfireState>();
     public List<BossArenaState> bossArenaStates = new List<BossArenaState>();
+    public List<QuestProviderState> questProviders = new List<QuestProviderState>();  
     public HubState hubState;   
     //public List<CombatItemData> combatItemDatas = new List<CombatItemData>();
     //public List<BaseHumanoidAiServiceLocator> chracters = new List<BaseHumanoidAiServiceLocator>(); 

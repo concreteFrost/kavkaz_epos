@@ -6,7 +6,6 @@ public class QuestState
 {
     public string questId;
     public bool isCompleted;
-    public bool rewardTaken;
 }
 
 [Serializable]

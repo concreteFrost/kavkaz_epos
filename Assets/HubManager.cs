@@ -29,12 +29,12 @@ public class HubManager : MonoBehaviour
         return hubState;    
     }
     
-    public void LoadHubState(HubState state)
+    public void LoadHubState(LevelState state)
     {
-
-        hubState = state;
+        var loadedHubState = state.hubState;
+        hubState =loadedHubState;
 
         if (constructionsManager != null)
-            constructionsManager.LoadConstruction(state);
+            constructionsManager.LoadConstruction(loadedHubState);
     }
 }

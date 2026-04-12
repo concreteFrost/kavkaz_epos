@@ -16,12 +16,15 @@ public class BossArenaManager : MonoBehaviour
 {
     PlayerManager player;
     BossArenaActivator activator;
-    public BossArenaUI arenaUI;
+    
+    BossArenaUI arenaUI;
+    QuestCompletionTrigger questCompletionTrigger;
 
-    [SerializeField] QuestSO questToComplete;
     [SerializeField] Transform bossSpawnPosition; // позиция спавна босса
     [SerializeField] GameObject bossPrefab;       // префаб босса
     [SerializeField] string bossName;
+
+   
 
     [HideInInspector] public EnemyServiceLocator bossServices; // ссылки на сервисы босса
     EnemyBrain bossBrain;
@@ -30,7 +33,6 @@ public class BossArenaManager : MonoBehaviour
    
     public List<BossPhaseState> phases = new List<BossPhaseState>();
 
-    
     //динамичные переменные
     BossPhaseState currentPhase;
     List<EnemySpecialAction> runtimeActions = new List<EnemySpecialAction>();
@@ -40,6 +42,8 @@ public class BossArenaManager : MonoBehaviour
     {
         activator = GetComponentInChildren<BossArenaActivator>();
         arenaUI = GetComponentInChildren<BossArenaUI>();
+        questCompletionTrigger = GetComponent<QuestCompletionTrigger>();
+       
         state.arenaId = GetComponent<UniqueId>().uniqueId;
 
         if (activator != null)
@@ -187,9 +191,13 @@ public class BossArenaManager : MonoBehaviour
             }
         }
 
-        if(questToComplete != null)
+        if (questCompletionTrigger != null)
         {
-            GlobalQuestManager.Instance.CompleteQuest(questToComplete);
+            questCompletionTrigger.Trigger();
+        }
+        else
+        {
+            Debug.Log("no quest completion trigger was found. quest completion will be ignored ");
         }
 
     }
