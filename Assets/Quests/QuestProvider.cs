@@ -6,7 +6,7 @@ public class QuestRewardState
 {
     public QuestSO questSO;
     public List<ItemData> rewards = new List<ItemData>();
-    public bool wasRewardGranted = false; 
+    public bool wasRewardGranted = false;
 }
 
 public class QuestProvider
@@ -54,4 +54,3 @@ public class QuestProvider
         GrandRewards?.Invoke(state.rewards);
     }
 }
-

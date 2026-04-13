@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class QuestCompletionListener : MonoBehaviour
+/// <summary>
+/// Ѕазовый класс дл€ объектов, которые подписываютс€ на глобальное событие завершени€ квеста
+/// и выполн€ют реакцию независимо от взаимодействи€ с игроком.
+/// </summary>
+public abstract class QuestCompletionObserver : MonoBehaviour
 {
 
     private void OnEnable()

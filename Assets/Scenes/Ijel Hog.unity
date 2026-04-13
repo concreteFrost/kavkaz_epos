@@ -4366,6 +4366,7 @@ GameObject:
   - component: {fileID: 411206062}
   - component: {fileID: 411206063}
   - component: {fileID: 411206064}
+  - component: {fileID: 411206065}
   m_Layer: 0
   m_Name: BossArenaManager
   m_TagString: Untagged
@@ -4401,14 +4402,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 411206061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c13c14e1d7fe16b4790926c85fb9af73, type: 3}
+  m_Script: {fileID: 11500000, guid: b8dc4298a8d62f140a4e784709516617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossArenaManager
-  arenaUI: {fileID: 0}
-  questToComplete: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
   bossSpawnPosition: {fileID: 1290581106}
   bossPrefab: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
-  bossName: skeleton
+  bossName: Skeleton
   bossServices: {fileID: 0}
   state:
     arenaId: 
@@ -4416,14 +4415,14 @@ MonoBehaviour:
     bossKilled: 0
   phases:
   - debugName: phase 1
-    minActivationValue: 1
-    maxActivationValue: 0.5
+    minActivationValue: 0.5
+    maxActivationValue: 1
     specialActions:
     - debugName: Spell Action
-      specialMove: {fileID: 1637920401}
-      minCooldown: 10
-      maxCooldown: 15
-      canRepeat: 0
+      specialMove: {fileID: 992798200}
+      minCooldown: 5
+      maxCooldown: 10
+      canRepeat: 1
       wasExecuted: 0
       isProcessing: 0
       currentCooldown: 0
@@ -4431,10 +4430,10 @@ MonoBehaviour:
     minActivationValue: 0
     maxActivationValue: 0.5
     specialActions:
-    - debugName: Summon
+    - debugName: Spell Action
       specialMove: {fileID: 1637920401}
-      minCooldown: 12
-      maxCooldown: 15
+      minCooldown: 5
+      maxCooldown: 10
       canRepeat: 0
       wasExecuted: 0
       isProcessing: 0
@@ -4452,6 +4451,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
   uniqueId: uid_ae5ccaee-c36a-41f1-b519-189b8338a13b
+--- !u!114 &411206065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411206061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21db3dffbf38ea64dbb796a53a7a904a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestCompletionTrigger
+  targetQuest: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
 --- !u!1 &423214642
 GameObject:
   m_ObjectHideFlags: 0
@@ -20773,7 +20785,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2031161159}
   - component: {fileID: 2031161160}
-  - component: {fileID: 2031161161}
   m_Layer: 0
   m_Name: BOSS AREAS MANAGER
   m_TagString: Untagged
@@ -20810,19 +20821,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bosses: []
---- !u!114 &2031161161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031161158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21db3dffbf38ea64dbb796a53a7a904a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuestCompletionTrigger
-  targetQuest: {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
 --- !u!1001 &2046209975
 PrefabInstance:
   m_ObjectHideFlags: 0

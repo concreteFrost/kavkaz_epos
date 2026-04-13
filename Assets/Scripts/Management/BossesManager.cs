@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BossesManager : MonoBehaviour
 {
-    public List<BossArenaManager> bosses = new List<BossArenaManager>();
+    public List<BossArenaController> bosses = new List<BossArenaController>();
 
     public void Init()
     {
-        bosses = GetComponentsInChildren<BossArenaManager>().ToList();
+        bosses = GetComponentsInChildren<BossArenaController>().ToList();
 
-        foreach (BossArenaManager manager in bosses) { manager.Init(); }
+        foreach (BossArenaController manager in bosses) { manager.Init(); }
     }
 
     public List<BossArenaState> SaveBossesState()

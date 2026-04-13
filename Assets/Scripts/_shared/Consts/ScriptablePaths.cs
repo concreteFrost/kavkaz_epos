@@ -17,6 +17,8 @@ public static class ScriptablePaths
     public const string STATUS_FX_PATH = BASE_PATH + "/Status Effects";
     public const string LOOT_PATH = BASE_PATH + "/Loot";
     public const string BIOM_PATH = BASE_PATH + "/Bioms";
+    public const string DIALOGUE_LINE__PATH = BASE_PATH + "/Dialogues";
+   
    
     //под-домены
     public const string WEAPON_ATTACK_PATH = COMBAT_PATH + "/Weapon Attacks";

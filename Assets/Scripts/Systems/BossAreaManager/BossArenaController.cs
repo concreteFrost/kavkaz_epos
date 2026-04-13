@@ -12,7 +12,7 @@ public class BossArenaState
 
 }
 
-public class BossArenaManager : MonoBehaviour
+public class BossArenaController : MonoBehaviour
 {
     PlayerManager player;
     BossArenaActivator activator;

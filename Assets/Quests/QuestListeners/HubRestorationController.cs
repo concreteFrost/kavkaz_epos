@@ -8,7 +8,11 @@ public class QuestRepairEffect
     public RepairableConstructionSO targetConstructionSO;
 }
 
-public class HubRestorationListener : QuestCompletionListener
+/// <summary>
+/// Применяет эффекты восстановления хаба при завершении квестов:
+/// сопоставляет квест с объектом строительства и вызывает его Repair.
+/// </summary>
+public class HubRestorationController : QuestCompletionObserver
 {
     public List<QuestRepairEffect> repairEffects = new List<QuestRepairEffect>();
     public RepairableConstructionsManager constructionsManager;
