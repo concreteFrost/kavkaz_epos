@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class QuestProvidersManager : MonoBehaviour
 {
-    public List<BaseQuestProviderController> baseQuestProviders = new List<BaseQuestProviderController>();
+    public List<BaseQuestStateTracker> baseQuestProviders = new List<BaseQuestStateTracker>();
 
     public void Init()
     {
-        baseQuestProviders = FindObjectsByType<BaseQuestProviderController>(FindObjectsSortMode.None).ToList();
+        baseQuestProviders = FindObjectsByType<BaseQuestStateTracker>(FindObjectsSortMode.None).ToList();
 
         foreach (var baseQuestProvider in baseQuestProviders)
         {
@@ -24,7 +24,8 @@ public class QuestProvidersManager : MonoBehaviour
         {
             Dictionary<string, bool> questsState= new Dictionary<string,bool>();
 
-            baseQuestProvider.runtimeQuests.ForEach(quest => questsState[quest.questSO.id] = quest.wasRewardGranted);
+           
+            baseQuestProvider.quests.ForEach(quest => questsState[quest.questId] = quest.wasRewardGiven);
            
             QuestProviderState stateToSave = new QuestProviderState
             {

@@ -1,8 +1,0 @@
-﻿public class NpcQuestProviderController : BaseQuestProviderController
-{
-
-}
-
-
-
-

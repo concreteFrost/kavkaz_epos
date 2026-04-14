@@ -33,12 +33,12 @@ public class PlayerInteractionController : BaseCharacterInteractor
 
     private void OnEnable()
     {
-        QuestProvider.GrandRewards += OnRewardsGranted;
+        DialogueController.GrandRewards += OnRewardsGranted;
     }
 
     private void OnDisable()
     {
-        QuestProvider.GrandRewards -= OnRewardsGranted;
+        DialogueController.GrandRewards -= OnRewardsGranted;
     }
 
     public override void DistributeItemToInventory(ItemData data)

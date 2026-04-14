@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -89,6 +90,11 @@ public class GlobalQuestManager : MonoBehaviour
                 quest.Complete();
             }
         }
+    }
+
+    public bool IsQuestStarted(string id)
+    {
+        return allQuests.Exists(x => x.state.questId == id);
     }
 
     /// <summary>
