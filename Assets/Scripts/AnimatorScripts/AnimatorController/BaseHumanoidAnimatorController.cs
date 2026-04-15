@@ -1,10 +1,10 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public abstract class BaseHumanoidAnimatorController
 {
-    
+    #region Fields
+
     protected Animator animator;
     protected AnimatorOverrideController overrideController;
 
@@ -13,25 +13,34 @@ public abstract class BaseHumanoidAnimatorController
     protected IDamagable damagable;
     protected IHumanoidMeleeCombat attackSource;
     protected IPushable pushReceiver;
+
+    #endregion
+
+    #region Abstract
+
     public abstract void UpdateAnimatorParameters();
+
+    #endregion
+
+    #region Public API
 
     public Animator Animator() => animator;
 
     public virtual void Init(
-         Animator animator,
+        Animator animator,
         AnimatorOverrideController overrideController,
         IHumanoidMovement motor,
         IHumanoidMeleeCombat combatController,
         ITargetLocker targetLock,
         IDamagable damageController,
         IPushable pushReceiver
-        )
+    )
     {
-        
-        this.animator =animator;
+        this.animator = animator;
         this.overrideController = overrideController;
 
         //overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+
         animator.updateMode = AnimatorUpdateMode.Fixed;
         animator.runtimeAnimatorController = overrideController;
 
@@ -42,11 +51,16 @@ public abstract class BaseHumanoidAnimatorController
         this.pushReceiver = pushReceiver;
     }
 
+    #endregion
+
+    #region State Updates
+
     protected void UpdateLocomotionState(IHumanoidMovement locomotion)
     {
         animator.SetBool(AnimatorParameters.IsDodging, locomotion.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, locomotion.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, locomotion.IsGrounded);
+
         animator.SetFloat(AnimatorParameters.GroundDistance, locomotion.GroundDistance);
 
         animator.SetFloat(
@@ -74,7 +88,6 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetFloat(AnimatorParameters.DodgeY, locomotion.DodgeY);
 
         animator.SetBool(AnimatorParameters.IsStrafing, locomotion.IsStrafing);
-
     }
 
     protected void UpdateCombatState(IHumanoidMeleeCombat combatController)
@@ -86,15 +99,13 @@ public abstract class BaseHumanoidAnimatorController
     protected void UpdateDamageState(IDamagable damageController)
     {
         animator.SetBool(AnimatorParameters.IsDamaged, damageController.IsDamaged);
-        //        animator.SetInteger(
-        //    AnimatorParameters.BalancePenalty,
-        //    (int)damageController.BalancePenalty
-        //);
-
         animator.SetBool(AnimatorParameters.IsDead, damageController.IsDead);
-        animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);   
-
+        animator.SetBool(AnimatorParameters.IsPushed, pushReceiver.IsPushed);
     }
+
+    #endregion
+
+    #region Playback
 
     public void PlayClipCrossFade(string name)
     {
@@ -106,30 +117,66 @@ public abstract class BaseHumanoidAnimatorController
         animator.Play(name);
     }
 
+    public void PlayTalk()
+    {
+        animator.CrossFade(
+            "Reply Dialogue",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.motionLayer
+        );
+    }
+
+    public void ResetAnimator()
+    {
+        //animator.CrossFade("Free Locomotion", AnimatorParameters.transitionSpeed, AnimatorParameters.motionLayer);
+
+        animator.CrossFade(
+            "Free Locomotion",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.motionLayer
+        );
+    }
+
+    #endregion
+
+    #region Overrides
+
     public void OverrideAttack(WeaponAttack attack, string name)
     {
         var stateName = name;
-        overrideController[stateName] = attack.animationInfo.clip;
 
+        overrideController[stateName] = attack.animationInfo.clip;
         animator.speed = attack.animationInfo.animationSpeed;
 
-        animator.CrossFade(stateName, AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
+        animator.CrossFade(
+            stateName,
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.combatLayer
+        );
     }
 
     public void OverrideSpell(SpellProjectileSO spell)
     {
         overrideController["Spell_Cast"] = spell.castAnimation.clip;
-
         animator.speed = spell.castAnimation.animationSpeed;
-        animator.CrossFade("Spell_Cast", AnimatorParameters.transitionSpeed, AnimatorParameters.combatLayer);
+
+        animator.CrossFade(
+            "Spell_Cast",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.combatLayer
+        );
     }
 
     public void OverrideConsume(AnimationInfoSO animation)
     {
-        overrideController["Consume"] =animation.clip;
+        overrideController["Consume"] = animation.clip;
         animator.speed = animation.animationSpeed;
-        animator.CrossFade("Consume", AnimatorParameters.transitionSpeed, AnimatorParameters.interractionLayer);
-      
+
+        animator.CrossFade(
+            "Consume",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.interractionLayer
+        );
     }
 
     public void OverrideArmed(IWeapon w)
@@ -141,13 +188,18 @@ public abstract class BaseHumanoidAnimatorController
         }
 
         overrideController["Armed"] = w.WeaponData().idleAnimation;
-        animator.CrossFade("Armed", AnimatorParameters.transitionSpeed, AnimatorParameters.armedLayer);
+
+        animator.CrossFade(
+            "Armed",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.armedLayer
+        );
     }
 
-
-
+    #endregion
 
     #region Push Control
+
     public void PerformPush()
     {
         animator.CrossFade("Agressive Push", AnimatorParameters.transitionSpeed);
@@ -155,7 +207,7 @@ public abstract class BaseHumanoidAnimatorController
 
     public void GetPushed(PushDirection dir)
     {
-        if(dir == PushDirection.Forward)
+        if (dir == PushDirection.Forward)
         {
             animator.CrossFade("Get Pushed From Front", AnimatorParameters.transitionSpeed);
         }
@@ -163,16 +215,7 @@ public abstract class BaseHumanoidAnimatorController
         {
             animator.CrossFade("Get Pushed From Back", AnimatorParameters.transitionSpeed);
         }
-
     }
 
     #endregion
-
-
-    //protected void UpdateTargetLockState(ITargetLocker targetLock)
-    //{
-    //    animator.SetBool(AnimatorParameters.IsStrafing, targetLock.IsLockedOnTarget);
-    //}
 }
-
-

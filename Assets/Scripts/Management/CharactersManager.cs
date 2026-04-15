@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharactersManager : MonoBehaviour
 {
     public List<EnemyServiceLocator> enemies = new List<EnemyServiceLocator>();
+    public List<FriendlyNpcServiceLocator> friendlyNpcs = new List<FriendlyNpcServiceLocator>();    
     public static Action CharacterStatesUpdated;
 
     public void Init()
@@ -14,7 +15,12 @@ public class CharactersManager : MonoBehaviour
         foreach (EnemyServiceLocator locator in enemies)
         {
             locator.Init();
-            //locator.brain.ForceStop();
+        }
+
+        friendlyNpcs = GetComponentsInChildren<FriendlyNpcServiceLocator>().ToList();  
+        foreach(FriendlyNpcServiceLocator locator in friendlyNpcs)
+        {
+            locator.Init();
         }
 
         CharacterStatesUpdated?.Invoke();   

@@ -12,7 +12,7 @@ public class DialogueProvidersManager : MonoBehaviour
 
         foreach (var baseQuestProvider in dialogueProviders)
         {
-            baseQuestProvider.Init();
+            //baseQuestProvider.Init();
         }
     }
 
@@ -23,7 +23,7 @@ public class DialogueProvidersManager : MonoBehaviour
         foreach (var provider in dialogueProviders)
         {
             NpcQuestsState newState = new NpcQuestsState();
-            newState.questProviderId = provider.providerId;
+            //newState.questProviderId = provider.providerId;
 
             foreach (var dialogues in provider.dialogueStates)
             {
@@ -51,12 +51,12 @@ public class DialogueProvidersManager : MonoBehaviour
 
         foreach (var quest in questsData)
         {
-            var match = dialogueProviders.Find((x) => x.providerId == quest.questProviderId);
+            //var match = dialogueProviders.Find((x) => x.providerId == quest.questProviderId);
 
-            if(match != null)
-            {
-                match.LoadData(quest);
-            }
+            //if(match != null)
+            //{
+            //    match.LoadData(quest);
+            //}
         }
     }
 }

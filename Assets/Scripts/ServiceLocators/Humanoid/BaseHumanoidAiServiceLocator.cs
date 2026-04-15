@@ -45,7 +45,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     public string uid;
     protected AiRagdollController ragdollController;
-    protected HumanoidAIAnimatorController animatorController;
+    protected EnemyAIAnimatorController animatorController;
     protected HumanoidAgentController agentController;
 
 
@@ -115,11 +115,5 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
 
     protected abstract void AnimatorInit();
-   
-
-
-
-
-
 
 }

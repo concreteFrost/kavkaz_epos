@@ -3,7 +3,7 @@ using UnityEngine;
 public class HumanoidAIController : MonoBehaviour
 {
     HumanoidAIMotor aiMotor;
-    HumanoidAIAnimatorController aIAnimator;
+    EnemyAIAnimatorController aIAnimator;
     HumanoidAgentController agentController;
     HumanoidAIDamageController damageController;
 
@@ -12,10 +12,10 @@ public class HumanoidAIController : MonoBehaviour
 
     public void Init(
          HumanoidAIMotor aiMotor,
-        HumanoidAIAnimatorController aIAnimator,
+        EnemyAIAnimatorController aIAnimator,
         HumanoidAgentController agentController,
         HumanoidAIDamageController damageController,
-        HumanoidAIAnimatorController animator,
+        EnemyAIAnimatorController animator,
         CharacterStatsController stats,
         Transform self
         )

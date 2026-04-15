@@ -25,6 +25,8 @@ public class NpcQuestState
 
     public bool IsCompletedGlobal()
     {
+        if (GlobalQuestManager.Instance == null) return false;
+
         return GlobalQuestManager.Instance.IsQuestCompleted(questDialogue.questToGiveSO);
     }
 }
@@ -50,7 +52,7 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] private NpcDialoguesSO dialoguesSO;
 
-    public string providerId;
+    BaseHumanoidAnimatorController animatorController;
 
     private Queue<DialogueLine> dialogueQueue = new();
     public List<NpcQuestState> dialogueStates = new();
@@ -72,7 +74,7 @@ public class DialogueController : MonoBehaviour
         PlayerGameInput.QuitDialogue += OnDialogueQuit;
     }
 
-    
+
     private void OnDisable()
     {
         GameStateManager.GameStateChanged -= OnGameStateChanged;
@@ -81,9 +83,9 @@ public class DialogueController : MonoBehaviour
 
     }
 
-    public void Init()
+    public void Init(BaseHumanoidAnimatorController animatorController)
     {
-        providerId = GetComponent<UniqueId>().uniqueId;
+        this.animatorController = animatorController;
 
         foreach (var dialogue in dialoguesSO.questDialogueLines)
         {
@@ -97,11 +99,11 @@ public class DialogueController : MonoBehaviour
         {
             var match = dialogueStates.Find((x) => x.questDialogue.questToGiveSO.id == s.questId);
 
-            if(match != null)
+            if (match != null)
             {
                 match.wasQuestCompleted = s.wasQuestCompleted;
-                match.wasQuestStarted = s.wasQuestStarted;  
-                match.wasRewardGiven = s.wasRewardGiven;    
+                match.wasQuestStarted = s.wasQuestStarted;
+                match.wasRewardGiven = s.wasRewardGiven;
             }
         }
     }
@@ -192,6 +194,8 @@ public class DialogueController : MonoBehaviour
 
         var line = dialogueQueue.Dequeue();
         DialogueProceed?.Invoke(line.dialogueLine);
+
+        animatorController.PlayTalk();
     }
 
     private void FillQueue(List<DialogueLine> lines)
@@ -214,6 +218,8 @@ public class DialogueController : MonoBehaviour
         dialogueCompleted = true;
 
         DialogueCompleted?.Invoke();
+
+        animatorController.ResetAnimator();
 
     }
 

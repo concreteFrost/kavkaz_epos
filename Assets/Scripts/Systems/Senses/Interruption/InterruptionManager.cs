@@ -25,7 +25,13 @@ public class InterruptionManager : MonoBehaviour
 
     private void Update()
     {
+
         passiveInterruptionHandler.HandleInterruptionUpdate();
+    }
+
+    private void OnEnable()
+    {
+        
     }
 
     private void OnDisable()

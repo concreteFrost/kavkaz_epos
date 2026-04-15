@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
+public class EnemyAIAnimatorController : BaseHumanoidAnimatorController
 {
 
     public override void Init(Animator animator,
@@ -27,3 +27,5 @@ public class HumanoidAIAnimatorController : BaseHumanoidAnimatorController
         UpdateCombatState(attackSource);    
     }
 }
+
+

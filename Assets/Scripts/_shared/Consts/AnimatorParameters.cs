@@ -53,5 +53,5 @@ public class AnimatorParameters
     public static int DodgeX = Animator.StringToHash("DodgeX");
     public static int DodgeY = Animator.StringToHash("DodgeY");
     public static int IsPushed = Animator.StringToHash("IsPushed");
-
+   
 }

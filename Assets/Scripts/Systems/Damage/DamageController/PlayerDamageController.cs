@@ -64,6 +64,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     private bool ShouldForceEnterGameMode()
     {
+        if (GameStateManager.Instance == null) return false;
 
         if (GameStateManager.Instance.CurrentState == GameState.Game || 
             GameStateManager.Instance.CurrentState == GameState.Transition) return false;
