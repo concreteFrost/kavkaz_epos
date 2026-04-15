@@ -67,6 +67,8 @@ public class DialogueController : MonoBehaviour
 
     private bool dialogueCompleted;
 
+    private bool willSayThankYou=false;
+
     private void OnEnable()
     {
         GameStateManager.GameStateChanged += OnGameStateChanged;
@@ -149,6 +151,7 @@ public class DialogueController : MonoBehaviour
 
         GrandRewards?.Invoke(state.questDialogue.rewards);
 
+        willSayThankYou = true;
         return true;
     }
 
@@ -195,7 +198,13 @@ public class DialogueController : MonoBehaviour
         var line = dialogueQueue.Dequeue();
         DialogueProceed?.Invoke(line.dialogueLine);
 
-        animatorController.PlayTalk();
+        if (willSayThankYou)
+        {
+            animatorController.PlayThankYou();
+            willSayThankYou=false;
+        }
+        else
+            animatorController.PlayTalk();
     }
 
     private void FillQueue(List<DialogueLine> lines)

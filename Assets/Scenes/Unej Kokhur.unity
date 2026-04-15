@@ -1352,7 +1352,7 @@ Transform:
   m_GameObject: {fileID: 1185146929}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1375,6 +1375,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FriendlyNPC_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5620799967516508299, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 5b428ac4870d5aa43a515ec52454e895, type: 3}
     - target: {fileID: 5718778844693777553, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
       propertyPath: lifecycle
       value: 
@@ -1419,6 +1423,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8512674521684355213, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209493283927322196, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
+      propertyPath: starterSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cb86c109bb5aac418d01e4bd9e88a47, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2416,8 +2428,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 964846901}
   - {fileID: 1185146930}
+  - {fileID: 964846901}
   - {fileID: 1698556061}
   - {fileID: 2115226905}
   - {fileID: 1485897236}

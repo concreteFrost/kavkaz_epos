@@ -127,6 +127,16 @@ public abstract class BaseHumanoidAnimatorController
         );
     }
 
+    public void PlayThankYou()
+    {
+        var randomReaction = Random.Range(0, 1);
+        animator.CrossFade(
+            $"Reply Thank You_{randomReaction}",
+            AnimatorParameters.transitionSpeed,
+            AnimatorParameters.motionLayer
+        );
+    }
+
     public void ResetAnimator()
     {
         //animator.CrossFade("Free Locomotion", AnimatorParameters.transitionSpeed, AnimatorParameters.motionLayer);
