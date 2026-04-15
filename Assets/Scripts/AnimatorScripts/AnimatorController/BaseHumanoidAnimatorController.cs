@@ -119,8 +119,9 @@ public abstract class BaseHumanoidAnimatorController
 
     public void PlayTalk()
     {
+        var randomReaction = Random.Range(0, 3);
         animator.CrossFade(
-            "Reply Dialogue",
+            $"Reply Dialogue_{randomReaction}",
             AnimatorParameters.transitionSpeed,
             AnimatorParameters.motionLayer
         );
