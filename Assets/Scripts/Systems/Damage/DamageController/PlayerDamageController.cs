@@ -39,7 +39,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
         if (IsDead) return;
 
-        if (ShouldEnterGameMode())
+        if (ShouldForceEnterGameMode())
         {
             GameStateManager.GameStateChanged?.Invoke(GameState.Game);
         }
@@ -62,7 +62,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     }
 
-    private bool ShouldEnterGameMode()
+    private bool ShouldForceEnterGameMode()
     {
 
         if (GameStateManager.Instance.CurrentState == GameState.Game || 

@@ -58,6 +58,11 @@ public class DialogueController : MonoBehaviour
     public bool isDialogueActive = false;
 
     public static Action<List<ItemData>> GrandRewards;
+
+    public static Action<string> DialogueStarted;
+    public static Action<string> DialogueProceed;
+    public static Action DialogueCompleted;
+
     private bool dialogueCompleted;
 
     private void OnEnable()
@@ -106,6 +111,8 @@ public class DialogueController : MonoBehaviour
     {
         if (dialoguesSO == null)
             return;
+
+        DialogueStarted?.Invoke("Npc Name");
 
         // 1. завершённый квест без награды
         if (TryHandleCompletedQuest())
@@ -184,7 +191,7 @@ public class DialogueController : MonoBehaviour
         }
 
         var line = dialogueQueue.Dequeue();
-        Debug.Log(line.dialogueLine);
+        DialogueProceed?.Invoke(line.dialogueLine);
     }
 
     private void FillQueue(List<DialogueLine> lines)
@@ -206,6 +213,8 @@ public class DialogueController : MonoBehaviour
         isDialogueActive = false;
         dialogueCompleted = true;
 
+        DialogueCompleted?.Invoke();
+
     }
 
     #region Events Handler
@@ -221,6 +230,8 @@ public class DialogueController : MonoBehaviour
         dialogueQueue.Clear();
         isDialogueActive = false;
         dialogueCompleted = false; // 🔥 важно
+
+        DialogueCompleted?.Invoke();
     }
     #endregion
 }
