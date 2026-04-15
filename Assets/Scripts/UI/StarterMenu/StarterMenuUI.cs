@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class StarterMenuUI : MonoBehaviour
 {
+    [SerializeField] BiomInfoSO starterBiom;
+
     [SerializeField] Button btn_startNewGame;
     [SerializeField] Button btn_loadGame;
     [SerializeField] Button btn_quitGame;
@@ -53,7 +55,7 @@ public class StarterMenuUI : MonoBehaviour
 
     private void StartNewGame()
     {
-        SaveLoadManager.Instance.StartNewGame("Level1");
+        SaveLoadManager.Instance.StartNewGame(starterBiom.biomName);
     }
 
     private void LoadGame()

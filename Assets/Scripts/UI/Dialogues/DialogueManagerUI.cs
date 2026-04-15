@@ -8,6 +8,7 @@ public class DialogueManagerUI : MonoBehaviour
 
     [SerializeField] private GameObject wrapper;
 
+
     private void Awake()
     {
         if (wrapper.gameObject.activeInHierarchy)

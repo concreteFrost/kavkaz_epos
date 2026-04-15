@@ -11,6 +11,7 @@ public class SaveLevelData
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] BiomInfoSO biomInfoSO;
+    [SerializeField]
 
     [HideInInspector] public LevelState levelState;
     public Transform startingPosition;
@@ -22,7 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private HubManager hubManager;
     [SerializeField] private DialogueProvidersManager dialogueProvidersManager;   
     
- 
+
     public static Action<string> LevelInfoUpdated;
 
     private void Awake()
@@ -32,6 +33,7 @@ public class LevelManager : MonoBehaviour
         levelState.levelId = biomInfoSO.biomName;
 
         InitSystems();
+        InitLevelUI();
 
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
     }
@@ -145,5 +147,19 @@ public class LevelManager : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(startingPosition.position, 0.5f);
+    }
+
+    private void InitLevelUI()
+    {
+        GameObject prefab = Resources.Load<GameObject>("_Prefabs/UI_prefabs/LevelInfo/LEVEL_UI");
+
+        if(prefab == null)
+        {
+            Debug.Log("LEVEL_UI prefab was not found");
+            return;
+        }
+
+        Instantiate(prefab,transform);    
+        
     }
 }
