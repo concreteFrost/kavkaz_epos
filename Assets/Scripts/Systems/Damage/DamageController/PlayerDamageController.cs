@@ -25,7 +25,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
         {
             DamageData d = new DamageData
             {
-                finalDamage  = 20f,
+                finalDamage = 20f,
                 balanceDamageType = BalanceDamageType.Extreme,
                 impactForce = 20f
             };
@@ -38,6 +38,11 @@ public class PlayerDamageController : BaseHumanoidDamageController
         base.TakeDamage(damageData, source);
 
         if (IsDead) return;
+
+        if (ShouldEnterGameMode())
+        {
+            GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+        }
 
         HandleGetDamaged(damageData.balanceDamageType);
         StartCoroutine(DamageCooldownCoroutine());
@@ -54,6 +59,16 @@ public class PlayerDamageController : BaseHumanoidDamageController
         damageBlocked = true;
         yield return new WaitForSeconds(damageCooldown);
         damageBlocked = false;
+
+    }
+
+    private bool ShouldEnterGameMode()
+    {
+
+        if (GameStateManager.Instance.CurrentState == GameState.Game || 
+            GameStateManager.Instance.CurrentState == GameState.Transition) return false;
+
+        return true;    
 
     }
 

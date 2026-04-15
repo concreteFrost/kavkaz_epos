@@ -9,6 +9,7 @@ public enum GameState
     Transition = 2,
     Menu= 3,
     Bonfire = 4,
+    Dialogue= 5,
 
 }
 public class GameStateManager : MonoBehaviour

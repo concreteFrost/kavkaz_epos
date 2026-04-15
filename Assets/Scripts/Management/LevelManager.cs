@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private BonfireManager bonfireManager;
     [SerializeField] private BossesManager bossesManager;
     [SerializeField] private HubManager hubManager;
-    [SerializeField] private QuestProvidersManager questProvidersManager;   
+    [SerializeField] private DialogueProvidersManager dialogueProvidersManager;   
     
  
     public static Action<string> LevelInfoUpdated;
@@ -57,7 +57,7 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.Init();
         bossesManager?.Init();
         hubManager?.Init(); 
-        questProvidersManager?.Init();  
+        dialogueProvidersManager?.Init();  
     }
 
     #endregion
@@ -107,9 +107,9 @@ public class LevelManager : MonoBehaviour
             levelState.hubState = hubManager.SaveHubState();    
         }
 
-        if(questProvidersManager != null)
+        if(dialogueProvidersManager != null)
         {
-            levelState.questProviders = questProvidersManager.SaveQuestProvidersState();    
+            levelState.questProviders = dialogueProvidersManager.SaveQuestProvidersState();    
         }
 
         return levelState;
@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.LoadBonfireDatas(state);
         bossesManager?.LoadBossesState(state);
         hubManager?.LoadHubState(state);
-        questProvidersManager?.LoadQuestsState(state);
+        dialogueProvidersManager?.LoadQuestsState(state);
 
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
     }

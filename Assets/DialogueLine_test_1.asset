@@ -12,5 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2184d37d8d12ba44b84750b441b9a957, type: 3}
   m_Name: DialogueLine_test_1
   m_EditorClassIdentifier: Assembly-CSharp::NpcDialoguesSO
-  questDialogueLines: []
-  neutralDialogueLines: []
+  questDialogueLines:
+  - questToGiveSO: {fileID: 11400000, guid: 18f74ece7c5770a44871181cd991a4e8, type: 2}
+    questStartedLines:
+    - dialogueLine: i want you to find one thing for me
+    - dialogueLine: it is somehwere near me
+    questCompletedLines:
+    - dialogueLine: thank you for finding it
+    - dialogueLine: here is your reward
+    questInProgressLines:
+    - dialogueLine: you still have to find it
+    rewards:
+    - itemSO: {fileID: 11400000, guid: be6bd478857ed604bab6276a126f5a98, type: 2}
+      quantity: 10
+      instanceId: 
+      durability: 0
+      isEquiped: 0
+  - questToGiveSO: {fileID: 11400000, guid: 581b1cec3c7c6164f80ec1294e784e47, type: 2}
+    questStartedLines:
+    - dialogueLine: Can you find a particular  armor for me?
+    - dialogueLine: Should be somwhere nearby
+    questCompletedLines:
+    - dialogueLine: thank you !
+    questInProgressLines:
+    - dialogueLine: Find that bloody armor
+    rewards:
+    - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
+      quantity: 10
+      instanceId: 
+      durability: 0
+      isEquiped: 0
+  - questToGiveSO: {fileID: 11400000, guid: 174370151de760449882333c9805d995, type: 2}
+    questStartedLines:
+    - dialogueLine: Can you find a particular stone for me?
+    - dialogueLine: Should be somwhere nearby
+    questCompletedLines:
+    - dialogueLine: thank you !
+    questInProgressLines:
+    - dialogueLine: Find that bloody stone
+    rewards:
+    - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
+      quantity: 10
+      instanceId: 
+      durability: 0
+      isEquiped: 0
+  neutralDialogueLines:
+  - dialogueLine: i have nothing to say

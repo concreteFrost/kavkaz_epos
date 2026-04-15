@@ -10,6 +10,8 @@ public class PlayerGameInput : MonoBehaviour
     private PlayerTargetLock targetLock;
     private PlayerAnimatorController animator;
 
+    public static Action ProceedDialogue;
+    public static Action QuitDialogue;
 
     public void Init(
         PlayerInputReader reader,
@@ -35,6 +37,7 @@ public class PlayerGameInput : MonoBehaviour
         HandleMovement();
         HandleCombat();
         HandleInteraction();
+        HandleDialogue();
         HandeMenuPressed(); 
         HandleOpenInventory();
 
@@ -142,6 +145,23 @@ public class PlayerGameInput : MonoBehaviour
         {
             locomotion.Consume();
             reader.Consume(ref reader.ConsumePressed);
+        }
+    }
+
+    private void HandleDialogue()
+    {
+        if (reader.ProceedDialoguePressed)
+        {
+            reader.Consume(ref reader.ProceedDialoguePressed);
+            ProceedDialogue?.Invoke();
+        }
+
+        if (reader.QuitDialoguePressed)
+        {
+            
+            reader.Consume(ref reader.QuitDialoguePressed);
+            GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+            QuitDialogue?.Invoke(); 
         }
     }
 

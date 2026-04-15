@@ -28,6 +28,12 @@ public class PlayerInputReader
     public float SpellScroll;
     public float ConsumableScroll;
 
+    #region Dialogue Inputs
+
+    public bool ProceedDialoguePressed;
+    public bool QuitDialoguePressed;
+    #endregion
+
     #endregion
 
     #region UI Inputs
@@ -43,6 +49,7 @@ public class PlayerInputReader
         controls = new PlayerControls();
         
         GameInputBind();
+        DialogueInputBind();
         UiInputBind();  
 
     }
@@ -84,6 +91,12 @@ public class PlayerInputReader
         controls.Player.ConsumableChange.performed += c => ConsumableScroll = c.ReadValue<float>();
 
        
+    }
+
+    private void DialogueInputBind()
+    {
+        controls.Dialogue.ProceedDialogue.performed += _ => ProceedDialoguePressed = true;
+        controls.Dialogue.QuitDialogue.performed += _ => QuitDialoguePressed = true;
     }
 
     private void UiInputBind()

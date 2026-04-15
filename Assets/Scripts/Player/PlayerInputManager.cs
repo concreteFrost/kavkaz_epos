@@ -39,6 +39,9 @@ public class PlayerInputManager : MonoBehaviour
             case GameState.Bonfire:
                 SetUIMode();
                 break;
+            case GameState.Dialogue:
+                SetDialogueMode();
+                break;
             case GameState.Transition:
                 DisableAll();
                 break;
@@ -48,8 +51,9 @@ public class PlayerInputManager : MonoBehaviour
 
     private void SetGameMode()
     {
-        reader.controls.UI.Disable();
         reader.controls.Player.Enable();
+        reader.controls.UI.Disable();
+        reader.controls.Dialogue.Disable();
        
     }
 
@@ -57,9 +61,17 @@ public class PlayerInputManager : MonoBehaviour
     {
         reader.controls.Player.Disable();
         reader.controls.UI.Enable();
+        reader.controls.Dialogue.Disable();
        
     }
 
+    private void SetDialogueMode()
+    {
+        
+        reader.controls.Dialogue.Enable();
+        reader.controls.Player.Disable();
+        reader.controls.UI.Disable();
+    }
 
     private void DisableAll()
     {

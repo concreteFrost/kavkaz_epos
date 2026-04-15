@@ -14,7 +14,7 @@ public class NpcDialogueController : DialogueController, IInteractable
         {
             StartDialogue();
             isDialogueActive = true;
-
+            GameStateManager.GameStateChanged?.Invoke(GameState.Dialogue);
             ShowNextLine();
         }
         else

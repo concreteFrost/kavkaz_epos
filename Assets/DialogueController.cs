@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class DialogueQuestState
+public class NpcQuestState
 {
     public NpcQuestDialogue questDialogue;
 
@@ -13,7 +13,7 @@ public class DialogueQuestState
     public bool wasRewardGiven;
     public bool wasQuestStarted;
 
-    public DialogueQuestState(NpcQuestDialogue questDialogue)
+    public NpcQuestState(NpcQuestDialogue questDialogue)
     {
         this.questDialogue = questDialogue;
         wasQuestCompleted = false;
@@ -29,22 +29,75 @@ public class DialogueQuestState
     }
 }
 
+[System.Serializable]
+public class DialogueState
+{
+    public string questId;
+
+    public bool wasQuestCompleted;
+    public bool wasRewardGiven;
+    public bool wasQuestStarted;
+}
+
+[System.Serializable]
+public class NpcQuestsState
+{
+    public string questProviderId;
+    public List<DialogueState> dialogueStates = new List<DialogueState>();
+}
+
 public class DialogueController : MonoBehaviour
 {
     [SerializeField] private NpcDialoguesSO dialoguesSO;
 
+    public string providerId;
+
     private Queue<DialogueLine> dialogueQueue = new();
-    public List<DialogueQuestState> npcQuestStates = new();
+    public List<NpcQuestState> dialogueStates = new();
 
     public bool isDialogueActive = false;
 
     public static Action<List<ItemData>> GrandRewards;
+    private bool dialogueCompleted;
 
-    private void Awake()
+    private void OnEnable()
     {
+        GameStateManager.GameStateChanged += OnGameStateChanged;
+        PlayerGameInput.ProceedDialogue += ShowNextLine;
+        PlayerGameInput.QuitDialogue += OnDialogueQuit;
+    }
+
+    
+    private void OnDisable()
+    {
+        GameStateManager.GameStateChanged -= OnGameStateChanged;
+        PlayerGameInput.ProceedDialogue -= ShowNextLine;
+        PlayerGameInput.QuitDialogue -= OnDialogueQuit;
+
+    }
+
+    public void Init()
+    {
+        providerId = GetComponent<UniqueId>().uniqueId;
+
         foreach (var dialogue in dialoguesSO.questDialogueLines)
         {
-            npcQuestStates.Add(new DialogueQuestState(dialogue));
+            dialogueStates.Add(new NpcQuestState(dialogue));
+        }
+    }
+
+    public void LoadData(NpcQuestsState state)
+    {
+        foreach (var s in state.dialogueStates)
+        {
+            var match = dialogueStates.Find((x) => x.questDialogue.questToGiveSO.id == s.questId);
+
+            if(match != null)
+            {
+                match.wasQuestCompleted = s.wasQuestCompleted;
+                match.wasQuestStarted = s.wasQuestStarted;  
+                match.wasRewardGiven = s.wasRewardGiven;    
+            }
         }
     }
 
@@ -69,7 +122,7 @@ public class DialogueController : MonoBehaviour
     // 🔹 COMPLETED
     private bool TryHandleCompletedQuest()
     {
-        var state = npcQuestStates.FirstOrDefault(d =>
+        var state = dialogueStates.FirstOrDefault(d =>
             d.IsCompletedGlobal() && !d.wasRewardGiven);
 
         if (state == null)
@@ -93,7 +146,7 @@ public class DialogueController : MonoBehaviour
     // 🔹 CURRENT
     private bool TryHandleCurrentQuest()
     {
-        var state = npcQuestStates.FirstOrDefault(d => !d.wasQuestCompleted);
+        var state = dialogueStates.FirstOrDefault(d => !d.wasQuestCompleted);
 
         if (state == null)
             return false;
@@ -111,25 +164,16 @@ public class DialogueController : MonoBehaviour
     }
 
     // 🔹 Coroutine
-    private IEnumerator StartQuestAfterDialogue(DialogueQuestState state)
+    private IEnumerator StartQuestAfterDialogue(NpcQuestState state)
     {
-        yield return new WaitUntil(() => !isDialogueActive);
+        yield return new WaitUntil(() => dialogueCompleted);
 
         GlobalQuestManager.Instance.StartNewQuest(state.Quest);
         state.wasQuestStarted = true;
+
+        dialogueCompleted = false; // сброс
     }
 
-    // 🔹 Dialogue flow
-    public void Interact()
-    {
-        if (!isDialogueActive)
-        {
-            StartDialogue();
-            isDialogueActive = true;
-        }
-
-        ShowNextLine();
-    }
 
     protected void ShowNextLine()
     {
@@ -153,9 +197,30 @@ public class DialogueController : MonoBehaviour
         }
     }
 
+
+
     private void EndDialogue()
     {
+        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+
         isDialogueActive = false;
-        Debug.Log("Dialogue ended");
+        dialogueCompleted = true;
+
     }
+
+    #region Events Handler
+    private void OnGameStateChanged(GameState state)
+    {
+        if (state == GameState.Dialogue) return;
+
+        OnDialogueQuit();
+    }
+
+    private void OnDialogueQuit()
+    {
+        dialogueQueue.Clear();
+        isDialogueActive = false;
+        dialogueCompleted = false; // 🔥 важно
+    }
+    #endregion
 }
