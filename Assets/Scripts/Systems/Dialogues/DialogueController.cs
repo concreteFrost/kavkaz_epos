@@ -41,12 +41,6 @@ public class DialogueState
     public bool wasQuestStarted;
 }
 
-[System.Serializable]
-public class NpcQuestsState
-{
-    public string questProviderId;
-    public List<DialogueState> dialogueStates = new List<DialogueState>();
-}
 
 public class DialogueController : MonoBehaviour
 {
@@ -95,9 +89,9 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public void LoadData(NpcQuestsState state)
+    public void LoadData(List<DialogueState> state)
     {
-        foreach (var s in state.dialogueStates)
+        foreach (var s in state)
         {
             var match = dialogueStates.Find((x) => x.questDialogue.questToGiveSO.id == s.questId);
 

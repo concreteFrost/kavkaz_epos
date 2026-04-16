@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class CharactersManager : MonoBehaviour
 {
@@ -26,7 +28,16 @@ public class CharactersManager : MonoBehaviour
         CharacterStatesUpdated?.Invoke();   
     }
 
-    public List<EnemyState> SaveEnemies()
+    public CharactersState SaveCharacters()
+    {
+        CharactersState state = new CharactersState();
+        state.enemyStates = SaveEnemies();
+        state.friendlyNpcStates = SaveFriedlyNpcs();
+
+        return state;
+    }
+
+    private List<EnemyState> SaveEnemies()
     {
         List<EnemyState> states = new List<EnemyState>();   
         foreach(var enemy in enemies)
@@ -50,9 +61,50 @@ public class CharactersManager : MonoBehaviour
         return states;
     }
 
+    private List<FriendlyNpcState> SaveFriedlyNpcs()
+    {
+        List<FriendlyNpcState> states = new List<FriendlyNpcState>();
+
+        foreach (var npc in friendlyNpcs)
+        {
+            FriendlyNpcState state = new FriendlyNpcState();
+
+            state.npcId = npc.uid;
+
+            Vector3 position = npc.transform.position;
+          
+            state.npcPosition[0] = position.x;
+            state.npcPosition [1] = position.y;
+            state.npcPosition[2] = position.z;
+          
+
+            foreach (var dialogues in npc.dialogueController.dialogueStates)
+            {
+                var questId = dialogues.questDialogue.questToGiveSO.id;
+
+                var dialogueState = new DialogueState()
+                {
+                    questId = questId,
+                    wasQuestCompleted = dialogues.wasQuestCompleted,
+                    wasQuestStarted = dialogues.wasQuestStarted,
+                    wasRewardGiven = dialogues.wasRewardGiven,
+                };
+
+                state.npcQuestsState.Add(dialogueState);
+            }
+
+            states.Add(state);  
+
+        }
+
+        return states;
+    }
+
+   
+
     public void LoadCharactersData(LevelState levelState)
     {
-        var enemieDatas = levelState.enemyDatas;
+        var enemieDatas = levelState.characterStates.enemyStates;
 
         foreach (var enemy in enemieDatas)
         {
@@ -73,6 +125,21 @@ public class CharactersManager : MonoBehaviour
                     match.lifecycle.PerformDeath();  
                 }
                
+            }
+        }
+
+        var friendlyNpcDatas = levelState.characterStates.friendlyNpcStates;
+
+        foreach(var friendNpc in friendlyNpcDatas)
+        {
+            var match = friendlyNpcs.Find((x)=>x.uid == friendNpc.npcId);   
+
+            if(match != null)
+            {
+                match.lifecycle?.Respawn();
+                match.transform.position = new Vector3(friendNpc.npcPosition[0], friendNpc.npcPosition[1], friendNpc.npcPosition[2]);
+                match.dialogueController.LoadData(friendNpc.npcQuestsState);
+
             }
         }
 

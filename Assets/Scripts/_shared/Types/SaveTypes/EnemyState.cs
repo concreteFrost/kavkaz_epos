@@ -11,3 +11,18 @@ public class EnemyState
     public List<SavedEffectData> effectData;
 
 }
+
+[Serializable]
+public class FriendlyNpcState {
+    public string npcId;
+    public float[] npcPosition = new float[3];
+    public List<DialogueState> npcQuestsState = new List<DialogueState>();
+
+}
+
+[Serializable]
+public class CharactersState
+{
+    public List<EnemyState> enemyStates = new List<EnemyState>();   
+    public List<FriendlyNpcState> friendlyNpcStates = new List<FriendlyNpcState>(); 
+}
