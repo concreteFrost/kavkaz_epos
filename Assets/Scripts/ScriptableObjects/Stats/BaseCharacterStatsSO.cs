@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Base Character Stats", menuName = ScriptablePaths.CHARACTER_STATS_PATH + "/Base")]
 public class BaseCharacterStatsSO : ScriptableObject
 {
+    public string characterName;
 
     public CharacterType characterType;
 

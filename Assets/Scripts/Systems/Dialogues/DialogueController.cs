@@ -47,6 +47,7 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private NpcDialoguesSO dialoguesSO;
 
     BaseHumanoidAnimatorController animatorController;
+    CharacterStatsController statsController;
 
     private Queue<DialogueLine> dialogueQueue = new();
     public List<NpcQuestState> dialogueStates = new();
@@ -58,6 +59,11 @@ public class DialogueController : MonoBehaviour
     public static Action<string> DialogueStarted;
     public static Action<string> DialogueProceed;
     public static Action DialogueCompleted;
+
+    //ДЛЯ QuestInfoManagerUI
+    public static Action<string> QuestStarted;
+    public static Action<string> QuestCompleted;
+
 
     private bool dialogueCompleted;
 
@@ -79,9 +85,10 @@ public class DialogueController : MonoBehaviour
 
     }
 
-    public void Init(BaseHumanoidAnimatorController animatorController)
+    public void Init(BaseHumanoidAnimatorController animatorController, CharacterStatsController statsController)
     {
         this.animatorController = animatorController;
+        this.statsController = statsController; 
 
         foreach (var dialogue in dialoguesSO.questDialogueLines)
         {
@@ -110,7 +117,7 @@ public class DialogueController : MonoBehaviour
         if (dialoguesSO == null)
             return;
 
-        DialogueStarted?.Invoke("Npc Name");
+        DialogueStarted?.Invoke(statsController.statsSO.characterName);
 
         // 1. завершённый квест без награды
         if (TryHandleCompletedQuest())
@@ -145,6 +152,9 @@ public class DialogueController : MonoBehaviour
 
         GrandRewards?.Invoke(state.questDialogue.rewards);
 
+        var questName = state.questDialogue.questToGiveSO.questName;
+        QuestCompleted?.Invoke(questName);
+
         willSayThankYou = true;
         return true;
     }
@@ -178,6 +188,9 @@ public class DialogueController : MonoBehaviour
         state.wasQuestStarted = true;
 
         dialogueCompleted = false; // сброс
+
+        var questName = state.questDialogue.questToGiveSO.questName;
+        QuestStarted?.Invoke(questName);
     }
 
 

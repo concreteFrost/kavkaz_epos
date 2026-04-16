@@ -41,7 +41,7 @@ public class FriendlyNpcServiceLocator : BaseHumanoidAiServiceLocator
 
     private void DialoguesInit()
     {
-        dialogueController.Init(animatorController);
+        dialogueController.Init(animatorController:animatorController,statsController:statsManager);
     }
     private void InteractionInit()
     {

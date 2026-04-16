@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
 
     public static Action<string> LevelInfoUpdated;
 
+    public static Action<string> LevelLoaded;
+
     private void Awake()
     {
         levelState = new LevelState();
@@ -32,7 +34,6 @@ public class LevelManager : MonoBehaviour
         levelState.levelId = biomInfoSO.biomName;
 
         InitSystems();
-        InitLevelUI();
 
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
     }
@@ -40,6 +41,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
+        LevelLoaded?.Invoke(biomInfoSO.biomName);
     }
 
     private void OnDisable()
@@ -129,6 +131,7 @@ public class LevelManager : MonoBehaviour
         hubManager?.LoadHubState(state);
       
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
+        
     }
 
     #endregion
@@ -141,17 +144,4 @@ public class LevelManager : MonoBehaviour
         Gizmos.DrawSphere(startingPosition.position, 0.5f);
     }
 
-    private void InitLevelUI()
-    {
-        GameObject prefab = Resources.Load<GameObject>("_Prefabs/UI_prefabs/LevelInfo/LEVEL_UI");
-
-        if(prefab == null)
-        {
-            Debug.Log("LEVEL_UI prefab was not found");
-            return;
-        }
-
-        Instantiate(prefab,transform);    
-        
-    }
 }
