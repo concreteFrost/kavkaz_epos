@@ -152,6 +152,9 @@
         },
         {
             "m_Id": "b44e3bf405754aef9ec453b1b20b9760"
+        },
+        {
+            "m_Id": "fd75ac7598394f8784445561b91264e1"
         }
     ],
     "m_GroupDatas": [
@@ -632,8 +635,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 324.0,
-            "y": -125.0
+            "x": 323.9999694824219,
+            "y": -146.0
         },
         "m_Blocks": [
             {
@@ -673,6 +676,9 @@
             },
             {
                 "m_Id": "bf8654752d484398bfce691d591624d4"
+            },
+            {
+                "m_Id": "fd75ac7598394f8784445561b91264e1"
             }
         ]
     },
@@ -1136,12 +1142,12 @@
         "m_Id": "47dc73707f084d3d9b17f32244d8f92f"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 1,
+    "m_SurfaceType": 0,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 1,
     "m_AlphaMode": 0,
     "m_RenderFace": 2,
-    "m_AlphaClip": false,
+    "m_AlphaClip": true,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
     "m_DisableTint": false,
@@ -2095,7 +2101,7 @@
     "m_ObjectId": "67dba1f39ed24ea8ad5b179ff755b29a",
     "m_Title": "Opacity (cutout)",
     "m_Position": {
-        "x": -3064.000244140625,
+        "x": -3063.99951171875,
         "y": 589.9998779296875
     }
 }
@@ -2851,6 +2857,21 @@
     "m_Property": {
         "m_Id": "e176fba64d064cd3901770c6a2088f90"
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "a8a505810ddf45c9bc28d6d184ecc591",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha Clip Threshold",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "AlphaClipThreshold",
+    "m_StageCapability": 2,
+    "m_Value": 0.5,
+    "m_DefaultValue": 0.5,
+    "m_Labels": []
 }
 
 {
@@ -4213,8 +4234,8 @@
     "m_ObjectId": "e746d847220d4d49bf48cdc1f006ffb0",
     "m_Title": "Normal",
     "m_Position": {
-        "x": -1422.0001220703125,
-        "y": -140.0
+        "x": -1421.999755859375,
+        "y": -139.9999542236328
     }
 }
 
@@ -4532,8 +4553,42 @@
     "m_ObjectId": "fd4cf2a5f2f44a97863e4544ec3f8e70",
     "m_Title": "Albedo",
     "m_Position": {
-        "x": -1421.0001220703125,
-        "y": -628.0000610351563
+        "x": -1420.9998779296875,
+        "y": -627.9999389648438
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "fd75ac7598394f8784445561b91264e1",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.AlphaClipThreshold",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "a8a505810ddf45c9bc28d6d184ecc591"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.AlphaClipThreshold"
 }
 

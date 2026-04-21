@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6715617932682427274}
@@ -84,7 +84,6 @@ MonoBehaviour:
   id: 
   itemsToDrop: []
   visual: {fileID: 2374562583164703283, guid: 43cbc23630be6ae42bf92cf0822e2da6, type: 3}
-  currentPoisiton: {x: 0, y: 0, z: 0}
 --- !u!1001 &3892339296911716114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,6 +95,10 @@ PrefabInstance:
     - target: {fileID: 73096273598952968, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
       propertyPath: m_Name
       value: FX_LightBall_Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 73096273598952968, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
       propertyPath: m_LocalScale.x
