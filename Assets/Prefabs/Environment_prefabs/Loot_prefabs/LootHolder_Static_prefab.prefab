@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1931144389355884070}
   - component: {fileID: 7793560571238482614}
   - component: {fileID: 4450052446352410796}
+  - component: {fileID: 7155182176071135409}
   m_Layer: 2
   m_Name: LootHolder_Static_prefab
   m_TagString: Untagged
@@ -85,6 +86,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
   uniqueId: uid_38fd58fd-17d9-4ffd-b69c-12229c9f208a
+--- !u!114 &7155182176071135409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463624092011238556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
+  objectName: Static Loot
+  col: {r: 1, g: 0.82380354, b: 0, a: 0}
+  isVisible: 1
+  fontSize: 18
 --- !u!1001 &3892339296911716114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,18 +113,6 @@ PrefabInstance:
     - target: {fileID: 73096273598952968, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
       propertyPath: m_Name
       value: FX_LightBall_Bullet
-      objectReference: {fileID: 0}
-    - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
       propertyPath: m_LocalPosition.x

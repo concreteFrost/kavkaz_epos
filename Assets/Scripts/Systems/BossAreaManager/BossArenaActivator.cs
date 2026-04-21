@@ -18,8 +18,6 @@ public class BossArenaActivator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var color = Color.red;
-
-        Gizmos.DrawCube(transform.position, transform.localScale);
+        GizmoDrawer.DrawWithCube(Color.red, transform, transform.localScale);
     }
 }

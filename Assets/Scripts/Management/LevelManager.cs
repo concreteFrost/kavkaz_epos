@@ -21,7 +21,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private BonfireManager bonfireManager;
     [SerializeField] private BossesManager bossesManager;
     [SerializeField] private HubManager hubManager;
-    
 
     public static Action<string> LevelInfoUpdated;
 

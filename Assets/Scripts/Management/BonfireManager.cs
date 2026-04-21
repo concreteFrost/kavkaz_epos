@@ -29,8 +29,6 @@ public class BonfireManager : MonoBehaviour
     {
         var match = bonfires.Find((x)=>x.id == bonfireId);  
 
-     
-
         if (match != null )
         {
             FastTravelStarted?.Invoke(match.GetRespawnPosition());  

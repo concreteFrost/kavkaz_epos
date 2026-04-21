@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_LightBall_Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 73096273598952968, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7725633902335759512, guid: 62eb841cd226d91428a362b1db0413ba, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.3
@@ -141,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f902cccdaf9ff3447a12183ecc113c96, type: 3}
       propertyPath: m_Name
-      value: SeaChest
+      value: LootHolder_Chest
       objectReference: {fileID: 0}
     - target: {fileID: 7645965118607923986, guid: 68d8f70972ae10c4abd77f0386847998, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -169,6 +173,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f902cccdaf9ff3447a12183ecc113c96, type: 3}
       insertIndex: -1
       addedObject: {fileID: 775777769304547116}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f902cccdaf9ff3447a12183ecc113c96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8291352984497283957}
   m_SourcePrefab: {fileID: 100100000, guid: f902cccdaf9ff3447a12183ecc113c96, type: 3}
 --- !u!1 &3609407761283190997 stripped
 GameObject:
@@ -271,6 +278,22 @@ MonoBehaviour:
   m_Center: {x: 0, y: 1, z: 0.000002592802}
   m_Area: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &8291352984497283957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3609407761283190997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
+  objectName: Chest
+  col: {r: 1, g: 0.8049691, b: 0, a: 0}
+  isVisible: 1
+  fontSize: 18
 --- !u!4 &4133426570341829231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f902cccdaf9ff3447a12183ecc113c96, type: 3}

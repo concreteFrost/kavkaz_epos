@@ -98,19 +98,21 @@ public class GameRunner : MonoBehaviour
     }
 
     public void OnNewGameStarted()
-    {
-       
+    {  
         Bootstrap();
         SpawnAtLevelStart();
 
-       
     }
 
     public void OnSceneLoadedAfterTravel(string sceneName)
     {
         BootstrapLevel();
+
         worldStateManager.LoadLevel(activeLevel);
+        activeLevel.ReloadWholeLevelState();
+        
         SpawnAtLevelStart();
+       
         GlobalQuestManager.Instance.GetCurrentQuestsState();
         SaveLoadManager.Instance.SaveGame();
     }
