@@ -11,7 +11,7 @@ public class CameraCutout : MonoBehaviour
     [Header("Cutout Settings")]
     [SerializeField] private float cutoutSize = 7f;
     [SerializeField] private float cutoutSpeed = 5f;
-    [SerializeField] private float neighborRadius = 6f;
+    //[SerializeField] private float neighborRadius = 6f;
 
     private Camera cam;
 
@@ -94,26 +94,26 @@ public class CameraCutout : MonoBehaviour
         }
 
         // Соседние объекты
-        Collider[] neighbors = Physics.OverlapSphere(hitPoint, neighborRadius, cutoutLayer);
-        foreach (var col in neighbors)
-        {
-            Renderer r = col.GetComponent<Renderer>();
-            if (r == null || r == mainRenderer) continue;
+        //Collider[] neighbors = Physics.OverlapSphere(hitPoint, neighborRadius, cutoutLayer);
+        //foreach (var col in neighbors)
+        //{
+        //    Renderer r = col.GetComponent<Renderer>();
+        //    if (r == null || r == mainRenderer) continue;
 
-            float dist = Vector3.Distance(r.bounds.center, hitPoint);
-            float effect = Mathf.Clamp01(1f - dist / neighborRadius) * cutoutSize;
+        //    float dist = Vector3.Distance(r.bounds.center, hitPoint);
+        //    float effect = Mathf.Clamp01(1f - dist / neighborRadius) * cutoutSize;
 
-            SetTargetCutout(r, effect);
-            currentHits.Add(r);
+        //    SetTargetCutout(r, effect);
+        //    currentHits.Add(r);
 
-            if (!originalCutoutSizes.ContainsKey(r))
-            {
-                float[] sizes = new float[r.materials.Length];
-                for (int i = 0; i < r.materials.Length; i++)
-                    sizes[i] = r.materials[i].GetFloat(OPACITY);
-                originalCutoutSizes.Add(r, sizes);
-            }
-        }
+        //    if (!originalCutoutSizes.ContainsKey(r))
+        //    {
+        //        float[] sizes = new float[r.materials.Length];
+        //        for (int i = 0; i < r.materials.Length; i++)
+        //            sizes[i] = r.materials[i].GetFloat(OPACITY);
+        //        originalCutoutSizes.Add(r, sizes);
+        //    }
+        //}
     }
 
     private void SetTargetCutout(Renderer renderer, float target)

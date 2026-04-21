@@ -70,6 +70,7 @@ public class CharactersManager : MonoBehaviour
             FriendlyNpcState state = new FriendlyNpcState();
 
             state.npcId = npc.uid;
+            state.wasIntroduced = npc.dialogueController.wasIntroduced;
 
             Vector3 position = npc.transform.position;
           
@@ -138,7 +139,7 @@ public class CharactersManager : MonoBehaviour
             {
                 match.lifecycle?.Respawn();
                 match.transform.position = new Vector3(friendNpc.npcPosition[0], friendNpc.npcPosition[1], friendNpc.npcPosition[2]);
-                match.dialogueController.LoadData(friendNpc.npcQuestsState);
+                match.dialogueController.LoadData(friendNpc);
 
             }
         }

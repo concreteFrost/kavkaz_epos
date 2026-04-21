@@ -6,11 +6,13 @@ public class NpcDialoguesSOEditor : Editor
 {
     SerializedProperty questDialogueLines;
     SerializedProperty neutralDialogueLines;
+    SerializedProperty introductionDialogueLines;
 
     private void OnEnable()
     {
         questDialogueLines = serializedObject.FindProperty("questDialogueLines");
         neutralDialogueLines = serializedObject.FindProperty("neutralDialogueLines");
+        introductionDialogueLines = serializedObject.FindProperty("introductionDialogueLines");
     }
 
     public override void OnInspectorGUI()
@@ -22,6 +24,9 @@ public class NpcDialoguesSOEditor : Editor
 
         EditorGUILayout.Space(5);
         DrawSection("Quest Dialogues", questDialogueLines);
+
+        EditorGUILayout.Space(5);
+        DrawSection("Introduction Dialogues", introductionDialogueLines);
 
         EditorGUILayout.Space(10);
         DrawSection("Neutral Dialogues", neutralDialogueLines);

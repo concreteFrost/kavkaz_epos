@@ -27,7 +27,8 @@ public class NpcQuestDialogue
 public class NpcDialoguesSO : ScriptableObject
 {
 
-    public List<NpcQuestDialogue> questDialogueLines = new List<NpcQuestDialogue>();  
+    public List<NpcQuestDialogue> questDialogueLines = new List<NpcQuestDialogue>();
+    public List<DialogueLine> introductionDialogueLines = new List<DialogueLine>();
     public List<DialogueLine> neutralDialogueLines = new List<DialogueLine>();  
 
 

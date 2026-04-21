@@ -52,6 +52,7 @@ public class DialogueController : MonoBehaviour
     private Queue<DialogueLine> dialogueQueue = new();
     public List<NpcQuestState> dialogueStates = new();
 
+    public bool wasIntroduced = false;
     public bool isDialogueActive = false;
 
     public static Action<List<ItemData>> GrandRewards;
@@ -96,9 +97,11 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public void LoadData(List<DialogueState> state)
+    public void LoadData(FriendlyNpcState state)
     {
-        foreach (var s in state)
+        wasIntroduced = state.wasIntroduced;
+        
+        foreach (var s in state.npcQuestsState)
         {
             var match = dialogueStates.Find((x) => x.questDialogue.questToGiveSO.id == s.questId);
 
@@ -118,6 +121,13 @@ public class DialogueController : MonoBehaviour
             return;
 
         DialogueStarted?.Invoke(statsController.statsSO.characterName);
+
+        if (!wasIntroduced)
+        {
+            FillQueue(dialoguesSO.introductionDialogueLines);
+            wasIntroduced = true;   
+            return;
+        }
 
         // 1. завершённый квест без награды
         if (TryHandleCompletedQuest())

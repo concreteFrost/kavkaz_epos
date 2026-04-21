@@ -16,6 +16,7 @@ public class EnemyState
 public class FriendlyNpcState {
     public string npcId;
     public float[] npcPosition = new float[3];
+    public bool wasIntroduced;
     public List<DialogueState> npcQuestsState = new List<DialogueState>();
 
 }
