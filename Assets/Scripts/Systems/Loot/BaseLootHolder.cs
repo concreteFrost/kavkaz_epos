@@ -19,15 +19,17 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     Collider interactionCollider;
 
     #region IInteractable Contract
+    public string InteractionName() => LootHolderName;
+    public string ActionText() => LootInteractionText;
     public bool HasInteracted { get; set; }
     public bool CanInteract() => itemsToDrop.Count > 0;
-    public Vector3 InitialPosition { get; set; }
-    public Vector3 InitialRotation { get; set; }    
 
     public abstract ItemInteractionType InteractType();
 
     #endregion
 
+    public abstract string LootHolderName { get;  }
+    public abstract string LootInteractionText {  get; }
 
     public virtual void Init()
     {
@@ -39,6 +41,8 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
         ActivateVisual();
     }
+
+  
 
     public void ActivateVisual()
     {

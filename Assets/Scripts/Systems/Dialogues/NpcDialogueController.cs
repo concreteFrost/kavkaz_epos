@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class NpcDialogueController : DialogueController, IInteractable
 {
-    public Vector3 InitialPosition { get; set; }
-    public Vector3 InitialRotation { get; set; }
+    public string InteractionName() => statsController.statsSO.characterName;
+    public string ActionText() => "Talk";
+
     public bool HasInteracted { get; set; } 
 
     public bool CanInteract() => true;

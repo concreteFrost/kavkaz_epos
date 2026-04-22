@@ -33,7 +33,7 @@ public class InteractionBehaviour : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
-        if (hasInteracted || collector.PickableItem == null || damagable.IsDamaged) return;
+        if (hasInteracted || collector.InteractableItem == null || damagable.IsDamaged) return;
 
         if(t > clip.hitStartFrame && t<clip.hitEndFrame)
         {

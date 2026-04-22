@@ -11,9 +11,15 @@ public enum ItemInteractionType
 
 public interface IInteractable
 {
+    // имя предмета , нпс и тд
+    string InteractionName();
+
+    // отображаемый текст взаимодействия (подобрать, говорить и тд)
+    string ActionText();
+
+    // определяет анимацию взаимодействия
     ItemInteractionType InteractType();
-    Vector3 InitialPosition { get; set; }  
-    Vector3 InitialRotation { get; set; }
+
     public bool HasInteracted { get; set; }
     bool CanInteract();
 

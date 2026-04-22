@@ -44,10 +44,10 @@ public class DialogueState
 
 public class DialogueController : MonoBehaviour
 {
-    [SerializeField] private NpcDialoguesSO dialoguesSO;
+    [SerializeField] protected NpcDialoguesSO dialoguesSO;
 
     BaseHumanoidAnimatorController animatorController;
-    CharacterStatsController statsController;
+    protected CharacterStatsController statsController;
 
     private Queue<DialogueLine> dialogueQueue = new();
     public List<NpcQuestState> dialogueStates = new();

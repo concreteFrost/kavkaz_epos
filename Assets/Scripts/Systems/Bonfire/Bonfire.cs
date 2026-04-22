@@ -25,9 +25,9 @@ public class Bonfire : MonoBehaviour, IInteractable
     public static Action BonfireInteracted;
 
     #region IInteractable Contract
-    public Vector3 InitialPosition { get; set; }
-    public Vector3 InitialRotation { get; set; }
+    public string InteractionName() => "Bonfire";
 
+    public string ActionText() => "Activate";
     public bool HasInteracted { get => false; set => value = false; } // с этим предметом можно взаимодействовать всегда
 
     public ItemInteractionType InteractType() => ItemInteractionType.Item;

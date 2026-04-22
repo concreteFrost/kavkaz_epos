@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -6,29 +7,34 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
 
+
+
     private string collectorId;
     public string CollectorId() => collectorId;
-    public CharacterStatsController StatsController { get; set; }=null;
-    public CharacterStatsModifier StatsModifier { get; set; } = null;   
-    public ICharacterLifeCycle LifeCycleController { get; set; }=null;  
+    public CharacterStatsController StatsController { get; set; } = null;
+    public CharacterStatsModifier StatsModifier { get; set; } = null;
+    public ICharacterLifeCycle LifeCycleController { get; set; } = null;
     public IWeaponSetter CombatInventory { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
     public IAttackSource AttackSource { get; set; } = null;
 
-    private IInteractable pickable = null;
-    public IInteractable PickableItem
+    protected IInteractable interactable = null;
+    public IInteractable InteractableItem
     {
-        get => pickable;
-        set => pickable = value;
+        get => interactable;
+        set => interactable = value;
     }
 
 
     public bool CanPreventWeaponDamage() => Damagable.CharacterType != CharacterType.Player; // оружие ломается только у игрока
 
-    private float interactRadius=1f;
+    private float interactRadius = 1f;
+
+    public Action<IInteractable> InteractionAvailable;
+    public Action InteractionLost;
 
     protected void BaseInit(
-        string uniqueId, 
+        string uniqueId,
         Transform self,
         CharacterStatsController statsController,
         CharacterStatsModifier statsModifier,
@@ -42,7 +48,7 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         this.collectorId = uniqueId;
         this.self = self;
         this.StatsController = statsController;
-        this.StatsModifier = statsModifier; 
+        this.StatsModifier = statsModifier;
         this.animatorController = animatorController;
         this.CombatInventory = combatInventory;
         this.AttackSource = attackSource;
@@ -50,6 +56,40 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         this.LifeCycleController = lifeCycleController;
 
         interactRadius = 1f;
+
+    }
+
+    private void Update()
+    {
+        HandleUpdateInteraction();
+    }
+
+    protected virtual void HandleUpdateInteraction()
+    {
+        UpdateDetection();
+    }
+
+
+
+    public void UpdateDetection()
+    {
+        var candidate = UpdatePickable();
+
+        if (candidate == interactable)
+            return;
+
+        interactable = candidate;
+
+
+        if (interactable != null)
+        {
+            InteractionAvailable?.Invoke(interactable);
+
+        }
+        else
+        {
+            InteractionLost?.Invoke();
+        }
     }
 
 
@@ -106,7 +146,10 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         var candidate = UpdatePickable();
 
         if (candidate == null)
+        {
+            InteractionLost?.Invoke();
             return;
+        }
 
         //проверяем угол только для сундуков и дверей
         var type = candidate.InteractType();
@@ -119,15 +162,17 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
                 return; //не смотрим — не даём взаимодействовать
         }
 
-        PickableItem = candidate;
+        InteractableItem = candidate;
 
         GetInteractionAnimation(type);
     }
 
     public void FinishInteraction()
     {
-        pickable.Interact(this);
-        pickable = null;
+        interactable.Interact(this);
+        interactable = null;
+
+        InteractionLost?.Invoke();
     }
 
     private bool IsFacingTarget(Transform target, float maxAngle = 60f)

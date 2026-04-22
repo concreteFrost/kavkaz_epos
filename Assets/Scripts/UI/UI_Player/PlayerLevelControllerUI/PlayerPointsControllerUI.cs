@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,35 +9,28 @@ public class PlayerPointsControllerUI : MonoBehaviour
     [SerializeField] Slider pointsSlider;
     [SerializeField] TextMeshProUGUI currentXPText;
     [SerializeField] TextMeshProUGUI xpToNextLevelText;
-    [SerializeField] TextMeshProUGUI newLevelText;
-
-    Coroutine levelUpdatedCoroutine = null;
-
+    
     public void Init(CharacterLevelController levelController)
     {
         this.levelController = levelController;
 
-
         SetSliderValues();
         GetCurrentPointsInfo();
 
-        newLevelText.gameObject.SetActive(false);   
-
-        levelController.XpGained += OnPointsDropped;
-        levelController.NewLevelReachedWithMessage += OnNewLevelReachedWithMessage;
-        levelController.NewLevelReached += OnNewLevelReached;
+        CharacterLevelController.XpGained += OnPointsDropped;
+        CharacterLevelController.NewLevelReachedWithMessage += OnNewLevelReachedWithMessage;
+        CharacterLevelController.NewLevelReached += OnNewLevelReached;
       
     }
 
     private void OnDisable()
     {
 
-        levelController.XpGained -= OnPointsDropped;
-        levelController.NewLevelReached -= OnNewLevelReached;   
-        levelController.NewLevelReachedWithMessage -= OnNewLevelReachedWithMessage;
+        CharacterLevelController.XpGained -= OnPointsDropped;
+        CharacterLevelController.NewLevelReached -= OnNewLevelReached;   
+        CharacterLevelController.NewLevelReachedWithMessage -= OnNewLevelReachedWithMessage;
     }
 
-   
 
     private void SetSliderValues()
     {
@@ -67,26 +59,8 @@ public class PlayerPointsControllerUI : MonoBehaviour
     private void OnNewLevelReachedWithMessage()
     {
         OnNewLevelReached();
-        ShowLevelUpdated();
+      
     }
 
-    private void ShowLevelUpdated()
-    {
-        if(levelUpdatedCoroutine != null)
-        {
-            StopCoroutine(levelUpdatedCoroutine);
-            levelUpdatedCoroutine = null;
-        }
-
-        levelUpdatedCoroutine = StartCoroutine(ShowLevelUpdatedCoroutine());
-    }
-
-    IEnumerator ShowLevelUpdatedCoroutine()
-    {
-        newLevelText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
-        newLevelText.gameObject.SetActive(false);
-
-        levelUpdatedCoroutine = null;
-    }
+  
 }

@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class StaticLootHolder : BaseLootHolder
 {
+    public override string LootHolderName => "Loot";
 
+    public override string LootInteractionText => "Collect";
     public override ItemInteractionType InteractType() => ItemInteractionType.Item;
 
     public List<ItemData> guaranteedItems = new List<ItemData>();
 
     private void Start()
     {
-        InitialPosition = transform.position;
         Init();
     }
     public override void Init()

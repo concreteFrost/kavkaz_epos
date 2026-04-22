@@ -11,9 +11,6 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerQuickSlotsUI quickSlotsUI;
     [SerializeField] private LockOnTargetUI lockOnTargetUI;
     [SerializeField] private PlayerStatusEffectsUI statusEffectsUI;
-    [SerializeField] private PlayerLootPanelUI lootPanelUI;
-    [SerializeField] private BonfirePanelUI bonfirePanelUI;
-    
 
     [Header("Inventory")]
     [SerializeField] private PlayerInventoryContextMenuUI inventoryContextMenuUI;
@@ -25,12 +22,15 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private PlayerMenuOptionsUI menuOptionsUI;
 
+    [Header("Interaction")]
+    [SerializeField] private PlayerInteractionUI interactionUI;
 
     #endregion
 
     #region Initialization
 
     public void Init(
+        PlayerInteractionController interactionController,
         CharacterStatsController stats,
         CharacterStatsModifier statsModifier,
         CharacterWeaponInventory weaponInventory,
@@ -50,10 +50,13 @@ public class PlayerUIManager : MonoBehaviour
             targetLock: targetLock, 
             consumeController:consumeController
             );
-        InitProgression(levelController);
-        InitMenu();
+        
+        pointsControllerUI.Init(levelController);
+        levelControllerUI.Init(levelController);
+        menuOptionsUI.Init(levelControllerUI);
+        interactionUI.Init(interactionController);
 
-        GameStateManager.GameStateChanged += OnGameStateChanged;
+
     }
 
     private void InitCorePanels(
@@ -82,18 +85,12 @@ public class PlayerUIManager : MonoBehaviour
         inventoryContextMenuUI.Init(consumableController:consumeController);
         lockOnTargetUI.Init(targetLock);
         statusEffectsUI.Init(statsModifier: statsModifier);
-        lootPanelUI.Init();
     }
 
-    private void InitProgression(CharacterLevelController levelController)
-    {
-        pointsControllerUI.Init(levelController);
-        levelControllerUI.Init(levelController);
-    }
 
-    private void InitMenu()
+    private void OnEnable()
     {
-        menuOptionsUI.Init(levelControllerUI);
+        GameStateManager.GameStateChanged += OnGameStateChanged;
     }
 
     private void OnDisable()
@@ -107,6 +104,9 @@ public class PlayerUIManager : MonoBehaviour
 
     private void OnGameStateChanged(GameState state)
     {
+        ToggleInGamePanels(state == GameState.Game);
+        SetCursorState(state != GameState.Game);    
+
         if (state == GameState.Inventory)
         {
             OpenInventoryPanel();
@@ -117,22 +117,12 @@ public class PlayerUIManager : MonoBehaviour
             OpenMenuPanel();
             return;
         }
-        if(state == GameState.Bonfire)
-        {
-            //open bonfire
-            OpenBonfirePanel();
-            return;
-
-        }
-
 
         CloseAllPanels();
     }
 
     private void OpenInventoryPanel()
     {
-        SetCursorState(true);
-        ToggleInGamePanels(false);
 
         inventoryUI.ToggleInventory(true);
         inventoryUI.GetSection(InventorySection.Magic);
@@ -140,31 +130,18 @@ public class PlayerUIManager : MonoBehaviour
 
     private void OpenMenuPanel()
     {
-        SetCursorState(true);
-        ToggleInGamePanels(false);
-
         menuOptionsUI.ToggleMenuOptions(true);
     }
 
-    private void OpenBonfirePanel()
-    {
-        SetCursorState(true);
-        ToggleInGamePanels(false);
-
-        bonfirePanelUI.ToggleMainPanel(true);
-
-    }
 
     private void CloseAllPanels()
     {
-        SetCursorState(false);
-        ToggleInGamePanels(true);
 
         inventoryContextMenuUI.HideContextMenu(false);
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
-        bonfirePanelUI.HideAllPanels();
+      
     }
 
     #endregion
@@ -173,17 +150,11 @@ public class PlayerUIManager : MonoBehaviour
 
     public void ToggleInventoryPanel(bool isVisible)
     {
-        SetCursorState(isVisible);
-        ToggleInGamePanels(!isVisible);
-
         inventoryUI.ToggleInventory(isVisible);
     }
 
     public void ToggleMenuOptions(bool isVisible)
     {
-        SetCursorState(isVisible);
-        ToggleInGamePanels(!isVisible);
-
         menuOptionsUI.ToggleMenuOptions(isVisible);
     }
 
@@ -191,17 +162,10 @@ public class PlayerUIManager : MonoBehaviour
     {
         if (state == GameState.Inventory)
         {
-            Debug.Log("toggle invento");
             inventoryContextMenuUI.HideContextMenu(true);
             return;
         }
-        if (state == GameState.Bonfire)
-        {
-            Debug.Log("toggle travel panel");
-            bonfirePanelUI.HideTravelPanel(true);
-            return;
-        }
-       
+ 
     }
 
     public void ReadSliderValue(float value)

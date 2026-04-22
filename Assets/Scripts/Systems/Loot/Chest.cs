@@ -11,7 +11,9 @@ public class Chest : StaticLootHolder
 
     public override ItemInteractionType InteractType() => interactionType;
 
+    public override string LootHolderName => "Chest";
 
+    public override string LootInteractionText => "Open";
     public override void Init()
     {
         base.Init();    

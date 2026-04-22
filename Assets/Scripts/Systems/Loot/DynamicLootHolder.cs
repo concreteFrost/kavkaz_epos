@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class DynamicLootHolder : BaseLootHolder
 {
     private string instanceId; //генерируется при дропе лута чтобы корректно сохранять/загружать данные
+
+    public override string LootHolderName => "Collect item";
+    public override string LootInteractionText => "Collect";
 
     public override ItemInteractionType InteractType()=> ItemInteractionType.Item; 
 

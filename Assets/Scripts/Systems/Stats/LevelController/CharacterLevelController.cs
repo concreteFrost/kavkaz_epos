@@ -22,10 +22,11 @@ public class CharacterLevelController : MonoBehaviour
     CharacterStatsController statsController;
     public CharacterLevelData levelData;
 
-    public Action XpGained;
-    public Action NewLevelReachedWithMessage;
-    public Action NewLevelReached;
-    public Action PointsSpent;
+    public static Action XpGained;
+    public static Action NewLevelReachedWithMessage;
+    public static Action PointsSpent;
+
+    public static Action NewLevelReached;
 
     public CharacterStatsController GetStatsController() => statsController;
 

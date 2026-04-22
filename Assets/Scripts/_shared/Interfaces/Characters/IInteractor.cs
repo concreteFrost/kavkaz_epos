@@ -7,7 +7,7 @@ public interface IInteractor
     IWeaponSetter CombatInventory { get; set; }
     IAttackSource AttackSource { get; set; }
     IDamagable Damagable { get; set; }
-    IInteractable PickableItem { get; set; }
+    IInteractable InteractableItem { get; set; }
     void StartInteracion();
     void FinishInteraction();
     void DistributeItemToInventory(ItemData data);

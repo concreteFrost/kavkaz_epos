@@ -22,7 +22,7 @@ public class BonfirePanelUI : MonoBehaviour
 
     private List<Button> travelButtonsPool = new List<Button>();
 
-    public GameObject activePanel;
+    [HideInInspector] public GameObject activePanel;
 
     private void OnEnable()
     {

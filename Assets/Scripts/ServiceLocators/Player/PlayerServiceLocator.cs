@@ -278,6 +278,7 @@ public class PlayerServiceLocator : MonoBehaviour
     private void InitUI()
     {
         uiManager.Init(
+            interactionController: interaction,
             stats: stats,
             statsModifier:statsModifier,
             spellInventory: spellInventory,
