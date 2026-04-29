@@ -136,9 +136,29 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 1
-  minMax: {x: 11.625, y: 47.625}
-  minFalloff: 20.5
-  maxFalloff: 24.8
+  minMax: {x: 5.9751034, y: 90}
+  minFalloff: 8.2
+  maxFalloff: 41.2
+--- !u!114 &492228439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: sc.terrain.painter.runtime::sc.terrain.proceduralpainter.Slope
+  enabled: 1
+  label: Slope
+  blendMode: 0
+  opacity: 100
+  passIndex: 1
+  minMax: {x: 0, y: 5.25}
+  minFalloff: 9
+  maxFalloff: 0.001
 --- !u!1 &517640382
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +204,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   bonfires: []
+--- !u!114 &623002756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e07d49e90874d70b9937cb753327a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: sc.terrain.painter.runtime::sc.terrain.proceduralpainter.Noise
+  enabled: 1
+  label: Noise
+  blendMode: 0
+  opacity: 100
+  passIndex: 4
+  noiseType: 0
+  noiseScale: 358.44
+  noiseOffset: {x: 0, y: 0}
+  levels: {x: 0.51666665, y: 0.7791667}
 --- !u!1 &672885300
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +933,11 @@ MonoBehaviour:
   splatmapResolution: 512
   colorMapResolution: 256
   layerSettings:
+  - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: dafbb6c828bf4bc47a5ad9502d1a3237, type: 2}
+    modifierStack:
+    - {fileID: 492228439}
+    - {fileID: 623002756}
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 835f3d23cbf6649479db086284b779c8, type: 2}
     modifierStack:
