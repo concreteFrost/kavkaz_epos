@@ -30,7 +30,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool InBlockingWindow { get; set; }
     #endregion
 
-    private float damageCooldown = 0.7f;
+    protected abstract float DamageCooldown();
     protected bool damageBlocked = false;
 
 
@@ -111,7 +111,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     protected IEnumerator DamageCooldownCoroutine()
     {
         damageBlocked = true;
-        yield return new WaitForSeconds(damageCooldown);
+        yield return new WaitForSeconds(DamageCooldown());
         damageBlocked = false;
 
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HumanoidAIDamageController : BaseHumanoidDamageController
 {
+    protected override float DamageCooldown() => 0.3f;
 
     IRagdollController ragdollController;
 

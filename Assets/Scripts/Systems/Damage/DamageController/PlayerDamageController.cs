@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerDamageController : BaseHumanoidDamageController
 {
 
-
+    protected override float DamageCooldown() => 0.7f;
 
     public void Init(
         PlayerMotor motor,
