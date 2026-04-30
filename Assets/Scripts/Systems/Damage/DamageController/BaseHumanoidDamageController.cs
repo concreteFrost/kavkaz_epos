@@ -30,6 +30,10 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool InBlockingWindow { get; set; }
     #endregion
 
+    private float damageCooldown = 0.7f;
+    protected bool damageBlocked = false;
+
+
     protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
     {
         this.animatorController = animatorController;
@@ -53,7 +57,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     {
         //if (damagableCollider == null) return;
 
-        damagableCollider.enabled = !IsDamagingBlocked();
+        //damagableCollider.enabled = !IsDamagingBlocked();
     }
 
     public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = GameStateManager.Instance.CurrentState != GameState.Bonfire;
@@ -71,11 +75,6 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         if (damageData.statusEffectData != null)
         {
             statsModifier.GetAndApplyStatusEffect(damageData.statusEffectData);
-        }
-
-        if (IsDamagingBlocked())
-        {
-            return;
         }
 
         stats.Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
@@ -109,8 +108,17 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         StartCoroutine(DamagedCoroutine(animClipName));
     }
 
+    protected IEnumerator DamageCooldownCoroutine()
+    {
+        damageBlocked = true;
+        yield return new WaitForSeconds(damageCooldown);
+        damageBlocked = false;
+
+    }
+
     protected IEnumerator DamagedCoroutine(string animationName)
     {
+
 
         animatorController.Animator().applyRootMotion = true;
         IsDamaged = true;

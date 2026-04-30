@@ -49,8 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9252a1d4d7e6904392a41e72f835335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  data:
-    breakdownThreshold: 0
   weaponSO: {fileID: 11400000, guid: af5aa043863d50d4aa0a19552ca566de, type: 2}
   damageCollider: {fileID: 6596508924225042948}
 --- !u!114 &5482670897833585445
@@ -85,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: 
+  uniqueId: uid_df6ccdc6-f002-4a6c-a9ec-083218e6f29b
 --- !u!1 &3366594387873492907
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +229,10 @@ PrefabInstance:
     - target: {fileID: 100050, guid: 69fd775504e647043a2f1ead4de43cb8, type: 3}
       propertyPath: m_Name
       value: 2Hand-Axe
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 69fd775504e647043a2f1ead4de43cb8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 400050, guid: 69fd775504e647043a2f1ead4de43cb8, type: 3}
       propertyPath: m_LocalPosition.x

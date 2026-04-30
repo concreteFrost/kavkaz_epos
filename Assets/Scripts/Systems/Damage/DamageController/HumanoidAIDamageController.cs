@@ -51,7 +51,10 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
+        if (IsDamagingBlocked()) return;
+
         base.TakeDamage(damageData, source);
+
 
         if (IsDead) return;
 
@@ -65,7 +68,10 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         else
         {
             HandleGetDamaged(damageData.balanceDamageType);
+           
         }
+
+        StartCoroutine(DamageCooldownCoroutine());
 
     }
 

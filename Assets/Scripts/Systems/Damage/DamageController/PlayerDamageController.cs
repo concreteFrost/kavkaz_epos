@@ -4,8 +4,7 @@ using UnityEngine;
 public class PlayerDamageController : BaseHumanoidDamageController
 {
 
-    private float damageCooldown = 0.7f;
-    private bool damageBlocked = false;
+
 
     public void Init(
         PlayerMotor motor,
@@ -19,22 +18,24 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            DamageData d = new DamageData
-            {
-                finalDamage = 20f,
-                balanceDamageType = BalanceDamageType.Extreme,
-                impactForce = 20f
-            };
-            TakeDamage(d, null);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Z))
+    //    {
+    //        DamageData d = new DamageData
+    //        {
+    //            finalDamage = 20f,
+    //            balanceDamageType = BalanceDamageType.Extreme,
+    //            impactForce = 20f
+    //        };
+    //        TakeDamage(d, null);
+    //    }
+    //}
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
+        if (IsDamagingBlocked()) return;
+
         base.TakeDamage(damageData, source);
 
         if (IsDead) return;
@@ -54,13 +55,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
     }
 
 
-    private IEnumerator DamageCooldownCoroutine()
-    {
-        damageBlocked = true;
-        yield return new WaitForSeconds(damageCooldown);
-        damageBlocked = false;
 
-    }
 
     private bool ShouldForceEnterGameMode()
     {

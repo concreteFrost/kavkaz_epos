@@ -64,6 +64,7 @@ public class CameraCutout : MonoBehaviour
                 bool allReachedOriginal = true;
                 for (int i = 0; i < materials.Length; i++)
                 {
+                    if (!materials[i].HasProperty(OPACITY)) continue;
                     // Ставим цель для плавного возврата
                     targetValues[materials[i]] = originals[i];
 
@@ -89,7 +90,11 @@ public class CameraCutout : MonoBehaviour
         {
             float[] sizes = new float[mainRenderer.materials.Length];
             for (int i = 0; i < mainRenderer.materials.Length; i++)
-                sizes[i] = mainRenderer.materials[i].GetFloat(OPACITY);
+            {
+                if (mainRenderer.materials[i].HasProperty(OPACITY))
+                    sizes[i] = mainRenderer.materials[i].GetFloat(OPACITY);
+            }
+               
             originalCutoutSizes.Add(mainRenderer, sizes);
         }
 
@@ -126,9 +131,16 @@ public class CameraCutout : MonoBehaviour
     {
         foreach (var mat in targetValues.Keys.ToList())
         {
+            if (!mat.HasProperty(OPACITY))
+            {
+                targetValues.Remove(mat);
+                continue;
+            }
+
             float current = mat.GetFloat(OPACITY);
             float target = targetValues[mat];
             float next = Mathf.MoveTowards(current, target, cutoutSpeed * Time.deltaTime);
+
             mat.SetFloat(OPACITY, next);
 
             if (Mathf.Approximately(next, target))

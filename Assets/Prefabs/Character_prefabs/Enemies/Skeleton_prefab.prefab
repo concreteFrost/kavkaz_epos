@@ -563,7 +563,7 @@ MonoBehaviour:
   idle: {fileID: 7177856599962151210}
   patrol: {fileID: 6611807399744394609}
   chase: {fileID: 5103395839299900933}
-  attack: {fileID: 3569827710204786501}
+  attack: {fileID: 6092239865604103995}
   strafe: {fileID: 2207355371312446885}
   wait: {fileID: 8375317209804580165}
   moveToStart: {fileID: 4581427151471458288}
@@ -1174,7 +1174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6635586956651937751}
-  - component: {fileID: 3569827710204786501}
+  - component: {fileID: 6092239865604103995}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -1197,7 +1197,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 624147848215162070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3569827710204786501
+--- !u!114 &6092239865604103995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1206,9 +1206,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5071273722924402902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d12e77e362785b498c3a54cbf2757ff, type: 3}
+  m_Script: {fileID: 11500000, guid: bb40ba58ce8fef045bf849daee8692af, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMixedCombatState
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMeleeAttackState
   combatHandler:
     canAttack: 0
     powerAttackChance: 0
@@ -1220,7 +1220,6 @@ MonoBehaviour:
     maxBlockStrafeTimer: 0
     isStrafeBlocked: 0
     currAttackTransitionChance: 0
-  currentMode: 0
 --- !u!1 &5142795717428193808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,7 +1580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_74f9ba07-9cb6-4231-bfe2-87949db88db5
+  uniqueId: uid_c5e093ce-3af1-4d36-8337-acaca394e309
 --- !u!195 &4824949580012563523
 NavMeshAgent:
   m_ObjectHideFlags: 0

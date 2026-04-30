@@ -21,7 +21,6 @@ public class EnemyBrain : AIBrain
 
     public AIState<EnemyBrainContext> currentState;
     
-
     [Header("Behaviours")]
     [SerializeField] private AIState<EnemyBrainContext> idle;
     [SerializeField] private AIState<EnemyBrainContext> patrol;
@@ -32,9 +31,11 @@ public class EnemyBrain : AIBrain
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
     [SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
 
+    Transform pl;
+
     public bool isActivated = false;
 
-    
+
     public void Init(EnemyBrainContext context)
     {
         this.context = context;
@@ -42,7 +43,7 @@ public class EnemyBrain : AIBrain
         idle.Init(context);
         patrol.Init(context);
         chase.Init(context);
-      
+
         strafe.Init(context);
         wait.Init(context);
         moveToStart.Init(context);
@@ -50,12 +51,19 @@ public class EnemyBrain : AIBrain
 
         attack.Init(context);
 
-        SetActivated(true);
 
+        SetActivated(false);
     }
 
     void Update()
     {
+
+        if (!isActivated) {
+
+            TrackActivation();
+            return;
+        }
+
         if (context.damageController.IsDead || stateMachine.CurrentState == null )
         {
             stateMachine.ForceExit();
@@ -94,6 +102,27 @@ public class EnemyBrain : AIBrain
         }
 
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
+    }
+
+    private void TrackActivation()
+    {
+        var playerService = FindAnyObjectByType<PlayerServiceLocator>();
+
+
+        if (playerService != null)
+        {
+
+            pl = playerService.transform;
+
+            float dist = Vector3.Distance(context.self.position, pl.position);
+
+            if (dist < 25f)
+            {
+                SetActivated(true);
+                Debug.Log("activating brain");
+            }
+
+        }
     }
 
     public void ForceChangeState(AIState<EnemyBrainContext> state)
