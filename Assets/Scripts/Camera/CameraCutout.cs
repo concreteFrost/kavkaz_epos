@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CameraCutout : MonoBehaviour
@@ -11,21 +10,28 @@ public class CameraCutout : MonoBehaviour
     [Header("Cutout Settings")]
     [SerializeField] private float cutoutSize = 7f;
     [SerializeField] private float cutoutSpeed = 2f;
-    //[SerializeField] private float neighborRadius = 6f;
 
     private Camera cam;
 
-    private Dictionary<Material, float> targetValues = new Dictionary<Material, float>();
-    private Dictionary<Renderer, float[]> originalCutoutSizes = new Dictionary<Renderer, float[]>();
-    private HashSet<Renderer> currentHits = new HashSet<Renderer>();
+    // кеши
+    private Dictionary<Transform, Renderer[]> rendererCache = new();
+    private Dictionary<Renderer, Material[]> materialsCache = new();
+
+    private Dictionary<Material, float> targetValues = new();
+    private Dictionary<Renderer, float[]> originalCutoutSizes = new();
+    private HashSet<Renderer> currentHits = new();
+
+    // буферы без аллокаций
+    private RaycastHit[] hitsBuffer = new RaycastHit[32];
+    private List<Renderer> tempRenderers = new();
+    private List<Material> tempMaterials = new();
 
     const string OPACITY = "_Dissolve";
 
     private void Awake()
     {
         cam = GetComponent<Camera>();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+ 
     }
 
     private void Update()
@@ -38,98 +44,111 @@ public class CameraCutout : MonoBehaviour
     {
         currentHits.Clear();
 
-        Vector3 dir = (target.position - cam.transform.position).normalized;
-        float distance = Vector3.Distance(cam.transform.position, target.position);
+        Vector3 origin = cam.transform.position;
+        Vector3 dir = (target.position - origin).normalized;
+        float distance = Vector3.Distance(origin, target.position);
 
-        // RaycastAll от камеры к игроку
-        RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, dir, distance, cutoutLayer);
+        int hitCount = Physics.RaycastNonAlloc(origin, dir, hitsBuffer, distance, cutoutLayer);
 
-        foreach (var hit in hits)
+        for (int h = 0; h < hitCount; h++)
         {
-            Renderer mainRenderer = hit.collider.GetComponent<Renderer>();
-            if (mainRenderer != null)
+            var hit = hitsBuffer[h];
+            var root = hit.collider.transform;
+
+            Renderer[] renderers;
+
+            if (!rendererCache.TryGetValue(root, out renderers))
             {
-                ProcessCutout(mainRenderer, hit.point);
+                var lodGroup = root.GetComponentInParent<LODGroup>();
+
+                if (lodGroup != null)
+                    renderers = lodGroup.GetComponentsInChildren<Renderer>();
+                else
+                    renderers = root.GetComponentsInChildren<Renderer>();
+
+                rendererCache[root] = renderers;
             }
+
+            for (int i = 0; i < renderers.Length; i++)
+                ProcessCutout(renderers[i]);
         }
 
-        // Объекты, которые больше не попали
-        foreach (var renderer in originalCutoutSizes.Keys.ToList())
+        // обработка возврата
+        tempRenderers.Clear();
+        foreach (var r in originalCutoutSizes.Keys)
+            tempRenderers.Add(r);
+
+        foreach (var renderer in tempRenderers)
         {
-            if (!currentHits.Contains(renderer))
+            if (currentHits.Contains(renderer))
+                continue;
+
+            var materials = GetMaterials(renderer);
+            var originals = originalCutoutSizes[renderer];
+
+            bool allReachedOriginal = true;
+
+            for (int i = 0; i < materials.Length; i++)
             {
-                Material[] materials = renderer.materials;
-                float[] originals = originalCutoutSizes[renderer];
+                var mat = materials[i];
+                if (!mat.HasProperty(OPACITY)) continue;
 
-                bool allReachedOriginal = true;
-                for (int i = 0; i < materials.Length; i++)
-                {
-                    if (!materials[i].HasProperty(OPACITY)) continue;
-                    // Ставим цель для плавного возврата
-                    targetValues[materials[i]] = originals[i];
+                targetValues[mat] = originals[i];
 
-                    // Проверяем, достиг ли материал оригинала
-                    if (!Mathf.Approximately(materials[i].GetFloat(OPACITY), originals[i]))
-                        allReachedOriginal = false;
-                }
-
-                // Только когда все материалы вернулись к оригиналу, удаляем Renderer
-                if (allReachedOriginal)
-                    originalCutoutSizes.Remove(renderer);
+                if (!Mathf.Approximately(mat.GetFloat(OPACITY), originals[i]))
+                    allReachedOriginal = false;
             }
+
+            if (allReachedOriginal)
+                originalCutoutSizes.Remove(renderer);
         }
     }
 
-
-    private void ProcessCutout(Renderer mainRenderer, Vector3 hitPoint)
+    private void ProcessCutout(Renderer renderer)
     {
-        SetTargetCutout(mainRenderer, cutoutSize);
-        currentHits.Add(mainRenderer);
+        currentHits.Add(renderer);
 
-        if (!originalCutoutSizes.ContainsKey(mainRenderer))
+        var materials = GetMaterials(renderer);
+
+        SetTargetCutout(materials, cutoutSize);
+
+        if (!originalCutoutSizes.ContainsKey(renderer))
         {
-            float[] sizes = new float[mainRenderer.materials.Length];
-            for (int i = 0; i < mainRenderer.materials.Length; i++)
+            float[] sizes = new float[materials.Length];
+
+            for (int i = 0; i < materials.Length; i++)
             {
-                if (mainRenderer.materials[i].HasProperty(OPACITY))
-                    sizes[i] = mainRenderer.materials[i].GetFloat(OPACITY);
+                if (materials[i].HasProperty(OPACITY))
+                    sizes[i] = materials[i].GetFloat(OPACITY);
             }
-               
-            originalCutoutSizes.Add(mainRenderer, sizes);
+
+            originalCutoutSizes.Add(renderer, sizes);
         }
-
-        // Соседние объекты
-        //Collider[] neighbors = Physics.OverlapSphere(hitPoint, neighborRadius, cutoutLayer);
-        //foreach (var col in neighbors)
-        //{
-        //    Renderer r = col.GetComponent<Renderer>();
-        //    if (r == null || r == mainRenderer) continue;
-
-        //    float dist = Vector3.Distance(r.bounds.center, hitPoint);
-        //    float effect = Mathf.Clamp01(1f - dist / neighborRadius) * cutoutSize;
-
-        //    SetTargetCutout(r, effect);
-        //    currentHits.Add(r);
-
-        //    if (!originalCutoutSizes.ContainsKey(r))
-        //    {
-        //        float[] sizes = new float[r.materials.Length];
-        //        for (int i = 0; i < r.materials.Length; i++)
-        //            sizes[i] = r.materials[i].GetFloat(OPACITY);
-        //        originalCutoutSizes.Add(r, sizes);
-        //    }
-        //}
     }
 
-    private void SetTargetCutout(Renderer renderer, float target)
+    private Material[] GetMaterials(Renderer renderer)
     {
-        foreach (var mat in renderer.materials)
-            targetValues[mat] = target;
+        if (!materialsCache.TryGetValue(renderer, out var materials))
+        {
+            materials = renderer.materials;
+            materialsCache[renderer] = materials;
+        }
+        return materials;
+    }
+
+    private void SetTargetCutout(Material[] materials, float target)
+    {
+        for (int i = 0; i < materials.Length; i++)
+            targetValues[materials[i]] = target;
     }
 
     private void ApplyCutoutValues()
     {
-        foreach (var mat in targetValues.Keys.ToList())
+        tempMaterials.Clear();
+        foreach (var m in targetValues.Keys)
+            tempMaterials.Add(m);
+
+        foreach (var mat in tempMaterials)
         {
             if (!mat.HasProperty(OPACITY))
             {
@@ -139,8 +158,8 @@ public class CameraCutout : MonoBehaviour
 
             float current = mat.GetFloat(OPACITY);
             float target = targetValues[mat];
-            float next = Mathf.MoveTowards(current, target, cutoutSpeed * Time.deltaTime);
 
+            float next = Mathf.MoveTowards(current, target, cutoutSpeed * Time.deltaTime);
             mat.SetFloat(OPACITY, next);
 
             if (Mathf.Approximately(next, target))
