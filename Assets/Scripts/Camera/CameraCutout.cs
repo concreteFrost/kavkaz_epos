@@ -10,7 +10,7 @@ public class CameraCutout : MonoBehaviour
 
     [Header("Cutout Settings")]
     [SerializeField] private float cutoutSize = 7f;
-    [SerializeField] private float cutoutSpeed = 5f;
+    [SerializeField] private float cutoutSpeed = 2f;
     //[SerializeField] private float neighborRadius = 6f;
 
     private Camera cam;
@@ -19,7 +19,7 @@ public class CameraCutout : MonoBehaviour
     private Dictionary<Renderer, float[]> originalCutoutSizes = new Dictionary<Renderer, float[]>();
     private HashSet<Renderer> currentHits = new HashSet<Renderer>();
 
-    const string OPACITY = "_Opacity";
+    const string OPACITY = "_Dissolve";
 
     private void Awake()
     {

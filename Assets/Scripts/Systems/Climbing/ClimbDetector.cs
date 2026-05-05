@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 
 public class ClimbDetector : MonoBehaviour
@@ -8,6 +9,8 @@ public class ClimbDetector : MonoBehaviour
 
     public bool TryGetClimbable(out IClimable climbable, out RaycastHit hit)
     {
+        Debug.DrawRay(transform.position, transform.forward * detectDistance, Color.red);
+
         if (Physics.Raycast(
             transform.position,
             transform.forward,
