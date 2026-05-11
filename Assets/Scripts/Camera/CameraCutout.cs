@@ -53,16 +53,20 @@ public class CameraCutout : MonoBehaviour
         for (int h = 0; h < hitCount; h++)
         {
             var hit = hitsBuffer[h];
-            var root = hit.collider.transform;
+            var root = hit.transform;
 
             Renderer[] renderers;
 
             if (!rendererCache.TryGetValue(root, out renderers))
             {
-                var lodGroup = root.GetComponentInParent<LODGroup>();
+                var lodGroup = root.GetComponent<LODGroup>();
 
                 if (lodGroup != null)
+                {
                     renderers = lodGroup.GetComponentsInChildren<Renderer>();
+                  
+                }
+                   
                 else
                     renderers = root.GetComponentsInChildren<Renderer>();
 
