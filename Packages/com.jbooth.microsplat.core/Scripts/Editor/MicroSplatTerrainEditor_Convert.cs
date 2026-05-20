@@ -40,8 +40,6 @@ namespace JBooth.MicroSplat
                 keywords.Add("_MSRENDERLOOP_UNITYHDRP2020");
                 keywords.Add("_MSRENDERLOOP_UNITYHDRP2021");
                 keywords.Add("_MSRENDERLOOP_UNITYHDRP2022");
-                keywords.Add("_MSRENDERLOOP_UNITYHDRP6");
-                keywords.Add("_MSRENDERLOOP_UNITYHDRP6P3");
             }
             else if (pipeline == MicroSplatUtilities.PipelineType.UniversalPipeline)
             {
@@ -49,8 +47,6 @@ namespace JBooth.MicroSplat
                 keywords.Add("_MSRENDERLOOP_UNITYURP2020");
                 keywords.Add("_MSRENDERLOOP_UNITYURP2021");
                 keywords.Add("_MSRENDERLOOP_UNITYURP2022");
-                keywords.Add("_MSRENDERLOOP_UNITYURP6");
-                keywords.Add("_MSRENDERLOOP_UNITYURP6P3");
             }
 
             // this just looks better, IMO..
@@ -60,19 +56,19 @@ namespace JBooth.MicroSplat
             // down for maximum performance. Way to many support requests complaining of black terrain after adding textures because
             // they didn't realize they needed to up the max texture count. So now, 16 minimum. This is why we can't have nice things.
             /*
-            if (texcount <= 4)
-            {
-            keywords.Add ("_MAX4TEXTURES");
-            }
-            else if (texcount <= 8)
-            {
-            keywords.Add ("_MAX8TEXTURES");
-            }
-            else if (texcount <= 12)
-            {
-            keywords.Add ("_MAX12TEXTURES");
-            }
-            */
+        if (texcount <= 4)
+        {
+        keywords.Add ("_MAX4TEXTURES");
+        }
+        else if (texcount <= 8)
+        {
+        keywords.Add ("_MAX8TEXTURES");
+        }
+        else if (texcount <= 12)
+        {
+        keywords.Add ("_MAX12TEXTURES");
+        }
+        */
             if (texcount > 16 && texcount <= 20)
             {
                 keywords.Add("_MAX20TEXTURES");
@@ -152,9 +148,9 @@ namespace JBooth.MicroSplat
                             uvScale.x = Mathf.RoundToInt(uvScale.x);
                             uvScale.y = Mathf.RoundToInt(uvScale.y);
                             propData.SetValue(x, MicroSplatPropData.PerTexVector2.SplatUVScale, uvScale);
-                            propData.SetValue(x, MicroSplatPropData.PerTexVector2.SplatUVOffset, uvOffset);
+                            propData.SetValue(x, MicroSplatPropData.PerTexVector2.SplatUVOffset, Vector2.zero);
                         }
-                        for (int x = terrain.terrainData.terrainLayers.Length; x < propData.maxTextures; ++x)
+                        for (int x = terrain.terrainData.terrainLayers.Length; x < 32; ++x)
                         {
                             propData.SetValue(x, MicroSplatPropData.PerTexVector2.SplatUVScale, average);
                             propData.SetValue(x, MicroSplatPropData.PerTexVector2.SplatUVOffset, Vector2.zero);

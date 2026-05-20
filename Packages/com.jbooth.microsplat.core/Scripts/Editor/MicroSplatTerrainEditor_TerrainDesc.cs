@@ -39,10 +39,6 @@ namespace JBooth.MicroSplat
             var path = MicroSplatUtilities.RelativePathFromAsset(t.terrainData);
             path += "/" + t.name + "_normal.tga";
             var bytes = data.EncodeToTGA();
-            if (System.IO.File.Exists(path))
-            {
-                AssetDatabase.MakeEditable(path);
-            }
             System.IO.File.WriteAllBytes(path, bytes);
             GameObject.DestroyImmediate(data);
             AssetDatabase.Refresh();
@@ -89,10 +85,6 @@ namespace JBooth.MicroSplat
             var path = MicroSplatUtilities.RelativePathFromAsset(t.terrainData);
             path += "/" + t.name + "_cavity.png";
             var bytes = data.EncodeToPNG();
-            if (System.IO.File.Exists(path))
-            {
-                AssetDatabase.MakeEditable(path);
-            }
             System.IO.File.WriteAllBytes(path, bytes);
             GameObject.DestroyImmediate(data);
             AssetDatabase.Refresh();

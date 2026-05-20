@@ -35,6 +35,7 @@ namespace JBooth.MicroSplat
          AutomaticCompressed,
          ForceDXT,
          ForceBC7,
+         ForcePVR,
          ForceETC2,
          ForceASTC,
          ForceCrunch,

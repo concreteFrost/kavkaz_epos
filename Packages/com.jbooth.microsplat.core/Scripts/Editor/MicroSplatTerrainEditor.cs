@@ -107,10 +107,8 @@ namespace JBooth.MicroSplat
 
             if (DoConvertGUI(t))
             {
-                EditorGUI.EndChangeCheck();
                 return;
             }
-            EditorGUI.EndChangeCheck();
 
             if (t.templateMaterial == null)
             {

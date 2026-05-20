@@ -561,10 +561,7 @@ namespace JBooth.MicroSplat
                }
                else if (keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP") ||
                   keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP2020") ||
-                  keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP2021") ||
-                  keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP2022") ||
-                  keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP6") ||
-                  keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP6P3"))
+                  keywords.IsKeywordEnabled("_MSRENDERLOOP_UNITYURP2021"))
                {
                   lightingModeURP = (URPLightingMode)EditorGUILayout.EnumPopup(CLightingModeURP, lightingModeURP);
                }

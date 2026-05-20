@@ -338,6 +338,8 @@ namespace JBooth.MicroSplat
                if (cfg != null && propData != null && keywordSO != null)
                {
                   int count = cfg.sourceTextures.Count;
+                  if (count > 32)
+                     count = 32;
 
 #if __MICROSPLAT_SLOPETEXTURE__
                   if (count > cfg.maxSyncCount)

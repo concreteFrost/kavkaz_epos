@@ -50,10 +50,7 @@ namespace JBooth.MicroSplat
          if (overwrite || !System.IO.File.Exists(path) && path.EndsWith(".tga"))
          {
             var bytes = tex.EncodeToTGA();
-            if (System.IO.File.Exists(path))
-            {
-                AssetDatabase.MakeEditable(path);
-            }
+
             System.IO.File.WriteAllBytes(path, bytes);
             AssetDatabase.Refresh();
             AssetImporter ai = AssetImporter.GetAtPath(path);
@@ -827,7 +824,7 @@ namespace JBooth.MicroSplat
          if (width != t.terrain.terrainData.alphamapWidth ||
             height != t.terrain.terrainData.alphamapHeight)
          {
-            Debug.LogError("Splat maps are not the same resolution as the index map : " + width + " != " + t.terrain.terrainData.alphamapWidth);
+            Debug.LogError("Splat maps are not the same resolution as the index map");
             return;
          }
          //Texture2D[] splats = t.terrain.terrainData.alphamapTextures;

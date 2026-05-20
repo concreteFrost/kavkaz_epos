@@ -61,7 +61,7 @@ namespace JBooth.MicroSplat
          Sphere,
          Disk
       }
-      public BrushVisualization brushVisualization = BrushVisualization.Disk; //nobody wants the sphere, not ever
+      public BrushVisualization brushVisualization = BrushVisualization.Sphere;
 
       public Vector2 lastMousePosition;
       void OnSceneGUI(SceneView sceneView)
@@ -348,14 +348,14 @@ namespace JBooth.MicroSplat
          }
 
          Vector3 terPoint = WorldToTerrain(tj.terrain, localPoint, tex);
-         //don't bail out here, or we can't paint seams
-         if (true)//terPoint.x >= 0 && terPoint.z >= 0 && terPoint.x < tex.width || terPoint.z < tex.height)
+
+         if (terPoint.x >= 0 && terPoint.z >= 0 && terPoint.x < tex.width || terPoint.z < tex.height)
          {
             // scale brush into texture space
             Vector3 offsetPnt = localPoint - new Vector3(bz, 0, bz);
             Vector3 beginTerPnt = WorldToTerrain(tj.terrain, offsetPnt, tex);
-            //beginTerPnt.x = Mathf.Clamp(beginTerPnt.x, 0, tex.width);
-            //beginTerPnt.z = Mathf.Clamp(beginTerPnt.z, 0, tex.height);
+            beginTerPnt.x = Mathf.Clamp(beginTerPnt.x, 0, tex.width);
+            beginTerPnt.z = Mathf.Clamp(beginTerPnt.z, 0, tex.height);
 
             Vector3 offset = terPoint - beginTerPnt;
             int pbx = (int)beginTerPnt.x;
@@ -363,14 +363,13 @@ namespace JBooth.MicroSplat
             int pex = (int)(terPoint.x + offset.x * 2.0f);
             int pey = (int)(terPoint.z + offset.z * 2.0f);
 
-            //pex = Mathf.Clamp(pex, 0, tex.width);
-            //pey = Mathf.Clamp(pey, 0, tex.height);
+            pex = Mathf.Clamp(pex, 0, tex.width);
+            pey = Mathf.Clamp(pey, 0, tex.height);
 
             for (int x = pbx; x < pex; ++x)
             {
                for (int y = pby; y < pey; ++y)
                {
-                        if (x < 0 || x > tex.width || y < 0 || y > tex.height) continue;
                   float h = tj.terrain.terrainData.GetHeight(x, y);
                   float d = Vector3.Distance(terPoint, new Vector3(x, h, y));
                   float str = 1.0f - d / bz;

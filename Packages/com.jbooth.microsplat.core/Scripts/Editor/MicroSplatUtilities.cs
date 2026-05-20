@@ -40,21 +40,8 @@ namespace JBooth.MicroSplat
       /// <returns></returns>
       public static PipelineType DetectPipeline ()
       {
-         #if UNITY_6000_0_OR_NEWER
-if (GraphicsSettings.defaultRenderPipeline != null) {
-               // SRP
-               var srpType = GraphicsSettings.defaultRenderPipeline.GetType().ToString();
-               if (srpType.Contains("HDRenderPipelineAsset")) {
-                  return PipelineType.HDPipeline;
-               }
-               else if (srpType.Contains("UniversalRenderPipelineAsset") || srpType.Contains("LightweightRenderPipelineAsset")) {
-                  return PipelineType.UniversalPipeline;
-               }
-               else return PipelineType.Unsupported;
-         }
-
-#elif UNITY_2019_1_OR_NEWER
-         if (GraphicsSettings.renderPipelineAsset != null) {
+#if UNITY_2019_1_OR_NEWER
+         if (GraphicsSettings.defaultRenderPipeline != null) {
                // SRP
                var srpType = GraphicsSettings.defaultRenderPipeline.GetType().ToString();
                if (srpType.Contains("HDRenderPipelineAsset")) {

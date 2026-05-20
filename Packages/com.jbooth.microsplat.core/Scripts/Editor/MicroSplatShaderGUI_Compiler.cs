@@ -311,25 +311,20 @@ public partial class MicroSplatShaderGUI : ShaderGUI
 
           if (pipeline == MicroSplatUtilities.PipelineType.HDPipeline)
          {
-            System.Array.Resize(ref keywords, keywords.Length + 6);
-            keywords[keywords.Length - 6] = "_MSRENDERLOOP_UNITYHD";
-            keywords[keywords.Length - 5] = "_MSRENDERLOOP_UNITYHDRP2020";
-            keywords[keywords.Length - 4] = "_MSRENDERLOOP_UNITYHDRP2021";
-            keywords[keywords.Length - 3] = "_MSRENDERLOOP_UNITYHDRP2022";
-            keywords[keywords.Length - 2] = "_MSRENDERLOOP_UNITYHDRP6";
-            keywords[keywords.Length - 1] = "_MSRENDERLOOP_UNITYHDRP6P3";
+            System.Array.Resize(ref keywords, keywords.Length + 4);
+            keywords[keywords.Length - 4] = "_MSRENDERLOOP_UNITYHD";
+            keywords[keywords.Length - 3] = "_MSRENDERLOOP_UNITYHDRP2020";
+            keywords[keywords.Length - 2] = "_MSRENDERLOOP_UNITYHDRP2021";
+            keywords[keywords.Length - 1] = "_MSRENDERLOOP_UNITYHDRP2022";
          }
          else if (pipeline == MicroSplatUtilities.PipelineType.UniversalPipeline)
          {
-            System.Array.Resize(ref keywords, keywords.Length + 6);
-            
-            keywords[keywords.Length - 6] = "_MSRENDERLOOP_UNITYLD";
-            keywords[keywords.Length - 5] = "_MSRENDERLOOP_UNITYURP2020";
-            keywords[keywords.Length - 4] = "_MSRENDERLOOP_UNITYURP2021";
-            keywords[keywords.Length - 3] = "_MSRENDERLOOP_UNITYURP2022";
-            keywords[keywords.Length - 2] = "_MSRENDERLOOP_UNITYURP6";
-            keywords[keywords.Length - 1] = "_MSRENDERLOOP_UNITYURP6P3";
-            }
+            System.Array.Resize(ref keywords, keywords.Length + 4);
+            keywords[keywords.Length - 4] = "_MSRENDERLOOP_UNITYLD";
+            keywords[keywords.Length - 3] = "_MSRENDERLOOP_UNITYURP2020";
+            keywords[keywords.Length - 2] = "_MSRENDERLOOP_UNITYURP2021";
+            keywords[keywords.Length - 1] = "_MSRENDERLOOP_UNITYURP2022";
+         }
       }
 
       public void WriteDefines (string[] features, StringBuilder sb)
@@ -516,13 +511,7 @@ public partial class MicroSplatShaderGUI : ShaderGUI
             AddPipelineKeywords(ref features);
                 // TODO: this would be better if we asked the render loop if it is in the feature list, but
                 // would require a change to interface, so wait until we have a version bump.
-#if UNITY_6000_3_OR_NEWER
-            SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYHDRP6P3");
-            SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYURP6P3");
-#elif UNITY_6000_0_OR_NEWER
-            SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYHDRP6");
-            SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYURP6");
-#elif UNITY_2022_2_OR_NEWER
+#if UNITY_2022_2_OR_NEWER
             SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYHDRP2022");
             SetPreferedRenderLoopByName(features, "_MSRENDERLOOP_UNITYURP2022");
 #elif UNITY_2021_2_OR_NEWER
@@ -536,16 +525,12 @@ public partial class MicroSplatShaderGUI : ShaderGUI
             SetPreferedRenderLoopByName (features, "_MSRENDERLOOP_UNITYHD");
 #endif
 
-            for (int i = 0; i < extensions.Count; ++i)
+                for (int i = 0; i < extensions.Count; ++i)
             {
                var ext = extensions [i];
                ext.Unpack (features);
             }
 
-            if(string.IsNullOrEmpty(baseName))
-            {
-               baseName = "Off";   
-            }
             StringBuilder sb = renderLoop.WriteShader(features, this, auxShader, name, baseName);
             for (int i = 0; i < extensions.Count; ++i)
             {
@@ -556,7 +541,7 @@ public partial class MicroSplatShaderGUI : ShaderGUI
             // in URP/HDRP light layers require this for terrain
             if (features.Contains("_MICROTERRAIN"))
             {
-               sb = sb.Replace("#pragma instancing_options renderinglayer", "#pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap");
+               sb = sb.Replace("#pragma instancing_options renderinglayer", "#pragma instancing_options norenderinglayer assumeuniformscaling nomatrices nolightprobe nolightmap");
             }
 
             string output = sb.ToString ();
@@ -566,9 +551,8 @@ public partial class MicroSplatShaderGUI : ShaderGUI
             EditorUtility.ClearProgressBar ();
             return output;
          }
-         catch (System.Exception e)
+         catch
          {
-            Debug.LogException(e);
             EditorUtility.ClearProgressBar ();
             return "";
          }
@@ -620,7 +604,6 @@ public partial class MicroSplatShaderGUI : ShaderGUI
             string[] oldKeywords = new string[keywords.keywords.Count];
             System.Array.Copy (keywords.keywords.ToArray (), oldKeywords, keywords.keywords.Count);
             keywords.DisableKeyword ("_TESSDISTANCE");
-            keywords.DisableKeyword("_TESSONLYDISPLACE");
             keywords.DisableKeyword("_TESSEDGE");
             keywords.DisableKeyword ("_POM");
             keywords.DisableKeyword ("_PARALLAX");

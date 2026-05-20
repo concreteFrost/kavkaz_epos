@@ -1257,7 +1257,7 @@
          #endif
          
          #if _GLOBALTINT && _PERTEXGLOBALTINTSTRENGTH && !_DISABLESPLATMAPS
-         BLEND_GLOBAL_TINT_PERTEX(samples, config, camDist, globalSlopeFilter, noiseUV)
+         GlobalTintTexturePerTex(samples, config, camDist, globalSlopeFilter, noiseUV);
          #endif
          
          #if _GLOBALNORMALS && _PERTEXGLOBALNORMALSTRENGTH && !_DISABLESPLATMAPS
@@ -1408,7 +1408,7 @@
          
 
          #if _GLOBALTINT && !_PERTEXGLOBALTINTSTRENGTH
-            BLEND_GLOBAL_TINT(albedo.rgb, config, camDist, globalSlopeFilter, noiseUV)
+            GlobalTintTexture(albedo.rgb, config, camDist, globalSlopeFilter, noiseUV);
          #endif
 
          #if _VSGRASSMAP

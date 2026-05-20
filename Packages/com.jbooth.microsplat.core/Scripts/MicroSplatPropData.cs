@@ -20,8 +20,8 @@ using UnityEngine;
 // 9 Triplanar, trplanar contrast, stochastic enabled, (A) Saturation
 // 10 Texture Cluster Contrast, boost, Height Offset, Height Contrast
 // 11 Open
-// 12 Mesh Normal Blend (A)
-// 13 Detail Resample uv scale (A)
+// 12 Open
+// 13 Open
 // 14 AntiTileArray (R)Normal Str, (G) Detail Strength, (B) Distance Strength (A) DisplaceShaping
 // 15 Reserved for initialization marking
 // 16 UV Rotation, Triplanar rot, triplanar rot, (A) GlobalSpecularStrength
@@ -38,7 +38,6 @@ using UnityEngine;
 // 27 Rim Light Color, intensity (A)
 // 28 Outline Color and intensity
 // 29 Slope Texture Angle (R), Contrast (G)
-// 30 4 Extra global texturing tint layer strengths
 namespace JBooth.MicroSplat
 {
    // because unity's HDR import pipeline is broke (assumes gamma, so breaks data in textures)
