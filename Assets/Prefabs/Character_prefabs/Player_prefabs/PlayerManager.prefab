@@ -1808,7 +1808,7 @@ MonoBehaviour:
   TransparentLayers:
     serializedVersion: 2
     m_Bits: 192
-  MinimumDistanceFromTarget: 1
+  MinimumDistanceFromTarget: 0.2
   AvoidObstacles:
     Enabled: 1
     DistanceLimit: 0
@@ -2091,12 +2091,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 129
-  groundMinDistance: 0.25
-  groundMaxDistance: 0.5
+  groundMinDistance: 0.3
+  groundMaxDistance: 0.6
   distanceToObstacle: 0.8
   rotateTarget: {fileID: 0}
+  isGrounded: 1
   isStrafing: 0
-  slopeLimit: 45
+  slopeLimit: 60
 --- !u!114 &1002000274722113080
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -65,7 +65,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     internal bool stopMove = false;
     protected bool isSprinting;
     protected bool isJumping;
-    internal bool isGrounded = true;
+    [SerializeField] internal bool isGrounded = true;
     protected bool isDodging;
     public bool isStrafing;
    

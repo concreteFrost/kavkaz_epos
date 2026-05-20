@@ -1580,7 +1580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_c5e093ce-3af1-4d36-8337-acaca394e309
+  uniqueId: uid_c25eb88b-955d-4e8b-a4bd-a2e84459aedd
 --- !u!195 &4824949580012563523
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1676,6 +1676,7 @@ MonoBehaviour:
   groundMaxDistance: 0.5
   distanceToObstacle: 0.8
   rotateTarget: {fileID: 0}
+  isGrounded: 1
   isStrafing: 0
   wallLayer:
     serializedVersion: 2
@@ -1735,7 +1736,7 @@ GameObject:
   - component: {fileID: 677010849061291660}
   - component: {fileID: 7535407784853775082}
   - component: {fileID: 2154866394793831559}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: AI_DamageController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
