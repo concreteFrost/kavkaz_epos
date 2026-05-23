@@ -111,10 +111,26 @@ namespace sc.terrain.proceduralpainter
             TerrainPaintUtility.EndPaintTexture(c, UndoActionName);
         }
 
+        //public static void Dispose()
+        //{
+        //    filterMat = null;
+        //    alphaMap?.Release();
+        //}
+
         public static void Dispose()
         {
             filterMat = null;
-            alphaMap?.Release();
+
+            if (alphaMap != null)
+            {
+                if (alphaMap.IsCreated())
+                {
+                    alphaMap.Release();
+                }
+
+                Object.DestroyImmediate(alphaMap);
+                alphaMap = null;
+            }
         }
     }
 }
