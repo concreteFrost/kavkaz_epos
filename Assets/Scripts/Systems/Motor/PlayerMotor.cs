@@ -192,7 +192,8 @@ public class PlayerMotor : BaseHumanoidMotor
         if (groundDistance <= groundMinDistance)
         {
             isGrounded = true;
-            if (!IsJumping && groundDistance > 0.05f)
+            //if (!IsJumping && groundDistance > 0.05f)
+              if (!IsJumping && groundDistance > 0.1f)
                 _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
 
             heightReached = transform.position.y;
