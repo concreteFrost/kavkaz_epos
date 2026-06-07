@@ -35,10 +35,13 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
             return;
         }
 
+        var agentTypeId = context.agentController.agent.agentTypeID;
         if (NavAgentUtils.TryGetRandomReachablePoint(
                 context.self.position,
+                agentTypeId,
                 patrolStateTracker.GetMaxPatrolRadius(),
                 10,
+               
                 out destination))
         {
             motor.MoveCharacter(destination);
@@ -63,7 +66,8 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
            return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
         }
 
-        if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
+        var agentTypeId = context.agentController.agent.agentTypeID;
+        if (!NavAgentUtils.HasCompletePath(context.self.position, destination, agentTypeId))
             return AIStateResult.Idle;
 
         if (agentController.HasReachedDestination())

@@ -30,7 +30,8 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
 
     public override AIStateResult Run()
     {
-        bool canReach = NavAgentUtils.HasCompletePath(context.self.position, destination);
+        var agentTypeId = context.agentController.agent.agentTypeID;
+        bool canReach = NavAgentUtils.HasCompletePath(context.self.position, destination, agentTypeId);
 
         if (!canReach)
         {

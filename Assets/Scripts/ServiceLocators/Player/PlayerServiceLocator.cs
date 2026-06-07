@@ -33,6 +33,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] public CharacterLevelController levelController; 
     [SerializeField] public CharacterStatsController stats;
     [SerializeField] public CharacterStatsModifier statsModifier;
+    [SerializeField] public StaminaEnableController staminaEnableController;
 
     [Header("Система очков")]
     [SerializeField] private PlayerPointsCollector pointsCollector; 
@@ -242,6 +243,8 @@ public class PlayerServiceLocator : MonoBehaviour
             statsController: stats,
             animatorController: animatorController,
             statsModifier: statsModifier);
+
+        staminaEnableController.Init(statsController: stats);
     }
 
     private void InitPoints()

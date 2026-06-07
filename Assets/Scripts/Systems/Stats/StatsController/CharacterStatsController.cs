@@ -52,9 +52,6 @@ public class CharacterStatsController : BaseStatsController
         Knowledge = new KnowledgeModel(statsSO.baseKnowledge);
         Strength = new StrengthModel(statsSO.baseStrength);
 
-
-
-
         Health.UpdateMaxAndCurrent(healthLevel);
         Stamina.UpdateMaxAndCurrent(staminaLevel);
         Knowledge.UpdateMaxAndCurrent(knowledgeLevel);

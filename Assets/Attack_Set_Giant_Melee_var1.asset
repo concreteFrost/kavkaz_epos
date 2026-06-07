@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: Attack_Set_Giant_Melee_var1
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      damageMultiplier: 0
+      balanceDamageType: 3
+      impactForce: 3
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 30
+    staminaPenalty: 5
+    fromHand: 0
+    animationInfo: {fileID: 11400000, guid: 2661608e4fe38f54ca67cd4e2910c4cd, type: 2}
+  powerAttack:
+    damageData:
+      damageMultiplier: 0.3
+      balanceDamageType: 3
+      impactForce: 500
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 39
+    staminaPenalty: 7
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: ebc4181ba66b3ae48ac73ea7b2ca6516, type: 2}

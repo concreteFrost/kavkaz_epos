@@ -44,7 +44,8 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
 
         Transform target = fov.currentTarget.GetOrigin();
 
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
+        var agentTypeId = context.agentController.agent.agentTypeID;
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position, agentTypeId);
 
         if (motor.strafeCoroutine != null && !canReach)
             return AIStateResult.None;

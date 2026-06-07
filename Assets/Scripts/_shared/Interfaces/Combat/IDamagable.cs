@@ -25,6 +25,7 @@ public interface IDamagable
     bool InBlockingWindow { get; set; }
     // ¬ременное окно, когда атаки не нанос€т урон (например, при анимации блока)
 
+    bool CanPlayDamagedAnimation { get; set; }
     Transform GetAimTransform();
     // “очка прицеливани€, используема€ дл€ расчЄта направлени€ атаки
 

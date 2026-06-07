@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -16,6 +17,10 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     #region ITargetLocker Contract
     public IDamagable CurrentTarget() => currentTarget != null ? currentTarget : null;
+    
+    public static Action<CharacterType,string> TargetFound;
+    public static Action<CharacterType,string> TargetLost;
+    string fovId;
     #endregion
     private void Update()
     {
@@ -29,11 +34,13 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         }
     }
 
-    public void Init(CharacterBoneSocket boneSockets)
+    public void Init(CharacterBoneSocket boneSockets, string fovId)
     {
+        this.fovId = fovId;
         eyes = boneSockets.GetEyesSocket;
         fov = new AIFov(eyes, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore);
         checkCooldown = 0;
+      
     }
 
     public void CheckTargets()
@@ -60,14 +67,18 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     #region Current Target State Control
     public void SetLockedTarget(IDamagable target)
     {
+        TargetFound?.Invoke(target.CharacterType, fovId);
         currentTarget = target;
     }
 
     public void ResetLockedTarget()
     {
+        if(currentTarget != null)
+        {
+            TargetLost?.Invoke(currentTarget.CharacterType, fovId);
+            currentTarget = null;
+        }
        
-        currentTarget = null;
-     
 
     }
 

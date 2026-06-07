@@ -50,7 +50,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void FovInit()
     {
-        fovController.Init(boneSockets:boneSocket);
+        fovController.Init(boneSockets:boneSocket, uid);
     }
 
     private void InteractionInit()
@@ -83,7 +83,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void LifecycleInit()
     {
-        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform, distributer:lootDistributer);
+        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform, distributer:lootDistributer, fovController:fovController);
     }
 
 

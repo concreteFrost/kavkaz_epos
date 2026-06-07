@@ -40,9 +40,10 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         }
             
         Transform target = context.fov.currentTarget.GetOrigin();
-       
+
+        var agentTypeId = context.agentController.agent.agentTypeID;
         // 2. цель недостижима
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position,agentTypeId);
 
         if (!canReach)
         {

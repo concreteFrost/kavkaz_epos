@@ -5,11 +5,11 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
 {
     protected HumanoidWeaponSetter weaponSetter;
 
-    public override float AttackRangeDistance() => 1.3f;
     public override void Init()
     {
         combatController = context.combat;
         weaponSetter = context.weaponSetter;
+        combatMode = CombatMode.Melee;
     }
 
 
@@ -20,7 +20,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         else
         {
             int punchesCount = Random.Range(1, 5);
-            combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount, AttackRangeDistance(), () => distanceToTarget, FinishCombatAction);
+            combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount,combatHandler.GetAttackDistance(combatMode), () => distanceToTarget, FinishCombatAction);
         }
             
     }

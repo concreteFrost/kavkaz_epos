@@ -72,12 +72,15 @@ public class EnemyCombatHandler
 
     public bool CanAttack() => canAttack;
 
-    public void SetCanAttack(bool val)=> canAttack = val;    
+    public void SetCanAttack(bool val)=> canAttack = val;
 
-    public float GetAttackDistanceWithOffset(float distance) => distance + comboDistanceOffset;
+    public float GetAttackDistance(CombatMode mode) => mode == CombatMode.Melee ? stats.meleeAttackRange : stats.emitAttackRange;
+    public float GetMeleeAttackDistanceWithOffset() => stats.meleeAttackRange + comboDistanceOffset;
 
     public float GetMinAttackCooldown() => stats.minCombatCooldown;
     public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
+
+   
 
 
     //работает только для смешанных врагов

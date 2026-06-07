@@ -28,6 +28,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public event Action<Transform> DamageTaken;
     public bool IsKnockedOut { get; set; }
     public bool InBlockingWindow { get; set; }
+    public bool CanPlayDamagedAnimation { get; set; }
     #endregion
 
     protected abstract float DamageCooldown();
@@ -41,6 +42,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         this.stats = statsController;
         this.self = self;
         this.motor = motor;
+        CanPlayDamagedAnimation = true;
 
         damagableCollider = GetComponent<Collider>();
 
@@ -100,7 +102,14 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     protected void HandleGetDamaged(BalanceDamageType balanceDamageType)
     {
+        if (!CanPlayDamagedAnimation)
+        {
+            Debug.Log("I cant play damaged");
+            return;
+        }
+
         string animClipName = GetDamageAnimation(balanceDamageType);
+       
 
         if (animClipName == null) return;
 

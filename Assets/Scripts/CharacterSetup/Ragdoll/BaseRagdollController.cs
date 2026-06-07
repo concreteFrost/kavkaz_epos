@@ -24,8 +24,9 @@ public abstract class BaseRagdollController : IRagdollController
 
 
     protected Transform hipsBone; // центральная кость (таз)
+   
     protected Transform[] _bones; // кости относящиеся к ragdoll
-    private Transform _chestBone;
+    //private Transform _chestBone;
     protected Rigidbody hipsRb;
 
     protected CharacterBoneTransform[] _faceupBoneTransforms;
@@ -39,6 +40,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     #region IRagdoll Controler Contract
     public Transform GetHipsTransform() => hipsBone;
+   
 
     public Vector3 GetHipsPosition() => hipsBone.position;
     public abstract void DisableRagdoll();
@@ -62,7 +64,7 @@ public abstract class BaseRagdollController : IRagdollController
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
         hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
-        _chestBone = anim.Animator().GetBoneTransform(HumanBodyBones.Chest);
+        //_chestBone = anim.Animator().GetBoneTransform(HumanBodyBones.Chest);
         hipsRb = hipsBone.GetComponent<Rigidbody>();
 
         InitBones();
@@ -245,9 +247,11 @@ public abstract class BaseRagdollController : IRagdollController
 
     #endregion
 
-    public bool IsBonesMoving(float threshold=0.1f)
+    public bool IsBonesMoving(float threshold=0.25f)
     {
-        return hipsRb.linearVelocity.sqrMagnitude > threshold;
+        var isMoving = hipsRb.linearVelocity.sqrMagnitude > threshold;
+        //Debug.Log("bones moving: " + isMoving); 
+        return isMoving;
     }
 
     public IEnumerator Recover()
@@ -261,21 +265,14 @@ public abstract class BaseRagdollController : IRagdollController
         while (moving)
         {
             moving = IsBonesMoving();
-            //foreach (var rb in rigidbodies)
-            //{
-            //    if (rb.linearVelocity.sqrMagnitude > 0.01f)
-            //    {
-            //        moving = true;
-            //        break;
-            //    }
-            //}
             yield return null;
         }
 
-        //isFacingUp = _hipsBone.forward.y > 0;
-        Vector3 hipsToChest = (_chestBone.position - hipsBone.position).normalized;
-        isFacingUp = Vector3.Dot(hipsToChest, Vector3.up) > 0f;
+        
 
+        CheckFaceUp();
+
+        yield return new WaitForSeconds(7f); //искуственная задержка
         AlignRotationToHips();
         AlignPositionToHips();
 
@@ -321,7 +318,21 @@ public abstract class BaseRagdollController : IRagdollController
 
     }
 
+    private void CheckFaceUp()
+    {
+        Vector3 upDir = hipsBone.up;
 
+        Debug.DrawRay(
+            hipsBone.position,
+            upDir * 5f,
+            Color.red,
+            5f);
+
+        bool groundBelow =
+            Physics.Raycast(hipsBone.position, upDir, 5f);
+
+        isFacingUp = groundBelow;
+    }
 
 
 

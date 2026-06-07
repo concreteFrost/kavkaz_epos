@@ -6,13 +6,13 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     IEmitter emitter;
     CharacterSpellInventory spellInventory;
     float meleeDistance = 1.3f;
-
-    public override float AttackRangeDistance() => 10f;
+   
 
     public override void Init()
     {
         emitter = context.emitter;
         spellInventory = context.spellInventory;
+        combatMode = CombatMode.Magic;
     }
 
 
@@ -34,7 +34,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         if (distanceToTarget < meleeDistance)
         {
             int punchesSount = 1;
-            combatCoroutine = combatActions.StartMelee(combatController, combatHandler,punchesSount, AttackRangeDistance(),()=> distanceToTarget, FinishCombatAction);
+            combatCoroutine = combatActions.StartMelee(combatController, combatHandler,punchesSount, combatHandler.GetAttackDistance(combatMode),()=> distanceToTarget, FinishCombatAction);
             return;
         }
 

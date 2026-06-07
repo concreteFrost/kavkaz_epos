@@ -18,7 +18,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     protected Transform target;
     protected float distanceToTarget;
 
-    public abstract float AttackRangeDistance();
+    protected CombatMode combatMode; 
 
     public abstract void Init();
 
@@ -74,8 +74,10 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
         motor.ResetLockTarget();
         motor.SetStrafe(false);
+        
+        var agentTypeId = context.agentController.agent.agentTypeID;
 
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position,agentTypeId);
         if (!canReach)
             return AIStateResult.Wait;
 
@@ -98,7 +100,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
     public virtual AIStateResult HandleCombatBehavior()
     {
-        bool inRange = distanceToTarget < AttackRangeDistance();
+        bool inRange = distanceToTarget < combatHandler.GetAttackDistance(combatMode);
 
         if (!inRange || !fov.IsTargetVisible())
         {

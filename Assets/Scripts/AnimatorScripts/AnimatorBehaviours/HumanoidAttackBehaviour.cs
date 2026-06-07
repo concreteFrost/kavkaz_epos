@@ -25,6 +25,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         if(inv.CurrentWeapon != null)
         {
+            
             stats.Stamina.ChangeCurrent(inv.CurrentWeapon.CurrentAttack().staminaPenalty,OperationType.Negative);
         }
         
@@ -53,6 +54,16 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
+        if (t >= attack.animationInfo.invincibleStartFrame &&
+     t <= attack.animationInfo.invincibleEndFrame)
+        {
+            damageController.CanPlayDamagedAnimation = false;
+        }
+        else
+        {
+            damageController.CanPlayDamagedAnimation = true;
+        }
+
         if (!hitActive && t >= attack.animationInfo.hitStartFrame)
         {
             weapon.PerformAttack();
@@ -65,6 +76,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
             hitActive = false;
         }
 
+       
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -78,6 +90,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
+        damageController.CanPlayDamagedAnimation = true;    
 
         // уведомляем контроллер, что атака завершена
         combatAnimData.EndAttack();

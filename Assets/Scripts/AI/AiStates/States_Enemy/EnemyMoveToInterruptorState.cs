@@ -50,7 +50,7 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
             return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
         }
 
-        if (!NavAgentUtils.HasCompletePath(context.self.position, destination))
+        if (!NavAgentUtils.HasCompletePath(context.self.position, destination,context.agentController.agent.agentTypeID))
             return AIStateResult.Idle;
 
         if (agentController.HasReachedDestination())

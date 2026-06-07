@@ -5,6 +5,7 @@ public static class NavAgentUtils
 {
     public static bool TryGetRandomReachablePoint(
         Vector3 origin,
+        int agentTypeId,
         float radius,
         int maxAttempts,
         out Vector3 result)
@@ -21,7 +22,7 @@ public static class NavAgentUtils
                     2f,
                     NavMesh.AllAreas))
             {
-                if (HasCompletePath(origin, hit.position))
+                if (HasCompletePath(origin, hit.position, agentTypeId))
                 {
                     result = hit.position;
                     return true;
@@ -33,14 +34,23 @@ public static class NavAgentUtils
         return false;
     }
 
-    public static bool HasCompletePath(Vector3 from, Vector3 to)
+    public static bool HasCompletePath(
+     Vector3 from,
+     Vector3 to,
+     int agentTypeId)
     {
         NavMeshPath path = new NavMeshPath();
+
+        NavMeshQueryFilter filter = new NavMeshQueryFilter
+        {
+            agentTypeID = agentTypeId,
+            areaMask = NavMesh.AllAreas
+        };
 
         return NavMesh.CalculatePath(
                    from,
                    to,
-                   NavMesh.AllAreas,
+                   filter,
                    path)
                && path.status == NavMeshPathStatus.PathComplete;
     }

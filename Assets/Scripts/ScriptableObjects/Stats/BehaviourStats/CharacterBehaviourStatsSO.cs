@@ -36,6 +36,9 @@ public class CharacterBehaviourStatsSO : ScriptableObject
 
     [Header("Combat")]
 
+    public float meleeAttackRange = 1.3f;
+    public float emitAttackRange = 10f;
+
     [Tooltip("Вероятность перехода в атаку (0–1)")]
     public float attackTransitionChance = .8f;
 

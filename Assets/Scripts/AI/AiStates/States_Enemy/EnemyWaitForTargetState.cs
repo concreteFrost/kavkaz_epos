@@ -29,9 +29,10 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        Transform target = fov.currentTarget.GetOrigin();   
+        Transform target = fov.currentTarget.GetOrigin();
 
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position);
+        var agentTypeId = context.agentController.agent.agentTypeID;
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position, agentTypeId);
 
         if (!canReach)
         {

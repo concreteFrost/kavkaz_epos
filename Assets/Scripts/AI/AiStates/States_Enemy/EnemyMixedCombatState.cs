@@ -6,17 +6,12 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
     protected HumanoidWeaponSetter weaponSetter;
     IEmitter emitter;
     CharacterSpellInventory spellInventory;
-    
-    public CombatMode currentMode;
-
-    public override float AttackRangeDistance() => currentMode == CombatMode.Melee ? 1.3f : 10f;
-
 
     public override void Enter()
     {
         base.Enter();
 
-        currentMode = combatHandler.DecideCombatMode(distanceToTarget);
+        combatMode = combatHandler.DecideCombatMode(distanceToTarget);
     }
 
     public override void Init()
@@ -31,7 +26,7 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
     public override void HandleAttack(Transform target)
     {
         
-        if (currentMode == CombatMode.Melee)
+        if (combatMode == CombatMode.Melee)
         {
 
             if (combatHandler.WillPowerAttack())
@@ -39,13 +34,13 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
             else
             {
                 int punchesCount = Random.Range(1, 5);
-                combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount, AttackRangeDistance(),()=>distanceToTarget, FinishCombatAction);
+                combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount, combatHandler.GetAttackDistance(combatMode), ()=>distanceToTarget, FinishCombatAction);
             }
             return;
 
         }
 
-        if (currentMode == CombatMode.Magic)
+        if (combatMode == CombatMode.Magic)
         {
 
             combatCoroutine = combatActions.StartSpell(emitter, spellInventory, FinishCombatAction);
@@ -80,7 +75,7 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
     protected override void FinishCombatAction()
     {
         base.FinishCombatAction();
-        currentMode = combatHandler.DecideCombatMode(distanceToTarget);   
+        combatMode = combatHandler.DecideCombatMode(distanceToTarget);   
     }
 
 

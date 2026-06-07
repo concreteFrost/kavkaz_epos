@@ -8,14 +8,15 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     IBrain brain;
     PointsEmitter pointsEmitter;
     CharacterLootDistributer distributer;
+    EnemyFOVController fovController;
 
-    public void Init(HumanoidAIDamageController damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter, CharacterLootDistributer distributer)
+    public void Init(HumanoidAIDamageController damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter, CharacterLootDistributer distributer, EnemyFOVController fovController)
     {
         BaseInit(statsController, statsModifier, damagable, startingPosition, self);
         this.ragdollController = ragdollController;
         this.brain = brain; 
         this.distributer = distributer; 
-
+        this.fovController = fovController; 
         this.pointsEmitter = pointsEmitter;
 
     }
@@ -25,6 +26,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     {
         PerformDeath();
 
+        fovController.ResetLockedTarget();  
         statsModifier.ClearAllStats();
         pointsEmitter.DropPoints();
         distributer.HandleLootGenerate(damagable.GetOrigin().transform.position);

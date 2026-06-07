@@ -51,7 +51,7 @@ public class HumanoidAICombatActions
             combat.PerformAttack();
 
             while (executed < punchesCount - 1 &&
-                   getDistance() <= combatHandler.GetAttackDistanceWithOffset(attackRange))
+                   getDistance() <= combatHandler.GetMeleeAttackDistanceWithOffset())
             {
                 yield return new WaitForSeconds(combat.AttackBufferTime * 0.9f);
                 combat.PerformAttack();
