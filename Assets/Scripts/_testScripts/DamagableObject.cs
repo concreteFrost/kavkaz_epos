@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
@@ -13,7 +14,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     Color defaultCol;
     MeshRenderer mat;
 
-    Collider damagableCollider;
+    [SerializeField] Collider damagableCollider;
 
     #region IDamagable Contract
     public Collider DamageCollider() => damagableCollider;
@@ -31,6 +32,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public IShield Protection { get; set; } = null; 
 
     public event Action<Transform> DamageTaken = null;
+
+    public IUiProvider HealthProviderUI { get; set; }
 
     #endregion
 
@@ -64,11 +67,19 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public void TakeDamage(DamageData damageData,Transform source)
     {
         if (IsDead) return;
-        
-        Health.Current -= damageData.damageMultiplier;
+
+        Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
+
         StartCoroutine(DamageCoroutine());
 
         DamageTaken?.Invoke(source);
+
+        if(Health.Current <= 0)
+        {
+            StopAllCoroutines();
+            gameObject.SetActive(false);
+        }
+
     }
 
     public void TakeMaxDamage()
@@ -79,6 +90,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     IEnumerator DamageCoroutine()
     {
         
+
         var col = Color.white;
         var col2 = Color.green;
 

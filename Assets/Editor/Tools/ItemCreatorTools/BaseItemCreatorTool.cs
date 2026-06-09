@@ -11,7 +11,7 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
     protected Dictionary<T, bool> foldouts = new();
     protected Dictionary<T, SerializedObject> serializedCache = new();
 
-    protected string newItemName = string.Empty;    
+    protected string newItemName = string.Empty;
 
     protected string basePath = "Assets/Resources/Items";
     protected virtual string ItemFolder { get; }
@@ -115,6 +115,7 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
 
             if (foldouts[item])
             {
+                DrawItemDescription(item);
                 DrawItem(item); // ѕолный контент
                 if (DrawDeleteButton(item)) itemsToRemove.Add(item);
             }
@@ -153,7 +154,6 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
         so.Update();
         SerializedProperty id = so.FindProperty("id");
         SerializedProperty itemName = so.FindProperty("itemName");
-        SerializedProperty description = so.FindProperty("itemDescription");
         SerializedProperty itemIcon = so.FindProperty("itemImage");
 
         EditorGUILayout.BeginVertical();
@@ -164,12 +164,14 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
 
         EditorGUILayout.PropertyField(itemName, GUILayout.Width(500));
         EditorGUILayout.PropertyField(itemIcon, GUILayout.Width(500));
-        EditorGUILayout.LabelField("Description");
-        description.stringValue = EditorGUILayout.TextArea(
-    description.stringValue,
-    GUILayout.Width(500),
-    GUILayout.Height(60)
-);
+
+        //EditorGUILayout.LabelField("Description");
+        //description.stringValue = EditorGUILayout.TextArea(
+        //description.stringValue,
+        //GUILayout.Width(500),
+        //GUILayout.Height(60)
+        //);
+
         EditorGUILayout.EndVertical();
 
 
@@ -194,6 +196,32 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
     }
 
     protected abstract void DrawItem(T item); // полный контент при раскрытии
+
+    private void DrawItemDescription(T item)
+    {
+        if (!serializedCache.TryGetValue(item, out var so) || so.targetObject == null)
+            serializedCache[item] = so = new SerializedObject(item);
+
+        so.Update();
+
+        SerializedProperty description = so.FindProperty("itemDescription");
+
+        EditorGUILayout.LabelField("Description");
+
+        EditorGUI.BeginChangeCheck();
+
+        description.stringValue = EditorGUILayout.TextArea(
+            description.stringValue,
+            GUILayout.Width(500),
+            GUILayout.Height(60)
+        );
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            so.ApplyModifiedProperties();
+            EditorUtility.SetDirty(item);
+        }
+    }
 
     protected T CreateItem()
     {

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: spell_ring_of_inaccessibility
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: dfec6bd0-ca81-4734-a7d4-213be1d42506
+  itemName: "\u041A\u043E\u043B\u044C\u0446\u043E \u041D\u0435\u043F\u0440\u0438\u0441\u0442\u0443\u043F\u043D\u043E\u0441\u0442\u0438"
+  itemImage: {fileID: -174242856, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
+  itemDescription: 
+  prefab: {fileID: 6897423304324703046, guid: 577c20299e00e45458d06e48d2474674, type: 3}
+  baseDamage: 4
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 0
+    impactForce: 0
+    statusEffectData:
+      effects: []
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: 344faaf702fee2e4495c4abfcc3f29cd, type: 2}
+  amountToSpawn: 8
+  spawnDelay: 0.1
+  emitStartingPosition: 0
+  moveSO: {fileID: 11400000, guid: 5317557a29d8fd240b0b1fadb6d6817e, type: 2}
+  speed: 7
+  lifetime: 10
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 1
+  requirements:
+    statType: 2
+    minRequired: 1

@@ -772,7 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
   items: []
-  starterSet: {fileID: 11400000, guid: 7e427f749d15a944cb750d4ae9ccbe97, type: 2}
+  starterSet: {fileID: 11400000, guid: 67e60165893f1854ebcbf29c3187db4a, type: 2}
 --- !u!114 &8013920937491807215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,27 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95391240d9174704cad2109de73986d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
-  items:
-  - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
-    quantity: 10
-    instanceId: 
-    durability: 0
-    isEquiped: 0
-  - itemSO: {fileID: 11400000, guid: be6bd478857ed604bab6276a126f5a98, type: 2}
-    quantity: 5
-    instanceId: 
-    durability: 0
-    isEquiped: 0
-  - itemSO: {fileID: 11400000, guid: ba01cc8e412bf3640bc2ee488a17901d, type: 2}
-    quantity: 1
-    instanceId: 
-    durability: 0
-    isEquiped: 0
-  - itemSO: {fileID: 11400000, guid: 35ad12a96056ea546988bd95a547d359, type: 2}
-    quantity: 3
-    instanceId: 
-    durability: 0
-    isEquiped: 0
+  items: []
 --- !u!114 &6574653808817284857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,6 +1594,7 @@ MonoBehaviour:
   combatController: {fileID: 2452236923167196232}
   attackSource: {fileID: 6924386042100350682}
   pushController: {fileID: 6546441211867162392}
+  targetHealthTracker: {fileID: 6491859697443407905}
   emitterController: {fileID: 3212105945820429157}
   weaponInventory: {fileID: 1889842615598910965}
   spellInventory: {fileID: 8013920937491807215}
@@ -4467,6 +4448,7 @@ GameObject:
   - component: {fileID: 6924386042100350682}
   - component: {fileID: 6546441211867162392}
   - component: {fileID: 2452236923167196232}
+  - component: {fileID: 6491859697443407905}
   m_Layer: 0
   m_Name: Player_Combat
   m_TagString: Untagged
@@ -4532,6 +4514,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatController
   attackBufferTime: 0.35
+--- !u!114 &6491859697443407905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653316917202799075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d5497edde69d544bbe47a333a80cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetsHealthTracker
+  checkCooldown: 1
 --- !u!1 &4675135361474261678
 GameObject:
   m_ObjectHideFlags: 0
@@ -7798,6 +7793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
   hasAllConsumables: 1
+  hasAllSpells: 1
 --- !u!1 &8435803114403785097
 GameObject:
   m_ObjectHideFlags: 0

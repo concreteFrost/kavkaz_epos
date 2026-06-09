@@ -1,3 +1,4 @@
+using UnityEngine;
 
 public class CharacterSpellInventory : QuickAccessInventory
 {
@@ -27,4 +28,25 @@ public class CharacterSpellInventory : QuickAccessInventory
 
         Notify(); //уведомляет
     }
+
+    public void AddAllItemsOnStart()
+    {
+        var allItems = Resources.LoadAll<SpellProjectileSO>("Items/Spells/");
+        Debug.Log(allItems.Length);
+
+
+        foreach (var item in allItems)
+        {
+            var data = new ItemData
+            {
+                itemSO = item,
+                quantity = 20
+            };
+
+            AddItemToInventory(data);
+            AddToQuickAccess(data);
+
+        }
+    }
+
 }

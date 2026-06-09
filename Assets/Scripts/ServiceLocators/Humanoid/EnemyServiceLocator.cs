@@ -29,6 +29,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     [Header("Система событий")]
     [SerializeField] private EnemyNotifierManager notifierManager;
 
+    
+
     protected override void AnimatorInit()
     {
         animatorController = new EnemyAIAnimatorController();
@@ -45,6 +47,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         SpellInit();
         //notifierManager.Init()
         BrainInit();
+     
 
     }
 
@@ -117,6 +120,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
         brain.Init(brainContext);
     }
+
+   
 
 
 }

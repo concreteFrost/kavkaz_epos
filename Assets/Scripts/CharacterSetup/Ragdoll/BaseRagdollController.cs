@@ -48,7 +48,7 @@ public abstract class BaseRagdollController : IRagdollController
 
     public bool IsKnockedOut { get; set; }
 
-    //public Action KnockedOut;
+    public event Action KnockedOut;
     public event Action Recovered;
     public event Action RecoveredInInvalidArea;
 
@@ -121,6 +121,7 @@ public abstract class BaseRagdollController : IRagdollController
         IsKnockedOut = true;
         EnableRagdoll(from, force);
         context.StartCoroutine(Recover());
+        KnockedOut?.Invoke();
     }
 
     /// <summary>
@@ -330,6 +331,7 @@ public abstract class BaseRagdollController : IRagdollController
 
         bool groundBelow =
             Physics.Raycast(hipsBone.position, upDir, 5f);
+
 
         isFacingUp = groundBelow;
     }

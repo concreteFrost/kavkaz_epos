@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: spell_spark_sting
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: 6f127f4d-7e2a-4ae0-a7d8-f8d7d96bcc1a
+  itemName: "\u0416\u0430\u043B\u043E \u0418\u0441\u043A\u0440\u044B"
+  itemImage: {fileID: -648740285, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
+  itemDescription: 
+  prefab: {fileID: 6897423304324703046, guid: 577c20299e00e45458d06e48d2474674, type: 3}
+  baseDamage: 18
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 1
+    impactForce: 500
+    statusEffectData:
+      effects:
+      - effect: {fileID: 11400000, guid: 5b005f3ecc2cafe41a6451cb553cb4f5, type: 2}
+        amount: 0.5
+        duration: 7
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: f7ee887ef5398f147a6c6d65463ce09c, type: 2}
+  amountToSpawn: 1
+  spawnDelay: 0.15
+  emitStartingPosition: 0
+  moveSO: {fileID: 11400000, guid: 7eb39b04b2e7ff84891c90d1acc11a3b, type: 2}
+  speed: 3
+  lifetime: 10
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 10
+  requirements:
+    statType: 2
+    minRequired: 1

@@ -29,10 +29,14 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsKnockedOut { get; set; }
     public bool InBlockingWindow { get; set; }
     public bool CanPlayDamagedAnimation { get; set; }
+    public IUiProvider HealthProviderUI { get; set; }
     #endregion
 
     protected abstract float DamageCooldown();
     protected bool damageBlocked = false;
+
+    //уведомляет игрока о нанесении урона врагу для отображения его полоски здоровья
+ 
 
 
     protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
@@ -73,6 +77,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     public virtual void TakeDamage(DamageData damageData, Transform source)
     {
+       
 
         if (damageData.statusEffectData != null)
         {

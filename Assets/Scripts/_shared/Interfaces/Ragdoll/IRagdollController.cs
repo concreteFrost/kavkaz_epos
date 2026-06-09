@@ -18,6 +18,7 @@ public interface IRagdollController
     bool IsBonesMoving(float threshold=0.1f);
 
     //event Action Recovered;
+    event Action KnockedOut;
     event Action RecoveredInInvalidArea;
     event Action Recovered;
 

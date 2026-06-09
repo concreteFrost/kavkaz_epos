@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IDamagable
 {
+
     Collider DamageCollider();
     CharacterType CharacterType { get; set; }
     // Тип персонажа (например, игрок, враг) для фильтрации атак и логики целей
@@ -33,5 +34,8 @@ public interface IDamagable
     // Точка происхождения персонажа (например, центр коллайдера или положение тела)
 
     event Action<Transform> DamageTaken;
+
     // Событие, вызываемое при получении урона (можно подписаться на эффекты, UI или звук)
+
+    IUiProvider HealthProviderUI { get; set; }
 }

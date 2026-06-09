@@ -48,6 +48,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private AgressivePushController pushController;
+    [SerializeField] private TargetsHealthTracker targetHealthTracker; 
 
     [Header("Магическая система")]
     [SerializeField] private CharacterEmitter emitterController;
@@ -74,6 +75,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
+
+   
 
     [Header("UI")]
     [SerializeField] private PlayerUIManager uiManager;
@@ -168,7 +171,7 @@ public class PlayerServiceLocator : MonoBehaviour
             self: transform);
 
 
-      
+        targetHealthTracker.Init(self: transform);
 
         combatHandler.Init(
             actionGuards: actionGuards,
@@ -221,7 +224,8 @@ public class PlayerServiceLocator : MonoBehaviour
 
         targetLock.Init(
             controller: locomotionHandler,
-            damageController: damageController);
+            damageController: damageController,
+            targetHealthTracker:targetHealthTracker);
 
         locomotionHandler.Init(
             motor: motor,
@@ -294,6 +298,6 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private void InitCharacterConstructor()
     {
-        constructor.Init(consumableInventory: consumableInventory);
+        constructor.Init(consumableInventory: consumableInventory,spellInventory: spellInventory);
     }
 }

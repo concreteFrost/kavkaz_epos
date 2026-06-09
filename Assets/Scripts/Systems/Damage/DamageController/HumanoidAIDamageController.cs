@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 
@@ -8,19 +9,25 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     IRagdollController ragdollController;
 
+    public static Action<IDamagable> NotifySource;
+
     public void Init(
         Transform self,
         IHumanoidMovement motor,
         CharacterStatsController statsController,
         CharacterStatsModifier statsModifier,
         IRagdollController ragdollController,
-        BaseHumanoidAnimatorController animatorController
+        BaseHumanoidAnimatorController animatorController,
+        AiHealthUI healthUI
         )
     {
         BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
 
         this.ragdollController = ragdollController;
+        this.HealthProviderUI = healthUI;
+
         ragdollController.Recovered += OnRecover;
+
 
     }
 
@@ -52,6 +59,8 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     public override void TakeDamage(DamageData damageData, Transform source)
     {
+        NotifySource?.Invoke(this);
+
         if (IsDamagingBlocked()) return;
 
         base.TakeDamage(damageData, source);

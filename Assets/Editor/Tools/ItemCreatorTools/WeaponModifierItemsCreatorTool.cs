@@ -25,6 +25,11 @@ public class WeaponModifierItemsCreatorTool : BaseItemCreatorTool<WeaponModifier
 
         // Поля для оружейного предмета
         SerializedProperty topUpAmount = so.FindProperty("durabilityToGain");
+       
+        SerializedProperty consumableAnimation = so.FindProperty("consumableAnimation");
+        
+        EditorGUILayout.PropertyField(consumableAnimation);
+
 
         EditorGUILayout.PropertyField(topUpAmount);
 

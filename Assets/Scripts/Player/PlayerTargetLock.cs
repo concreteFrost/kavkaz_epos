@@ -11,13 +11,14 @@ using UnityEngine.UI;
 public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 {
     PlayerLocomotionActionHandler controller;
-
+    TargetsHealthTracker healthTracker; 
     protected Transform targetSeeker;
     public IDamagable currentTarget;
 
     protected bool wasTargetSearched = false;
 
     public Action<Transform> TargetSet;
+    
     public Action TargetReset;
 
     /// <summary>
@@ -27,7 +28,6 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     private float targetCheckDistance = 10f;
     private float targetResetDistance = 13f;
 
-   
     IDamagable damageController;
 
     CharacterType self;
@@ -38,13 +38,15 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
 
     public void Init(
         PlayerLocomotionActionHandler controller,
-        IDamagable damageController
+        IDamagable damageController,
+        TargetsHealthTracker targetHealthTracker
         )
     {
 
         this.controller = controller;
         this.targetSeeker = controller.transform;
         this.damageController = damageController;
+        this.healthTracker = targetHealthTracker;
 
         self = CharacterType.Player;
     }
@@ -98,10 +100,12 @@ public class PlayerTargetLock : MonoBehaviour, ITargetLocker
     /// </summary>
     public void SetLockedTarget(IDamagable t)
     {
+        if (t.IsKnockedOut || t.IsDead) return;
 
         controller.SetLockTarget(t.GetAimTransform());
         controller.SetStrafe(true);
         TargetSet?.Invoke(t.GetAimTransform());
+        healthTracker.TryAddTarget(t);
     }
 
     public void HandleSetTarget()
