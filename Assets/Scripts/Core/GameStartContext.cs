@@ -38,12 +38,11 @@ public class GameStartContext : MonoBehaviour
         if (gameStartType == GameStartType.None) return;
 
         if (gameStartType == GameStartType.NewGame)
-
-            SaveLoadManager.Instance.StartNewGame(sceneName);
+            SceneTransitionManager.Instance.StartNewGame(sceneName);
 
         if (gameStartType == GameStartType.LoadGame)
         {
-            SaveLoadManager.Instance.LoadGame();
+            SceneTransitionManager.Instance.LoadGame();
         }
 
       

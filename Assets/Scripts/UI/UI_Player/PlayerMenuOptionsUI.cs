@@ -37,7 +37,7 @@ public class PlayerMenuOptionsUI : MonoBehaviour
 
     private void QuitToMainMenu()
     {
-        SaveLoadManager.Instance.LoadMainMenu();    
+        SceneTransitionManager.Instance.LoadMainMenu();    
     }
 
     public void ToggleMenuOptions(bool isVisible)

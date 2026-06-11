@@ -1,21 +1,17 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 public class PlayerLifecycle : CharacterLifecycle
 {
 
+    public Action PlayerDied;
+    PlayerFallController fallController;
     public void Init(
-    BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self)
+    BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self, PlayerFallController fallController)
     {
         BaseInit(statsController, statsModifier, damagable, startingPosition, self);
-        BonfireManager.FastTravelStarted += OnFastTravelStarted;
-
-
-    }
-
-    private void OnDisable()
-    {
-        BonfireManager.FastTravelStarted -= OnFastTravelStarted;    
+        this.fallController = fallController;   
+   
     }
 
     public override void Die()
@@ -23,33 +19,29 @@ public class PlayerLifecycle : CharacterLifecycle
         if (damagable.IsDead) return;
 
         damagable.IsDead = true;
-        GameStateManager.GameStateChanged?.Invoke(GameState.Transition);
 
-        StartCoroutine(RespawnCoroutine());
+        PlayerDied?.Invoke();
+        
+        var currentSceneName = GameRunner.Instance.activeLevel.GetLevelName();
+        SceneTransitionManager.Instance.TravelToLevel(currentSceneName, respawnPosition);
 
 
     }
 
-    public override void Respawn()
+    public override void Respawn(Vector3 pos)
     {
-        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
-        statsModifier.ClearAllStats();
-        statsController.ResetAllStats();
-        ResetPosition();
-
         damagable.IsDead = false;
 
+        statsModifier.ClearAllStats();
+        statsController.ResetAllStats();
+        fallController.ResetLastGroundedPosition(pos); 
+
+        SetStartingPosition(pos);
+        ResetPosition();
+       
+
     }
 
-    IEnumerator RespawnCoroutine()
-    {
-        yield return new WaitForSeconds(5f);
-        Respawn();
-    }
 
-    private void OnFastTravelStarted(Vector3 respPosition)
-    {
-       SetStartingPosition(respPosition);
-       Respawn();
-    }
+
 }

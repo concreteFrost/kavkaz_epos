@@ -55,12 +55,12 @@ public class StarterMenuUI : MonoBehaviour
 
     private void StartNewGame()
     {
-        SaveLoadManager.Instance.StartNewGame(starterBiom.biomName);
+        SceneTransitionManager.Instance.StartNewGame(starterBiom.biomName);
     }
 
     private void LoadGame()
     {
-        SaveLoadManager.Instance.LoadGame();
+        SceneTransitionManager.Instance.LoadGame();
     }
 
     private void QuitGame()

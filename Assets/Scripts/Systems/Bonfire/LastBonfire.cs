@@ -12,7 +12,7 @@ public class LastBonfire : Bonfire
         interactor.StatsController.ResetAllStats();
         interactor.StatsModifier.ClearNegativeStatEffects();
 
-        SaveLoadManager.Instance.TravelToLevel(travelLevel.biomName);
+        SceneTransitionManager.Instance.TravelToLevel(travelLevel.biomName, Vector3.zero);
 
     }
 

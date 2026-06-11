@@ -4,6 +4,10 @@ public class GlobalUIManager : MonoBehaviour
 {
     [SerializeField] private BonfirePanelUI bonfirePanelUI;
     [SerializeField] private PlayerLootPanelUI lootPanelUI;
+    [SerializeField] private ScreenFaderUI screenFaderUI;   
+
+    public static GlobalUIManager Instance;
+
 
     private void OnEnable()
     {
@@ -13,6 +17,21 @@ public class GlobalUIManager : MonoBehaviour
     private void OnDisable()
     {
         GameStateManager.GameStateChanged -= OnGameStateChanged;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+
+            Destroy(gameObject);
+            return;
+        }
     }
 
     private void Start()

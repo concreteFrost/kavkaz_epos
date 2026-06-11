@@ -38,7 +38,15 @@ public abstract class BaseFallController : MonoBehaviour
         }
     }
 
-   
+    /// <summary>
+    /// ѕредотвар€щает смерть при телепортации
+    /// </summary>
+    /// <param name="pos"></param>
+    public void ResetLastGroundedPosition(Vector3 pos)
+    {
+        lastGroundedPosition = pos;
+       
+    }
 
-    
+
 }

@@ -7,7 +7,7 @@ public class DeadBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         dm = animator.GetComponentInChildren<IDamagable>();
-        animator.applyRootMotion = true;
+        //animator.applyRootMotion = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

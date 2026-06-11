@@ -119,7 +119,7 @@ public class EnemyBrain : AIBrain
             if (dist < 25f)
             {
                 SetActivated(true);
-                Debug.Log("activating brain");
+               
             }
 
         }

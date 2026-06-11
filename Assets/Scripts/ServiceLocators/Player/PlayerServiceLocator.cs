@@ -279,6 +279,7 @@ public class PlayerServiceLocator : MonoBehaviour
             statsController: stats,
             statsModifier: statsModifier,
             startingPosition: transform.position,
+            fallController: fallController,
             self: transform);
     }
 

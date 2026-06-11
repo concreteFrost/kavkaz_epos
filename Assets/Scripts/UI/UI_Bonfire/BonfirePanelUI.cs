@@ -32,12 +32,12 @@ public class BonfirePanelUI : MonoBehaviour
     private void OnDisable()
     {
         travelSectionButton.onClick.RemoveAllListeners();
-        closeButton.onClick.RemoveAllListeners();   
+        closeButton.onClick.RemoveAllListeners();
     }
 
     public void ToggleMainPanel(bool isActive)
     {
-       
+
         mainWrapper.SetActive(isActive);
         bonfirePanel.SetActive(isActive);
         HideTravelPanel(true);
@@ -59,10 +59,10 @@ public class BonfirePanelUI : MonoBehaviour
         travelWrapper.SetActive(true);
         SetupTravelActions();
 
-        activePanel = travelWrapper;    
+        activePanel = travelWrapper;
         ClampActivePanel(activePanel);
 
-      
+
     }
 
     public void HideAllPanels()
@@ -95,7 +95,12 @@ public class BonfirePanelUI : MonoBehaviour
             var bonfireButton = GetTravelButtonFromPool();
 
             string id = bonfire.id;
-            bonfireButton.onClick.AddListener(() => bonfireManager.FastTravel(id));
+            bonfireButton.onClick.AddListener(() =>
+            {
+                bonfireManager.FastTravel(id);
+
+                HideAllPanels();
+            });
 
             var btnText = bonfireButton.GetComponentInChildren<TextMeshProUGUI>();
             btnText.text = bonfire.GetBonfireName();
@@ -124,7 +129,7 @@ public class BonfirePanelUI : MonoBehaviour
         foreach (var btn in travelButtonsPool)
         {
             btn.onClick.RemoveAllListeners();
-            btn.gameObject.SetActive(false);    
+            btn.gameObject.SetActive(false);
         }
     }
 
@@ -134,10 +139,10 @@ public class BonfirePanelUI : MonoBehaviour
 
         UINavigationUtils.ClampVerticalNavigation(selectables);
 
-        if(selectables.Count > 0) 
-        StartCoroutine(UINavigationUtils.SelectWithDelay(selectables[0].gameObject));
+        if (selectables.Count > 0)
+            StartCoroutine(UINavigationUtils.SelectWithDelay(selectables[0].gameObject));
     }
 
 
-   
+
 }

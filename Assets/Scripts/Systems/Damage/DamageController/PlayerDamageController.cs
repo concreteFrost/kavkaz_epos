@@ -24,7 +24,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
         {
             DamageData d = new DamageData
             {
-                finalDamage = 20f,
+                finalDamage = 100f,
                 balanceDamageType = BalanceDamageType.Extreme,
                 impactForce = 20f
             };

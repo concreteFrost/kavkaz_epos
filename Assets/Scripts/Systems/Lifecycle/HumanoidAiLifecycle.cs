@@ -51,7 +51,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         //StartCoroutine(RespawnCoroutine());
     }
 
-    public override void Respawn()
+    public override void Respawn(Vector3 pos)
     {
         damagable.IsDead = false;
         damagable.ResetOriginPosition();

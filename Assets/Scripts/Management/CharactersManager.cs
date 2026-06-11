@@ -113,14 +113,12 @@ public class CharactersManager : MonoBehaviour
 
             if(match != null)
             {
-                match.lifecycle.Respawn();
+                match.lifecycle.Respawn(Vector3.zero); //респавн позиция здесь не важна
 
                 match.transform.position = new Vector3(enemy.enemyPosition[0], enemy.enemyPosition[1], enemy.enemyPosition[2]);
+               
                 match.statsManager.LoadStatsData(enemy.statsData);
-                match.statsManager.LoadStatsData(enemy.statsData);
-
            
-
                 if(match.statsManager.Health.Current <= 0)
                 {
                     match.lifecycle.PerformDeath();  
@@ -137,7 +135,7 @@ public class CharactersManager : MonoBehaviour
 
             if(match != null)
             {
-                match.lifecycle?.Respawn();
+                match.lifecycle?.Respawn(Vector3.zero); //респавн позиция здесь не важна
                 match.transform.position = new Vector3(friendNpc.npcPosition[0], friendNpc.npcPosition[1], friendNpc.npcPosition[2]);
                 match.dialogueController.LoadData(friendNpc);
 
@@ -152,7 +150,7 @@ public class CharactersManager : MonoBehaviour
     {
         foreach(var character in enemies)
         {
-            character.lifecycle.Respawn();
+            character.lifecycle.Respawn(Vector3.zero); //респавн позиция здесь не важна
         }
     }
 

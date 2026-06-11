@@ -20,6 +20,11 @@ public class WeaponAttack
 
     public FromHand SourceHand() => fromHand;
 
+
+
+    public float invincibleStartFrame = 0f;
+    public float invincibleEndFrame = 0f;    
+
     //public float GetFinalDamage(float baseDamage, float strength)
     //{
     //    strength = Mathf.Max(1f, strength);

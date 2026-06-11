@@ -6,11 +6,13 @@ public class CharacterConstructor : MonoBehaviour
     CharacterSpellInventory spellInventory;
     [SerializeField] bool hasAllConsumables;
     [SerializeField] bool hasAllSpells;
+    [SerializeField] bool hasAllWeapons;
 
     public void Init(PlayerConsumableInventory consumableInventory, CharacterSpellInventory spellInventory)
     {
         this.consumableInventory = consumableInventory;
         this.spellInventory = spellInventory;
+
 
         if (hasAllConsumables)
         {
@@ -21,6 +23,7 @@ public class CharacterConstructor : MonoBehaviour
         {
             spellInventory.AddAllItemsOnStart();
         }
+
 
     }
 }

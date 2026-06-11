@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public enum GameState
@@ -29,6 +30,7 @@ public class GameStateManager : MonoBehaviour
     private void OnEnable()
     {
         GameStateChanged += SetState;
+        
     }
 
     private void OnDisable()

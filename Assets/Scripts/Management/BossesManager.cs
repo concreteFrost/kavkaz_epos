@@ -38,7 +38,7 @@ public class BossesManager : MonoBehaviour
 
             if (match != null)
             {
-                Debug.Log("found area to load");
+               
                 match.LoadData(state);
             }
         }

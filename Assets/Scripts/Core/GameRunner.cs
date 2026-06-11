@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System;
 using UnityEngine;
 
 
@@ -29,22 +28,25 @@ public class GameRunner : MonoBehaviour
 
     private void OnEnable()
     {
-        SaveLoadManager.MenuLoaded += OnMenuLoaded;
-        SaveLoadManager.NewGameStarted += OnNewGameStarted;
-        SaveLoadManager.TravelStarted += OnTravelStarted;
-        SaveLoadManager.SceneLoadedAfterTravel += OnSceneLoadedAfterTravel;
-        SaveLoadManager.SaveLoaded += OnSaveLoaded;
-        SaveLoadManager.GameSaved += OnGameSave;
+        SceneTransitionManager.MenuLoaded += OnMenuLoaded;
+        SceneTransitionManager.NewGameStarted += OnNewGameStarted;
+        SceneTransitionManager.TransitionStarted += OnTravelStarted;
+        SceneTransitionManager.SceneLoadedAfterTravel += OnSceneLoadedAfterTravel;
+        SceneTransitionManager.SaveLoaded += OnSaveLoaded;
+        SceneTransitionManager.GameSaved += OnGameSave;
+
     }
+
 
     private void OnDisable()
     {
-        SaveLoadManager.MenuLoaded -= OnMenuLoaded; 
-        SaveLoadManager.NewGameStarted -= OnNewGameStarted;
-        SaveLoadManager.TravelStarted -= OnTravelStarted;
-        SaveLoadManager.SceneLoadedAfterTravel -= OnSceneLoadedAfterTravel;
-        SaveLoadManager.SaveLoaded -= OnSaveLoaded;
-        SaveLoadManager.GameSaved -= OnGameSave;
+        SceneTransitionManager.MenuLoaded -= OnMenuLoaded; 
+        SceneTransitionManager.NewGameStarted -= OnNewGameStarted;
+        SceneTransitionManager.TransitionStarted -= OnTravelStarted;
+        SceneTransitionManager.SceneLoadedAfterTravel -= OnSceneLoadedAfterTravel;
+        SceneTransitionManager.SaveLoaded -= OnSaveLoaded;
+        SceneTransitionManager.GameSaved -= OnGameSave;
+       
     }
 
     public void Bootstrap()
@@ -75,14 +77,6 @@ public class GameRunner : MonoBehaviour
 
     }
 
-    public void SpawnAtLevelStart()
-    {
-        Vector3 pos = activeLevel.startingPosition.position;
-
-        Player.serviceLocator.transform.position = pos;
-        Player.serviceLocator.lifecycle.respawnPosition = pos;
-    }
-
     public void OnMenuLoaded()
     {
         var scenePlayer = FindAnyObjectByType<PlayerManager>();
@@ -92,7 +86,7 @@ public class GameRunner : MonoBehaviour
         }
     }
 
-    public void OnTravelStarted()
+    public void OnTravelStarted(float transition)
     {
         worldStateManager.SaveLevel(activeLevel);
     }
@@ -100,21 +94,26 @@ public class GameRunner : MonoBehaviour
     public void OnNewGameStarted()
     {  
         Bootstrap();
-        SpawnAtLevelStart();
+        Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
 
     }
 
-    public void OnSceneLoadedAfterTravel(string sceneName)
+
+    public void OnSceneLoadedAfterTravel(string sceneName, Vector3 startingPosition)
     {
         BootstrapLevel();
 
         worldStateManager.LoadLevel(activeLevel);
         activeLevel.ReloadWholeLevelState();
-        
-        SpawnAtLevelStart();
+
+        if(startingPosition == Vector3.zero)
+        {
+            startingPosition = activeLevel.GetStartingPosition();
+        }
+        Player.serviceLocator.lifecycle.Respawn(startingPosition);
        
         GlobalQuestManager.Instance.GetCurrentQuestsState();
-        SaveLoadManager.Instance.SaveGame();
+        SceneTransitionManager.Instance.SaveGame();
     }
 
     public void OnSaveLoaded(SaveGameData data)
@@ -132,6 +131,7 @@ public class GameRunner : MonoBehaviour
 
     public void OnGameSave()
     {
+        
         worldStateManager.SaveLevel(activeLevel);
 
         SaveGameData saveGameData = new SaveGameData();
@@ -142,5 +142,6 @@ public class GameRunner : MonoBehaviour
 
         SaveLoadSystem.SaveGameData(saveGameData);
     }
+
 
 }

@@ -10,7 +10,7 @@ public abstract class CharacterLifecycle : MonoBehaviour , ICharacterLifeCycle
     protected Transform self;
 
     public abstract void Die();
-    public abstract void Respawn();
+    public abstract void Respawn(Vector3 pos);
 
     protected void BaseInit(CharacterStatsController statsController, CharacterStatsModifier statsModifier, BaseHumanoidDamageController damageController, Vector3 startingPostion, Transform self)
     {

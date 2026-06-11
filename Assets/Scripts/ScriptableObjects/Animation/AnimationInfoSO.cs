@@ -8,8 +8,5 @@ public class AnimationInfoSO : ScriptableObject
     public float hitStartFrame;
     public float hitEndFrame;
 
-    public float invincibleStartFrame;
-    public float invincibleEndFrame;
-
     public float animationSpeed = 1f;
 }

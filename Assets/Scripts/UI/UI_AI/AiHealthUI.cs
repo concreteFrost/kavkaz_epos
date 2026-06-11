@@ -9,8 +9,6 @@ public class AiHealthUI : MonoBehaviour , IUiProvider
     private CharacterStatsController stats;
     private Camera cam;
 
-
-
     #region IUIProvider
     public string HealthProviderId() => null;
     #endregion
@@ -43,7 +41,7 @@ public class AiHealthUI : MonoBehaviour , IUiProvider
         if (cam == null)
         {
             cam = Camera.main;  
-            Debug.Log("cam is null");
+           
             return;
         }
            

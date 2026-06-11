@@ -136,7 +136,7 @@ public class PlayerUIManager : MonoBehaviour
 
     private void CloseAllPanels()
     {
-
+        
         inventoryContextMenuUI.HideContextMenu(false);
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);

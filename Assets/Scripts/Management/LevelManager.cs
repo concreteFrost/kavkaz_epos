@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
 
     [HideInInspector] public LevelState levelState;
-    public Transform startingPosition;
+    [SerializeField] private Transform startingPosition;
 
     [SerializeField] private LootManager lootManager;
     [SerializeField] private CharactersManager charactersManager;
@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
     {
         lootManager?.Init();
         charactersManager?.Init();
-        bonfireManager?.Init();
+        bonfireManager?.Init(GetLevelName());
         bossesManager?.Init();
         hubManager?.Init();  
     }
@@ -75,6 +75,8 @@ public class LevelManager : MonoBehaviour
     {
         charactersManager?.RespawnAllCharacters();
     }
+
+    public Vector3 GetStartingPosition() => startingPosition.position;
 
     #endregion
 

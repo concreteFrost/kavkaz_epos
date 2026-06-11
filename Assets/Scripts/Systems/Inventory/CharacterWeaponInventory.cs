@@ -157,6 +157,8 @@ public class CharacterWeaponInventory : QuickAccessInventory
         weaponSetter.HandleResetCombatItem(item.instanceId);
     }
 
+
+
     public ItemData GetCurrentWeaponData() => weaponSetter.CurrentWeapon.GetItemData();
     public ItemData GetCurrentShieldData() => weaponSetter.ShieldWeapon != null ? weaponSetter.ShieldWeapon.GetItemData() : null;    
 

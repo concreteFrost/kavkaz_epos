@@ -12,6 +12,7 @@ public class PlayerFallController : BaseFallController
 
     }
 
+
     private void Update()
     {
         TrackFall();
@@ -33,5 +34,7 @@ public class PlayerFallController : BaseFallController
             CalculateFallDamage();
         }
     }
+
+    
 
 }
