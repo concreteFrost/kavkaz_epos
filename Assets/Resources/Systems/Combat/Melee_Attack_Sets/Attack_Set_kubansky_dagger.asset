@@ -19,38 +19,50 @@ MonoBehaviour:
       impactForce: 3
       statusEffectData:
         effects: []
+        effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 5
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: bea5a0bc8609aaf43b71e506be961699, type: 2}
+    animationInfo: {fileID: 11400000, guid: 2e4c89c72d68069459e64eb53f8d2f27, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   - damageData:
-      damageMultiplier: 0
+      damageMultiplier: 0.2
       balanceDamageType: 1
       impactForce: 4
       statusEffectData:
         effects: []
+        effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 6
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: e1614efa858c0254db99bdff5b169c57, type: 2}
+    animationInfo: {fileID: 11400000, guid: 6e42196bad4f71940985d2b247a058f6, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   - damageData:
-      damageMultiplier: 0
-      balanceDamageType: 2
+      damageMultiplier: 0.35
+      balanceDamageType: 1
       impactForce: 5
       statusEffectData:
         effects: []
+        effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 7
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: a12d411502e4e3744a89dfb4bf03a644, type: 2}
+    animationInfo: {fileID: 11400000, guid: e4423238452c7a84db9e1a8f1f36e1e1, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   powerAttack:
     damageData:
-      damageMultiplier: 0
-      balanceDamageType: 3
-      impactForce: 500
+      damageMultiplier: 0.5
+      balanceDamageType: 2
+      impactForce: 10
       statusEffectData:
         effects: []
+        effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 7
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: 3c6a0034fb2e1024bae18197268e6f66, type: 2}
+    animationInfo: {fileID: 11400000, guid: ae371e4ea762c6141858c0bca3b0ca25, type: 2}
+    invincibleStartFrame: 0.2
+    invincibleEndFrame: 0.8

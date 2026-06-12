@@ -9,9 +9,16 @@ public class LabelHolder : MonoBehaviour
     public bool isVisible = true;
     public int fontSize = 18;
 
-    private void OnDrawGizmos()
+    protected virtual void DrawGizmo()
     {
-        if(isVisible)   
         GizmoDrawer.DrawText(transform, col, objectName, fontSize);
     }
+
+    private void OnDrawGizmos()
+    {
+        if (isVisible)
+            DrawGizmo();
+    }
 }
+
+

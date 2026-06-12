@@ -59,6 +59,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] public PlayerConsumableInventory consumableInventory;
     [SerializeField] public PlayerQuestItemsInventory questItemsInventory;
 
+    [Header("Экононмика")]
+    [SerializeField] public PlayerMoneyManager moneyManager;    
+
     [Header("Система урона")]
     [SerializeField] private PlayerDamageController damageController;
     [SerializeField] private PlayerPushReceiver pushReceiver;
@@ -272,6 +275,11 @@ public class PlayerServiceLocator : MonoBehaviour
         questItemsInventory.Init();
     }
 
+    private void InitMoney()
+    {
+
+    }
+
     private void InitLifecycle()
     {
         lifecycle.Init(
@@ -294,7 +302,8 @@ public class PlayerServiceLocator : MonoBehaviour
             weaponInventory: weaponInventory,
             weaponSetter: weaponSetter,
             targetLock: targetLock,levelController:levelController,
-            consumeController:consumeController);
+            consumeController:consumeController,
+            moneyManager:moneyManager);
     }
 
     private void InitCharacterConstructor()

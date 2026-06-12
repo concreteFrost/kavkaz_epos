@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1931144389355884070}
   - component: {fileID: 7793560571238482614}
   - component: {fileID: 4450052446352410796}
-  - component: {fileID: 7155182176071135409}
+  - component: {fileID: 908857551508891245}
   m_Layer: 2
   m_Name: LootHolder_Static_prefab
   m_TagString: Untagged
@@ -51,7 +51,12 @@ MonoBehaviour:
   id: 
   itemsToDrop: []
   visual: {fileID: 3965398975241148698}
-  guaranteedItems: []
+  guaranteedItems:
+  - itemSO: {fileID: 11400000, guid: cc5c897144d314c4ab01918b2a6dc503, type: 2}
+    quantity: 2
+    instanceId: 
+    durability: 0
+    isEquiped: 0
 --- !u!135 &7793560571238482614
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -85,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_38fd58fd-17d9-4ffd-b69c-12229c9f208a
---- !u!114 &7155182176071135409
+  uniqueId: uid_66c116d8-bef2-4ef3-85f1-a4a0be374723
+--- !u!114 &908857551508891245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,13 +100,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3463624092011238556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
+  m_Script: {fileID: 11500000, guid: f6d8c224ddbbdde4bbd306dc2ffa55ae, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
-  objectName: Static Loot
-  col: {r: 1, g: 0.82380354, b: 0, a: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::LabelStaticLootHolder
+  objectName: 
+  col: {r: 0, g: 1, b: 0.019749641, a: 0}
   isVisible: 1
   fontSize: 18
+  lootHolder: {fileID: 1931144389355884070}
 --- !u!1001 &3892339296911716114
 PrefabInstance:
   m_ObjectHideFlags: 0

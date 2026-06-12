@@ -25,6 +25,9 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private PlayerInteractionUI interactionUI;
 
+    [Header("Money")]
+    [SerializeField] private PlayerMoneyUI moneyUI;
+
     #endregion
 
     #region Initialization
@@ -39,7 +42,9 @@ public class PlayerUIManager : MonoBehaviour
         HumanoidWeaponSetter weaponSetter,
         PlayerTargetLock targetLock,
         CharacterLevelController levelController,
-        CharacterConsumeController consumeController)
+        CharacterConsumeController consumeController,
+        PlayerMoneyManager moneyManager
+        )
     {
         InitCorePanels(stats:stats,
             statsModifier:statsModifier,
@@ -55,6 +60,7 @@ public class PlayerUIManager : MonoBehaviour
         levelControllerUI.Init(levelController);
         menuOptionsUI.Init(levelControllerUI);
         interactionUI.Init(interactionController);
+        moneyUI.Init(moneyManager);
 
 
     }
