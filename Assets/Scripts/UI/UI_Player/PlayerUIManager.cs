@@ -204,6 +204,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         playerStatsUI.SetStatsVisible(isVisible);
         quickSlotsUI.SetPanelVisible(isVisible);
+        moneyUI.ToggleWrapper(isVisible);
     }
 
     private void SetCursorState(bool visible)

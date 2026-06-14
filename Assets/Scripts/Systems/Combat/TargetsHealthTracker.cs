@@ -19,13 +19,22 @@ public class TargetsHealthTracker : MonoBehaviour
 
     private void OnEnable()
     {
+        SceneTransitionManager.SceneLoadedAfterTravel += OnSceneLoadAfterTravel;
         HumanoidAIDamageController.NotifySource += OnSourceNotified;
     }
 
     private void OnDisable()
     {
+        SceneTransitionManager.SceneLoadedAfterTravel -= OnSceneLoadAfterTravel;
         HumanoidAIDamageController.NotifySource -= OnSourceNotified;
     }
+
+
+    private void OnSceneLoadAfterTravel(string arg1, Vector3 vector)
+    {
+        healthProviders.Clear();
+    }
+
 
     private void OnSourceNotified(IDamagable target)
     {

@@ -204,7 +204,8 @@ public class PlayerServiceLocator : MonoBehaviour
             consumableInventory: consumableInventory,
             weaponInventory:weaponInventory,
             questItemsInventory:questItemsInventory,
-            lifeCycle:lifecycle);
+            lifeCycle:lifecycle,
+            moneyManager:moneyManager);
 
         consumeController.Init(animatorController: animatorController, inventory: consumableInventory);
 

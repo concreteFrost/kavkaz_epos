@@ -23,7 +23,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsDamaged { get; set; }
     public CharacterType CharacterType { get; set; }
     public Transform GetAimTransform() => aimPosition;
-    public Transform GetOrigin() => transform;
+    public Transform GetOrigin() => transform ;
 
     public event Action<Transform> DamageTaken;
     public bool IsKnockedOut { get; set; }

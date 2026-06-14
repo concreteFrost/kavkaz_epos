@@ -14,5 +14,6 @@ public class PlayerState
     public SaveInventoryData consumableInventoryData;
     public SaveInventoryData weaponsData;
     public SaveInventoryData questItemsData;
+    public float moneyAmount;
 
 }

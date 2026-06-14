@@ -38,6 +38,8 @@ public class PlayerManager : MonoBehaviour
         playerState.spellInventoryData = serviceLocator.spellInventory.SaveInventoryData();
         playerState.weaponsData = serviceLocator.weaponInventory.SaveInventoryData();
 
+        playerState.moneyAmount = serviceLocator.moneyManager.CurrentBalance;
+
         return playerState;
     }
 
@@ -51,7 +53,8 @@ public class PlayerManager : MonoBehaviour
         serviceLocator.consumableInventory.LoadInventoryData(state.consumableInventoryData);
         serviceLocator.spellInventory.LoadInventoryData(state.spellInventoryData);
         serviceLocator.weaponInventory.LoadInventoryData(state.weaponsData);
-        serviceLocator.questItemsInventory.LoadInventoryData(state.questItemsData); 
+        serviceLocator.questItemsInventory.LoadInventoryData(state.questItemsData);
+        serviceLocator.moneyManager.LoadData(state.moneyAmount);
 
         Vector3 respawnPosition = new Vector3(state.respawnPosition[0], state.respawnPosition[1], state.respawnPosition[2]);
         serviceLocator.lifecycle.SetStartingPosition(respawnPosition);

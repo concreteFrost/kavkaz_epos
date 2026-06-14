@@ -19,7 +19,10 @@ public class BonfireManager : MonoBehaviour
         
         foreach (var item in bonfires)
         {
-            item.Init();    
+            item.Init();
+
+            if (item.isDiscovered)
+                item.DiscoverBonfire();
         }
 
         BonfireStatesUpdated?.Invoke();

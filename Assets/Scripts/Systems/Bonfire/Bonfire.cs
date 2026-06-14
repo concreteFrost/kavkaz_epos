@@ -68,7 +68,7 @@ public class Bonfire : MonoBehaviour, IInteractable
 
     }
 
-    protected void DiscoverBonfire()
+    public void DiscoverBonfire()
     {
         particles.Play();
         isDiscovered = true; 

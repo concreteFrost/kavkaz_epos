@@ -10,6 +10,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
     PlayerConsumableInventory consumableInventory;
     CharacterWeaponInventory weaponInventory;
     PlayerQuestItemsInventory questItemsInventory;
+    PlayerMoneyManager moneyManager;
 
     public static Action<ItemData> LootCollected;
     public void Init(string collectorId, Transform self,
@@ -23,14 +24,16 @@ public class PlayerInteractionController : BaseCharacterInteractor
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory,
         CharacterWeaponInventory weaponInventory,
-        PlayerQuestItemsInventory questItemsInventory
+        PlayerQuestItemsInventory questItemsInventory,
+        PlayerMoneyManager moneyManager
         )
     {
         BaseInit(collectorId, self, statsController, statsModifier, animatorController, combatInventory, damageController, attackSource, lifeCycle);
         this.spellInventory = spellInventory;
         this.consumableInventory = consumableInventory;
         this.weaponInventory = weaponInventory;
-        this.questItemsInventory = questItemsInventory; 
+        this.questItemsInventory = questItemsInventory;
+        this.moneyManager = moneyManager;
 
        
     }
@@ -54,6 +57,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
         if (data.itemSO is ConsumableItemSO) consumableInventory.AddItemToInventory(data);
         if (data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data);
         if (data.itemSO is QuestItemSO) questItemsInventory.AddItemToInventory(data);
+        if (data.itemSO is MoneyItemSO) moneyManager.AddMoney(data.quantity);
 
         LootCollected?.Invoke(data);
     }
