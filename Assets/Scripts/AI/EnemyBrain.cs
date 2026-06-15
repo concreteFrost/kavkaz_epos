@@ -10,17 +10,19 @@ public enum AIStateResult
     Wait = 5,
     MoveToStartPosition = 6,
     Strafe = 7,
-    MoveToInterruptor = 8,
+    //MoveToInterruptor = 8,
 }
 
 public class EnemyBrain : AIBrain
 {
     EnemyBrainContext context;
 
+    public EnemyBrainContext GetContext() => context;
+
     private AIStateMachine stateMachine = new AIStateMachine();
 
     public AIState<EnemyBrainContext> currentState;
-    
+
     [Header("Behaviours")]
     [SerializeField] private AIState<EnemyBrainContext> idle;
     [SerializeField] private AIState<EnemyBrainContext> patrol;
@@ -29,7 +31,7 @@ public class EnemyBrain : AIBrain
     [SerializeField] private AIState<EnemyBrainContext> strafe;
     [SerializeField] private AIState<EnemyBrainContext> wait;
     [SerializeField] private AIState<EnemyBrainContext> moveToStart;
-    [SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
+    //[SerializeField] private AIState<EnemyBrainContext> moveToInterruptor;
 
     Transform pl;
 
@@ -47,7 +49,7 @@ public class EnemyBrain : AIBrain
         strafe.Init(context);
         wait.Init(context);
         moveToStart.Init(context);
-        moveToInterruptor.Init(context);
+        //moveToInterruptor.Init(context);
 
         attack.Init(context);
 
@@ -58,13 +60,14 @@ public class EnemyBrain : AIBrain
     void Update()
     {
 
-        if (!isActivated) {
+        if (!isActivated)
+        {
 
             TrackActivation();
             return;
         }
 
-        if (context.damageController.IsDead || stateMachine.CurrentState == null )
+        if (context.damageController.IsDead || stateMachine.CurrentState == null)
         {
             stateMachine.ForceExit();
             return;
@@ -94,9 +97,9 @@ public class EnemyBrain : AIBrain
             case AIStateResult.MoveToStartPosition:
                 stateMachine.ChangeState(moveToStart);
                 break;
-            case AIStateResult.MoveToInterruptor:
-                stateMachine.ChangeState(moveToInterruptor);
-                break;
+            //case AIStateResult.MoveToInterruptor:
+            //    stateMachine.ChangeState(moveToInterruptor);
+            //    break;
 
 
         }
@@ -119,16 +122,14 @@ public class EnemyBrain : AIBrain
             if (dist < 25f)
             {
                 SetActivated(true);
-               
+
             }
 
         }
     }
 
-    public void ForceChangeState(AIState<EnemyBrainContext> state)
+    public override void ForceChangeState(IAIState state)
     {
-        
-        state.Init(context);
         stateMachine.ChangeState(state);
     }
 
@@ -145,12 +146,12 @@ public class EnemyBrain : AIBrain
 
     public void SetActivated(bool activated)
     {
-      
+
         isActivated = activated;
 
-        if(isActivated) SetInitialState();
+        if (isActivated) SetInitialState();
     }
-    
+
 
 
 }

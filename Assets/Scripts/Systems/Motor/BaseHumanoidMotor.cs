@@ -68,6 +68,7 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     [SerializeField] internal bool isGrounded = true;
     protected bool isDodging;
     public bool isStrafing;
+    protected bool isTurning;
    
     internal bool isRotationBlocked = false;
 
@@ -80,7 +81,8 @@ public abstract class  BaseHumanoidMotor  : MonoBehaviour, IHumanoidMovement
     public bool BlockRotation { get => isRotationBlocked; set => isRotationBlocked = value; }
     public float GroundDistance { get => groundDistance; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
-    public bool IsStrafing { get => isStrafing; set => isStrafing = value; }   
+    public bool IsStrafing { get => isStrafing; set => isStrafing = value; }  
+    public bool IsTurning { get => isTurning; set => isTurning = value; }   
     public bool IsJumping { get => isJumping; }
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsDodging { get => isDodging; set => isDodging = value; }

@@ -9,7 +9,7 @@ public interface IDamagable
     // Тип персонажа (например, игрок, враг) для фильтрации атак и логики целей
     void ToggleDamagableCollider(bool isActive);
     void TakeMaxDamage();
-    void TakeDamage(DamageData damageData, Transform source = null);
+    void TakeDamage(DamageData damageData, IAttackSource source = null);
     // Метод нанесения урона; source указывает, кто атакует
 
     IShield Protection { get; set; }
@@ -33,7 +33,7 @@ public interface IDamagable
     Transform GetOrigin();
     // Точка происхождения персонажа (например, центр коллайдера или положение тела)
 
-    event Action<Transform> DamageTaken;
+    event Action<IAttackSource> DamageTaken;
 
     // Событие, вызываемое при получении урона (можно подписаться на эффекты, UI или звук)
 

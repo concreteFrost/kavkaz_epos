@@ -23,11 +23,17 @@ public class CharacterStatsController : BaseStatsController
     public StrengthModel Strength;
 
     public HumanoidStatsSO statsSO;
-    public CharacterStatsLevelSO statsLevelSO;
+    //public CharacterStatsLevelSO statsLevelSO;
 
     [Header("jumping")]
     public float jumpHeight;
     public float jumpTimer;
+
+    [Header("Initial Levels")]
+    public int initialHealthLevel=1;
+    public int initialStaminaLevel=1;
+    public int initialKnowledgeLevel=1;
+    public int initialStrengthLevel=1;
 
     [Header("Levels")]
     public int healthLevel;
@@ -41,10 +47,10 @@ public class CharacterStatsController : BaseStatsController
         jumpHeight = statsSO.jumpHeight;
         jumpTimer = statsSO.jumpTimer;
 
-        healthLevel = statsLevelSO.startHealthLevel;
-        staminaLevel = statsLevelSO.startStaminaLevel;
-        knowledgeLevel = statsLevelSO.startKnowledgeLevel;
-        strengthLevel = statsLevelSO.startStrengthLevel;
+        healthLevel =initialHealthLevel;
+        staminaLevel = initialStaminaLevel;
+        knowledgeLevel = initialKnowledgeLevel;
+        strengthLevel = initialStrengthLevel;
 
         Health = new HealthModel(statsSO.baseHealth, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Stamina = new StaminaModel(statsSO.baseStamina, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);

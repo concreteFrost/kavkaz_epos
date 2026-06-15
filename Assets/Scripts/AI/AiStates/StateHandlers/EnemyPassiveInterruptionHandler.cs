@@ -1,50 +1,33 @@
 using UnityEngine;
 
-[System.Serializable]   
+[System.Serializable]
 public class EnemyPassiveInterruptionHandler
 {
 
-    [SerializeField] private bool isInterrupted = false;
-    Vector3 interruptionPosition;
-    
-    private float interruptionTimer=0f;
-    private float maxInterruptionTimer = 2f;    
+    Transform self;
+    //private EnemyBrain brain;
 
-    public bool IsInterrupted() => isInterrupted;
+    //private AIState<EnemyBrainContext> moveToInterruptor;
 
-    public void OnDamageTaken(Transform attackSource) {
+    EnemyFOVController fOVController;
 
-        if (attackSource == null) return;    
-        
-        interruptionPosition = attackSource.position;
-        isInterrupted = true;
-
-    }
-
-    /// <summary>
-    /// Обновляет таймер отвлеченности и сбрасывает до изначального состояния
-    /// </summary>
-    public void HandleInterruptionUpdate()
+    public void Init(Transform self, EnemyFOVController fOVController)
     {
-        if (!isInterrupted) return;
+        this.self = self;
+        this.fOVController = fOVController;
 
-        interruptionTimer += Time.deltaTime;
+        //moveToInterruptor.Init(brain.GetContext());
+    }
 
-        if (interruptionTimer >= maxInterruptionTimer)
-        {
-            interruptionTimer = 0f;
-            isInterrupted = false;
-        }
+    public void OnDamageTaken(IAttackSource attackSource)
+    {
+
+        if (attackSource == null) return;
+
+        ReactOnDamage(attackSource);
+
 
     }
-    
-    /// <summary>
-    /// Возвращает позицию отвлекающего. Используется для того
-    /// чтобы агент мог отправиться на позицию отвлекающего
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 InterruptorPosition()=> interruptionPosition;
-
 
     /// <summary>
     /// Определяет реакцию на отвлечение. 
@@ -52,21 +35,23 @@ public class EnemyPassiveInterruptionHandler
     /// <param name="selfPosition"></param>
     /// <param name="anim"></param>
     /// <returns></returns>
-    public AIStateResult ReactOnDamage(Vector3 selfPosition,Animator anim)
+    public void ReactOnDamage(IAttackSource src)
     {
 
-       
-        float dist = Vector3.Distance(interruptionPosition, selfPosition);
+        if (fOVController.currentTarget != null) return;
+        var dmg = fOVController.TryGetDamagable(src.Source());
 
-        //если цель дальше трёх метров то следовать к источнику отвлечения
-        if (dist > 3f)
+        if (dmg == null)
         {
-            return AIStateResult.MoveToInterruptor;
-        }
+            Debug.Log("no damagable interruptor detected");
+            return;
 
-        //если цель близка то просто проиграть анимацию осматривания по сторонам
-        anim.CrossFade(AnimatorParameters.lookAroundState, 0f, 0);
-        return AIStateResult.None;
+        }
+        fOVController.SetLockedTarget(dmg);
+
+
+
+
 
     }
 

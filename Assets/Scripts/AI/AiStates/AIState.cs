@@ -8,6 +8,7 @@ public abstract class AIState<Context> : MonoBehaviour, IAIState
     public void Init(Context context)
     {
         this.context = context;
+
     }
 
     public abstract void Enter();

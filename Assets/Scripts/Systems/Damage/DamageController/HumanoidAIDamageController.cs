@@ -57,7 +57,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         return InBlockingWindow || IsDead ;
     }
 
-    public override void TakeDamage(DamageData damageData, Transform source)
+    public override void TakeDamage(DamageData damageData, IAttackSource source)
     {
         NotifySource?.Invoke(this);
 
@@ -71,7 +71,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
 
-            Vector3 sourcePos = source != null ? source.position : self.position - self.forward;
+            Vector3 sourcePos = source != null ? source.Source().transform.position : self.position - self.forward;
             PerformKnockout(sourcePos, damageData.impactForce);
         }
 

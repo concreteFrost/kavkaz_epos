@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4184097653119368977}
   - component: {fileID: 8953371802677473156}
   - component: {fileID: 976739051043124586}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1894431647989369556}
-  - component: {fileID: 325001870081631603}
+  - component: {fileID: 6094670275061434950}
   m_Layer: 0
   m_Name: AI_InterruptionManager
   m_TagString: Untagged
@@ -104,10 +104,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7384220957877997929}
+  - {fileID: 3250360794959215616}
   m_Father: {fileID: 7561897361928051453}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &325001870081631603
+--- !u!114 &6094670275061434950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,8 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bbba154d8f68844a11bee77dd632db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InterruptionManager
-  passiveInterruptionHandler:
-    isInterrupted: 0
+  moveToInterruptor: {fileID: 410208995134593737}
+  interrupted: {fileID: 2334851824540566481}
 --- !u!1 &349319970192087162
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8016323109923425741}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -984,12 +986,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3194483794040481991}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 624147848215162070}
+  m_Father: {fileID: 1894431647989369556}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &410208995134593737
 MonoBehaviour:
@@ -1212,7 +1214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1080773000456661675}
   - component: {fileID: 2180603663170195972}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1475,7 +1477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5369880656178969978}
   - component: {fileID: 6229217227472263217}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: AI_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1522,7 +1524,7 @@ GameObject:
   - component: {fileID: 1708900513789185832}
   - component: {fileID: 4890599795795136013}
   - component: {fileID: 6931432001734159823}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1662,6 +1664,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8683545447692429565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6019511743341260124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3250360794959215616}
+  - component: {fileID: 2334851824540566481}
+  m_Layer: 0
+  m_Name: Interrupted
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3250360794959215616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6019511743341260124}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1894431647989369556}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2334851824540566481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6019511743341260124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9957f88b29b44ea4083543e77e703c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInterruptionState
 --- !u!1 &6810676649499587521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,7 +1744,6 @@ Transform:
   - {fileID: 1603915726661025520}
   - {fileID: 4465280120540721770}
   - {fileID: 2074504091223121060}
-  - {fileID: 7384220957877997929}
   m_Father: {fileID: 4488181536198613902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6950749859950389245
@@ -1870,7 +1915,7 @@ MonoBehaviour:
   weaponInventory: {fileID: 7349002397152635437}
   emitter: {fileID: 5005815290351033005}
   spellInventory: {fileID: 4689748660644307239}
-  interruptionManager: {fileID: 325001870081631603}
+  interruptionManager: {fileID: 6094670275061434950}
   fovController: {fileID: 5578258695101914936}
   brain: {fileID: 8800504430769765880}
   stateTracker: {fileID: 8051411402485904337}
@@ -1903,7 +1948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_8c34201d-6203-4a71-9d0d-054c8eb3ff8c
+  uniqueId: uid_38a99253-b19c-44b9-8cb5-a2414ede4dd9
 --- !u!195 &4824949580012563523
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2060,7 +2105,7 @@ GameObject:
   - component: {fileID: 1279391821187189574}
   - component: {fileID: 6344735315817435443}
   - component: {fileID: 9148539807788776920}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2329,9 +2374,12 @@ MonoBehaviour:
     Current: 0
     CurrentMax: 0
   statsSO: {fileID: 11400000, guid: 95273c282817ead45ab4139323a8a50a, type: 2}
-  statsLevelSO: {fileID: 11400000, guid: 3a8e90e550cd9304cbe893a99ab56730, type: 2}
   jumpHeight: 0
   jumpTimer: 0
+  initialHealthLevel: 1
+  initialStaminaLevel: 1
+  initialKnowledgeLevel: 1
+  initialStrengthLevel: 1
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0

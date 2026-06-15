@@ -933,7 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
   items: []
-  starterSet: {fileID: 11400000, guid: b48f42d3ed346b2498a8ccb633a11926, type: 2}
+  starterSet: {fileID: 11400000, guid: e594d06b6f805d347acb417e13a3ad64, type: 2}
 --- !u!114 &8013920937491807215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1909,7 +1909,7 @@ MonoBehaviour:
   movementSmooth: 10
   animationSmooth: 0.2
   airSpeed: 10
-  airSmooth: 6
+  airSmooth: 15
   airAcceleration: 70
   extraGravity: -10
   limitFallVelocity: -15
@@ -6065,13 +6065,16 @@ MonoBehaviour:
     Current: 0
     CurrentMax: 0
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
-  statsLevelSO: {fileID: 11400000, guid: 82e33664c8d3466408e6c4a8027edbdc, type: 2}
   jumpHeight: 0
   jumpTimer: 0
-  healthLevel: 0
-  staminaLevel: 0
-  knowledgeLevel: 0
-  strengthLevel: 0
+  initialHealthLevel: 1
+  initialStaminaLevel: 1
+  initialKnowledgeLevel: 1
+  initialStrengthLevel: 1
+  healthLevel: 1
+  staminaLevel: 1
+  knowledgeLevel: 1
+  strengthLevel: 1
 --- !u!114 &966386634311604309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8450,7 +8453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
-  hasAllConsumables: 1
+  hasAllConsumables: 0
   hasAllSpells: 1
   hasAllWeapons: 0
 --- !u!1 &8435803114403785097
@@ -8537,6 +8540,7 @@ MonoBehaviour:
     questItemsData:
       items: []
       currentIndex: 0
+    moneyAmount: 0
   serviceLocator: {fileID: 3859479080802778312}
 --- !u!1 &8492660469280617183
 GameObject:

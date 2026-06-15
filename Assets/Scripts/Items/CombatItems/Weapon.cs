@@ -59,7 +59,7 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.EnableCollider(
             damageData,
             Owner.AttackSource.TargetsToIgnore,
-            Owner.AttackSource.Source()
+            Owner.AttackSource
         );
     }
 

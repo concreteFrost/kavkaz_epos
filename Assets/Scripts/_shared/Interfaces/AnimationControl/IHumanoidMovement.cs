@@ -15,6 +15,7 @@ public interface IHumanoidMovement
     float GroundDistance { get; }
     bool IsJumping { get; }
 
+    bool IsTurning { get; set; }    
     public bool IsDodging { get; set; }
     public float DodgeX {  get; set; }
     public float DodgeY { get; set; }

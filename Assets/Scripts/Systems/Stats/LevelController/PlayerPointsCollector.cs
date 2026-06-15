@@ -17,16 +17,11 @@ public class PlayerPointsCollector : MonoBehaviour
         PointsEmitter.PointsDropped -= AddPoints;   
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            AddPoints(30);
-        }
-    }
+  
 
     public void AddPoints(int points)
     {
+        Debug.Log("added points " +  points);   
         levelController.AddXP(points);
     }
 }

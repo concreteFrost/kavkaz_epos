@@ -29,7 +29,7 @@ public class EnemyStrafeHandler
     public bool IsStrafeTargetFar(float dist) => dist > stats.maxTargetDistanceInStrafe;
   
 
-    public void OnDamageTaken(Transform attackSource)
+    public void OnDamageTaken(IAttackSource attackSource)
     {
         InterruptStrafeState(); 
     }

@@ -13,6 +13,7 @@ public class BiomNameUI : MonoBehaviour
     private Coroutine levelNameRoutine;
     #endregion
 
+    public bool showLevelName = true;   
 
     private void OnEnable()
     {
@@ -30,6 +31,8 @@ public class BiomNameUI : MonoBehaviour
 
     private void OnLevelLoaded(string levelName)
     {
+        if (!showLevelName) return;
+
         ShowBiomName(levelName);
     }
 

@@ -23,6 +23,8 @@ public class EnemySpecialAction
     {
         currentCooldown = UnityEngine.Random.Range(minCooldown, maxCooldown);
         lastTimeExecuted = Time.time;
+
+      
     }
 
     // Готов ли спецприем к исполнению
@@ -43,6 +45,7 @@ public class EnemySpecialAction
         isProcessing = true;
 
         // Принудительно меняем состояние мозга на спецприем
+        specialMove.Init(brain.GetContext());
         brain.ForceChangeState(specialMove);
 
         // Ждем завершения выполнения спецприема

@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 7603601419476255515}
   - component: {fileID: 2731268540836534650}
   - component: {fileID: 1791524305898986694}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 589903211379921773}
   - component: {fileID: 7708732124000459799}
   - component: {fileID: 6478350241102822290}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_e392dc00-7aaf-4b90-b0e0-866691a449c7
+  uniqueId: uid_0a4acc68-1f4d-4c4d-b17f-d952ad162792
 --- !u!195 &4827920263752337557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -793,12 +793,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011293714921106982}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1823707290399137297}
+  m_Father: {fileID: 3353672026242294279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2297775484089066340
 MonoBehaviour:
@@ -865,7 +865,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5584171735929722330}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1035,6 +1035,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013a40053efc8a346a4a02866ef33142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyIdleState
+--- !u!1 &3467871815323122356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502447728782932980}
+  - component: {fileID: 1006588617423650258}
+  m_Layer: 0
+  m_Name: Interrupted
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1502447728782932980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467871815323122356}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3353672026242294279}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1006588617423650258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467871815323122356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9957f88b29b44ea4083543e77e703c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInterruptionState
 --- !u!1 &3781836565674805748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,9 +1319,12 @@ MonoBehaviour:
     Current: 0
     CurrentMax: 0
   statsSO: {fileID: 11400000, guid: 1b40c5c21d646ef4b8abd89d5879e4c4, type: 2}
-  statsLevelSO: {fileID: 11400000, guid: 3a8e90e550cd9304cbe893a99ab56730, type: 2}
   jumpHeight: 0
   jumpTimer: 0
+  initialHealthLevel: 1
+  initialStaminaLevel: 1
+  initialKnowledgeLevel: 1
+  initialStrengthLevel: 1
   healthLevel: 0
   staminaLevel: 0
   knowledgeLevel: 0
@@ -1458,7 +1505,7 @@ MonoBehaviour:
   strafe: {fileID: 973342395985564262}
   wait: {fileID: 6673319537209337859}
   moveToStart: {fileID: 5829758468375301124}
-  moveToInterruptor: {fileID: 2297775484089066340}
+  moveToInterruptor: {fileID: 0}
   isActivated: 0
 --- !u!114 &1107182533789147876
 MonoBehaviour:
@@ -1556,7 +1603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1763061092354278976}
   - component: {fileID: 4905457620488204655}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: AI_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1633,7 +1680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 95061769814172414}
   - component: {fileID: 5167158182482180685}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1909,7 +1956,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1502447728782932980}
+  - {fileID: 2686578583332887825}
   m_Father: {fileID: 9038665148088118433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &37901411775099764
@@ -1924,8 +1973,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bbba154d8f68844a11bee77dd632db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InterruptionManager
-  passiveInterruptionHandler:
-    isInterrupted: 0
+  moveToInterruptor: {fileID: 2297775484089066340}
+  interrupted: {fileID: 1006588617423650258}
 --- !u!1 &7111623120909230023
 GameObject:
   m_ObjectHideFlags: 0
@@ -2119,7 +2168,6 @@ Transform:
   - {fileID: 6140918514611683925}
   - {fileID: 2384095686877515947}
   - {fileID: 4455595849938320003}
-  - {fileID: 2686578583332887825}
   m_Father: {fileID: 2741427936512037219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7400926335820654624
@@ -2219,7 +2267,7 @@ GameObject:
   - component: {fileID: 7147080481707217390}
   - component: {fileID: 947807582732775864}
   - component: {fileID: 1385796749158425445}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

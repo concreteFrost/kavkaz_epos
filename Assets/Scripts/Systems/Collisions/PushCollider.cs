@@ -7,9 +7,9 @@ public class PushCollider : MonoBehaviour
     List<CharacterType> objectsToIgnore;
     private bool pushRegistered = false;
 
-    Transform self;
+    IAttackSource self;
 
-    public void Init(List<CharacterType> objectsToIgnore, Transform self)
+    public void Init(List<CharacterType> objectsToIgnore, IAttackSource self)
     {
         col = GetComponent<Collider>();
         col.isTrigger = true;
@@ -63,7 +63,7 @@ public class PushCollider : MonoBehaviour
     private PushDirection GetPushDir(Transform target)
     {
         // Вектор от игрока к объекту, который толкает
-        Vector3 pushDirection = target.position - self.position;
+        Vector3 pushDirection = target.position - self.Source().position;
 
         // Определяем, спереди или сзади
         float dot = Vector3.Dot(target.forward, pushDirection.normalized);

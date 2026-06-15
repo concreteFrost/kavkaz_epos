@@ -4,7 +4,7 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     // Источник атаки (обычно Transform игрока или врага)
-    protected Transform attackSource;
+    protected IAttackSource attackSource;
 
     // Коллайдер, используемый для нанесения урона
     protected Collider damageCollider;
@@ -60,7 +60,7 @@ public class DamageCollider : MonoBehaviour
     }
 
     // Включение коллайдера для атаки
-    public virtual void EnableCollider(DamageData damageData ,List<CharacterType> targetsToIgnore, Transform attackSource)
+    public virtual void EnableCollider(DamageData damageData ,List<CharacterType> targetsToIgnore, IAttackSource attackSource)
     {
         this.damageData = damageData;
         this.attackSource = attackSource;
@@ -183,7 +183,7 @@ public class DamageCollider : MonoBehaviour
     // Проверка, смотрит ли цель на атакующего (для блока щитом)
     private bool IsFacingTarget(IDamagable target)
     {
-        Vector3 toTarget = (target.GetOrigin().position - attackSource.position).normalized;
+        Vector3 toTarget = (target.GetOrigin().position - attackSource.Source().position).normalized;
         Vector3 targetForward = target.GetOrigin().forward;
         float angle = Vector3.Angle(-toTarget, targetForward);
 

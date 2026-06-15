@@ -8,7 +8,7 @@ public class PlayerPushReceiver : BasePushReceiver
         //throw new System.NotImplementedException();
     }
 
-    public override void GetPushed(PushDirection dir, Transform source)
+    public override void GetPushed(PushDirection dir, IAttackSource source)
     {
         //throw new System.NotImplementedException();
     }

@@ -9,7 +9,7 @@ public abstract class BasePushReceiver : MonoBehaviour, IPushable
 
     public abstract void CancelPush();
 
-    public abstract void GetPushed(PushDirection dir, Transform source);
+    public abstract void GetPushed(PushDirection dir, IAttackSource source);
 
     public abstract void TrackPush();
 
@@ -18,9 +18,9 @@ public abstract class BasePushReceiver : MonoBehaviour, IPushable
 
     public bool IsPushed { get;  set; }
 
-    public event Action<Transform> PushReceived;
+    public event Action<IAttackSource> PushReceived;
 
-    protected void InvokePushReceived(Transform source)
+    protected void InvokePushReceived(IAttackSource source)
     {
         PushReceived?.Invoke(source);
     }

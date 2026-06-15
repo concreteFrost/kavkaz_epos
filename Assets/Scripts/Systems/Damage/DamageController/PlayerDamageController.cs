@@ -32,7 +32,7 @@ public class PlayerDamageController : BaseHumanoidDamageController
         }
     }
 
-    public override void TakeDamage(DamageData damageData, Transform source)
+    public override void TakeDamage(DamageData damageData, IAttackSource source)
     {
         if (IsDamagingBlocked()) return;
 

@@ -28,19 +28,22 @@ public class PlayerConsumableInventory : QuickAccessInventory
         var item = data;
         item.quantity--;
 
+        Notify(); //уведомляет
+
+        ApplyItemEffect(item);
+
+        Debug.Log("item used");
+
         if (item.quantity <= 0)
         {
             RemoveFromInventory(item);
             return;
         }
-
-        Notify(); //уведомляет
-
-        ApplyItemEffect(item);
     }
 
     private void ApplyItemEffect(ItemData item)
     {
+       
         switch (item.itemSO)
         {
             case WeaponModifierItemSO weaponItem:

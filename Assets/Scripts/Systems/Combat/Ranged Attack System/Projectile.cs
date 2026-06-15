@@ -65,7 +65,7 @@ public class Projectile : MonoBehaviour, IProjectile
         }
 
         damageCollider.Init();
-        damageCollider.EnableCollider(data.damageData, data.source.TargetsToIgnore, data.source.Source());
+        damageCollider.EnableCollider(data.damageData, data.source.TargetsToIgnore, data.source);
 
         ActivateLifetimeParticles();
 

@@ -7,7 +7,6 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
     HumanoidAIMotor motor;
     HumanoidAgentController agentController;
     EnemyFOVController fov;
-    EnemyPassiveInterruptionHandler passiveInterruptionTracker;
     EnemyNotifierManager notifierManager;
 
     public override void Enter()
@@ -15,7 +14,6 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         motor = context.motor;
         fov = context.fov;
         agentController = context.agentController;
-        passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
         notifierManager = context.notifierManager;  
        
         fov.ResetLockedTarget();
@@ -23,7 +21,6 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
         motor.ResetSprint();
 
        
-        destination = passiveInterruptionTracker.InterruptorPosition();
 
     }
 
@@ -39,16 +36,9 @@ public class EnemyMoveToInterruptorState : AIState<EnemyBrainContext>
 
         fov.CheckTargets();
 
-        motor.MoveCharacter(passiveInterruptionTracker.InterruptorPosition());
-
         if (fov.currentTarget != null)
             return AIStateResult.Chase;
 
-        if (passiveInterruptionTracker.IsInterrupted())
-        {
-            
-            return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
-        }
 
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination,context.agentController.agent.agentTypeID))
             return AIStateResult.Idle;

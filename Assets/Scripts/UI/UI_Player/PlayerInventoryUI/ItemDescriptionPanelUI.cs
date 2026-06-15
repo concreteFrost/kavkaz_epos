@@ -28,6 +28,7 @@ public class ItemDescriptionPanelUI : MonoBehaviour
     {
         wrapper.SetActive(true);
 
+
         ShowCommonInfo(item);
         DefineActivePanel(item);
     }

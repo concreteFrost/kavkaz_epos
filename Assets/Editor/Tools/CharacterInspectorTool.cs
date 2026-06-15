@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using Mono.Cecil;
 
 public class CharacterInspectorTool : EditorWindow
 {
@@ -147,27 +148,26 @@ public class CharacterInspectorTool : EditorWindow
 
         EditorGUI.BeginChangeCheck();
 
-        var newStats = (HumanoidStatsSO)EditorGUILayout.ObjectField("Stats", statsController.statsSO, typeof(HumanoidStatsSO), false);
+        SerializedObject so = new SerializedObject(statsController);
 
-        if(newStats == null)
-        {
-            EditorGUILayout.HelpBox("No stats assigned", MessageType.Warning);
-        }
+        so.Update();
 
-        var newLevelStats = (CharacterStatsLevelSO)EditorGUILayout.ObjectField("Level Stats", statsController.statsLevelSO, typeof(CharacterStatsLevelSO), false); 
+        var hp = so.FindProperty("initialHealthLevel");
+        var stamina = so.FindProperty("initialStaminaLevel");
+        var strength = so.FindProperty("initialStrengthLevel");
+        var knowledge = so.FindProperty("initialKnowledgeLevel");
 
-        if(newLevelStats == null)
-        {
-            EditorGUILayout.HelpBox("No level stats assigned", MessageType.Warning);
-        }
+        EditorGUILayout.PropertyField(hp);
+        EditorGUILayout.PropertyField(stamina);
+        EditorGUILayout.PropertyField(strength);
+        EditorGUILayout.PropertyField(knowledge);
 
         if (EditorGUI.EndChangeCheck())
         {
-            Undo.RecordObject(statsController, "Change stats");
-            statsController.statsSO = newStats;
-            statsController.statsLevelSO = newLevelStats;
-            EditorUtility.SetDirty(statsController);    
+            so.ApplyModifiedProperties();
         }
+
+
 
         EditorGUI.indentLevel--;    
     }

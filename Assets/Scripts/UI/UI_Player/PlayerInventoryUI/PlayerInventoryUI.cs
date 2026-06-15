@@ -112,8 +112,8 @@ public class PlayerInventoryUI : MonoBehaviour
     public void ToggleInventory(bool isVisible)
     {
         mainWrapper.SetActive(isVisible);
+        descriptionPanel.ClearCommonItemInfo();
 
-        if (!isVisible) descriptionPanel.ClearCommonItemInfo();
     }
 
     #region Buttons Event Binders/Removals

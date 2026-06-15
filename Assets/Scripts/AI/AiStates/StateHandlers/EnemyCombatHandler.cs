@@ -155,7 +155,7 @@ public class EnemyCombatHandler
         SetStrafeBlocked(true);
     }
 
-    public void OnDamageTaken(Transform attackSource)
+    public void OnDamageTaken(IAttackSource attackSource)
     {
         RegisterDamage();
        

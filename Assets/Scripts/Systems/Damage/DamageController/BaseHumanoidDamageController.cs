@@ -25,7 +25,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public Transform GetAimTransform() => aimPosition;
     public Transform GetOrigin() => transform ;
 
-    public event Action<Transform> DamageTaken;
+    public event Action<IAttackSource> DamageTaken;
     public bool IsKnockedOut { get; set; }
     public bool InBlockingWindow { get; set; }
     public bool CanPlayDamagedAnimation { get; set; }
@@ -75,7 +75,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         GetOrigin().localRotation = Quaternion.identity;
     }
 
-    public virtual void TakeDamage(DamageData damageData, Transform source)
+    public virtual void TakeDamage(DamageData damageData, IAttackSource source)
     {
        
 
@@ -85,6 +85,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         }
 
         stats.Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
+       
         InvokeDamageTaken(source);
 
 
@@ -96,7 +97,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         InvokeDamageTaken(null);
     }
 
-    protected void InvokeDamageTaken(Transform source)
+    protected void InvokeDamageTaken(IAttackSource source)
     {
         DamageTaken?.Invoke(source);
     }

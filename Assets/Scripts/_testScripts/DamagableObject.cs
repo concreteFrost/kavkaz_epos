@@ -31,7 +31,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     //public float DefenceBonus { get; set; } = 0;
     public IShield Protection { get; set; } = null; 
 
-    public event Action<Transform> DamageTaken = null;
+    public event Action<IAttackSource> DamageTaken = null;
 
     public IUiProvider HealthProviderUI { get; set; }
 
@@ -64,7 +64,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = isActive;
 
-    public void TakeDamage(DamageData damageData,Transform source)
+    public void TakeDamage(DamageData damageData,IAttackSource source)
     {
         if (IsDead) return;
 

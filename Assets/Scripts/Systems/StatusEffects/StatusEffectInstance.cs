@@ -8,7 +8,7 @@ public class StatusEffectInstance
     public ContinuousStatusEffectSO data;
 
     private float accumulationIncreaseMultiplier = 0.12f;
-    private float accumulationDecreaseMultiplier = 0.01f;
+    private float accumulationDecreaseMultiplier = 0.07f;
 
     private float defaultDuration;
     public float duration;

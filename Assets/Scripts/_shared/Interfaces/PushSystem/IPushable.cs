@@ -10,7 +10,7 @@ public interface IPushable
 {
     bool IsPushed { get; set; }
     CharacterType CharacterType();
-    void GetPushed(PushDirection dir, Transform source);
+    void GetPushed(PushDirection dir, IAttackSource source);
 
     void CancelPush();
 
@@ -18,5 +18,5 @@ public interface IPushable
 
     Transform Origin();
 
-    event Action<Transform> PushReceived;
+    event Action<IAttackSource> PushReceived;
 }

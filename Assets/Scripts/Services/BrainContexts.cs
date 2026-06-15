@@ -25,7 +25,7 @@ public class EnemyBrainContext
     public EnemyStateTracker stateTracker;
     public BaseCharacterInteractor interact;
 
-    public InterruptionManager interruptionManager;
+    //public InterruptionManager interruptionManager;
 
     public EnemyNotifierManager notifierManager;
 

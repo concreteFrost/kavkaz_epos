@@ -1,32 +1,32 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 {
 
-    [Header("Система взаимодействия")]
+    [Header("РЎРёСЃС‚РµРјР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ")]
     [SerializeField] private HumanoidAiInteractionController interaction;
 
-    [Header("Боевая система")]
+    [Header("Р‘РѕРµРІР°СЏ СЃРёСЃС‚РµРјР°")]
     [SerializeField] private BaseHumanoidCombatController combatController;
     [SerializeField] private HumanoidWeaponSetter weaponSetter;
     [SerializeField] private AttackSource attackSource;
     [SerializeField] private CharacterWeaponInventory weaponInventory;
 
-    [Header("Магичкеская система")]
+    [Header("РњР°РіРёС‡РєРµСЃРєР°СЏ СЃРёСЃС‚РµРјР°")]
     [SerializeField] private CharacterEmitter emitter;
     [SerializeField] private CharacterSpellInventory spellInventory;
 
-    [Header("Система прерывания состояний")]
+    [Header("РЎРёСЃС‚РµРјР° РїСЂРµСЂС‹РІР°РЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёР№")]
     [SerializeField] private InterruptionManager interruptionManager;
 
-    [Header("Система зрения")]
+    [Header("РЎРёСЃС‚РµРјР° Р·СЂРµРЅРёСЏ")]
     public EnemyFOVController fovController;
 
-    [Header("Мозг")]
+    [Header("РњРѕР·Рі")]
     public EnemyBrain brain;
     [SerializeField] protected EnemyStateTracker stateTracker;
 
-    [Header("Система событий")]
+    [Header("РЎРёСЃС‚РµРјР° СЃРѕР±С‹С‚РёР№")]
     [SerializeField] private EnemyNotifierManager notifierManager;
 
     
@@ -40,14 +40,15 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     {
         base.Init();
 
-        InterruptorsInit();
+     
         InteractionInit();
         FovInit();
         CombatInit();
         SpellInit();
         //notifierManager.Init()
         BrainInit();
-     
+        InterruptorsInit();
+
 
     }
 
@@ -63,7 +64,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void CombatInit()
     {
-        //всегда инициализировать ранььше combatInventory потому что переставив их местами у оружия attack source может быть null
+        //РІСЃРµРіРґР° РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ СЂР°РЅСЊСЊС€Рµ combatInventory РїРѕС‚РѕРјСѓ С‡С‚Рѕ РїРµСЂРµСЃС‚Р°РІРёРІ РёС… РјРµСЃС‚Р°РјРё Сѓ РѕСЂСѓР¶РёСЏ attack source РјРѕР¶РµС‚ Р±С‹С‚СЊ null
         attackSource.Init(sourcePosition: transform, sourceId: (int)damageController.CharacterType);
         combatController.Init(combatInventory: weaponSetter, animatorController: animatorController, damageController: damageController);
         weaponSetter.Init(boneSocket:boneSocket,animatorController: animatorController, combatController: combatController, collector: interaction, enableWeaponBreakdown:false);
@@ -81,7 +82,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
     private void InterruptorsInit()
     {
         notifierManager.Init(self: transform, fov: fovController);
-        interruptionManager.Init(damageController: damageController, pushReceiver: pushReceiver);
+        interruptionManager.Init(damageController: damageController, pushReceiver: pushReceiver, fOVController:fovController, self:transform);
     }
 
     protected override void LifecycleInit()
@@ -113,7 +114,6 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             stateTracker = stateTracker,
             agentController = agentController,
             ragdollController = ragdollController,
-            interruptionManager = interruptionManager,
             notifierManager = notifierManager
 
         };
@@ -121,7 +121,12 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         brain.Init(brainContext);
     }
 
-   
+    private void OnDisable()
+    {
+        
+    }
+
+
 
 
 }

@@ -16,7 +16,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
 
     public AnimationInfoSO AnimationData() => animationData;
 
-    public void Init(IAttackSource attackSource, IHumanoidMeleeCombat combatController, BaseHumanoidAnimatorController animatorController, Transform self)
+    public void Init(IAttackSource attackSource, IHumanoidMeleeCombat combatController, BaseHumanoidAnimatorController animatorController)
     {
         
         this.combatController = combatController;
@@ -29,7 +29,7 @@ public class AgressivePushController : MonoBehaviour , IPushSource
             Debug.Log("no push collider assigned");
         }
 
-        pushCollider.Init(attackSource.TargetsToIgnore, self);
+        pushCollider.Init(attackSource.TargetsToIgnore,attackSource);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void TriggerPushAnimation()

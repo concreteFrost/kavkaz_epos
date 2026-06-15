@@ -8,7 +8,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
 
     IRagdollController ragdollController;
     PushDirection pushedDirection;
-    Transform pushSource;
+    IAttackSource pushSource;
 
     public void Init(
         IDamagable damageController,
@@ -34,7 +34,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
         pushSource = null;
     }
 
-    public override void GetPushed(PushDirection dir, Transform source)
+    public override void GetPushed(PushDirection dir, IAttackSource source)
     {
         if (IsPushed || damageController.IsDead) return;
 

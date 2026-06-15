@@ -131,7 +131,7 @@ public class PlayerUIManager : MonoBehaviour
     {
 
         inventoryUI.ToggleInventory(true);
-        inventoryUI.GetSection(InventorySection.Magic);
+        inventoryUI.GetSection(InventorySection.Weapons);
     }
 
     private void OpenMenuPanel()

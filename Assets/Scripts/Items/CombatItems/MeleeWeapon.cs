@@ -41,7 +41,7 @@ public class MeleeData
 
     public void PerformAttack(DamageData damageData ,IAttackSource attackSource)
     {
-        current.EnableCollider(damageData, attackSource.TargetsToIgnore, attackSource.Source());
+        current.EnableCollider(damageData, attackSource.TargetsToIgnore, attackSource);
     }
 
     public void CancelAttack()

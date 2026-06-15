@@ -3,4 +3,7 @@
     void ForceStop();
     void SetInitialState();
 
+    void ForceChangeState(IAIState state);
+
+
 }

@@ -60,6 +60,7 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetBool(AnimatorParameters.IsDodging, locomotion.IsDodging);
         animator.SetBool(AnimatorParameters.IsSprinting, locomotion.IsSprinting);
         animator.SetBool(AnimatorParameters.IsGrounded, locomotion.IsGrounded);
+        animator.SetBool(AnimatorParameters.IsTurning, locomotion.IsTurning);
 
         animator.SetFloat(AnimatorParameters.GroundDistance, locomotion.GroundDistance);
 

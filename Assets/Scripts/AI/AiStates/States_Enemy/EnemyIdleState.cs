@@ -5,18 +5,19 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
 
     private EnemyIdleHandler idleHandler;
     private EnemyCombatHandler combatHandler;
-    private EnemyPassiveInterruptionHandler passiveInterruptionTracker;
     private HumanoidAIMotor motor;
     private EnemyFOVController fov;
     private EnemyNotifierManager notifierManager;   
 
     public override void Enter()
     {
+
+       
         motor = context.motor;
         fov = context.fov;  
         notifierManager = context.notifierManager;  
         idleHandler = context.stateTracker.idleHandler;
-        passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
+      
         combatHandler = context.stateTracker.combatHandler;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
@@ -49,13 +50,6 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         // ищем потенциальные цели
         fov.CheckTargets();
 
-        // переходим в погоню если цель найдена
-      
-          
-        if (passiveInterruptionTracker.IsInterrupted())
-        { 
-            return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
-        }
 
         idleHandler.UpdateCurrentIdleTime();
 

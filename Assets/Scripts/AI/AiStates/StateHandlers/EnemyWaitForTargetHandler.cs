@@ -34,7 +34,7 @@ public class EnemyWaitForTargetHandler
 
     public bool HasWaitTimerExceeded()=> waitTimer >= stats.maxWaitTimer;
 
-    public void OnDamageTaken(Transform attackSource)
+    public void OnDamageTaken(IAttackSource attackSource)
     {
         InterruptWait();
     }

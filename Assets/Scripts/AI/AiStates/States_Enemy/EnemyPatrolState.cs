@@ -9,7 +9,6 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
     EnemyFOVController fov;
 
     EnemyPatrolHandler patrolStateTracker;
-    EnemyPassiveInterruptionHandler passiveInterruptionTracker;
 
     EnemyNotifierManager notifierManager;
 
@@ -19,7 +18,6 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
         fov = context.fov;
         agentController = context.agentController;
         patrolStateTracker = context.stateTracker.patrolHandler;
-        passiveInterruptionTracker = context.interruptionManager.passiveInterruptionHandler;
         notifierManager = context.notifierManager;  
 
         fov.ResetLockedTarget();
@@ -61,11 +59,6 @@ public class EnemyPatrolState : AIState<EnemyBrainContext>
 
         fov.CheckTargets();
            
-        if (passiveInterruptionTracker.IsInterrupted())
-        {
-           return passiveInterruptionTracker.ReactOnDamage(context.self.position, context.animator);
-        }
-
         var agentTypeId = context.agentController.agent.agentTypeID;
         if (!NavAgentUtils.HasCompletePath(context.self.position, destination, agentTypeId))
             return AIStateResult.Idle;

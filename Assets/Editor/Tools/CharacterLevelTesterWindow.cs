@@ -29,7 +29,7 @@ public class CharacterLevelTesterWindow : EditorWindow
         levelController = temp.AddComponent<CharacterLevelController>();
         statsController = temp.AddComponent<CharacterStatsController>();
         statsController.statsSO = ScriptableObject.CreateInstance<HumanoidStatsSO>();
-        statsController.statsLevelSO = ScriptableObject.CreateInstance<CharacterStatsLevelSO>();
+        //statsController.statsLevelSO = ScriptableObject.CreateInstance<CharacterStatsLevelSO>();
 
         levelData = new CharacterLevelData();
 

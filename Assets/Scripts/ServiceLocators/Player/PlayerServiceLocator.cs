@@ -170,8 +170,8 @@ public class PlayerServiceLocator : MonoBehaviour
         pushController.Init(
             attackSource: attackSource,
             combatController: combatController,
-            animatorController: animatorController,
-            self: transform);
+            animatorController: animatorController
+            );
 
 
         targetHealthTracker.Init(self: transform);

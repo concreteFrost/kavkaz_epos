@@ -71,6 +71,8 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         currentTarget = target;
     }
 
+    public IDamagable TryGetDamagable(Transform src) => src.GetComponentInChildren<IDamagable>();   
+
     public void ResetLockedTarget()
     {
         if(currentTarget != null)
