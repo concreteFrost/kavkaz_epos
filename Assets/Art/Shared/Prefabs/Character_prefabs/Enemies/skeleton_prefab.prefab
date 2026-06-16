@@ -121,8 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bbba154d8f68844a11bee77dd632db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InterruptionManager
-  moveToInterruptor: {fileID: 410208995134593737}
-  interrupted: {fileID: 2334851824540566481}
 --- !u!1 &349319970192087162
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,11 +675,10 @@ MonoBehaviour:
   idle: {fileID: 7177856599962151210}
   patrol: {fileID: 6611807399744394609}
   chase: {fileID: 5103395839299900933}
-  attack: {fileID: 6092239865604103995}
+  attack: {fileID: 7285752190105656592}
   strafe: {fileID: 2207355371312446885}
   wait: {fileID: 8375317209804580165}
   moveToStart: {fileID: 4581427151471458288}
-  moveToInterruptor: {fileID: 410208995134593737}
   isActivated: 0
 --- !u!114 &8051411402485904337
 MonoBehaviour:
@@ -713,8 +710,12 @@ MonoBehaviour:
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
     maxBlockStrafeTimer: 0
+    currStrafeChance: 0
     isStrafeBlocked: 0
+    willDecideToRun: 0
     currAttackTransitionChance: 0
+    currDecideRunTimer: 0
+    currMaxDecideRunTimer: 0
   waitForTargetHandler:
     stats: {fileID: 0}
     waitTimer: 0
@@ -1377,7 +1378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6635586956651937751}
-  - component: {fileID: 6092239865604103995}
+  - component: {fileID: 7285752190105656592}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -1400,7 +1401,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 624147848215162070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6092239865604103995
+--- !u!114 &7285752190105656592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1421,8 +1422,12 @@ MonoBehaviour:
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
     maxBlockStrafeTimer: 0
+    currStrafeChance: 0
     isStrafeBlocked: 0
+    willDecideToRun: 0
     currAttackTransitionChance: 0
+    currDecideRunTimer: 0
+    currMaxDecideRunTimer: 0
 --- !u!1 &5142795717428193808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,6 +1857,7 @@ GameObject:
   - component: {fileID: 4129644557056614852}
   - component: {fileID: 2897650907661960404}
   - component: {fileID: 2901701300793122616}
+  - component: {fileID: 2262980869753660240}
   m_Layer: 2
   m_Name: skeleton_prefab
   m_TagString: Enemy
@@ -1948,7 +1954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_38a99253-b19c-44b9-8cb5-a2414ede4dd9
+  uniqueId: uid_834765f3-2b0c-48ab-88f7-f13f7abe28f3
 --- !u!195 &4824949580012563523
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2049,6 +2055,18 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &2262980869753660240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806410905337418686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCustomInspector
 --- !u!1 &7857976187053720345
 GameObject:
   m_ObjectHideFlags: 0

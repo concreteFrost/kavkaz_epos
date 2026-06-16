@@ -66,6 +66,8 @@ public class CharacterInspectorTool : EditorWindow
             EditorStyles.foldoutHeader
         );
 
+
+
         if (GUILayout.Button("Ping", GUILayout.Width(45)))
         {
             if (SceneView.lastActiveSceneView != null)
@@ -78,6 +80,8 @@ public class CharacterInspectorTool : EditorWindow
                 );
             }
         }
+
+        DrawPointsData(obj);
 
         EditorGUILayout.EndHorizontal();
 
@@ -97,7 +101,7 @@ public class CharacterInspectorTool : EditorWindow
         DrawCombatInventory(obj);
         DrawSpellInventory(obj);
         DrawConsumableInventory(obj);
-        DrawPointsData(obj);
+     
         DrawBehaviourStats(obj);
         DrawLoot(obj);
     }

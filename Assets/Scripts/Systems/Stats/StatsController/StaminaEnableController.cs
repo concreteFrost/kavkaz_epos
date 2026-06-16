@@ -31,7 +31,7 @@ public class StaminaEnableController : MonoBehaviour
 
     private void OnTargetAdded(CharacterType type, string fovId)
     {
-        Debug.Log("target added");
+
         if (type == CharacterType.Player)
         {
             TargetHolder holder = new TargetHolder()
@@ -53,7 +53,7 @@ public class StaminaEnableController : MonoBehaviour
 
     private void OnTargetReset(CharacterType type, string fovId)
     {
-        Debug.Log("target removed");
+
         if (type == CharacterType.Player)
         {
 

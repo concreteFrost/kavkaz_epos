@@ -32,8 +32,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2399133870184975112}
   - {fileID: 6981113237235325566}
-  - {fileID: 7887159939066409377}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6429206234790216515
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponSO: {fileID: 11400000, guid: 593270008781a2c45aec2125220577d2, type: 2}
-  damageCollider: {fileID: 6596508924225042948}
+  damageCollider: {fileID: 8785688719043756282}
 --- !u!114 &-4952399497686563689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
   uniqueId: uid_8d82f9a7-70af-4b54-a726-a808a34c0dfc
---- !u!1 &3366594387873492907
+--- !u!1 &7126356932106816949
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,9 +91,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7887159939066409377}
-  - component: {fileID: 6596508924225042948}
-  - component: {fileID: 2388000657942592892}
+  - component: {fileID: 2399133870184975112}
+  - component: {fileID: 8785688719043756282}
+  - component: {fileID: 2274191363518408588}
   m_Layer: 2
   m_Name: DamageCollider
   m_TagString: Untagged
@@ -101,28 +101,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7887159939066409377
+--- !u!4 &2399133870184975112
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3366594387873492907}
+  m_GameObject: {fileID: 7126356932106816949}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.279, z: 0}
-  m_LocalScale: {x: 1.1856, y: 1.1856, z: 1.1856}
+  m_LocalPosition: {x: 0, y: 0.962, z: 0}
+  m_LocalScale: {x: 1.1855999, y: 1.1855999, z: 1.1855999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5408012577201723460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6596508924225042948
+--- !u!114 &8785688719043756282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3366594387873492907}
+  m_GameObject: {fileID: 7126356932106816949}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4795dd181d0762542b451dba1db3b3d8, type: 3}
@@ -130,13 +130,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageCollider
   attackInterrupted: 0
   isAttackRegistered: 0
---- !u!136 &2388000657942592892
+--- !u!136 &2274191363518408588
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3366594387873492907}
+  m_GameObject: {fileID: 7126356932106816949}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -149,10 +149,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 0.9940928
+  m_Radius: 0.13
+  m_Height: 0.87705505
   m_Direction: 1
-  m_Center: {x: 0, y: -0.7368425, z: 0}
+  m_Center: {x: 0, y: -0.50277567, z: 0}
 --- !u!1001 &7452152250321681813
 PrefabInstance:
   m_ObjectHideFlags: 0

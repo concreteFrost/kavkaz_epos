@@ -8,12 +8,14 @@ public class EnemyNotifierManager : MonoBehaviour
     EnemyNotifierListener listener;
     EnemyNotifier notifier;
 
-    public void Init(Transform self,EnemyFOVController fov)
+  
+
+    public void Init(Transform self,EnemyFOVController fov, IDamagable damageController)
     {
         notifier = new EnemyNotifier();
         SetEventListenDistance(notifierDataSO);
 
-        listener = new EnemyNotifierListener(self, fov, eventListenDistance);
+        listener = new EnemyNotifierListener(self,damageController, fov, eventListenDistance);
         EnemyNotifier.NotifyAboutTarget += listener.OnNotify;
 
     }

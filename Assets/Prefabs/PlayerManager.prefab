@@ -6070,7 +6070,7 @@ MonoBehaviour:
   initialHealthLevel: 1
   initialStaminaLevel: 1
   initialKnowledgeLevel: 1
-  initialStrengthLevel: 1
+  initialStrengthLevel: 50
   healthLevel: 1
   staminaLevel: 1
   knowledgeLevel: 1
@@ -8466,6 +8466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2700234658528593893}
   - component: {fileID: 8453652593056723132}
+  - component: {fileID: 2208623916865115586}
   m_Layer: 2
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -8542,6 +8543,18 @@ MonoBehaviour:
       currentIndex: 0
     moneyAmount: 0
   serviceLocator: {fileID: 3859479080802778312}
+--- !u!114 &2208623916865115586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435803114403785097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCustomInspector
 --- !u!1 &8492660469280617183
 GameObject:
   m_ObjectHideFlags: 0

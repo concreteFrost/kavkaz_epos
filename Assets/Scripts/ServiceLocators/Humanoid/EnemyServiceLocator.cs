@@ -81,7 +81,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void InterruptorsInit()
     {
-        notifierManager.Init(self: transform, fov: fovController);
+        notifierManager.Init(self: transform, fov: fovController, damageController:damageController);
         interruptionManager.Init(damageController: damageController, pushReceiver: pushReceiver, fOVController:fovController, self:transform);
     }
 

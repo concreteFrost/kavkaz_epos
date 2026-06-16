@@ -6,7 +6,10 @@ using UnityEngine;
 public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
 {
     protected ModifiedModelType modelType;
-    public ModifiedModelType ModifiedModelType()=>modelType;   
+    public ModifiedModelType ModifiedModelType()=>modelType;
+    protected override float PerLevelBonus => 10f;
+    protected override float DiminishFactor => 0.95f;
+
     public float RegenTimer { get; protected set; }
     public float MinRegenDelay { get; protected set; }
     public float MaxRegenDelay { get; protected set; }

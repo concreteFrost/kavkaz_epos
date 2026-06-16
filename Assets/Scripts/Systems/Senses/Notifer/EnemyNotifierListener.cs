@@ -7,18 +7,21 @@ public class EnemyNotifierListener
     Transform self;
 
     private float listenDistance;
+    IDamagable damageController;
 
-    public EnemyNotifierListener(Transform self, EnemyFOVController fov, float listenDistance)
+    public EnemyNotifierListener(Transform self,IDamagable damageController, EnemyFOVController fov, float listenDistance)
     {
-
+       
         this.self = self;
+        this.damageController = damageController;   
         this.fov = fov;
         this.listenDistance = listenDistance;
     }
 
     public void OnNotify(IDamagable target)
     {
-       
+        if (damageController.IsDead) return;
+
         //if (stateMachine.CurrentState == null) return;
         if (fov.currentTarget != null)
         {     

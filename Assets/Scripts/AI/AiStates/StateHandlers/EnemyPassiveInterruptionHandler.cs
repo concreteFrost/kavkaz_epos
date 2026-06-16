@@ -40,6 +40,7 @@ public class EnemyPassiveInterruptionHandler
     public void ReactOnDamage(IAttackSource src)
     {
         if (damageController.IsDead) return;
+
         if (fOVController.currentTarget != null) return;
 
         var dmg = fOVController.TryGetDamagable(src.Source());

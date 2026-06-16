@@ -4,9 +4,6 @@
 public class StaminaModel : ResourceStatModel
 {
 
-    protected override float PerLevelBonus => 10f;
-    protected override float DiminishFactor => 0.85f;
-
     public bool canReduceStamina = true;
 
     public StaminaModel(float baseStamina, float minRegenDelay=0, float maxRegenDelay = 0, float rate = 0)
