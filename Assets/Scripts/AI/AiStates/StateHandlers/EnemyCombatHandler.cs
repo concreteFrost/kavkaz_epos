@@ -19,20 +19,20 @@ public class EnemyCombatHandler
 {
     CharacterBehaviourStatsSO stats;
     CharacterStatsController statsController;
-    
+
     //[Header("Состояние боя")]
     //[SerializeField] private float currCombatCooldown;
     //[SerializeField] private float maxCombatCooldown;
     //[SerializeField] private bool isComboRunning;
     [SerializeField] bool canAttack = true;
-    
+
     //power attack
     [SerializeField] private float powerAttackChance;
 
     [Header("Учёт повреждений")]
     [SerializeField] private float lastDamageTime = -10f;
     //[SerializeField] private int damageCounter;
-    
+
 
     [SerializeField] private float comboDistanceOffset = 0.2f;
 
@@ -43,10 +43,21 @@ public class EnemyCombatHandler
     [Header("Стрейф")]
     [SerializeField] private float blockStrafeCooldown = 0f;
     [SerializeField] private float maxBlockStrafeTimer = 5f;
+    [SerializeField] private float currStrafeChance = 0f;
     [SerializeField] private bool isStrafeBlocked = false;
+
+    [Header("Бег")]
+    public bool willDecideToRun = false;
+    private float maxDecideRunTimer = 7f;
+    private float minDecideRunTimer = 3.5f;
 
     [Header("Транзит состояний")]
     [SerializeField] private float currAttackTransitionChance;
+
+
+    [SerializeField] private float currDecideRunTimer = 0f;
+    [SerializeField] private float currMaxDecideRunTimer = 0f;
+
 
     public EnemyCombatHandler(CharacterBehaviourStatsSO behaviourStats, CharacterStatsController statsController)
     {
@@ -58,6 +69,7 @@ public class EnemyCombatHandler
 
         powerAttackChance = behaviourStats.initialPoweAttackChance;
         currentDodgeChance = behaviourStats.initialDodgeChance;
+        currStrafeChance = behaviourStats.strafeChance;
     }
 
     public void ResetCombatState()
@@ -65,6 +77,7 @@ public class EnemyCombatHandler
 
         SetCanAttack(true);
         currentDodgeChance = stats.initialDodgeChance;
+        ResetDecideRunTimer();
 
     }
 
@@ -72,7 +85,7 @@ public class EnemyCombatHandler
 
     public bool CanAttack() => canAttack;
 
-    public void SetCanAttack(bool val)=> canAttack = val;
+    public void SetCanAttack(bool val) => canAttack = val;
 
     public float GetAttackDistance(CombatMode mode) => mode == CombatMode.Melee ? stats.meleeAttackRange : stats.emitAttackRange;
     public float GetMeleeAttackDistanceWithOffset() => stats.meleeAttackRange + comboDistanceOffset;
@@ -80,7 +93,7 @@ public class EnemyCombatHandler
     public float GetMinAttackCooldown() => stats.minCombatCooldown;
     public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
 
-   
+
 
 
     //работает только для смешанных врагов
@@ -111,7 +124,8 @@ public class EnemyCombatHandler
 
     public void IncreasePowerAttackChance() => powerAttackChance += stats.powerAttackChanceMultiplier;
 
-    public void ResetPowerAttackChance()=> powerAttackChance = stats.initialPoweAttackChance;  
+    public void ResetPowerAttackChance() => powerAttackChance = stats.initialPoweAttackChance;
+
     #endregion
 
     #region Dodge
@@ -126,9 +140,9 @@ public class EnemyCombatHandler
         }
     }
 
-    public void SetStrafeBlocked(bool blocked) => isStrafeBlocked = blocked;    
+    public void SetStrafeBlocked(bool blocked) => isStrafeBlocked = blocked;
 
-    public void IncreaseDodgeChance()=> currentDodgeChance += stats.dodgeChanceMultiplier;  
+    public void IncreaseDodgeChance() => currentDodgeChance += stats.dodgeChanceMultiplier;
 
     public void ResetDodgeChance() => currentDodgeChance = stats.initialDodgeChance;
 
@@ -146,11 +160,11 @@ public class EnemyCombatHandler
     public void RegisterDamage()
     {
         lastDamageTime = Time.time;
-       
-        IncreaseDodgeChance();  
+
+        IncreaseDodgeChance();
         IncreasePowerAttackChance();
         IncreastAttackChances();
-        
+
         SetCanAttack(true);
         SetStrafeBlocked(true);
     }
@@ -158,7 +172,7 @@ public class EnemyCombatHandler
     public void OnDamageTaken(IAttackSource attackSource)
     {
         RegisterDamage();
-       
+
     }
     #endregion
 
@@ -191,7 +205,7 @@ public class EnemyCombatHandler
 
         blockStrafeCooldown += Time.deltaTime;
 
-        if(blockStrafeCooldown >= maxBlockStrafeTimer)
+        if (blockStrafeCooldown >= maxBlockStrafeTimer)
         {
 
             blockStrafeCooldown = 0;
@@ -204,22 +218,46 @@ public class EnemyCombatHandler
     #endregion
 
 
+    #region Run Decisions
+
+    public void UpdateDecideToRunTimer()
+    {
+        currDecideRunTimer += Time.deltaTime;
+
+        if (currDecideRunTimer >= currMaxDecideRunTimer)
+        {
+            SetWillDecideToRun(true);
+        }
+    }
+
+    public bool HasDecideTimerExceeded() => currDecideRunTimer >= currMaxDecideRunTimer;
+
+    public void ResetDecideRunTimer()
+    {
+        currDecideRunTimer = 0f;
+        currMaxDecideRunTimer = Random.Range(minDecideRunTimer, maxDecideRunTimer);
+        willDecideToRun = false;
+    }
+
+    public void SetWillDecideToRun(bool willRun) => willDecideToRun = willRun;
+    #endregion
 
     public CombatTransition GetNextDecision()
     {
-        if (isStrafeBlocked) return AttackOrDodge();
-           
-        float roll = Random.value;
-
-        if (roll < currAttackTransitionChance)
+        if (isStrafeBlocked)
             return AttackOrDodge();
 
-        return CombatTransition.Strafe;
+        float roll = Random.value;
+
+        if (roll < currStrafeChance)
+            return CombatTransition.Strafe;
+
+        return AttackOrDodge();
     }
 
     private CombatTransition AttackOrDodge()
     {
-        if (currentDodgeChance >= Random.value) 
+        if (currentDodgeChance >= Random.value)
             return CombatTransition.Dodge;
 
         return CombatTransition.Attack;
@@ -230,9 +268,9 @@ public class EnemyCombatHandler
         float adjuster = 0.025f;
 
         currAttackTransitionChance += adjuster;
-        currAttackTransitionChance = Mathf.Clamp(currAttackTransitionChance, 0f, 1f);   
+        currAttackTransitionChance = Mathf.Clamp(currAttackTransitionChance, 0f, 1f);
 
-       
+
     }
 
 }

@@ -34,7 +34,6 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatHandler = context.stateTracker.combatHandler;
         combatHandler.ResetCombatState();
         combatController = context.combat;
-        motor.IsSprinting = true;
 
         if(combatActions == null)
         {
@@ -61,19 +60,23 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         if (combatHandler.IsChaseDistance(distanceToTarget) || !fov.IsTargetVisible())
             return AIStateResult.Chase;
 
-        if (cooldownCoroutine != null)
-            return AIStateResult.None;
-
-        if (combatCoroutine != null)
+        if (cooldownCoroutine != null || combatCoroutine !=null)
         {
             motor.SetLockTarget(fov.currentTarget.GetAimTransform());
             motor.SetStrafe(true);
             motor.RotateToTarget(target.position);
             return AIStateResult.None;
         }
+          
 
-        motor.ResetLockTarget();
+        combatHandler.UpdateDecideToRunTimer();
+
         motor.SetStrafe(false);
+        motor.ResetLockTarget();
+        motor.IsSprinting = combatHandler.willDecideToRun;
+        //motor.ResetLockTarget();
+        //motor.SetStrafe(false);
+      
         
         var agentTypeId = context.agentController.agent.agentTypeID;
 
@@ -119,8 +122,10 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     protected virtual void FinishCombatAction()
     {
         //motor.ResetLockTarget();
+       
         combatCoroutine = null;
         combatHandler.SetCanAttack(false);
+        combatHandler.ResetDecideRunTimer();    
         cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
 

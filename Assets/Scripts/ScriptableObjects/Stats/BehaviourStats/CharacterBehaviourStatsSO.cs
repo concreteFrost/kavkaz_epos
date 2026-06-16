@@ -61,6 +61,10 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     [Range(0, 1f)]
     public float initialDodgeChance = 0.2f;
 
+    [Header("Strafe")]
+    [Range(0f, 1f)]
+    public float strafeChance = 0.3f;
+
     [Tooltip("Множитель увеличения шанса уклонения")]
     public float dodgeChanceMultiplier = 0.15f;
 

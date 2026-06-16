@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_0a4acc68-1f4d-4c4d-b17f-d952ad162792
+  uniqueId: uid_65df60ad-d7ad-497a-8565-1fa547b2d606
 --- !u!195 &4827920263752337557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1505,7 +1505,6 @@ MonoBehaviour:
   strafe: {fileID: 973342395985564262}
   wait: {fileID: 6673319537209337859}
   moveToStart: {fileID: 5829758468375301124}
-  moveToInterruptor: {fileID: 0}
   isActivated: 0
 --- !u!114 &1107182533789147876
 MonoBehaviour:
@@ -1537,8 +1536,12 @@ MonoBehaviour:
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
     maxBlockStrafeTimer: 0
+    currStrafeChance: 0
     isStrafeBlocked: 0
+    willDecideToRun: 0
     currAttackTransitionChance: 0
+    currDecideRunTimer: 0
+    currMaxDecideRunTimer: 0
   waitForTargetHandler:
     stats: {fileID: 0}
     waitTimer: 0
@@ -1973,8 +1976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bbba154d8f68844a11bee77dd632db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InterruptionManager
-  moveToInterruptor: {fileID: 2297775484089066340}
-  interrupted: {fileID: 1006588617423650258}
 --- !u!1 &7111623120909230023
 GameObject:
   m_ObjectHideFlags: 0
@@ -2223,8 +2224,12 @@ MonoBehaviour:
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
     maxBlockStrafeTimer: 0
+    currStrafeChance: 0
     isStrafeBlocked: 0
+    willDecideToRun: 0
     currAttackTransitionChance: 0
+    currDecideRunTimer: 0
+    currMaxDecideRunTimer: 0
 --- !u!1 &7580713036185832890
 GameObject:
   m_ObjectHideFlags: 0

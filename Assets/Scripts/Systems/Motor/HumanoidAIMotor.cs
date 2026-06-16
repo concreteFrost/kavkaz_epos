@@ -143,7 +143,6 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void SetStrafe(bool isStrafing)
     {
-        base.isSprinting = false;
         base.isStrafing = isStrafing;
     }
     #endregion

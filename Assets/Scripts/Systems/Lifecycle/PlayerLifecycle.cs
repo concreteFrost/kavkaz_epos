@@ -21,7 +21,9 @@ public class PlayerLifecycle : CharacterLifecycle
         damagable.IsDead = true;
 
         PlayerDied?.Invoke();
-        
+
+        if (GameRunner.Instance == null) return;
+
         var currentSceneName = GameRunner.Instance.activeLevel.GetLevelName();
         SceneTransitionManager.Instance.TravelToLevel(currentSceneName, respawnPosition);
 
