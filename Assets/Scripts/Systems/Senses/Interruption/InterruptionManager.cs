@@ -23,19 +23,14 @@ public class InterruptionManager : MonoBehaviour
         this.damageController = damageController;
         this.pushReceiver = pushReceiver;
 
-
         passiveInterruptionHandler = new EnemyPassiveInterruptionHandler();
-        passiveInterruptionHandler.Init(self, fOVController);
+        passiveInterruptionHandler.Init(self, fOVController,damageController);
 
         this.damageController.DamageTaken += passiveInterruptionHandler.OnDamageTaken;
         this.pushReceiver.PushReceived += passiveInterruptionHandler.OnDamageTaken;
 
     }
 
-    private void OnEnable()
-    {
-
-    }
 
     private void OnDisable()
     {

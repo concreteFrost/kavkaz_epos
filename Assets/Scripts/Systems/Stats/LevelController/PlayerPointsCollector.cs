@@ -20,8 +20,7 @@ public class PlayerPointsCollector : MonoBehaviour
   
 
     public void AddPoints(int points)
-    {
-        Debug.Log("added points " +  points);   
+    {  
         levelController.AddXP(points);
     }
 }

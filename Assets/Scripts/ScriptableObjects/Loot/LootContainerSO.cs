@@ -27,9 +27,8 @@ public class DropableItem
 }
 
 [CreateAssetMenu(menuName = ScriptablePaths.LOOT_PATH + "/Loot Container", fileName ="Loot Container")]
-public class LootContainerSO : ScriptableObject
+public class LootContainerSO : WithIdSO
 {
-    public string id;
     public List<DropableItem> possibleItems = new List<DropableItem>();
 
     private void OnValidate()

@@ -17,7 +17,8 @@ public class CharacterLootDistributer : MonoBehaviour
         List<ItemData> itemsToDrop = new List<ItemData>();
         foreach (var item in possibleItems)
         {
-            
+            if (item.itemSO == null) continue;
+
             var quantityToGet = UnityEngine.Random.Range(item.minQuantity, item.maxQuantity + 1);
             if (UnityEngine.Random.value <= item.dropChance)
             { 
@@ -50,6 +51,7 @@ public class CharacterLootDistributer : MonoBehaviour
 
             foreach (var item in generatedItems)
             {
+
                 lootData.droppedItems.Add(new DroppedItemsData
                 {
                     itemId = item.itemSO.id,

@@ -99,6 +99,7 @@ public class CharacterInspectorTool : EditorWindow
         DrawConsumableInventory(obj);
         DrawPointsData(obj);
         DrawBehaviourStats(obj);
+        DrawLoot(obj);
     }
 
     private void DrawBehaviourStats(GameObject go)
@@ -168,6 +169,38 @@ public class CharacterInspectorTool : EditorWindow
         }
 
 
+
+        EditorGUI.indentLevel--;    
+    }
+
+    private void DrawLoot(GameObject go)
+    {
+        var characterLoot = go.GetComponentInChildren<CharacterLootDistributer>();
+
+        if(characterLoot == null)
+        {
+            EditorGUILayout.HelpBox("No loot distributer found", MessageType.Warning);
+            return;
+        }
+
+
+        EditorGUILayout.LabelField("Loot Items", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;        
+
+        EditorGUI.BeginChangeCheck();
+
+        SerializedObject so = new SerializedObject(characterLoot);
+
+        so.Update();
+
+        var list = so.FindProperty("listSO");
+
+        EditorGUILayout.PropertyField(list);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            so.ApplyModifiedProperties();   
+        }
 
         EditorGUI.indentLevel--;    
     }

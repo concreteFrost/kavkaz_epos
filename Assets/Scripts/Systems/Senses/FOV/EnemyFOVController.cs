@@ -15,6 +15,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     public float checkCooldown = 0f;
     private float maxCheckCooldown = 2f;
 
+
     #region ITargetLocker Contract
     public IDamagable CurrentTarget() => currentTarget != null ? currentTarget : null;
     
@@ -24,13 +25,11 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     #endregion
     private void Update()
     {
-       
-        if(currentTarget != null)
+        if (currentTarget == null) return;
+
+        if (currentTarget.IsDead || !currentTarget.DamageCollider().enabled)
         {
-            if (currentTarget.IsDead || !currentTarget.DamageCollider().enabled)
-            {
-                ResetLockedTarget();
-            }
+            ResetLockedTarget();
         }
     }
 
@@ -80,9 +79,8 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
             TargetLost?.Invoke(currentTarget.CharacterType, fovId);
             currentTarget = null;
         }
-       
-
     }
+
 
     public void StartCheckCooldown()
     {

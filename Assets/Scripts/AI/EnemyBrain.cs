@@ -53,7 +53,6 @@ public class EnemyBrain : AIBrain
 
         attack.Init(context);
 
-
         SetActivated(false);
     }
 

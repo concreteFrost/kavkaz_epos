@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03036fe42ecff904f9eefd155dc3f604, type: 3}
   m_Name: Behaviour_Stats_Enemy_Skeleton
   m_EditorClassIdentifier: Assembly-CSharp::CharacterBehaviourStatsSO
-  minIdleStationary: 6
-  maxIdleStationary: 20
+  minIdleStationary: 3
+  maxIdleStationary: 10
   maxDestiantionRadius: 10
   maxPatrolAttempts: 3
   maxCantReachTimer: 7
@@ -28,9 +28,10 @@ MonoBehaviour:
   minCombatCooldown: 0.8
   maxCombatCooldown: 2
   initialDodgeChance: 0.1
+  strafeChance: 0.2
   dodgeChanceMultiplier: 0.2
-  fromChaseToCombatDistance: 3
-  maxDistanceInCombat: 8
+  fromChaseToCombatDistance: 2
+  maxDistanceInCombat: 5
   maxTargetDistanceInStrafe: 10
   minTimeInStrafeState: 3
   maxTimeInStrafeState: 9

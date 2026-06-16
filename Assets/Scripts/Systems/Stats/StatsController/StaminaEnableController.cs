@@ -27,9 +27,12 @@ public class StaminaEnableController : MonoBehaviour
         EnemyFOVController.TargetFound -= OnTargetAdded;
         EnemyFOVController.TargetLost -= OnTargetReset;
     }
+
+
     private void OnTargetAdded(CharacterType type, string fovId)
     {
-        if(type == CharacterType.Player)
+        Debug.Log("target added");
+        if (type == CharacterType.Player)
         {
             TargetHolder holder = new TargetHolder()
             {
@@ -37,26 +40,34 @@ public class StaminaEnableController : MonoBehaviour
                 fovId = fovId
             };
 
-            targetHolders.Add(holder);
-            staminaModel.canReduceStamina = true;
+            var match = targetHolders.Find(x => x.fovId == fovId);
+
+            if (match == null)
+            {
+                targetHolders.Add(holder);
+                staminaModel.canReduceStamina = true;
+            }
+
         }
     }
 
     private void OnTargetReset(CharacterType type, string fovId)
     {
-        if(type == CharacterType.Player)
+        Debug.Log("target removed");
+        if (type == CharacterType.Player)
         {
-            var match = targetHolders.Find(x => x.fovId == fovId);  
 
-            if(match != null)
+            var match = targetHolders.Find(x => x.fovId == fovId);
+
+            if (match != null)
             {
-                targetHolders.Remove(match);    
+                targetHolders.Remove(match);
             }
 
-            if(targetHolders.Count == 0)
-            {
-                staminaModel.canReduceStamina = false;
-            }
+
         }
+
+
+        staminaModel.canReduceStamina = targetHolders.Count != 0;
     }
 }

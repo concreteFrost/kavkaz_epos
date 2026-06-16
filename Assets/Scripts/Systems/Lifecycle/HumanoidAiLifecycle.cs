@@ -21,6 +21,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
 
     }
 
+  
 
     public override void Die()
     {
@@ -55,12 +56,14 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     {
         damagable.IsDead = false;
         damagable.ResetOriginPosition();
+      
         ResetPosition();
         
         ragdollController.DisableRagdoll();
         statsModifier.ClearAllStats();
         brain.SetInitialState();
         statsController.ResetAllStats();
+     
 
         CharactersManager.CharacterStatesUpdated?.Invoke();
     }
