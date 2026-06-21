@@ -160,7 +160,7 @@ public class PlayerGameInput : MonoBehaviour
         {
             
             reader.Consume(ref reader.QuitDialoguePressed);
-            GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+            GameStateManager.Instance.SetState(GameState.Game);
             QuitDialogue?.Invoke(); 
         }
     }
@@ -170,14 +170,14 @@ public class PlayerGameInput : MonoBehaviour
         if (!reader.InventoryPressed) return;
 
         reader.Consume(ref reader.InventoryPressed);
-        GameStateManager.GameStateChanged?.Invoke(GameState.Inventory);
+        GameStateManager.Instance.SetState(GameState.Inventory);
     }
 
     private void HandeMenuPressed()
     {
         if (!reader.MenuPressed) return;
         reader.Consume(ref reader.MenuPressed);
-        GameStateManager.GameStateChanged?.Invoke(GameState.Menu);
+        GameStateManager.Instance.SetState(GameState.Menu);
     }
 
    

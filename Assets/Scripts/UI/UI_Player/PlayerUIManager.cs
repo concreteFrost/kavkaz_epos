@@ -111,7 +111,6 @@ public class PlayerUIManager : MonoBehaviour
     private void OnGameStateChanged(GameState state)
     {
         ToggleInGamePanels(state == GameState.Game);
-        SetCursorState(state != GameState.Game);    
 
         if (state == GameState.Inventory)
         {
@@ -207,13 +206,6 @@ public class PlayerUIManager : MonoBehaviour
         moneyUI.ToggleWrapper(isVisible);
     }
 
-    private void SetCursorState(bool visible)
-    {
-        Cursor.visible = visible;
-        Cursor.lockState = visible
-            ? CursorLockMode.None
-            : CursorLockMode.Locked;
-    }
 
     #endregion
 }

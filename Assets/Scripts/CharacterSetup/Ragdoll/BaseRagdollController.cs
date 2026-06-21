@@ -273,7 +273,7 @@ public abstract class BaseRagdollController : IRagdollController
 
         CheckFaceUp();
 
-        yield return new WaitForSeconds(7f); //искуственная задержка
+        yield return new WaitForSeconds(3f); //искуственная задержка
         AlignRotationToHips();
         AlignPositionToHips();
 

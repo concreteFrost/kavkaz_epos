@@ -11,7 +11,7 @@ public interface IDamagable
     void TakeMaxDamage();
     void TakeDamage(DamageData damageData, IAttackSource source = null);
     // Метод нанесения урона; source указывает, кто атакует
-
+    void PerformKnockout(Vector3 source, float impactForce);
     IShield Protection { get; set; }
 
     bool IsDead { get; set; }

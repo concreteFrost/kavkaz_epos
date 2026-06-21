@@ -23,7 +23,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool IsDamaged { get; set; }
     public CharacterType CharacterType { get; set; }
     public Transform GetAimTransform() => aimPosition;
-    public Transform GetOrigin() => transform ;
+    public Transform GetOrigin() => transform;
 
     public event Action<IAttackSource> DamageTaken;
     public bool IsKnockedOut { get; set; }
@@ -34,10 +34,6 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     protected abstract float DamageCooldown();
     protected bool damageBlocked = false;
-
-    //уведомляет игрока о нанесении урона врагу для отображения его полоски здоровья
- 
-
 
     protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
     {
@@ -59,12 +55,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     }
 
-    private void Update()
-    {
-        //if (damagableCollider == null) return;
+    public virtual void PerformKnockout(Vector3 source, float impactForce) { }
 
-        //damagableCollider.enabled = !IsDamagingBlocked();
-    }
 
     public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = GameStateManager.Instance.CurrentState != GameState.Bonfire;
 
@@ -76,8 +68,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     }
 
     public virtual void TakeDamage(DamageData damageData, IAttackSource source)
-    {
-       
+    {  
 
         if (damageData.statusEffectData != null)
         {
@@ -103,14 +94,12 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     }
 
     protected abstract bool IsDamagingBlocked();
-    //public abstract void Die();
-    //public abstract void Respawn();
 
     protected void HandleGetDamaged(BalanceDamageType balanceDamageType)
     {
         if (!CanPlayDamagedAnimation)
         {
-            Debug.Log("I cant play damaged");
+           
             return;
         }
 

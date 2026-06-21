@@ -46,7 +46,7 @@ public class PlayerMenuOptionsUI : MonoBehaviour
 
         if (!isVisible) return;
 
-        UINavigationUtils.ClampVerticalNavigation(allSelectables);
+        UINavigationUtils.ClampHorizontalNavigation(allSelectables);
         StartCoroutine(UINavigationUtils.SelectWithDelay(allSelectables[0].gameObject));
     }
 

@@ -140,6 +140,31 @@ public static class UINavigationUtils
         }
     }
 
+    public static void ClampHorizontalNavigation(List<Selectable> btnList, List<Selectable> additionalPanel = null)
+    {
+        if (btnList == null || btnList.Count == 0) return;
+
+        for (int i = 0; i < btnList.Count; i++)
+        {
+            var btn = btnList[i];
+            var nav = btn.navigation;
+            nav.mode = Navigation.Mode.Explicit;
+
+            nav.selectOnLeft = i > 0 ? btnList[i - 1] : null;
+            nav.selectOnRight = i < btnList.Count - 1 ? btnList[i + 1] : null;
+
+            nav.selectOnUp = additionalPanel != null && additionalPanel.Count > 0
+                ? additionalPanel[0]
+                : null;
+
+            nav.selectOnDown = additionalPanel != null && additionalPanel.Count > 0
+                ? additionalPanel[0]
+                : null;
+
+            btn.navigation = nav;
+        }
+    }
+
     public static IEnumerator SelectWithDelay(GameObject go)
     {
         EventSystem.current.SetSelectedGameObject(null);

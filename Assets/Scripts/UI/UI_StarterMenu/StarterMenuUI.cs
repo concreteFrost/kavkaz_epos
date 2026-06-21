@@ -12,14 +12,12 @@ public class StarterMenuUI : MonoBehaviour
 
     private List<Selectable> allBtns;
 
-    private void Awake()
-    {
-       
-    }
 
     public void Start()
     {
-       
+
+        btn_loadGame.interactable = SaveLoadSystem.HasSave();
+        
 
         BindActions();  
 
@@ -32,6 +30,7 @@ public class StarterMenuUI : MonoBehaviour
 
         UINavigationUtils.ClampVerticalNavigation(allBtns);
         StartCoroutine(UINavigationUtils.SelectWithDelay(allBtns[0].gameObject));
+
     }
 
     private void OnDisable()

@@ -36,7 +36,6 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
         if (fov.currentTarget == null)
             return AIStateResult.Idle;
 
-        
 
         if (castCoroutine != null)
             return AIStateResult.None;

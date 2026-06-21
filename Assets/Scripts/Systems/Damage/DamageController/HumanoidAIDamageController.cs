@@ -44,10 +44,11 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     }
 
-    private void PerformKnockout(Vector3 source, float impactForce)
+    public override void PerformKnockout(Vector3 source, float impactForce)
     {
         ragdollController.Knockout(source, impactForce);
         GetOrigin().SetParent(ragdollController.GetHipsTransform());
+      
         IsKnockedOut = true;
     }
 
@@ -59,14 +60,12 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
     public override void TakeDamage(DamageData damageData, IAttackSource source)
     {
-        NotifySource?.Invoke(this);
 
         if (IsDamagingBlocked()) return;
 
+        NotifySource?.Invoke(this);
+
         base.TakeDamage(damageData, source);
-
-
-        if (IsDead) return;
 
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut)
         {
@@ -81,7 +80,7 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
            
         }
 
-        StartCoroutine(DamageCooldownCoroutine());
+        //StartCoroutine(DamageCooldownCoroutine());
 
     }
 

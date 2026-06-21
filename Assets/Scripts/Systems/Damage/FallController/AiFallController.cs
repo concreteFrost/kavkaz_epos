@@ -25,10 +25,11 @@ public class AiFallController : BaseFallController
         {
             wasLastGroundedPositionRegistered = true;
             lastGroundedPosition = self.position;
+
         }
         else if (!ragdollController.IsBonesMoving() && wasLastGroundedPositionRegistered)
         {
-            Debug.Log("bones not moving");
+            
             wasLastGroundedPositionRegistered = false;
             CalculateFallDamage();
         }

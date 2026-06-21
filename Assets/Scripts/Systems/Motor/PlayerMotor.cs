@@ -230,6 +230,7 @@ public class PlayerMotor : BaseHumanoidMotor
 
     protected override void CheckGroundDistance()
     {
+
         if (_capsuleCollider != null)
         {
             float radius = _capsuleCollider.radius * 0.9f;
@@ -246,6 +247,18 @@ public class PlayerMotor : BaseHumanoidMotor
                 Ray ray = new Ray(pos, -Vector3.up);
                 if (Physics.SphereCast(ray, radius, out groundHit, _capsuleCollider.radius + groundMaxDistance, groundLayer) && !groundHit.collider.isTrigger)
                 {
+                    #region Тест метод для проверки жестких углов чтобы он не скользил
+                    float angle = GroundAngle();
+
+                    if (angle > slopeLimit + 20f)
+                    {
+                        //groundDistance = 999f;
+                        isGrounded = false;
+                        return;
+                    }
+
+                    #endregion
+
                     Physics.Linecast(groundHit.point + (Vector3.up * 0.1f), groundHit.point + Vector3.down * 0.15f, out groundHit, groundLayer);
                     float newDist = transform.position.y - groundHit.point.y;
                     if (dist > newDist) dist = newDist;

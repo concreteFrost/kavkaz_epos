@@ -8,6 +8,7 @@ public class DeathTrigger : MonoBehaviour
        
         if(other.TryGetComponent(out IDamagable damagable))
         {
+            Debug.Log("taking max damage");
             damagable.TakeMaxDamage();  
         }
     }

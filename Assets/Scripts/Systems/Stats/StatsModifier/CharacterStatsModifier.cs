@@ -109,9 +109,10 @@ public class CharacterStatsModifier : MonoBehaviour
 
     public void ClearAllStats()
     {
+        for (int i = activeEffects.Count - 1; i >= 0; i--)
+            CancelStatEffect(activeEffects[i]);
+        //visualizer.HideAllEffects();
 
-        visualizer.HideAllEffects();
-        activeEffects.Clear();
 
     }
 

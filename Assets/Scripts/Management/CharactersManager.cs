@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 public class CharactersManager : MonoBehaviour
 {

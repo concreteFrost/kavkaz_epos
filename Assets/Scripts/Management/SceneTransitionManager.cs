@@ -68,7 +68,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator StartTransition( string sceneName, Vector3 startingPos) {
 
-        GameStateManager.GameStateChanged?.Invoke(GameState.Transition);
+        GameStateManager.Instance.SetState(GameState.Transition);
         TransitionStarted?.Invoke(transitionTime);
         yield return new WaitForSeconds(transitionTime);
         yield return LoadSceneAsync(sceneName, () => LoadSceneAfterTravel(sceneName,startingPos));
@@ -80,7 +80,7 @@ public class SceneTransitionManager : MonoBehaviour
         SceneLoadedAfterTravel?.Invoke(sceneName, startingPosition);
        
         yield return new WaitForSeconds(transitionTime);
-        GameStateManager.Instance.SetState(GameState.Game);
+       
     }
     
     private IEnumerator LoadGameCoroutine()
@@ -104,5 +104,6 @@ public class SceneTransitionManager : MonoBehaviour
         }
         TransitionFinished?.Invoke(transitionTime);
         onLoaded?.Invoke();
+        GameStateManager.Instance.SetState(GameState.Game);
     }
 }

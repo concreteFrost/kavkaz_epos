@@ -19,6 +19,7 @@ public static class SaveLoadSystem
 {
     private static string savePath => Path.Combine(Application.persistentDataPath, "save.dat");
 
+    public static bool HasSave()=> File.Exists(savePath);       
     public static void SaveGameData(SaveGameData data)
     {
         BinaryFormatter formatter = new BinaryFormatter();

@@ -62,6 +62,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
         
     }
 
+    public virtual void PerformKnockout(Vector3 source, float impactForce)
+    {
+        //без имплементации
+    }
+
     public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = isActive;
 
     public void TakeDamage(DamageData damageData,IAttackSource source)

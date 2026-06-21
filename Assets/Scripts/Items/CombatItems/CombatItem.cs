@@ -6,7 +6,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     protected ItemData data;
     protected Collider physicsCollider;
-    protected MeshRenderer meshRenderer;
+    protected MeshRenderer[] meshRenderer;
 
 
     #region ICombatItem Contract
@@ -28,13 +28,17 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     {
         this.data = data;
         physicsCollider = GetComponent<Collider>();
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        meshRenderer = GetComponentsInChildren<MeshRenderer>();
     
     }
 
     public void SetEquiped(bool equiped)
     {
-        meshRenderer.enabled = equiped;
+        foreach(var r in meshRenderer)
+        {
+            r.enabled = equiped;
+        }
+      
         data.isEquiped = equiped;   
     }
 

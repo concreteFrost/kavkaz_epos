@@ -524,8 +524,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783394810301137365}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: 0.0000000015852725, z: -6.566414e-10, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9.688999, z: -8}
+  m_LocalRotation: {x: 0.3826835, y: 0.000000034159093, z: -0.00000001414916, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 11.688998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1467,8 +1467,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852278665465589905}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268346, y: 0.0000000011525151, z: 3.881267e-10, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9.688999, z: -8}
+  m_LocalRotation: {x: 0.38268346, y: 0.000000034159086, z: -0.000000014149156, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 11.688998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1535,7 +1535,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 8, z: -8}
+  FollowOffset: {x: 0, y: 10, z: -10}
 --- !u!114 &716972013521031873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,7 +1584,7 @@ MonoBehaviour:
   TransparentLayers:
     serializedVersion: 2
     m_Bits: 11460
-  MinimumDistanceFromTarget: 0.2
+  MinimumDistanceFromTarget: 0.5
   AvoidObstacles:
     Enabled: 1
     DistanceLimit: 0
@@ -1595,7 +1595,7 @@ MonoBehaviour:
       YOffset: 0
     Strategy: 0
     MaximumEffort: 4
-    SmoothingTime: 0
+    SmoothingTime: 0.055
     Damping: 0.7
     DampingWhenOccluded: 0.2
   ShotQualityEvaluation:
@@ -1982,7 +1982,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.33
+  m_Radius: 0.4
   m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: 1.05, z: 0}
@@ -2439,7 +2439,7 @@ Transform:
   m_GameObject: {fileID: 2429971788946388095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000008046627, y: 1.5, z: 0.49999988}
+  m_LocalPosition: {x: 0.0000008046627, y: 1.5, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2464,7 +2464,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7320207565165700769
 MonoBehaviour:
@@ -3963,8 +3963,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4146491191797198170}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: 0.0000000015852725, z: -6.566414e-10, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 9.688999, z: -8}
+  m_LocalRotation: {x: 0.3826835, y: 0.000000034159093, z: -0.00000001414916, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 11.688998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6070,7 +6070,7 @@ MonoBehaviour:
   initialHealthLevel: 1
   initialStaminaLevel: 1
   initialKnowledgeLevel: 1
-  initialStrengthLevel: 50
+  initialStrengthLevel: 1
   healthLevel: 1
   staminaLevel: 1
   knowledgeLevel: 1

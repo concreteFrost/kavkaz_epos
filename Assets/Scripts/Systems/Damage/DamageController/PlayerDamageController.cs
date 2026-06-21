@@ -5,6 +5,9 @@ public class PlayerDamageController : BaseHumanoidDamageController
 {
 
     protected override float DamageCooldown() => 0.7f;
+    private float damageAnimationCooldown = 2f;
+
+    Coroutine preventDamageAnimationCoroutine;
 
     public void Init(
         PlayerMotor motor,
@@ -38,23 +41,27 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
         base.TakeDamage(damageData, source);
 
-        if (IsDead) return;
+       
+
+        if (CanPlayDamagedAnimation && preventDamageAnimationCoroutine == null)
+        {
+            HandleGetDamaged(damageData.balanceDamageType);
+            preventDamageAnimationCoroutine =
+                StartCoroutine(CantPlayDamageCoroutine());
+        }
+
+        StartCoroutine(DamageCooldownCoroutine());
 
         if (ShouldForceEnterGameMode())
         {
-            GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+            GameStateManager.Instance.SetState(GameState.Game);
         }
-
-        HandleGetDamaged(damageData.balanceDamageType);
-        StartCoroutine(DamageCooldownCoroutine());
     }
 
     protected override bool IsDamagingBlocked()
     {
         return IsDead || damageBlocked || InBlockingWindow;
     }
-
-
 
 
     private bool ShouldForceEnterGameMode()
@@ -66,6 +73,14 @@ public class PlayerDamageController : BaseHumanoidDamageController
 
         return true;    
 
+    }
+
+    IEnumerator CantPlayDamageCoroutine()
+    {
+        CanPlayDamagedAnimation = false;    
+        yield return new WaitForSeconds(damageAnimationCooldown);
+        CanPlayDamagedAnimation = true;
+        preventDamageAnimationCoroutine = null;
     }
 
 

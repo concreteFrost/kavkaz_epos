@@ -1,4 +1,4 @@
-
+п»ї
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
@@ -94,11 +94,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void MoveCharacter(Vector3 direction)
     {
-        // направление для визуального поворота
+        // РЅР°РїСЂР°РІР»РµРЅРёРµ РґР»СЏ РІРёР·СѓР°Р»СЊРЅРѕРіРѕ РїРѕРІРѕСЂРѕС‚Р°
         Vector3 desiredDir = (direction - transform.position).normalized;
         desiredDir.y = 0f;
 
-        moveDirection = desiredDir; // только для анимации 
+        moveDirection = desiredDir; // С‚РѕР»СЊРєРѕ РґР»СЏ Р°РЅРёРјР°С†РёРё 
         
         agentController.SendAgentToPosition(direction);
     }
@@ -111,7 +111,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         agentController.MoveAgentToPosition(velocity);
 
-        moveDirection = direction.normalized; // для анимации
+        moveDirection = direction.normalized; // РґР»СЏ Р°РЅРёРјР°С†РёРё
     }
 
 
@@ -171,7 +171,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
             yield return null;
         }
 
-        strafeCoroutine = null; // флаг окончания
+        strafeCoroutine = null; // С„Р»Р°Рі РѕРєРѕРЅС‡Р°РЅРёСЏ
     }
 
     public void StopStrafe()
@@ -215,7 +215,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     protected override void CheckGroundDistance()
     {
-        // Для ИИ на NavMeshAgent дистанцию до земли можно считать 0
+        // Р”Р»СЏ РР РЅР° NavMeshAgent РґРёСЃС‚Р°РЅС†РёСЋ РґРѕ Р·РµРјР»Рё РјРѕР¶РЅРѕ СЃС‡РёС‚Р°С‚СЊ 0
         groundDistance = 0f;
     }
 
@@ -223,36 +223,41 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     #region Jump Control
 
+    public override void Jump(float jumpTimer)
+    {
+        //base.Jump(jumpTimer);
+    }
+
     IEnumerator TraverseOffMeshLink(OffMeshLinkData data, float height)
     {
         agentController.SetStartJump();
-
         isJumping = true;
         isGrounded = false;
 
         Vector3 start = transform.position;
-        Vector3 end = data.endPos;
+        Vector3 end = data.endPos; // С„РёРєСЃРёСЂСѓРµРј Р”Рћ РїСЂС‹Р¶РєР°
 
         yield return JumpParabola(start, end, 1.2f);
 
         agentController.FinishJump(end);
 
-        isJumping = false;
-        isGrounded = true;
-    }
+        // Р–РґС‘Рј РѕРґРёРЅ РєР°РґСЂ вЂ” Р°РіРµРЅС‚ РѕР±РЅРѕРІРёС‚ isOnOffMeshLink в†’ false
+        yield return null;
 
+        isGrounded = true;
+        isJumping = false;
+    }
     IEnumerator JumpParabola(Vector3 start, Vector3 end, float height)
     {
         float t = 0f;
 
         float distance = Vector3.Distance(start, end);
-        float horizontalSpeed = 1f; // м/с — подбирается визуально
+        float horizontalSpeed = 1f; // Рј/СЃ вЂ” РїРѕРґР±РёСЂР°РµС‚СЃСЏ РІРёР·СѓР°Р»СЊРЅРѕ
 
         float duration = distance / horizontalSpeed;
         duration = Mathf.Clamp(duration, 0.35f, 1.2f);
 
         //animator.CrossFadeInFixedTime("Jump", 0.1f);
-
 
         while (t < 1f)
         {
@@ -273,27 +278,28 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     protected override void ControlJumpBehaviour(float jumpHeight)
     {
-        if (agentController.agent.isOnOffMeshLink && isGrounded)
+        if (agentController.agent.isOnOffMeshLink && !isJumping)
         {
-            StartCoroutine(TraverseOffMeshLink(agentController.agent.currentOffMeshLinkData, jumpHeight));
+            isJumping = true; // СЃСЂР°Р·Сѓ Р±Р»РѕРєРёСЂСѓРµРј РїРѕРІС‚РѕСЂРЅС‹Р№ Р·Р°РїСѓСЃРє
+            StartCoroutine(TraverseOffMeshLink(
+                agentController.agent.currentOffMeshLinkData, jumpHeight));
             base.Jump(jumpHeight);
         }
-
     }
 
     public override void AirControl()
     {
         if (isGrounded) return;
 
-        // Для AI можно просто обновлять moveDirection для анимации
+        // Р”Р»СЏ AI РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ РѕР±РЅРѕРІР»СЏС‚СЊ moveDirection РґР»СЏ Р°РЅРёРјР°С†РёРё
         moveDirection.y = 0;
         moveDirection.x = Mathf.Clamp(moveDirection.x, -1f, 1f);
         moveDirection.z = Mathf.Clamp(moveDirection.z, -1f, 1f);
 
-        // Можно хранить высоту для анимации прыжка
+        // РњРѕР¶РЅРѕ С…СЂР°РЅРёС‚СЊ РІС‹СЃРѕС‚Сѓ РґР»СЏ Р°РЅРёРјР°С†РёРё РїСЂС‹Р¶РєР°
         if (transform.position.y > heightReached) heightReached = transform.position.y;
 
-        // Движение NavMeshAgent в воздухе не контролируем через Rigidbody
+        // Р”РІРёР¶РµРЅРёРµ NavMeshAgent РІ РІРѕР·РґСѓС…Рµ РЅРµ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРј С‡РµСЂРµР· Rigidbody
     }
     #endregion
 

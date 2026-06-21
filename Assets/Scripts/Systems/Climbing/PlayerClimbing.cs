@@ -23,6 +23,7 @@ public class PlayerClimbing : MonoBehaviour, IClimber
     {
         if (climbDetector.TryGetClimbable(out var surface, out var hit))
         {
+            Debug.Log(hit.normal);
             EnterClimb(hit.normal);
         }
     }

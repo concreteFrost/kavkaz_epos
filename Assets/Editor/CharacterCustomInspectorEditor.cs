@@ -18,6 +18,7 @@ public class CharacterCustomInspectorEditor : Editor
         DrawStatsInfo(go);
         DrawCombatInventory(go);
         DrawSpellInventory(go);
+        DrawInitialInventorySetup(go);  
         //DrawCombatBehaviour(go);
         DrawBehaviourStats(go);
         DrawLoot(go);
@@ -155,47 +156,34 @@ public class CharacterCustomInspectorEditor : Editor
         EditorGUI.indentLevel--;
     }
 
-    private void DrawCombatBehaviour(GameObject go)
+    private void DrawInitialInventorySetup(GameObject obj)
     {
-        var brain = go.GetComponentInChildren<EnemyBrain>();
+        var constructor = obj.GetComponentInChildren<CharacterConstructor>();
 
-        if (brain == null)
-            return;
+        if (constructor == null) return;
 
-        MonoScript script = (MonoScript)EditorGUILayout.ObjectField(
-            "Attack Script",
-            null,
-            typeof(MonoScript),
-            false);
+        EditorGUILayout.LabelField("Inventory Setup");
 
-        if (script != null)
+        EditorGUI.indentLevel++;
+        SerializedObject so = new SerializedObject(constructor);
+        
+        SerializedProperty hasConumables = so.FindProperty("hasAllConsumables");
+        SerializedProperty hasSpells= so.FindProperty("hasAllSpells");
+        SerializedProperty hasWeapons = so.FindProperty("hasAllWeapons");
+
+        so.Update();
+
+        EditorGUILayout.PropertyField (hasConumables, true);
+        EditorGUILayout.PropertyField(hasSpells, true);
+        EditorGUILayout.PropertyField(hasWeapons, true);
+
+        if (so.ApplyModifiedProperties())
         {
-            System.Type type = script.GetClass();
-
-            if (type != null &&
-                typeof(BaseEnemyAttackState).IsAssignableFrom(type))
-            {
-                if (GUILayout.Button("Assign"))
-                {
-                    var holder = brain.gameObject;
-
-                    var oldBehaviour =
-                        holder.GetComponent<BaseEnemyAttackState>();
-
-                    if (oldBehaviour != null)
-                    {
-                        Undo.DestroyObjectImmediate(oldBehaviour);
-                    }
-
-                    Undo.AddComponent(holder, type);
-                }
-            }
-            else
-            {
-                EditorGUILayout.HelpBox(
-                    "Script must inherit from AttackBehaviour",
-                    MessageType.Error);
-            }
+            Undo.RecordObject(constructor, "Modify Inventory Set");
+            EditorUtility.SetDirty(constructor);    
         }
+
+        EditorGUI.indentLevel--;    
+
     }
 }

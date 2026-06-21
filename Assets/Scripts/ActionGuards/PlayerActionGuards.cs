@@ -150,7 +150,7 @@ public class PlayerActionGuards
 
         if (locomotion.IsDodging) return false;
 
-        if (!locomotion.IsGrounded) return false;
+        //if (!locomotion.IsGrounded) return false;
 
         if (stats.Stamina.Current <= 0) return false;
 

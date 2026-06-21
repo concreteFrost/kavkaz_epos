@@ -27,28 +27,25 @@ public class GameStateManager : MonoBehaviour
  
     }
 
-    private void OnEnable()
-    {
-        GameStateChanged += SetState;
-        
-    }
-
-    private void OnDisable()
-    {
-        GameStateChanged -= SetState;   
-    }
-
-    private void Start()
-    {
-        GameStateChanged?.Invoke(GameState.Game);
-    }
+    //private void Start()
+    //{
+    //    GameStateChanged?.Invoke(GameState.Game);
+    //}
 
     public void SetState(GameState newState)
     {
-        if (CurrentState == newState) return;
-
+        //if (CurrentState == newState) return;
+      
         CurrentState = newState;
+        SetCursorState(newState);
         GameStateChanged?.Invoke(CurrentState);
+    }
+
+    private void SetCursorState(GameState newState)
+    {
+        bool isCursorActive = newState != GameState.Game && newState != GameState.Transition;
+        Cursor.visible = isCursorActive;
+        Cursor.lockState = isCursorActive ? CursorLockMode.Confined : CursorLockMode.Locked;
     }
 
 }

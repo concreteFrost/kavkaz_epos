@@ -20,6 +20,10 @@ public class HumanoidAgentController
 
         agent.obstacleAvoidanceType =
             ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+
+        agent.avoidancePriority = Random.Range(0,99);
+
+        agent.autoTraverseOffMeshLink = false;
     }
 
     #region Agent Control

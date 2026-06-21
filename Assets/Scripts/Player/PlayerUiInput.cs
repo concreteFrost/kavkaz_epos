@@ -40,7 +40,7 @@ public class PlayerUIInput : MonoBehaviour
         if (!reader.SwitchToGamePressed) return;
 
         reader.Consume(ref reader.SwitchToGamePressed);
-        GameStateManager.GameStateChanged?.Invoke(GameState.Game);
+        GameStateManager.Instance.SetState(GameState.Game);
        
     }
 

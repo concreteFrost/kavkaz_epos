@@ -68,9 +68,7 @@ public class HumanoidAIPushReceiver : BasePushReceiver
         }
 
         // передаём в ragdollController: Transform остаётся внутри, сила считается по fallDirection
-        ragdollController.Knockout(transform.position - offsetDir, 500);
-
-        damageController.IsKnockedOut = true;
+        damageController.PerformKnockout(transform.position - offsetDir, 500);
         IsPushed = false;
     }
 
