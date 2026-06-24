@@ -7,7 +7,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
     HumanoidAIMotor motor;
 
     EnemyChaseHandler chaseHandler;
-    EnemyCombatHandler combatHandler;   
+    EnemyCombatHandler combatHandler;
 
     public override void Enter()
     {
@@ -29,7 +29,7 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
             chaseHandler.ResetChaseState();
             return AIStateResult.None;
         }
-           
+
 
         Transform self = context.self;
 
@@ -38,22 +38,17 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         {
             return AIStateResult.Idle;
         }
-            
+
         Transform target = context.fov.currentTarget.GetOrigin();
 
         var agentTypeId = context.agentController.agent.agentTypeID;
         // 2. цель недостижима
-        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position,agentTypeId);
+        bool canReach = NavAgentUtils.HasCompletePath(self.position, target.position, agentTypeId);
 
-        if (!canReach)
-        {
-            return AIStateResult.Wait;
-        }
-        
-      
+        if (!canReach) return AIStateResult.Wait;
+
         bool isTargetVisible = fov.IsTargetVisible();
 
-        
         chaseHandler.UpdateLostTargetTimer(isTargetVisible);
 
         if (chaseHandler.HasLostTargetTimerExceeded())
@@ -61,19 +56,22 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         // 4. дистанция
         float distanceToTarget =
-            Vector3.Distance(self.position, target.position);
+    NavAgentUtils.GetPathDistance(
+        self.position,
+        target.position,
+        agentTypeId);
 
         if (chaseHandler.IsTargetFar(distanceToTarget))
             return AIStateResult.MoveToStartPosition;
 
+
         if (chaseHandler.IsCloseToAttack(distanceToTarget) && context.fov.IsTargetVisible())
         {
-            return AIStateResult.Attack;    
+            return AIStateResult.Attack;
         }
-        else
-        {
-            motor.MoveCharacter(target.position);      
-        }
+
+
+        motor.MoveCharacter(target.position);
 
         //motor.IsSprinting = distanceToTarget > stats.distanceToRun;
 

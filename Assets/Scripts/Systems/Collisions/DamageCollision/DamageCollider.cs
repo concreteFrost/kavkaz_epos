@@ -161,7 +161,11 @@ public class DamageCollider : MonoBehaviour
     // Метод применения урона
     protected virtual void ApplyDamage(IDamagable target, DamageData data)
     {
+        if(target.IsDead) return;
+
         target.TakeDamage(data, attackSource);
+
+
 
         isAttackRegistered = true;
     }

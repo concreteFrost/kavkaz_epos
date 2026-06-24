@@ -36,6 +36,6 @@ public interface IDamagable
     event Action<IAttackSource> DamageTaken;
 
     // Событие, вызываемое при получении урона (можно подписаться на эффекты, UI или звук)
-
+    DamagableSurfaceSO ImpactVFX();
     IUiProvider HealthProviderUI { get; set; }
 }

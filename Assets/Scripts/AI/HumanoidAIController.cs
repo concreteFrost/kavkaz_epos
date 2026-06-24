@@ -59,6 +59,7 @@ public class HumanoidAIController : MonoBehaviour
 
         if (aiMotor.StopMove || aiMotor.IsDodging || damageController.IsDamaged)
         {
+         
             aiMotor.moveSpeed = 0f;
         }
 

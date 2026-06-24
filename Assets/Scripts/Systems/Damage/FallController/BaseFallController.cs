@@ -28,6 +28,7 @@ public abstract class BaseFallController : MonoBehaviour
                 finalDamage = damage,
                 balanceDamageType = BalanceDamageType.High,
                 impactForce = 0,
+                damageSourceType = DamageSourceType.None
             };
 
 

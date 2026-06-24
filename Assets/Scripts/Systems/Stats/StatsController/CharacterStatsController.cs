@@ -29,6 +29,17 @@ public class CharacterStatsController : BaseStatsController
     public float jumpHeight;
     public float jumpTimer;
 
+
+    [Header("Balance")]
+    public float MaxBalance => statsSO.maxBalance;
+
+    public float CurrentBalance;
+
+    private float balanceRecoverDelay = 2f;
+    private float balanceRecoverRate = 20f;
+
+    private float lastHitTime;
+
     [Header("Initial Levels")]
     public int initialHealthLevel=1;
     public int initialStaminaLevel=1;
@@ -41,6 +52,7 @@ public class CharacterStatsController : BaseStatsController
     public int knowledgeLevel;
     public int strengthLevel;
 
+
     public void Init()
     {
 
@@ -51,6 +63,9 @@ public class CharacterStatsController : BaseStatsController
         staminaLevel = initialStaminaLevel;
         knowledgeLevel = initialKnowledgeLevel;
         strengthLevel = initialStrengthLevel;
+
+        CurrentBalance = MaxBalance;
+
 
         Health = new HealthModel(statsSO.baseHealth, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Stamina = new StaminaModel(statsSO.baseStamina, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
@@ -76,8 +91,32 @@ public class CharacterStatsController : BaseStatsController
     private void Update()
     {
         Stamina.Regen();
+        TrackBalance();
     }
 
+    public bool ApplyBalanceDamage(float damage)
+    {
+        lastHitTime = Time.time;
+
+        CurrentBalance -= damage;
+
+        if (CurrentBalance <= 0)
+        {
+            CurrentBalance = MaxBalance;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void TrackBalance()
+    {
+        if (Time.time - lastHitTime < balanceRecoverDelay)
+            return;
+
+        CurrentBalance += balanceRecoverRate * Time.deltaTime;
+        CurrentBalance = Mathf.Min(CurrentBalance, MaxBalance);
+    }
 
     public CharacterStatsData SaveStatsData()
     {

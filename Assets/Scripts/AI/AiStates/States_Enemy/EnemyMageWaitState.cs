@@ -23,6 +23,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
         handler.ResetWaitState();
 
         motor.StopMovement();
+        motor.ResetSprint();
         motor.SetStrafe(true);
         motor.SetLockTarget(fov.currentTarget.GetAimTransform());
     }
@@ -53,6 +54,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
         {
             if (canReach)
             {
+              
                 return AIStateResult.Chase;
             }
 

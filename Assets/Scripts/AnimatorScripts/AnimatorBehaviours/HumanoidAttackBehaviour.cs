@@ -54,15 +54,15 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
 
         float t = stateInfo.normalizedTime;
 
-        if (t >= attack.invincibleStartFrame &&
-     t <= attack.invincibleEndFrame)
-        {
-            damageController.CanPlayDamagedAnimation = false;
-        }
-        else
-        {
-            damageController.CanPlayDamagedAnimation = true;
-        }
+     //   if (t >= attack.invincibleStartFrame &&
+     //t <= attack.invincibleEndFrame)
+     //   {
+     //       damageController.CanPlayDamagedAnimation = false;
+     //   }
+     //   else
+     //   {
+     //       damageController.CanPlayDamagedAnimation = true;
+     //   }
 
         if (!hitActive && t >= attack.animationInfo.hitStartFrame)
         {

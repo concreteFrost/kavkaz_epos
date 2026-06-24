@@ -18,6 +18,7 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
         motor.StopMovement();
         motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+    
     }
 
     public override AIStateResult Run()

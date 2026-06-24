@@ -35,9 +35,9 @@ public static class NavAgentUtils
     }
 
     public static bool HasCompletePath(
-     Vector3 from,
-     Vector3 to,
-     int agentTypeId)
+        Vector3 from,
+        Vector3 to,
+        int agentTypeId)
     {
         NavMeshPath path = new NavMeshPath();
 
@@ -53,5 +53,39 @@ public static class NavAgentUtils
                    filter,
                    path)
                && path.status == NavMeshPathStatus.PathComplete;
+    }
+
+    public static float GetPathDistance(
+        Vector3 from,
+        Vector3 to,
+        int agentTypeId)
+    {
+        NavMeshPath path = new NavMeshPath();
+
+        NavMeshQueryFilter filter = new NavMeshQueryFilter
+        {
+            agentTypeID = agentTypeId,
+            areaMask = NavMesh.AllAreas
+        };
+
+        bool success = NavMesh.CalculatePath(
+            from,
+            to,
+            filter,
+            path);
+
+        if (!success || path.status != NavMeshPathStatus.PathComplete)
+            return float.PositiveInfinity;
+
+        float distance = 0f;
+
+        for (int i = 1; i < path.corners.Length; i++)
+        {
+            distance += Vector3.Distance(
+                path.corners[i - 1],
+                path.corners[i]);
+        }
+
+        return distance;
     }
 }

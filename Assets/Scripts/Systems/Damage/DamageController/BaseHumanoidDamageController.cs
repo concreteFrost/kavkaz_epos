@@ -16,6 +16,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     [SerializeField] protected Transform defaultTransformParent;
 
+    [SerializeField] protected DamagableSurfaceSO damageImpactType;
+
     #region IDamagable Contract
     public Collider DamageCollider() => damagableCollider;
     public IShield Protection { get; set; } = null;
@@ -30,6 +32,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public bool InBlockingWindow { get; set; }
     public bool CanPlayDamagedAnimation { get; set; }
     public IUiProvider HealthProviderUI { get; set; }
+    public DamagableSurfaceSO ImpactVFX() => damageImpactType;
     #endregion
 
     protected abstract float DamageCooldown();
@@ -55,7 +58,30 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     }
 
+
+
     public virtual void PerformKnockout(Vector3 source, float impactForce) { }
+
+    protected float GetBalanceDamageValue(BalanceDamageType type)
+    {
+        switch (type)
+        {
+            case BalanceDamageType.Low:
+                return 20;
+
+            case BalanceDamageType.High:
+                return 40;
+
+            case BalanceDamageType.Extreme:
+                return 100;
+
+            case BalanceDamageType.Blocked:
+                return 10;
+
+            default:
+                return 0;
+        }
+    }
 
 
     public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = GameStateManager.Instance.CurrentState != GameState.Bonfire;
@@ -68,7 +94,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     }
 
     public virtual void TakeDamage(DamageData damageData, IAttackSource source)
-    {  
+    {
 
         if (damageData.statusEffectData != null)
         {
@@ -76,9 +102,11 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         }
 
         stats.Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
-       
+
         InvokeDamageTaken(source);
 
+        if(source != null) 
+            CombatVFXManager.ImpactResolved?.Invoke(ImpactVFX(), GetAimTransform().position, -source.Source().forward);
 
     }
 
@@ -90,6 +118,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     protected void InvokeDamageTaken(IAttackSource source)
     {
+
         DamageTaken?.Invoke(source);
     }
 
@@ -97,14 +126,20 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     protected void HandleGetDamaged(BalanceDamageType balanceDamageType)
     {
-        if (!CanPlayDamagedAnimation)
-        {
-           
-            return;
-        }
+        //if (!CanPlayDamagedAnimation)
+        //{
+
+        //    return;
+        //}
+
+
+
+        bool stagger = stats.ApplyBalanceDamage(GetBalanceDamageValue(balanceDamageType));
+
+        if (!stagger) return;
 
         string animClipName = GetDamageAnimation(balanceDamageType);
-       
+
 
         if (animClipName == null) return;
 

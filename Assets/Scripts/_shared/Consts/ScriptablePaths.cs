@@ -36,7 +36,6 @@ public static class ScriptablePaths
     public const string PROJECTILE_INSTANCE_PATH = PROJECTILE_PATH + "/Instances";
     public const string PROJECTILE_MOVE_PATH = PROJECTILE_PATH + "/Movement";
 
-    public const string VFX_SIDE_FX_PATH = VFX_PATH + "/Side Effects Data";
 
 
 

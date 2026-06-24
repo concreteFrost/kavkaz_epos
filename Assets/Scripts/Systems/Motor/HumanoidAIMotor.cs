@@ -17,7 +17,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         this.agentController = agentController;
 
         // Animator
-        animator.Animator().updateMode = AnimatorUpdateMode.Normal;
+        //animator.Animator().updateMode = AnimatorUpdateMode.Normal;
         animator.Animator().applyRootMotion = false;
         animationSmooth = 0.2f;
 
@@ -94,6 +94,8 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public override void MoveCharacter(Vector3 direction)
     {
+
+
         // направление для визуального поворота
         Vector3 desiredDir = (direction - transform.position).normalized;
         desiredDir.y = 0f;

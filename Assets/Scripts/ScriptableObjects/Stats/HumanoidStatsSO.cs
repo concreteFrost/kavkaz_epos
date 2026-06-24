@@ -21,6 +21,10 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float staminaJumpReducePenalty = 7f;
     public float staminaDodgeReducePenalty = 10f;
 
+    [Header("knockout and balance")]
+    public float maxBalance = 100f; 
+    public bool canTakeKnockout = true;
+
     [Header("Listening")]
     public float eventListenDistance = 20f;
 

@@ -34,6 +34,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public event Action<IAttackSource> DamageTaken = null;
 
     public IUiProvider HealthProviderUI { get; set; }
+    public DamagableSurfaceSO ImpactVFX() => null;
 
     #endregion
 
@@ -116,4 +117,5 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     }
 
+  
 }

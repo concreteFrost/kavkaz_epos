@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum DamageSourceType
+{
+    None = 0,
+    MeleeWeapon =1,
+}
+
 [System.Serializable]
 public struct DamageData
 {
@@ -17,6 +23,8 @@ public struct DamageData
 
     [Tooltip("‘инальный рассчитанный урон после всех множителей. «аполн€етс€ автоматически во врем€ атаки.")]
     [HideInInspector] public float finalDamage;
+
+    public DamageSourceType damageSourceType;
 
     public void SetFinalDamage(float baseDamage, float strength)
     {
