@@ -37,7 +37,7 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
 
         if (!canReach)
         {
-            handler.UpdateWaitTimer(canReach);
+            handler.UpdateWaitTimer();
         }
         else
         {

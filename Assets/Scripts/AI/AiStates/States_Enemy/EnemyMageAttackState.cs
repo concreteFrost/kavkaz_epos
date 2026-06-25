@@ -5,8 +5,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
 {
     IEmitter emitter;
     CharacterSpellInventory spellInventory;
-    float meleeDistance = 1.3f;
-   
+
 
     public override void Init()
     {
@@ -31,7 +30,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     public override void HandleAttack(Transform target)
     {
        
-        if (distanceToTarget < meleeDistance)
+        if (distanceToTarget <= combatHandler.GetAttackDistance(CombatMode.Melee))
         {
             int punchesSount = 1;
             combatCoroutine = combatActions.StartMelee(combatController, combatHandler,punchesSount, combatHandler.GetAttackDistance(combatMode),()=> distanceToTarget, FinishCombatAction);
@@ -52,7 +51,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     public override bool ShouldExitCooldown()
     {
 
-        if (distanceToTarget < meleeDistance)
+        if (distanceToTarget <= combatHandler.GetAttackDistance(CombatMode.Melee))
             return true;
 
         if (!fov.IsTargetVisible())
@@ -67,7 +66,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     {
         float dist = Vector3.Distance(self.position, target.position);
 
-        if (dist > 7f)
+        if (dist > 5f)
         {
             motor.StopMovement();
             return;

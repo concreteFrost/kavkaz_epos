@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,7 +10,7 @@ public class TargetHolder
 }
 public class StaminaEnableController : MonoBehaviour
 {
-
+    [SerializeField] TextMeshProUGUI text_activeTargets;
     public List<TargetHolder> targetHolders = new List<TargetHolder>();
     StaminaModel staminaModel;
 
@@ -28,6 +29,10 @@ public class StaminaEnableController : MonoBehaviour
         EnemyFOVController.TargetLost -= OnTargetReset;
     }
 
+    private void Update()
+    {
+       
+    }
 
     private void OnTargetAdded(CharacterType type, string fovId)
     {
@@ -45,10 +50,14 @@ public class StaminaEnableController : MonoBehaviour
             if (match == null)
             {
                 targetHolders.Add(holder);
-                staminaModel.canReduceStamina = true;
+                //staminaModel.canReduceStamina = true;
             }
 
         }
+
+        text_activeTargets.text = "Active targets: " + targetHolders.Count.ToString();
+
+        staminaModel.canReduceStamina = targetHolders.Count != 0;
     }
 
     private void OnTargetReset(CharacterType type, string fovId)
@@ -67,6 +76,7 @@ public class StaminaEnableController : MonoBehaviour
 
         }
 
+        text_activeTargets.text = "Active targets: " + targetHolders.Count.ToString();
 
         staminaModel.canReduceStamina = targetHolders.Count != 0;
     }

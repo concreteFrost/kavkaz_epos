@@ -103,6 +103,8 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
     public virtual AIStateResult HandleCombatBehavior()
     {
+        if(motor.IsJumping) return AIStateResult.None;
+
         bool inRange = distanceToTarget < combatHandler.GetAttackDistance(combatMode);
 
         if (!inRange || !fov.IsTargetVisible())

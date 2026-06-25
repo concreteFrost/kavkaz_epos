@@ -21,7 +21,7 @@ public class EnemyWaitForTargetHandler
         this.stats = stats;
     }
 
-    public void UpdateWaitTimer(bool canReach) => waitTimer = canReach ? 0f : waitTimer + Time.deltaTime;
+    public void UpdateWaitTimer() =>  waitTimer += Time.deltaTime;
 
     public void ResetWaitState()
     {

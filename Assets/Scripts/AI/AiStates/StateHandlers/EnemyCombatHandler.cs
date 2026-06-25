@@ -18,12 +18,7 @@ public enum CombatTransition
 public class EnemyCombatHandler
 {
     CharacterBehaviourStatsSO stats;
-    CharacterStatsController statsController;
 
-    //[Header("Состояние боя")]
-    //[SerializeField] private float currCombatCooldown;
-    //[SerializeField] private float maxCombatCooldown;
-    //[SerializeField] private bool isComboRunning;
     [SerializeField] bool canAttack = true;
 
     //power attack
@@ -32,7 +27,6 @@ public class EnemyCombatHandler
     [Header("Учёт повреждений")]
     [SerializeField] private float lastDamageTime = -10f;
     //[SerializeField] private int damageCounter;
-
 
     [SerializeField] private float comboDistanceOffset = 0.2f;
 
@@ -62,7 +56,7 @@ public class EnemyCombatHandler
     public EnemyCombatHandler(CharacterBehaviourStatsSO behaviourStats, CharacterStatsController statsController)
     {
         this.stats = behaviourStats;
-        this.statsController = statsController;
+
 
         currAttackTransitionChance = behaviourStats.attackTransitionChance;
 
@@ -86,14 +80,10 @@ public class EnemyCombatHandler
     public bool CanAttack() => canAttack;
 
     public void SetCanAttack(bool val) => canAttack = val;
-
-    public float GetAttackDistance(CombatMode mode) => mode == CombatMode.Melee ? stats.meleeAttackRange : stats.emitAttackRange;
     public float GetMeleeAttackDistanceWithOffset() => stats.meleeAttackRange + comboDistanceOffset;
 
     public float GetMinAttackCooldown() => stats.minCombatCooldown;
     public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
-
-
 
 
     //работает только для смешанных врагов
@@ -149,9 +139,11 @@ public class EnemyCombatHandler
 
     #endregion
 
-    #region Distance to Target
-    //public bool IsRunningDistance(float distance) => distance > stats.switchToRunDistance;
+    #region Distance to Target;
     public bool IsChaseDistance(float distance) => distance >= stats.maxDistanceInCombat;
+
+    public float GetAttackDistance(CombatMode mode) => mode == CombatMode.Melee ? stats.meleeAttackRange : stats.emitAttackRange;
+
     //public bool IsLockOnDistance(float distance) => distance <= stats.targetLockOnDistance;
 
     #endregion

@@ -72,7 +72,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
             return AIStateResult.None;
         }
 
-        handler.UpdateWaitTimer(canReach);
+        handler.UpdateWaitTimer();
 
         if (handler.HasWaitTimerExceeded())
         {

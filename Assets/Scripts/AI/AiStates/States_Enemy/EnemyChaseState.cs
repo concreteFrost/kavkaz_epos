@@ -34,10 +34,8 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
         Transform self = context.self;
 
         // 1. нет цели
-        if (fov.currentTarget == null)
-        {
-            return AIStateResult.Idle;
-        }
+        if (fov.currentTarget == null) return AIStateResult.Idle;
+
 
         Transform target = context.fov.currentTarget.GetOrigin();
 
@@ -51,29 +49,24 @@ public class EnemyChaseState : AIState<EnemyBrainContext>
 
         chaseHandler.UpdateLostTargetTimer(isTargetVisible);
 
-        if (chaseHandler.HasLostTargetTimerExceeded())
-            return AIStateResult.Patrol;
+        if (chaseHandler.HasLostTargetTimerExceeded()) return AIStateResult.Patrol;
+
 
         // 4. дистанция
         float distanceToTarget =
-    NavAgentUtils.GetPathDistance(
+    NavAgentUtils.GetPathLength(
         self.position,
         target.position,
-        agentTypeId);
+        agentTypeId
+        );
 
-        if (chaseHandler.IsTargetFar(distanceToTarget))
-            return AIStateResult.MoveToStartPosition;
+        if (chaseHandler.IsTargetFar(distanceToTarget)) return AIStateResult.MoveToStartPosition;
 
 
-        if (chaseHandler.IsCloseToAttack(distanceToTarget) && context.fov.IsTargetVisible())
-        {
-            return AIStateResult.Attack;
-        }
+        if (chaseHandler.IsCloseToAttack(distanceToTarget) && context.fov.IsTargetVisible()) return AIStateResult.Attack;
 
 
         motor.MoveCharacter(target.position);
-
-        //motor.IsSprinting = distanceToTarget > stats.distanceToRun;
 
         return AIStateResult.None;
     }
