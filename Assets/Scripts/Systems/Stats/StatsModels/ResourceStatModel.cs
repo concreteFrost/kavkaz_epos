@@ -42,7 +42,7 @@ public abstract class ResourceStatModel : LevelStatModel , IModifiedStat
     }
 
 
-    public void Regen()
+    public virtual void Regen()
     {
         if (Current >= CurrentMax)
         {

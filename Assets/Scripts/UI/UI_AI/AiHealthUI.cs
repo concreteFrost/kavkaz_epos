@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AiHealthUI : MonoBehaviour , IUiProvider
+public class AiHealthUI : MonoBehaviour, IUiProvider
 {
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider balanceSlider;
 
     private CharacterStatsController stats;
     private Camera cam;
@@ -15,36 +16,52 @@ public class AiHealthUI : MonoBehaviour , IUiProvider
 
     public void Init(CharacterStatsController stats)
     {
-        this.stats = stats; 
+        this.stats = stats;
         healthSlider.minValue = 0;
         healthSlider.maxValue = stats.Health.CurrentMax;
         healthSlider.value = stats.Health.Current;
 
-        stats.Health.CurrentChanged += UpdateHealth;
+        balanceSlider.minValue = 0;
+        balanceSlider.maxValue = stats.Balance.CurrentMax;
+        balanceSlider.value = stats.Balance.Current;
 
-        DisableUI();    
+        stats.Health.CurrentChanged += UpdateHealth;
+        stats.Balance.CurrentChanged += UpdateBalance;
+
+        DisableUI();
         cam = Camera.main;
     }
+
+
 
     private void OnDisable()
     {
         stats.Health.CurrentChanged -= UpdateHealth;
+        stats.Balance.CurrentChanged -= UpdateBalance;
 
     }
 
-    public void DisableUI()=>healthSlider.gameObject.SetActive(false);
-    public void EnableUI()=> healthSlider.gameObject.SetActive(true);
+    public void DisableUI()
+    {
+        healthSlider.gameObject.SetActive(false);
+        balanceSlider.gameObject.SetActive(false);
+    }
+    public void EnableUI()
+    {
+        healthSlider.gameObject.SetActive(true);
+        balanceSlider.gameObject.SetActive(true);
+    }
 
-   
+
     private void LateUpdate()
     {
         if (cam == null)
         {
-            cam = Camera.main;  
-           
+            cam = Camera.main;
+
             return;
         }
-           
+
 
         transform.forward = cam.transform.forward;
     }
@@ -52,5 +69,10 @@ public class AiHealthUI : MonoBehaviour , IUiProvider
     private void UpdateHealth(float health)
     {
         healthSlider.value = health;
+    }
+
+    private void UpdateBalance(float balance)
+    {
+        balanceSlider.value = balance;
     }
 }

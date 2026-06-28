@@ -5,4 +5,5 @@ public enum StatType
     Knowledge = 2,
     Speed = 3,
     Strength= 4,
+    Balance=6
 }

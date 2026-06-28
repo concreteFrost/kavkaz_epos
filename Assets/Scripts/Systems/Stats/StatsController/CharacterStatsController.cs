@@ -30,27 +30,19 @@ public class CharacterStatsController : BaseStatsController
     public float jumpTimer;
 
 
-    [Header("Balance")]
-    public float MaxBalance => statsSO.maxBalance;
-
-    public float CurrentBalance;
-
-    private float balanceRecoverDelay = 2f;
-    private float balanceRecoverRate = 20f;
-
-    private float lastHitTime;
-
     [Header("Initial Levels")]
     public int initialHealthLevel=1;
     public int initialStaminaLevel=1;
     public int initialKnowledgeLevel=1;
     public int initialStrengthLevel=1;
+    public int initialBalanceLevel =1;  
 
     [Header("Levels")]
     public int healthLevel;
     public int staminaLevel;
     public int knowledgeLevel;
     public int strengthLevel;
+    public int balanceLevel;
 
 
     public void Init()
@@ -63,20 +55,21 @@ public class CharacterStatsController : BaseStatsController
         staminaLevel = initialStaminaLevel;
         knowledgeLevel = initialKnowledgeLevel;
         strengthLevel = initialStrengthLevel;
-
-        CurrentBalance = MaxBalance;
-
+        balanceLevel = initialBalanceLevel;
 
         Health = new HealthModel(statsSO.baseHealth, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Stamina = new StaminaModel(statsSO.baseStamina, statsSO.statMinRegenDelay, statsSO.statMaxRegenDelay, statsSO.statRegenRate);
         Speed = new SpeedModel(statsSO.walkSpeed, statsSO.runningSpeed, statsSO.strafeSpeed);
         Knowledge = new KnowledgeModel(statsSO.baseKnowledge);
         Strength = new StrengthModel(statsSO.baseStrength);
+        Balance = new BalanceModel(statsSO.baseBalance);
 
         Health.UpdateMaxAndCurrent(healthLevel);
         Stamina.UpdateMaxAndCurrent(staminaLevel);
         Knowledge.UpdateMaxAndCurrent(knowledgeLevel);
         Strength.UpdateMaxAndCurrent(strengthLevel);
+        Balance.UpdateMaxAndCurrent(balanceLevel);
+
 
         ResetAllStats();
 
@@ -91,32 +84,10 @@ public class CharacterStatsController : BaseStatsController
     private void Update()
     {
         Stamina.Regen();
-        TrackBalance();
+        Balance.Regen();
     }
 
-    public bool ApplyBalanceDamage(float damage)
-    {
-        lastHitTime = Time.time;
 
-        CurrentBalance -= damage;
-
-        if (CurrentBalance <= 0)
-        {
-            CurrentBalance = MaxBalance;
-            return true;
-        }
-
-        return false;
-    }
-
-    private void TrackBalance()
-    {
-        if (Time.time - lastHitTime < balanceRecoverDelay)
-            return;
-
-        CurrentBalance += balanceRecoverRate * Time.deltaTime;
-        CurrentBalance = Mathf.Min(CurrentBalance, MaxBalance);
-    }
 
     public CharacterStatsData SaveStatsData()
     {

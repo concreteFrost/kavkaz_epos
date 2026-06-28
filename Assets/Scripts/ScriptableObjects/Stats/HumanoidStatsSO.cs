@@ -8,7 +8,8 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float baseHealth = 100f;
     public float baseStamina = 100f;
     public float baseKnowledge = 100f;
-    public float baseStrength = 1.0f;   
+    public float baseStrength = 1.0f;
+    public float baseBalance = 100f;
 
     [Header("stats regen ")]
     public float statMinRegenDelay = 2f;
@@ -21,8 +22,7 @@ public class HumanoidStatsSO : BaseCharacterStatsSO
     public float staminaJumpReducePenalty = 7f;
     public float staminaDodgeReducePenalty = 10f;
 
-    [Header("knockout and balance")]
-    public float maxBalance = 100f; 
+    [Header("knockout")]
     public bool canTakeKnockout = true;
 
     [Header("Listening")]

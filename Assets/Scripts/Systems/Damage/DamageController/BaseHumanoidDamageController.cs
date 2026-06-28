@@ -21,6 +21,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     #region IDamagable Contract
     public Collider DamageCollider() => damagableCollider;
     public IShield Protection { get; set; } = null;
+
     public bool IsDead { get; set; }
     public bool IsDamaged { get; set; }
     public CharacterType CharacterType { get; set; }
@@ -73,7 +74,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
                 return 40;
 
             case BalanceDamageType.Extreme:
-                return 100;
+                return 80;
 
             case BalanceDamageType.Blocked:
                 return 10;
@@ -134,7 +135,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
 
 
-        bool stagger = stats.ApplyBalanceDamage(GetBalanceDamageValue(balanceDamageType));
+        bool stagger = stats.Balance.ApplyBalanceDamage(GetBalanceDamageValue(balanceDamageType));
 
         if (!stagger) return;
 

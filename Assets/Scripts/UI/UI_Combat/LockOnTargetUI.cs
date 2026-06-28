@@ -5,7 +5,7 @@ public class LockOnTargetUI : MonoBehaviour
 {
 	private Transform currentTarget;
     [SerializeField] private Image img;
-
+    //[SerializeField] private Slider slider_targetBalance;
     private PlayerTargetLock targetLock;
 
     public void Init(PlayerTargetLock targetLock)
@@ -57,11 +57,13 @@ public class LockOnTargetUI : MonoBehaviour
     {
         currentTarget = _currTarget;
         img.enabled = true;
+        //slider_targetBalance.enabled = true;    
     }
 
     public void ResetTarget()
     {
         currentTarget = null;   
         img.enabled = false;    
+        //slider_targetBalance.enabled = false;   
     }
 }

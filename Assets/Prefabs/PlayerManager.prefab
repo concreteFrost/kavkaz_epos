@@ -46,6 +46,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEffectVisualizer
   effectPosition: {fileID: 5296817528824017764}
+--- !u!1 &411324967214765103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5899864064422874946}
+  m_Layer: 0
+  m_Name: Player_TargetLockPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5899864064422874946
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411324967214765103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4934645493445268343}
+  m_Father: {fileID: 7851276997018231140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &515037704399683523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,7 +1971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_c00ba6a6-f8eb-4537-a1da-4ad4f074c43e
+  uniqueId: uid_eae28ff4-ce6f-40d2-866d-0d4b0ecf7116
 --- !u!54 &7556739485485302664
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2165,7 +2201,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4934645493445268343}
+  - {fileID: 5899864064422874946}
   - {fileID: 8712294112939694349}
   - {fileID: 1038689346185875056}
   - {fileID: 5119478490836842159}
@@ -5715,12 +5751,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5098379575285439457}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7851276997018231140}
+  m_Father: {fileID: 5899864064422874946}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5742,7 +5778,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5098379575285439457}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -6231,6 +6267,9 @@ MonoBehaviour:
     Current: 0
     CurrentMax: 0
     canReduceStamina: 0
+  Balance:
+    Current: 0
+    CurrentMax: 0
   Knowledge:
     Current: 0
     CurrentMax: 0
@@ -6240,15 +6279,16 @@ MonoBehaviour:
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   jumpHeight: 0
   jumpTimer: 0
-  CurrentBalance: 0
   initialHealthLevel: 1
   initialStaminaLevel: 1
   initialKnowledgeLevel: 1
   initialStrengthLevel: 1
+  initialBalanceLevel: 1
   healthLevel: 1
   staminaLevel: 1
   knowledgeLevel: 1
   strengthLevel: 1
+  balanceLevel: 0
 --- !u!114 &966386634311604309
 MonoBehaviour:
   m_ObjectHideFlags: 0
