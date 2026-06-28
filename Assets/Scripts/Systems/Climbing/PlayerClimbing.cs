@@ -23,12 +23,12 @@ public class PlayerClimbing : MonoBehaviour, IClimber
     {
         if (climbDetector.TryGetClimbable(out var surface, out var hit))
         {
-            Debug.Log(hit.normal);
-            var allowedVector1= new Vector3(0,0,1);
-            var allowedVector2 = new Vector3(0,0,-1);
+            //Debug.Log(hit.normal);
+            //var allowedVector1= new Vector3(0,0,1);
+            //var allowedVector2 = new Vector3(0,0,-1);
 
-            if (hit.normal != allowedVector1 && hit.normal != allowedVector2)
-                return;
+            //if (hit.normal != allowedVector1 && hit.normal != allowedVector2)
+            //    return;
 
             EnterClimb(hit.normal);
         }

@@ -516,13 +516,13 @@ public class QuickObjectEditor : Editor
 			go.transform.position = targetPoint + offset.vector3Value;
 
 
-			float randomAngle = Mathf.Lerp(0, 360, UnityEngine.Random.value);
+			//float randomAngle = Mathf.Lerp(0, 360, UnityEngine.Random.value);
 
 			// Create a Quaternion to represent the rotation
-			Quaternion randomRotation = Quaternion.Euler(rotation.vector3Value.x, randomAngle, rotation.vector3Value.z);
+			//Quaternion randomRotation = Quaternion.Euler(rotation.vector3Value.x, randomAngle, rotation.vector3Value.z);
 
 			// Apply the rotation to the GameObject
-			go.transform.rotation = randomRotation;
+			//go.transform.rotation = randomRotation;
 			
 			go.transform.localScale = scale.vector3Value;
 			if(parent.objectReferenceValue)
