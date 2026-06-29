@@ -11,6 +11,8 @@ public class CharacterInitializer : MonoBehaviour
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform playerSpawnPosition;
 
+    PlayerCameraManager playerCameraManager;    
+
     public bool canInitPlayer = true;
 
     //public List<EnemyBrain> brains = new();    
@@ -19,6 +21,7 @@ public class CharacterInitializer : MonoBehaviour
     {
         
         allCharacters = FindObjectsByType<BaseHumanoidAiServiceLocator>(FindObjectsSortMode.None).ToList();
+        playerCameraManager =FindAnyObjectByType<PlayerCameraManager>();
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,6 +32,7 @@ public class CharacterInitializer : MonoBehaviour
         {
             Player = Instantiate(playerPrefab, playerSpawnPosition).GetComponent<PlayerManager>();
             Player.Init();
+            playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
 
         }
 

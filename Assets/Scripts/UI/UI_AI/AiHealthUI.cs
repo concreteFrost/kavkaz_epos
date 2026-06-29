@@ -6,6 +6,7 @@ public class AiHealthUI : MonoBehaviour, IUiProvider
 {
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider balanceSlider;
+    Image balanceFill;
 
     private CharacterStatsController stats;
     private Camera cam;
@@ -25,8 +26,11 @@ public class AiHealthUI : MonoBehaviour, IUiProvider
         balanceSlider.maxValue = stats.Balance.CurrentMax;
         balanceSlider.value = stats.Balance.Current;
 
+        balanceFill = balanceSlider.fillRect.GetComponent<Image>();
+
         stats.Health.CurrentChanged += UpdateHealth;
         stats.Balance.CurrentChanged += UpdateBalance;
+      
 
         DisableUI();
         cam = Camera.main;
@@ -74,5 +78,12 @@ public class AiHealthUI : MonoBehaviour, IUiProvider
     private void UpdateBalance(float balance)
     {
         balanceSlider.value = balance;
+
+        float t = balance / stats.Balance.CurrentMax;
+
+        balanceFill.color = Color.Lerp(
+            new Color(1f, 0.5f, 0f), // оранжевый
+            Color.white,
+            t);
     }
 }
