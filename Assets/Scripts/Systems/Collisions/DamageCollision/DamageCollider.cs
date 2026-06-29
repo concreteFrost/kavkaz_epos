@@ -81,6 +81,7 @@ public class DamageCollider : MonoBehaviour
         attackInterrupted = false;
         hitColliders.Clear();
         objectsToIgnore = null;
+        
     }
 
     // Метод "протаскивания" коллайдера и получение пересечений
@@ -165,8 +166,6 @@ public class DamageCollider : MonoBehaviour
 
         target.TakeDamage(data, attackSource);
 
-
-
         isAttackRegistered = true;
     }
 
@@ -180,7 +179,7 @@ public class DamageCollider : MonoBehaviour
     // Проверка, можно ли атаковать цель по типу персонажа
     protected bool NotInTargetList(IDamagable damagable)
     {
-        if (objectsToIgnore == null || objectsToIgnore.Count == 0) return true;
+        if (objectsToIgnore == null || objectsToIgnore.Count == 0) return false;
         return objectsToIgnore.Contains(damagable.CharacterType);
     }
 

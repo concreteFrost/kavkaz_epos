@@ -74,7 +74,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
                 return 40;
 
             case BalanceDamageType.Extreme:
-                return 80;
+                return 100;
 
             case BalanceDamageType.Blocked:
                 return 10;
