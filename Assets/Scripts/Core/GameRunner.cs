@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameRunner : MonoBehaviour
 {
     public static GameRunner Instance;
+
     public GameObject playerPrefab;
+    [SerializeField] PlayerCameraManager playerCameraManager;
     public PlayerManager Player { get; private set; }
     [HideInInspector] public LevelManager activeLevel;
 
@@ -30,7 +32,7 @@ public class GameRunner : MonoBehaviour
     {
         SceneTransitionManager.MenuLoaded += OnMenuLoaded;
         SceneTransitionManager.NewGameStarted += OnNewGameStarted;
-        SceneTransitionManager.TransitionStarted += OnTravelStarted;
+        SceneTransitionManager.TransitionStarted += OnTransitionStarted;
         SceneTransitionManager.SceneLoadedAfterTravel += OnSceneLoadedAfterTravel;
         SceneTransitionManager.SaveLoaded += OnSaveLoaded;
         SceneTransitionManager.GameSaved += OnGameSave;
@@ -42,7 +44,7 @@ public class GameRunner : MonoBehaviour
     {
         SceneTransitionManager.MenuLoaded -= OnMenuLoaded; 
         SceneTransitionManager.NewGameStarted -= OnNewGameStarted;
-        SceneTransitionManager.TransitionStarted -= OnTravelStarted;
+        SceneTransitionManager.TransitionStarted -= OnTransitionStarted;
         SceneTransitionManager.SceneLoadedAfterTravel -= OnSceneLoadedAfterTravel;
         SceneTransitionManager.SaveLoaded -= OnSaveLoaded;
         SceneTransitionManager.GameSaved -= OnGameSave;
@@ -69,11 +71,15 @@ public class GameRunner : MonoBehaviour
         Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
         Player.Init();
         DontDestroyOnLoad(Player);
+        playerCameraManager.ResetCameraPosition();
+        playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
+       
     }
 
     public void BootstrapLevel()
     {
         activeLevel = FindAnyObjectByType<LevelManager>();
+        
 
     }
 
@@ -86,7 +92,7 @@ public class GameRunner : MonoBehaviour
         }
     }
 
-    public void OnTravelStarted(float transition)
+    public void OnTransitionStarted(float transition)
     {
         worldStateManager.SaveLevel(activeLevel);
     }
@@ -111,6 +117,7 @@ public class GameRunner : MonoBehaviour
             startingPosition = activeLevel.GetStartingPosition();
         }
         Player.serviceLocator.lifecycle.Respawn(startingPosition);
+        playerCameraManager.ResetCameraPosition();
        
         GlobalQuestManager.Instance.GetCurrentQuestsState();
         SceneTransitionManager.Instance.SaveGame();

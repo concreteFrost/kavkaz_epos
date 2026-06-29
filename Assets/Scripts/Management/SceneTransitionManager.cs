@@ -36,24 +36,20 @@ public class SceneTransitionManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6)) LoadGame();
     }
 
-    public void TravelToLevel(string sceneName, Vector3 startingPos)
-    {
-        StartCoroutine(StartTransition(sceneName,startingPos));
-    }
-
-    private void LoadSceneAfterTravel(string sceneName, Vector3 startingPos)
-    {
-        StartCoroutine(EndTransition(sceneName,startingPos));   
-    }
-
     public void StartNewGame(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync(sceneName, NewGameStarted));
+        StartCoroutine(TransitionToScene(sceneName, () =>
+        {
+           NewGameStarted?.Invoke();
+        }, GameState.Game));
     }
 
-    public void LoadGame()
+    public void LoadMainMenu()
     {
-        StartCoroutine(LoadGameCoroutine());
+        StartCoroutine(TransitionToScene("MainMenu", () =>
+        {
+            MenuLoaded?.Invoke();
+        }, GameState.Menu));
     }
 
     public void SaveGame()
@@ -61,36 +57,37 @@ public class SceneTransitionManager : MonoBehaviour
         GameSaved?.Invoke();
     }
 
-    public void LoadMainMenu()
+    public void LoadGame()
     {
-        StartCoroutine(LoadSceneAsync("MainMenu",MenuLoaded));
+        StartCoroutine(LoadGameCoroutine());
     }
 
-    private IEnumerator StartTransition( string sceneName, Vector3 startingPos) {
-
-        GameStateManager.Instance.SetState(GameState.Transition);
-        TransitionStarted?.Invoke(transitionTime);
-        yield return new WaitForSeconds(transitionTime);
-        yield return LoadSceneAsync(sceneName, () => LoadSceneAfterTravel(sceneName,startingPos));
-       
-    }
-
-    private IEnumerator EndTransition(string sceneName, Vector3 startingPosition)
+    public void TravelToLevel(string sceneName, Vector3 startingPos)
     {
-        SceneLoadedAfterTravel?.Invoke(sceneName, startingPosition);
-       
-        yield return new WaitForSeconds(transitionTime);
-       
+        StartCoroutine(TransitionToScene(sceneName, () =>
+        {
+            SceneLoadedAfterTravel?.Invoke(sceneName, startingPos);
+        }, GameState.Game));
     }
-    
+
+
     private IEnumerator LoadGameCoroutine()
     {
         SaveGameData data = SaveLoadSystem.LoadGameData();
-        yield return LoadSceneAsync(data.currentLevelName, () => SaveLoaded?.Invoke(data));
+
+        yield return TransitionToScene(data.currentLevelName, () =>
+        {
+            SaveLoaded?.Invoke(data);
+        }, GameState.Game);
     }
 
-    private IEnumerator LoadSceneAsync(string sceneName, Action onLoaded)
+
+    private IEnumerator TransitionToScene(string sceneName, Action onLoaded, GameState state)
     {
+        GameStateManager.Instance.SetState(GameState.Transition);
+
+        TransitionStarted?.Invoke(transitionTime);
+        yield return new WaitForSeconds(transitionTime);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
@@ -102,8 +99,15 @@ public class SceneTransitionManager : MonoBehaviour
 
             yield return null;
         }
-        TransitionFinished?.Invoke(transitionTime);
+
         onLoaded?.Invoke();
-        GameStateManager.Instance.SetState(GameState.Game);
+
+        //yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(transitionTime);
+        TransitionFinished?.Invoke(transitionTime);
+
+        GameStateManager.Instance.SetState(state);
+
+
     }
 }

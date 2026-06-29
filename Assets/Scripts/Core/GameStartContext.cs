@@ -35,7 +35,8 @@ public class GameStartContext : MonoBehaviour
 
     private void ResolveGameStart()
     {
-        if (gameStartType == GameStartType.None) return;
+        if (gameStartType == GameStartType.None)
+            GameRunner.Instance.OnNewGameStarted(); 
 
         if (gameStartType == GameStartType.NewGame)
             SceneTransitionManager.Instance.StartNewGame(sceneName);

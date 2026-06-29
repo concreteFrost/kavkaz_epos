@@ -27,15 +27,9 @@ public class GameStateManager : MonoBehaviour
  
     }
 
-    //private void Start()
-    //{
-    //    GameStateChanged?.Invoke(GameState.Game);
-    //}
-
     public void SetState(GameState newState)
     {
-        //if (CurrentState == newState) return;
-      
+
         CurrentState = newState;
         SetCursorState(newState);
         GameStateChanged?.Invoke(CurrentState);

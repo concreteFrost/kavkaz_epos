@@ -1,19 +1,28 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ScreenFaderUI : MonoBehaviour
 {
     [SerializeField] private Image fadeImage;
 
+    [Header("Loading Screen")]
+    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private RectTransform loadingSpinner;
+    [SerializeField] private float spinnerSpeed = 180f;
+
     private Coroutine fadeCoroutine;
 
+    private void Awake()
+    {
+        if (loadingScreen != null)
+            loadingScreen.SetActive(false);
+    }
 
     private void OnEnable()
     {
         SceneTransitionManager.TransitionStarted += FadeIn;
         SceneTransitionManager.TransitionFinished += FadeOut;
-      
     }
 
     private void OnDisable()
@@ -22,9 +31,21 @@ public class ScreenFaderUI : MonoBehaviour
         SceneTransitionManager.TransitionFinished -= FadeOut;
     }
 
+    private void Update()
+    {
+        if (loadingScreen != null &&
+            loadingScreen.activeSelf &&
+            loadingSpinner != null)
+        {
+            loadingSpinner.Rotate(0f, 0f, -spinnerSpeed * Time.deltaTime);
+        }
+    }
 
     public void FadeIn(float duration)
     {
+        if (loadingScreen != null)
+            loadingScreen.SetActive(true);
+
         StartFade(0f, 1f, duration);
     }
 
@@ -61,5 +82,10 @@ public class ScreenFaderUI : MonoBehaviour
 
         color.a = to;
         fadeImage.color = color;
+
+        if (Mathf.Approximately(to, 0f) && loadingScreen != null)
+            loadingScreen.SetActive(false);
+
+        fadeCoroutine = null;
     }
 }

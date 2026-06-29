@@ -16,6 +16,7 @@ public class CharacterCustomInspectorEditor : Editor
         GameObject go = proxy.gameObject;
 
         DrawStatsInfo(go);
+        DrawDamagable(go);
         DrawCombatInventory(go);
         DrawSpellInventory(go);
         DrawInitialInventorySetup(go);  
@@ -151,6 +152,30 @@ public class CharacterCustomInspectorEditor : Editor
         {
             Undo.RecordObject(pointsEmitter, "Modify points");
             EditorUtility.SetDirty(pointsEmitter);
+        }
+
+        EditorGUI.indentLevel--;
+    }
+
+    private void DrawDamagable(GameObject go)
+    {
+        var damageController = go.GetComponentInChildren<BaseHumanoidDamageController>();
+
+        if (damageController == null) return;
+
+        EditorGUILayout.LabelField("Damage Controller", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        SerializedObject so = new SerializedObject(damageController);
+        SerializedProperty damageImpactType = so.FindProperty("damageImpactType");
+
+        so.Update();
+        EditorGUILayout.PropertyField(damageImpactType, true);
+
+        if (so.ApplyModifiedProperties())
+        {
+            Undo.RecordObject(damageController, "Modify damage controller");
+            EditorUtility.SetDirty(damageController);
         }
 
         EditorGUI.indentLevel--;

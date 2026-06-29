@@ -4,7 +4,7 @@ using UnityEngine;
 public class CameraCutout : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform target;
+    private Transform target;
     [SerializeField] private LayerMask cutoutLayer;
 
     [Header("Cutout Settings")]
@@ -28,16 +28,19 @@ public class CameraCutout : MonoBehaviour
 
     const string OPACITY = "_Dissolve";
 
-    private void Awake()
-    {
-        cam = GetComponent<Camera>();
- 
-    }
 
     private void Update()
     {
+        if (target == null) return;
+
         UpdateCutouts();
         ApplyCutoutValues();
+    }
+
+    public void Init(Transform target, Camera cam)
+    {
+        this.cam = cam;
+        this.target = target;   
     }
 
     private void UpdateCutouts()

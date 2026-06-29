@@ -19,35 +19,49 @@ public class LevelInfoUI : MonoBehaviour
     LootManager lootManager;
     BonfireManager bonfireManager;
     CharactersManager characterManager;
+
+
+  
     #endregion
 
-    private void Awake()
-    {
-        characterManager = FindAnyObjectByType<CharactersManager>();
-        lootManager = FindAnyObjectByType<LootManager>();
-        bonfireManager = FindAnyObjectByType<BonfireManager>();
-    }
 
     private void OnEnable()
     {
-        CharactersManager.CharacterStatesUpdated += OnEnemiesInfoUpdated;
-        BonfireManager.BonfireStatesUpdated += OnBonfiresInfoUpdated;
-        LootManager.StaticLootDataUpdated += OnStaticLootInfoUpdated;
-        LevelManager.LevelInfoUpdated += OnLevelStateUpdated;
+        SceneTransitionManager.LevelLoaded += InitLevelInfo;
+        //CharactersManager.CharacterStatesUpdated += OnEnemiesInfoUpdated;
+        //BonfireManager.BonfireStatesUpdated += OnBonfiresInfoUpdated;
+        //LootManager.StaticLootDataUpdated += OnStaticLootInfoUpdated;
+        //LevelManager.LevelInfoUpdated += OnLevelStateUpdated;
 
     }
 
     private void OnDisable()
     {
-        CharactersManager.CharacterStatesUpdated -= OnEnemiesInfoUpdated; 
-        BonfireManager.BonfireStatesUpdated -= OnBonfiresInfoUpdated;
-        LootManager.StaticLootDataUpdated -= OnStaticLootInfoUpdated;
-        LevelManager.LevelInfoUpdated -= OnLevelStateUpdated;
+        SceneTransitionManager.LevelLoaded -= InitLevelInfo;    
+        //CharactersManager.CharacterStatesUpdated -= OnEnemiesInfoUpdated; 
+        //BonfireManager.BonfireStatesUpdated -= OnBonfiresInfoUpdated;
+        //LootManager.StaticLootDataUpdated -= OnStaticLootInfoUpdated;
+        //LevelManager.LevelInfoUpdated -= OnLevelStateUpdated;
 
     }
 
 
     #region Level Statistics
+
+    public void InitLevelInfo()
+    {
+        Debug.Log("level loaded");
+
+        characterManager = FindAnyObjectByType<CharactersManager>();
+        lootManager = FindAnyObjectByType<LootManager>();
+        bonfireManager = FindAnyObjectByType<BonfireManager>();
+
+
+        OnEnemiesInfoUpdated();
+        OnBonfiresInfoUpdated();    
+        OnStaticLootInfoUpdated();
+        //OnLevelStateUpdated();
+    }
 
     private void ShowLevelStatistics(bool show)=>  statisticsWrapper.SetActive(show);
     private void GetUpdatedInfo(TextMeshProUGUI text, int current, int total) => text.text = $"{current}/{total}";

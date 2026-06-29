@@ -6,6 +6,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] private UniqueId uniqueId;
     private string uid;
 
+    [Header("Цель для камеры")]
+    public Transform cameraFollow;
+
     [Header("Анимация")]
     [SerializeField] private Animator animator;
     [SerializeField] private AnimatorOverrideController overrideController;

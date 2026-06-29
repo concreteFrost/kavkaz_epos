@@ -23,7 +23,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private HubManager hubManager;
 
     public static Action<string> LevelInfoUpdated;
-
     public static Action<string> LevelLoaded;
 
     private void Awake()
