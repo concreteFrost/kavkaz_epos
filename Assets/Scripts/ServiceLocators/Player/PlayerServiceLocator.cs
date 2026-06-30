@@ -91,6 +91,7 @@ public class PlayerServiceLocator : MonoBehaviour
 
     public void Init()
     {
+          
         InitCore();
         InitInput();
         InitAnimation();

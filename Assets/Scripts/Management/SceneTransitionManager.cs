@@ -24,7 +24,7 @@ public class SceneTransitionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -50,7 +50,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         StartCoroutine(TransitionToScene("MainMenu", () =>
         {
-            MenuLoaded?.Invoke();
+           MenuLoaded?.Invoke();
         }, GameState.Menu));
     }
 
@@ -87,6 +87,7 @@ public class SceneTransitionManager : MonoBehaviour
         }, GameState.Game);
 
         loadGameCoroutine = null;
+
     }
 
 

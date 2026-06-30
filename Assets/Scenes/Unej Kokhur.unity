@@ -1425,6 +1425,51 @@ Transform:
   - {fileID: 672885301}
   m_Father: {fileID: 1927399439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &988443488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988443490}
+  - component: {fileID: 988443489}
+  m_Layer: 0
+  m_Name: LevelBootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &988443489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988443488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b4738d8412d524794a0abf70486bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelBootstrap
+  createInstances: 1
+--- !u!4 &988443490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988443488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 37.66069, y: 20.85651, z: 248.15865}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1011359049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,6 +1996,14 @@ PrefabInstance:
     - target: {fileID: 4125346912728128326, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
       propertyPath: m_Name
       value: FriendlyNPC_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246148607377923720, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246148607377923720, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5620799967516508299, guid: 6efee5de88c4d9c4ead27df70f0997e2, type: 3}
       propertyPath: m_Avatar
@@ -3095,9 +3148,10 @@ MonoBehaviour:
   biomInfoSO: {fileID: 11400000, guid: 580c2302df85a124993411783612a27f, type: 2}
   levelState:
     levelId: 
-    staticLootDatas: []
-    dynamicLootDatas: []
-    bonfireDatas: []
+    staticLootStates: []
+    dynamicLootStated: []
+    trapStates: []
+    bonfireStates: []
     bossArenaStates: []
     characterStates:
       enemyStates: []
@@ -3110,6 +3164,7 @@ MonoBehaviour:
   bonfireManager: {fileID: 517640384}
   bossesManager: {fileID: 0}
   hubManager: {fileID: 1091031475}
+  trapsManager: {fileID: 0}
 --- !u!850595691 &1959531398
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -3888,3 +3943,4 @@ SceneRoots:
   - {fileID: 1927399439}
   - {fileID: 1270520011}
   - {fileID: 840281486}
+  - {fileID: 988443490}

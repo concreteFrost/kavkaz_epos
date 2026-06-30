@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class GameRunner : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class GameRunner : MonoBehaviour
         }
         else
         {
-            
+
             Destroy(gameObject);
             return;
         }
@@ -44,66 +42,67 @@ public class GameRunner : MonoBehaviour
 
     private void OnDisable()
     {
-        SceneTransitionManager.MenuLoaded -= OnMenuLoaded; 
+        SceneTransitionManager.MenuLoaded -= OnMenuLoaded;
         SceneTransitionManager.NewGameStarted -= OnNewGameStarted;
         SceneTransitionManager.TransitionStarted -= OnTransitionStarted;
         SceneTransitionManager.SceneLoadedAfterTravel -= OnSceneLoadedAfterTravel;
         SceneTransitionManager.SaveLoaded -= OnSaveLoaded;
         SceneTransitionManager.GameSaved -= OnGameSave;
-       
+
     }
 
-    public void Bootstrap()
+    private void ClearInstances()
     {
-        BootstrapPlayer();
-        BootstrapLevel();
-       
-    }
-
-    private void BootstrapPlayer()
-    {
-
         var scenePlayer = FindAnyObjectByType<PlayerManager>();
         if (scenePlayer != null)
         {
-            Destroy(scenePlayer.gameObject);
+            DestroyImmediate(scenePlayer.gameObject);
         }
+
+        var camManager = FindAnyObjectByType<PlayerCameraManager>();
+
+        if (camManager != null)
+        {
+            DestroyImmediate(camManager.gameObject);
+        }
+    }
+
+   
+    private void BootstrapPlayer()
+    {
+
+        ClearInstances();
 
         // Если нет ни глобального, ни на сцене — создаём prefab
         Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
         Player.Init();
+       
         DontDestroyOnLoad(Player);
-
-        var camManager = FindAnyObjectByType<PlayerCameraManager>();
-
-        if( camManager != null)
-        {
-            Destroy(camManager.gameObject);
-        }
 
         playerCameraManager = Instantiate(cameraPrefab).GetComponent<PlayerCameraManager>();
         playerCameraManager.ResetCameraPosition();
         playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
 
-        DontDestroyOnLoad(playerCameraManager);    
-        
+        DontDestroyOnLoad(playerCameraManager);
+
     }
 
     public void BootstrapLevel()
     {
         activeLevel = FindAnyObjectByType<LevelManager>();
-        
 
     }
 
-    public void OnMenuLoaded()
+    public void Bootstrap()
     {
-        var scenePlayer = FindAnyObjectByType<PlayerManager>();
-        if (scenePlayer != null)
-        {
-            Destroy(scenePlayer.gameObject);
-        }
+
+        BootstrapPlayer();
+        BootstrapLevel();
+
     }
+
+
+    public void OnMenuLoaded() => ClearInstances();
 
     public void OnTransitionStarted(float transition)
     {
@@ -111,7 +110,7 @@ public class GameRunner : MonoBehaviour
     }
 
     public void OnNewGameStarted()
-    {  
+    {
         Bootstrap();
         Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
 
@@ -125,13 +124,13 @@ public class GameRunner : MonoBehaviour
         worldStateManager.LoadLevel(activeLevel);
         activeLevel.ReloadWholeLevelState();
 
-        if(startingPosition == Vector3.zero)
+        if (startingPosition == Vector3.zero)
         {
             startingPosition = activeLevel.GetStartingPosition();
         }
         Player.serviceLocator.lifecycle.Respawn(startingPosition);
         playerCameraManager.ResetCameraPosition();
-       
+
         GlobalQuestManager.Instance.GetCurrentQuestsState();
         SceneTransitionManager.Instance.SaveGame();
     }
@@ -151,7 +150,7 @@ public class GameRunner : MonoBehaviour
 
     public void OnGameSave()
     {
-        
+
         worldStateManager.SaveLevel(activeLevel);
 
         SaveGameData saveGameData = new SaveGameData();

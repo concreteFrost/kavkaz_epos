@@ -12,12 +12,12 @@ public class StarterMenuUI : MonoBehaviour
 
     private List<Selectable> allBtns;
 
-
     public void Start()
     {
 
         btn_loadGame.interactable = SaveLoadSystem.HasSave();
-        
+
+        GameStateManager.Instance.SetState(GameState.Menu);
 
         BindActions();  
 
