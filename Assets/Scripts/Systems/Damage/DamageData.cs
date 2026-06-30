@@ -24,7 +24,7 @@ public struct DamageData
     [Tooltip("‘инальный рассчитанный урон после всех множителей. «аполн€етс€ автоматически во врем€ атаки.")]
     [HideInInspector] public float finalDamage;
 
-    public DamageSourceType damageSourceType;
+    //public DamageSourceType damageSourceType;
 
     public void SetFinalDamage(float baseDamage, float strength)
     {

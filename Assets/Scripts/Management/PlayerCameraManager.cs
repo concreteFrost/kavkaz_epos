@@ -12,7 +12,6 @@ public class PlayerCameraManager : MonoBehaviour
         //var target = GameObject.FindGameObjectWithTag("CameraFollow").transform;
 
         cinemachine.Target.TrackingTarget = target;
-
         cutout.Init(target, mainCamera);
     }
 
@@ -21,4 +20,6 @@ public class PlayerCameraManager : MonoBehaviour
     {
         cinemachine.PreviousStateIsValid = false;
     }
+
+
 }

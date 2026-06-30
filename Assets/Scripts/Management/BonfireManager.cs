@@ -62,7 +62,7 @@ public class BonfireManager : MonoBehaviour
 
     public void LoadBonfireDatas(LevelState state)
     {
-        var bonfireDatas = state.bonfireDatas;
+        var bonfireDatas = state.bonfireStates;
 
         foreach (var data in bonfireDatas)
         {

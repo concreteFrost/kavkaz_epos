@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private BonfireManager bonfireManager;
     [SerializeField] private BossesManager bossesManager;
     [SerializeField] private HubManager hubManager;
+    [SerializeField] private TrapsManager trapsManager;
 
     public static Action<string> LevelInfoUpdated;
     public static Action<string> LevelLoaded;
@@ -58,6 +59,7 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.Init(GetLevelName());
         bossesManager?.Init();
         hubManager?.Init();  
+        trapsManager?.Init();   
     }
 
     #endregion
@@ -68,10 +70,12 @@ public class LevelManager : MonoBehaviour
     {
         charactersManager?.RespawnAllCharacters();
         lootManager?.ClearDynamicLoot();
+        trapsManager?.ResetTraps();
     }
 
     public void ReloadLevelOnRest()
     {
+        trapsManager?.ResetTraps();
         charactersManager?.RespawnAllCharacters();
     }
 
@@ -85,8 +89,8 @@ public class LevelManager : MonoBehaviour
     {
         if (lootManager != null)
         {
-            levelState.staticLootDatas = lootManager.SaveLootData();
-            levelState.dynamicLootDatas = lootManager.SaveDynamicLoot();
+            levelState.staticLootStates = lootManager.SaveLootData();
+            levelState.dynamicLootStated = lootManager.SaveDynamicLoot();
         }
 
         if (charactersManager != null)
@@ -96,7 +100,7 @@ public class LevelManager : MonoBehaviour
 
         if (bonfireManager != null)
         {
-            levelState.bonfireDatas = bonfireManager.SaveBonfireStates();
+            levelState.bonfireStates = bonfireManager.SaveBonfireStates();
         }
 
         if (bossesManager != null)
@@ -107,6 +111,11 @@ public class LevelManager : MonoBehaviour
         if(hubManager != null)
         {
             levelState.hubState = hubManager.SaveHubState();    
+        }
+
+        if(trapsManager != null)
+        {
+            levelState.trapStates = trapsManager.SaveTrapState();
         }
 
         return levelState;
@@ -129,6 +138,7 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.LoadBonfireDatas(state);
         bossesManager?.LoadBossesState(state);
         hubManager?.LoadHubState(state);
+        trapsManager?.LoadTrapsData(state); 
       
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
         

@@ -81,6 +81,7 @@ public class DamageCollider : MonoBehaviour
         attackInterrupted = false;
         hitColliders.Clear();
         objectsToIgnore = null;
+        isAttackRegistered = false;
         
     }
 
@@ -121,6 +122,7 @@ public class DamageCollider : MonoBehaviour
     // Обработка коллизий с другими объектами
     protected virtual void HandleCollision(Collider other)
     {
+       
         if (attackInterrupted) return;
 
         // Проверка, можно ли нанести урон этому объекту
@@ -130,6 +132,8 @@ public class DamageCollider : MonoBehaviour
             
             return;
         }
+
+      
 
         if (NotInTargetList(damagable)) return;
         if (!hitColliders.Add(other)) return;
@@ -154,7 +158,7 @@ public class DamageCollider : MonoBehaviour
           
         }
 
-       
+      
         // Наносим обычный урон
         ApplyDamage(damagable, damageData);
     }

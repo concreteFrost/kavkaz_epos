@@ -7,10 +7,12 @@ public class LevelState
 {
     public string levelId;
     
-    public List<LootState> staticLootDatas = new List<LootState>(); 
-    public List<DynamicLootState> dynamicLootDatas = new List<DynamicLootState>();
+    public List<LootState> staticLootStates = new List<LootState>(); 
+    public List<DynamicLootState> dynamicLootStated = new List<DynamicLootState>();
+
+    public List<TrapState> trapStates  = new List<TrapState>();  
   
-    public List<BonfireState> bonfireDatas = new List<BonfireState>();
+    public List<BonfireState> bonfireStates = new List<BonfireState>();
     public List<BossArenaState> bossArenaStates = new List<BossArenaState>();
 
     public CharactersState characterStates;

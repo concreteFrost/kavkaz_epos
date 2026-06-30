@@ -50,11 +50,11 @@ public class LootManager : MonoBehaviour
 
     public List<DynamicLootState> SaveDynamicLoot()=> dynamicLootManager.SaveDynamicLoot();
 
-    public void LoadDynamicLoot(LevelState state) => dynamicLootManager.LoadDynamicLootData(state.dynamicLootDatas);
+    public void LoadDynamicLoot(LevelState state) => dynamicLootManager.LoadDynamicLootData(state.dynamicLootStated);
 
     public void LoadLootData(LevelState state)
     {
-        var savedLoot = state.staticLootDatas;
+        var savedLoot = state.staticLootStates;
         foreach (var loot in loots)
         {
             var match = savedLoot.Find(x => x.lootId == loot.id);

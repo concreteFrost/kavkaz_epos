@@ -7,15 +7,12 @@ public class PlayerManager : MonoBehaviour
     public PlayerState playerState;
     public PlayerServiceLocator serviceLocator;
 
-    //private void Awake()
-    //{
-    //    DontDestroyOnLoad(gameObject);
-    //}
 
     public void Init()
     {
         playerState = new PlayerState();
         serviceLocator.Init();
+
     }
 
     public PlayerState SavePlayer()

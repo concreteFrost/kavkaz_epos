@@ -7,7 +7,9 @@ public class GameRunner : MonoBehaviour
     public static GameRunner Instance;
 
     public GameObject playerPrefab;
-    [SerializeField] PlayerCameraManager playerCameraManager;
+
+    public GameObject cameraPrefab;
+    PlayerCameraManager playerCameraManager;
     public PlayerManager Player { get; private set; }
     [HideInInspector] public LevelManager activeLevel;
 
@@ -71,9 +73,20 @@ public class GameRunner : MonoBehaviour
         Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
         Player.Init();
         DontDestroyOnLoad(Player);
+
+        var camManager = FindAnyObjectByType<PlayerCameraManager>();
+
+        if( camManager != null)
+        {
+            Destroy(camManager.gameObject);
+        }
+
+        playerCameraManager = Instantiate(cameraPrefab).GetComponent<PlayerCameraManager>();
         playerCameraManager.ResetCameraPosition();
         playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
-       
+
+        DontDestroyOnLoad(playerCameraManager);    
+        
     }
 
     public void BootstrapLevel()

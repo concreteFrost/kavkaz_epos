@@ -17,6 +17,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     private float transitionTime = 2f;
 
+    Coroutine loadGameCoroutine;
+
     private void Awake()
     {
         if (Instance == null)
@@ -59,7 +61,11 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void LoadGame()
     {
-        StartCoroutine(LoadGameCoroutine());
+        if(loadGameCoroutine == null)
+        {
+            loadGameCoroutine = StartCoroutine(LoadGameCoroutine());
+        }
+       
     }
 
     public void TravelToLevel(string sceneName, Vector3 startingPos)
@@ -79,6 +85,8 @@ public class SceneTransitionManager : MonoBehaviour
         {
             SaveLoaded?.Invoke(data);
         }, GameState.Game);
+
+        loadGameCoroutine = null;
     }
 
 
