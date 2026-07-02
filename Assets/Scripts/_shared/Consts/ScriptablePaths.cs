@@ -18,6 +18,7 @@ public static class ScriptablePaths
     public const string LOOT_PATH = BASE_PATH + "/Loot";
     public const string BIOM_PATH = BASE_PATH + "/Bioms";
     public const string DIALOGUE_LINE__PATH = BASE_PATH + "/Dialogues";
+    public const string AUDIO_PATH = BASE_PATH + "/Audio";
    
    
     //под-домены

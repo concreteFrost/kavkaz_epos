@@ -29,7 +29,7 @@ public class FriendlyNpcServiceLocator : BaseHumanoidAiServiceLocator
     protected override void AnimatorInit()
     {
         animatorController = new EnemyAIAnimatorController();
-        animatorController.Init(animator: animator, overrideController: overrideController, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
+        animatorController.Init(animator: animator, overrideController: overrideController, audioManager:characterAudioManager, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
     }
 
     protected override void LifecycleInit()

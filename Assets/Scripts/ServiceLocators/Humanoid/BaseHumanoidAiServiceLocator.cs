@@ -11,6 +11,9 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     [SerializeField] protected AnimatorOverrideController overrideController;
     [SerializeField] protected HumanoidAnimatorIK ik;
 
+    [Header("AudioManager")]
+    [SerializeField] protected CharacterAudioManager characterAudioManager; 
+
     [Header("Привязка к костям")]
     [SerializeField] protected CharacterBoneSocket boneSocket;
 

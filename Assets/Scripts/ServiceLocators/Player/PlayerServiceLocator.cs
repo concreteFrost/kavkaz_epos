@@ -9,6 +9,9 @@ public class PlayerServiceLocator : MonoBehaviour
     [Header("Цель для камеры")]
     public Transform cameraFollow;
 
+    [Header("Audio")]
+    [SerializeField] private CharacterAudioManager characterAudioManager;
+
     [Header("Анимация")]
     [SerializeField] private Animator animator;
     [SerializeField] private AnimatorOverrideController overrideController;
@@ -142,6 +145,7 @@ public class PlayerServiceLocator : MonoBehaviour
     private void InitAnimation()
     {
         animatorController.Init(
+            audioManager:characterAudioManager,
             animator: animator,
             overrideController: overrideController,
             combatController: combatController,

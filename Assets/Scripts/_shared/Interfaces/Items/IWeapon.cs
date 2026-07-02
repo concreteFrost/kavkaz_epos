@@ -33,5 +33,5 @@ public interface IWeapon : ICombatItem
     /// </summary>
     /// <returns></returns>
     public WeaponAttack CurrentAttack();
-
+    void PlaySwing();
 }

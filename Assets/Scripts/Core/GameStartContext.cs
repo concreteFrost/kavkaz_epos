@@ -37,7 +37,7 @@ public class GameStartContext : MonoBehaviour
     {
         if (gameStartType == GameStartType.None)
         {
-            //GameRunner.Instance.OnNewGameStarted();
+            GameRunner.Instance.OnNewGameStarted();
             GameStateManager.Instance.SetState(GameState.Game);
         }
             

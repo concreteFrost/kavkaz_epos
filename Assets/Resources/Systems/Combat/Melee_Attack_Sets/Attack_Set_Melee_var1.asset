@@ -14,24 +14,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackSO
   attackList:
   - damageData:
-      healthDamageMultiplier: 0
+      damageMultiplier: 0
       balanceDamageType: 1
       impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 5
     staminaPenalty: 5
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 42bfa3184c9a0ec4786a15dea12af532, type: 2}
+    audioEvent:
+      Guid:
+        Data1: 301156175
+        Data2: 1089867285
+        Data3: -1228935026
+        Data4: 1962192693
+      Path: event:/Combat/Weapons/BareHandsLight/Swing
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   - damageData:
-      healthDamageMultiplier: 0.2
+      damageMultiplier: 0
       balanceDamageType: 1
       impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 5
     staminaPenalty: 7
     fromHand: 0
     animationInfo: {fileID: 11400000, guid: 0ecb5d22f4d13434eb64166cbf5dea4d, type: 2}
+    audioEvent:
+      Guid:
+        Data1: 301156175
+        Data2: 1089867285
+        Data3: -1228935026
+        Data4: 1962192693
+      Path: event:/Combat/Weapons/BareHandsLight/Swing
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   powerAttack:
     damageData:
-      healthDamageMultiplier: 0.5
+      damageMultiplier: 0
       balanceDamageType: 3
       impactForce: 300
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 5
     staminaPenalty: 10
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 38861e994769e8148b8a060ac6b2091a, type: 2}
+    audioEvent:
+      Guid:
+        Data1: 301156175
+        Data2: 1089867285
+        Data3: -1228935026
+        Data4: 1962192693
+      Path: event:/Combat/Weapons/BareHandsLight/Swing
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0

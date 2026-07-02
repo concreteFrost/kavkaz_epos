@@ -305,6 +305,8 @@ GameObject:
   - component: {fileID: 939020930680930360}
   - component: {fileID: 8329810915716569827}
   - component: {fileID: 5234568876965363844}
+  - component: {fileID: 366997598482015461}
+  - component: {fileID: 2984324588961686661}
   m_Layer: 2
   m_Name: djin_prefab
   m_TagString: Enemy
@@ -346,6 +348,7 @@ MonoBehaviour:
   animator: {fileID: 939020930680930360}
   overrideController: {fileID: 22100000, guid: 29859f21038f1de43972ce17760308b4, type: 2}
   ik: {fileID: 9186267673509402349}
+  characterAudioManager: {fileID: 366997598482015461}
   boneSocket: {fileID: 9084186750598994369}
   agent: {fileID: 4827920263752337557}
   motor: {fileID: 5234568876965363844}
@@ -503,6 +506,31 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &366997598482015461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770877511817958936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
+  bankSO: {fileID: 0}
+--- !u!114 &2984324588961686661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770877511817958936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCustomInspector
 --- !u!1 &1783973498166365322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,7 +1995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   aimPosition: {fileID: 8215545615593885791}
   defaultTransformParent: {fileID: 9038665148088118433}
-  damageImpactType: {fileID: 11400000, guid: 077fc7a4ff9b6654a8028d14c43570f1, type: 2}
+  damageImpactType: {fileID: 11400000, guid: 0be97e681fd4a5f4d8dbd203e24faac7, type: 2}
 --- !u!136 &1473472548642542617
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2365,7 +2393,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 1a7a7e51a27f5ce40bee1a0bb3f15609, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

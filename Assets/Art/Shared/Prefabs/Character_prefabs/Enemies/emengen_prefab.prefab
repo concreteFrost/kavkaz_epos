@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 345990961817376411}
   - component: {fileID: 3299003110744848457}
   - component: {fileID: 4751592046786586566}
+  - component: {fileID: 530328742020398193}
   m_Layer: 2
   m_Name: emengen_prefab
   m_TagString: Enemy
@@ -290,6 +291,7 @@ MonoBehaviour:
   animator: {fileID: 1562133383542639410}
   overrideController: {fileID: 22100000, guid: b09043c926ba65d4e91ecbaf0778b5ca, type: 2}
   ik: {fileID: 3666726161240854201}
+  characterAudioManager: {fileID: 530328742020398193}
   boneSocket: {fileID: 6940906284956793000}
   agent: {fileID: 348251026276055827}
   motor: {fileID: 3299003110744848457}
@@ -346,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_2ab3eb76-1077-4fae-ace1-5e3ae7aff15e
+  uniqueId: uid_3020d2a1-4072-4bdc-a04a-f89c82d05ccb
 --- !u!195 &348251026276055827
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -459,6 +461,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterCustomInspector
+--- !u!114 &530328742020398193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393566410055498749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
+  bankSO: {fileID: 11400000, guid: d745ab432d317f04eb1cfa305c4587ff, type: 2}
 --- !u!1 &1482064309614592532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,7 +1510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   aimPosition: {fileID: 4953969913014891369}
   defaultTransformParent: {fileID: 2530020144617652671}
-  damageImpactType: {fileID: 11400000, guid: 077fc7a4ff9b6654a8028d14c43570f1, type: 2}
+  damageImpactType: {fileID: 11400000, guid: 0be97e681fd4a5f4d8dbd203e24faac7, type: 2}
 --- !u!136 &8434258279918271201
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2517,7 +2532,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 6196f4cf4bb60d744af6e60072abc958, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

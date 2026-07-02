@@ -8,6 +8,7 @@ public class Weapon : CombatItem, IWeapon
     private WeaponAttack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
+    protected WeaponAudioManager audioManager;
 
     int currentAttackIndex = 0;
 
@@ -40,6 +41,14 @@ public class Weapon : CombatItem, IWeapon
         damageCollider.Init();
         damageCollider.SetWeaponData(this);
 
+        audioManager = new WeaponAudioManager(gameObject);
+       
+
+    }
+
+    public void PlaySwing()
+    {
+        audioManager.PlaySwing(currentAttack.audioEvent);
     }
 
     public void PerformAttack()

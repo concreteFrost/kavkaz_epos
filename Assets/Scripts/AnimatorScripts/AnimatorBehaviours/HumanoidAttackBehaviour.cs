@@ -13,6 +13,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     IPushable pushable;
    
     bool hitActive = false;
+    bool wasAudioPlayer = false;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -31,6 +32,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         
         animator.applyRootMotion = true;
         hitActive = false;
+        wasAudioPlayer = false; 
 
         // блокируем вращение персонажа во время атаки
         motor.BlockRotation = true;
@@ -64,6 +66,13 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
      //       damageController.CanPlayDamagedAnimation = true;
      //   }
 
+        if(!wasAudioPlayer && t>= attack.audioStartTime)
+        {
+            
+            weapon.PlaySwing();
+            wasAudioPlayer = true;
+        }
+
         if (!hitActive && t >= attack.animationInfo.hitStartFrame)
         {
             weapon.PerformAttack();
@@ -83,6 +92,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     {
         animator.speed = 1f;
 
+        wasAudioPlayer = false;
         hitActive = false;
         motor.StopMove = false;
 

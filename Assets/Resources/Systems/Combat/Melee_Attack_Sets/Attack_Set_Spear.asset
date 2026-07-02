@@ -14,31 +14,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackSO
   attackList:
   - damageData:
-      healthDamageMultiplier: 0
+      damageMultiplier: 0
       balanceDamageType: 1
       impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
     staminaPenalty: 0
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 57b2594466b7f234b88d581d39564039, type: 2}
+    audioEvent:
+      Guid:
+        Data1: -444640850
+        Data2: 1246578429
+        Data3: -1659051639
+        Data4: -20993584
+      Path: event:/Combat/Weapons/Dagger
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   - damageData:
-      healthDamageMultiplier: 0.2
+      damageMultiplier: 0
       balanceDamageType: 1
       impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
     staminaPenalty: 0
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: a63208dbd526a1946bbf3b077dbf3bb8, type: 2}
+    audioEvent:
+      Guid:
+        Data1: -444640850
+        Data2: 1246578429
+        Data3: -1659051639
+        Data4: -20993584
+      Path: event:/Combat/Weapons/Dagger
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   - damageData:
-      healthDamageMultiplier: 0.4
+      damageMultiplier: 0
       balanceDamageType: 1
       impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
     staminaPenalty: 0
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: eb9b9fa7d889a9541900c320313e15e3, type: 2}
+    audioEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
   powerAttack:
     damageData:
-      healthDamageMultiplier: 0.7
+      damageMultiplier: 0
       balanceDamageType: 3
       impactForce: 500
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
     staminaPenalty: 0.8
     fromHand: 1
     animationInfo: {fileID: 11400000, guid: 6685ef17a3fe77b4cbe4b8edb6df5ad5, type: 2}
+    audioEvent:
+      Guid:
+        Data1: -444640850
+        Data2: 1246578429
+        Data3: -1659051639
+        Data4: -20993584
+      Path: event:/Combat/Weapons/Dagger
+    audioStartTime: 0
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0

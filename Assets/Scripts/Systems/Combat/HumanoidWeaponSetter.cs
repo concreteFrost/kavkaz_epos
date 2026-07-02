@@ -67,7 +67,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
         meleeData.leftDamageCollider = boneSocket.GetLeftMeleeSocket.GetComponent<WeaponDamageCollider>();
         meleeData.rightDamageCollider = boneSocket.GetRightMeleeSocket.GetComponent<WeaponDamageCollider>();
         var bareHands = new MeleeWeapon();
-        bareHands.Init(meleeData, attackSource);
+        bareHands.Init(meleeData, attackSource, gameObject);
         return bareHands;
 
     }

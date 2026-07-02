@@ -1531,12 +1531,13 @@ GameObject:
   - component: {fileID: 8739894194216446274}
   - component: {fileID: 2377726576270002110}
   - component: {fileID: 346307529952522815}
-  - component: {fileID: 4824949580012563523}
-  - component: {fileID: 4129644557056614852}
-  - component: {fileID: 2897650907661960404}
   - component: {fileID: 2901701300793122616}
   - component: {fileID: 2262980869753660240}
   - component: {fileID: 1684481113832658836}
+  - component: {fileID: 1668560843000217619}
+  - component: {fileID: 4824949580012563523}
+  - component: {fileID: 4129644557056614852}
+  - component: {fileID: 2897650907661960404}
   m_Layer: 2
   m_Name: skeleton_prefab
   m_TagString: Enemy
@@ -1578,6 +1579,7 @@ MonoBehaviour:
   animator: {fileID: 4129644557056614852}
   overrideController: {fileID: 22100000, guid: 29859f21038f1de43972ce17760308b4, type: 2}
   ik: {fileID: 2377726576270002110}
+  characterAudioManager: {fileID: 1668560843000217619}
   boneSocket: {fileID: 568719726883165531}
   agent: {fileID: 4824949580012563523}
   motor: {fileID: 2901701300793122616}
@@ -1634,7 +1636,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_02acc8e4-4756-4882-a113-e652ea01a950
+  uniqueId: uid_e07e6c1b-b2ec-44d5-869d-6d4f31ad4c13
+--- !u!114 &2901701300793122616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806410905337418686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rotationSpeed: 10
+  blockedRotationSpeed: 1.5
+  movementSmooth: 1
+  animationSmooth: 1
+  airSpeed: 5
+  airSmooth: 6
+  airAcceleration: 70
+  extraGravity: -10
+  limitFallVelocity: -15
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  groundMinDistance: 0.25
+  groundMaxDistance: 0.5
+  distanceToObstacle: 0.8
+  rotateTarget: {fileID: 0}
+  isGrounded: 1
+  isStrafing: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &2262980869753660240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806410905337418686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCustomInspector
+--- !u!114 &1684481113832658836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806410905337418686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
+  objectName: "\u0421\u043A\u0435\u043B\u0435\u0442"
+  col: {r: 1, g: 0, b: 0, a: 0}
+  isVisible: 1
+  fontSize: 18
+--- !u!114 &1668560843000217619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806410905337418686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
+  bankSO: {fileID: 11400000, guid: d745ab432d317f04eb1cfa305c4587ff, type: 2}
 --- !u!195 &4824949580012563523
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1702,67 +1778,6 @@ CapsuleCollider:
   m_Height: 1.80119
   m_Direction: 1
   m_Center: {x: 0, y: 0.87940496, z: 0}
---- !u!114 &2901701300793122616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7806410905337418686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d10ca079906fc409d87bcd4e368a7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  rotationSpeed: 10
-  blockedRotationSpeed: 1.5
-  movementSmooth: 1
-  animationSmooth: 1
-  airSpeed: 5
-  airSmooth: 6
-  airAcceleration: 70
-  extraGravity: -10
-  limitFallVelocity: -15
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundMinDistance: 0.25
-  groundMaxDistance: 0.5
-  distanceToObstacle: 0.8
-  rotateTarget: {fileID: 0}
-  isGrounded: 1
-  isStrafing: 0
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 256
---- !u!114 &2262980869753660240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7806410905337418686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCustomInspector
---- !u!114 &1684481113832658836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7806410905337418686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
-  objectName: "\u0421\u043A\u0435\u043B\u0435\u0442"
-  col: {r: 1, g: 0, b: 0, a: 0}
-  isVisible: 1
-  fontSize: 18
 --- !u!1 &7857976187053720345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidAIDamageController
   aimPosition: {fileID: 4343820727580353077}
   defaultTransformParent: {fileID: 7561897361928051453}
-  damageImpactType: {fileID: 11400000, guid: 1700454e9c0fcf54981d191bfd3d9496, type: 2}
+  damageImpactType: {fileID: 11400000, guid: 1ff79a82402f0f6478a8ef0177ae6d7c, type: 2}
 --- !u!136 &2154866394793831559
 CapsuleCollider:
   m_ObjectHideFlags: 0

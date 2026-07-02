@@ -7,6 +7,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     protected ItemData data;
     protected Collider physicsCollider;
     protected MeshRenderer[] meshRenderer;
+     
 
 
     #region ICombatItem Contract

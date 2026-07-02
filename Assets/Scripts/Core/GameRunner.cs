@@ -90,6 +90,7 @@ public class GameRunner : MonoBehaviour
     public void BootstrapLevel()
     {
         activeLevel = FindAnyObjectByType<LevelManager>();
+        GlobalAudioManager.Instance.PlayMusic(activeLevel.BiomMusic());
 
     }
 
@@ -106,7 +107,9 @@ public class GameRunner : MonoBehaviour
 
     public void OnTransitionStarted(float transition)
     {
+        //GlobalAudioManager.Instance.StopMusic(activeLevel.BiomMusicInstance());
         worldStateManager.SaveLevel(activeLevel);
+        GlobalAudioManager.Instance.StopMusic();
     }
 
     public void OnNewGameStarted()

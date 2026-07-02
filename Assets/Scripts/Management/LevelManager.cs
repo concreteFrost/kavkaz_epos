@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using System;
 using UnityEngine;
 
@@ -33,14 +35,16 @@ public class LevelManager : MonoBehaviour
         levelState.levelId = biomInfoSO.biomName;
 
         InitSystems();
-
+       
         Bonfire.BonfireInteracted += ReloadLevelOnRest;
+       
     }
 
     private void Start()
     {
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
         LevelLoaded?.Invoke(biomInfoSO.biomName);
+
     }
 
     private void OnDisable()
@@ -48,7 +52,10 @@ public class LevelManager : MonoBehaviour
         Bonfire.BonfireInteracted -= ReloadLevelOnRest;
     }
 
+
     public string GetLevelName() => levelState.levelId;
+
+    public EventReference BiomMusic() => biomInfoSO.biomMusicEvent;
 
     #region Init
 
@@ -82,6 +89,8 @@ public class LevelManager : MonoBehaviour
     public Vector3 GetStartingPosition() => startingPosition.position;
 
     #endregion
+
+
 
     #region Save/Load
 
@@ -141,7 +150,7 @@ public class LevelManager : MonoBehaviour
         trapsManager?.LoadTrapsData(state); 
       
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
-        
+
     }
 
     #endregion
@@ -153,5 +162,7 @@ public class LevelManager : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(startingPosition.position, 0.5f);
     }
+
+
 
 }

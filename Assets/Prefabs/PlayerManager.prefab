@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
   items: []
-  starterSet: {fileID: 11400000, guid: e594d06b6f805d347acb417e13a3ad64, type: 2}
+  starterSet: {fileID: 11400000, guid: 3aeed84d5b3c61c45af668f670075691, type: 2}
 --- !u!114 &8013920937491807215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,6 +1523,7 @@ GameObject:
   - component: {fileID: 3859479080802778312}
   - component: {fileID: 4568341106552407810}
   - component: {fileID: 1002000274722113080}
+  - component: {fileID: 6993691532069311564}
   - component: {fileID: 7556739485485302664}
   - component: {fileID: 7484473205060643964}
   - component: {fileID: 2388262361602523417}
@@ -1565,6 +1566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerServiceLocator
   uniqueId: {fileID: 1002000274722113080}
   cameraFollow: {fileID: 2016365631625151903}
+  characterAudioManager: {fileID: 6993691532069311564}
   animator: {fileID: 2388262361602523417}
   overrideController: {fileID: 22100000, guid: 7e3dac5f5c0e1454687d8def435c519d, type: 2}
   boneSocket: {fileID: 3772071245161739616}
@@ -1647,6 +1649,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
   uniqueId: uid_eae28ff4-ce6f-40d2-866d-0d4b0ecf7116
+--- !u!114 &6993691532069311564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011225118118647457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
+  bankSO: {fileID: 11400000, guid: d745ab432d317f04eb1cfa305c4587ff, type: 2}
 --- !u!54 &7556739485485302664
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7641,7 +7656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageController
   aimPosition: {fileID: 9165924716955183821}
   defaultTransformParent: {fileID: 0}
-  damageImpactType: {fileID: 11400000, guid: 077fc7a4ff9b6654a8028d14c43570f1, type: 2}
+  damageImpactType: {fileID: 11400000, guid: 0be97e681fd4a5f4d8dbd203e24faac7, type: 2}
 --- !u!136 &5409359611685170516
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8121,7 +8136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
   hasAllConsumables: 0
   hasAllSpells: 1
-  hasAllWeapons: 0
+  hasAllWeapons: 1
 --- !u!1 &8435803114403785097
 GameObject:
   m_ObjectHideFlags: 0

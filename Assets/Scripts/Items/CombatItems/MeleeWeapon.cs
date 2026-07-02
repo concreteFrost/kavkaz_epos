@@ -55,13 +55,15 @@ public class MeleeData
 
 public class MeleeWeapon : IWeapon
 {
+
+    WeaponAudioManager audioManager;
     private WeaponSO weaponSO;
     private MeleeData meleeData;
 
     private WeaponAttack currentAttack;
 
     public WeaponAttack GetPowerAttack(WeaponAttack attack) => currentAttack = attack;
-
+    
 
     int currentAttackIndex = 0;
 
@@ -101,10 +103,12 @@ public class MeleeWeapon : IWeapon
     #endregion
 
 
-    public void Init(MeleeData meleeData,IInteractor owner)
+    public void Init(MeleeData meleeData,IInteractor owner, GameObject source)
     {
         this.weaponSO = meleeData.barehandsData;
         this.Owner = owner;
+
+        audioManager = new WeaponAudioManager(source);
 
         this.meleeData = new MeleeData();
         this.meleeData.Init(meleeData, this, this.Owner.AttackSource.Source());
@@ -118,6 +122,10 @@ public class MeleeWeapon : IWeapon
 
     }
 
+    public void PlaySwing()
+    {
+        audioManager.PlaySwing(currentAttack.audioEvent);
+    }
 
     public void CancelAttack()
     {

@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,8 @@ public class WeaponSO : CombatItemSO, IItemStats
     [Tooltip("Анимация воспроизводимая в Idle состоянии когда игрок держит оружие в руке.")]
     public AnimationClip idleAnimation;
 
-
+    [Header("Audio")]
+    public EventReference equipEvent;
     public float GetBaseDamage() => baseDamage;
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()

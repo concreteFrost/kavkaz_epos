@@ -7,12 +7,17 @@ public abstract class BaseHumanoidAnimatorController
 
     protected Animator animator;
     protected AnimatorOverrideController overrideController;
+    protected CharacterAudioManager audioManager;
 
     protected IHumanoidMovement movement;
     protected ITargetLocker targetLocker;
     protected IDamagable damagable;
     protected IHumanoidMeleeCombat attackSource;
     protected IPushable pushReceiver;
+
+
+    float lastFootstep;
+    float footstep;
 
     #endregion
 
@@ -29,6 +34,7 @@ public abstract class BaseHumanoidAnimatorController
     public virtual void Init(
         Animator animator,
         AnimatorOverrideController overrideController,
+        CharacterAudioManager audioManager, 
         IHumanoidMovement motor,
         IHumanoidMeleeCombat combatController,
         ITargetLocker targetLock,
@@ -38,6 +44,7 @@ public abstract class BaseHumanoidAnimatorController
     {
         this.animator = animator;
         this.overrideController = overrideController;
+        this.audioManager = audioManager;   
 
         //overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
 
@@ -49,6 +56,8 @@ public abstract class BaseHumanoidAnimatorController
         this.damagable = damageController;
         this.attackSource = combatController;
         this.pushReceiver = pushReceiver;
+
+       
     }
 
     #endregion
@@ -89,6 +98,20 @@ public abstract class BaseHumanoidAnimatorController
         animator.SetFloat(AnimatorParameters.DodgeY, locomotion.DodgeY);
 
         animator.SetBool(AnimatorParameters.IsStrafing, locomotion.IsStrafing);
+
+        this.footstep = animator.GetFloat("Footstep");
+
+        if (Mathf.Abs(footstep) < .00001f) footstep = 0;
+
+        if (lastFootstep < 0.7f && footstep >= 0.7f)
+        {
+            audioManager.PlayWalk();
+        }
+
+
+        //Debug.Log(footstep);
+
+        lastFootstep = footstep;
     }
 
     protected void UpdateCombatState(IHumanoidMeleeCombat combatController)
