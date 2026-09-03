@@ -107,7 +107,7 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
 
     private void DamageInit()
     {
-        damageController.Init(self: transform, motor: motor,ragdollController: ragdollController, animatorController: animatorController,statsController:statsManager,statsModifier:statsModifier,healthUI:aiHealthUI );
+        damageController.Init(self: transform, motor: motor,ragdollController: ragdollController, animatorController: animatorController,statsController:statsManager,statsModifier:statsModifier,healthUI:aiHealthUI, characterAudioManager:characterAudioManager );
         pushReceiver.Init(damageController: damageController, animatorController: animatorController, ragdollController: ragdollController, self: transform);
         fallController.Init(ragdollController: ragdollController, damagable: damageController, self: transform);
     }

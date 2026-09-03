@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea5a85686abdf1b4cb788f3734384e93, type: 3}
-  m_Name: character_audio_player
+  m_Name: character_audio_skeleton
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioBankSO
   ev_footsteps:
     Guid:
@@ -26,3 +26,10 @@ MonoBehaviour:
       Data3: 619982508
       Data4: -2087659349
     Path: event:/Characters/Landing/LandingLight
+  ev_stab:
+    Guid:
+      Data1: 493234031
+      Data2: 1089659620
+      Data3: -317167706
+      Data4: -1068256568
+    Path: event:/Characters/Impacts/BoneImpact

@@ -6,4 +6,8 @@ public class CharacterAudioBankSO : ScriptableObject
 {
     public EventReference ev_footsteps;
     public EventReference ev_landing;
+
+
+    [Header("Урон")]
+    public EventReference ev_stab;
 }

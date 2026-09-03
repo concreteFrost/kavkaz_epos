@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{81d3030d-3ef1-4a02-9fa8-f5c205b95e11}">
+		<property name="name">
+			<value>StabType</value>
+		</property>
+		<relationship name="folder">
+			<destination>{70b58e88-7ac5-400a-b560-d216b3a7fee2}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{281700c3-9c71-4a49-b1e8-92b394063c42}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{281700c3-9c71-4a49-b1e8-92b394063c42}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Hit</value>
+			<value>Death</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

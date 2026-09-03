@@ -13,6 +13,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     [SerializeField] protected Transform aimPosition;
     protected BaseHumanoidAnimatorController animatorController;
     protected CharacterStatsModifier statsModifier;
+    protected CharacterAudioManager characterAudioManager;
 
     [SerializeField] protected Transform defaultTransformParent;
 
@@ -39,13 +40,14 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     protected abstract float DamageCooldown();
     protected bool damageBlocked = false;
 
-    protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor)
+    protected void BaseInit(BaseHumanoidAnimatorController animatorController, CharacterStatsModifier statsModifier, CharacterStatsController statsController, Transform self, IHumanoidMovement motor, CharacterAudioManager characterAudioManager)
     {
         this.animatorController = animatorController;
         this.statsModifier = statsModifier;
         this.stats = statsController;
         this.self = self;
         this.motor = motor;
+        this.characterAudioManager = characterAudioManager;
         CanPlayDamagedAnimation = true;
 
         damagableCollider = GetComponent<Collider>();
@@ -111,15 +113,17 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     }
 
+    
+
     public void TakeMaxDamage()
     {
         stats.Health.ChangeCurrent(stats.Health.CurrentMax, OperationType.Negative);
+        PlayDamageSound();
         InvokeDamageTaken(null);
     }
 
     protected void InvokeDamageTaken(IAttackSource source)
     {
-
         DamageTaken?.Invoke(source);
     }
 
@@ -133,7 +137,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         //    return;
         //}
 
-
+        PlayDamageSound();
 
         bool stagger = stats.Balance.ApplyBalanceDamage(GetBalanceDamageValue(balanceDamageType));
 
@@ -147,6 +151,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         animatorController.PlayClipCrossFade(animClipName);
         StartCoroutine(DamagedCoroutine(animClipName));
     }
+
+    private void PlayDamageSound() => characterAudioManager.PlayDamage(stats.Health.Current <= 0 ? 1 : 0);
 
     protected IEnumerator DamageCooldownCoroutine()
     {

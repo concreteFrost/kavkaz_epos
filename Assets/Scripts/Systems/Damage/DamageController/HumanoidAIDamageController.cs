@@ -18,10 +18,11 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
         CharacterStatsModifier statsModifier,
         IRagdollController ragdollController,
         BaseHumanoidAnimatorController animatorController,
+        CharacterAudioManager characterAudioManager,
         AiHealthUI healthUI
         )
     {
-        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
+        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self, characterAudioManager:characterAudioManager);
 
         this.ragdollController = ragdollController;
         this.HealthProviderUI = healthUI;

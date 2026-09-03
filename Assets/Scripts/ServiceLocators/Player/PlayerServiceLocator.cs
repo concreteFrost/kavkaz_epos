@@ -258,7 +258,8 @@ public class PlayerServiceLocator : MonoBehaviour
             motor: motor,
             statsController: stats,
             animatorController: animatorController,
-            statsModifier: statsModifier);
+            statsModifier: statsModifier,
+            audioManager:characterAudioManager);
 
         staminaEnableController.Init(statsController: stats);
     }

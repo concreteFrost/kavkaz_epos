@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639185321481419790
+  lastModified: 639240497320210692
   FileSizes:
   - Name: 
-    Value: 1640
+    Value: 1840
   Exists: 1
 --- !u!114 &-7806451904386278808
 MonoBehaviour:
@@ -47,6 +47,32 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1153
+--- !u!114 &-5977423965903560665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/BoneImpact/StabType
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: StabType
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 230219637
+    data2: 968860843
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Hit
+  - Death
+  Exists: 1
 --- !u!114 &-5831107289076156613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +91,34 @@ MonoBehaviour:
   lastModified: 639185403854749395
   FileSizes: []
   Exists: 1
+--- !u!114 &-5523865168224875757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Impacts/FleshImpact
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Impacts/FleshImpact
+  Guid:
+    Data1: 993526140
+    Data2: 1084114827
+    Data3: -1486692170
+    Data4: 783398207
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -62937419605210456}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 1803
 --- !u!114 &-4448805943670903267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +254,32 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1153
+--- !u!114 &-62937419605210456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/FleshImpact/StabType
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: StabType
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 230219637
+    data2: 968860843
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Hit
+  - Death
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,12 +313,15 @@ MonoBehaviour:
   - {fileID: -3342353309541155995}
   - {fileID: 1991439477200879772}
   - {fileID: -7806451904386278808}
+  - {fileID: 3521737459105601649}
+  - {fileID: -5523865168224875757}
+  - {fileID: 776064580544443240}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639185403854749395
+  cacheTime: 639240497320210692
   cacheVersion: 131637
 --- !u!114 &124284385479090215
 MonoBehaviour:
@@ -255,9 +338,37 @@ MonoBehaviour:
   Path: FMOD/Desktop/Characters.bank
   Name: Characters
   StudioPath: bank:/Characters
-  lastModified: 639185403854499404
+  lastModified: 639240497319960719
   FileSizes: []
   Exists: 1
+--- !u!114 &776064580544443240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Footsteps/FootstepsHeavy
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Footsteps/FootstepsHeavy
+  Guid:
+    Data1: -1702472252
+    Data2: 1195747700
+    Data3: -1447851118
+    Data4: -662993528
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4766723143517867639}
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 653
 --- !u!114 &1866701230289277800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +479,34 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 653
+--- !u!114 &3521737459105601649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Impacts/BoneImpact
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Impacts/BoneImpact
+  Guid:
+    Data1: 493234031
+    Data2: 1089659620
+    Data3: -317167706
+    Data4: -1068256568
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -5977423965903560665}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 1798
 --- !u!114 &3642747431287921295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +552,35 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1183
+--- !u!114 &4766723143517867639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/FootstepsHeavy/SurfaceType
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: SurfaceType
+  StudioPath: 
+  Min: 0
+  Max: 4
+  Default: 0
+  ID:
+    data1: 332119970
+    data2: 1997659933
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Grass
+  - Gravel
+  - Rock
+  - Wood
+  - Sand
+  Exists: 1
 --- !u!114 &5252702535273676165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +625,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639185321481409854
+  lastModified: 639240497320200959
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083

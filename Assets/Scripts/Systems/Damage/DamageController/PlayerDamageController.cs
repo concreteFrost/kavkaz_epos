@@ -11,11 +11,12 @@ public class PlayerDamageController : BaseHumanoidDamageController
         PlayerMotor motor,
         PlayerAnimatorController animatorController,
         CharacterStatsController statsController,
-        CharacterStatsModifier statsModifier
+        CharacterStatsModifier statsModifier,
+        CharacterAudioManager audioManager
         )
     {
 
-        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self);
+        BaseInit(animatorController: animatorController, statsModifier: statsModifier, statsController: statsController, motor: motor, self: self, characterAudioManager:audioManager);
 
     }
 

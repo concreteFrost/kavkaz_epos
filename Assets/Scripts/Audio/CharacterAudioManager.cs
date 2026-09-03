@@ -47,4 +47,19 @@ public class CharacterAudioManager : MonoBehaviour
             (int)surface
         );
     }
+
+    public void PlayDamage(int damageType)
+    {
+        if (bankSO.ev_stab.IsNull)
+        {
+            Debug.Log("CharacterAudioManager: no damage event assigned");
+            return;
+        }
+        AudioEventPlayer.Play3DOneShot(
+            bankSO.ev_stab,
+            gameObject,
+            "StabType",
+            damageType
+            );
+    }
 }
