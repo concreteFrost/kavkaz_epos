@@ -118,7 +118,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     public void TakeMaxDamage()
     {
         stats.Health.ChangeCurrent(stats.Health.CurrentMax, OperationType.Negative);
-        PlayDamageSound();
+        PlayStabbedSound();
         InvokeDamageTaken(null);
     }
 
@@ -137,22 +137,23 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         //    return;
         //}
 
-        PlayDamageSound();
+        PlayStabbedSound();
 
         bool stagger = stats.Balance.ApplyBalanceDamage(GetBalanceDamageValue(balanceDamageType));
 
         if (!stagger) return;
 
+        characterAudioManager.PlayGetHit();
+
         string animClipName = GetDamageAnimation(balanceDamageType);
-
-
+      
         if (animClipName == null) return;
 
         animatorController.PlayClipCrossFade(animClipName);
         StartCoroutine(DamagedCoroutine(animClipName));
     }
 
-    private void PlayDamageSound() => characterAudioManager.PlayDamage(stats.Health.Current <= 0 ? 1 : 0);
+    private void PlayStabbedSound() => characterAudioManager.PlayDamage(stats.Health.Current <= 0 ? 1 : 0);
 
     protected IEnumerator DamageCooldownCoroutine()
     {

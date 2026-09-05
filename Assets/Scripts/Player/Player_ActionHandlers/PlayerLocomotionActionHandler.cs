@@ -6,6 +6,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     PlayerActionGuards actionGuards;
     CharacterStatsController stats;
     CharacterConsumeController consumeController;
+    CharacterAudioManager audioManager;
     IInteractor interact;
     IClimber climbing;
 
@@ -27,7 +28,8 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         IClimber climbing,
         PlayerActionGuards actionGuards,
         CharacterStatsController stats,
-        CharacterConsumeController consumeController
+        CharacterConsumeController consumeController,
+        CharacterAudioManager audioManager
         )
     {
 
@@ -36,7 +38,8 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
         this.climbing = climbing;
         this.stats = stats;
         this.actionGuards = actionGuards;
-        this.consumeController = consumeController; 
+        this.consumeController = consumeController;
+        this.audioManager = audioManager;
 
     }
 
@@ -114,6 +117,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     {
         if (!actionGuards.CanJump()) return;
 
+        audioManager.PlayJump();
         motor.Jump(stats.jumpTimer);
         stats.Stamina.ChangeCurrent(stats.statsSO.staminaJumpReducePenalty, OperationType.Negative);
     }

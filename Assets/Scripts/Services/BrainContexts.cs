@@ -28,5 +28,6 @@ public class EnemyBrainContext
     //public InterruptionManager interruptionManager;
 
     public EnemyNotifierManager notifierManager;
+    public CharacterAudioManager audioManager;
 
 }

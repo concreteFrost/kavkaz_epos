@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharacterAudioManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class CharacterAudioManager : MonoBehaviour
            0.5f
        );
 
-        Debug.Log("playing walk");
+        
         AudioEventPlayer.Play3DOneShot(
             bankSO.ev_footsteps,
             gameObject,
@@ -39,7 +40,7 @@ public class CharacterAudioManager : MonoBehaviour
          1f
      );
 
-        Debug.Log("playing landing");
+        
         AudioEventPlayer.Play3DOneShot(
             bankSO.ev_landing,
             gameObject,
@@ -62,4 +63,31 @@ public class CharacterAudioManager : MonoBehaviour
             damageType
             );
     }
+
+    #region Voice Sounds
+
+
+    private void PlayVoice(int voiceType)
+    {
+        if (bankSO.ev_voices.IsNull)
+        {
+            Debug.Log("CharacterAudioManager: no voice sounds assigned");
+            return;
+        }
+
+        AudioEventPlayer.Play3DOneShot(bankSO.ev_voices, gameObject, "CharacterVoiceReaction", voiceType);
+    }
+
+    public void PlayAlert() => PlayVoice(0);
+    public void PlayGetHit() => PlayVoice(1);
+
+    public void PlayAttack() => PlayVoice(2);
+
+    public void PlayPowerAttack() => PlayVoice(3);
+
+    public void PlayDeath() => PlayVoice(4);
+
+    internal void PlayJump() => PlayVoice(5);
+
+    #endregion
 }

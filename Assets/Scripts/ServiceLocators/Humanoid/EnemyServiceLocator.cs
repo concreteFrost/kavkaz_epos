@@ -87,7 +87,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     protected override void LifecycleInit()
     {
-        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform, distributer:lootDistributer, fovController:fovController);
+        lifecycle.Init(damagable: damageController, statsController: statsManager,statsModifier:statsModifier,audioManager:characterAudioManager, ragdollController: ragdollController, brain: brain, startingPosition:transform.position,pointsEmitter:pointsEmitter, self:transform, distributer:lootDistributer, fovController:fovController);
     }
 
 
@@ -114,7 +114,8 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
             stateTracker = stateTracker,
             agentController = agentController,
             ragdollController = ragdollController,
-            notifierManager = notifierManager
+            notifierManager = notifierManager,
+            audioManager = characterAudioManager
 
         };
 

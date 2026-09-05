@@ -10,4 +10,7 @@ public class CharacterAudioBankSO : ScriptableObject
 
     [Header("Урон")]
     public EventReference ev_stab;
+
+    [Header("Голоса")]
+    public EventReference ev_voices;
 }

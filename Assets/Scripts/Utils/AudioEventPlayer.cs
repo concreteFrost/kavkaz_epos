@@ -15,6 +15,9 @@ public static class AudioEventPlayer
         string parameterName = null,
         float parameterValue = 0f)
     {
+
+        if (eventRef.IsNull) return default(EventInstance);
+
         EventInstance instance = RuntimeManager.CreateInstance(eventRef);
 
         if (!string.IsNullOrEmpty(parameterName))

@@ -245,7 +245,8 @@ public class PlayerServiceLocator : MonoBehaviour
             actionGuards: actionGuards,
             stats: stats,
             climbing: climbing,
-            consumeController:consumeController);
+            consumeController:consumeController,
+            audioManager:characterAudioManager);
     }
 
     private void InitStats()
@@ -297,6 +298,7 @@ public class PlayerServiceLocator : MonoBehaviour
             statsController: stats,
             statsModifier: statsModifier,
             startingPosition: transform.position,
+            audioManager:characterAudioManager,
             fallController: fallController,
             self: transform);
     }

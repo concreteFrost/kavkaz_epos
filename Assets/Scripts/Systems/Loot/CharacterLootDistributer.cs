@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class CharacterLootDistributer : MonoBehaviour
 {
     [SerializeField] private LootContainerSO listSO;
+
     public bool hasDroped = false;
 
     public static Action<List<ItemData>> LootDroppedInInvalidArea;

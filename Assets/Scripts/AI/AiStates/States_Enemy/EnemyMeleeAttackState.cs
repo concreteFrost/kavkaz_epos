@@ -10,20 +10,42 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         combatController = context.combat;
         weaponSetter = context.weaponSetter;
         combatMode = CombatMode.Melee;
+
+        
     }
 
 
     public override void HandleAttack(Transform target)
     {
         if (combatHandler.WillPowerAttack())
-            combatCoroutine = combatActions.StartPowerAttack(combatController,combatHandler,FinishCombatAction);
+        {
+            combatCoroutine = combatActions.StartPowerAttack(
+                combatController,
+                combatHandler,
+                FinishCombatAction
+            );
+
+            //чтобы не спамить голос
+            TryPlayVoice(audioManager.PlayPowerAttack); 
+        }
         else
         {
             int punchesCount = Random.Range(1, 5);
-            combatCoroutine = combatActions.StartMelee(combatController, combatHandler, punchesCount,combatHandler.GetAttackDistance(combatMode), () => distanceToTarget, FinishCombatAction);
+
+            combatCoroutine = combatActions.StartMelee(
+                combatController,
+                combatHandler,
+                punchesCount,
+                combatHandler.GetAttackDistance(combatMode),
+                () => distanceToTarget,
+                FinishCombatAction
+            );
+
+            audioManager.PlayPowerAttack();
         }
-            
     }
+
+
 
     public override void HandleDefense(bool willDefend)
     {

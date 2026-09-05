@@ -10,9 +10,9 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     CharacterLootDistributer distributer;
     EnemyFOVController fovController;
 
-    public void Init(HumanoidAIDamageController damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier, IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter, CharacterLootDistributer distributer, EnemyFOVController fovController)
+    public void Init(HumanoidAIDamageController damagable,CharacterStatsController statsController, CharacterStatsModifier statsModifier,CharacterAudioManager audioManager ,IRagdollController ragdollController, IBrain brain, Vector3 startingPosition, Transform self, PointsEmitter pointsEmitter, CharacterLootDistributer distributer, EnemyFOVController fovController)
     {
-        BaseInit(statsController, statsModifier, damagable, startingPosition, self);
+        BaseInit(statsController, statsModifier, audioManager ,damagable, startingPosition, self);
         this.ragdollController = ragdollController;
         this.brain = brain; 
         this.distributer = distributer; 
@@ -38,6 +38,7 @@ public class HumanoidAiLifecycle : CharacterLifecycle
     {
         if (damagable.IsDead) return;
 
+        audioManager.PlayDeath();
         damagable.IsDead = true;
 
         if (!ragdollController.IsKnockedOut)

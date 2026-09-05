@@ -68,7 +68,7 @@
 			<value>0</value>
 		</property>
 		<property name="maximumDistance">
-			<value>40</value>
+			<value>35</value>
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{a1c25da3-3805-4741-ac02-09d9412d0f26}" />
@@ -307,7 +307,11 @@
 			<destination>{40bac313-4de5-4ab1-a945-5953d330e0b7}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{ab2a0967-cd6a-4ce8-b5d4-7339993085e9}" />
+	<object class="MixerBusPanner" id="{ab2a0967-cd6a-4ce8-b5d4-7339993085e9}">
+		<property name="surroundPanExtent">
+			<value>56</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{9acb3dd4-5318-4a08-866e-1b64f8d63cad}" />
 	<object class="RandomizerModulator" id="{d0bda82a-e6e6-494a-b69d-1b3dfdaf3d6f}">
 		<property name="nameOfPropertyBeingModulated">

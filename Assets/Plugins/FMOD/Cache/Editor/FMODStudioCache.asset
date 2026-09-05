@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639240497320210692
+  lastModified: 639242156226357140
   FileSizes:
   - Name: 
-    Value: 1840
+    Value: 2126
   Exists: 1
 --- !u!114 &-7806451904386278808
 MonoBehaviour:
@@ -88,7 +88,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Combat.bank
   Name: Combat
   StudioPath: bank:/Combat
-  lastModified: 639185403854749395
+  lastModified: 639242163167927145
   FileSizes: []
   Exists: 1
 --- !u!114 &-5523865168224875757
@@ -119,6 +119,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 40
   Length: 1803
+--- !u!114 &-4707189639856094150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Voices/Djin
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Voices/Djin
+  Guid:
+    Data1: -1023509938
+    Data2: 1275492357
+    Data3: -1512119115
+    Data4: -1050039187
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 1249488214173723520}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
 --- !u!114 &-4448805943670903267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +191,64 @@ MonoBehaviour:
   StudioPath: bank:/Music
   lastModified: 639185225810490110
   FileSizes: []
+  Exists: 1
+--- !u!114 &-3961461177915870809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Voices/Player
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Voices/Player
+  Guid:
+    Data1: 1086616531
+    Data2: 1160847637
+    Data3: 174319286
+    Data4: -730412625
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -3612834157267020859}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
+--- !u!114 &-3612834157267020859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Player/CharacterVoiceReaction
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: CharacterVoiceReaction
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2751116259
+    data2: 1099568229
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Alert
+  - GetHit
+  - Attack
+  - PowerAttack
+  - Death
+  - Jump
   Exists: 1
 --- !u!114 &-3342353309541155995
 MonoBehaviour:
@@ -224,7 +310,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639185081442996294
+  lastModified: 639242005606951843
   FileSizes: []
   Exists: 1
 --- !u!114 &-1579786893638227004
@@ -302,7 +388,6 @@ MonoBehaviour:
   - {fileID: -4050019964733371028}
   - {fileID: -2295876193395353989}
   EditorEvents:
-  - {fileID: 2416681410015661525}
   - {fileID: 7825060913592549221}
   - {fileID: 2973075931113272389}
   - {fileID: 8574448306596985251}
@@ -316,12 +401,17 @@ MonoBehaviour:
   - {fileID: 3521737459105601649}
   - {fileID: -5523865168224875757}
   - {fileID: 776064580544443240}
+  - {fileID: 7622544071630497766}
+  - {fileID: 3213536505954678005}
+  - {fileID: 1404293288565338032}
+  - {fileID: -4707189639856094150}
+  - {fileID: -3961461177915870809}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639240497320210692
+  cacheTime: 639242163721434356
   cacheVersion: 131637
 --- !u!114 &124284385479090215
 MonoBehaviour:
@@ -338,7 +428,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Characters.bank
   Name: Characters
   StudioPath: bank:/Characters
-  lastModified: 639240497319960719
+  lastModified: 639242163721434356
   FileSizes: []
   Exists: 1
 --- !u!114 &776064580544443240
@@ -367,8 +457,126 @@ MonoBehaviour:
   Parameters:
   - {fileID: 4766723143517867639}
   MinDistance: 0
-  MaxDistance: 40
+  MaxDistance: 35
   Length: 653
+--- !u!114 &1249488214173723520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Djin/CharacterVoiceReaction
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: CharacterVoiceReaction
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2751116259
+    data2: 1099568229
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Alert
+  - GetHit
+  - Attack
+  - PowerAttack
+  - Death
+  - Jump
+  Exists: 1
+--- !u!114 &1404293288565338032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Voices/Skeleton
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Voices/Skeleton
+  Guid:
+    Data1: 1771394025
+    Data2: 1211107722
+    Data3: -1145862482
+    Data4: 1904617752
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 1784495727643682308}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
+--- !u!114 &1674433376742803492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Emengen/CharacterVoiceReaction
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: CharacterVoiceReaction
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2751116259
+    data2: 1099568229
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Alert
+  - GetHit
+  - Attack
+  - PowerAttack
+  - Death
+  - Jump
+  Exists: 1
+--- !u!114 &1784495727643682308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Skeleton/CharacterVoiceReaction
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: CharacterVoiceReaction
+  StudioPath: 
+  Min: 0
+  Max: 5
+  Default: 0
+  ID:
+    data1: 2751116259
+    data2: 1099568229
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Alert
+  - GetHit
+  - Attack
+  - PowerAttack
+  - Death
+  - Jump
+  Exists: 1
 --- !u!114 &1866701230289277800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,34 +631,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
---- !u!114 &2416681410015661525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ambience Event
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Ambience Event
-  Guid:
-    Data1: 714208172
-    Data2: 1130536709
-    Data3: 379507622
-    Data4: -688219154
-  Banks:
-  - {fileID: -1842775882343561724}
-  - {fileID: 6045900870541245149}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 98324
 --- !u!114 &2973075931113272389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +659,34 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 653
+--- !u!114 &3213536505954678005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Characters/Voices/Emengen
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Characters/Voices/Emengen
+  Guid:
+    Data1: 1052093550
+    Data2: 1293593579
+    Data3: -570766190
+    Data4: -763796975
+  Banks:
+  - {fileID: 124284385479090215}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 1674433376742803492}
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 0
 --- !u!114 &3521737459105601649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +833,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639240497320200959
+  lastModified: 639242156226347148
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -657,6 +865,59 @@ MonoBehaviour:
   - Wood
   - Sand
   Exists: 1
+--- !u!114 &7347491521529900187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MardaWind/SoundDistance
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: SoundDistance
+  StudioPath: 
+  Min: 0
+  Max: 1000
+  Default: 0
+  ID:
+    data1: 631510729
+    data2: 3744122089
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &7622544071630497766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Winds/MardaWind
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambience/Winds/MardaWind
+  Guid:
+    Data1: 714208172
+    Data2: 1130536709
+    Data3: 379507622
+    Data4: -688219154
+  Banks:
+  - {fileID: -1842775882343561724}
+  - {fileID: 6045900870541245149}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 7347491521529900187}
+  MinDistance: 1
+  MaxDistance: 850
+  Length: 98324
 --- !u!114 &7825060913592549221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,7 +944,7 @@ MonoBehaviour:
   Parameters:
   - {fileID: 5252702535273676165}
   MinDistance: 0
-  MaxDistance: 40
+  MaxDistance: 35
   Length: 653
 --- !u!114 &8574448306596985251
 MonoBehaviour:

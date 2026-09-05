@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CombatMode
@@ -48,9 +49,22 @@ public class EnemyCombatHandler
     [Header("Транзит состояний")]
     [SerializeField] private float currAttackTransitionChance;
 
-
     [SerializeField] private float currDecideRunTimer = 0f;
     [SerializeField] private float currMaxDecideRunTimer = 0f;
+
+    [Header("Звуки голоса")]
+    private float minVoiceCooldown = 3f;
+    private float maxVoiceCooldown= 5f;
+
+    private float voiceCooldown;
+
+    public bool CanDoVoice =>
+        Time.time >= voiceCooldown;
+
+    public void StartVoiceCooldown()
+    {
+        voiceCooldown = Time.time + Random.Range(minVoiceCooldown, maxVoiceCooldown);
+    }
 
 
     public EnemyCombatHandler(CharacterBehaviourStatsSO behaviourStats, CharacterStatsController statsController)
@@ -60,10 +74,10 @@ public class EnemyCombatHandler
 
         currAttackTransitionChance = behaviourStats.attackTransitionChance;
 
-
         powerAttackChance = behaviourStats.initialPoweAttackChance;
         currentDodgeChance = behaviourStats.initialDodgeChance;
         currStrafeChance = behaviourStats.strafeChance;
+
     }
 
     public void ResetCombatState()
@@ -72,8 +86,10 @@ public class EnemyCombatHandler
         SetCanAttack(true);
         currentDodgeChance = stats.initialDodgeChance;
         ResetDecideRunTimer();
-
+      
     }
+
+
 
     #region Combat
 

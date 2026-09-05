@@ -39,7 +39,7 @@ public static class SurfaceDetector
 
         if (hit.collider.CompareTag("Rock"))
         {
-            Debug.Log("is rock");
+            
             return SurfaceType.Rock;
         }
            

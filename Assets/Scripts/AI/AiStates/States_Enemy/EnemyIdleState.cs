@@ -7,8 +7,8 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
     private EnemyCombatHandler combatHandler;
     private HumanoidAIMotor motor;
     private EnemyFOVController fov;
-    private EnemyNotifierManager notifierManager;   
-
+    private EnemyNotifierManager notifierManager;
+    private CharacterAudioManager audioManager;
     public override void Enter()
     {
 
@@ -19,6 +19,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         idleHandler = context.stateTracker.idleHandler;
       
         combatHandler = context.stateTracker.combatHandler;
+        audioManager = context.audioManager;
 
         // в idle всегда гарантированно гасим любое предыдущее движение
         motor.StopMovement();
@@ -44,6 +45,7 @@ public class EnemyIdleState : AIState<EnemyBrainContext>
         {
 
             notifierManager.Notify(fov.currentTarget);
+            audioManager.PlayAlert();
             return AIStateResult.Chase;
         }
 

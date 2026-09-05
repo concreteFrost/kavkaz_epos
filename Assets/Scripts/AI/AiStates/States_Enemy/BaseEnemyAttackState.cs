@@ -18,6 +18,8 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     protected Transform target;
     protected float distanceToTarget;
 
+    protected CharacterAudioManager audioManager;
+
     protected CombatMode combatMode; 
 
     public abstract void Init();
@@ -29,6 +31,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         fov = context.fov;
         motor = context.motor;
         agentController = context.agentController;
+        audioManager = context.audioManager;
 
         combatCoroutine = null;
         combatHandler = context.stateTracker.combatHandler;
@@ -101,6 +104,16 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     
     }
 
+    protected void TryPlayVoice(System.Action playVoice)
+    {
+        if (!combatHandler.CanDoVoice)
+            return;
+
+        playVoice();
+        combatHandler.StartVoiceCooldown();
+    }
+
+
     public virtual AIStateResult HandleCombatBehavior()
     {
         if(motor.IsJumping) return AIStateResult.None;
@@ -130,6 +143,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         combatHandler.ResetDecideRunTimer();    
         cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
+
 
 
 

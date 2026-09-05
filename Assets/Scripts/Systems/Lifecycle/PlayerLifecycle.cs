@@ -7,9 +7,9 @@ public class PlayerLifecycle : CharacterLifecycle
     public Action PlayerDied;
     PlayerFallController fallController;
     public void Init(
-    BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier, Vector3 startingPosition, Transform self, PlayerFallController fallController)
+    BaseHumanoidDamageController damagable, CharacterStatsController statsController, CharacterStatsModifier statsModifier,CharacterAudioManager audioManager ,Vector3 startingPosition, Transform self, PlayerFallController fallController)
     {
-        BaseInit(statsController, statsModifier, damagable, startingPosition, self);
+        BaseInit(statsController, statsModifier,audioManager ,damagable, startingPosition, self);
         this.fallController = fallController;   
    
     }

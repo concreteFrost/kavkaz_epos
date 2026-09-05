@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{f94780f5-4aa2-4897-8ed5-eb8ae1dcd430}">
+		<property name="name">
+			<value>CharacterVoiceReaction</value>
+		</property>
+		<relationship name="folder">
+			<destination>{70b58e88-7ac5-400a-b560-d216b3a7fee2}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{f308bcce-8d29-4928-a882-07a8f42df87d}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{f308bcce-8d29-4928-a882-07a8f42df87d}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>6</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Alert</value>
+			<value>GetHit</value>
+			<value>Attack</value>
+			<value>PowerAttack</value>
+			<value>Death</value>
+			<value>Jump</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
