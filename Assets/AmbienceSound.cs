@@ -27,7 +27,7 @@ public class AmbienceSound : MonoBehaviour
 
     void OnDestroy()
     {
-        AudioEventPlayer.Stop(ambienceInstance, true);
+        AudioEventPlayer.StopAndRelease(ambienceInstance, true);
     }
 
     private void OnDrawGizmos()

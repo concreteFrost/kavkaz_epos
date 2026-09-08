@@ -7,8 +7,6 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     private Transform self;
     private BaseHumanoidAnimatorController animatorController;
 
-
-
     private string collectorId;
     public string CollectorId() => collectorId;
     public CharacterStatsController StatsController { get; set; } = null;

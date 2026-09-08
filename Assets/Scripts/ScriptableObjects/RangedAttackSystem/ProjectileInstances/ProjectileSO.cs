@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +45,9 @@ public abstract class ProjectileSO : ItemSO , IItemStats
     [Tooltip("Максимальное время жизни снаряда в секундах. После этого он уничтожается.")]
     public float lifetime = 10f;
 
+    [Tooltip("Аудио")]
+    public EventReference ev_audio;
+
     public float GetBaseDamage() => baseDamage;
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
@@ -69,7 +73,8 @@ public abstract class ProjectileSO : ItemSO , IItemStats
         data.baseDir = baseDir;
 
         data.damageData = damageData;
-        data.damageData.SetFinalDamage(GetBaseDamage(), attackMultiplier);   
+        data.damageData.SetFinalDamage(GetBaseDamage(), attackMultiplier);
+        data.ev_audio = ev_audio;
 
         GameObject clone = Instantiate(prefab, startingPosition, Quaternion.identity);
         var projectile = clone.GetComponent<IProjectile>();

@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class ProjectileData
     public float lifetime;
     public DamageData damageData;
     public ProjectileMoveSO moveSO;
+
+    public EventReference ev_audio;
 
 
 }

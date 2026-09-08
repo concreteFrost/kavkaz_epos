@@ -24,6 +24,8 @@ public class BonfirePanelUI : MonoBehaviour
 
     [HideInInspector] public GameObject activePanel;
 
+    public static Action BonfirePanelOpened;
+
     private void OnEnable()
     {
         travelSectionButton.onClick.AddListener(() => HideTravelPanel(false));
@@ -42,6 +44,10 @@ public class BonfirePanelUI : MonoBehaviour
         bonfirePanel.SetActive(isActive);
         HideTravelPanel(true);
 
+        if (isActive)
+        {
+            BonfirePanelOpened?.Invoke();
+        }
 
 
     }

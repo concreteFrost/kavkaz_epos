@@ -39,7 +39,8 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     {
         //var attack = projectileSO.attackSO;
         //attack.Execute(this);
-        projectileSO.attackSO.Execute(this,projectileSO.amountToSpawn,projectileSO.spawnDelay);    
+        projectileSO.attackSO.Execute(this,projectileSO.amountToSpawn,projectileSO.spawnDelay);
+        AudioEventPlayer.Play3DOneShot(projectileSO.ev_audio, gameObject, "ProjectileState",0);
        
     }
 

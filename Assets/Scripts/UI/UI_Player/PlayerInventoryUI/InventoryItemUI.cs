@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,6 +13,8 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     
     public Action<RectTransform> ItemSelected;
     public Action<ItemSO> ItemOutlined;
+
+
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
         if (clickCount < 2) return;
 
         HandleItemEvent();
+        
     }
 
     public void OnSubmit(BaseEventData eventData)
@@ -59,6 +63,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
 
         ToggleOutlineImage(true);
         if(currentItem !=null) ItemOutlined?.Invoke(currentItem.itemSO);
+        
    
     }
     public void OnDeselect(BaseEventData eventData)

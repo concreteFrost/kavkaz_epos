@@ -103,7 +103,7 @@ public static class AudioEventPlayer
 
     #region Control
 
-    public static void Stop(EventInstance instance, bool fadeOut = true)
+    public static void StopAndRelease(EventInstance instance, bool fadeOut = true)
     {
         if (!instance.isValid())
             return;

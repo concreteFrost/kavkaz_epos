@@ -1,24 +1,28 @@
-using System.Collections;
+using FMOD.Studio;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour, IProjectile
 {
     private Vector3 currentDir;
-    private float aliveTime = 0;
+    private float aliveTime;
+    private float currLifeTime;
 
     public ProjectileData data;
-    float currLifeTime; //текущий жизненый цикл
-    [SerializeField] DamageCollider damageCollider;
 
-    [SerializeField] GameObject lifetimeParticles;
-    [SerializeField] GameObject hitParticles;
+    [SerializeField] private DamageCollider damageCollider;
+    [SerializeField] private GameObject lifetimeParticles;
+    [SerializeField] private GameObject hitParticles;
 
-    Coroutine destroyCoroutine = null;
+    private Transform emitterPosition;
+    private EventInstance audioEvent;
 
-    Transform emitterPosition;
-    
-    void Update()
+    private bool isDestroying;
+
+    private void Update()
     {
+        if (isDestroying)
+            return;
+
         Vector3 velocity = data.moveSO.Move(
             emitterPosition,
             transform,
@@ -31,69 +35,125 @@ public class Projectile : MonoBehaviour, IProjectile
         aliveTime += Time.deltaTime;
         currLifeTime += Time.deltaTime;
         currentDir = velocity.normalized;
-        
 
-        if (!damageCollider.isAttackRegistered)
+        // Попадание
+        if (damageCollider.isAttackRegistered)
         {
-            transform.position += velocity * Time.deltaTime;
+            OnHit();
+            return;
         }
 
-        else if (damageCollider.isAttackRegistered)
-        {
-            damageCollider.DisableCollider();   
-            ActivateHitParticles();
-            PerformDestroy();
-        }
-
+        // Истёк lifetime
         if (currLifeTime >= data.lifetime)
         {
-            damageCollider.DisableCollider();
-            PerformDestroy();
+            OnLifetimeEnd();
+            return;
         }
-           
+
+        transform.position += velocity * Time.deltaTime;
     }
 
     public void Init(ProjectileData data)
     {
         this.data = data;
+
+        aliveTime = 0f;
+        currLifeTime = 0f;
+        isDestroying = false;
+
         currentDir = data.baseDir;
         emitterPosition = data.source.Source();
 
         if (damageCollider == null)
-        {
             damageCollider = GetComponentInChildren<DamageCollider>();
-        }
 
         damageCollider.Init();
-        damageCollider.EnableCollider(data.damageData, data.source.TargetsToIgnore, data.source);
+
+        damageCollider.EnableCollider(
+            data.damageData,
+            data.source.TargetsToIgnore,
+            data.source
+        );
 
         ActivateLifetimeParticles();
+
+        // Projectile: Lifetime -> Destroy
+        audioEvent = AudioEventPlayer.Play3D(
+            data.ev_audio,
+            gameObject,
+            "ProjectileState",
+            1f
+        );
+    }
+
+    private void OnHit()
+    {
+        damageCollider.DisableCollider();
+
+        ActivateHitParticles();
+
+        SetDestroyAudioState(true);
+
+        PerformDestroy();
+    }
+
+    private void OnLifetimeEnd()
+    {
+        damageCollider.DisableCollider();
+
+        ActivateHitParticles();
+
+        SetDestroyAudioState();
+
+        PerformDestroy();
+    }
+
+    private void SetDestroyAudioState(bool playHit = false)
+    {
+        if (!audioEvent.isValid())
+            return;
+
+        if (playHit)
+        {
+            AudioEventPlayer.SetParameter(audioEvent,"ProjectileState",2f);
+            audioEvent.release();
+        }
+
+        else
+        {
+            AudioEventPlayer.StopAndRelease(audioEvent, false);
+        }
+
+        
 
     }
 
     private void PerformDestroy()
     {
-        if (destroyCoroutine != null) return;
-        destroyCoroutine = StartCoroutine(DestroyCoroutine());  
+        if (isDestroying)
+            return;
+
+        isDestroying = true;
+
+        StartCoroutine(DestroyCoroutine());
     }
 
     private void ActivateLifetimeParticles()
     {
-        lifetimeParticles.gameObject.SetActive(true);
-        hitParticles.gameObject.SetActive(false);
+        lifetimeParticles.SetActive(true);
+        hitParticles.SetActive(false);
     }
 
     private void ActivateHitParticles()
     {
-        lifetimeParticles.gameObject.SetActive(false);
-        hitParticles.gameObject.SetActive(true);
+        lifetimeParticles.SetActive(false);
+        hitParticles.SetActive(true);
     }
 
-    private IEnumerator DestroyCoroutine()
+    private System.Collections.IEnumerator DestroyCoroutine()
     {
         yield return new WaitForSeconds(3f);
+
         Destroy(gameObject);
     }
-
-
 }

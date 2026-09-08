@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerUIManager : MonoBehaviour
@@ -28,6 +29,12 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Money")]
     [SerializeField] private PlayerMoneyUI moneyUI;
 
+    #endregion
+
+    #region Sound Actions
+
+    public static Action<bool> UiToggled;
+    
     #endregion
 
     #region Initialization
@@ -131,11 +138,13 @@ public class PlayerUIManager : MonoBehaviour
 
         inventoryUI.ToggleInventory(true);
         inventoryUI.GetSection(InventorySection.Weapons);
+        UiToggled?.Invoke(true);
     }
 
     private void OpenMenuPanel()
     {
         menuOptionsUI.ToggleMenuOptions(true);
+        UiToggled?.Invoke(true);
     }
 
 
@@ -146,7 +155,8 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
-      
+        //UiToggled?.Invoke(false);
+
     }
 
     #endregion
@@ -156,11 +166,14 @@ public class PlayerUIManager : MonoBehaviour
     public void ToggleInventoryPanel(bool isVisible)
     {
         inventoryUI.ToggleInventory(isVisible);
+        UiToggled?.Invoke(isVisible);
     }
 
     public void ToggleMenuOptions(bool isVisible)
     {
         menuOptionsUI.ToggleMenuOptions(isVisible);
+
+        UiToggled?.Invoke(isVisible);
     }
 
     public void HideAdditionalPanels(GameState state)

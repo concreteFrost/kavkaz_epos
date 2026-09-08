@@ -34,7 +34,7 @@ public class GlobalAudioManager : MonoBehaviour
         if (!currentMusic.isValid())
             return;
 
-        AudioEventPlayer.Stop(currentMusic, fade);
+        AudioEventPlayer.StopAndRelease(currentMusic, fade);
         currentMusic.clearHandle();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class LootSmallPanelUI : MonoBehaviour
 
 
     private Vector2 targetPosition;
+
+    public static Action ItemSlide;
 
     private void Awake()
     {
@@ -64,6 +67,8 @@ public class LootSmallPanelUI : MonoBehaviour
         slidePanel.anchoredPosition = startPos;
 
         float time = 0;
+
+        ItemSlide?.Invoke();
 
         while (time < slideDuration)
         {
