@@ -13,7 +13,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
     [SerializeField] GameObject upgraderPanelPrefab;
 
     public Action<int> PointsUpdated;
-    public Action<int> LevelUpdated;
+    public static Action LevelUpdated;
 
     Dictionary<StatInfoPanelUI, StatType> statDatas = new Dictionary<StatInfoPanelUI, StatType>();
     StatsUpgraderPanelUI upgraderPanelUI;
@@ -125,6 +125,8 @@ public class PlayerLevelControllerUI : MonoBehaviour
         {
             panel.UpdatePointsUI();
         }
+
+        LevelUpdated?.Invoke();
 
     }
 

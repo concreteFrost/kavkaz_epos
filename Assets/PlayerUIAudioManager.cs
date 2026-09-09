@@ -13,8 +13,13 @@ public class PlayerUIAudioManager : MonoBehaviour
         LootSmallPanelUI.ItemSlide += OnItemSlide;
         PlayerUIManager.UiToggled += OnUiToggled;
         BonfirePanelUI.BonfirePanelOpened += OnBonfirePanelOpened;
+        BonfireManager.TravelStarted += OnTravelStarted;
+        Bonfire.BonfireDiscovered += OnBonfireDiscovered;
+        CharacterLevelController.NewLevelReachedWithMessage += OnNewLevelReached;
+        PlayerLevelControllerUI.LevelUpdated += OnPlayerLevelUpdated;
     }
 
+    
    
 
     private void OnDisable()
@@ -23,6 +28,10 @@ public class PlayerUIAudioManager : MonoBehaviour
         LootSmallPanelUI.ItemSlide -= OnItemSlide;
         PlayerUIManager.UiToggled -= OnUiToggled;
         BonfirePanelUI.BonfirePanelOpened -= OnBonfirePanelOpened;
+        BonfireManager.TravelStarted -= OnTravelStarted;
+        Bonfire.BonfireDiscovered -= OnBonfireDiscovered;
+        CharacterLevelController.NewLevelReachedWithMessage -= OnNewLevelReached;
+        PlayerLevelControllerUI.LevelUpdated -= OnPlayerLevelUpdated;
     }
 
 
@@ -33,6 +42,14 @@ public class PlayerUIAudioManager : MonoBehaviour
     private void OnUiToggled(bool isVisible)=> AudioEventPlayer.Play2DOneShot(isVisible ? audioBankSO.ev_menu_opened : audioBankSO.ev_menu_opened);
 
     private void OnBonfirePanelOpened() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_menu_opened);
+
+    private void OnTravelStarted() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_travel_started);
+
+    private void OnNewLevelReached() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_new_level_available);
+
+    private void OnPlayerLevelUpdated() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_player_level_updated);
+
+    private void OnBonfireDiscovered() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_bonfire_discovered);
 
 
 

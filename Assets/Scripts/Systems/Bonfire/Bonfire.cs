@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using System;
 using UnityEngine;
 
@@ -23,6 +25,11 @@ public class Bonfire : MonoBehaviour, IInteractable
     public bool isDiscovered;
 
     public static Action BonfireInteracted;
+
+    public static Action BonfireDiscovered;
+
+    public EventReference ev_burning;
+    private EventInstance burningEventInstance;
 
     #region IInteractable Contract
     public string InteractionName() => "Bonfire";
@@ -71,8 +78,11 @@ public class Bonfire : MonoBehaviour, IInteractable
     public void DiscoverBonfire()
     {
         particles.Play();
-        isDiscovered = true; 
+        isDiscovered = true;
+        burningEventInstance =  AudioEventPlayer.Play3D(ev_burning, gameObject);
         BonfireManager.BonfireStatesUpdated?.Invoke();
+        
+        BonfireDiscovered?.Invoke(); // для аудио уведомлений
 
     }
 
@@ -89,6 +99,10 @@ public class Bonfire : MonoBehaviour, IInteractable
         if (isDiscovered)
         {
             particles.Play();
+
+            AudioEventPlayer.StopAndRelease(burningEventInstance, false);
+
+            burningEventInstance = AudioEventPlayer.Play3D(ev_burning, gameObject);
         }
     }
 
@@ -101,6 +115,11 @@ public class Bonfire : MonoBehaviour, IInteractable
         Gizmos.color = new Color(0f, 1f, 0f, 0.5f);
         Gizmos.DrawSphere(respawnPosition.position, .5f);
 
+    }
+
+    private void OnDestroy()
+    {
+        AudioEventPlayer.StopAndRelease(burningEventInstance, true);
     }
 
 

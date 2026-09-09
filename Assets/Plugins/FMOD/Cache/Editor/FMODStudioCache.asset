@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639244814787950766
+  lastModified: 639245742234958181
   FileSizes:
   - Name: 
-    Value: 2674
+    Value: 3010
   Exists: 1
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
@@ -74,6 +74,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1153
+--- !u!114 &-7717540072779594309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Bonfire/BonfireBurn
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambience/Bonfire/BonfireBurn
+  Guid:
+    Data1: -993611256
+    Data2: 1173195636
+    Data3: -1539891047
+    Data4: 1332148101
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 35
+  Length: 4798
 --- !u!114 &-7578164995170158486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +128,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
+--- !u!114 &-6530773842337098426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Events/PlayerLevelUpdated
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Events/PlayerLevelUpdated
+  Guid:
+    Data1: 247212768
+    Data2: 1162940530
+    Data3: 2128086171
+    Data4: 338821151
+  Banks:
+  - {fileID: -631566331725824958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
+--- !u!114 &-6450007387864298522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Events/Travel
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Events/Travel
+  Guid:
+    Data1: -206128913
+    Data2: 1239531331
+    Data3: -161627512
+    Data4: 606766050
+  Banks:
+  - {fileID: -631566331725824958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3960
 --- !u!114 &-5977423965903560665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +223,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Combat.bank
   Name: Combat
   StudioPath: bank:/Combat
-  lastModified: 639244726264328845
+  lastModified: 639245747854058793
   FileSizes: []
   Exists: 1
 --- !u!114 &-5523865168224875757
@@ -193,6 +274,7 @@ MonoBehaviour:
     Data4: -1615089815
   Banks:
   - {fileID: -2295876193395353989}
+  - {fileID: -631566331725824958}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -428,7 +510,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639244817217217067
+  lastModified: 639245647240397457
   FileSizes: []
   Exists: 1
 --- !u!114 &-1842775882343561724
@@ -446,7 +528,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639242005606951843
+  lastModified: 639245745656153438
   FileSizes: []
   Exists: 1
 --- !u!114 &-1579786893638227004
@@ -503,6 +585,24 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
+--- !u!114 &-631566331725824958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Events.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/Desktop/Events.bank
+  Name: Events
+  StudioPath: bank:/Events
+  lastModified: 639245739394092127
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-62937419605210456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +650,7 @@ MonoBehaviour:
   - {fileID: 3642747431287921295}
   - {fileID: -4050019964733371028}
   - {fileID: -2295876193395353989}
+  - {fileID: -631566331725824958}
   EditorEvents:
   - {fileID: 7825060913592549221}
   - {fileID: 2973075931113272389}
@@ -579,12 +680,18 @@ MonoBehaviour:
   - {fileID: -1416010490704256525}
   - {fileID: 7135498236481081438}
   - {fileID: 3186247269962872574}
+  - {fileID: 8727351524714554428}
+  - {fileID: -6450007387864298522}
+  - {fileID: 5391246328826907050}
+  - {fileID: -6530773842337098426}
+  - {fileID: 2600891450951501730}
+  - {fileID: -7717540072779594309}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639244817217217067
+  cacheTime: 639245747854058793
   cacheVersion: 131637
 --- !u!114 &124284385479090215
 MonoBehaviour:
@@ -601,7 +708,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Characters.bank
   Name: Characters
   StudioPath: bank:/Characters
-  lastModified: 639242163721434356
+  lastModified: 639245746927792090
   FileSizes: []
   Exists: 1
 --- !u!114 &776064580544443240
@@ -885,6 +992,33 @@ MonoBehaviour:
   - Lifetime
   - Destroy
   Exists: 1
+--- !u!114 &2600891450951501730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Events/BonfireDiscovered
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Events/BonfireDiscovered
+  Guid:
+    Data1: 945979143
+    Data2: 1242685928
+    Data3: 718963388
+    Data4: -1608883001
+  Banks:
+  - {fileID: -631566331725824958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2348
 --- !u!114 &2973075931113272389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,6 +1233,33 @@ MonoBehaviour:
   - Wood
   - Sand
   Exists: 1
+--- !u!114 &5391246328826907050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Events/LevelUpAvailable
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Events/LevelUpAvailable
+  Guid:
+    Data1: 1716806658
+    Data2: 1074621585
+    Data3: -1486510439
+    Data4: -231050356
+  Banks:
+  - {fileID: -631566331725824958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4200
 --- !u!114 &6045900870541245149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,7 +1275,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639244814787940773
+  lastModified: 639245742234947968
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -1281,3 +1442,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1253
+--- !u!114 &8727351524714554428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Buttons/ButtonSubmit_var3
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI/Buttons/ButtonSubmit_var3
+  Guid:
+    Data1: -1484870665
+    Data2: 1277536952
+    Data3: 1972879779
+    Data4: -1437098407
+  Banks:
+  - {fileID: -2295876193395353989}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 771

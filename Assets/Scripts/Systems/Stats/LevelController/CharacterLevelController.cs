@@ -37,6 +37,14 @@ public class CharacterLevelController : MonoBehaviour
         CalculateXPToNextLevel();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AddXP(10);
+        }
+    }
+
     public CharacterLevelData SaveLevelData()
     {
         return new CharacterLevelData()

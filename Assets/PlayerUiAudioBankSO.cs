@@ -15,9 +15,14 @@ public class PlayerUiAudioBankSO : ScriptableObject
     //public EventReference ev_menu_icon_hover;
 
 
-    [Header("Items")]
+    [Header("Game Events")]
     public EventReference ev_item_grabbed;
     public EventReference ev_item_card_slide;
+    public EventReference ev_travel_started;
+    public EventReference ev_new_level_available;
+    public EventReference ev_player_level_updated;
+    public EventReference ev_bonfire_discovered;
+   
 
 
     

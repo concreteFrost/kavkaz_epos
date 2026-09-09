@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class BonfireManager : MonoBehaviour
     public List<Bonfire> bonfires = new List<Bonfire>();
 
     public static Action BonfireStatesUpdated; // для обновления levelInfoUI
+    public static Action TravelStarted;
     string biomName;
 
     public void Init(string biomName)
@@ -38,6 +38,7 @@ public class BonfireManager : MonoBehaviour
         {
             
             SceneTransitionManager.Instance.TravelToLevel(biomName, match.GetRespawnPosition());
+            TravelStarted?.Invoke();
             //GameStateManager.GameStateChanged?.Invoke(GameState.Game);
         }
     }
