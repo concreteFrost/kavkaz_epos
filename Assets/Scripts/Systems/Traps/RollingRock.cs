@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 
 public class RollingRock : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class RollingRock : MonoBehaviour
 
     private Coroutine hideCoroutine;
     private Coroutine activationCoroutine;
+
+    [SerializeField] private EventReference ev_hit;
 
     public void Init()
     {
@@ -149,4 +152,19 @@ public class RollingRock : MonoBehaviour
         HideRock();  
         hideCoroutine = null;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        bool isMoving =
+            rb.linearVelocity.sqrMagnitude > stopVelocity * stopVelocity ||
+            rb.angularVelocity.sqrMagnitude > stopAngularVelocity * stopAngularVelocity;
+
+        if (!isMoving)
+            return;
+
+        // ЗДЕСЬ ЗВУК УДАРА FMOD
+        AudioEventPlayer.Play3DOneShot(ev_hit, gameObject);
+    }
+
+
 }
