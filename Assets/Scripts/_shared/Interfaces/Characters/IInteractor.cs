@@ -1,3 +1,5 @@
+
+using UnityEngine;
 public interface IInteractor
 {
     string CollectorId();
@@ -11,4 +13,6 @@ public interface IInteractor
     void StartInteracion();
     void FinishInteraction();
     void DistributeItemToInventory(ItemData data);
+
+    Vector3 InteractorPosition();
 }

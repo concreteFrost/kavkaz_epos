@@ -24,6 +24,9 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     }
 
 
+    public Vector3 InteractorPosition() => self.position;
+
+
     public bool CanPreventWeaponDamage() => Damagable.CharacterType != CharacterType.Player; // оружие ломаетс€ только у игрока
 
     private float interactRadius = 1f;
@@ -156,7 +159,8 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         {
             Transform targetTransform = ((MonoBehaviour)candidate).transform;
 
-            if (!IsFacingTarget(targetTransform))
+            float targetAngle = type == ItemInteractionType.Chest ? 60 : 90f;
+            if (!IsFacingTarget(targetTransform,targetAngle))
                 return; //не смотрим Ч не даЄм взаимодействовать
         }
 
@@ -187,4 +191,5 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     }
 
     public abstract void DistributeItemToInventory(ItemData data);
+
 }

@@ -90,6 +90,8 @@ public class GameRunner : MonoBehaviour
     public void BootstrapLevel()
     {
         activeLevel = FindAnyObjectByType<LevelManager>();
+
+        if(activeLevel !=null)
         GlobalAudioManager.Instance.PlayMusic(activeLevel.BiomMusic());
 
     }
@@ -115,6 +117,8 @@ public class GameRunner : MonoBehaviour
     public void OnNewGameStarted()
     {
         Bootstrap();
+
+        if(activeLevel != null)
         Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
 
     }

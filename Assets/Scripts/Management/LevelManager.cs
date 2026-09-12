@@ -44,7 +44,6 @@ public class LevelManager : MonoBehaviour
     {
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
         LevelLoaded?.Invoke(biomInfoSO.biomName);
-
     }
 
     private void OnDisable()
