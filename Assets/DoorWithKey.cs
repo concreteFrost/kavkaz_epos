@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class DoorWithKey : Door
 {
     [SerializeField] KeyItemSO doorKeySO;
 
-
-    public override void OpenDoor(IInteractor interactor)
+    public override void OpenDoor(IInteractor interactor,float delay=0f)
     {
         if (interactor is not PlayerInteractionController) return;
 
@@ -32,14 +29,10 @@ public class DoorWithKey : Door
 
         SendDoorMessage($"{doorKeySO.itemName} использован.");
 
-        StartCoroutine(OpenWithDelay(interactor));
-    }
-
-    private IEnumerator OpenWithDelay(IInteractor interactor)
-    {
         PlayUnlockedEvent();
-        yield return new WaitForSeconds(2f);
 
-        base.OpenDoor(interactor);
+        base.OpenDoor(interactor, 1.5f);
     }
+
+
 }
