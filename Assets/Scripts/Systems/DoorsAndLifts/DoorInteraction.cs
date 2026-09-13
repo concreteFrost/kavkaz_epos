@@ -4,7 +4,9 @@ public class DoorInteraction : MonoBehaviour, IInteractable
 {
     [SerializeField] Door door;
 
-    public string InteractionName() => "Door";
+    [SerializeField] bool isInteractableSide = true;
+
+    public string InteractionName() => door.doorName;
 
     public ItemInteractionType InteractType() => ItemInteractionType.Door;
     public bool HasInteracted 
@@ -14,16 +16,30 @@ public class DoorInteraction : MonoBehaviour, IInteractable
     }
 
 
-    public string ActionText() => !door.isOpened ? "Open" : "";
+    public string ActionText() => !door.isOpened ? "Открыть" : "";
 
-    public bool CanInteract() => !door.isOpened && !door.isLocked;
+    public bool CanInteract() => !door.isOpened;
 
     public void Interact(IInteractor picker)
     {
+      
         if (!CanInteract())
             return;
+
+        if (!isInteractableSide)
+        {
+            door.SendDoorMessage("c этой стороны не открыть");
+            door.PlayLockedEvent();
+            return;
+        }
 
         door.OpenDoor(picker);
     }
 
+    private void OnDrawGizmos()
+    {
+        Color isInteractable = isInteractableSide ? Color.green : Color.red;
+        GizmoDrawer.DrawWithCube(isInteractable, transform, transform.localScale);
+    }
 }
+

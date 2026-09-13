@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private HubManager hubManager;
     [SerializeField] private TrapsManager trapsManager;
 
+    [SerializeField] private DoorsManager doorsManager;
+
     public static Action<string> LevelInfoUpdated;
     public static Action<string> LevelLoaded;
 
@@ -65,7 +67,8 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.Init(GetLevelName());
         bossesManager?.Init();
         hubManager?.Init();  
-        trapsManager?.Init();   
+        trapsManager?.Init();
+        doorsManager?.Init();
     }
 
     #endregion
@@ -126,6 +129,11 @@ public class LevelManager : MonoBehaviour
             levelState.trapStates = trapsManager.SaveTrapState();
         }
 
+        if(doorsManager != null)
+        {
+            levelState.doorsState = doorsManager.SaveDoorsState();
+        }
+
         return levelState;
     }
 
@@ -146,7 +154,8 @@ public class LevelManager : MonoBehaviour
         bonfireManager?.LoadBonfireDatas(state);
         bossesManager?.LoadBossesState(state);
         hubManager?.LoadHubState(state);
-        trapsManager?.LoadTrapsData(state); 
+        trapsManager?.LoadTrapsData(state);
+        doorsManager?.LoadDoorsState(state);
       
         LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
 

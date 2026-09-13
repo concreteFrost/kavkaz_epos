@@ -10,7 +10,9 @@ public class LevelState
     public List<LootState> staticLootStates = new List<LootState>(); 
     public List<DynamicLootState> dynamicLootStated = new List<DynamicLootState>();
 
-    public List<TrapState> trapStates  = new List<TrapState>();  
+    public List<TrapState> trapStates  = new List<TrapState>();
+
+    public List<DoorState> doorsState = new List<DoorState>();
   
     public List<BonfireState> bonfireStates = new List<BonfireState>();
     public List<BossArenaState> bossArenaStates = new List<BossArenaState>();

@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a1626a91688f34a9b82791113d41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  door: {fileID: 113161464355787937}
+  door: {fileID: -1502779873828634180}
+  isInteractableSide: 1
 --- !u!1 &2907212428695140830
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a1626a91688f34a9b82791113d41b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteraction
-  door: {fileID: 113161464355787937}
+  door: {fileID: -1502779873828634180}
+  isInteractableSide: 1
 --- !u!1 &6056673402784691170
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +294,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2012269139446449705}
+  - component: {fileID: 2635553585365047396}
+  - component: {fileID: -1502779873828634180}
+  - component: {fileID: -6835684350920120236}
   m_Layer: 0
   m_Name: Door_generic_prefab
   m_TagString: Untagged
@@ -316,6 +321,67 @@ Transform:
   - {fileID: 7348456729221707917}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2635553585365047396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281291582643989930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3140e620c5068745b0a6f6265cc312a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabelHolder
+  objectName: "\u041E\u0442\u043A\u0440\u044B\u0442\u0430\u044F \u0434\u0432\u0435\u0440\u044C"
+  col: {r: 1, g: 1, b: 1, a: 0}
+  isVisible: 1
+  fontSize: 18
+--- !u!114 &-1502779873828634180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281291582643989930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be27d037cd9f4746b76ee9645a30d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  openAngle: 90
+  openSpeed: 3
+  doorPivot: {fileID: 2466301131733029913}
+  ev_doorState:
+    Guid:
+      Data1: -10565103
+      Data2: 1176489440
+      Data3: -1865708119
+      Data4: -1000397287
+    Path: event:/Ambience/Doors/DoorState
+  ev_doorSlide:
+    Guid:
+      Data1: -1997459641
+      Data2: 1202781522
+      Data3: -537851762
+      Data4: -1634884611
+    Path: event:/Ambience/Doors/DoorSlideWooden
+  doorName: "\u0421\u0442\u0430\u0440\u0430\u044F \u0434\u0432\u0435\u0440\u044C"
+  isOpened: 0
+  id: 
+--- !u!114 &-6835684350920120236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281291582643989930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniqueId
+  uniqueId: 
 --- !u!1001 &2715871453284807666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -378,9 +444,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36b70d42e06c2ec438ff42d417baf233, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 113161464355787937}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36b70d42e06c2ec438ff42d417baf233, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1614213549703303983}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36b70d42e06c2ec438ff42d417baf233, type: 3}
       insertIndex: -1
@@ -396,22 +459,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 36b70d42e06c2ec438ff42d417baf233, type: 3}
   m_PrefabInstance: {fileID: 2715871453284807666}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &113161464355787937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2986413645973884579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be27d037cd9f4746b76ee9645a30d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  openAngle: 90
-  openSpeed: 3
-  isOpened: 0
-  isLocked: 0
 --- !u!65 &1614213549703303983
 BoxCollider:
   m_ObjectHideFlags: 0

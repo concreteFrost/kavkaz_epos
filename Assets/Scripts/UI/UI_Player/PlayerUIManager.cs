@@ -29,6 +29,9 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Money")]
     [SerializeField] private PlayerMoneyUI moneyUI;
 
+    [Header("Player Messages")]
+    [SerializeField] private PlayerEventMessagesUI eventMessagesUI;
+
     #endregion
 
     #region Sound Actions
@@ -45,6 +48,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsModifier statsModifier,
         CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
+        PlayerKeyItemsInventory keyItemsInventory,
         PlayerConsumableInventory consumableInventory,
         HumanoidWeaponSetter weaponSetter,
         PlayerTargetLock targetLock,
@@ -57,6 +61,7 @@ public class PlayerUIManager : MonoBehaviour
             statsModifier:statsModifier,
             spellInventory:spellInventory,
             weaponInventory:weaponInventory, 
+            keyItemsInventory:keyItemsInventory,
             consumableInventory: consumableInventory,
             weaponSetter: weaponSetter,
             targetLock: targetLock, 
@@ -68,6 +73,7 @@ public class PlayerUIManager : MonoBehaviour
         menuOptionsUI.Init(levelControllerUI);
         interactionUI.Init(interactionController);
         moneyUI.Init(moneyManager);
+        eventMessagesUI.Init();
 
 
     }
@@ -77,6 +83,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsModifier statsModifier,
         CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
+        PlayerKeyItemsInventory keyItemsInventory,
         PlayerConsumableInventory consumableInventory,
         HumanoidWeaponSetter weaponSetter,
         CharacterConsumeController consumeController,
@@ -89,6 +96,7 @@ public class PlayerUIManager : MonoBehaviour
             consumableInventory:consumableInventory,
             statsController:stats);
         inventoryUI.Init(descriptionPanel: itemDescriptionPanel,
+            keysInventory: keyItemsInventory,
             weaponInventory: weaponInventory,
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,
@@ -155,6 +163,7 @@ public class PlayerUIManager : MonoBehaviour
         inventoryUI.ToggleInventory(false);
         menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
+        eventMessagesUI.HidePanel();
         //UiToggled?.Invoke(false);
 
     }

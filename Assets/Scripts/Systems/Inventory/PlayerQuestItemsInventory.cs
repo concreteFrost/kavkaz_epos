@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class PlayerQuestItemsInventory : QuickAccessInventory
 {
@@ -8,7 +7,7 @@ public class PlayerQuestItemsInventory : QuickAccessInventory
 
        RemoveFromInventory(data);
 
-        Notify();
+       Notify();
     }
 
     public void Init()

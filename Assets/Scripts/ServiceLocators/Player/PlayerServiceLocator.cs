@@ -64,6 +64,7 @@ public class PlayerServiceLocator : MonoBehaviour
     [SerializeField] public CharacterSpellInventory spellInventory;
     [SerializeField] public PlayerConsumableInventory consumableInventory;
     [SerializeField] public PlayerQuestItemsInventory questItemsInventory;
+    [SerializeField] public PlayerKeyItemsInventory keysInventory;
 
     [Header("Экононмика")]
     [SerializeField] public PlayerMoneyManager moneyManager;    
@@ -84,8 +85,6 @@ public class PlayerServiceLocator : MonoBehaviour
 
     [Header("Система прицеливания")]
     [SerializeField] private PlayerTargetLock targetLock;
-
-   
 
     [Header("UI")]
     [SerializeField] private PlayerUIManager uiManager;
@@ -211,6 +210,7 @@ public class PlayerServiceLocator : MonoBehaviour
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,
             weaponInventory:weaponInventory,
+            keyInventory:keysInventory,
             questItemsInventory:questItemsInventory,
             lifeCycle:lifecycle,
             moneyManager:moneyManager);
@@ -284,11 +284,7 @@ public class PlayerServiceLocator : MonoBehaviour
         spellInventory.SetDefaultQuickSlotData();
         consumableInventory.Init(combatInventory:weaponSetter,statsModifier:statsModifier,pointsCollector:pointsCollector);
         questItemsInventory.Init();
-    }
-
-    private void InitMoney()
-    {
-
+        keysInventory.Init();
     }
 
     private void InitLifecycle()
@@ -312,6 +308,7 @@ public class PlayerServiceLocator : MonoBehaviour
             spellInventory: spellInventory,
             consumableInventory: consumableInventory, 
             weaponInventory: weaponInventory,
+            keyItemsInventory:keysInventory,
             weaponSetter: weaponSetter,
             targetLock: targetLock,levelController:levelController,
             consumeController:consumeController,

@@ -10,7 +10,12 @@ public class PlayerInteractionController : BaseCharacterInteractor
     PlayerConsumableInventory consumableInventory;
     CharacterWeaponInventory weaponInventory;
     PlayerQuestItemsInventory questItemsInventory;
+
+    [HideInInspector]
+    public PlayerKeyItemsInventory keyItemsInventory;
     PlayerMoneyManager moneyManager;
+
+   
 
     public static Action<ItemData> LootCollected;
     public void Init(string collectorId, Transform self,
@@ -25,6 +30,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
         PlayerConsumableInventory consumableInventory,
         CharacterWeaponInventory weaponInventory,
         PlayerQuestItemsInventory questItemsInventory,
+        PlayerKeyItemsInventory keyInventory,
         PlayerMoneyManager moneyManager
         )
     {
@@ -34,7 +40,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
         this.weaponInventory = weaponInventory;
         this.questItemsInventory = questItemsInventory;
         this.moneyManager = moneyManager;
-
+        this.keyItemsInventory = keyInventory;
        
     }
 
@@ -58,8 +64,19 @@ public class PlayerInteractionController : BaseCharacterInteractor
         if (data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data);
         if (data.itemSO is QuestItemSO) questItemsInventory.AddItemToInventory(data);
         if (data.itemSO is MoneyItemSO) moneyManager.AddMoney(data.quantity);
+        if (data.itemSO is KeyItemSO) keyItemsInventory.AddItemToInventory(data);
 
         LootCollected?.Invoke(data);
+    }
+
+    protected override void HandleUpdateInteraction()
+    {
+        if (!canLookForInteraction)
+        {
+            return;
+        }
+
+        UpdateDetection();
     }
 
     public void OnRewardsGranted(List<ItemData> rewards)
@@ -84,13 +101,5 @@ public class PlayerInteractionController : BaseCharacterInteractor
         canLookForInteraction = true;
     }
 
-    protected override void HandleUpdateInteraction()
-    {
-        if (!canLookForInteraction)
-        {
-            return;
-        }
 
-        UpdateDetection();
-    }
 }

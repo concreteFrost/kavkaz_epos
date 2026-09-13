@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8886930429334394367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/DoorState/DoorState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: DoorState
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3265540653
+    data2: 562307453
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Locked
+  - Unlocked
+  Exists: 1
 --- !u!114 &-8848861726020170923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639248127088487648
+  lastModified: 639249032035260504
   FileSizes:
   - Name: 
-    Value: 3148
+    Value: 3286
   Exists: 1
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
@@ -582,7 +608,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639248128000667251
+  lastModified: 639249038335674377
   FileSizes: []
   Exists: 1
 --- !u!114 &-1579786893638227004
@@ -742,13 +768,43 @@ MonoBehaviour:
   - {fileID: -7717540072779594309}
   - {fileID: -3285106054037666904}
   - {fileID: 2338603574290033136}
+  - {fileID: 55454175075174163}
+  - {fileID: 7388925423557090628}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639248128000667251
+  cacheTime: 639249038335674377
   cacheVersion: 131637
+--- !u!114 &55454175075174163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Doors/DoorState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambience/Doors/DoorState
+  Guid:
+    Data1: -10565103
+    Data2: 1176489440
+    Data3: -1865708119
+    Data4: -1000397287
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -8886930429334394367}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &124284385479090215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1358,7 +1414,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639248127088467657
+  lastModified: 639249032035250497
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -1441,6 +1497,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &7388925423557090628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience/Doors/DoorSlideWooden
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ambience/Doors/DoorSlideWooden
+  Guid:
+    Data1: -1997459641
+    Data2: 1202781522
+    Data3: -537851762
+    Data4: -1634884611
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 1248
 --- !u!114 &7622544071630497766
 MonoBehaviour:
   m_ObjectHideFlags: 0

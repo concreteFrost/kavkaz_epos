@@ -149,6 +149,12 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     /// <param name="position">ѕозици€ отображени€ меню (локальные координаты).</param>
     public void ShowContextMenu(ItemData data, Vector2 position)
     {
+        if(data.itemSO is KeyItemSO)
+        {
+            HideContextMenu(true);
+            return;
+
+        }
         if (!WillShowContextMenu(data))
         {
             HideContextMenu(true);

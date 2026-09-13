@@ -12,8 +12,10 @@ public class ItemCreationTool : EditorWindow
     private ShieldCreatorTool shieldTool;
     private QuestItemsCreatorTool questItemsTool;
 
+    private KeyItemsCreatorTool keyItemsTool;
+
     private int selectedTab;
-    private string[] tabs = { "Stat Modifier Items", "Weapon Modifier Items", "Points Emitter Items","Spells","Weapons","Shields","Quest Items" };
+    private string[] tabs = { "Stat Modifier Items", "Weapon Modifier Items", "Points Emitter Items","Spells","Weapons","Shields","Quest Items","Key Items" };
     private Vector2 tabScrollPos; // добавляем поле для прокрутки
    
 
@@ -29,12 +31,11 @@ public class ItemCreationTool : EditorWindow
         weaponTool = CreateInstance<WeaponCreatorTool>();
         shieldTool = CreateInstance<ShieldCreatorTool>();
         questItemsTool = CreateInstance<QuestItemsCreatorTool>();
+        keyItemsTool = CreateInstance<KeyItemsCreatorTool>();
     }
 
     private void OnGUI()
     {
-
-        
         
         tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.Height(50), GUILayout.ExpandWidth(true));
         selectedTab = GUILayout.Toolbar(selectedTab, tabs, GUILayout.Height(25));
@@ -63,6 +64,9 @@ public class ItemCreationTool : EditorWindow
                 break;  
             case 6:
                 questItemsTool.DrawWindow();    
+                break;
+            case 7:
+                keyItemsTool.DrawWindow();
                 break;
         }
     }

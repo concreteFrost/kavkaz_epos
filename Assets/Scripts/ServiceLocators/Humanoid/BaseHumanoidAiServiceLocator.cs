@@ -54,6 +54,15 @@ public abstract class BaseHumanoidAiServiceLocator : MonoBehaviour
     protected EnemyAIAnimatorController animatorController;
     protected HumanoidAgentController agentController;
 
+    private void Start()
+    {
+        if(FindAnyObjectByType<CharactersManager>() == null)
+        {
+            Debug.Log("no character manager found. Initializing character in test mode");
+            Init();
+        }
+    }
+
 
     public virtual void Init()
     {
