@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e45901f01ae0eb49b541d46d5011933, type: 3}
-  m_Name: Stats_Emengen
+  m_Name: Stats_Unsetled_Remains
   m_EditorClassIdentifier: Assembly-CSharp::HumanoidCharacterStatsSO
-  characterName: 
+  characterName: Unsettled Remains
   characterType: 2
-  walkSpeed: 1.5
-  runningSpeed: 4
-  strafeSpeed: 1
+  walkSpeed: 2.2
+  runningSpeed: 6
+  strafeSpeed: 2
   jumpTimer: 0.3
   jumpHeight: 4
-  baseHealth: 150
+  baseHealth: 45
   baseStamina: 100
   baseKnowledge: 100
   baseStrength: 100
-  baseBalance: 100
+  baseBalance: 50
   statMinRegenDelay: 2
   statMaxRegenDelay: 6
   statRegenRate: 15
@@ -31,5 +31,5 @@ MonoBehaviour:
   staminaPushReducePenalty: 15
   staminaJumpReducePenalty: 7
   staminaDodgeReducePenalty: 10
-  canTakeKnockout: 0
+  canTakeKnockout: 1
   eventListenDistance: 25

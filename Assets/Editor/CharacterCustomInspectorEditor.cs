@@ -19,8 +19,9 @@ public class CharacterCustomInspectorEditor : Editor
         DrawDamagable(go);
         DrawCombatInventory(go);
         DrawSpellInventory(go);
-        DrawInitialInventorySetup(go);  
+        DrawInitialInventorySetup(go);
         //DrawCombatBehaviour(go);
+        DrawStats(go);
         DrawBehaviourStats(go);
         DrawLoot(go);
         DrawPointsData(go);
@@ -77,6 +78,8 @@ public class CharacterCustomInspectorEditor : Editor
         so.ApplyModifiedProperties();
     }
 
+  
+
     private void DrawSpellInventory(GameObject go)
     {
         var inventory = go.GetComponentInChildren<CharacterSpellInventory>();
@@ -91,6 +94,23 @@ public class CharacterCustomInspectorEditor : Editor
         EditorGUILayout.PropertyField(
             so.FindProperty("items"),
             true);
+
+        so.ApplyModifiedProperties();
+    }
+
+    private void DrawStats(GameObject go)
+    {
+        var statsController = go.GetComponentInChildren<CharacterStatsController>();
+
+        if (statsController == null)
+            return;
+
+        SerializedObject so = new SerializedObject(statsController);
+
+        so.Update();
+
+        EditorGUILayout.PropertyField(
+            so.FindProperty("statsSO"));
 
         so.ApplyModifiedProperties();
     }
