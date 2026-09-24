@@ -66,7 +66,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
      //       damageController.CanPlayDamagedAnimation = true;
      //   }
 
-        if(!wasAudioPlayer && t>= attack.audioStartTime)
+        if(!wasAudioPlayer && t>= attack.animationInfo.audioStartTime)
         {
             
             weapon.PlaySwing();

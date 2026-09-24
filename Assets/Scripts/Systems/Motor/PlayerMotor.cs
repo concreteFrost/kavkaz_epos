@@ -45,6 +45,8 @@ public class PlayerMotor : BaseHumanoidMotor
         colliderHeight = GetComponent<CapsuleCollider>().height;
 
         _rigidbody.WakeUp();
+
+       
     }
 
     public override void UseRootMotion()
@@ -74,7 +76,7 @@ public class PlayerMotor : BaseHumanoidMotor
 
     public override void UpdateMotor(float jumpHeight)
     {
-
+        
         CheckGround();
         ControlJumpBehaviour(jumpHeight);
         AirControl();

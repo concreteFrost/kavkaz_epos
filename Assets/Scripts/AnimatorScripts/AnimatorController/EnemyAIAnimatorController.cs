@@ -25,7 +25,9 @@ public class EnemyAIAnimatorController : BaseHumanoidAnimatorController
         UpdateLocomotionState(movement);
         UpdateDamageState(damagable);
         //UpdateTargetLockState(targetLocker);
-        UpdateCombatState(attackSource);    
+        UpdateCombatState(attackSource);
+
+        
     }
 }
 

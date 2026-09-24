@@ -62,7 +62,6 @@ public abstract class QuickAccessInventory : MonoBehaviour
                 }
             }
 
-
             InventoryItemSaveData data = new InventoryItemSaveData()
             {
                 id = item.itemSO.id,
@@ -87,7 +86,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
     {
         if (data == null) return;
 
-
+        
 
         var consumables = Resources.LoadAll<ItemSO>($"Items/");
 
@@ -100,8 +99,11 @@ public abstract class QuickAccessInventory : MonoBehaviour
 
         items = new List<ItemData>();
 
+        
+
         foreach (var item in data.items)
         {
+            
             if (!itemsMap.TryGetValue(item.id, out var so))
             {
                 continue;

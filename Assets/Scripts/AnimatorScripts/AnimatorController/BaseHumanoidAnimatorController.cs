@@ -108,10 +108,9 @@ public abstract class BaseHumanoidAnimatorController
             audioManager.PlayWalk();
         }
 
-
-        //Debug.Log(footstep);
-
         lastFootstep = footstep;
+
+   
     }
 
     protected void UpdateCombatState(IHumanoidMeleeCombat combatController)

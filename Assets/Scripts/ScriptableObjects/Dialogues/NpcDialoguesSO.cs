@@ -11,6 +11,18 @@ public class DialogueLine
 }
 
 [Serializable]
+public class NeutralDialogueLine
+{
+    [Tooltip("градация в соотношении с подсчётом выполнения глобальных квестов.")]
+    [Range(0, 1)]
+    public float minProgress;
+
+    public List<DialogueLine> dialogueLines = new();
+
+    
+}
+
+[Serializable]
 public class NpcQuestDialogue
 {
     public QuestSO questToGiveSO;
@@ -29,7 +41,8 @@ public class NpcDialoguesSO : ScriptableObject
 
     public List<NpcQuestDialogue> questDialogueLines = new List<NpcQuestDialogue>();
     public List<DialogueLine> introductionDialogueLines = new List<DialogueLine>();
-    public List<DialogueLine> neutralDialogueLines = new List<DialogueLine>();  
+    [Tooltip("Нейтральные диалоговые линии по мере завершения игрового процесса. рекомендуемая градация 0,.29,.57,.86,1")]
+    public List<NeutralDialogueLine> neutralDialogueLines = new List<NeutralDialogueLine>();  
 
 
 }

@@ -138,7 +138,13 @@ public class DialogueController : MonoBehaviour
             return;
 
         // 3. fallback
-        FillQueue(dialoguesSO.neutralDialogueLines);
+        GiveNeautralLines();
+        
+    }
+
+    protected virtual void GiveNeautralLines()
+    {
+        FillQueue(dialoguesSO.neutralDialogueLines[0].dialogueLines);
     }
 
     // 🔹 COMPLETED
@@ -224,7 +230,7 @@ public class DialogueController : MonoBehaviour
             animatorController.PlayTalk();
     }
 
-    private void FillQueue(List<DialogueLine> lines)
+    protected void FillQueue(IEnumerable<DialogueLine> lines)
     {
         dialogueQueue.Clear();
 
@@ -233,7 +239,6 @@ public class DialogueController : MonoBehaviour
             dialogueQueue.Enqueue(line);
         }
     }
-
 
 
     private void EndDialogue()
@@ -266,4 +271,5 @@ public class DialogueController : MonoBehaviour
         DialogueCompleted?.Invoke();
     }
     #endregion
+
 }

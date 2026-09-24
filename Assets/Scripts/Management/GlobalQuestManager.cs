@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -47,6 +48,30 @@ public class GlobalQuestManager : MonoBehaviour
         {
             StartNewQuest(questSO);
         }
+    }
+
+    /// <summary>
+    /// ¬озвращает прогрессию выполненых глобальных квестов в проц. соотношении
+    /// </summary>
+    /// <returns></returns>
+    public float GetGlobalCompletedQuestState()
+    {
+        if (defaultQuests.Count == 0)
+            return 0f;
+
+        int completedQuests = 0;
+
+        foreach (var quest in defaultQuests)
+        {
+            var match = allQuests.Find(x => x.definition.id == quest.id);
+
+            if (match != null && match.state.isCompleted)
+            {
+                completedQuests++;
+            }
+        }
+
+        return (float)completedQuests / defaultQuests.Count * 100f;
     }
 
     /// <summary>

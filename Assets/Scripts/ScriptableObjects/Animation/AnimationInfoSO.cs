@@ -9,4 +9,6 @@ public class AnimationInfoSO : ScriptableObject
     public float hitEndFrame;
 
     public float animationSpeed = 1f;
+
+    public float audioStartTime = 0f;
 }
