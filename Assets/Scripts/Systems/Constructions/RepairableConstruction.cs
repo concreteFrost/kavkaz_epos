@@ -1,53 +1,78 @@
-using System.Collections.Generic;
-using System;
+using System.Collections;
 using UnityEngine;
 
 [System.Serializable]
-public class RepairableState
+public class BuildingState
 {
     public string id;
     public bool isRepaired;
 }
 
-public class RepairableConstruction : MonoBehaviour, IRepairable
+public class RepairableConstruction : QuestCompletionObserver, IRepairable
 {
-    public RepairableState state;
+
+    [SerializeField] QuestSO targetQuestSO;
 
     [SerializeField] private RepairableConstructionSO repairableSO;
     [SerializeField] GameObject visual;
 
+    [HideInInspector] public string id;
+    private bool isRepaired;
+
     public void Init()
     {
-        state = new RepairableState();
-        state.id = repairableSO.id;
-
+        id = GetComponent<UniqueId>().uniqueId;
         Break();
 
+        if (GlobalQuestManager.Instance.IsQuestCompleted(targetQuestSO))
+        {
+           
+            Repair();
+        }
     }
 
     public void Repair()
     {
-
         visual.SetActive(true);
-        state.isRepaired = true;
+        isRepaired = true;
+
     }
 
     public void Break()
     {
         visual.SetActive(false);
-        state.isRepaired = false;
+        isRepaired = false;
     }
 
-    internal void LoadData(RepairableState construction)
+    protected override void React(QuestSO questSO)
     {
-
-        if (construction.isRepaired)
+        if(questSO.id == targetQuestSO.id)
         {
             Repair();
-            return;
         }
+    }
 
-        Break();
+    public BuildingState SaveState()
+    {
+        return new BuildingState()
+        {
+            id = id,
+            isRepaired = isRepaired
+        };
+    }
+
+    public void LoadData(bool isRepaired)
+    {
+        //this.isRepaired = isRepaired;
+
+        //if (isRepaired)
+        //{
+        //    Repair();
+        //}
+        //else
+        //{
+        //    Break();
+        //}
     }
 }
 

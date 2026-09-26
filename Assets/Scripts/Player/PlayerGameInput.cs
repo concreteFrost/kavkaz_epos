@@ -152,6 +152,7 @@ public class PlayerGameInput : MonoBehaviour
     {
         if (reader.ProceedDialoguePressed)
         {
+           
             reader.Consume(ref reader.ProceedDialoguePressed);
             ProceedDialogue?.Invoke();
         }

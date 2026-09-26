@@ -46,13 +46,13 @@ public class PlayerInteractionController : BaseCharacterInteractor
 
     private void OnEnable()
     {
-        DialogueController.GrandRewards += OnRewardsGranted;
+        GlobalQuestManager.GrandRewards += OnRewardsGranted;
         GameStateManager.GameStateChanged += OnGameStateChanged;
     }
 
     private void OnDisable()
     {
-        DialogueController.GrandRewards -= OnRewardsGranted;
+        GlobalQuestManager.GrandRewards -= OnRewardsGranted;
         GameStateManager.GameStateChanged -= OnGameStateChanged;
     }
 

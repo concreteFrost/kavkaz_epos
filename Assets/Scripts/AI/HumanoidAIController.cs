@@ -34,6 +34,8 @@ public class HumanoidAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (aiMotor == null) return;
+
         UpdateMotor();
         UpdateAnimator();
         ControlSpeed();
@@ -43,6 +45,8 @@ public class HumanoidAIController : MonoBehaviour
 
     private void UpdateMotor()
     {
+       
+
         aiMotor.UpdateMotor(stats.jumpHeight); // присвоить нормальное значение прыжка
     }
 

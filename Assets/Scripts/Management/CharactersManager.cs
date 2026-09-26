@@ -12,26 +12,32 @@ public class CharactersManager : MonoBehaviour
 
     public void Init()
     {
+        
+        FindAllCharacters();
+    }
+
+    private void FindAllCharacters()
+    {
         enemies = GetComponentsInChildren<EnemyServiceLocator>().ToList();
         foreach (EnemyServiceLocator locator in enemies)
         {
             locator.Init();
         }
 
-        friendlyNpcs = GetComponentsInChildren<FriendlyNpcServiceLocator>().ToList();  
-        foreach(FriendlyNpcServiceLocator locator in friendlyNpcs)
+        friendlyNpcs = GetComponentsInChildren<FriendlyNpcServiceLocator>().ToList();
+        foreach (FriendlyNpcServiceLocator locator in friendlyNpcs)
         {
             locator.Init();
         }
 
-        CharacterStatesUpdated?.Invoke();   
+        CharacterStatesUpdated?.Invoke();
     }
 
     public CharactersState SaveCharacters()
     {
         CharactersState state = new CharactersState();
         state.enemyStates = SaveEnemies();
-        state.friendlyNpcStates = SaveFriedlyNpcs();
+        state.friendlyNpcStates = SaveQuestProviderNpcState();
 
         return state;
     }
@@ -60,7 +66,7 @@ public class CharactersManager : MonoBehaviour
         return states;
     }
 
-    private List<FriendlyNpcState> SaveFriedlyNpcs()
+    private List<FriendlyNpcState> SaveQuestProviderNpcState()
     {
         List<FriendlyNpcState> states = new List<FriendlyNpcState>();
 
@@ -78,21 +84,6 @@ public class CharactersManager : MonoBehaviour
             state.npcPosition[2] = position.z;
           
 
-            foreach (var dialogues in npc.dialogueController.dialogueStates)
-            {
-                var questId = dialogues.questDialogue.questToGiveSO.id;
-
-                var dialogueState = new DialogueState()
-                {
-                    questId = questId,
-                    wasQuestCompleted = dialogues.wasQuestCompleted,
-                    wasQuestStarted = dialogues.wasQuestStarted,
-                    wasRewardGiven = dialogues.wasRewardGiven,
-                };
-
-                state.npcQuestsState.Add(dialogueState);
-            }
-
             states.Add(state);  
 
         }
@@ -104,6 +95,8 @@ public class CharactersManager : MonoBehaviour
 
     public void LoadCharactersData(LevelState levelState)
     {
+
+       
         var enemieDatas = levelState.characterStates.enemyStates;
 
         foreach (var enemy in enemieDatas)
@@ -136,7 +129,7 @@ public class CharactersManager : MonoBehaviour
             {
                 match.lifecycle?.Respawn(Vector3.zero); //респавн позиция здесь не важна
                 match.transform.position = new Vector3(friendNpc.npcPosition[0], friendNpc.npcPosition[1], friendNpc.npcPosition[2]);
-                match.dialogueController.LoadData(friendNpc);
+                match.dialogueController.LoadData(friendNpc.wasIntroduced);
 
             }
         }

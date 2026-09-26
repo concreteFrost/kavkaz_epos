@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class RepairableConstructionsManager : MonoBehaviour
 {
     public List<RepairableConstruction> constructions = new List<RepairableConstruction>();
@@ -15,34 +16,37 @@ public class RepairableConstructionsManager : MonoBehaviour
         {
             construction.Init();
         }
+
     }
 
-    internal void LoadConstruction(HubState state)
+    public List<BuildingState> SaveBuildingsState()
     {
-        var loadedConstructions = state.constructions;
-
-        foreach (var construction in loadedConstructions)
+        List<BuildingState> states = new List<BuildingState>();
+        foreach(var b in constructions)
         {
-            var match = constructions.Find((x) => x.state.id == construction.id);
+            BuildingState data = b.SaveState();
 
-            if(match != null)
+            states.Add(data);
+        }
+
+        return states;
+    }
+
+    public void LoadState(HubState hubState)
+    {
+        var buildings = hubState.buildingStates;
+
+        foreach(var state in buildings)
+        {
+            var match = constructions.Find((x) => x.id == state.id);
+
+            if (match != null)
             {
-                match.LoadData(construction);
+                match.LoadData(state.isRepaired);
             }
         }
     }
 
-    internal List<RepairableState> SaveConstructions()
-    {
-        List<RepairableState> states = new List<RepairableState>();
-
-        foreach (var construction in constructions)
-        {
-            states.Add(construction.state); 
-        }
-
-        return states;  
-    }
 
 
 }

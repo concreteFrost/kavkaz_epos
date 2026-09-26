@@ -15,12 +15,13 @@ public class FriendlyNpcServiceLocator : BaseHumanoidAiServiceLocator
     public EnemyFOVController fovController;
 
     [Header("Диалоговая Система")]
-    public NpcDialogueController dialogueController;
+    public DialogueController dialogueController;
 
     public override void Init()
     {
+     
         base.Init();
-        
+
         InteractionInit();
         DialoguesInit();
         CombatInit();
@@ -29,13 +30,10 @@ public class FriendlyNpcServiceLocator : BaseHumanoidAiServiceLocator
     protected override void AnimatorInit()
     {
         animatorController = new EnemyAIAnimatorController();
-        animatorController.Init(animator: animator, overrideController: overrideController, audioManager:characterAudioManager, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
+        animatorController.Init(animator: animator, overrideController: overrideController, audioManager: characterAudioManager, motor: motor, combatController: combatController, targetLock: fovController, damageController: damageController, pushReceiver: pushReceiver);
     }
 
-    protected override void LifecycleInit()
-    {
-        
-    }
+    protected override void LifecycleInit() { }
 
 
 

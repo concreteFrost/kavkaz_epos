@@ -62,6 +62,8 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
 
     private void Update()
     {
+        if (self == null) return;
+
         HandleUpdateInteraction();
     }
 
@@ -96,6 +98,9 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
 
     public IInteractable UpdatePickable()
     {
+
+       
+
         Collider[] hits = Physics.OverlapSphere(
             self.position,
             interactRadius

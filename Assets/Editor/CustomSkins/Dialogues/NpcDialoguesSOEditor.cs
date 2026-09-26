@@ -1,18 +1,20 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(NpcDialoguesSO))]
+[CustomEditor(typeof(NpcQuestDialoguesSO))]
 public class NpcDialoguesSOEditor : Editor
 {
-    SerializedProperty questDialogueLines;
-    SerializedProperty neutralDialogueLines;
-    SerializedProperty introductionDialogueLines;
+    private SerializedProperty questStartedLines;
+    private SerializedProperty questInProgressLines;
+    private SerializedProperty questCompletedLines;
+    private SerializedProperty neutralLines;
 
     private void OnEnable()
     {
-        questDialogueLines = serializedObject.FindProperty("questDialogueLines");
-        neutralDialogueLines = serializedObject.FindProperty("neutralDialogueLines");
-        introductionDialogueLines = serializedObject.FindProperty("introductionDialogueLines");
+        questStartedLines = serializedObject.FindProperty("questStartedLines");
+        questInProgressLines = serializedObject.FindProperty("questInProgressLines");
+        questCompletedLines = serializedObject.FindProperty("questCompletedLines");
+        neutralLines = serializedObject.FindProperty("neutralLines");
     }
 
     public override void OnInspectorGUI()
@@ -20,27 +22,40 @@ public class NpcDialoguesSOEditor : Editor
         serializedObject.Update();
 
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("NPC Dialogues", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("NPC Quest Dialogues", EditorStyles.boldLabel);
 
         EditorGUILayout.Space(5);
-        DrawSection("Quest Dialogues", questDialogueLines);
+        DrawSection("Quest Started", questStartedLines);
 
         EditorGUILayout.Space(5);
-        DrawSection("Introduction Dialogues", introductionDialogueLines);
+        DrawSection("Quest In Progress", questInProgressLines);
+
+        EditorGUILayout.Space(5);
+        DrawSection("Quest Completed", questCompletedLines);
 
         EditorGUILayout.Space(10);
-        DrawSection("Neutral Dialogues", neutralDialogueLines);
+        DrawSection("Neutral", neutralLines);
 
         serializedObject.ApplyModifiedProperties();
     }
 
-    void DrawSection(string title, SerializedProperty property)
+    private void DrawSection(string title, SerializedProperty property)
     {
+        if (property == null)
+        {
+            EditorGUILayout.HelpBox(
+                $"Property \"{title}\" not found.",
+                MessageType.Error);
+
+            return;
+        }
+
         EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
 
         EditorGUILayout.PropertyField(property, true);
 
         EditorGUILayout.BeginHorizontal();
+
         if (GUILayout.Button("Add"))
         {
             property.arraySize++;
@@ -50,6 +65,7 @@ public class NpcDialoguesSOEditor : Editor
         {
             property.ClearArray();
         }
+
         EditorGUILayout.EndHorizontal();
     }
 }

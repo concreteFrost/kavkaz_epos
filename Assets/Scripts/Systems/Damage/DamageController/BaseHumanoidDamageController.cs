@@ -61,6 +61,11 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     }
 
+    private void Awake()
+    {
+        damagableCollider = GetComponent<Collider>();
+    }
+
 
 
     public virtual void PerformKnockout(Vector3 source, float impactForce) { }
@@ -98,6 +103,8 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
 
     public virtual void TakeDamage(DamageData damageData, IAttackSource source)
     {
+
+       
 
         if (damageData.statusEffectData != null)
         {

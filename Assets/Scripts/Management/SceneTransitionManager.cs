@@ -83,7 +83,7 @@ public class SceneTransitionManager : MonoBehaviour
 
         yield return TransitionToScene(data.currentLevelName, () =>
         {
-            SaveLoaded?.Invoke(data);
+           SaveLoaded?.Invoke(data);
         }, GameState.Game);
 
         loadGameCoroutine = null;

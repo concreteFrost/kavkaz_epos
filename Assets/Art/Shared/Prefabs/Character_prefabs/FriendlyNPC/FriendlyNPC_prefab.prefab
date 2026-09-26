@@ -487,6 +487,7 @@ GameObject:
   - component: {fileID: 2684709638896895778}
   - component: {fileID: 8790384767907652339}
   - component: {fileID: 5718778844693777553}
+  - component: {fileID: 4225277095265392141}
   m_Layer: 2
   m_Name: FriendlyNPC_prefab
   m_TagString: Enemy
@@ -540,7 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_db708014-435e-4fb5-9d72-05504a2b80f3
+  uniqueId: uid_be0ca6cd-5a4e-4d55-ad26-8231cb0d93df
 --- !u!195 &4470473190865221157
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -681,6 +682,18 @@ MonoBehaviour:
   weaponInventory: {fileID: 9209493283927322196}
   fovController: {fileID: 5157232521170875141}
   dialogueController: {fileID: 63330269050545485}
+--- !u!114 &4225277095265392141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125346912728128326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229cdcd1f4c08b6499d9b1d0f8e38132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCustomInspector
 --- !u!1 &4477199029812907569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,10 +1445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b62f20050dc3a044fa0deee9b597a338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcDialogueController
-  dialoguesSO: {fileID: 11400000, guid: d9b0971688c2d9d4db52fa271f41a0dc, type: 2}
-  dialogueStates: []
-  wasIntroduced: 0
   isDialogueActive: 0
+  wasIntroduced: 0
+  dialoguesSO: {fileID: 11400000, guid: 559def5b3a530c5478eba34aa1046516, type: 2}
 --- !u!135 &8512674521684355213
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 /// <summary>
@@ -23,6 +23,12 @@ public class GlobalQuestManager : MonoBehaviour
     /// </summary>
     public List<QuestInstance> allQuests = new List<QuestInstance>();
 
+    /// <summary>
+    /// Выдать награды за квест
+    /// </summary>
+    public static Action<List<ItemData>> GrandRewards;
+    public static Action<QuestSO> QuestCompleted;
+
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +48,7 @@ public class GlobalQuestManager : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        if (allQuests.Count > 0) return;
+        allQuests.Clear();
 
         foreach (var questSO in defaultQuests)
         {
@@ -50,14 +56,14 @@ public class GlobalQuestManager : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Возвращает прогрессию выполненых глобальных квестов в проц. соотношении
     /// </summary>
     /// <returns></returns>
-    public float GetGlobalCompletedQuestState()
+    public int GetGlobalCompletedQuestState()
     {
-        if (defaultQuests.Count == 0)
-            return 0f;
+        if (defaultQuests.Count == 0) return 0;
 
         int completedQuests = 0;
 
@@ -71,7 +77,7 @@ public class GlobalQuestManager : MonoBehaviour
             }
         }
 
-        return (float)completedQuests / defaultQuests.Count * 100f;
+        return completedQuests;
     }
 
     /// <summary>
@@ -79,8 +85,10 @@ public class GlobalQuestManager : MonoBehaviour
     /// </summary>
     public QuestInstance StartNewQuest(QuestSO questSO)
     {
+        if (IsQuestCompleted(questSO)) return null;
+
         QuestInstance newQuest = new QuestInstance();
-        newQuest.Init(questSO);
+        newQuest.Start(questSO);
 
         allQuests.Add(newQuest);
 
@@ -101,6 +109,7 @@ public class GlobalQuestManager : MonoBehaviour
         }
 
         targetQuest.Complete();
+        QuestCompleted?.Invoke(targetQuest.definition);
     }
 
     /// <summary>
@@ -108,18 +117,13 @@ public class GlobalQuestManager : MonoBehaviour
     /// </summary>
     public void GetCurrentQuestsState()
     {
-        foreach (var quest in allQuests)
-        {
-            if (quest.state.isCompleted)
-            {
-                quest.Complete();
-            }
-        }
-    }
-
-    public bool IsQuestStarted(string id)
-    {
-        return allQuests.Exists(x => x.state.questId == id);
+        //foreach (var quest in allQuests)
+        //{
+        //    if (quest.state.isCompleted)
+        //    {
+        //        quest.Complete();
+        //    }
+        //}
     }
 
     /// <summary>
@@ -133,7 +137,34 @@ public class GlobalQuestManager : MonoBehaviour
 
         if (targetQuest == null) return false;
 
+      
+
         return targetQuest.state.isCompleted;
+    }
+
+    public bool WasRewardGiven(QuestSO quest)
+    {
+        var targetQuest = allQuests.Find(x => x.state.questId == quest.id);
+
+        if (targetQuest == null) return false;
+
+        return targetQuest.state.wasRewardGiven;
+    }
+
+    public void GiveReward(QuestSO quest)
+    {
+        var targetQuest = allQuests.Find(x => x.state.questId == quest.id);
+
+        if (targetQuest == null) return;
+
+        var items = targetQuest.definition.rewards;
+
+        if(items.Count > 0)
+        {
+            GrandRewards?.Invoke(quest.rewards);
+        }
+
+        targetQuest.state.wasRewardGiven = true;
     }
 
     /// <summary>
@@ -145,10 +176,12 @@ public class GlobalQuestManager : MonoBehaviour
 
         foreach (var quest in allQuests)
         {
-            QuestState questState = new QuestState
+            QuestState questState = new QuestState()
             {
                 questId = quest.state.questId,
-                isCompleted = quest.state.isCompleted
+                isCompleted = quest.state.isCompleted,
+                wasRewardGiven = quest.state.wasRewardGiven,
+                isStarted = quest.state.isStarted
             };
 
             questsToSave.Add(questState);
@@ -162,11 +195,11 @@ public class GlobalQuestManager : MonoBehaviour
     /// </summary>
     public void LoadQuestsData(SaveGameData data)
     {
+        allQuests.Clear();
+
         var questsData = data.questsStates;
 
         if (questsData.Count == 0) return;
-
-        allQuests.Clear();
 
         var resources = Resources.LoadAll<QuestSO>("Systems/Quests/");
 
@@ -177,11 +210,13 @@ public class GlobalQuestManager : MonoBehaviour
                 if (load.questId == resourceQuest.id)
                 {
                     QuestInstance loadedQuest = new QuestInstance();
-                    loadedQuest.LoadQuest(resourceQuest, load.isCompleted);
+                    loadedQuest.LoadQuest(resourceQuest, load);
 
                     allQuests.Add(loadedQuest);
                 }
             }
         }
     }
+
+   
 }

@@ -1,13 +1,22 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class PlayerEventMessagesUI : MonoBehaviour
 {
-    [SerializeField] GameObject wrapper;
-    [SerializeField] TextMeshProUGUI textMessage;
+    [Header("UI")]
+    [SerializeField] private GameObject wrapper;
+    [SerializeField] private TextMeshProUGUI textMessage;
 
-    Coroutine messageCoroutine;
+    [Header("Settings")]
+    [SerializeField] private float textShowDuration = 5f;
+    [SerializeField] private float textHideDelay = 2f;
+
+    private readonly Queue<string> messageQueue = new();
+
+    private Coroutine messageCoroutine;
 
     public void Init()
     {
@@ -16,51 +25,78 @@ public class PlayerEventMessagesUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Door.DoorMessage += OnMessageReceived;
+        Door.DoorMessage += OnDoorMessage;
+
+        QuestNpcDialogueController.QuestStarted += OnQuestStarted;
+        QuestNpcDialogueController.QuestCompleted += OnQuestCompleted;
     }
 
     private void OnDisable()
     {
-        Door.DoorMessage -= OnMessageReceived;
+        Door.DoorMessage -= OnDoorMessage;
+
+        QuestNpcDialogueController.QuestStarted -= OnQuestStarted;
+        QuestNpcDialogueController.QuestCompleted -= OnQuestCompleted;
     }
 
-    public void ShowPanel()
+    private void OnDoorMessage(string message)
     {
+        EnqueueMessage(message);
+    }
+
+    private void OnQuestStarted(string questName)
+    {
+        EnqueueMessage($"Новое задание:\n{questName}");
+    }
+
+    private void OnQuestCompleted(string questName)
+    {
+        EnqueueMessage($"Выполнено:\n{questName}");
+    }
+
+    private void EnqueueMessage(string message)
+    {
+        messageQueue.Enqueue(message);
+
+        if (messageCoroutine == null)
+        {
+            messageCoroutine = StartCoroutine(ProcessQueue());
+        }
+    }
+
+    private IEnumerator ProcessQueue()
+    {
+        while (messageQueue.Count > 0)
+        {
+            string message = messageQueue.Dequeue();
+
+            ShowMessage(message);
+
+            yield return new WaitForSeconds(textShowDuration);
+
+            HidePanel();
+
+            if (messageQueue.Count > 0)
+                yield return new WaitForSeconds(textHideDelay);
+        }
+
+        messageCoroutine = null;
+    }
+
+    private void ShowMessage(string message)
+    {
+        SetMessageText(message);
         wrapper.SetActive(true);
     }
 
     public void HidePanel()
     {
         SetMessageText(string.Empty);
-        wrapper.SetActive(true);
+        wrapper.SetActive(false);
     }
 
-    private void SetMessageText(string txt) => textMessage.text = txt;
-
-    private void OnMessageReceived(string message)
+    private void SetMessageText(string message)
     {
-        if(messageCoroutine != null)
-        {
-            StopCoroutine(messageCoroutine);
-            HidePanel();
-
-            messageCoroutine = null;
-        }
-
-        messageCoroutine = StartCoroutine(ShowMessageCoroutine(message));
-    }
-
-    IEnumerator ShowMessageCoroutine(string message)
-    {
-        ShowPanel();
-        SetMessageText(message);
-
-        yield return new WaitForSeconds(5f);
-
-        HidePanel();
-
-        messageCoroutine = null;
-
-
+        textMessage.text = message;
     }
 }

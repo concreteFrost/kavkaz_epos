@@ -89,10 +89,15 @@ public class GameRunner : MonoBehaviour
 
     public void BootstrapLevel()
     {
+        activeLevel = null;
+
         activeLevel = FindAnyObjectByType<LevelManager>();
 
-        if(activeLevel !=null)
-        GlobalAudioManager.Instance.PlayMusic(activeLevel.BiomMusic());
+        if(activeLevel != null)
+        {
+            activeLevel.Init();
+            GlobalAudioManager.Instance.PlayMusic(activeLevel.BiomMusic());
+        }
 
     }
 
@@ -112,6 +117,7 @@ public class GameRunner : MonoBehaviour
         //GlobalAudioManager.Instance.StopMusic(activeLevel.BiomMusicInstance());
         worldStateManager.SaveLevel(activeLevel);
         GlobalAudioManager.Instance.StopMusic();
+     
     }
 
     public void OnNewGameStarted()
@@ -126,6 +132,7 @@ public class GameRunner : MonoBehaviour
 
     public void OnSceneLoadedAfterTravel(string sceneName, Vector3 startingPosition)
     {
+        
         BootstrapLevel();
 
         worldStateManager.LoadLevel(activeLevel);
@@ -144,6 +151,8 @@ public class GameRunner : MonoBehaviour
 
     public void OnSaveLoaded(SaveGameData data)
     {
+        GlobalQuestManager.Instance.LoadQuestsData(data);
+
         BootstrapPlayer();
         Player.LoadState(data.playerState);
 
@@ -152,7 +161,7 @@ public class GameRunner : MonoBehaviour
 
         worldStateManager.LoadLevel(activeLevel);
 
-        GlobalQuestManager.Instance.LoadQuestsData(data);
+       
     }
 
     public void OnGameSave()
@@ -171,3 +180,4 @@ public class GameRunner : MonoBehaviour
 
 
 }
+

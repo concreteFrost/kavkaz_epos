@@ -10,17 +10,16 @@ public abstract class QuestCompletionObserver : MonoBehaviour
 
     private void OnEnable()
     {
-        QuestInstance.QuestCompleted += OnQuestCompleted;
+        GlobalQuestManager.QuestCompleted += OnQuestCompleted;
     }
 
     private void OnDisable()
     {
-        QuestInstance.QuestCompleted -= OnQuestCompleted;
+        GlobalQuestManager.QuestCompleted -= OnQuestCompleted;
     }
 
     private void OnQuestCompleted(QuestSO questSO)
     {
-
         React(questSO);
     }
 

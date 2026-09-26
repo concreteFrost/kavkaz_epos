@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
 
@@ -5,50 +6,52 @@ using UnityEngine;
 public class QuestState
 {
     public string questId;
+    public bool isStarted;
     public bool isCompleted;
+    public bool wasRewardGiven;
 }
 
 [Serializable]
 public class QuestInstance
 {
     public QuestState state;
-    [HideInInspector] public QuestSO definition;
-    public static Action<QuestSO> QuestCompleted;
 
-    public void Init(QuestSO questSO)
+    [HideInInspector]
+    public QuestSO definition;
+
+    public void Start(QuestSO questSO)
     {
         definition = questSO;
 
         state = new QuestState
         {
             questId = questSO.id,
-            isCompleted = false
-        };
-    }
-
-    public void LoadQuest(QuestSO questSO, bool isCompleted)
-    {
-        definition = questSO;
-
-        state = new QuestState
-        {
-            questId = questSO.id,
-            isCompleted = isCompleted
+            isStarted = true,
+            isCompleted = false,
+            wasRewardGiven = false
         };
     }
 
     public void Complete()
     {
-        QuestCompleted?.Invoke(definition);
-
-        if (state.isCompleted) return;
-
-        Debug.Log($"{definition.questName} completed");
-
         state.isCompleted = true;
+    }
 
-        definition.GetRewards();
+    public void LoadQuest(QuestSO questSO, QuestState loadedState)
+    {
+        definition = questSO;
+
+        state = new QuestState
+        {
+            questId = questSO.id,
+            isCompleted = loadedState.isCompleted,
+            wasRewardGiven = loadedState.wasRewardGiven,
+            isStarted = loadedState.isStarted
+        };
 
         
     }
+
 }
+
+

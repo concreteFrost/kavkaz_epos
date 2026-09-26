@@ -58,6 +58,7 @@ public class EnemyBrain : AIBrain
 
     void Update()
     {
+        if (context == null) return;
 
         if (!isActivated)
         {
@@ -108,6 +109,9 @@ public class EnemyBrain : AIBrain
 
     private void TrackActivation()
     {
+
+       
+
         var playerService = FindAnyObjectByType<PlayerServiceLocator>();
 
 

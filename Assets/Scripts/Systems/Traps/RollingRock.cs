@@ -28,15 +28,18 @@ public class RollingRock : MonoBehaviour
 
     [SerializeField] private EventReference ev_hit;
 
-    public void Init()
+    private void Awake()
     {
-        initialPos = transform.position;
-        initialRotation = transform.rotation;
-
         rb = GetComponent<Rigidbody>();
         mesh = GetComponent<MeshRenderer>();
         col = GetComponent<Collider>();
         damageCollider = GetComponentInChildren<DamageCollider>();
+    }
+
+    public void Init()
+    {
+        initialPos = transform.position;
+        initialRotation = transform.rotation;
 
         damageCollider.Init();
 

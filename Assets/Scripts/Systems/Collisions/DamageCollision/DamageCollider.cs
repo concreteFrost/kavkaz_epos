@@ -22,14 +22,17 @@ public class DamageCollider : MonoBehaviour
     public bool isAttackRegistered = false;         // флаг того, что атака уже зарегистрирована
 
     private Vector3 lastPosition; // позиция коллайдера в предыдущем кадре для расчёта движения
-
     // Инициализация коллайдера
-    public void Init()
+
+    private void Awake()
     {
         damageCollider = GetComponent<Collider>();
         damageCollider.isTrigger = true; // триггер, чтобы не было физического столкновения
         damageCollider.enabled = false;
-
+    }
+    public void Init()
+    {
+      
         lastPosition = transform.position;
 
         DisableCollider(); // выключаем коллайдер по умолчанию

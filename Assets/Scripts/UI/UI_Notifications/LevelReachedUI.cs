@@ -36,7 +36,7 @@ public class LevelReachedUI : MonoBehaviour
 
     private void OnNeveLevelReached()
     {
-        Debug.Log("new level");
+        
         ShowLevelUpdated();
     }
 

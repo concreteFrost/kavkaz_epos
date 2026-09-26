@@ -30,22 +30,15 @@ public class LevelManager : MonoBehaviour
     public static Action<string> LevelInfoUpdated;
     public static Action<string> LevelLoaded;
 
-    private void Awake()
+    public string GetLevelName() => levelState.levelId;
+
+    public EventReference BiomMusic() => biomInfoSO.biomMusicEvent;
+
+    #region Init
+
+    public void Init()
     {
-        levelState = new LevelState();
-
-        levelState.levelId = biomInfoSO.biomName;
-
         InitSystems();
-       
-        Bonfire.BonfireInteracted += ReloadLevelOnRest;
-       
-    }
-
-    private void Start()
-    {
-        LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
-        LevelLoaded?.Invoke(biomInfoSO.biomName);
     }
 
     private void OnDisable()
@@ -53,22 +46,29 @@ public class LevelManager : MonoBehaviour
         Bonfire.BonfireInteracted -= ReloadLevelOnRest;
     }
 
+    //private void Start()
+    //{
+    //    LevelInfoUpdated?.Invoke(biomInfoSO.biomName);
+    //    LevelLoaded?.Invoke(biomInfoSO.biomName);
+    //}
 
-    public string GetLevelName() => levelState.levelId;
-
-    public EventReference BiomMusic() => biomInfoSO.biomMusicEvent;
-
-    #region Init
-
-    private void InitSystems()
+    public void InitSystems()
     {
-        lootManager?.Init();
+        
+        levelState = new LevelState();
+
+        levelState.levelId = biomInfoSO.biomName;
+
         charactersManager?.Init();
+        lootManager?.Init();
+       
         bonfireManager?.Init(GetLevelName());
         bossesManager?.Init();
         hubManager?.Init();  
         trapsManager?.Init();
         doorsManager?.Init();
+
+        Bonfire.BonfireInteracted += ReloadLevelOnRest;
     }
 
     #endregion
@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReloadWholeLevelState()
     {
+        
         charactersManager?.RespawnAllCharacters();
         lootManager?.ClearDynamicLoot();
         trapsManager?.ResetTraps();
@@ -147,10 +148,12 @@ public class LevelManager : MonoBehaviour
 
         levelState = state;
 
+        charactersManager?.LoadCharactersData(state);
+
         lootManager?.LoadLootData(state);
         lootManager?.LoadDynamicLoot(state);
 
-        charactersManager?.LoadCharactersData(state);
+       
         bonfireManager?.LoadBonfireDatas(state);
         bossesManager?.LoadBossesState(state);
         hubManager?.LoadHubState(state);
