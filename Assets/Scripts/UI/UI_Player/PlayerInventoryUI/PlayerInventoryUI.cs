@@ -311,7 +311,7 @@ public class PlayerInventoryUI : MonoBehaviour
     /// Открывает панель описания предмета
     /// </summary>
     /// <param name="item"></param>
-    private void OnItemOutlined(ItemSO item)
+    private void OnItemOutlined(ItemData item)
     {
 
         if (item == null)
@@ -347,7 +347,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private void HandleUnequipItem(ItemData data, Vector2 pos)
     {
         
-        weaponInventory.UnequipItem(data);
+        weaponInventory.UnequipItem(data as WeaponData);
         GetWeaponsInfo();
     }
 

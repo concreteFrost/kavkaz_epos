@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class PlayerInputManager : MonoBehaviour
         this.reader = reader;
         reader.controls.Enable();   
         GameStateManager.GameStateChanged += OnGameStateChanged;
+        SceneTransitionManager.TransitionStarted += OnTransitionStarted;
+        //SceneTransitionManager.TransitionFinished += OntTransitionFinished;
 
         //SetGameMode(); // по умолчанию
     }
@@ -20,11 +23,14 @@ public class PlayerInputManager : MonoBehaviour
     private void OnDisable()
     {
         GameStateManager.GameStateChanged -= OnGameStateChanged;
+        SceneTransitionManager.TransitionStarted -= OnTransitionStarted;
+        //SceneTransitionManager.TransitionFinished -= OntTransitionFinished;
     }
 
-    private void Start()
+
+    private void OnTransitionStarted(float obj)
     {
-       
+        DisableAll();
     }
 
     private void OnGameStateChanged(GameState state)
@@ -77,4 +83,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         reader.controls.Disable();
     }
+
+
 }

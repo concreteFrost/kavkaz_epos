@@ -57,7 +57,11 @@ public class ScreenFaderUI : MonoBehaviour
     private void StartFade(float from, float to, float duration)
     {
         if (fadeCoroutine != null)
+        {
             StopCoroutine(fadeCoroutine);
+            fadeCoroutine = null;
+        }
+           
 
         fadeCoroutine = StartCoroutine(FadeRoutine(from, to, duration));
     }

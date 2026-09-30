@@ -41,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639249032035260504
+  lastModified: 639261069510067824
   FileSizes:
   - Name: 
-    Value: 3286
+    Value: 3336
   Exists: 1
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
@@ -433,7 +433,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639185225810490110
+  lastModified: 639261070192205722
   FileSizes: []
   Exists: 1
 --- !u!114 &-3961461177915870809
@@ -770,12 +770,13 @@ MonoBehaviour:
   - {fileID: 2338603574290033136}
   - {fileID: 55454175075174163}
   - {fileID: 7388925423557090628}
+  - {fileID: 460161651839010208}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639249038335674377
+  cacheTime: 639261070192205722
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -823,6 +824,33 @@ MonoBehaviour:
   lastModified: 639245746927792090
   FileSizes: []
   Exists: 1
+--- !u!114 &460161651839010208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/MainMenuTheme
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/MainMenuTheme
+  Guid:
+    Data1: 663889634
+    Data2: 1156036762
+    Data3: 1521041077
+    Data4: -185122046
+  Banks:
+  - {fileID: -4050019964733371028}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 91504
 --- !u!114 &776064580544443240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,7 +1442,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639249032035250497
+  lastModified: 639261069510057824
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083

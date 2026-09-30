@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+
 public enum GameState
 {
     Game = 0,
@@ -13,6 +14,8 @@ public enum GameState
     Dialogue= 5,
 
 }
+
+
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
@@ -20,12 +23,30 @@ public class GameStateManager : MonoBehaviour
     public static Action<GameState> GameStateChanged;
     public GameState CurrentState;
 
+    public bool runInDevMode;
+    string sceneName;
+
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
- 
+
+  
     }
+
+    private void Start()
+    {
+        if (runInDevMode)
+        {
+            GameRunner.Instance.StartNewGame();
+            SetState(GameState.Game);
+        }
+       
+
+    }
+
 
     public void SetState(GameState newState)
     {

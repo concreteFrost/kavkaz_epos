@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IWeapon : ICombatItem
 {
+
     /// <summary>
     /// Данные оружия
     /// </summary>

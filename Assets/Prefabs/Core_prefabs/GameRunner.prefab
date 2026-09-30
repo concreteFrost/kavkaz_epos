@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1581778355368030331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4505119941456166614}
+  - component: {fileID: 4586775854747417547}
+  m_Layer: 0
+  m_Name: GlobalQuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4505119941456166614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581778355368030331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4934843809892516938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4586775854747417547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581778355368030331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd63ca1b32cd04d42a641f3d0cb2b75b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  defaultQuests:
+  - {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
+  allQuests: []
 --- !u!1 &1612720180161934109
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,8 +59,6 @@ GameObject:
   - component: {fileID: 870836069824852302}
   - component: {fileID: 246393428204344887}
   - component: {fileID: 7217723027918687757}
-  - component: {fileID: 4068384827079378664}
-  - component: {fileID: 304194870024354866}
   m_Layer: 0
   m_Name: GameRunner
   m_TagString: Untagged
@@ -30,13 +75,14 @@ Transform:
   m_GameObject: {fileID: 1612720180161934109}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.68216, y: 1, z: 2.05089}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4995884214146915848}
   - {fileID: 6242709734591479367}
   - {fileID: 8097301468244330949}
+  - {fileID: 4505119941456166614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &870836069824852302
@@ -51,7 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf4cdad0ff24334ca248f22c7fb8ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
-  CurrentState: 3
+  CurrentState: 0
+  runInDevMode: 0
 --- !u!114 &246393428204344887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,34 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69285acc9e7aa504d9271b4a7460f9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveLoadManager
---- !u!114 &4068384827079378664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612720180161934109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 292da419c6399e543909313cbd3cd566, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameStartContext
-  gameStartType: 0
---- !u!114 &304194870024354866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612720180161934109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd63ca1b32cd04d42a641f3d0cb2b75b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  defaultQuests:
-  - {fileID: 11400000, guid: 16ed57b1e0c03dc42bc94000bb29e546, type: 2}
-  allQuests: []
 --- !u!1 &3974058703100289698
 GameObject:
   m_ObjectHideFlags: 0

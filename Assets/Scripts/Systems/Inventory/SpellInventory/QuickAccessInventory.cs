@@ -12,7 +12,9 @@ public class InventoryItemSaveData
 
     public string instanceId;
     public bool isEquiped;
-    public float durability;
+    //public float durability;
+
+    //public int itemLevel;
 }
 
 [Serializable]
@@ -44,7 +46,7 @@ public abstract class QuickAccessInventory : MonoBehaviour
     }
 
     #region Save/Load
-    public SaveInventoryData SaveInventoryData()
+    public virtual SaveInventoryData SaveInventoryData()
     {
         List<InventoryItemSaveData> datas = new List<InventoryItemSaveData>();
 
@@ -69,7 +71,8 @@ public abstract class QuickAccessInventory : MonoBehaviour
                 quickSlotIndex = quickSlotIndex,
                 isEquiped = item.isEquiped,
                 instanceId = item.instanceId,
-                durability = item.durability,   
+                //durability = item.durability,   
+                //itemLevel = item.itemLevel,
             };
 
             datas.Add(data);
@@ -86,20 +89,17 @@ public abstract class QuickAccessInventory : MonoBehaviour
     {
         if (data == null) return;
 
-        
-
-        var consumables = Resources.LoadAll<ItemSO>($"Items/");
+        var databaseItems = Resources.LoadAll<ItemSO>($"Items/");
 
         Dictionary<string, ItemSO> itemsMap = new Dictionary<string, ItemSO>();
 
-        foreach (var item in consumables)
+        foreach (var item in databaseItems)
         {
             itemsMap[item.id] = item;
         }
 
         items = new List<ItemData>();
 
-        
 
         foreach (var item in data.items)
         {

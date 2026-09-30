@@ -12,7 +12,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     private Action<ItemData, Vector2> ItemClicked;
     
     public Action<RectTransform> ItemSelected;
-    public Action<ItemSO> ItemOutlined;
+    public Action<ItemData> ItemOutlined;
 
 
 
@@ -62,7 +62,7 @@ public class InventoryItemUI : SlotItemUI, IPointerClickHandler, ISubmitHandler,
     {
 
         ToggleOutlineImage(true);
-        if(currentItem !=null) ItemOutlined?.Invoke(currentItem.itemSO);
+        if(currentItem !=null) ItemOutlined?.Invoke(currentItem);
         
    
     }

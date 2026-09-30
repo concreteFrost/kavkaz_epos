@@ -9,7 +9,7 @@ public enum WeaponType
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
-public class WeaponSO : CombatItemSO, IItemStats
+public class WeaponSO : CombatItemSO
 {
     public override bool IsStackable() => false;
 
@@ -35,13 +35,5 @@ public class WeaponSO : CombatItemSO, IItemStats
     [Header("Audio")]
     public EventReference equipEvent;
     public float GetBaseDamage() => baseDamage;
-
-    public List<ItemStat> ItemStats() => new List<ItemStat>()
-    {
-        new ItemStat("base damage", GetBaseDamage(), ItemStatFormatType.flat),
-        new ItemStat("cost per hit", GetBreakdownPenalty(), ItemStatFormatType.flat)   
-    };
-
-
 
 }

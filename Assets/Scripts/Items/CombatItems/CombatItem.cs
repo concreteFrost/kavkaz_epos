@@ -1,17 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 {
 
-    protected ItemData data;
+    protected WeaponData data;
     protected Collider physicsCollider;
     protected MeshRenderer[] meshRenderer;
-     
 
+    //public int weaponLevel = 1;
 
     #region ICombatItem Contract
-    public ItemData GetItemData() => data;
+    public WeaponData GetItemData() => data;
     public IInteractor Owner { get; set; } = null;
 
     #endregion
@@ -25,7 +26,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     #endregion
 
-    public virtual void Init(ItemData data)
+    public virtual void Init(WeaponData data)
     {
         this.data = data;
         physicsCollider = GetComponent<Collider>();
@@ -73,8 +74,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     public abstract void AssignToOwner(IInteractor target);
 
-   
-   
+
 
 
 }

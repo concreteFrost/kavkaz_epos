@@ -6,7 +6,6 @@ using Zenject;
 [System.Serializable]
 public class MeleeData
 {
-
     public WeaponSO barehandsData;
 
     public WeaponDamageCollider leftDamageCollider;
@@ -69,8 +68,8 @@ public class MeleeWeapon : IWeapon
 
     #region IWeapon Contract
 
-    private ItemData data;
-    public ItemData GetItemData() => data;
+    private WeaponData data;
+    public WeaponData GetItemData() => data;
     public string InstanceID() => string.Empty;
     public IInteractor Owner { get; set; }
     public bool IsBreakdownEnabled { get; set; } = true;
@@ -113,11 +112,12 @@ public class MeleeWeapon : IWeapon
         this.meleeData = new MeleeData();
         this.meleeData.Init(meleeData, this, this.Owner.AttackSource.Source());
 
-        data = new ItemData()
+        data = new WeaponData()
         {
             itemSO = weaponSO,
             instanceId = Guid.NewGuid().ToString(),
             durability = 100,
+            WeaponLevel = 1
         };
 
     }

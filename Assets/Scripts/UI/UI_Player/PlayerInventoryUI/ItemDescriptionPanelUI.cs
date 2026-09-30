@@ -15,7 +15,6 @@ public class ItemDescriptionPanelUI : MonoBehaviour
     [SerializeField] Image itemIcon;
     [SerializeField] TextMeshProUGUI itemDescriptionText;
 
-
     [Header("Status Effects Info")]
     [SerializeField] GameObject effectsPanelWrapper;
     [SerializeField] GameObject activeEffectInstancesParent;
@@ -24,10 +23,9 @@ public class ItemDescriptionPanelUI : MonoBehaviour
     private List<StatusEffectPanelUI> activeStatusEffectsPool = new List<StatusEffectPanelUI>();
     private List<Image> cancelsStatusEffectsPool = new List<Image>();   
 
-    public void ShowPanel(ItemSO item)
+    public void ShowPanel(ItemData item)
     {
         wrapper.SetActive(true);
-
 
         ShowCommonInfo(item);
         DefineActivePanel(item);
@@ -39,11 +37,13 @@ public class ItemDescriptionPanelUI : MonoBehaviour
         ClearCommonItemInfo();    
     }
 
-    private void ShowCommonInfo(ItemSO item)
+    private void ShowCommonInfo(ItemData item)
     {
-        itemNameText.text = item.itemName;
-        itemDescriptionText.text = item.itemDescription;
-        itemIcon.sprite = item.itemImage;
+        var so = item.itemSO;
+        // ѕравильное приведение и доступ к полю weaponLevel
+        itemNameText.text = item is WeaponData wd ? $"{so.itemName} ({wd.WeaponLevel})" : so.itemName;
+        itemDescriptionText.text = so.itemDescription;
+        itemIcon.sprite = so.itemImage;
     }
 
     public void ClearCommonItemInfo()
@@ -55,19 +55,20 @@ public class ItemDescriptionPanelUI : MonoBehaviour
 
 
 
-    private void DefineActivePanel(ItemSO item)
+    private void DefineActivePanel(ItemData item)
     {
         HideEffectsPanel();
- 
-        switch (item)
+
+        var so = item.itemSO;
+        switch (so)
         {
             case StatModifierItemSO:
-                var statModifierItem = (StatModifierItemSO)item;
+                var statModifierItem = (StatModifierItemSO)so;
                 ShowEffectsPanel(); 
                 SetupEffectsPanel(statModifierItem.effectData);
                 break;
             case SpellProjectileSO:
-                var spellItem = (SpellProjectileSO)item;
+                var spellItem = (SpellProjectileSO)so;
                 ShowEffectsPanel();
                 SetupEffectsPanel(spellItem.damageData.statusEffectData);
                 break;
@@ -76,7 +77,6 @@ public class ItemDescriptionPanelUI : MonoBehaviour
 
         if (item is IItemStats itemStats)
         {
-            
             itemStatPanel.GetPanel(itemStats);
         }
         else

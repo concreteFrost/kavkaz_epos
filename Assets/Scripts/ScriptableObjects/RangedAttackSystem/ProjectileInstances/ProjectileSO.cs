@@ -56,7 +56,6 @@ public abstract class ProjectileSO : ItemSO , IItemStats
        
     };
 
-
     public abstract bool CanEmit(int level);
 
 

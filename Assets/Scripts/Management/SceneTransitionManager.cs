@@ -19,6 +19,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     Coroutine loadGameCoroutine;
 
+    string MAIN_MENU_SCENE = "MainMenu";
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,6 +40,11 @@ public class SceneTransitionManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6)) LoadGame();
     }
 
+    public void MenuEnter()
+    {
+        MenuLoaded?.Invoke();
+    }
+
     public void StartNewGame(string sceneName)
     {
         StartCoroutine(TransitionToScene(sceneName, () =>
@@ -48,7 +55,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        StartCoroutine(TransitionToScene("MainMenu", () =>
+        StartCoroutine(TransitionToScene(MAIN_MENU_SCENE, () =>
         {
            MenuLoaded?.Invoke();
         }, GameState.Menu));
@@ -110,11 +117,12 @@ public class SceneTransitionManager : MonoBehaviour
         }
 
         onLoaded?.Invoke();
-
         //yield return new WaitForSeconds(transitionTime);
-        yield return new WaitForSeconds(transitionTime);
         TransitionFinished?.Invoke(transitionTime);
+        yield return new WaitForSeconds(transitionTime);
+       
 
+       
         GameStateManager.Instance.SetState(state);
 
 

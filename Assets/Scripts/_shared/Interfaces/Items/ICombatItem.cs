@@ -4,7 +4,7 @@ public interface ICombatItem : IBreakable
 {
     IInteractor Owner { get; set; }
 
-    ItemData GetItemData();
+    WeaponData GetItemData();
     string InstanceID();
     void AssignToOwner(IInteractor collecter);
 

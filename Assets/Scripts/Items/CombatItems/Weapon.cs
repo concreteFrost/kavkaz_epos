@@ -34,7 +34,7 @@ public class Weapon : CombatItem, IWeapon
     }
     #endregion
 
-    public override void Init(ItemData data)
+    public override void Init(WeaponData data)
     {
         base.Init(data);
 
@@ -46,6 +46,40 @@ public class Weapon : CombatItem, IWeapon
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Upgrade();
+        }
+    }
+
+    public void Upgrade()
+    {
+        if (!CanUpgrade())
+        {
+            Debug.Log("weapon is on max level");
+            return;
+        }
+
+        data.WeaponLevel++;
+    }
+
+    public void Downgrade()
+    {
+        if (!CanDowngrade())
+        {
+            Debug.Log("weapon level is on minimum");
+            return;
+        }
+
+        data.WeaponLevel--;
+    }
+
+    public bool CanUpgrade() => data.WeaponLevel < 10;
+
+    public bool CanDowngrade() => data.WeaponLevel > 1;
+
     public void PlaySwing()
     {
         audioManager.PlaySwing(currentAttack.audioEvent);
@@ -55,8 +89,8 @@ public class Weapon : CombatItem, IWeapon
     {
         if (currentAttack == null || Owner == null) return;
 
-        var baseWeaponDamage = WeaponData().GetBaseDamage();
-
+        float baseWeaponDamage = GetWeaponDamageWithLevel();
+       
         if (data.durability <= 0) 
             baseWeaponDamage = baseWeaponDamage * 0.5f;
 
@@ -70,6 +104,16 @@ public class Weapon : CombatItem, IWeapon
             Owner.AttackSource.TargetsToIgnore,
             Owner.AttackSource
         );
+    }
+
+    private float GetWeaponDamageWithLevel()
+    {
+        var baseWeaponDamage = WeaponData().GetBaseDamage();
+
+        float weaponMultiplier =
+        WeaponUpgradeFormula.GetDamageMultiplier(data.WeaponLevel);
+
+        return baseWeaponDamage *= weaponMultiplier;
     }
 
     public void CancelAttack()
@@ -86,6 +130,6 @@ public class Weapon : CombatItem, IWeapon
         AssignParent(Owner.CombatInventory.GetRightHand());
     }
 
+  
 
-   
 }

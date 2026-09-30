@@ -12,12 +12,16 @@ public class StarterMenuUI : MonoBehaviour
 
     private List<Selectable> allBtns;
 
+
     public void Start()
     {
 
-        btn_loadGame.interactable = SaveLoadSystem.HasSave();
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.runInDevMode = false;
+        }
 
-        GameStateManager.Instance.SetState(GameState.Menu);
+        btn_loadGame.interactable = SaveLoadSystem.HasSave();
 
         BindActions();  
 
@@ -55,15 +59,25 @@ public class StarterMenuUI : MonoBehaviour
     private void StartNewGame()
     {
         SceneTransitionManager.Instance.StartNewGame(starterBiom.biomName);
+        DisableButtons();
+        
     }
 
     private void LoadGame()
     {
         SceneTransitionManager.Instance.LoadGame();
+        DisableButtons();
     }
 
     private void QuitGame()
     {
         Application.Quit();
+    }
+
+    private void DisableButtons()
+    {
+        btn_startNewGame.enabled = false;
+        btn_quitGame.enabled = false;
+        btn_loadGame.enabled = false;
     }
 }

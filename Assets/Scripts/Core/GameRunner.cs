@@ -24,8 +24,9 @@ public class GameRunner : MonoBehaviour
         {
 
             Destroy(gameObject);
-            return;
+           
         }
+
     }
 
     private void OnEnable()
@@ -39,7 +40,6 @@ public class GameRunner : MonoBehaviour
 
     }
 
-
     private void OnDisable()
     {
         SceneTransitionManager.MenuLoaded -= OnMenuLoaded;
@@ -51,22 +51,22 @@ public class GameRunner : MonoBehaviour
 
     }
 
-    private void ClearInstances()
+    public void ClearInstances()
     {
-        var scenePlayer = FindAnyObjectByType<PlayerManager>();
-        if (scenePlayer != null)
+        if (playerCameraManager != null)
         {
-            DestroyImmediate(scenePlayer.gameObject);
+            Destroy(playerCameraManager.gameObject);
+            playerCameraManager = null;
         }
 
-        var camManager = FindAnyObjectByType<PlayerCameraManager>();
-
-        if (camManager != null)
+        if (Player != null)
         {
-            DestroyImmediate(camManager.gameObject);
+            Destroy(Player.gameObject);
+            Player = null;
         }
+
+        activeLevel = null;
     }
-
    
     private void BootstrapPlayer()
     {
@@ -76,14 +76,13 @@ public class GameRunner : MonoBehaviour
         // Если нет ни глобального, ни на сцене — создаём prefab
         Player = Instantiate(playerPrefab).GetComponent<PlayerManager>();
         Player.Init();
-       
-        DontDestroyOnLoad(Player);
+        DontDestroyOnLoad(Player.gameObject);
 
         playerCameraManager = Instantiate(cameraPrefab).GetComponent<PlayerCameraManager>();
         playerCameraManager.ResetCameraPosition();
         playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
 
-        DontDestroyOnLoad(playerCameraManager);
+        DontDestroyOnLoad(playerCameraManager.gameObject);
 
     }
 
@@ -109,8 +108,16 @@ public class GameRunner : MonoBehaviour
 
     }
 
+    public void StartNewGame()
+    {
+        Bootstrap();
 
-    public void OnMenuLoaded() => ClearInstances();
+        if (activeLevel != null)
+            Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
+    }
+
+    private void OnMenuLoaded() => ClearInstances();
+
 
     public void OnTransitionStarted(float transition)
     {
@@ -120,14 +127,7 @@ public class GameRunner : MonoBehaviour
      
     }
 
-    public void OnNewGameStarted()
-    {
-        Bootstrap();
-
-        if(activeLevel != null)
-        Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
-
-    }
+    private void OnNewGameStarted() => StartNewGame();
 
 
     public void OnSceneLoadedAfterTravel(string sceneName, Vector3 startingPosition)

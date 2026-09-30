@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class WeaponSaveData : InventoryItemSaveData
+{
+    public float durability;
+    public int weaponLevel;
+}
+
 public class CharacterWeaponInventory : QuickAccessInventory
 {
     [Header("Starter Set")]
@@ -26,11 +33,13 @@ public class CharacterWeaponInventory : QuickAccessInventory
         if (starterSet.initialWeapon != null)
         {
             var weaponSo = starterSet.initialWeapon.GetComponent<Weapon>().WeaponData();
-            var itemData = new ItemData()
+            var itemData = new WeaponData()
             {
                 instanceId = Guid.NewGuid().ToString(),
                 quantity = 1,
                 itemSO = weaponSo,
+                durability = 100,
+                WeaponLevel = 1
 
             };
 
@@ -41,11 +50,13 @@ public class CharacterWeaponInventory : QuickAccessInventory
         if (starterSet.initialShield != null)
         {
             var shieldSo = starterSet.initialShield.GetComponent<Shield>().ShieldData();
-            var itemData = new ItemData()
+            var itemData = new WeaponData()
             {
                 instanceId = Guid.NewGuid().ToString(),
                 quantity = 1,
                 itemSO =shieldSo,
+                durability = 100,
+                WeaponLevel = 1
 
             };
            
@@ -75,13 +86,16 @@ public class CharacterWeaponInventory : QuickAccessInventory
             if (!itemsMap.TryGetValue(saved.id, out var so))
                 continue;
 
-            var newItem = new ItemData()
+            var parsedWeaponData = saved as WeaponSaveData;
+
+            var newItem = new WeaponData()
             {
                 itemSO = so,
-                quantity = saved.quantity,
-                instanceId = saved.instanceId,   
-                durability = saved.durability,   
-                isEquiped = saved.isEquiped     
+                quantity = parsedWeaponData.quantity,
+                instanceId = parsedWeaponData.instanceId,   
+                durability = parsedWeaponData.durability,   
+                isEquiped = parsedWeaponData.isEquiped,
+                WeaponLevel = parsedWeaponData.weaponLevel
             };
 
             items.Add(newItem);
@@ -96,8 +110,51 @@ public class CharacterWeaponInventory : QuickAccessInventory
         Notify();
     }
 
+    public override SaveInventoryData SaveInventoryData()
+    {
+        var data = new SaveInventoryData();
+
+        data.items = new List<InventoryItemSaveData>();
+
+        foreach (var item in items)
+        {
+            var weapon = item as WeaponData;
+            if (weapon == null)
+                continue;
+
+            int quickSlotIndex = -1;
+
+            for (int i = 0; i < quickSlots.Length; i++)
+            {
+                if (quickSlots[i] == item)
+                {
+                    quickSlotIndex = i;
+                    break;
+                }
+            }
+
+            var weaponSaveData = new WeaponSaveData
+            {
+                id = weapon.itemSO.id,
+                quantity = weapon.quantity,
+                quickSlotIndex = quickSlotIndex,
+                instanceId = weapon.instanceId,
+                isEquiped = weapon.isEquiped,
+
+                durability = weapon.durability,
+                weaponLevel = weapon.WeaponLevel
+            };
+
+            data.items.Add(weaponSaveData);
+        }
+
+        data.currentIndex = currentIndex;
+
+        return data;
+    }
+
     // Пулл объектов: возвращаем GameObject для экипировки
-    public ICombatItem GetWeaponObject(ItemData data)
+    public ICombatItem GetWeaponObject(WeaponData data)
     {
         if (!weaponPool.TryGetValue(data.instanceId, out var obj))
         {
@@ -121,22 +178,24 @@ public class CharacterWeaponInventory : QuickAccessInventory
             return;
 
         if (data.instanceId == null)
-            data.instanceId = Guid.NewGuid().ToString();   
+            data.instanceId = Guid.NewGuid().ToString();
 
-        data.durability = durability;   
+        var parsedData = data as WeaponData;
+        parsedData.durability = durability;
+
         
         AddItemToInventory(data);
     }
 
 
-    public void EquipItem(ItemData data)
+    public void EquipItem(WeaponData data)
     {
         
         ICombatItem obj = GetWeaponObject(data);
         weaponSetter.HandleSetCombatItem(obj);  
     }
 
-    public void UnequipItem(ItemData data)
+    public void UnequipItem(WeaponData data)
     {
         if(weaponSetter.CurrentWeapon != weaponSetter.DefaultWeapon)
         {
@@ -148,7 +207,8 @@ public class CharacterWeaponInventory : QuickAccessInventory
 
     public override void UseItem(ItemData data)
     {
-         EquipItem(data);
+        var weaponData = data as WeaponData;
+         EquipItem(weaponData);
     }
 
     public override void RemoveFromInventory(ItemData item)
