@@ -89,7 +89,7 @@ public class Weapon : CombatItem, IWeapon
     {
         if (currentAttack == null || Owner == null) return;
 
-        float baseWeaponDamage = GetWeaponDamageWithLevel();
+        float baseWeaponDamage = data.GetWeaponDamageWithLevel();
        
         if (data.durability <= 0) 
             baseWeaponDamage = baseWeaponDamage * 0.5f;
@@ -106,15 +106,7 @@ public class Weapon : CombatItem, IWeapon
         );
     }
 
-    private float GetWeaponDamageWithLevel()
-    {
-        var baseWeaponDamage = WeaponData().GetBaseDamage();
 
-        float weaponMultiplier =
-        WeaponUpgradeFormula.GetDamageMultiplier(data.WeaponLevel);
-
-        return baseWeaponDamage *= weaponMultiplier;
-    }
 
     public void CancelAttack()
     {

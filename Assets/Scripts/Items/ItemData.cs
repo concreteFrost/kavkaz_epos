@@ -14,7 +14,7 @@ public class ItemData
 }
 
 [System.Serializable]
-public class WeaponData : ItemData 
+public class WeaponData : ItemData , IItemStats
 {
     public float durability;
     [SerializeField]
@@ -26,15 +26,34 @@ public class WeaponData : ItemData
         set => weaponLevel = Mathf.Clamp(value, 1, 10);
     }
 
+    public float GetWeaponDamageWithLevel()
+    {
+        var baseWeaponDamage = (itemSO as WeaponSO).GetBaseDamage();
+
+        float weaponMultiplier =
+        WeaponUpgradeFormula.GetDamageMultiplier(weaponLevel);
+
+        return baseWeaponDamage *= weaponMultiplier;
+    }
+
     /// <summary>
     /// Посколько оружие динамическое то ему нужны актуальные данные
     /// </summary>
     /// <returns></returns>
-    //public List<ItemStat> ItemStats() => new List<ItemStat>()
-    //{
-    //    new ItemStat("base damage", GetWeaponDamageWithLevel(), ItemStatFormatType.flat),
-    //    new ItemStat("cost per hit", weaponSO.GetBreakdownPenalty(), ItemStatFormatType.flat)
-    //};
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    {
+        new ItemStat("weapon level", weaponLevel, ItemStatFormatType.flat),
+        new ItemStat("base damage",   Mathf.Round(GetWeaponDamageWithLevel() * 10f) / 10f, ItemStatFormatType.flat),
+        new ItemStat("durability", durability, ItemStatFormatType.flat)
+    };
 
+}
 
+public class SpellData: ItemData, IItemStats
+{
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    {
+        new ItemStat("base damage", (itemSO as SpellProjectileSO).GetBaseDamage(), ItemStatFormatType.flat),
+
+    };
 }

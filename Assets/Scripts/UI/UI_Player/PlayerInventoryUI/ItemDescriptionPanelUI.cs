@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +40,7 @@ public class ItemDescriptionPanelUI : MonoBehaviour
     {
         var so = item.itemSO;
         // ѕравильное приведение и доступ к полю weaponLevel
-        itemNameText.text = item is WeaponData wd ? $"{so.itemName} ({wd.WeaponLevel})" : so.itemName;
+        itemNameText.text = so.itemName;
         itemDescriptionText.text = so.itemDescription;
         itemIcon.sprite = so.itemImage;
     }

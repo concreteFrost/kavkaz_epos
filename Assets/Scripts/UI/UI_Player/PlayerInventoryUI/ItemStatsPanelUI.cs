@@ -67,6 +67,8 @@ public class ItemStatsPanelUI : MonoBehaviour
             return $"{stat.value * 100:0.#} %";   
         }
 
+        
+
         return stat.value.ToString();
     }
 

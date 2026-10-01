@@ -8,7 +8,7 @@ public enum EmitStartingPosition
     Ground = 1,
     Sky = 2,
 }
-public abstract class ProjectileSO : ItemSO , IItemStats
+public abstract class ProjectileSO : ItemSO
 {
     [Header("Prefab")]
     [Tooltip("Prefab снаряда, который будет создаваться при использовании способности.")]
@@ -49,12 +49,6 @@ public abstract class ProjectileSO : ItemSO , IItemStats
     public EventReference ev_audio;
 
     public float GetBaseDamage() => baseDamage;
-
-    public List<ItemStat> ItemStats() => new List<ItemStat>()
-    {
-        new ItemStat("base damage", GetBaseDamage(), ItemStatFormatType.flat),
-       
-    };
 
     public abstract bool CanEmit(int level);
 
