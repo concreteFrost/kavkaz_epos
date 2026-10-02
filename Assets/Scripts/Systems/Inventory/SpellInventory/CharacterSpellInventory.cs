@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterSpellInventory : BaseInventory
+public class CharacterSpellInventory : BaseInventory<SpellData>
 {
     public void Init()
     {
@@ -12,7 +12,7 @@ public class CharacterSpellInventory : BaseInventory
     {
         Notify();
     }
-    public override void UseItem(ItemData data)
+    public override void UseItem(SpellData data)
     {
         if (data == null) return;
 
@@ -35,7 +35,7 @@ public class CharacterSpellInventory : BaseInventory
 
         foreach (var item in allItems)
         {
-            var data = new ItemData
+            var data = new SpellData
             {
                 itemSO = item,
                 quantity = 20

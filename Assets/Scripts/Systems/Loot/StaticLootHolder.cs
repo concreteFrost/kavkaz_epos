@@ -8,7 +8,8 @@ public class StaticLootHolder : BaseLootHolder
     public override string LootInteractionText => "Collect";
     public override ItemInteractionType InteractType() => ItemInteractionType.Item;
 
-    public List<ItemData> guaranteedItems = new List<ItemData>();
+    //public List<ItemData> guaranteedItems = new List<ItemData>();
+    public List<LootItemEntry> lootEntries = new List<LootItemEntry>();
 
     private void Start()
     {
@@ -17,9 +18,14 @@ public class StaticLootHolder : BaseLootHolder
     public override void Init()
     {
         base.Init();
-        foreach (var i in guaranteedItems)
+        //foreach (var i in guaranteedItems)
+        //{
+        //    AddItemsToDrop(i.itemSO, i.quantity);
+        //}
+
+        foreach (var entry in lootEntries)
         {
-            AddItemsToDrop(i.itemSO, i.quantity);
+            AddItemsToDrop(entry);
         }
     }
 

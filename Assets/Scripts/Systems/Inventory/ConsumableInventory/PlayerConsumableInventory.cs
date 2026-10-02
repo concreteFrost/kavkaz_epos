@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerConsumableInventory : BaseInventory
+public class PlayerConsumableInventory : BaseInventory<ConsumableData>
 {
     IWeaponSetter combatInventory;
     CharacterStatsModifier statsModifier;
@@ -21,7 +21,7 @@ public class PlayerConsumableInventory : BaseInventory
     }
 
 
-    public override void UseItem(ItemData data)
+    public override void UseItem(ConsumableData data)
     {
         if (data == null) return;
 
@@ -41,7 +41,7 @@ public class PlayerConsumableInventory : BaseInventory
         }
     }
 
-    private void ApplyItemEffect(ItemData item)
+    private void ApplyItemEffect(ConsumableData item)
     {
        
         switch (item.itemSO)
@@ -68,7 +68,7 @@ public class PlayerConsumableInventory : BaseInventory
 
         foreach (var item in allItems)
         {
-            var data = new ItemData
+            var data = new ConsumableData
             {
                 itemSO = item,
                 quantity = 20

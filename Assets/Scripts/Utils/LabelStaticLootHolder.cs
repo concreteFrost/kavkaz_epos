@@ -12,11 +12,11 @@ public class LabelStaticLootHolder : LabelHolder
     {
         if(lootHolder == null) return;
 
-        if (lootHolder.guaranteedItems.Count == 0) return;
+        if (lootHolder.lootEntries.Count == 0) return;
 
         var gizmoText = "";
 
-        foreach(var i in lootHolder.guaranteedItems)
+        foreach(var i in lootHolder.lootEntries)
         {
             gizmoText += $"{i.itemSO.itemName} : {i.quantity}\n";
         }

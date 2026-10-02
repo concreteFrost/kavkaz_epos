@@ -13977,22 +13977,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
       propertyPath: guaranteedItems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
+      propertyPath: lootEntries.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].itemSO
+      propertyPath: lootEntries.Array.data[0].itemSO
       value: 
       objectReference: {fileID: 11400000, guid: 8d619d7c7d0f48f4eabc68aeb306de32, type: 2}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[1].itemSO
+      propertyPath: lootEntries.Array.data[1].itemSO
       value: 
       objectReference: {fileID: 11400000, guid: 2a3539e6ed02535438b35f4e1bb7c5df, type: 2}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].quantity
+      propertyPath: lootEntries.Array.data[0].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[1].quantity
+      propertyPath: lootEntries.Array.data[1].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3463624092011238556, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
@@ -15520,7 +15524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_Name
-      value: Skeleton_prefab
+      value: Enemy_Skeleton_Base
       objectReference: {fileID: 0}
     - target: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_IsActive

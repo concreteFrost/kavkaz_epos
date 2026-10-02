@@ -76,10 +76,10 @@ public class LootManagerEditor : Editor
 
         foreach (StaticLootHolder holder in holders)
         {
-            if (holder.guaranteedItems == null)
+            if (holder.lootEntries == null)
                 continue;
 
-            foreach (ItemData data in holder.guaranteedItems)
+            foreach (LootItemEntry data in holder.lootEntries)
             {
                 if (data?.itemSO == null)
                     continue;

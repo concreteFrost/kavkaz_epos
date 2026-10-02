@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class LootItemEntry
+{
+    public ItemSO itemSO;
+    [Min(1)] public int quantity = 1;
+    [Min(1)] public int weaponLevel = 1;
+    [Range(0f, 100f)] public float durability = 100f;
+}
+[System.Serializable]
 public class LootState
 {
     public string lootId;
@@ -56,9 +64,38 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
     protected void AddItemsToDrop(ItemSO itemSO, int quantity)
     {
-        ItemData data = new ItemData();
-        data.itemSO =itemSO;
-        data.quantity = quantity;
+        AddItemsToDrop(new LootItemEntry { itemSO = itemSO, quantity = quantity });
+    }
+
+    protected void AddItemsToDrop(LootItemEntry entry)
+    {
+        if (entry == null || entry.itemSO == null) return;
+
+        ItemData data;
+        if (entry.itemSO is CombatItemSO)
+        {
+            data = new WeaponData
+            {
+                instanceId = Guid.NewGuid().ToString(),
+                durability = entry.durability,
+                WeaponLevel = entry.weaponLevel
+            };
+        }
+        else if (entry.itemSO is SpellProjectileSO)
+        {
+            data = new SpellData();
+        }
+        else if (entry.itemSO is ConsumableItemSO)
+        {
+            data = new ConsumableData();
+        }
+        else
+        {
+            data = new ItemData();
+        }
+
+        data.itemSO = entry.itemSO;
+        data.quantity = entry.quantity;
         itemsToDrop.Add(data);
     }
 

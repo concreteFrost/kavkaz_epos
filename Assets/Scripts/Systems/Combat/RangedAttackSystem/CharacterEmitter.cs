@@ -1,0 +1,58 @@
+using UnityEngine;
+public class CharacterEmitter : Emitter
+{
+    CharacterSpellInventory spellInventory;
+    CharacterStatsController statsController;
+    BaseHumanoidAnimatorController animatorController;
+    ITargetLocker targetLocker;
+
+    public void Init(CharacterSpellInventory spellInventory, IAttackSource source, BaseHumanoidAnimatorController animatorController, ITargetLocker targetLocker, CharacterBoneSocket boneSockets, CharacterStatsController statsController)
+    {
+        this.spellInventory = spellInventory;
+        this.animatorController = animatorController;
+        this.targetLocker = targetLocker;
+        this.attackSource = source;
+        this.statsController = statsController;
+        this.emitSource = boneSockets.GetSpellCastSocket;
+
+    }
+
+    public override void StartEmit()
+    {
+        if (spellInventory.CurrentItem == null)
+        {   
+            return;
+        }
+
+        var currentSpell = spellInventory.CurrentItem;
+
+        var spell = currentSpell.itemSO as SpellProjectileSO;
+        var requiredModel = statsController.GetCurrentStatLevel(spell.requirements.statType);
+
+        if(requiredModel == 0)
+        {
+            Debug.Log("no rquired model found");
+            return;
+        }
+
+        if (!spell.CanEmit(requiredModel)) return;
+
+        if(spell.castAnimation != null)
+            animatorController.OverrideSpell(spell);
+
+        projectileSO = spell;
+       
+        SetTargetData(targetLocker.CurrentTarget());
+        SetDamageMultiplier(statsController.Knowledge.CurrentMax);
+
+        base.StartEmit();
+    }
+
+
+
+    public override void Emit()
+    {
+        base.Emit();
+        spellInventory.UseItem(spellInventory.CurrentItem);
+    }
+}

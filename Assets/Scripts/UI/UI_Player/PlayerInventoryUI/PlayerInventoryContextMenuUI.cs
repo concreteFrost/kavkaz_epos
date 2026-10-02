@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,12 +18,12 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     public List<Selectable> allSelectables = new List<Selectable>();
 
-    public Action<ItemData> ContextMenuClosed; //вызывает фокус на активный предмет в инвентаре
-    public Action UpdateQuickSlotsInfo; //обновляет быстрые слоты в основном инвентаре
+    public Action<ItemData> ContextMenuClosed; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public Action UpdateQuickSlotsInfo; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public Action ItemDestroyed;
     public Action ItemEquiped;
 
-    BaseInventory quickAccessInventory;
+    IInventoryUI quickAccessInventory;
     CharacterConsumeController consumableController;
 
 
@@ -42,7 +42,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     }
 
-    public void SetCurrentInventory(BaseInventory inv)
+    public void SetCurrentInventory(IInventoryUI inv)
     {
         quickAccessInventory = inv;
 
@@ -50,16 +50,22 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     private void SetContextButtons()
     {
-        useBtn.gameObject.SetActive(quickAccessInventory is PlayerConsumableInventory);
-        equipBtn.gameObject.SetActive(quickAccessInventory is CharacterWeaponInventory && !currentItem.isEquiped);
-        addToSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
-        removeFromSlotBtn.gameObject.SetActive(quickAccessInventory is not CharacterWeaponInventory);
+        bool isWeaponInventory = quickAccessInventory != null &&
+            typeof(CharacterWeaponInventory).IsAssignableFrom(quickAccessInventory.GetType());
+        bool isConsumableInventory = quickAccessInventory != null &&
+            typeof(PlayerConsumableInventory).IsAssignableFrom(quickAccessInventory.GetType());
+        bool currentIsWeapon = currentItem is WeaponData;
+
+        useBtn.gameObject.SetActive(isConsumableInventory);
+        equipBtn.gameObject.SetActive(isWeaponInventory && currentIsWeapon && !currentItem.isEquiped);
+        addToSlotBtn.gameObject.SetActive(!isWeaponInventory);
+        removeFromSlotBtn.gameObject.SetActive(!isWeaponInventory);
     }
 
 
     #region Button Actions
     /// <summary>
-    /// Добавляет текущий предмет в быстрый слот из контекстного меню.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
     /// </summary>
     private void AddFromContext()
     {
@@ -83,7 +89,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     private void ConsumeItemFromContext()
     {
-        consumableController.StartConsumeFromContext(currentItem);
+        consumableController.StartConsumeFromContext(currentItem as ConsumableData);
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
 
@@ -98,23 +104,23 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Удаляет текущий предмет из быстрого слота через контекстное меню.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
     /// </summary>
     private void RemoveFromContext() => RemoveItem(currentItem);
 
     /// <summary>
-    /// Удаляет указанный предмет из быстрого слота по нажатию на его иконку.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="d">Данные предмета, который нужно удалить из быстрых слотов.</param>
+    /// <param name="d">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.</param>
     public void RemoveOnItemClick(ItemData d) => RemoveItem(d);
 
     /// <summary>
-    /// Назначает действие для кнопки контекстного меню.
-    /// Перед добавлением нового обработчика удаляет все предыдущие.
-    /// После выполнения действия автоматически скрывает меню.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="btn">Кнопка, для которой задаётся действие.</param>
-    /// <param name="action">Метод, вызываемый при нажатии.</param>
+    /// <param name="btn">пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.</param>
+    /// <param name="action">пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.</param>
     void SetupAction(Button btn, Action action)
     {
         btn.onClick.RemoveAllListeners();
@@ -127,9 +133,9 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Скрывает контекстное меню,
-    /// сбрасывает текущий выбранный предмет
-    /// и уведомляет подписчиков о закрытии.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ,
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    /// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
     public void HideContextMenu(bool invokeEvent)
     {
@@ -141,12 +147,12 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Отображает контекстное меню для указанного предмета
-    /// в заданной позиции на экране.
-    /// Если меню не должно быть показано — скрывает его.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    /// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="data">Данные предмета, для которого открывается меню.</param>
-    /// <param name="position">Позиция отображения меню (локальные координаты).</param>
+    /// <param name="data">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.</param>
+    /// <param name="position">пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ).</param>
     public void ShowContextMenu(ItemData data, Vector2 position)
     {
         if(data.itemSO is KeyItemSO)
@@ -175,13 +181,13 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Определяет, нужно ли отображать контекстное меню для указанного предмета.
-    /// Меню не отображается, если оно уже открыто для того же самого предмета.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="data">Данные предмета для проверки.</param>
+    /// <param name="data">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.</param>
     /// <returns>
-    /// True — если меню следует показать;  
-    /// False — если меню уже открыто для этого предмета.
+    /// True пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ;  
+    /// False пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </returns>
     private bool WillShowContextMenu(ItemData data)
     {
@@ -195,7 +201,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         {
             if (currentItem.itemSO.id == data.itemSO.id)
             {
-                return false; // не показываем меню, если тот же предмет
+                return false; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
         }
         return true;

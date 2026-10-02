@@ -890,7 +890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_Name
-      value: skeleton_prefab
+      value: Enemy_Skeleton_Base
       objectReference: {fileID: 0}
     - target: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_IsActive
@@ -1181,7 +1181,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2884986879748400111, guid: a4c4264403598c44a8cb67ae6fcb1b21, type: 3}
       propertyPath: m_Name
-      value: djin_prefab_Marda_variant
+      value: Enemy_Djin_MardaAlatt
       objectReference: {fileID: 0}
     - target: {fileID: 2884986879748400111, guid: a4c4264403598c44a8cb67ae6fcb1b21, type: 3}
       propertyPath: m_IsActive
@@ -1257,11 +1257,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].itemSO
+      propertyPath: lootEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
+      propertyPath: guaranteedItems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
+      propertyPath: lootEntries.Array.data[0].itemSO
       value: 
       objectReference: {fileID: 11400000, guid: d3f57245d854eaa45a100787bc30f241, type: 2}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].quantity
+      propertyPath: lootEntries.Array.data[0].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3463624092011238556, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
@@ -1594,11 +1602,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].itemSO
+      propertyPath: lootEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
+      propertyPath: guaranteedItems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
+      propertyPath: lootEntries.Array.data[0].itemSO
       value: 
       objectReference: {fileID: 11400000, guid: 049a4e29599e9cc41aa524060b4039f4, type: 2}
     - target: {fileID: 1931144389355884070, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
-      propertyPath: guaranteedItems.Array.data[0].quantity
+      propertyPath: lootEntries.Array.data[0].quantity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3463624092011238556, guid: a2bfa57e74d1b4940b6c6887617c6a03, type: 3}
@@ -1660,7 +1676,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1393566410055498749, guid: 87cee82c3aba62f49ae3c8699bd44106, type: 3}
       propertyPath: m_Name
-      value: emengen_prefab
+      value: Enemy_Emengen_Base
       objectReference: {fileID: 0}
     - target: {fileID: 1393566410055498749, guid: 87cee82c3aba62f49ae3c8699bd44106, type: 3}
       propertyPath: m_IsActive
@@ -2518,7 +2534,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3766054121733045687, guid: 911c64304e52b014e9f7f0153edec11c, type: 3}
       propertyPath: m_Name
-      value: unsettled_remains_prefab
+      value: Enemy_UnsettledRemains_MardaAlatt
       objectReference: {fileID: 0}
     - target: {fileID: 3766054121733045687, guid: 911c64304e52b014e9f7f0153edec11c, type: 3}
       propertyPath: m_IsActive

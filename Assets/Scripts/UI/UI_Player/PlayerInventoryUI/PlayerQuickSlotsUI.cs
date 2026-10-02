@@ -16,8 +16,8 @@ public class PlayerQuickSlotsUI : MonoBehaviour
 
 
     private HumanoidWeaponSetter weaponSetter;
-    private BaseInventory spellInventory;
-    private BaseInventory consumableInventory;
+    private BaseInventory<SpellData> spellInventory;
+    private BaseInventory<ConsumableData> consumableInventory;
     private CharacterStatsController statsController;
 
     /// <summary>
@@ -25,7 +25,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     /// </summary>
     /// <param name="weaponSetter">Ёкипировка игрока</param>
     /// <param name="spellInventory">»нвентарь быстрых слотов (маги€/ресурсы)</param>
-    public void Init(HumanoidWeaponSetter weaponSetter, BaseInventory spellInventory,BaseInventory consumableInventory ,CharacterStatsController statsController)
+    public void Init(HumanoidWeaponSetter weaponSetter, BaseInventory<SpellData> spellInventory,BaseInventory<ConsumableData> consumableInventory ,CharacterStatsController statsController)
     {
         this.weaponSetter = weaponSetter;
         this.spellInventory = spellInventory;

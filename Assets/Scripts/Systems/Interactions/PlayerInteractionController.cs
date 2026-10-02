@@ -59,9 +59,9 @@ public class PlayerInteractionController : BaseCharacterInteractor
     public override void DistributeItemToInventory(ItemData data)
     {
 
-        if (data.itemSO is SpellProjectileSO) spellInventory.AddItemToInventory(data);
-        if (data.itemSO is ConsumableItemSO) consumableInventory.AddItemToInventory(data);
-        if (data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data);
+        if (data.itemSO is SpellProjectileSO) spellInventory.AddItemToInventory(data as SpellData);
+        if (data.itemSO is ConsumableItemSO) consumableInventory.AddItemToInventory(data as ConsumableData);
+        if (data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data as WeaponData);
         if (data.itemSO is QuestItemSO) questItemsInventory.AddItemToInventory(data);
         if (data.itemSO is MoneyItemSO) moneyManager.AddMoney(data.quantity);
         if (data.itemSO is KeyItemSO) keyItemsInventory.AddItemToInventory(data);

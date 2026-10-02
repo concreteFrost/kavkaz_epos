@@ -13,7 +13,7 @@ public enum InventorySection
     Keys = 3
 }
 
-public class PlayerInventoryUI : MonoBehaviour
+public class PlayerInventoryUI : MonoBehaviour 
 {
     private CharacterStatsController statsController;
     private PlayerInventoryContextMenuUI contextMenu;
@@ -45,8 +45,8 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Transform quickSlotsContainer;
     private List<InventoryItemUI> quickSlotItems = new List<InventoryItemUI>();
 
-    private BaseInventory currentInventory;
-    Dictionary<InventorySection, BaseInventory> inventories;
+    private IInventoryUI currentInventory;
+    Dictionary<InventorySection, IInventoryUI> inventories;
 
     private GridLayoutGroup grid;
     public bool IsOpened() => mainWrapper.activeInHierarchy;
@@ -87,12 +87,12 @@ public class PlayerInventoryUI : MonoBehaviour
         grid = cellsContainer.GetComponent<GridLayoutGroup>();
 
         //динамическое назначение инвентарей
-        inventories = new Dictionary<InventorySection, BaseInventory>
+        inventories = new Dictionary<InventorySection, IInventoryUI>
     {
-        {InventorySection.Weapons, this.weaponInventory },
+        {InventorySection.Weapons, this.weaponInventory  },
         {InventorySection.Magic,this.spellInventory },
         {InventorySection.Consumables, this.consumableInventory },
-            {InventorySection.Keys, this.keysInventory}
+        {InventorySection.Keys, this.keysInventory}
     };
 
 
@@ -201,7 +201,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private void InitQuickAccessCells()
     {
         //создание сетки быстрого доступа
-        for (int i = 0; i < BaseInventory.QUICK_SLOTS_COUNT; i++)
+        for (int i = 0; i < BaseInventory<ItemData>.QUICK_SLOTS_COUNT; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<InventoryItemUI>();
@@ -261,9 +261,9 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         quickSlotItems.ForEach((s) => s.RemoveData());
 
-        for (int i = 0; i < currentInventory.GetQuickAccessData().Count; i++)
+        for (int i = 0; i < currentInventory.GetQuickAccessDataForUI().Count(); i++)
         {
-            quickSlotItems[i].UpdateImageDate(currentInventory.GetQuickAccessData()[i], statsController);
+            quickSlotItems[i].UpdateImageDate(currentInventory.GetQuickAccessDataForUI().ElementAt(i), statsController);
         }
     }
 
@@ -274,11 +274,11 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         slotItems.ForEach(s => s.RemoveData());
 
-        int count = Mathf.Min(currentInventory.items.Count, slotItems.Count);
+        int count = Mathf.Min(currentInventory.GetItemsForUI().Count(), slotItems.Count);
 
         for (int i = 0; i < count; i++)
         {
-            slotItems[i].UpdateImageDate(currentInventory.items[i], statsController);
+            slotItems[i].UpdateImageDate(currentInventory.GetItemsForUI().ElementAt(i), statsController);
         }
     }
 
@@ -329,7 +329,7 @@ public class PlayerInventoryUI : MonoBehaviour
     /// </summary>
     private void OnItemDestroyed()
     {
-        if (currentInventory.items.Count == 0)
+        if (currentInventory.GetItemsForUI().Count() == 0)
         {
             descriptionPanel.HidePanel();
         }

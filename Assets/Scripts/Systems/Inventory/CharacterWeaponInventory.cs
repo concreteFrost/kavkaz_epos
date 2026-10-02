@@ -9,7 +9,7 @@ public class WeaponSaveData : InventoryItemSaveData
     public int weaponLevel;
 }
 
-public class CharacterWeaponInventory : BaseInventory
+public class CharacterWeaponInventory : BaseInventory<WeaponData>
 {
     [Header("Starter Set")]
     public CombatInventorySO starterSet;
@@ -74,7 +74,7 @@ public class CharacterWeaponInventory : BaseInventory
         weaponSetter.ResetAllCombatItems();
 
         //ВАЖНО: пересобираем items с учетом instanceId и durability
-        items = new List<ItemData>();
+        items = new List<WeaponData>();
 
         Dictionary<string, ItemSO> itemsMap = new Dictionary<string, ItemSO>();
 
@@ -172,7 +172,7 @@ public class CharacterWeaponInventory : BaseInventory
     }
 
     // возвращаем созданный ItemData
-    public void AddCombatItemToInventory(ItemData data, float durability = 100f)
+    public void AddCombatItemToInventory(WeaponData data)
     {
         if (data.itemSO == null)
             return;
@@ -180,8 +180,7 @@ public class CharacterWeaponInventory : BaseInventory
         if (data.instanceId == null)
             data.instanceId = Guid.NewGuid().ToString();
 
-        var parsedData = data as WeaponData;
-        parsedData.durability = durability;
+        var parsedData = data;
 
         
         AddItemToInventory(data);
@@ -205,13 +204,13 @@ public class CharacterWeaponInventory : BaseInventory
         weaponSetter.HandleResetCombatItem(data.instanceId);
     }
 
-    public override void UseItem(ItemData data)
+    public override void UseItem(WeaponData data)
     {
-        var weaponData = data as WeaponData;
+        var weaponData = data;
          EquipItem(weaponData);
     }
 
-    public override void RemoveFromInventory(ItemData item)
+    public override void RemoveFromInventory(WeaponData item)
     {
         base.RemoveFromInventory(item);
         weaponSetter.HandleResetCombatItem(item.instanceId);
