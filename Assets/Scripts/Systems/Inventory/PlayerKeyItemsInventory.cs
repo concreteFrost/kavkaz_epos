@@ -1,4 +1,4 @@
-public class PlayerKeyItemsInventory : QuickAccessInventory
+public class PlayerKeyItemsInventory : BaseInventory
 {
     public override void UseItem(ItemData data)
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerConsumableInventory : QuickAccessInventory
+public class PlayerConsumableInventory : BaseInventory
 {
     IWeaponSetter combatInventory;
     CharacterStatsModifier statsModifier;

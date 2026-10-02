@@ -45,8 +45,8 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Transform quickSlotsContainer;
     private List<InventoryItemUI> quickSlotItems = new List<InventoryItemUI>();
 
-    private QuickAccessInventory currentInventory;
-    Dictionary<InventorySection, QuickAccessInventory> inventories;
+    private BaseInventory currentInventory;
+    Dictionary<InventorySection, BaseInventory> inventories;
 
     private GridLayoutGroup grid;
     public bool IsOpened() => mainWrapper.activeInHierarchy;
@@ -87,7 +87,7 @@ public class PlayerInventoryUI : MonoBehaviour
         grid = cellsContainer.GetComponent<GridLayoutGroup>();
 
         //динамическое назначение инвентарей
-        inventories = new Dictionary<InventorySection, QuickAccessInventory>
+        inventories = new Dictionary<InventorySection, BaseInventory>
     {
         {InventorySection.Weapons, this.weaponInventory },
         {InventorySection.Magic,this.spellInventory },
@@ -201,7 +201,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private void InitQuickAccessCells()
     {
         //создание сетки быстрого доступа
-        for (int i = 0; i < QuickAccessInventory.QUICK_SLOTS_COUNT; i++)
+        for (int i = 0; i < BaseInventory.QUICK_SLOTS_COUNT; i++)
         {
             GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<InventoryItemUI>();

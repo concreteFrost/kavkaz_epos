@@ -6,9 +6,7 @@ public class ItemData
 {
     public ItemSO itemSO;
     public int quantity;
-
     public string instanceId;
-
     public bool isEquiped;
 
 }
@@ -57,3 +55,9 @@ public class SpellData: ItemData, IItemStats
 
     };
 }
+
+public class ConsumableData: ItemData
+{
+
+}
+

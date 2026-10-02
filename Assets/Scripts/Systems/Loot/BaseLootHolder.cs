@@ -13,7 +13,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 {
     [HideInInspector] private UniqueId uniqueId;
     public string id;
-    public List<ItemData> itemsToDrop = new List<ItemData>();
+    protected List<ItemData> itemsToDrop = new List<ItemData>();
 
     public GameObject visual;
     Collider interactionCollider;
@@ -41,8 +41,6 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
         ActivateVisual();
     }
-
-  
 
     public void ActivateVisual()
     {

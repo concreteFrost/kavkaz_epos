@@ -23,7 +23,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     public Action ItemDestroyed;
     public Action ItemEquiped;
 
-    QuickAccessInventory quickAccessInventory;
+    BaseInventory quickAccessInventory;
     CharacterConsumeController consumableController;
 
 
@@ -42,7 +42,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     }
 
-    public void SetCurrentInventory(QuickAccessInventory inv)
+    public void SetCurrentInventory(BaseInventory inv)
     {
         quickAccessInventory = inv;
 

@@ -25,7 +25,7 @@ public class SaveInventoryData
 }
 
 
-public abstract class QuickAccessInventory : MonoBehaviour
+public abstract class BaseInventory : MonoBehaviour
 {
     public static int QUICK_SLOTS_COUNT = 5;
 

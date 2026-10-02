@@ -1,5 +1,5 @@
 
-public class PlayerQuestItemsInventory : QuickAccessInventory
+public class PlayerQuestItemsInventory : BaseInventory
 {
     public override void UseItem(ItemData data)
     {

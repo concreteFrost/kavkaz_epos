@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterSpellInventory : QuickAccessInventory
+public class CharacterSpellInventory : BaseInventory
 {
     public void Init()
     {

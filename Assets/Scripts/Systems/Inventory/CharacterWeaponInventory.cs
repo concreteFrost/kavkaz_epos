@@ -9,7 +9,7 @@ public class WeaponSaveData : InventoryItemSaveData
     public int weaponLevel;
 }
 
-public class CharacterWeaponInventory : QuickAccessInventory
+public class CharacterWeaponInventory : BaseInventory
 {
     [Header("Starter Set")]
     public CombatInventorySO starterSet;
