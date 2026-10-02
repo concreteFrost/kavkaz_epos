@@ -21,7 +21,7 @@ public class LootManagerEditor : Editor
         (typeof(KeyItemSO),             "KEY ITEMS"),
         (typeof(QuestItemSO),           "QUEST ITEMS"),
         (typeof(StatModifierItemSO),    "STAT MODIFIERS"),
-        (typeof(WeaponModifierItemSO),  "WEAPON MODIFIERS"),
+        (typeof(WeaponRepairItemSO),  "WEAPON REPAIRS"),
         (typeof(PointsEmitterItemSO),   "POINTS"),
     };
 

@@ -752,8 +752,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4024331857646771541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.071, g: 0.059, b: 0.047, a: 0.96}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -808,7 +808,6 @@ GameObject:
   - component: {fileID: 8013920937491807215}
   - component: {fileID: 6574653808817284857}
   - component: {fileID: 4461967681895604459}
-  - component: {fileID: 1361619603312244946}
   - component: {fileID: 5588260247171836811}
   m_Layer: 0
   m_Name: Player_Inventories
@@ -884,19 +883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2e3c99a74a53c498f803404dbc558f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  items: []
---- !u!114 &1361619603312244946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1239014841976667366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 589f9c0340ead7541bf7b12382a62872, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerKeyItemsInventory
   items: []
 --- !u!114 &5588260247171836811
 MonoBehaviour:
@@ -1646,7 +1632,6 @@ MonoBehaviour:
   spellInventory: {fileID: 8013920937491807215}
   consumableInventory: {fileID: 6574653808817284857}
   questItemsInventory: {fileID: 4461967681895604459}
-  keysInventory: {fileID: 1361619603312244946}
   moneyManager: {fileID: 4475481548194043542}
   damageController: {fileID: 7700523214766766176}
   pushReceiver: {fileID: 2343980255667355799}
@@ -2681,8 +2666,8 @@ RectTransform:
   - {fileID: 4616495032981334188}
   m_Father: {fileID: 4658218545525216351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2912,7 +2897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.91, g: 0.84, b: 0.69, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3146,7 +3131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.013216423, g: 0.70290935, b: 0.9339623, a: 1}
+  m_Color: {r: 0.43, g: 0.66, b: 0.43, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4375,7 +4360,6 @@ MonoBehaviour:
   magicSectionBtn: {fileID: 6288675660326869066}
   consumableSectionBtn: {fileID: 8758022159356967891}
   weaponsSectionBtn: {fileID: 5558135647866063630}
-  keysSectionBtn: {fileID: 9029813719091551659}
   quickSlotsContainer: {fileID: 6970884506260932321}
 --- !u!1 &4405773083188593680
 GameObject:
@@ -5783,7 +5767,7 @@ RectTransform:
   m_GameObject: {fileID: 5918621751963141325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8.470324e-21}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2257653384187236932}
@@ -6606,8 +6590,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4658218545525216351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6632,7 +6616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  m_Color: {r: 0.071, g: 0.059, b: 0.047, a: 0.96}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7259,8 +7243,8 @@ RectTransform:
   - {fileID: 7435478970807520991}
   m_Father: {fileID: 4024331857646771541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8064,8 +8048,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5863673204275477515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8090,7 +8074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.003114995, b: 0.003114995, a: 1}
+  m_Color: {r: 0.071, g: 0.059, b: 0.047, a: 0.96}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8307,7 +8291,7 @@ RectTransform:
   m_GameObject: {fileID: 8056902529331013485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -8.470324e-21}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 559073876885443315}
@@ -8462,7 +8446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
-  hasAllConsumables: 0
+  hasAllConsumables: 1
   hasAllSpells: 1
   hasAllWeapons: 0
 --- !u!1 &8435803114403785097
@@ -8477,7 +8461,7 @@ GameObject:
   - component: {fileID: 8453652593056723132}
   - component: {fileID: 2208623916865115586}
   m_Layer: 2
-  m_Name: PlayerManager
+  m_Name: PlayerCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8595,8 +8579,8 @@ RectTransform:
   - {fileID: 2557236174197099759}
   m_Father: {fileID: 5863673204275477515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0.12}
+  m_AnchorMax: {x: 1, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8858,7 +8842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04405483, g: 0.8490566, b: 0.07983777, a: 1}
+  m_Color: {r: 0.72, g: 0.20, b: 0.15, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9069,7 +9053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.91, g: 0.84, b: 0.69, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9563,7 +9547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.82, g: 0.58, b: 0.20, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11759,6 +11743,10 @@ PrefabInstance:
     - target: {fileID: 6890875236398715659, guid: 0a9a842f697bcec409d86352d94d76b0, type: 3}
       propertyPath: m_Name
       value: Button_KeysSection
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890875236398715659, guid: 0a9a842f697bcec409d86352d94d76b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7165589499035182393, guid: 0a9a842f697bcec409d86352d94d76b0, type: 3}
       propertyPath: fontSize

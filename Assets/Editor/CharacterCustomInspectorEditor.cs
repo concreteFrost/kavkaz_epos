@@ -46,17 +46,13 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("initialHealthLevel"));
+        DrawProperty(so, "initialHealthLevel");
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("initialStaminaLevel"));
+        DrawProperty(so, "initialStaminaLevel");
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("initialStrengthLevel"));
+        DrawProperty(so, "initialStrengthLevel");
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("initialKnowledgeLevel"));
+        DrawProperty(so, "initialKnowledgeLevel");
 
         so.ApplyModifiedProperties();
     }
@@ -72,8 +68,7 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("starterSet"));
+        DrawProperty(so, "starterSet");
 
         so.ApplyModifiedProperties();
     }
@@ -91,9 +86,7 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("items"),
-            true);
+        DrawProperty(so, "items", true);
 
         so.ApplyModifiedProperties();
     }
@@ -109,8 +102,7 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("statsSO"));
+        DrawProperty(so, "statsSO");
 
         so.ApplyModifiedProperties();
     }
@@ -126,8 +118,7 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("stats"));
+        DrawProperty(so, "stats");
 
         so.ApplyModifiedProperties();
     }
@@ -143,8 +134,7 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        EditorGUILayout.PropertyField(
-            so.FindProperty("listSO"));
+        DrawProperty(so, "listSO");
 
         so.ApplyModifiedProperties();
     }
@@ -163,10 +153,9 @@ public class CharacterCustomInspectorEditor : Editor
         EditorGUI.indentLevel++;
 
         SerializedObject so = new SerializedObject(pointsEmitter);
-        SerializedProperty points = so.FindProperty("points");
 
         so.Update();
-        EditorGUILayout.PropertyField(points, true);
+        DrawProperty(so, "points", true);
 
         if (so.ApplyModifiedProperties())
         {
@@ -187,10 +176,9 @@ public class CharacterCustomInspectorEditor : Editor
         EditorGUI.indentLevel++;
 
         SerializedObject so = new SerializedObject(damageController);
-        SerializedProperty damageImpactType = so.FindProperty("damageImpactType");
 
         so.Update();
-        EditorGUILayout.PropertyField(damageImpactType, true);
+        DrawProperty(so, "damageImpactType", true);
 
         if (so.ApplyModifiedProperties())
         {
@@ -211,16 +199,12 @@ public class CharacterCustomInspectorEditor : Editor
 
         EditorGUI.indentLevel++;
         SerializedObject so = new SerializedObject(constructor);
-        
-        SerializedProperty hasConumables = so.FindProperty("hasAllConsumables");
-        SerializedProperty hasSpells= so.FindProperty("hasAllSpells");
-        SerializedProperty hasWeapons = so.FindProperty("hasAllWeapons");
 
         so.Update();
 
-        EditorGUILayout.PropertyField (hasConumables, true);
-        EditorGUILayout.PropertyField(hasSpells, true);
-        EditorGUILayout.PropertyField(hasWeapons, true);
+        DrawProperty(so, "hasAllConsumables", true);
+        DrawProperty(so, "hasAllSpells", true);
+        DrawProperty(so, "hasAllWeapons", true);
 
         if (so.ApplyModifiedProperties())
         {
@@ -230,5 +214,20 @@ public class CharacterCustomInspectorEditor : Editor
 
         EditorGUI.indentLevel--;    
 
+    }
+
+    private void DrawProperty(SerializedObject serializedObject, string propertyName, bool includeChildren = false)
+    {
+        SerializedProperty property = serializedObject.FindProperty(propertyName);
+
+        if (property == null)
+        {
+            EditorGUILayout.HelpBox(
+                $"Сериализуемое поле '{propertyName}' не найдено в {serializedObject.targetObject.GetType().Name}.",
+                MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.PropertyField(property, includeChildren);
     }
 }

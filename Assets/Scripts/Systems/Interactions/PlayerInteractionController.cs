@@ -7,12 +7,9 @@ public class PlayerInteractionController : BaseCharacterInteractor
     private bool canLookForInteraction = true;
 
     CharacterSpellInventory spellInventory;
-    PlayerConsumableInventory consumableInventory;
+    [HideInInspector] public PlayerConsumableInventory consumableInventory;
     CharacterWeaponInventory weaponInventory;
     PlayerQuestItemsInventory questItemsInventory;
-
-    [HideInInspector]
-    public PlayerKeyItemsInventory keyItemsInventory;
     PlayerMoneyManager moneyManager;
 
    
@@ -30,7 +27,6 @@ public class PlayerInteractionController : BaseCharacterInteractor
         PlayerConsumableInventory consumableInventory,
         CharacterWeaponInventory weaponInventory,
         PlayerQuestItemsInventory questItemsInventory,
-        PlayerKeyItemsInventory keyInventory,
         PlayerMoneyManager moneyManager
         )
     {
@@ -40,7 +36,7 @@ public class PlayerInteractionController : BaseCharacterInteractor
         this.weaponInventory = weaponInventory;
         this.questItemsInventory = questItemsInventory;
         this.moneyManager = moneyManager;
-        this.keyItemsInventory = keyInventory;
+       
        
     }
 
@@ -64,7 +60,6 @@ public class PlayerInteractionController : BaseCharacterInteractor
         if (data.itemSO is CombatItemSO) weaponInventory.AddCombatItemToInventory(data as WeaponData);
         if (data.itemSO is QuestItemSO) questItemsInventory.AddItemToInventory(data);
         if (data.itemSO is MoneyItemSO) moneyManager.AddMoney(data.quantity);
-        if (data.itemSO is KeyItemSO) keyItemsInventory.AddItemToInventory(data);
 
         LootCollected?.Invoke(data);
     }

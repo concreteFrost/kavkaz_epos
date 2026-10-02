@@ -47,6 +47,7 @@ public class WeaponData : ItemData , IItemStats
 
 }
 
+[System.Serializable]
 public class SpellData: ItemData, IItemStats
 {
     public List<ItemStat> ItemStats() => new List<ItemStat>()
@@ -56,6 +57,7 @@ public class SpellData: ItemData, IItemStats
     };
 }
 
+[System.Serializable]
 public class ConsumableData: ItemData
 {
 

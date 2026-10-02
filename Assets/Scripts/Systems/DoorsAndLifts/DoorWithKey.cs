@@ -16,9 +16,9 @@ public class DoorWithKey : Door
         }
 
         var playerInteractor = interactor as PlayerInteractionController;
-        var keysInventory = playerInteractor.keyItemsInventory;
+        var keysInventory = playerInteractor.consumableInventory;
 
-        var targetKey = keysInventory.HasTargetKey(doorKeySO.id);
+        var targetKey = keysInventory.HasTargetItem(doorKeySO.id);
 
         if(targetKey == false)
         {

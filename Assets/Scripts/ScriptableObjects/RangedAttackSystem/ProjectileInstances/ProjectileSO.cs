@@ -5,8 +5,7 @@ using UnityEngine;
 public enum EmitStartingPosition
 {
     Self = 0,
-    Ground = 1,
-    Sky = 2,
+    Sky = 1,
 }
 public abstract class ProjectileSO : ItemSO
 {

@@ -32,8 +32,6 @@ public class PlayerConsumableInventory : BaseInventory<ConsumableData>
 
         ApplyItemEffect(item);
 
-        Debug.Log("item used");
-
         if (item.quantity <= 0)
         {
             RemoveFromInventory(item);
@@ -46,7 +44,7 @@ public class PlayerConsumableInventory : BaseInventory<ConsumableData>
        
         switch (item.itemSO)
         {
-            case WeaponModifierItemSO weaponItem:
+            case WeaponRepairItemSO weaponItem:
                 weaponItem.UseItem(combatInventory);
                 break;
             case StatModifierItemSO continuousItem:
@@ -78,6 +76,17 @@ public class PlayerConsumableInventory : BaseInventory<ConsumableData>
             AddToQuickAccess(data);
 
         }
+    }
+
+    public bool HasTargetItem(string id)
+    {
+        var targetKey = items.Find((x) => x.itemSO.id == id);
+
+        if (targetKey == null) return false;
+
+        UseItem(targetKey);
+
+        return true;
     }
 
 }

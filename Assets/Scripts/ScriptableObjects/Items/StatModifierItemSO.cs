@@ -13,5 +13,11 @@ public class StatModifierItemSO : ConsumableItemSO
         ctx.GetAndApplyStatusEffect(effectData);
     }
 
+    public override bool CanUse() => true;
+    public override bool CanEquip() => true;
+    public override bool CanAddToSlot() => true;
+    public override bool CanRemoveFromSlot() => true;
+    public override bool CanDestroy() => false;
+
 
 }

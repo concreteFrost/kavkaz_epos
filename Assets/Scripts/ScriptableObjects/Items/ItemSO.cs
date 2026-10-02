@@ -18,6 +18,13 @@ public abstract class ItemSO : WithIdSO
     [Tooltip("Описание предмета")]
     public string itemDescription;
 
+
+    public abstract bool CanUse();
+    public abstract bool CanEquip();
+    public abstract bool CanAddToSlot();
+    public abstract bool CanRemoveFromSlot();
+
+    public abstract bool CanDestroy();
 }
 
 

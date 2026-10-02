@@ -6,7 +6,7 @@ public abstract class Emitter : MonoBehaviour , IEmitter
 {
 
     protected Transform emitSource;
-    [SerializeField] protected float skyOffset = 2.5f;
+    [SerializeField] protected float skyOffset = 4f;
 
     protected ProjectileSO projectileSO;
 
@@ -23,6 +23,25 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     public ProjectileSO Projectile() => projectileSO;
     public float DamageMultiplier() => damageMultiplier;
 
+    public Vector3 StartingPosition()
+    {
+
+        Vector3 selfPosition = emitSource.position + Origin().forward * 0.5f;
+        Vector3 skyPosition = emitSource.position + Vector3.up * skyOffset;
+
+        switch (projectileSO.emitStartingPosition)
+        {
+            case EmitStartingPosition.Self:
+                return selfPosition;
+            case EmitStartingPosition.Sky:
+                return skyPosition;
+            default: return selfPosition;
+
+        }
+
+    }
+
+
     #endregion
 
     protected void SetTargetData(IDamagable target)
@@ -30,10 +49,17 @@ public abstract class Emitter : MonoBehaviour , IEmitter
         this.target = target;
     }
 
+
+
     protected void SetDamageMultiplier(float multiplier)=> damageMultiplier = multiplier;
 
     public virtual void StartEmit() => IsEmitting = true;
     public void EndEmit() => IsEmitting = false;
+
+    private void OnValidate()
+    {
+        skyOffset = 4f;
+    }
 
     public virtual void Emit()
     {
@@ -50,48 +76,7 @@ public abstract class Emitter : MonoBehaviour , IEmitter
     }
 
 
-    public Vector3 StartingPosition()
-    {
-      
-        switch (projectileSO.emitStartingPosition)
-        {
-            case EmitStartingPosition.Self:
-                return EmitFromSource();
-            case EmitStartingPosition.Ground:
-                return EmitFromGround();
-            case EmitStartingPosition.Sky:
-                return EmitFromSky();
-            default: return EmitFromSource();
-
-        }
-
-    }
-
-    private Vector3 EmitFromSource() => emitSource.position + Origin().forward * 0.5f;
-
-    private Vector3 EmitFromGround()
-    {
-        
-        Vector3 startPos = emitSource.position + Origin().forward * 0.5f;
-        startPos.y = skyOffset;
-
-        Ray ray = new Ray(startPos, Vector3.down);   
-
-        if(Physics.Raycast(ray,out RaycastHit hitInfo))
-        {
-           
-            Vector3 ground = hitInfo.point;
-            ground.y += 0.3f;
-            return ground;
-        }
-
-        return emitSource.position;
-    }
-
-    private Vector3 EmitFromSky()
-    {
-        return emitSource.position +  Origin().up * skyOffset;
-    }
+   
 
 
 

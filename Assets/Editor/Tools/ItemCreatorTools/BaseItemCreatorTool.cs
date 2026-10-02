@@ -30,15 +30,24 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
         DrawRefreshButton();
+        DrawCreateOptions();
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(EditorStyles.miniBoldLabel);
+
         DrawItemCreate();
 
         EditorGUILayout.EndHorizontal();
+
 
         // ---------- SEARCH BAR
         DrawSearch();
 
         EditorGUILayout.Space(10);
     }
+
+    protected virtual void DrawCreateOptions() { }
 
     private void DrawRefreshButton()
     {
@@ -83,7 +92,7 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
         EditorGUILayout.EndHorizontal();
     }
 
-    protected void RefreshItems()
+    protected virtual void RefreshItems()
     {
         items.Clear();
         var guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
@@ -163,6 +172,11 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
         EditorGUI.EndDisabledGroup();
 
         EditorGUILayout.PropertyField(itemName, GUILayout.Width(500));
+
+        string typeName = item.GetType().Name;
+        if (typeName.EndsWith("SO", StringComparison.Ordinal))
+            typeName = typeName.Substring(0, typeName.Length - 2);
+        EditorGUILayout.LabelField("Type", ObjectNames.NicifyVariableName(typeName), GUILayout.Width(500));
         EditorGUILayout.PropertyField(itemIcon, GUILayout.Width(500));
 
         //EditorGUILayout.LabelField("Description");
@@ -223,10 +237,18 @@ public abstract class BaseItemCreatorTool<T> : EditorWindow where T : ItemSO
         }
     }
 
-    protected T CreateItem()
+    protected virtual Type GetCreationType() => typeof(T);
+
+    protected virtual T CreateItem()
     {
 
-        T item = ScriptableObject.CreateInstance<T>();
+        Type itemType = GetCreationType();
+        if (itemType == null || itemType.IsAbstract)
+            return null;
+
+        T item = ScriptableObject.CreateInstance(itemType) as T;
+        if (item == null)
+            return null;
         string path = AssetDatabase.GenerateUniqueAssetPath($"{ItemFolder}/{newItemName}.asset");
         AssetDatabase.CreateAsset(item, path);
         item.id = Guid.NewGuid().ToString();

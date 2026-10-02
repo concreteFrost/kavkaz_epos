@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SpellProjectile", menuName = ScriptablePaths.PROJECTILE_INSTANCE_PATH + "/SpellProjectile")]
-public class SpellProjectileSO : ProjectileSO 
+public class SpellProjectileSO : ProjectileSO
 {
     [Tooltip("Анимация, которая проигрывается при касте этого заклинания.")]
     public AnimationInfoSO castAnimation;
@@ -17,11 +17,19 @@ public class SpellProjectileSO : ProjectileSO
     public override bool CanEmit(int i)
     {
         if (!requirements.CanUse(i))
-        {  
+        {
             return false;
         }
 
-        return true;    
+        return true;
     }
+
+    public override bool CanUse() => false;
+    public override bool CanEquip() => false;
+    public override bool CanAddToSlot() => true;
+    public override bool CanRemoveFromSlot() => true;
+
+    public override bool CanDestroy() => false;
+    
 
 }

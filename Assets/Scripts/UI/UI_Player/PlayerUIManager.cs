@@ -48,7 +48,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsModifier statsModifier,
         CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
-        PlayerKeyItemsInventory keyItemsInventory,
+       
         PlayerConsumableInventory consumableInventory,
         HumanoidWeaponSetter weaponSetter,
         PlayerTargetLock targetLock,
@@ -61,7 +61,7 @@ public class PlayerUIManager : MonoBehaviour
             statsModifier:statsModifier,
             spellInventory:spellInventory,
             weaponInventory:weaponInventory, 
-            keyItemsInventory:keyItemsInventory,
+            
             consumableInventory: consumableInventory,
             weaponSetter: weaponSetter,
             targetLock: targetLock, 
@@ -83,7 +83,7 @@ public class PlayerUIManager : MonoBehaviour
         CharacterStatsModifier statsModifier,
         CharacterWeaponInventory weaponInventory,
         CharacterSpellInventory spellInventory,
-        PlayerKeyItemsInventory keyItemsInventory,
+      
         PlayerConsumableInventory consumableInventory,
         HumanoidWeaponSetter weaponSetter,
         CharacterConsumeController consumeController,
@@ -96,7 +96,7 @@ public class PlayerUIManager : MonoBehaviour
             consumableInventory:consumableInventory,
             statsController:stats);
         inventoryUI.Init(descriptionPanel: itemDescriptionPanel,
-            keysInventory: keyItemsInventory,
+           
             weaponInventory: weaponInventory,
             spellInventory: spellInventory,
             consumableInventory: consumableInventory,

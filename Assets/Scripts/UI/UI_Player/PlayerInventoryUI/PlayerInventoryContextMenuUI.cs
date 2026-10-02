@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>Управляет контекстным меню выбранного предмета инвентаря.</summary>
 public class PlayerInventoryContextMenuUI : MonoBehaviour
 {
     [SerializeField] GameObject wrapper;
@@ -18,8 +18,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     public List<Selectable> allSelectables = new List<Selectable>();
 
-    public Action<ItemData> ContextMenuClosed; //�������� ����� �� �������� ������� � ���������
-    public Action UpdateQuickSlotsInfo; //��������� ������� ����� � �������� ���������
+    public Action<ItemData> ContextMenuClosed; 
+    public Action UpdateQuickSlotsInfo; 
     public Action ItemDestroyed;
     public Action ItemEquiped;
 
@@ -27,6 +27,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     CharacterConsumeController consumableController;
 
 
+    /// <summary>Инициализирует меню и связывает его кнопки с действиями.</summary>
+    /// <param name="consumableController">Контроллер для использования расходуемых предметов.</param>
     public void Init(CharacterConsumeController consumableController)
     {
         this.consumableController = consumableController;
@@ -42,43 +44,43 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
 
     }
 
+    /// <summary>Устанавливает инвентарь для быстрого доступа и выполнения действий с предметами.</summary>
+    /// <param name="inv">Инвентарь, связанный с этим контекстным меню.</param>
     public void SetCurrentInventory(IInventoryUI inv)
     {
         quickAccessInventory = inv;
 
     }
 
-    private void SetContextButtons()
+    private void SetContextButtons(ItemSO item)
     {
-        bool isWeaponInventory = quickAccessInventory != null &&
-            typeof(CharacterWeaponInventory).IsAssignableFrom(quickAccessInventory.GetType());
-        bool isConsumableInventory = quickAccessInventory != null &&
-            typeof(PlayerConsumableInventory).IsAssignableFrom(quickAccessInventory.GetType());
-        bool currentIsWeapon = currentItem is WeaponData;
 
-        useBtn.gameObject.SetActive(isConsumableInventory);
-        equipBtn.gameObject.SetActive(isWeaponInventory && currentIsWeapon && !currentItem.isEquiped);
-        addToSlotBtn.gameObject.SetActive(!isWeaponInventory);
-        removeFromSlotBtn.gameObject.SetActive(!isWeaponInventory);
+
+        useBtn.gameObject.SetActive(item.CanUse());
+        equipBtn.gameObject.SetActive(item.CanEquip());
+        addToSlotBtn.gameObject.SetActive(item.CanAddToSlot());
+        removeFromSlotBtn.gameObject.SetActive(item.CanRemoveFromSlot());
+        destroyBtn.gameObject.SetActive(item.CanDestroy());
     }
 
 
     #region Button Actions
-    /// <summary>
-    /// ��������� ������� ������� � ������� ���� �� ������������ ����.
-    /// </summary>
+    /// <summary>Добавляет текущий предмет в быстрый доступ и обновляет интерфейс быстрых слотов.</summary>
     private void AddFromContext()
     {
         quickAccessInventory.AddToQuickAccess(currentItem);
         UpdateQuickSlotsInfo?.Invoke();
     }
 
+    /// <summary>Удаляет предмет из быстрого доступа и обновляет интерфейс быстрых слотов.</summary>
+    /// <param name="item">Предмет, который нужно удалить из быстрого доступа.</param>
     private void RemoveItem(ItemData item)
     {
         quickAccessInventory.RemoveFromQuickAccess(item);
         UpdateQuickSlotsInfo?.Invoke();
     }
 
+    /// <summary>Передаёт текущий предмет назначенному инвентарю и вызывает событие экипировки.</summary>
     private void EquipItemFromContext()
     {
         quickAccessInventory.UseItem(currentItem);
@@ -87,12 +89,14 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
 
 
+    /// <summary>Начинает использование текущего расходуемого предмета и переключает состояние игры на Game.</summary>
     private void ConsumeItemFromContext()
     {
         consumableController.StartConsumeFromContext(currentItem as ConsumableData);
         GameStateManager.GameStateChanged?.Invoke(GameState.Game);
     }
 
+    /// <summary>Удаляет текущий предмет из инвентаря, закрывает меню и вызывает событие удаления предмета.</summary>
     private void DestroyItemFromContextMenu()
     {
         quickAccessInventory.RemoveFromInventory(currentItem);
@@ -103,24 +107,16 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     }
     #endregion
 
-    /// <summary>
-    /// ������� ������� ������� �� �������� ����� ����� ����������� ����.
-    /// </summary>
+    /// <summary>Удаляет текущий предмет из быстрого доступа.</summary>
     private void RemoveFromContext() => RemoveItem(currentItem);
 
-    /// <summary>
-    /// ������� ��������� ������� �� �������� ����� �� ������� �� ��� ������.
-    /// </summary>
-    /// <param name="d">������ ��������, ������� ����� ������� �� ������� ������.</param>
+    /// <summary>Удаляет нажатый предмет из быстрого доступа.</summary>
+    /// <param name="d">Предмет для удаления.</param>
     public void RemoveOnItemClick(ItemData d) => RemoveItem(d);
 
-    /// <summary>
-    /// ��������� �������� ��� ������ ������������ ����.
-    /// ����� ����������� ������ ����������� ������� ��� ����������.
-    /// ����� ���������� �������� ������������� �������� ����.
-    /// </summary>
-    /// <param name="btn">������, ��� ������� ������� ��������.</param>
-    /// <param name="action">�����, ���������� ��� �������.</param>
+    /// <summary>Очищает прежние обработчики кнопки, назначает указанное действие и закрывает меню после нажатия.</summary>
+    /// <param name="btn">Кнопка, обработчики которой будут заменены.</param>
+    /// <param name="action">Действие, которое нужно выполнить при нажатии кнопки.</param>
     void SetupAction(Button btn, Action action)
     {
         btn.onClick.RemoveAllListeners();
@@ -132,11 +128,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         });
     }
 
-    /// <summary>
-    /// �������� ����������� ����,
-    /// ���������� ������� ��������� �������
-    /// � ���������� ����������� � ��������.
-    /// </summary>
+    /// <summary>Скрывает меню, сбрасывает текущий предмет и при необходимости уведомляет подписчиков.</summary>
+    /// <param name="invokeEvent">Нужно ли вызывать событие закрытия меню.</param>
     public void HideContextMenu(bool invokeEvent)
     {
         if (invokeEvent)
@@ -146,13 +139,9 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         currentItem = null;
     }
 
-    /// <summary>
-    /// ���������� ����������� ���� ��� ���������� ��������
-    /// � �������� ������� �� ������.
-    /// ���� ���� �� ������ ���� �������� � �������� ���.
-    /// </summary>
-    /// <param name="data">������ ��������, ��� �������� ����������� ����.</param>
-    /// <param name="position">������� ����������� ���� (��������� ����������).</param>
+    /// <summary>Показывает меню для допустимого предмета в указанной локальной позиции; иначе закрывает меню.</summary>
+    /// <param name="data">Предмет, для которого нужно показать контекстное меню.</param>
+    /// <param name="position">Позиция меню в локальных координатах интерфейса.</param>
     public void ShowContextMenu(ItemData data, Vector2 position)
     {
         if(data.itemSO is KeyItemSO)
@@ -170,7 +159,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         currentItem = data;
 
         wrapper.SetActive(true);
-        SetContextButtons();
+        SetContextButtons(data.itemSO);
 
         position.y -= 90;
         _rectTransform.localPosition = position;
@@ -180,15 +169,9 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         StartCoroutine(UINavigationUtils.SelectWithDelay(fistActiveSelectable));
     }
 
-    /// <summary>
-    /// ����������, ����� �� ���������� ����������� ���� ��� ���������� ��������.
-    /// ���� �� ������������, ���� ��� ��� ������� ��� ���� �� ������ ��������.
-    /// </summary>
-    /// <param name="data">������ �������� ��� ��������.</param>
-    /// <returns>
-    /// True � ���� ���� ������� ��������;  
-    /// False � ���� ���� ��� ������� ��� ����� ��������.
-    /// </returns>
+    /// <summary>Проверяет, можно ли открыть меню для переданного предмета.</summary>
+    /// <param name="data">Предмет для проверки.</param>
+    /// <returns>True, если предмет не равен null и его ItemSO имеет другой ID, чем ItemSO текущего предмета; иначе false.</returns>
     private bool WillShowContextMenu(ItemData data)
     {
         if (data == null)
@@ -201,7 +184,7 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         {
             if (currentItem.itemSO.id == data.itemSO.id)
             {
-                return false; // �� ���������� ����, ���� ��� �� �������
+                return false; 
             }
         }
         return true;

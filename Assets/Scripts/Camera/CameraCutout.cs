@@ -8,7 +8,7 @@ public class CameraCutout : MonoBehaviour
     [SerializeField] private LayerMask cutoutLayer;
 
     [Header("Cutout Settings")]
-    [SerializeField] private float cutoutSize = 7f;
+    [SerializeField] private float cutoutSize = 0.75f;
     [SerializeField] private float cutoutSpeed = 2f;
 
     private Camera cam;
@@ -146,7 +146,7 @@ public class CameraCutout : MonoBehaviour
     private void SetTargetCutout(Material[] materials, float target)
     {
         for (int i = 0; i < materials.Length; i++)
-            targetValues[materials[i]] = target;
+            targetValues[materials[i]] = Mathf.Clamp01(target);
     }
 
     private void ApplyCutoutValues()

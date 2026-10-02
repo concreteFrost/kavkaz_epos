@@ -1,42 +1,30 @@
 using UnityEditor;
 using UnityEngine;
 
-
 public class ItemCreationTool : EditorWindow
 {
-    private StatModifierItemsCreatorTool statModifierItemsTool;
-    private WeaponModifierItemsCreatorTool weaponModifierItems;
-    private PointsEmitterItemsCreatorTool pointsEmitterTool;
+    private ConsumableItemsCreatorTool consumableItemsTool;
     private SpellProjectileCreatorTool spellTool;
     private WeaponCreatorTool weaponTool;
     private ShieldCreatorTool shieldTool;
-    private QuestItemsCreatorTool questItemsTool;
-
-    private KeyItemsCreatorTool keyItemsTool;
 
     private int selectedTab;
-    private string[] tabs = { "Stat Modifier Items", "Weapon Modifier Items", "Points Emitter Items","Spells","Weapons","Shields","Quest Items","Key Items" };
-    private Vector2 tabScrollPos; // добавляем поле для прокрутки
-   
+    private readonly string[] tabs = { "Consumables", "Spells", "Weapons", "Shields" };
+    private Vector2 tabScrollPos;
 
     [MenuItem("Tools/Items Tools/Items Creator")]
     public static void Open() => GetWindow<ItemCreationTool>("Items Creator");
 
     private void OnEnable()
     {
-        statModifierItemsTool = CreateInstance<StatModifierItemsCreatorTool>();
-        weaponModifierItems = CreateInstance<WeaponModifierItemsCreatorTool>();
-        pointsEmitterTool = CreateInstance<PointsEmitterItemsCreatorTool>();
+        consumableItemsTool = CreateInstance<ConsumableItemsCreatorTool>();
         spellTool = CreateInstance<SpellProjectileCreatorTool>();
         weaponTool = CreateInstance<WeaponCreatorTool>();
         shieldTool = CreateInstance<ShieldCreatorTool>();
-        questItemsTool = CreateInstance<QuestItemsCreatorTool>();
-        keyItemsTool = CreateInstance<KeyItemsCreatorTool>();
     }
 
     private void OnGUI()
     {
-        
         tabScrollPos = EditorGUILayout.BeginScrollView(tabScrollPos, GUILayout.Height(50), GUILayout.ExpandWidth(true));
         selectedTab = GUILayout.Toolbar(selectedTab, tabs, GUILayout.Height(25));
         EditorGUILayout.EndScrollView();
@@ -45,28 +33,16 @@ public class ItemCreationTool : EditorWindow
         switch (selectedTab)
         {
             case 0:
-                statModifierItemsTool.DrawWindow();
+                consumableItemsTool.DrawWindow();
                 break;
             case 1:
-                weaponModifierItems.DrawWindow();
-                break;
-            case 2:
-                pointsEmitterTool.DrawWindow();
-                break;
-            case 3:
                 spellTool.DrawWindow();
                 break;
-            case 4:
+            case 2:
                 weaponTool.DrawWindow();
                 break;
-            case 5:
+            case 3:
                 shieldTool.DrawWindow();
-                break;  
-            case 6:
-                questItemsTool.DrawWindow();    
-                break;
-            case 7:
-                keyItemsTool.DrawWindow();
                 break;
         }
     }

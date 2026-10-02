@@ -10,7 +10,6 @@ public enum InventorySection
     Weapons = 0,
     Magic = 1,
     Consumables = 2,
-    Keys = 3
 }
 
 public class PlayerInventoryUI : MonoBehaviour 
@@ -31,12 +30,10 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Button magicSectionBtn;
     [SerializeField] Button consumableSectionBtn;
     [SerializeField] Button weaponsSectionBtn;
-    [SerializeField] Button keysSectionBtn;
 
     private PlayerConsumableInventory consumableInventory;
     private CharacterSpellInventory spellInventory;
     private CharacterWeaponInventory weaponInventory;
-    private PlayerKeyItemsInventory keysInventory;
 
     private List<InventoryItemUI> weaponItems = new List<InventoryItemUI>();
     private List<InventoryItemUI> slotItems = new List<InventoryItemUI>();
@@ -59,7 +56,6 @@ public class PlayerInventoryUI : MonoBehaviour
     InventorySection.Weapons,
     InventorySection.Magic,
     InventorySection.Consumables,
-    InventorySection.Keys
 };
 
     public void Init(ItemDescriptionPanelUI descriptionPanel,
@@ -67,7 +63,6 @@ public class PlayerInventoryUI : MonoBehaviour
         CharacterSpellInventory spellInventory,
         PlayerConsumableInventory consumableInventory,
         PlayerInventoryContextMenuUI contextMenu,
-        PlayerKeyItemsInventory keysInventory,
         CharacterStatsController statsController)
     {
         this.descriptionPanel = descriptionPanel;
@@ -77,7 +72,6 @@ public class PlayerInventoryUI : MonoBehaviour
         this.consumableInventory = consumableInventory;
         this.weaponInventory = weaponInventory;
         this.spellInventory = spellInventory;
-        this.keysInventory = keysInventory;
 
         contextMenu.ContextMenuClosed += OnContextMenuClosed;
         contextMenu.UpdateQuickSlotsInfo += OnQuickSlotsInfoUpdate;
@@ -92,7 +86,6 @@ public class PlayerInventoryUI : MonoBehaviour
         {InventorySection.Weapons, this.weaponInventory  },
         {InventorySection.Magic,this.spellInventory },
         {InventorySection.Consumables, this.consumableInventory },
-        {InventorySection.Keys, this.keysInventory}
     };
 
 
@@ -134,7 +127,6 @@ public class PlayerInventoryUI : MonoBehaviour
         magicSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Magic));
         consumableSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Consumables));
         weaponsSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Weapons));
-        keysSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Keys));
         //resourcesSectionBtn.onClick.AddListener(() => GetSection(InventorySection.Resources));
     }
 
@@ -251,7 +243,6 @@ public class PlayerInventoryUI : MonoBehaviour
         SetButtonState(magicSectionBtn, section == InventorySection.Magic);
         SetButtonState(consumableSectionBtn, section == InventorySection.Consumables);
         SetButtonState(weaponsSectionBtn, section == InventorySection.Weapons);
-        SetButtonState(keysSectionBtn, section == InventorySection.Keys);
     }
 
     /// <summary>
