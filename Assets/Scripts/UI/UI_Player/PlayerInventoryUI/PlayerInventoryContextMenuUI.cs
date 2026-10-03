@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +33,6 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
     public void Init(CharacterConsumeController consumableController)
     {
         this.consumableController = consumableController;
-        allSelectables.AddRange(wrapper.GetComponentsInChildren<Button>());
         _rectTransform = wrapper.GetComponent<RectTransform>();
 
         SetupAction(addToSlotBtn, AddFromContext);
@@ -164,9 +164,11 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         position.y -= 90;
         _rectTransform.localPosition = position;
 
-        UINavigationUtils.ClampVerticalNavigation(allSelectables);
-        var fistActiveSelectable = UINavigationUtils.GetFirstActive(allSelectables);
-        StartCoroutine(UINavigationUtils.SelectWithDelay(fistActiveSelectable));
+        var selectables = wrapper.GetComponentsInChildren<Selectable>().ToList();
+        UINavigationUtils.ClampVerticalNavigation(selectables);
+
+        if (selectables.Count > 0)
+            StartCoroutine(UINavigationUtils.SelectWithDelay(selectables[0].gameObject));
     }
 
     /// <summary>Проверяет, можно ли открыть меню для переданного предмета.</summary>

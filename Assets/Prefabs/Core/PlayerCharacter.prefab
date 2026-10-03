@@ -1450,14 +1450,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8642841015637673842
-Transform:
+--- !u!224 &8642841015637673842
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987444869759846238}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1465,6 +1464,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6516473963275377860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1621261765895178970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2107,6 +2111,7 @@ GameObject:
   - component: {fileID: 2265079345341413709}
   - component: {fileID: 6319884550159151703}
   - component: {fileID: 5175552608364520523}
+  - component: {fileID: 5079103381442221301}
   m_Layer: 0
   m_Name: Inventory_ScrollRect
   m_TagString: Untagged
@@ -2230,6 +2235,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &5079103381442221301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2160402257111821371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5625d0739d44cba3fc6ea97da4e2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2343426025243798130
 GameObject:
   m_ObjectHideFlags: 0
@@ -4243,10 +4260,9 @@ MonoBehaviour:
   itemCellPrefab: {fileID: 3972935063080875979, guid: d16688517a4d6b740959ac32a11e84f2, type: 3}
   weaponCellsContainer: {fileID: 6210825105354539636}
   cellsContainer: {fileID: 2773443376432296758}
-  scrollSlider: {fileID: 5947088947592278128}
   scrollRect: {fileID: 2265079345341413709}
-  magicSectionBtn: {fileID: 6288675660326869066}
-  consumableSectionBtn: {fileID: 8758022159356967891}
+  magicSectionBtn: {fileID: 8758022159356967891}
+  consumableSectionBtn: {fileID: 6288675660326869066}
   weaponsSectionBtn: {fileID: 5558135647866063630}
   quickSlotsContainer: {fileID: 6970884506260932321}
 --- !u!1 &4405773083188593680
@@ -4293,7 +4309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effdef30d499105429a966a50080ea64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoneyManager
-  currentBalance: 0
+  currentBalance: 500
 --- !u!1 &4449761109065529391
 GameObject:
   m_ObjectHideFlags: 0
@@ -7183,7 +7199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84e56d0ccc027a47a3bf2985ecc1b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInteract
-  keyItemsInventory: {fileID: 0}
+  consumableInventory: {fileID: 0}
 --- !u!114 &3876661391844601501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7984,6 +8000,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5119478490836842159}
   - component: {fileID: 8662700547249859781}
+  - component: {fileID: 2003368029264948843}
+  - component: {fileID: 3915591898446930447}
   m_Layer: 0
   m_Name: Player_InventoryContextMenuUI
   m_TagString: Untagged
@@ -8041,6 +8059,48 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2003368029264948843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765406500617582947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5625d0739d44cba3fc6ea97da4e2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScrollRectSelectionFollower
+--- !u!114 &3915591898446930447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7765406500617582947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
+  m_Content: {fileID: 0}
+  m_Horizontal: 1
+  m_Vertical: 1
+  m_MovementType: 1
+  m_Elasticity: 0.1
+  m_Inertia: 1
+  m_DecelerationRate: 0.135
+  m_ScrollSensitivity: 1
+  m_Viewport: {fileID: 0}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 0}
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7914648874394430099
 GameObject:
   m_ObjectHideFlags: 0
@@ -8085,7 +8145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef0e7eaa16f6d64eaf8be32cd3ab0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
-  skyOffset: 2.5
+  skyOffset: 4
 --- !u!1 &8043588142013002775
 GameObject:
   m_ObjectHideFlags: 0
@@ -8694,7 +8754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.72, g: 0.20, b: 0.15, a: 1}
+  m_Color: {r: 0.72, g: 0.2, b: 0.15, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9397,7 +9457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.82, g: 0.58, b: 0.20, a: 1}
+  m_Color: {r: 0.82, g: 0.58, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11101,17 +11161,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4407054237662265805, guid: 0a9a842f697bcec409d86352d94d76b0, type: 3}
   m_PrefabInstance: {fileID: 8139945906603998602}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9029813719091551659 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 983669354516193313, guid: 0a9a842f697bcec409d86352d94d76b0, type: 3}
-  m_PrefabInstance: {fileID: 8139945906603998602}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1001 &8371079897201286130
 PrefabInstance:
   m_ObjectHideFlags: 0

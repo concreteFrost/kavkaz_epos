@@ -8,31 +8,34 @@ public class PlayerMoneyManager : MonoBehaviour
     [SerializeField] private float currentBalance;
     public float CurrentBalance => currentBalance;
 
+    private float displayBalance;
+
     public Action<float> NotifyBalance;
 
     private readonly Queue<float> balanceQueue = new();
     private Coroutine balanceCoroutine;
+
+    private void Awake()
+    {
+        displayBalance = currentBalance;
+    }
 
     public void AddMoney(float amount)
     {
         if (amount == 0)
             return;
 
-        balanceQueue.Enqueue(amount);
-
-        if (balanceCoroutine == null)
-            balanceCoroutine = StartCoroutine(ProcessQueue());
+        currentBalance = Mathf.Max(0f, currentBalance + amount);
+        EnqueueBalanceAnimation(amount);
     }
 
     public bool TrySpendMoney(float amount)
     {
-        if (amount <= 0)
+        if (amount <= 0 || currentBalance < amount)
             return false;
 
-        if (currentBalance < amount)
-            return false;
-
-        AddMoney(-amount);
+        currentBalance -= amount;
+        EnqueueBalanceAnimation(-amount);
         return true;
     }
 
@@ -43,33 +46,46 @@ public class PlayerMoneyManager : MonoBehaviour
 
     public void LoadData(float amount)
     {
+        if (balanceCoroutine != null)
+        {
+            StopCoroutine(balanceCoroutine);
+            balanceCoroutine = null;
+        }
+
+        balanceQueue.Clear();
         currentBalance = amount;
-        NotifyBalance?.Invoke(currentBalance);
+        displayBalance = amount;
+        NotifyBalance?.Invoke(displayBalance);
+    }
+
+    private void EnqueueBalanceAnimation(float amount)
+    {
+        balanceQueue.Enqueue(amount);
+
+        if (balanceCoroutine == null)
+            balanceCoroutine = StartCoroutine(ProcessQueue());
     }
 
     private IEnumerator ProcessQueue()
     {
         while (balanceQueue.Count > 0)
         {
-            float amount = balanceQueue.Dequeue(); //значение нового баланса хранится в очереди
+            float amount = balanceQueue.Dequeue();
+            float targetBalance = Mathf.Max(0f, displayBalance + amount);
 
-            float startBalance = currentBalance;
-            float targetBalance = Mathf.Max(0, startBalance + amount);
-
-            while (!Mathf.Approximately(currentBalance, targetBalance))
+            while (!Mathf.Approximately(displayBalance, targetBalance))
             {
-                currentBalance = Mathf.MoveTowards(
-                    currentBalance,
+                displayBalance = Mathf.MoveTowards(
+                    displayBalance,
                     targetBalance,
                     50f * Time.deltaTime);
 
-                NotifyBalance?.Invoke(currentBalance); //формат валют
-
+                NotifyBalance?.Invoke(displayBalance);
                 yield return null;
             }
 
-            currentBalance = targetBalance;
-            NotifyBalance?.Invoke(currentBalance);
+            displayBalance = targetBalance;
+            NotifyBalance?.Invoke(displayBalance);
         }
 
         balanceCoroutine = null;

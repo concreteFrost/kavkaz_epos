@@ -24,7 +24,6 @@ public class PlayerInventoryUI : MonoBehaviour
     [SerializeField] Transform weaponCellsContainer;
     [SerializeField] Transform cellsContainer;
 
-    [SerializeField] Scrollbar scrollSlider;
     [SerializeField] ScrollRect scrollRect;
 
     [SerializeField] Button magicSectionBtn;
@@ -423,19 +422,6 @@ public class PlayerInventoryUI : MonoBehaviour
         GetSection(sectionOrder[newIndex]);
     }
 
-
-    /// <summary>
-    /// Листает сетку инвентаря (L2, R2)
-    /// </summary>
-    /// <param name="val"></param>
-    internal void RedSliderValue(float val)
-    {
-
-        float result = val >= 0 ? -0.25f : 0.25f;
-        scrollSlider.value += result;
-
-        //scrollSlider.value += c.ReadValue<Vector2>().;
-    }
 
     #endregion
 }

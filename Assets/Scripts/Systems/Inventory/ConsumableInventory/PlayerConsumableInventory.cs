@@ -89,4 +89,25 @@ public class PlayerConsumableInventory : BaseInventory<ConsumableData>
         return true;
     }
 
+
+    public bool TryConsumeItem(string itemId, int quantity)
+    {
+        if (string.IsNullOrEmpty(itemId) || quantity <= 0)
+            return false;
+
+        ConsumableData item = items.Find(x =>
+            x != null && x.itemSO != null && x.itemSO.id == itemId);
+
+        if (item == null || item.quantity < quantity)
+            return false;
+
+        item.quantity -= quantity;
+
+        if (item.quantity == 0)
+            RemoveFromInventory(item);
+        else
+            Notify();
+
+        return true;
+    }
 }

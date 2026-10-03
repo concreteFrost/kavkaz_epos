@@ -314,6 +314,6 @@ public class PlayerServiceLocator : MonoBehaviour
 
     private void InitCharacterConstructor()
     {
-        constructor.Init(consumableInventory: consumableInventory,spellInventory: spellInventory);
+        constructor.Init(consumableInventory: consumableInventory,spellInventory: spellInventory, weaponInv: weaponInventory);
     }
 }

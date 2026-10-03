@@ -54,7 +54,7 @@ public class Weapon : CombatItem, IWeapon
     {
         if (currentAttack == null || Owner == null) return;
 
-        float baseWeaponDamage = data.GetWeaponDamageWithLevel();
+        float baseWeaponDamage = data.GetWeaponDamageWithLevel(data.WeaponLevel);
        
         if (data.durability <= 0) 
             baseWeaponDamage = baseWeaponDamage * 0.5f;

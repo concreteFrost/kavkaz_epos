@@ -179,17 +179,9 @@ public class PlayerUIManager : MonoBehaviour
 
     public void ReadSliderValue(float value)
     {
-        if (inventoryUI.IsOpened())
-        {
-            inventoryUI.RedSliderValue(value);
-            return;
-        }
-        if (levelControllerUI.IsOpened())
-        {
-            levelControllerUI.HandleStatChange(value);
-            return;
-        }
-        
+        if (!levelControllerUI.IsOpened()) return;
+
+        levelControllerUI.HandleStatChange(value);
     }
 
     public void ChangeInventorySection(int value)

@@ -67,6 +67,30 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
 
     }
 
+    /// <summary>
+    /// “ŒÀ‹ Œ ƒÀﬂ “≈—“¿
+    /// </summary>
+    public void AddAllItemsOnStart()
+    {
+        var allItems = Resources.LoadAll<WeaponSO>("Items/Weapons/");
+
+        foreach (var item in allItems)
+        {
+            var data = new WeaponData
+            {
+                itemSO = item,
+                quantity = 20,
+                durability = 100,
+                WeaponLevel = 1
+            };
+
+            AddItemToInventory(data);
+           
+
+        }
+    }
+
+
     public override void LoadInventoryData(SaveInventoryData data)
     {
         base.LoadInventoryData(data);

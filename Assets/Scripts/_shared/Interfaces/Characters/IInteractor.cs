@@ -22,4 +22,5 @@ public interface IPlayerInteractor : IInteractor
     CharacterWeaponInventory WeaponInventory { get; }
     PlayerConsumableInventory ConsumableInventory { get; }
     PlayerMoneyManager MoneyManager { get; }
+
 }

@@ -11,6 +11,7 @@ public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandl
     [SerializeField] TextMeshProUGUI unspentPointsText;
 
     [SerializeField] Button upgradeBtn;
+
     
     public void Init(PlayerLevelControllerUI levelControllerUI)
     {

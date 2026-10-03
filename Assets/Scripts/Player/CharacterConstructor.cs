@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class CharacterConstructor : MonoBehaviour
 {
-    PlayerConsumableInventory consumableInventory;
-    CharacterSpellInventory spellInventory;
+
     [SerializeField] bool hasAllConsumables;
     [SerializeField] bool hasAllSpells;
     [SerializeField] bool hasAllWeapons;
 
-    public void Init(PlayerConsumableInventory consumableInventory, CharacterSpellInventory spellInventory)
+    public void Init(PlayerConsumableInventory consumableInventory, CharacterSpellInventory spellInventory, CharacterWeaponInventory weaponInv
+        )
     {
-        this.consumableInventory = consumableInventory;
-        this.spellInventory = spellInventory;
-
 
         if (hasAllConsumables)
         {
@@ -22,6 +19,11 @@ public class CharacterConstructor : MonoBehaviour
         if (hasAllSpells)
         {
             spellInventory.AddAllItemsOnStart();
+        }
+
+        if (hasAllWeapons)
+        {
+            weaponInv.AddAllItemsOnStart();
         }
 
 

@@ -24,14 +24,12 @@ public class WeaponData : ItemData , IItemStats
         set => weaponLevel = Mathf.Clamp(value, 1, 10);
     }
 
-    public float GetWeaponDamageWithLevel()
+    public float GetWeaponDamageWithLevel(int level)
     {
-        var baseWeaponDamage = (itemSO as WeaponSO).GetBaseDamage();
+        float baseDamage = (itemSO as WeaponSO).GetBaseDamage();
+        float multiplier = WeaponUpgradeFormula.GetDamageMultiplier(level);
 
-        float weaponMultiplier =
-        WeaponUpgradeFormula.GetDamageMultiplier(weaponLevel);
-
-        return baseWeaponDamage *= weaponMultiplier;
+        return Mathf.Round(baseDamage * multiplier * 10f) / 10f;
     }
 
     public void Upgrade()
@@ -67,7 +65,7 @@ public class WeaponData : ItemData , IItemStats
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
         new ItemStat("weapon level", weaponLevel, ItemStatFormatType.flat),
-        new ItemStat("base damage",   Mathf.Round(GetWeaponDamageWithLevel() * 10f) / 10f, ItemStatFormatType.flat),
+        new ItemStat("base damage",   Mathf.Round(GetWeaponDamageWithLevel(WeaponLevel) * 10f) / 10f, ItemStatFormatType.flat),
         new ItemStat("durability", durability, ItemStatFormatType.flat)
     };
 
