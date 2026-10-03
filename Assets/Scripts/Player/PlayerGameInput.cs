@@ -10,6 +10,8 @@ public class PlayerGameInput : MonoBehaviour
     private PlayerTargetLock targetLock;
     private PlayerAnimatorController animator;
 
+    private PlayerUIManager uiManager;
+
     public static Action ProceedDialogue;
     public static Action QuitDialogue;
 
@@ -19,7 +21,8 @@ public class PlayerGameInput : MonoBehaviour
         PlayerCombatActionHandler combatHandler,
         PlayerQuickSlotActionHandler quickSlotHandler,
         PlayerAnimatorController animatorController,
-        PlayerTargetLock targetLock
+        PlayerTargetLock targetLock,
+        PlayerUIManager uiManager
       
         )
     {
@@ -28,7 +31,8 @@ public class PlayerGameInput : MonoBehaviour
         this.combat = combatHandler;
         this.quickSlots = quickSlotHandler;
         this.animator = animatorController;
-        this.targetLock = targetLock; 
+        this.targetLock = targetLock;
+        this.uiManager = uiManager;
     }
 
 
@@ -170,15 +174,16 @@ public class PlayerGameInput : MonoBehaviour
     {
         if (!reader.InventoryPressed) return;
 
+        uiManager.OpenInventoryPanel();
         reader.Consume(ref reader.InventoryPressed);
-        GameStateManager.Instance.SetState(GameState.Inventory);
     }
 
     private void HandeMenuPressed()
     {
         if (!reader.MenuPressed) return;
+
+        GlobalUIManager.Instance.OpenMenuPanel();
         reader.Consume(ref reader.MenuPressed);
-        GameStateManager.Instance.SetState(GameState.Menu);
     }
 
    

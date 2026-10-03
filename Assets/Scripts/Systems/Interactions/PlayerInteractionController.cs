@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class PlayerInteractionController : BaseCharacterInteractor
+
+
+public class PlayerInteractionController : BaseCharacterInteractor, IPlayerInteractor
 {
     private bool canLookForInteraction = true;
 
@@ -12,7 +14,13 @@ public class PlayerInteractionController : BaseCharacterInteractor
     PlayerQuestItemsInventory questItemsInventory;
     PlayerMoneyManager moneyManager;
 
-   
+    #region IPlayerInteractor Contract
+    public CharacterWeaponInventory WeaponInventory => weaponInventory;
+    public PlayerConsumableInventory ConsumableInventory => consumableInventory;
+    public PlayerMoneyManager MoneyManager => moneyManager;
+
+    #endregion
+
 
     public static Action<ItemData> LootCollected;
     public void Init(string collectorId, Transform self,

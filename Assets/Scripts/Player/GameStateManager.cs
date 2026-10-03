@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 public enum GameState
 {
     Game = 0,
-    Inventory = 1,
     Transition = 2,
     Menu= 3,
-    Bonfire = 4,
+    ContextMenu =4,
     Dialogue= 5,
+
 
 }
 

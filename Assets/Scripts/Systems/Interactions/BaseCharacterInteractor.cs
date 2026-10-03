@@ -12,7 +12,7 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
     public CharacterStatsController StatsController { get; set; } = null;
     public CharacterStatsModifier StatsModifier { get; set; } = null;
     public ICharacterLifeCycle LifeCycleController { get; set; } = null;
-    public IWeaponSetter CombatInventory { get; set; } = null;
+    public IWeaponSetter WeaponSetter { get; set; } = null;
     public IDamagable Damagable { get; set; } = null;
     public IAttackSource AttackSource { get; set; } = null;
 
@@ -51,7 +51,7 @@ public abstract class BaseCharacterInteractor : MonoBehaviour, IInteractor
         this.StatsController = statsController;
         this.StatsModifier = statsModifier;
         this.animatorController = animatorController;
-        this.CombatInventory = combatInventory;
+        this.WeaponSetter = combatInventory;
         this.AttackSource = attackSource;
         this.Damagable = damageController;
         this.LifeCycleController = lifeCycleController;

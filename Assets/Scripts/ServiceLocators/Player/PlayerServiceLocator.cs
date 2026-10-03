@@ -134,7 +134,8 @@ public class PlayerServiceLocator : MonoBehaviour
             combatHandler: combatHandler,
             animatorController: animatorController,
             targetLock: targetLock,
-            quickSlotHandler: quickSlotHandler
+            quickSlotHandler: quickSlotHandler,
+            uiManager: uiManager
             );
 
         inputUI.Init(reader: inputReader);

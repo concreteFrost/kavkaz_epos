@@ -1,6 +1,5 @@
-﻿using System;
+﻿
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -41,8 +40,7 @@ public class PlayerInputManager : MonoBehaviour
                 SetGameMode();
                 break;
             case GameState.Menu:
-            case GameState.Inventory:
-            case GameState.Bonfire:
+            case GameState.ContextMenu:
                 SetUIMode();
                 break;
             case GameState.Dialogue:

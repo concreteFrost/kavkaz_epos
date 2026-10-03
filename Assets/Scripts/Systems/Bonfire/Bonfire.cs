@@ -61,11 +61,9 @@ public class Bonfire : MonoBehaviour, IInteractable
             DiscoverBonfire();
             return;
         }
-       
-
 
         BonfireInteracted?.Invoke();
-        GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
+        //GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
 
         interactor.LifeCycleController.SetStartingPosition(respawnPosition.position);
         interactor.StatsController.ResetAllStats();

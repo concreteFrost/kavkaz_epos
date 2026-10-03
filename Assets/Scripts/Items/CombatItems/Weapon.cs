@@ -43,40 +43,7 @@ public class Weapon : CombatItem, IWeapon
        
 
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            Upgrade();
-        }
-    }
-
-    public void Upgrade()
-    {
-        if (!CanUpgrade())
-        {
-            Debug.Log("weapon is on max level");
-            return;
-        }
-
-        data.WeaponLevel++;
-    }
-
-    public void Downgrade()
-    {
-        if (!CanDowngrade())
-        {
-            Debug.Log("weapon level is on minimum");
-            return;
-        }
-
-        data.WeaponLevel--;
-    }
-
-    public bool CanUpgrade() => data.WeaponLevel < 10;
-
-    public bool CanDowngrade() => data.WeaponLevel > 1;
+   
 
     public void PlaySwing()
     {
@@ -117,7 +84,7 @@ public class Weapon : CombatItem, IWeapon
 
         damageCollider.SetWeaponData(this);
 
-        AssignParent(Owner.CombatInventory.GetRightHand());
+        AssignParent(Owner.WeaponSetter.GetRightHand());
     }
 
   

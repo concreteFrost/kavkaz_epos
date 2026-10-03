@@ -12,6 +12,7 @@ public class PlayerUIAudioManager : MonoBehaviour
         PlayerInteractionController.LootCollected += OnLootCollected;
         LootSmallPanelUI.ItemSlide += OnItemSlide;
         PlayerUIManager.UiToggled += OnUiToggled;
+        GlobalUIManager.UiToggled += OnUiToggled;
         BonfirePanelUI.BonfirePanelOpened += OnBonfirePanelOpened;
         BonfireManager.TravelStarted += OnTravelStarted;
         Bonfire.BonfireDiscovered += OnBonfireDiscovered;
@@ -27,6 +28,7 @@ public class PlayerUIAudioManager : MonoBehaviour
         PlayerInteractionController.LootCollected -= OnLootCollected;
         LootSmallPanelUI.ItemSlide -= OnItemSlide;
         PlayerUIManager.UiToggled -= OnUiToggled;
+        GlobalUIManager.UiToggled -= OnUiToggled;
         BonfirePanelUI.BonfirePanelOpened -= OnBonfirePanelOpened;
         BonfireManager.TravelStarted -= OnTravelStarted;
         Bonfire.BonfireDiscovered -= OnBonfireDiscovered;

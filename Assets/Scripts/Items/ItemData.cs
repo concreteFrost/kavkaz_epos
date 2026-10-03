@@ -34,6 +34,32 @@ public class WeaponData : ItemData , IItemStats
         return baseWeaponDamage *= weaponMultiplier;
     }
 
+    public void Upgrade()
+    {
+        if (!CanUpgrade())
+        {
+            Debug.Log("weapon is on max level");
+            return;
+        }
+
+        WeaponLevel++;
+    }
+
+    public void Downgrade()
+    {
+        if (!CanDowngrade())
+        {
+            Debug.Log("weapon level is on minimum");
+            return;
+        }
+
+        WeaponLevel--;
+    }
+
+    public bool CanUpgrade() => WeaponLevel < 10;
+
+    public bool CanDowngrade() => WeaponLevel > 1;
+
     /// <summary>
     /// Посколько оружие динамическое то ему нужны актуальные данные
     /// </summary>

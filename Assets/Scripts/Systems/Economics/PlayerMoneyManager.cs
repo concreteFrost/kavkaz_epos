@@ -10,10 +10,10 @@ public class PlayerMoneyManager : MonoBehaviour
 
     public Action<float> NotifyBalance;
 
-    private readonly Queue<int> balanceQueue = new();
+    private readonly Queue<float> balanceQueue = new();
     private Coroutine balanceCoroutine;
 
-    public void AddMoney(int amount)
+    public void AddMoney(float amount)
     {
         if (amount == 0)
             return;
@@ -24,7 +24,7 @@ public class PlayerMoneyManager : MonoBehaviour
             balanceCoroutine = StartCoroutine(ProcessQueue());
     }
 
-    public bool TrySpendMoney(int amount)
+    public bool TrySpendMoney(float amount)
     {
         if (amount <= 0)
             return false;
@@ -51,7 +51,7 @@ public class PlayerMoneyManager : MonoBehaviour
     {
         while (balanceQueue.Count > 0)
         {
-            int amount = balanceQueue.Dequeue(); //значение нового баланса хранится в очереди
+            float amount = balanceQueue.Dequeue(); //значение нового баланса хранится в очереди
 
             float startBalance = currentBalance;
             float targetBalance = Mathf.Max(0, startBalance + amount);

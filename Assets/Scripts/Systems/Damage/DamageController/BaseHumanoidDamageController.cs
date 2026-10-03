@@ -92,7 +92,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
     }
 
 
-    public void ToggleDamagableCollider(bool isActive) => damagableCollider.enabled = GameStateManager.Instance.CurrentState != GameState.Bonfire;
+    public void ToggleDamagableCollider(bool isActive) { }
 
     public void ResetOriginPosition()
     {

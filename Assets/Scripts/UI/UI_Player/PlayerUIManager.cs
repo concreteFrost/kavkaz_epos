@@ -20,9 +20,6 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] private PlayerPointsControllerUI pointsControllerUI;
     [SerializeField] private PlayerLevelControllerUI levelControllerUI;
 
-    [Header("Menu")]
-    [SerializeField] private PlayerMenuOptionsUI menuOptionsUI;
-
     [Header("Interaction")]
     [SerializeField] private PlayerInteractionUI interactionUI;
 
@@ -70,7 +67,8 @@ public class PlayerUIManager : MonoBehaviour
         
         pointsControllerUI.Init(levelController);
         levelControllerUI.Init(levelController);
-        menuOptionsUI.Init(levelControllerUI);
+        GlobalUIManager.Instance.RegisterLevelControllerAction(
+            () => levelControllerUI.ToggleLevelControllerPanel(true));
         interactionUI.Init(interactionController);
         moneyUI.Init(moneyManager);
         eventMessagesUI.Init();
@@ -119,6 +117,12 @@ public class PlayerUIManager : MonoBehaviour
         GameStateManager.GameStateChanged -= OnGameStateChanged;
     }
 
+    private void OnDestroy()
+    {
+        if (GlobalUIManager.Instance != null)
+            GlobalUIManager.Instance.RegisterLevelControllerAction(null);
+    }
+
     #endregion
 
     #region Game State Handling
@@ -127,41 +131,26 @@ public class PlayerUIManager : MonoBehaviour
     {
         ToggleInGamePanels(state == GameState.Game);
 
-        if (state == GameState.Inventory)
+        if(state == GameState.Game)
         {
-            OpenInventoryPanel();
-            return;
+            CloseAllPanels();
         }
-        if(state == GameState.Menu)
-        {
-            OpenMenuPanel();
-            return;
-        }
-
-        CloseAllPanels();
+        
     }
 
-    private void OpenInventoryPanel()
+    public void OpenInventoryPanel()
     {
-
+        GameStateManager.Instance.SetState(GameState.ContextMenu);
         inventoryUI.ToggleInventory(true);
         inventoryUI.GetSection(InventorySection.Weapons);
         UiToggled?.Invoke(true);
     }
-
-    private void OpenMenuPanel()
-    {
-        menuOptionsUI.ToggleMenuOptions(true);
-        UiToggled?.Invoke(true);
-    }
-
 
     private void CloseAllPanels()
     {
         
         inventoryContextMenuUI.HideContextMenu(false);
         inventoryUI.ToggleInventory(false);
-        menuOptionsUI.ToggleMenuOptions(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
         eventMessagesUI.HidePanel();
         //UiToggled?.Invoke(false);
@@ -178,16 +167,9 @@ public class PlayerUIManager : MonoBehaviour
         UiToggled?.Invoke(isVisible);
     }
 
-    public void ToggleMenuOptions(bool isVisible)
-    {
-        menuOptionsUI.ToggleMenuOptions(isVisible);
-
-        UiToggled?.Invoke(isVisible);
-    }
-
     public void HideAdditionalPanels(GameState state)
     {
-        if (state == GameState.Inventory)
+        if (state == GameState.ContextMenu)
         {
             inventoryContextMenuUI.HideContextMenu(true);
             return;

@@ -23,7 +23,7 @@ public class Shield : CombatItem, IShield
     public override void AssignToOwner(IInteractor collector)
     {
         Owner = collector;
-        AssignParent(Owner.CombatInventory.GetLeftHand());
+        AssignParent(Owner.WeaponSetter.GetLeftHand());
 
     }
 
