@@ -6,7 +6,7 @@ public class TrapActivator : MonoBehaviour
     [SerializeField] BaseTrap trap;
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.GetComponent<IDamagable>() != null)
         {

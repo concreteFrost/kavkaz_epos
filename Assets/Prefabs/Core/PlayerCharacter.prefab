@@ -243,7 +243,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
   items: []
-  starterSet: {fileID: 11400000, guid: e594d06b6f805d347acb417e13a3ad64, type: 2}
+  initialWeapon: {fileID: 18204287337618311, guid: 2fbcd6a407fa90649bc48475f9c77871, type: 3}
+  initialShield: {fileID: 3255179769068497855, guid: a4eeebd9c5ca0074e84540908371adde, type: 3}
 --- !u!114 &8013920937491807215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1125,7 +1126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effdef30d499105429a966a50080ea64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoneyManager
-  currentBalance: 500
+  currentBalance: 0
 --- !u!1 &4449761109065529391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,8 +2421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
-  hasAllConsumables: 1
-  hasAllSpells: 1
+  hasAllConsumables: 0
+  hasAllSpells: 0
   hasAllWeapons: 0
 --- !u!1 &8435803114403785097
 GameObject:

@@ -226,25 +226,26 @@ public class CharacterInspectorTool : EditorWindow
 
         EditorGUI.BeginChangeCheck();
 
-        var newStarterSet = (CombatInventorySO)EditorGUILayout.ObjectField(
-            "Starter Set",
-            combatInventory.starterSet,
-            typeof(CombatInventorySO),
+        var newInitialWeapon = (GameObject)EditorGUILayout.ObjectField(
+            "Initial Weapon",
+            combatInventory.initialWeapon,
+            typeof(GameObject),
+            false
+        );
+        var newInitialShield = (GameObject)EditorGUILayout.ObjectField(
+            "Initial Shield",
+            combatInventory.initialShield,
+            typeof(GameObject),
             false
         );
 
-        if (newStarterSet == null)
-        {
-            EditorGUILayout.HelpBox("Starter Set is not assigned", MessageType.Info);
-        }
-
         if (EditorGUI.EndChangeCheck())
         {
-            Undo.RecordObject(combatInventory, "Change Starter Set");
-            combatInventory.starterSet = newStarterSet;
+            Undo.RecordObject(combatInventory, "Change Initial Equipment");
+            combatInventory.initialWeapon = newInitialWeapon;
+            combatInventory.initialShield = newInitialShield;
             EditorUtility.SetDirty(combatInventory);
         }
-
         EditorGUI.indentLevel--;
     }
 

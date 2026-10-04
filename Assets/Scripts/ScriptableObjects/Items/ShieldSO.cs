@@ -16,7 +16,7 @@ public class ShieldSO : CombatItemSO, IItemStats
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
-        new ItemStat("defence bonus", GetDefenceBonus(), ItemStatFormatType.percent),
+        new ItemStat("damage reduction", GetDefenceBonus(), ItemStatFormatType.percent),
         new ItemStat("cost per hit", GetBreakdownPenalty(), ItemStatFormatType.flat)
     };
 

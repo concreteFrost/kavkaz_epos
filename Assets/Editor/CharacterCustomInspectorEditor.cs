@@ -68,7 +68,8 @@ public class CharacterCustomInspectorEditor : Editor
 
         so.Update();
 
-        DrawProperty(so, "starterSet");
+        DrawProperty(so, "initialWeapon");
+        DrawProperty(so, "initialShield");
 
         so.ApplyModifiedProperties();
     }

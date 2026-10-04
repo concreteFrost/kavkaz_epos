@@ -18,6 +18,8 @@ public class StaminaModel : ResourceStatModel
 
     public override void ChangeCurrent(float amount, OperationType operationType)
     {
+        return;
+
         float delta = operationType == OperationType.Positive ? amount : -amount;
 
         if (operationType == OperationType.Negative && !canReduceStamina) return; //блокируем вычет из стамины

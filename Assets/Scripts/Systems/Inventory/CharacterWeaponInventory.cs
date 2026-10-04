@@ -11,8 +11,9 @@ public class WeaponSaveData : InventoryItemSaveData
 
 public class CharacterWeaponInventory : BaseInventory<WeaponData>
 {
-    [Header("Starter Set")]
-    public CombatInventorySO starterSet;
+    [Header("Initial Equipment")]
+    public GameObject initialWeapon;
+    public GameObject initialShield;
 
     private HumanoidWeaponSetter weaponSetter;
     private Dictionary<string, ICombatItem> weaponPool = new Dictionary<string, ICombatItem>();
@@ -28,11 +29,9 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
         cachedCombatItems = new List<CombatItemSO>(resources.GetAllWeapons());  
         weaponDataBaseSO = resources;
 
-        if (starterSet == null) return;
-
-        if (starterSet.initialWeapon != null)
+        if (initialWeapon != null)
         {
-            var weaponSo = starterSet.initialWeapon.GetComponent<Weapon>().WeaponData();
+            var weaponSo = initialWeapon.GetComponent<Weapon>().WeaponData();
             var itemData = new WeaponData()
             {
                 instanceId = Guid.NewGuid().ToString(),
@@ -47,9 +46,9 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
             EquipItem(itemData);
         }
 
-        if (starterSet.initialShield != null)
+        if (initialShield != null)
         {
-            var shieldSo = starterSet.initialShield.GetComponent<Shield>().ShieldData();
+            var shieldSo = initialShield.GetComponent<Shield>().ShieldData();
             var itemData = new WeaponData()
             {
                 instanceId = Guid.NewGuid().ToString(),
