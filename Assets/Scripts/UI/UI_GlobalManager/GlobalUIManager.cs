@@ -18,14 +18,14 @@ public class GlobalUIManager : MonoBehaviour
     private void OnEnable()
     {
         GameStateManager.GameStateChanged += OnGameStateChanged;
-        WeaponUpgradeStation.WeaponUpgradeStationInterated += OnWeaponStationInteracted;
+        WeaponUpgradeStation.WeaponUpgradeStationInteracted += OnWeaponStationInteracted;
         Bonfire.BonfireInteracted += OnBonfireInteracted;
     }
 
     private void OnDisable()
     {
         GameStateManager.GameStateChanged -= OnGameStateChanged;
-        WeaponUpgradeStation.WeaponUpgradeStationInterated -= OnWeaponStationInteracted;
+        WeaponUpgradeStation.WeaponUpgradeStationInteracted -= OnWeaponStationInteracted;
         Bonfire.BonfireInteracted -= OnBonfireInteracted;
     }
 

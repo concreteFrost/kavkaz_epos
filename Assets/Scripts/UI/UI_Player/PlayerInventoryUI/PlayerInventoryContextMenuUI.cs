@@ -41,6 +41,8 @@ public class PlayerInventoryContextMenuUI : MonoBehaviour
         SetupAction(equipBtn, EquipItemFromContext);
         SetupAction(destroyBtn, DestroyItemFromContextMenu);
 
+        HideContextMenu(false);
+
 
     }
 

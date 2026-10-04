@@ -53,8 +53,9 @@ public class PlayerInventoryUI : MonoBehaviour
     private List<InventorySection> sectionOrder = new List<InventorySection>
 {
     InventorySection.Weapons,
-    InventorySection.Magic,
     InventorySection.Consumables,
+    InventorySection.Magic,
+   
 };
 
     public void Init(ItemDescriptionPanelUI descriptionPanel,
@@ -83,8 +84,9 @@ public class PlayerInventoryUI : MonoBehaviour
         inventories = new Dictionary<InventorySection, IInventoryUI>
     {
         {InventorySection.Weapons, this.weaponInventory  },
-        {InventorySection.Magic,this.spellInventory },
         {InventorySection.Consumables, this.consumableInventory },
+        {InventorySection.Magic,this.spellInventory },
+        
     };
 
 
@@ -93,6 +95,10 @@ public class PlayerInventoryUI : MonoBehaviour
         InitWeaponCells();
 
         BindSectionButtons();
+
+        ToggleInventory(false);
+
+       
     }
 
     private void OnDisable()

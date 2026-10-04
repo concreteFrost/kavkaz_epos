@@ -28,6 +28,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
     public void Init(CharacterLevelController levelController)
     {
         this.levelController = levelController;
+        this.levelController.UnspentPointsChanged += OnUnspentPointsChanged;
 
         InstantiateStats();
         ToggleLevelControllerPanel(false);
@@ -65,6 +66,7 @@ public class PlayerLevelControllerUI : MonoBehaviour
         panelUI.Init(this);
         
         upgraderPanelUI = panelUI;
+        UpdateUnspentPointsUI();
         selectablePanels.Add(panelUI.GetComponent<Selectable>());
     }
 
@@ -105,6 +107,17 @@ public class PlayerLevelControllerUI : MonoBehaviour
         upgraderPanelUI.SetButtonActive(hasPoints);
     }
 
+    public void UpdateUnspentPointsUI()
+    {
+        upgraderPanelUI.UpdateUnspentPointsText(levelController.GetUnspentPoints());
+    }
+
+    private void OnUnspentPointsChanged(int points)
+    {
+        if (upgraderPanelUI != null)
+            upgraderPanelUI.UpdateUnspentPointsText(points);
+    }
+
     public void Upgrade()
     {
         foreach (var panel in statDatas.Keys)
@@ -125,6 +138,8 @@ public class PlayerLevelControllerUI : MonoBehaviour
         {
             panel.UpdatePointsUI();
         }
+
+        UpdateUnspentPointsUI();
 
         LevelUpdated?.Invoke();
 
@@ -160,7 +175,6 @@ public class PlayerLevelControllerUI : MonoBehaviour
             else if (val < 0)
                 panel.RemoveAccumulatedPoint();
 
-            upgraderPanelUI.UpdateUnspentPointsText(levelController.levelData.unspentPoints);
             
         }
     }

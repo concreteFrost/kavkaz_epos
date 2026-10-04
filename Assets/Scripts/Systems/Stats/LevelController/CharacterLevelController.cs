@@ -25,6 +25,7 @@ public class CharacterLevelController : MonoBehaviour
     public static Action XpGained;
     public static Action NewLevelReachedWithMessage;
     public static Action PointsSpent;
+    public Action<int> UnspentPointsChanged;
 
     public static Action NewLevelReached;
 
@@ -59,6 +60,7 @@ public class CharacterLevelController : MonoBehaviour
     {
         levelData.currentXP = data.currentXP;
         levelData.unspentPoints = data.unspentPoints;
+        UnspentPointsChanged?.Invoke(levelData.unspentPoints);
         levelData.currentCharacterLevel = data.currentCharacterLevel;
 
         CalculateXPToNextLevel();
@@ -85,6 +87,7 @@ public class CharacterLevelController : MonoBehaviour
         levelData.currentXP -= levelData.xpToNextLevel;
         levelData.currentCharacterLevel++;
         levelData.unspentPoints += 3;
+        UnspentPointsChanged?.Invoke(levelData.unspentPoints);
         CalculateXPToNextLevel();   
 
         statsController.Health.ResetCurrent();
@@ -105,13 +108,18 @@ public class CharacterLevelController : MonoBehaviour
 
     public int GetUnspentPoints()=> levelData.unspentPoints;
 
-    public void ReserveSpendPoint() => levelData.unspentPoints--;
+    public void ReserveSpendPoint()
+    {
+        levelData.unspentPoints--;
+        UnspentPointsChanged?.Invoke(levelData.unspentPoints);
+    }
 
     public void RefundSpendPoint()
     {
         // Максимум не больше начального количества очков на уровне
-        if (levelData.unspentPoints < 3)
+        //if (levelData.unspentPoints < 3)
             levelData.unspentPoints++;
+        UnspentPointsChanged?.Invoke(levelData.unspentPoints);
     }
 
 
