@@ -18,10 +18,11 @@ public class PlayerUIAudioManager : MonoBehaviour
         Bonfire.BonfireDiscovered += OnBonfireDiscovered;
         CharacterLevelController.NewLevelReachedWithMessage += OnNewLevelReached;
         PlayerLevelControllerUI.LevelUpdated += OnPlayerLevelUpdated;
+        WeaponUpgradeStation.StationInteracted += OnStationInteracted;
+        WeaponUpgradeStation.WeaponUpgraded += OnWeaponUpgraded;
     }
 
-    
-   
+  
 
     private void OnDisable()
     {
@@ -34,7 +35,10 @@ public class PlayerUIAudioManager : MonoBehaviour
         Bonfire.BonfireDiscovered -= OnBonfireDiscovered;
         CharacterLevelController.NewLevelReachedWithMessage -= OnNewLevelReached;
         PlayerLevelControllerUI.LevelUpdated -= OnPlayerLevelUpdated;
+        WeaponUpgradeStation.StationInteracted -= OnStationInteracted;
+        WeaponUpgradeStation.WeaponUpgraded -= OnWeaponUpgraded;
     }
+
 
 
     private void OnItemSlide() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_item_card_slide);
@@ -53,6 +57,8 @@ public class PlayerUIAudioManager : MonoBehaviour
 
     private void OnBonfireDiscovered() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_bonfire_discovered);
 
+    private void OnStationInteracted(WeaponUpgradeStation station, IPlayerInteractor interactor)=> AudioEventPlayer.Play2DOneShot(audioBankSO.ev_menu_opened);
 
+    private void OnWeaponUpgraded() => AudioEventPlayer.Play2DOneShot(audioBankSO.ev_weaponUpgraded);
 
 }

@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -156,6 +155,8 @@ public class WeaponUpgradeCardUI : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     public void OnSubmit(BaseEventData eventData)
     {
+        if (btn_upgrade == null || !btn_upgrade.IsInteractable()) return;
+
         BindAction();
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using FMODUnity;
 
 public class UiItemAudioEvent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, ISubmitHandler, ISelectHandler
@@ -10,7 +11,6 @@ public class UiItemAudioEvent : MonoBehaviour, IPointerClickHandler, IPointerEnt
     [SerializeField] EventReference ev_click;
 
     [SerializeField] EventReference ev_submit;
-
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -38,6 +38,8 @@ public class UiItemAudioEvent : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
     public void OnSubmit(BaseEventData eventData)
     {
+        Selectable selectable = GetComponent<Selectable>();
+        if (selectable != null && !selectable.IsInteractable()) return;
 
         AudioEventPlayer.Play2DOneShot(ev_submit);
     }

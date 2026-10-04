@@ -75,7 +75,7 @@ public class WeaponUpgradeStationUI : MonoBehaviour
 
             CardTierData info = new CardTierData(
                 data,
-                data.itemSO.name,
+                data.itemSO.itemName,
                 data.WeaponLevel,
                 data.WeaponLevel + 1,
                 data.GetWeaponDamageWithLevel(data.WeaponLevel),

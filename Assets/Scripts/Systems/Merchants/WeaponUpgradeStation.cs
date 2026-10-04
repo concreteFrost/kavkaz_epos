@@ -19,7 +19,8 @@ public class WeaponUpgradeStation : MonoBehaviour, IInteractable
 
     #endregion
 
-    public static Action<WeaponUpgradeStation, IPlayerInteractor> WeaponUpgradeStationInteracted;
+    public static Action<WeaponUpgradeStation, IPlayerInteractor> StationInteracted;
+    public static Action WeaponUpgraded;
 
    
     public void Interact(IInteractor picker)
@@ -30,8 +31,9 @@ public class WeaponUpgradeStation : MonoBehaviour, IInteractable
         }
 
        
-        //GameStateManager.GameStateChanged?.Invoke(GameState.WeaponUpgrader);
-        WeaponUpgradeStationInteracted?.Invoke(this, playerInteractor);
+        //GameStateManager.GameStateChanged?.Invoke(GameState.WeaponUpgrad
+        //er);
+        StationInteracted?.Invoke(this, playerInteractor);
     }
 
     public bool CanUpgrade(
@@ -83,6 +85,7 @@ public class WeaponUpgradeStation : MonoBehaviour, IInteractable
             return false;
 
         weaponData.Upgrade();
+        WeaponUpgraded?.Invoke();
         return true;
     }
 
