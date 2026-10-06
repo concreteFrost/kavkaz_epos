@@ -74,7 +74,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
         ItemData data;
         if (entry.itemSO is CombatItemSO)
         {
-            data = new WeaponData
+            data = entry.itemSO is ShieldSO ? new ShieldData { instanceId = Guid.NewGuid().ToString(), durability = entry.durability } : new WeaponData
             {
                 instanceId = Guid.NewGuid().ToString(),
                 durability = entry.durability,

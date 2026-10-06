@@ -343,7 +343,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private void HandleUnequipItem(ItemData data, Vector2 pos)
     {
         
-        weaponInventory.UnequipItem(data as WeaponData);
+        weaponInventory.UnequipItem(data as CombatItemData);
         GetWeaponsInfo();
     }
 

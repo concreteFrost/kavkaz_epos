@@ -12,9 +12,15 @@ public class ItemData
 }
 
 [System.Serializable]
-public class WeaponData : ItemData , IItemStats
+public class CombatItemData : ItemData
 {
     public float durability;
+
+}
+
+[System.Serializable]
+public class WeaponData : CombatItemData , IItemStats
+{
     [SerializeField]
     private int weaponLevel = 1;
 
@@ -62,7 +68,7 @@ public class WeaponData : ItemData , IItemStats
     /// Посколько оружие динамическое то ему нужны актуальные данные
     /// </summary>
     /// <returns></returns>
-    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    public  List<ItemStat> ItemStats() => new List<ItemStat>()
     {
         new ItemStat("weapon level", weaponLevel, ItemStatFormatType.flat),
         new ItemStat("base damage",   Mathf.Round(GetWeaponDamageWithLevel(WeaponLevel) * 10f) / 10f, ItemStatFormatType.flat),
@@ -71,6 +77,14 @@ public class WeaponData : ItemData , IItemStats
 
 }
 
+[System.Serializable]
+public class ShieldData : CombatItemData, IItemStats {
+
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    { 
+        new ItemStat("durability", durability, ItemStatFormatType.flat)
+    };
+}
 [System.Serializable]
 public class SpellData: ItemData, IItemStats
 {

@@ -9,7 +9,7 @@ public class WeaponSaveData : InventoryItemSaveData
     public int weaponLevel;
 }
 
-public class CharacterWeaponInventory : BaseInventory<WeaponData>
+public class CharacterWeaponInventory : BaseInventory<CombatItemData>
 {
     [Header("Initial Equipment")]
     public GameObject initialWeapon;
@@ -49,13 +49,12 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
         if (initialShield != null)
         {
             var shieldSo = initialShield.GetComponent<Shield>().ShieldData();
-            var itemData = new WeaponData()
+            var itemData = new ShieldData()
             {
                 instanceId = Guid.NewGuid().ToString(),
                 quantity = 1,
                 itemSO =shieldSo,
                 durability = 100,
-                WeaponLevel = 1
 
             };
            
@@ -97,7 +96,7 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
         weaponSetter.ResetAllCombatItems();
 
         //ВАЖНО: пересобираем items с учетом instanceId и durability
-        items = new List<WeaponData>();
+        items = new List<CombatItemData>();
 
         Dictionary<string, ItemSO> itemsMap = new Dictionary<string, ItemSO>();
 
@@ -111,15 +110,13 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
 
             var parsedWeaponData = saved as WeaponSaveData;
 
-            var newItem = new WeaponData()
-            {
-                itemSO = so,
-                quantity = parsedWeaponData.quantity,
-                instanceId = parsedWeaponData.instanceId,   
-                durability = parsedWeaponData.durability,   
-                isEquiped = parsedWeaponData.isEquiped,
-                WeaponLevel = parsedWeaponData.weaponLevel
-            };
+            CombatItemData newItem = so is ShieldSO ? new ShieldData() : new WeaponData();
+            newItem.itemSO = so;
+            newItem.quantity = parsedWeaponData.quantity;
+            newItem.instanceId = parsedWeaponData.instanceId;
+            newItem.durability = parsedWeaponData.durability;
+            newItem.isEquiped = parsedWeaponData.isEquiped;
+            if (newItem is WeaponData loadedWeapon) loadedWeapon.WeaponLevel = parsedWeaponData.weaponLevel;
 
             items.Add(newItem);
 
@@ -141,8 +138,9 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
 
         foreach (var item in items)
         {
-            var weapon = item as WeaponData;
-            if (weapon == null)
+            var combatItem = item;
+            var weapon = combatItem as WeaponData;
+            if (combatItem == null)
                 continue;
 
             int quickSlotIndex = -1;
@@ -158,14 +156,14 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
 
             var weaponSaveData = new WeaponSaveData
             {
-                id = weapon.itemSO.id,
-                quantity = weapon.quantity,
+                id = combatItem.itemSO.id,
+                quantity = combatItem.quantity,
                 quickSlotIndex = quickSlotIndex,
-                instanceId = weapon.instanceId,
-                isEquiped = weapon.isEquiped,
+                instanceId = combatItem.instanceId,
+                isEquiped = combatItem.isEquiped,
 
-                durability = weapon.durability,
-                weaponLevel = weapon.WeaponLevel
+                durability = combatItem.durability,
+                weaponLevel = weapon != null ? weapon.WeaponLevel : 1
             };
 
             data.items.Add(weaponSaveData);
@@ -177,7 +175,7 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
     }
 
     // Пулл объектов: возвращаем GameObject для экипировки
-    public ICombatItem GetWeaponObject(WeaponData data)
+    public ICombatItem GetWeaponObject(CombatItemData data)
     {
         if (!weaponPool.TryGetValue(data.instanceId, out var obj))
         {
@@ -195,7 +193,7 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
     }
 
     // возвращаем созданный ItemData
-    public void AddCombatItemToInventory(WeaponData data)
+    public void AddCombatItemToInventory(CombatItemData data)
     {
         if (data.itemSO == null)
             return;
@@ -210,14 +208,14 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
     }
 
 
-    public void EquipItem(WeaponData data)
+    public void EquipItem(CombatItemData data)
     {
         
         ICombatItem obj = GetWeaponObject(data);
         weaponSetter.HandleSetCombatItem(obj);  
     }
 
-    public void UnequipItem(WeaponData data)
+    public void UnequipItem(CombatItemData data)
     {
         if(weaponSetter.CurrentWeapon != weaponSetter.DefaultWeapon)
         {
@@ -227,13 +225,12 @@ public class CharacterWeaponInventory : BaseInventory<WeaponData>
         weaponSetter.HandleResetCombatItem(data.instanceId);
     }
 
-    public override void UseItem(WeaponData data)
+    public override void UseItem(CombatItemData data)
     {
-        var weaponData = data;
-         EquipItem(weaponData);
+        EquipItem(data);
     }
 
-    public override void RemoveFromInventory(WeaponData item)
+    public override void RemoveFromInventory(CombatItemData item)
     {
         base.RemoveFromInventory(item);
         weaponSetter.HandleResetCombatItem(item.instanceId);

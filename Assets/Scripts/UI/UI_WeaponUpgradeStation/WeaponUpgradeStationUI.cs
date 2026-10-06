@@ -56,8 +56,9 @@ public class WeaponUpgradeStationUI : MonoBehaviour
         selectablePanels.Clear();
 
         //достаём карты из пула
-        foreach (WeaponData data in interactor.WeaponInventory.items)
+        foreach (CombatItemData combatData in interactor.WeaponInventory.items)
         {
+            if (combatData is not WeaponData data) continue;
             //показываем только оружие
             if (data == null || data.itemSO is not WeaponSO)
                 continue;

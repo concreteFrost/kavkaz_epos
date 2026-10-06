@@ -5,14 +5,14 @@ using UnityEngine;
 public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 {
 
-    protected WeaponData data;
+    protected CombatItemData data;
     protected Collider physicsCollider;
     protected MeshRenderer[] meshRenderer;
 
     //public int weaponLevel = 1;
 
     #region ICombatItem Contract
-    public WeaponData GetItemData() => data;
+    public CombatItemData GetItemData() => data;
     public IInteractor Owner { get; set; } = null;
 
     #endregion
@@ -26,7 +26,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
 
     #endregion
 
-    public virtual void Init(WeaponData data)
+    public virtual void Init(CombatItemData data)
     {
         this.data = data;
         physicsCollider = GetComponent<Collider>();

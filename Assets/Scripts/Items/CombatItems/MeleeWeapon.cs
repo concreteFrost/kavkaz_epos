@@ -69,7 +69,7 @@ public class MeleeWeapon : IWeapon
     #region IWeapon Contract
 
     private WeaponData data;
-    public WeaponData GetItemData() => data;
+    public CombatItemData GetItemData() => data;
     public string InstanceID() => string.Empty;
     public IInteractor Owner { get; set; }
     public bool IsBreakdownEnabled { get; set; } = true;

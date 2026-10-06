@@ -32,8 +32,9 @@ public class Weapon : CombatItem, IWeapon
     }
     #endregion
 
-    public override void Init(WeaponData data)
+    public override void Init(CombatItemData data)
     {
+       
         base.Init(data);
 
         damageCollider.Init();
@@ -54,7 +55,8 @@ public class Weapon : CombatItem, IWeapon
     {
         if (currentAttack == null || Owner == null) return;
 
-        float baseWeaponDamage = data.GetWeaponDamageWithLevel(data.WeaponLevel);
+        var weaponData = (WeaponData)data;
+        float baseWeaponDamage = weaponData.GetWeaponDamageWithLevel(weaponData.WeaponLevel);
        
         if (data.durability <= 0) 
             baseWeaponDamage = baseWeaponDamage * 0.5f;
