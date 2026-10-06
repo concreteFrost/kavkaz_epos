@@ -141,11 +141,11 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7349002397152635437, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
-      propertyPath: initialWeapon
+      propertyPath: initialShield
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7349002397152635437, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
-      propertyPath: initialShield
+      propertyPath: initialWeapon
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7579128420790032877, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
@@ -154,12 +154,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7806410905337418686, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_Name
-      value: skeleton_prefab_Marda_warrior_mage_variant
+      value: Enemy_Skeleton_WarriorMage
       objectReference: {fileID: 0}
     - target: {fileID: 8508273468187722678, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8800504430769765880, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+      propertyPath: wait
+      value: 
+      objectReference: {fileID: 3073513474745489204}
     - target: {fileID: 8800504430769765880, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       propertyPath: attack
       value: 
@@ -174,13 +178,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7285752190105656592, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+    - {fileID: 8375317209804580165, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5071273722924402902, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3091868326677577373}
+    - targetCorrespondingSourceObject: {fileID: 8376739948636154689, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3073513474745489204}
   m_SourcePrefab: {fileID: 100100000, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+--- !u!1 &6496891360019934548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8376739948636154689, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
+  m_PrefabInstance: {fileID: 3344398661198202389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3073513474745489204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6496891360019934548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7035c61ec73ae784fbf8897fef9f3f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMageWaitState
 --- !u!1 &7496655313449012931 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5071273722924402902, guid: e963bc1a0f3bb0e4c99e99d5120d0fed, type: 3}
