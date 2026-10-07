@@ -31,7 +31,9 @@ public class TrapsManager : MonoBehaviour
             result.Add(new TrapState
             {
                 id = trap.uid,
-                wasActivated = trap.wasActivated
+                wasActivated = trap.wasActivated,
+                wasDestroyed = trap.wasDestroyed
+               
             });
 
             
@@ -51,7 +53,7 @@ public class TrapsManager : MonoBehaviour
             if(match != null)
             {
                 //Debug.Log("found match in traps");
-                trap.LoadState(match.wasActivated);
+                trap.LoadState(match.wasActivated, match.wasDestroyed);
             }
         }
     }

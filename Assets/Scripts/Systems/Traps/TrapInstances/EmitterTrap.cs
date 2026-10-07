@@ -14,6 +14,11 @@ public class EmitterTrap : BaseTrap
         currResetTimer = 0;
     }
 
+    //private void Start()
+    //{
+    //    Init();
+    //}
+
     private void Update()
     {
         if (wasActivated) {
@@ -35,8 +40,14 @@ public class EmitterTrap : BaseTrap
     public override void Activate()
     {
         base.Activate();
+
+        if(emitter == null)
+        {
+            emitter = GetComponent<GunEmitter>();
+        }
+
         emitter.Emit();
 
     }
-    
+
 }

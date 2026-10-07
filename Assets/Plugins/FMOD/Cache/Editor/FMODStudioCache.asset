@@ -41,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639261069510067824
+  lastModified: 639269884985797748
   FileSizes:
   - Name: 
-    Value: 3336
+    Value: 3404
   Exists: 1
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
@@ -100,6 +100,34 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1153
+--- !u!114 &-7762520477796729979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Traps/StoneFall/StoneFall
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Traps/StoneFall/StoneFall
+  Guid:
+    Data1: 244282339
+    Data2: 1196688900
+    Data3: 228468667
+    Data4: 1228621786
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2534038550492349406}
+  MinDistance: 1
+  MaxDistance: 100
+  Length: 0
 --- !u!114 &-7717540072779594309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,60 +549,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
---- !u!114 &-3285106054037666904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ambience/StoneFall/StoneFall
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Ambience/StoneFall/StoneFall
-  Guid:
-    Data1: 244282339
-    Data2: 1196688900
-    Data3: 228468667
-    Data4: 1228621786
-  Banks:
-  - {fileID: -1842775882343561724}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -2323478228510899305}
-  MinDistance: 1
-  MaxDistance: 100
-  Length: 0
---- !u!114 &-2323478228510899305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/StoneFall/QuakeState
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
-  Name: QuakeState
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 1966331006
-    data2: 2023567129
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - Start
-  - Impact
-  Exists: 1
 --- !u!114 &-2295876193395353989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +582,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 639249038335674377
+  lastModified: 639269884985517848
   FileSizes: []
   Exists: 1
 --- !u!114 &-1579786893638227004
@@ -766,17 +740,18 @@ MonoBehaviour:
   - {fileID: -6530773842337098426}
   - {fileID: 2600891450951501730}
   - {fileID: -7717540072779594309}
-  - {fileID: -3285106054037666904}
-  - {fileID: 2338603574290033136}
   - {fileID: 55454175075174163}
   - {fileID: 7388925423557090628}
   - {fileID: 460161651839010208}
+  - {fileID: 4277156225228293240}
+  - {fileID: 563268005922217560}
+  - {fileID: -7762520477796729979}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639261070192205722
+  cacheTime: 639269884985797748
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -851,6 +826,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 91504
+--- !u!114 &563268005922217560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Traps/SkeletonTrap/Summon
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Traps/SkeletonTrap/Summon
+  Guid:
+    Data1: 1246588285
+    Data2: 1337393220
+    Data3: 524669589
+    Data4: -325401387
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2448
 --- !u!114 &776064580544443240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,33 +1107,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
---- !u!114 &2338603574290033136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ambience/StoneFall/StoneHit
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Ambience/StoneFall/StoneHit
-  Guid:
-    Data1: 640245561
-    Data2: 1169025829
-    Data3: 1724441762
-    Data4: -64186592
-  Banks:
-  - {fileID: -1842775882343561724}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 40
-  Length: 4848
 --- !u!114 &2470742863631207987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,6 +1133,32 @@ MonoBehaviour:
   - Launch
   - Lifetime
   - Destroy
+  Exists: 1
+--- !u!114 &2534038550492349406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/StoneFall/QuakeState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: QuakeState
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1966331006
+    data2: 2023567129
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Start
+  - Impact
   Exists: 1
 --- !u!114 &2600891450951501730
 MonoBehaviour:
@@ -1342,6 +1343,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1183
+--- !u!114 &4277156225228293240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Traps/StoneFall/StoneHit
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Traps/StoneFall/StoneHit
+  Guid:
+    Data1: 640245561
+    Data2: 1169025829
+    Data3: 1724441762
+    Data4: -64186592
+  Banks:
+  - {fileID: -1842775882343561724}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 40
+  Length: 4848
 --- !u!114 &4766723143517867639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,7 +1470,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639261069510057824
+  lastModified: 639269884985787748
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083

@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -9,10 +10,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public CharacterType characterType;
 
     [SerializeField] private float defaultHealth = 20f;
-    [SerializeField] HealthModel Health;
+    [SerializeField] public HealthModel Health;
 
-    Color defaultCol;
-    MeshRenderer mat;
+    [SerializeField] DamagableSurfaceSO surfaceSO;
+    [SerializeField] EventReference ev_damage;
 
     [SerializeField] Collider damagableCollider;
 
@@ -23,44 +24,33 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public Transform GetOrigin() => transform;
     public bool IsDead { get; set; }
     public string SourceId() => null;
-    public bool IsDamaged { get; set; }
-    public bool IsKnockedOut {  get; set; } 
-    public bool InBlockingWindow { get; set; }
-    public bool CanPlayDamagedAnimation { get; set; }   
-    //public bool IsDefended {  get; set; } = false;
-    //public float DefenceBonus { get; set; } = 0;
+    public bool IsDamaged { get; set; } = false;
+    public bool IsKnockedOut { get; set; } = false;
+    public bool InBlockingWindow { get; set; } = false;
+    public bool CanPlayDamagedAnimation { get; set; } = true; 
+
     public IShield Protection { get; set; } = null; 
 
     public event Action<IAttackSource> DamageTaken = null;
 
     public IUiProvider HealthProviderUI { get; set; }
-    public DamagableSurfaceSO ImpactVFX() => null;
+    public DamagableSurfaceSO ImpactVFX() => surfaceSO;
 
     #endregion
 
-    private void Awake()
-    {
-        Init();
-    }
-
-    private void Update()
-    {
-        if(damagableCollider == null) return;
-
-        damagableCollider.enabled = !IsDead || !IsKnockedOut;
-    }
 
     public virtual void Init()
     {
 
         Health = new HealthModel(defaultHealth);
+        damagableCollider.enabled = true;
 
-        mat = GetComponent<MeshRenderer>();
-        defaultCol = mat.material.color;
+    }
 
-        characterType = CharacterType.Object;
-
-        
+    public void ForceDeath()
+    {
+        Health.ChangeCurrent(Health.CurrentMax, OperationType.Negative);
+        Die();
     }
 
     public virtual void PerformKnockout(Vector3 source, float impactForce)
@@ -72,20 +62,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void TakeDamage(DamageData damageData,IAttackSource source)
     {
-        if (IsDead) return;
 
         Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
 
-        StartCoroutine(DamageCoroutine());
+        CombatVFXManager.ImpactResolved?.Invoke(ImpactVFX(), GetAimTransform().position, -source.Source().forward);
+        AudioEventPlayer.Play3DOneShot(ev_damage, transform.gameObject);
 
         DamageTaken?.Invoke(source);
-
-        if(Health.Current <= 0)
-        {
-            StopAllCoroutines();
-            gameObject.SetActive(false);
-        }
-
     }
 
     public void TakeMaxDamage()
@@ -93,29 +76,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
         Health.Current -= Health.CurrentMax;
     }
 
-    IEnumerator DamageCoroutine()
+    private void Die()
     {
-        
-
-        var col = Color.white;
-        var col2 = Color.green;
-
-        float elapsed = 0f;
-
-        while(elapsed < 1f)
-        {
-
-            col = Color.Lerp(defaultCol, col2, Mathf.PingPong(elapsed += (Time.deltaTime * 2 / 1),1f));
-            mat.material.color = col;   
-
-            elapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        mat.material.color = defaultCol;
-
+        damagableCollider.enabled = false;
+        IsDead = true;
     }
+
+  
 
   
 }

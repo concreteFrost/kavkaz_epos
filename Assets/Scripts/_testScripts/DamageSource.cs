@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class DamageSource : MonoBehaviour
+public class DamageSource : MonoBehaviour, IAttackSource
 {
     [SerializeField] DamageCollider damageCollider;
     public DamageData damageData;
@@ -11,7 +11,17 @@ public class DamageSource : MonoBehaviour
 
     bool colliderActive = false;
 
-    public List<CharacterType> objectsToIgnore = new List<CharacterType>(); 
+    public List<CharacterType> objectsToIgnore = new List<CharacterType>();
+
+    #region IAttackSource Contract
+    public List<CharacterType> TargetsToIgnore { get => objectsToIgnore; set => objectsToIgnore = value; }
+
+    public int SourceId() => transform.GetInstanceID();
+
+    public Transform Source() => transform;
+   
+
+    #endregion
 
     void Start()
     {
@@ -39,4 +49,6 @@ public class DamageSource : MonoBehaviour
             colliderActive = false;
         }
     }
+
+  
 }

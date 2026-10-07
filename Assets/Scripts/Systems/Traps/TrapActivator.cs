@@ -8,9 +8,9 @@ public class TrapActivator : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<IDamagable>() != null)
+        if (other.GetComponent<IDamagable>()!=null)
         {
-
+   
             if (trap.wasActivated) return;
 
             trap.Activate();    
