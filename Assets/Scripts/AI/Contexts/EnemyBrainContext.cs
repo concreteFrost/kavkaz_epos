@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyBrainContext
 {
     public Vector3 permamentPosition;
+    public Vector3 permamentForward;
 
     public Transform self;
     public Animator animator;

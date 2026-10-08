@@ -31,6 +31,12 @@ public class GunEmitter : Emitter, IAttackSource
         base.Emit();
     }
 
+    public void EmitOnTarget(IDamagable target)
+    {
+        SetTargetData(target);
+        Emit();
+    }
+
     
 }
 

@@ -23,6 +23,9 @@ public class Projectile : MonoBehaviour, IProjectile
         if (isDestroying)
             return;
 
+        if (data == null) return;
+
+
         Vector3 velocity = data.moveSO.Move(
             emitterPosition,
             transform,

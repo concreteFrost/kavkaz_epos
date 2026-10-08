@@ -99,6 +99,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
         EnemyBrainContext brainContext = new EnemyBrainContext()
         {
             permamentPosition = transform.position,
+            permamentForward = transform.forward,
             self = transform,
             animator = animator,
             motor = motor,

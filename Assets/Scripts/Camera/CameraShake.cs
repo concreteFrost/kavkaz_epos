@@ -27,14 +27,6 @@ public class CameraShake: MonoBehaviour
         Shake -= OnShake;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            OnShake(0.5f, 1, 2);
-        }
-    }
-
 
     public void OnShake(float amplitude, float frequency, float duration)
     {
