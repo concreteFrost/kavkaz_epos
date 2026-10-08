@@ -28,6 +28,8 @@ public class Bonfire : MonoBehaviour, IInteractable
 
     public static Action BonfireDiscovered;
 
+    public static Action<string> BonfireMessage;
+
     public EventReference ev_burning;
     private EventInstance burningEventInstance;
 
@@ -35,11 +37,11 @@ public class Bonfire : MonoBehaviour, IInteractable
     public string InteractionName() => "Bonfire";
 
     public string ActionText() => "Activate";
-    public bool HasInteracted { get => false; set => value = false; } // с этим предметом можно взаимодействовать всегда
+    public bool HasInteracted { get => false; set => value = false; } // СЃ СЌС‚РёРј РїСЂРµРґРјРµС‚РѕРј РјРѕР¶РЅРѕ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРѕРІР°С‚СЊ РІСЃРµРіРґР°
 
     public ItemInteractionType InteractType() => ItemInteractionType.Item;
 
-    public bool CanInteract() => !HasInteracted;
+    public bool CanInteract() => !HasInteracted && (!isDiscovered || !HasNearbyEnemies());
     #endregion
 
     public void Init()
@@ -62,6 +64,12 @@ public class Bonfire : MonoBehaviour, IInteractable
             return;
         }
 
+        if (HasNearbyEnemies())
+        {
+            BonfireMessage?.Invoke("РћС‚РґС‹С… РЅРµРІРѕР·РјРѕР¶РµРЅ, РїРѕРєР° СЂСЏРґРѕРј РµСЃС‚СЊ РІСЂР°РіРё");
+            return;
+        }
+
         BonfireInteracted?.Invoke();
         //GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
 
@@ -73,6 +81,23 @@ public class Bonfire : MonoBehaviour, IInteractable
 
     }
 
+    private bool HasNearbyEnemies()
+    {
+        const float radius = 15f;
+        Collider[] nearby = Physics.OverlapSphere(
+            transform.position, radius, Physics.AllLayers, QueryTriggerInteraction.Collide);
+
+        foreach (Collider collider in nearby)
+        {
+            IDamagable target = collider.GetComponentInParent<IDamagable>() ??
+                                collider.GetComponentInChildren<IDamagable>();
+            if (target != null && target.CharacterType == CharacterType.Enemy && !target.IsDead)
+                return true;
+        }
+
+        return false;
+    }
+
     public void DiscoverBonfire()
     {
         particles.Play();
@@ -80,7 +105,7 @@ public class Bonfire : MonoBehaviour, IInteractable
         burningEventInstance =  AudioEventPlayer.Play3D(ev_burning, gameObject);
         BonfireManager.BonfireStatesUpdated?.Invoke();
         
-        BonfireDiscovered?.Invoke(); // для аудио уведомлений
+        BonfireDiscovered?.Invoke(); // РґР»СЏ Р°СѓРґРёРѕ СѓРІРµРґРѕРјР»РµРЅРёР№
 
     }
 

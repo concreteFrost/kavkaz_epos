@@ -26,6 +26,7 @@ public class PlayerEventMessagesUI : MonoBehaviour
     private void OnEnable()
     {
         Door.DoorMessage += OnDoorMessage;
+        Bonfire.BonfireMessage += EnqueueMessage;
 
         QuestNpcDialogueController.QuestStarted += OnQuestStarted;
         QuestNpcDialogueController.QuestCompleted += OnQuestCompleted;
@@ -34,6 +35,7 @@ public class PlayerEventMessagesUI : MonoBehaviour
     private void OnDisable()
     {
         Door.DoorMessage -= OnDoorMessage;
+        Bonfire.BonfireMessage -= EnqueueMessage;
 
         QuestNpcDialogueController.QuestStarted -= OnQuestStarted;
         QuestNpcDialogueController.QuestCompleted -= OnQuestCompleted;

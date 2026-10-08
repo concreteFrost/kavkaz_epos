@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour, IProjectile
 
     public ProjectileData data;
 
-    [SerializeField] private DamageCollider damageCollider;
+    [SerializeField] protected DamageCollider damageCollider;
     [SerializeField] private GameObject lifetimeParticles;
     [SerializeField] private GameObject hitParticles;
 
@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour, IProjectile
 
     private bool isDestroying;
 
-    private void Update()
+    protected virtual void Update()
     {
         if (isDestroying)
             return;
@@ -39,14 +39,14 @@ public class Projectile : MonoBehaviour, IProjectile
         currLifeTime += Time.deltaTime;
         currentDir = velocity.normalized;
 
-        // Ïîïàäàíèå
+        // ÐŸÐ¾Ð¿Ð°Ð´Ð°Ð½Ð¸Ðµ
         if (damageCollider.isAttackRegistered)
         {
             OnHit();
             return;
         }
 
-        // Èñò¸ê lifetime
+        // Ð˜ÑÑ‚Ñ‘Ðº lifetime
         if (currLifeTime >= data.lifetime)
         {
             OnLifetimeEnd();
@@ -89,7 +89,7 @@ public class Projectile : MonoBehaviour, IProjectile
         );
     }
 
-    private void OnHit()
+    protected virtual void OnHit()
     {
         damageCollider.DisableCollider();
 
@@ -111,7 +111,7 @@ public class Projectile : MonoBehaviour, IProjectile
         PerformDestroy();
     }
 
-    private void SetDestroyAudioState(bool playHit = false)
+    protected void SetDestroyAudioState(bool playHit = false)
     {
         if (!audioEvent.isValid())
             return;
@@ -127,11 +127,9 @@ public class Projectile : MonoBehaviour, IProjectile
             AudioEventPlayer.StopAndRelease(audioEvent, false);
         }
 
-        
-
     }
 
-    private void PerformDestroy()
+    protected void PerformDestroy()
     {
         if (isDestroying)
             return;
@@ -151,6 +149,12 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         lifetimeParticles.SetActive(false);
         hitParticles.SetActive(true);
+    }
+
+    protected void DeactivateAllParticles()
+    {
+        lifetimeParticles.SetActive(false);
+        hitParticles.SetActive(false);
     }
 
     private System.Collections.IEnumerator DestroyCoroutine()
