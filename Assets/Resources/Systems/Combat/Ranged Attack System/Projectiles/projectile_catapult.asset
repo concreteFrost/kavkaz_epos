@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: projectile_catapult
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: 1b7beb79-172e-4fe0-bba7-7f1ba66550b1
+  itemName: 
+  itemImage: {fileID: 0}
+  itemDescription: 
+  prefab: {fileID: 3574053458036339338, guid: 1239190b0d112344db6ba04fd15a87c1, type: 3}
+  baseDamage: 30
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 3
+    impactForce: 0
+    statusEffectData:
+      effects: []
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: f7ee887ef5398f147a6c6d65463ce09c, type: 2}
+  amountToSpawn: 1
+  spawnDelay: 0.1
+  emitStartingPosition: 0
+  moveSO: {fileID: 11400000, guid: 29703330b6432d646924bde97e0ff49a, type: 2}
+  speed: 18
+  lifetime: 30
+  ev_audio:
+    Guid:
+      Data1: -101372081
+      Data2: 1092735460
+      Data3: -1773150586
+      Data4: -1262322152
+    Path: event:/Combat/Projectiles/Catapult
+  castAnimation: {fileID: 0}
+  staminaPenalty: 1
+  requirements:
+    statType: 0
+    minRequired: 1
