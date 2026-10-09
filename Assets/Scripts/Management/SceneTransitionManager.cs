@@ -100,6 +100,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator TransitionToScene(string sceneName, Action onLoaded, GameState state)
     {
+        ProjectilePoolManager.Instance?.BeginLoading();
         GameStateManager.Instance.SetState(GameState.Transition);
 
         TransitionStarted?.Invoke(transitionTime);
@@ -116,6 +117,7 @@ public class SceneTransitionManager : MonoBehaviour
             yield return null;
         }
 
+        ProjectilePoolManager.Instance?.EndLoading();
         onLoaded?.Invoke();
         //yield return new WaitForSeconds(transitionTime);
         TransitionFinished?.Invoke(transitionTime);

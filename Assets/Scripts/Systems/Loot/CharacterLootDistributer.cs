@@ -23,7 +23,7 @@ public class CharacterLootDistributer : MonoBehaviour
             var quantityToGet = UnityEngine.Random.Range(item.minQuantity, item.maxQuantity + 1);
             if (UnityEngine.Random.value <= item.dropChance)
             { 
-                itemsToDrop.Add(new ItemData() { itemSO = item.itemSO, quantity= quantityToGet});
+                itemsToDrop.Add(new ItemData() { itemSO = item.itemSO, quantity= quantityToGet }.CreateInstance());
             }
         }
 
@@ -56,7 +56,10 @@ public class CharacterLootDistributer : MonoBehaviour
                 lootData.droppedItems.Add(new DroppedItemsData
                 {
                     itemId = item.itemSO.id,
-                    quantity = item.quantity
+                    quantity = item.quantity,
+                    instanceId = item.instanceId,
+                    durability = item.durability,
+                    weaponLevel = item.WeaponLevel
                 });
             }
 

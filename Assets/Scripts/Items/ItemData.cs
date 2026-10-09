@@ -5,24 +5,11 @@ using UnityEngine;
 public class ItemData
 {
     public ItemSO itemSO;
-    public int quantity;
+    [Min(1)] public int quantity = 1;
     public string instanceId;
     public bool isEquiped;
-
-}
-
-[System.Serializable]
-public class CombatItemData : ItemData
-{
-    public float durability;
-
-}
-
-[System.Serializable]
-public class WeaponData : CombatItemData , IItemStats
-{
-    [SerializeField]
-    private int weaponLevel = 1;
+    [Range(0f, 100f)] public float durability = 100f;
+    [SerializeField, Range(1, 10)] protected int weaponLevel = 1;
 
     public int WeaponLevel
     {
@@ -30,6 +17,44 @@ public class WeaponData : CombatItemData , IItemStats
         set => weaponLevel = Mathf.Clamp(value, 1, 10);
     }
 
+    // Loot and reward definitions produce typed copies for their inventories.
+    public ItemData CreateInstance()
+    {
+        ItemData copy;
+        if (GetType() != typeof(ItemData))
+            copy = (ItemData)MemberwiseClone();
+        else
+        {
+            copy = itemSO switch
+            {
+                ShieldSO _ => new ShieldData(),
+                CombatItemSO _ => new WeaponData(),
+                SpellProjectileSO _ => new SpellData(),
+                ConsumableItemSO _ => new ConsumableData(),
+                _ => new ItemData()
+            };
+            copy.itemSO = itemSO;
+            copy.quantity = quantity;
+            copy.durability = durability;
+            copy.weaponLevel = weaponLevel;
+        }
+        copy.instanceId = System.Guid.NewGuid().ToString();
+        copy.isEquiped = false;
+        return copy;
+    }
+
+}
+
+[System.Serializable]
+public class CombatItemData : ItemData
+{
+
+
+}
+
+[System.Serializable]
+public class WeaponData : CombatItemData , IItemStats
+{
     public float GetWeaponDamageWithLevel(int level)
     {
         float baseDamage = (itemSO as WeaponSO).GetBaseDamage();

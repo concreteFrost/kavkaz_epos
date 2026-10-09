@@ -35,6 +35,8 @@ public class EnemyBrain : AIBrain
 
     Transform pl;
 
+    PlayerServiceLocator playerLocator;
+
     public bool isActivated = false;
 
 
@@ -54,13 +56,15 @@ public class EnemyBrain : AIBrain
         attack.Init(context);
 
         SetActivated(false);
+
+        playerLocator = FindAnyObjectByType<PlayerServiceLocator>();
     }
 
     void Update()
     {
         if (context == null) return;
 
-        if (!isActivated)
+        if (!isActivated && !context.damageController.IsDead)
         {
 
             TrackActivation();
@@ -72,7 +76,7 @@ public class EnemyBrain : AIBrain
             stateMachine.ForceExit();
             return;
         }
-        stateMachine.Run();
+        //stateMachine.Run();
 
         switch (stateMachine.CurrentState.Run())
         {
@@ -110,15 +114,10 @@ public class EnemyBrain : AIBrain
     private void TrackActivation()
     {
 
-       
-
-        var playerService = FindAnyObjectByType<PlayerServiceLocator>();
-
-
-        if (playerService != null)
+        if (playerLocator != null)
         {
 
-            pl = playerService.transform;
+            pl =  playerLocator.transform;
 
             float dist = Vector3.Distance(context.self.position, pl.position);
 
@@ -139,6 +138,7 @@ public class EnemyBrain : AIBrain
     public override void ForceStop()
     {
         stateMachine.ForceExit();
+        isActivated = false;
     }
 
     public override void SetInitialState()

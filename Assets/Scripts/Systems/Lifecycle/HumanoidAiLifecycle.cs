@@ -47,10 +47,10 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         }
 
         brain.ForceStop();
+       
 
         CharactersManager.CharacterStatesUpdated?.Invoke(); 
 
-        //StartCoroutine(RespawnCoroutine());
     }
 
     public override void Respawn(Vector3 pos)
@@ -62,8 +62,10 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         
         ragdollController.DisableRagdoll();
         statsModifier.ClearAllStats();
+        brain.ForceStop();
         brain.SetInitialState();
         statsController.ResetAllStats();
+        fovController.ResetLockedTarget();
      
 
         CharactersManager.CharacterStatesUpdated?.Invoke();

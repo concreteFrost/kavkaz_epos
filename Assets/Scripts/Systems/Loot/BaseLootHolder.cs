@@ -2,14 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class LootItemEntry
-{
-    public ItemSO itemSO;
-    [Min(1)] public int quantity = 1;
-    [Min(1)] public int weaponLevel = 1;
-    [Range(0f, 100f)] public float durability = 100f;
-}
+
 [System.Serializable]
 public class LootState
 {
@@ -36,8 +29,8 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
     #endregion
 
-    public abstract string LootHolderName { get;  }
-    public abstract string LootInteractionText {  get; }
+    public abstract string LootHolderName { get; }
+    public abstract string LootInteractionText { get; }
 
     public virtual void Init()
     {
@@ -45,7 +38,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
         id = uniqueId.uniqueId;
 
         itemsToDrop.Clear();
-        interactionCollider = GetComponent<Collider>(); 
+        interactionCollider = GetComponent<Collider>();
 
         ActivateVisual();
     }
@@ -53,9 +46,9 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
     public void ActivateVisual()
     {
         visual.SetActive(true);
-        interactionCollider.enabled = true; 
+        interactionCollider.enabled = true;
     }
-    
+
     public void DeactivateVisual()
     {
         visual.SetActive(false);
@@ -64,45 +57,19 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
     protected void AddItemsToDrop(ItemSO itemSO, int quantity)
     {
-        AddItemsToDrop(new LootItemEntry { itemSO = itemSO, quantity = quantity });
+        AddItemsToDrop(new ItemData { itemSO = itemSO, quantity = quantity });
     }
 
-    protected void AddItemsToDrop(LootItemEntry entry)
+    protected void AddItemsToDrop(ItemData entry)
     {
-        if (entry == null || entry.itemSO == null) return;
-
-        ItemData data;
-        if (entry.itemSO is CombatItemSO)
-        {
-            data = entry.itemSO is ShieldSO ? new ShieldData { instanceId = Guid.NewGuid().ToString(), durability = entry.durability } : new WeaponData
-            {
-                instanceId = Guid.NewGuid().ToString(),
-                durability = entry.durability,
-                WeaponLevel = entry.weaponLevel
-            };
-        }
-        else if (entry.itemSO is SpellProjectileSO)
-        {
-            data = new SpellData();
-        }
-        else if (entry.itemSO is ConsumableItemSO)
-        {
-            data = new ConsumableData();
-        }
-        else
-        {
-            data = new ItemData();
-        }
-
-        data.itemSO = entry.itemSO;
-        data.quantity = entry.quantity;
-        itemsToDrop.Add(data);
+        if (entry == null || entry.itemSO == null || entry.quantity < 1) return;
+        itemsToDrop.Add(entry.CreateInstance());
     }
 
 
     public void TransferItemsToCollector(IInteractor collector)
     {
-        foreach(var item in itemsToDrop)
+        foreach (var item in itemsToDrop)
         {
             collector.DistributeItemToInventory(item);
         }
@@ -113,7 +80,7 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
 
     public virtual void Interact(IInteractor collector)
     {
-       
+
         TransferItemsToCollector(collector);
         LootManager.StaticLootDataUpdated?.Invoke();
         //interactionCollider.DisableCollider();
@@ -127,10 +94,10 @@ public abstract class BaseLootHolder : MonoBehaviour, IInteractable
             hasCollected = HasInteracted
 
         };
-        
+
     }
 
     public abstract void LoadLootData(LootState state);
 
-   
+
 }

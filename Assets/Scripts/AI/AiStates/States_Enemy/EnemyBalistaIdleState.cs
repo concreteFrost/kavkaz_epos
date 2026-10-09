@@ -41,12 +41,12 @@ public class EnemyBalistaIdleState : AIState<EnemyBrainContext>
 
         if (fov.currentTarget != null)
         {
+            bool isTargetVisible = fov.IsTargetVisible();
 
-            if (catapult == null || !catapult.IsTargetInLaunchRange(fov.currentTarget))
+            if (!isTargetVisible || catapult == null || !catapult.IsTargetInLaunchRange(fov.currentTarget))
                 return AIStateResult.Chase;
-            
 
-            if(catapult.CanLaunch())
+            if (catapult.CanLaunch())
                 catapult.TryLaunch(fov.currentTarget);
             
             return AIStateResult.None;
@@ -62,7 +62,11 @@ public class EnemyBalistaIdleState : AIState<EnemyBrainContext>
     public override void Exit()
     {
         idleHandler.ResetIdleState();
-        rotateCoroutine = null;
+        if (rotateCoroutine != null)
+        {
+            StopCoroutine(rotateCoroutine);
+            rotateCoroutine = null;
+        }
     }
 
     IEnumerator RotateToDefaultDirection()

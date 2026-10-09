@@ -36,11 +36,15 @@ public class EnemyMoveToDefaultPositionState : AIState<EnemyBrainContext>
         if (!canReach)
         {
             Debug.Log("i cant reach");
-            return AIStateResult.Idle;
+            return AIStateResult.Patrol;
         }
 
         if (context.agentController.HasReachedDestination())
+        {
+            Debug.Log("destination reached");
             return AIStateResult.Idle;
+        }
+           
 
 
         fov.CheckTargets(); 

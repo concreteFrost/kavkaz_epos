@@ -106,9 +106,9 @@ public class EnemyCombatHandler
     public CombatMode DecideCombatMode(float distance)
     {
         // Близко → почти всегда ближний бой
-        if (distance < 2f)
+        if (distance < 3f)
         {
-            return Random.value < 0.8f ? CombatMode.Melee : CombatMode.Magic;
+            return CombatMode.Melee;
         }
 
         // Средняя дистанция → смешанное поведение
@@ -118,7 +118,7 @@ public class EnemyCombatHandler
         }
 
         // Далеко → почти всегда магия
-        return Random.value < 0.8f ? CombatMode.Magic : CombatMode.Melee;
+        return CombatMode.Magic;
     }
 
     #endregion

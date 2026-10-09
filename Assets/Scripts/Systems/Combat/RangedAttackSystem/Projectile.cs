@@ -6,6 +6,9 @@ public class Projectile : MonoBehaviour, IProjectile
     private Vector3 currentDir;
     private float aliveTime;
     private float currLifeTime;
+    private Vector3 gravityVelocity;
+
+    protected virtual float Gravity => 0f;
 
     public ProjectileData data;
 
@@ -53,16 +56,24 @@ public class Projectile : MonoBehaviour, IProjectile
             return;
         }
 
-        transform.position += velocity * Time.deltaTime;
+        // Keep gravity separate from currentDir so movement strategies do not
+        // feed the accumulated falling velocity back into their next update.
+        Vector3 gravityAcceleration = Vector3.down * Gravity;
+        float deltaTime = Time.deltaTime;
+        transform.position += (velocity + gravityVelocity) * deltaTime
+            + gravityAcceleration * (0.5f * deltaTime * deltaTime);
+        gravityVelocity += gravityAcceleration * deltaTime;
     }
 
-    public void Init(ProjectileData data)
+    public virtual void Init(ProjectileData data)
     {
+        ResetForPool();
         this.data = data;
 
         aliveTime = 0f;
         currLifeTime = 0f;
         isDestroying = false;
+        gravityVelocity = Vector3.zero;
 
         currentDir = data.baseDir;
         emitterPosition = data.source.Source();
@@ -81,7 +92,7 @@ public class Projectile : MonoBehaviour, IProjectile
         ActivateLifetimeParticles();
 
         // Projectile: Lifetime -> Destroy
-        audioEvent = AudioEventPlayer.Play3D(
+        audioEvent = data.ev_audio.IsNull ? default : AudioEventPlayer.Play3D(
             data.ev_audio,
             gameObject,
             "ProjectileState",
@@ -119,12 +130,12 @@ public class Projectile : MonoBehaviour, IProjectile
         if (playHit)
         {
             AudioEventPlayer.SetParameter(audioEvent,"ProjectileState",2f);
-            audioEvent.release();
+            // Keep ownership until return so loading can stop the hit sound.
         }
 
         else
         {
-            AudioEventPlayer.StopAndRelease(audioEvent, false);
+            StopAudio();
         }
 
     }
@@ -141,26 +152,77 @@ public class Projectile : MonoBehaviour, IProjectile
 
     private void ActivateLifetimeParticles()
     {
-        lifetimeParticles.SetActive(true);
-        hitParticles.SetActive(false);
+        SetParticles(lifetimeParticles, true);
+        SetParticles(hitParticles, false);
     }
 
     private void ActivateHitParticles()
     {
-        lifetimeParticles.SetActive(false);
-        hitParticles.SetActive(true);
+        SetParticles(lifetimeParticles, false);
+        SetParticles(hitParticles, true);
     }
 
     protected void DeactivateAllParticles()
     {
-        lifetimeParticles.SetActive(false);
-        hitParticles.SetActive(false);
+        SetParticles(lifetimeParticles, false);
+        SetParticles(hitParticles, false);
     }
 
+    private ParticleSystem[] particles;
+    private TrailRenderer[] trails;
+
+    private void CacheEffects()
+    {
+        if (particles == null) particles = GetComponentsInChildren<ParticleSystem>(true);
+        if (trails == null) trails = GetComponentsInChildren<TrailRenderer>(true);
+    }
+
+    private static void SetParticles(GameObject root, bool play)
+    {
+        if (root == null) return;
+        foreach (var system in root.GetComponentsInChildren<ParticleSystem>(true))
+            system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        root.SetActive(play);
+        if (play)
+            foreach (var system in root.GetComponentsInChildren<ParticleSystem>(true))
+                if (system.gameObject.activeSelf) system.Play(true);
+    }
+
+    private void StopAudio()
+    {
+        if (audioEvent.isValid())
+        {
+            FMODUnity.RuntimeManager.DetachInstanceFromGameObject(audioEvent);
+            AudioEventPlayer.StopAndRelease(audioEvent, false);
+        }
+        audioEvent = default;
+    }
+
+    public virtual void ResetForPool()
+    {
+        StopAllCoroutines();
+        StopAudio();
+        if (damageCollider == null) damageCollider = GetComponentInChildren<DamageCollider>(true);
+        if (damageCollider != null) damageCollider.DisableCollider();
+        CacheEffects();
+        foreach (var system in particles)
+            system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        foreach (var trail in trails) trail.Clear();
+        DeactivateAllParticles();
+        data = null;
+        emitterPosition = null;
+        currentDir = Vector3.zero;
+        gravityVelocity = Vector3.zero;
+        aliveTime = currLifeTime = 0f;
+        isDestroying = true;
+    }
+
+    protected virtual void OnDisable() => ResetForPool();
+    protected virtual void OnDestroy() => StopAudio();
     private System.Collections.IEnumerator DestroyCoroutine()
     {
         yield return new WaitForSeconds(3f);
 
-        Destroy(gameObject);
+        ProjectilePoolManager.Instance.Return(gameObject);
     }
 }

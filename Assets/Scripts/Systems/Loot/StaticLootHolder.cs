@@ -8,8 +8,9 @@ public class StaticLootHolder : BaseLootHolder
     public override string LootInteractionText => "Collect";
     public override ItemInteractionType InteractType() => ItemInteractionType.Item;
 
-    //public List<ItemData> guaranteedItems = new List<ItemData>();
-    public List<LootItemEntry> lootEntries = new List<LootItemEntry>();
+    public List<ItemData> lootEntries = new List<ItemData>();
+
+    private bool initialized;
 
     private void Start()
     {
@@ -17,11 +18,14 @@ public class StaticLootHolder : BaseLootHolder
     }
     public override void Init()
     {
+        if (initialized) return;
+        initialized = true;
         base.Init();
-        //foreach (var i in guaranteedItems)
-        //{
-        //    AddItemsToDrop(i.itemSO, i.quantity);
-        //}
+        if (HasInteracted)
+        {
+            DeactivateVisual();
+            return;
+        }
 
         foreach (var entry in lootEntries)
         {
@@ -40,6 +44,7 @@ public class StaticLootHolder : BaseLootHolder
 
     public override void LoadLootData(LootState data)
     {
+        Init();
         HasInteracted = data.hasCollected;
 
         if (HasInteracted)
@@ -47,7 +52,13 @@ public class StaticLootHolder : BaseLootHolder
             itemsToDrop.Clear();
             gameObject.SetActive(false);
         }
-
+        else
+        {
+            itemsToDrop.Clear();
+            foreach (var entry in lootEntries) AddItemsToDrop(entry);
+            ActivateVisual();
+            gameObject.SetActive(true);
+        }
 
     }
 

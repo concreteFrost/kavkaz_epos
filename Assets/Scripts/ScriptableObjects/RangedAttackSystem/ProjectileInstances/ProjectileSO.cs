@@ -68,9 +68,7 @@ public abstract class ProjectileSO : ItemSO
         data.damageData.SetFinalDamage(GetBaseDamage(), attackMultiplier);
         data.ev_audio = ev_audio;
 
-        GameObject clone = Instantiate(prefab, startingPosition, Quaternion.identity);
-        var projectile = clone.GetComponent<IProjectile>();
-        projectile.Init(data);
+        ProjectilePoolManager.Instance.SpawnProjectile(prefab, startingPosition, Quaternion.identity, data);
       
     }
 

@@ -79,7 +79,7 @@ public class LootManagerEditor : Editor
             if (holder.lootEntries == null)
                 continue;
 
-            foreach (LootItemEntry data in holder.lootEntries)
+            foreach (ItemData data in holder.lootEntries)
             {
                 if (data?.itemSO == null)
                     continue;

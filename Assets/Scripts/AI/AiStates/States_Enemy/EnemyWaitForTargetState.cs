@@ -59,6 +59,7 @@ public class EnemyWaitForTargetState : AIState<EnemyBrainContext>
     public override void Exit()
     {
         //fov.ResetTarget();
+        //fov.ResetLockedTarget();
         motor.ResetLockTarget();
         
     }

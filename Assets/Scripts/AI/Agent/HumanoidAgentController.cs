@@ -87,6 +87,9 @@ public class HumanoidAgentController
 
     public bool HasReachedDestination(float tolerance = 0.1f)
     {
+
+        if (agent.pathPending) return false;
+
         if (!agent.isActiveAndEnabled || !agent.hasPath)
             return true; // если агент не активен или путь пустой, считаем, что достиг
 

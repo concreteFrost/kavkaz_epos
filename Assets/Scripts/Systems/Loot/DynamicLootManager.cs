@@ -19,6 +19,17 @@ public class DroppedItemsData
     public string itemId;
     public int quantity;
 
+    [System.Runtime.Serialization.OptionalField] public string instanceId;
+    [System.Runtime.Serialization.OptionalField] public float durability = 100f;
+    [System.Runtime.Serialization.OptionalField] public int weaponLevel = 1;
+
+    [System.Runtime.Serialization.OnDeserializing]
+    private void BeforeDeserialize(System.Runtime.Serialization.StreamingContext context)
+    {
+        durability = 100f;
+        weaponLevel = 1;
+    }
+
 }
 
 public class DynamicLootManager : MonoBehaviour
@@ -71,9 +82,15 @@ public class DynamicLootManager : MonoBehaviour
                 {
                     itemSO = match,
                     quantity = dropped.quantity,
+                    instanceId = dropped.instanceId,
+                    durability = dropped.durability,
+                    WeaponLevel = dropped.weaponLevel,
                 };
 
-                items.Add(itemData);
+                var runtimeItem = itemData.CreateInstance();
+                if (!string.IsNullOrEmpty(dropped.instanceId))
+                    runtimeItem.instanceId = dropped.instanceId;
+                items.Add(runtimeItem);
             }
         }
 

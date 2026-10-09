@@ -41,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639269884985797748
+  lastModified: 639271332821341218
   FileSizes:
   - Name: 
-    Value: 3404
+    Value: 3518
   Exists: 1
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
@@ -236,6 +236,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3960
+--- !u!114 &-6375596927405457317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Catapult/ProjectileState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: ProjectileState
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3045824832
+    data2: 4237265866
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Launch
+  - Lifetime
+  - Destroy
+  Exists: 1
 --- !u!114 &-5977423965903560665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +304,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Combat.bank
   Name: Combat
   StudioPath: bank:/Combat
-  lastModified: 639245748132480737
+  lastModified: 639271340124659075
   FileSizes: []
   Exists: 1
 --- !u!114 &-5523865168224875757
@@ -336,34 +363,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
---- !u!114 &-5175797414304502165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Combat/Spells/Fireball
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Combat/Spells/Fireball
-  Guid:
-    Data1: -499793594
-    Data2: 1314913548
-    Data3: -369663860
-    Data4: 1101481986
-  Banks:
-  - {fileID: -5831107289076156613}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 2470742863631207987}
-  MinDistance: 1
-  MaxDistance: 30
-  Length: 5666
 --- !u!114 &-4955452877415786880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +445,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 653
+--- !u!114 &-4355587632341063676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/SiegeWeapons/CatapultCharge
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/SiegeWeapons/CatapultCharge
+  Guid:
+    Data1: -730774480
+    Data2: 1309622484
+    Data3: 2136244117
+    Data4: -1432375973
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 55
+  Length: 1203
 --- !u!114 &-4050019964733371028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,7 +750,6 @@ MonoBehaviour:
   - {fileID: 1404293288565338032}
   - {fileID: -4707189639856094150}
   - {fileID: -3961461177915870809}
-  - {fileID: -5175797414304502165}
   - {fileID: -4955452877415786880}
   - {fileID: -8124282087518779692}
   - {fileID: -5177754754350324130}
@@ -746,12 +771,15 @@ MonoBehaviour:
   - {fileID: 4277156225228293240}
   - {fileID: 563268005922217560}
   - {fileID: -7762520477796729979}
+  - {fileID: -4355587632341063676}
+  - {fileID: 8687318658524767477}
+  - {fileID: 5351999072497909993}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639269884985797748
+  cacheTime: 639271340124659075
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -1107,33 +1135,6 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
---- !u!114 &2470742863631207987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Fireball/ProjectileState
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
-  Name: ProjectileState
-  StudioPath: 
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 3045824832
-    data2: 4237265866
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - Launch
-  - Lifetime
-  - Destroy
-  Exists: 1
 --- !u!114 &2534038550492349406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,6 +1344,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1183
+--- !u!114 &4249840349846805439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Fireball/ProjectileState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: ProjectileState
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3045824832
+    data2: 4237265866
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Launch
+  - Lifetime
+  - Destroy
+  Exists: 1
 --- !u!114 &4277156225228293240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1456,34 @@ MonoBehaviour:
   - Wood
   - Sand
   Exists: 1
+--- !u!114 &5351999072497909993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Projectiles/Catapult
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Projectiles/Catapult
+  Guid:
+    Data1: -101372081
+    Data2: 1092735460
+    Data3: -1773150586
+    Data4: -1262322152
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6375596927405457317}
+  MinDistance: 1
+  MaxDistance: 55
+  Length: 5666
 --- !u!114 &5391246328826907050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,7 +1526,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639269884985787748
+  lastModified: 639271332821331216
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -1664,6 +1720,34 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1253
+--- !u!114 &8687318658524767477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Projectiles/Fireball
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Projectiles/Fireball
+  Guid:
+    Data1: -499793594
+    Data2: 1314913548
+    Data3: -369663860
+    Data4: 1101481986
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 4249840349846805439}
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 5666
 --- !u!114 &8727351524714554428
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -15,7 +16,6 @@ public class CatapultController : MonoBehaviour
 
     [SerializeField, Range(0f, 180f)] float launchAngle = 90f;
     [SerializeField, Min(0f)] float minLaunchDistance = 3f;
-    [SerializeField, Min(0.1f)] float gizmoLength = 15f;
 
     [HideInInspector] public float minCooldown = 3;
     [HideInInspector] public float maxCooldown = 5;
@@ -25,6 +25,9 @@ public class CatapultController : MonoBehaviour
     bool canLaunch = true;
 
     IDamagable currTarget;
+
+    [Header("Аудио")]
+    [SerializeField] private EventReference ev_charge;
    
 
     public AnimationInfoSO AnimationInfo() => animationInfoSO;
@@ -36,19 +39,6 @@ public class CatapultController : MonoBehaviour
         dummyProjectile.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            var pl = FindAnyObjectByType<PlayerServiceLocator>();
-            if (pl != null)
-            {
-                if (!IsTargetInLaunchRange(pl.GetComponentInChildren<IDamagable>())) return;
-                TryLaunch(pl.GetComponentInChildren<IDamagable>());
-            }
-               
-        }
-    }
 
     public void TryLaunch(IDamagable d)
     {
@@ -57,6 +47,7 @@ public class CatapultController : MonoBehaviour
         currTarget = d;
 
         anim.SetTrigger("Launch");
+        AudioEventPlayer.Play3DOneShot(ev_charge, gameObject);
         dummyProjectile.SetActive(true);
 
         if(coolDownCoroutine == null)
@@ -78,10 +69,6 @@ public class CatapultController : MonoBehaviour
     }
 
     #region Animator Controls
-    public void PlayLaunchSound()
-    {
-      
-    }
 
     public void Launch()
     {
@@ -107,39 +94,7 @@ public class CatapultController : MonoBehaviour
         return Vector3.Angle(transform.forward, offset) <= launchAngle * 0.5f;
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Transform origin = aimOrigin != null ? aimOrigin : transform;
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(origin.position, minLaunchDistance);
-
-    //    Gizmos.color = Color.yellow;
-    //    float length = Mathf.Max(gizmoLength, minLaunchDistance);
-    //    float halfAngle = launchAngle * 0.5f * Mathf.Deg2Rad;
-    //    Vector3 center = origin.position + origin.forward * (Mathf.Cos(halfAngle) * length);
-    //    float radius = Mathf.Sin(halfAngle) * length;
-    //    Vector3 previous = center + origin.right * radius;
-
-    //    const int segments = 48;
-    //    for (int i = 1; i <= segments; i++)
-    //    {
-    //        float angle = i * Mathf.PI * 2f / segments;
-    //        Vector3 point = center +
-    //            (origin.right * Mathf.Cos(angle) + origin.up * Mathf.Sin(angle)) * radius;
-    //        Gizmos.DrawLine(previous, point);
-    //        if (i % (segments / 4) == 0)
-    //            Gizmos.DrawLine(origin.position, point);
-    //        previous = point;
-    //    }
-
-    //    Gizmos.DrawRay(origin.position, origin.forward * length);
-    //    if (currTarget != null && currTarget.GetAimTransform() != null)
-    //    {
-    //        Gizmos.color = IsTargetInLaunchRange(currTarget) ? Color.green : Color.red;
-    //        Gizmos.DrawLine(origin.position, currTarget.GetAimTransform().position);
-    //    }
-    //}
-
+   
 
 }
 

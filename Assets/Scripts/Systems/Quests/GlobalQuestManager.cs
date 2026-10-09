@@ -41,6 +41,7 @@ public class GlobalQuestManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     /// <summary>
@@ -155,16 +156,14 @@ public class GlobalQuestManager : MonoBehaviour
     {
         var targetQuest = allQuests.Find(x => x.state.questId == quest.id);
 
-        if (targetQuest == null) return;
+        if (targetQuest == null || !targetQuest.state.isCompleted || targetQuest.state.wasRewardGiven) return;
+        if (!targetQuest.definition.TryCreateRewards(out var items)) return;
+        if (items.Count > 0 && GrandRewards == null) return;
 
-        var items = targetQuest.definition.rewards;
-
-        if(items.Count > 0)
-        {
-            GrandRewards?.Invoke(quest.rewards);
-        }
-
+        // Guard against reentrant callbacks granting the same reward twice.
         targetQuest.state.wasRewardGiven = true;
+        if (items.Count > 0)
+            GrandRewards.Invoke(items);
     }
 
     /// <summary>

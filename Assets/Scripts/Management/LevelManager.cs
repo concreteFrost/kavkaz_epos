@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReloadWholeLevelState()
     {
+        ProjectilePoolManager.Instance?.ClearPools();
         
         charactersManager?.RespawnAllCharacters();
         lootManager?.ClearDynamicLoot();
@@ -85,6 +86,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReloadLevelOnRest()
     {
+        ProjectilePoolManager.Instance?.ClearPools();
         trapsManager?.ResetTraps();
         charactersManager?.RespawnAllCharacters();
     }
@@ -146,6 +148,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        ProjectilePoolManager.Instance?.ClearPools();
         levelState = state;
 
         charactersManager?.LoadCharactersData(state);

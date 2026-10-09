@@ -6,14 +6,13 @@ public class CatapultLaunchBehaviour : StateMachineBehaviour
 
     CatapultController activator;
     bool hasLaunched = false;
-    bool wasAudioPlayer = false;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         activator = animator.GetComponent<CatapultController>();
         hasLaunched = false;
-        wasAudioPlayer = false;
+       
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,12 +21,7 @@ public class CatapultLaunchBehaviour : StateMachineBehaviour
         float t = stateInfo.normalizedTime;
 
         var animationInfo = activator.AnimationInfo();
-        if (!wasAudioPlayer && t >= animationInfo.audioStartTime)
-        {
-            //play audio
-            activator.PlayLaunchSound();
-            wasAudioPlayer = true;
-        }
+       
 
         if (!hasLaunched && t >= animationInfo.hitStartFrame)
         {
@@ -40,7 +34,7 @@ public class CatapultLaunchBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        wasAudioPlayer = false;
+        hasLaunched = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

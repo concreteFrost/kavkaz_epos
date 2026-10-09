@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
@@ -26,9 +26,14 @@ public class DamageCollider : MonoBehaviour
 
     private void Awake()
     {
-        damageCollider = GetComponent<Collider>();
+        EnsureCollider();
         damageCollider.isTrigger = true; // триггер, чтобы не было физического столкновения
-        damageCollider.enabled = false;
+        if (attackSource == null) damageCollider.enabled = false;
+    }
+    private void EnsureCollider()
+    {
+        if (damageCollider == null) damageCollider = GetComponent<Collider>();
+        damageCollider.isTrigger = true;
     }
     public void Init()
     {
@@ -65,6 +70,7 @@ public class DamageCollider : MonoBehaviour
     // Включение коллайдера для атаки
     public virtual void EnableCollider(DamageData damageData ,List<CharacterType> targetsToIgnore, IAttackSource attackSource)
     {
+        EnsureCollider();
         this.damageData = damageData;
         this.attackSource = attackSource;
         objectsToIgnore = targetsToIgnore;
@@ -79,6 +85,8 @@ public class DamageCollider : MonoBehaviour
     // Выключение коллайдера после атаки
     public virtual void DisableCollider()
     {
+        EnsureCollider();
+        damageData = default;
         attackSource = null;
         damageCollider.enabled = false;
         attackInterrupted = false;

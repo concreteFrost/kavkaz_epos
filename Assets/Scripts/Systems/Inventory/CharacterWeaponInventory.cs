@@ -198,7 +198,7 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
         if (data.itemSO == null)
             return;
 
-        if (data.instanceId == null)
+        if (string.IsNullOrEmpty(data.instanceId))
             data.instanceId = Guid.NewGuid().ToString();
 
         var parsedData = data;
