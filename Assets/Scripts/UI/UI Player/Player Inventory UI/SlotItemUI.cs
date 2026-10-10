@@ -6,7 +6,11 @@ public class SlotItemUI : MonoBehaviour
 {
     [SerializeField] protected Image itemImage;
     [SerializeField] protected Image backgroundImage;
+    [Tooltip("Показывать рамку слота, даже если в нём нет предмета.")]
+    [SerializeField] private bool showBackgroundWhenEmpty;
     [SerializeField] protected TextMeshProUGUI quantityText;
+    [Tooltip("Рамка количества. Отображается только вместе со счётчиком предметов.")]
+    [SerializeField] private GameObject quantityFrame;
     [SerializeField] protected Image cantUseImage;
 
     protected ItemData currentItem;
@@ -35,12 +39,12 @@ public class SlotItemUI : MonoBehaviour
 
         if (data.itemSO.IsStackable())
         {
-            quantityText.enabled = true;
+            SetQuantityVisible(true);
             quantityText.text = currentItem.quantity.ToString();
         }
         else
         {
-            quantityText.enabled = false;
+            SetQuantityVisible(false);
         }
 
         if (currentItem.itemSO is SpellProjectileSO spell)
@@ -83,12 +87,18 @@ public class SlotItemUI : MonoBehaviour
     }
 
 
+    protected void SetQuantityVisible(bool visible)
+    {
+        quantityText.enabled = visible;
+        if (quantityFrame != null) quantityFrame.SetActive(visible);
+    }
+
     public virtual void RemoveData()
     {
         currentItem = null;
         itemImage.enabled = false;
-        backgroundImage.enabled = false;
-        quantityText.enabled = false;
+        backgroundImage.enabled = showBackgroundWhenEmpty;
+        SetQuantityVisible(false);
 
     }
 

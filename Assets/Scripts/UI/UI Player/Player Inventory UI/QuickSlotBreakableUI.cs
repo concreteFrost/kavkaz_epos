@@ -26,7 +26,7 @@ public class QuickSlotBreakableUI : SlotItemUI
 
         
 
-        quantityText.enabled = false;
+        SetQuantityVisible(false);
         cantUseImage.enabled = false;
 
 
