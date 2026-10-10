@@ -13,4 +13,5 @@ public class SelectableStyleSO : ScriptableObject
 
     public TMP_FontAsset font;
     public Color textColor;
+
 }

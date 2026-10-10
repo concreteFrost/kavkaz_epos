@@ -15,6 +15,7 @@ public class UISelectableStyle : MonoBehaviour
         colors.highlightedColor = style.highlightedColor;
         colors.pressedColor = style.pressedColor;
         colors.selectedColor = style.selectedColor;
+        colors.disabledColor = style.disabledColor;
         selectable.colors = colors;
     }
 

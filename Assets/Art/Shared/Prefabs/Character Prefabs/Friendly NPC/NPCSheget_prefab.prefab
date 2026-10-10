@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef0e7eaa16f6d64eaf8be32cd3ab0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
-  skyOffset: 2.5
+  skyOffset: 4
 --- !u!114 &5734270060882171519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1237,8 +1237,9 @@ MonoBehaviour:
   - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
     quantity: 5
     instanceId: 
-    durability: 0
     isEquiped: 0
+    durability: 0
+    weaponLevel: 1
 --- !u!1 &8369910766931979454
 GameObject:
   m_ObjectHideFlags: 0
@@ -2705,7 +2706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4572979415849919297, guid: 6492e050bfe52b740900a1b5108c2f36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.375935
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4572979415849919297, guid: 6492e050bfe52b740900a1b5108c2f36, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2713,7 +2714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4572979415849919297, guid: 6492e050bfe52b740900a1b5108c2f36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.792909
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4572979415849919297, guid: 6492e050bfe52b740900a1b5108c2f36, type: 3}
       propertyPath: m_LocalRotation.w

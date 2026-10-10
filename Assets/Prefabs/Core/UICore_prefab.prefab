@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   bonfirePanelUI: {fileID: 1472758095928346107}
   lootPanelUI: {fileID: 8036766566423270809}
+  eventMessagesUI: {fileID: 4310328958333947206}
   screenFaderUI: {fileID: 0}
   weaponUpgraderStationUI: {fileID: 530511967007230243}
   gameMenuUI: {fileID: 2695147106655126397}
@@ -1200,15 +1201,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5057706291211196019, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+      propertyPath: levelReachedUI
+      value: 
+      objectReference: {fileID: 5201318648050043714}
+    - target: {fileID: 5649308638786608613, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+      propertyPath: m_Name
+      value: CharacterLevelAchievedUI_prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 5720016841723548381, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
       propertyPath: m_Name
       value: NotificationsManagerUI_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5825184489629922086, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+      propertyPath: m_Name
+      value: BiomNameUI_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892530302406389091, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+      propertyPath: showLevelName
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+--- !u!114 &4310328958333947206 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5057706291211196019, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+  m_PrefabInstance: {fileID: 9070751346993781557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b6a9352a33c8047a9eb02a7ec27608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameEventsMessagesUI
+--- !u!114 &5201318648050043714 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3877321696098029687, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}
+  m_PrefabInstance: {fileID: 9070751346993781557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49ea04bc4ceec94ab8062180904a05b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelReachedUI
 --- !u!224 &5650877910170834089 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3713846605172985756, guid: 26686ecf15b14414c904fcf0b78298f8, type: 3}

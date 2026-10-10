@@ -5,6 +5,8 @@ public class GlobalUIManager : MonoBehaviour
 {
     [SerializeField] private BonfirePanelUI bonfirePanelUI;
     [SerializeField] private PlayerLootPanelUI lootPanelUI;
+    [Tooltip("Панель игровых сообщений в общем интерфейсе уведомлений.")]
+    [SerializeField] private GameEventsMessagesUI eventMessagesUI;
     [SerializeField] private ScreenFaderUI screenFaderUI;
 
     [SerializeField] private WeaponUpgradeStationUI weaponUpgraderStationUI;
@@ -61,11 +63,15 @@ public class GlobalUIManager : MonoBehaviour
     private void Start()
     {
         lootPanelUI.Init();
+        eventMessagesUI.Init();
     }
 
 
     private void OnGameStateChanged(GameState state)
     {
+        if (state == GameState.Game)
+            eventMessagesUI.HidePanel();
+
         if (state == GameState.Game || state == GameState.Transition)
         {
             CloseAllPanels();

@@ -1,27 +1,26 @@
 
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class LevelReachedUI : MonoBehaviour
 {
 
-    [Header("New Level Achieved Controls")]
-    [SerializeField] TextMeshProUGUI text_NewLevelAchieved;
+    [Header("Уведомление о новом уровне")]
+    [Tooltip("Маска раскрытия панели слева направо.")]
+    [SerializeField] private RectMask2D revealMask;
+    [Tooltip("Длительность раскрытия панели в секундах.")]
+    [SerializeField] private float revealDuration;
+    [Tooltip("Длительность показа после раскрытия в секундах.")]
+    [SerializeField] private float displayDuration;
     Coroutine levelUpdatedCoroutine = null;
 
-    private void OnEnable()
+    public void Init()
     {
-        CharacterLevelController.NewLevelReachedWithMessage += OnNeveLevelReached;
+        ToggleLevelAchievedText(false);
     }
 
-    private void OnDisable()
-    {
-
-        CharacterLevelController.NewLevelReachedWithMessage -= OnNeveLevelReached;
-    }
-
-    private void ToggleLevelAchievedText(bool isVisible) => text_NewLevelAchieved.gameObject.SetActive(isVisible);
+    private void ToggleLevelAchievedText(bool isVisible) => revealMask.gameObject.SetActive(isVisible);
 
     private void ShowLevelUpdated()
     {
@@ -34,7 +33,7 @@ public class LevelReachedUI : MonoBehaviour
         levelUpdatedCoroutine = StartCoroutine(ShowLevelUpdatedCoroutine());
     }
 
-    private void OnNeveLevelReached()
+    public void OnNeveLevelReached()
     {
         
         ShowLevelUpdated();
@@ -42,8 +41,21 @@ public class LevelReachedUI : MonoBehaviour
 
     IEnumerator ShowLevelUpdatedCoroutine()
     {
+        float width = revealMask.rectTransform.rect.width;
+        revealMask.padding = new Vector4(0f, 0f, width, 0f);
         ToggleLevelAchievedText(true);
-        yield return new WaitForSeconds(3);
+
+        float elapsed = 0f;
+        while (elapsed < revealDuration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = Mathf.SmoothStep(0f, 1f, elapsed / revealDuration);
+            revealMask.padding = new Vector4(0f, 0f, Mathf.Lerp(width, 0f, progress), 0f);
+            yield return null;
+        }
+
+        revealMask.padding = Vector4.zero;
+        yield return new WaitForSeconds(displayDuration);
         ToggleLevelAchievedText(false);
 
         levelUpdatedCoroutine = null;

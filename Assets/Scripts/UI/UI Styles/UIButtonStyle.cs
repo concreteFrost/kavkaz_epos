@@ -16,10 +16,11 @@ public class UIButtonStyle : UISelectableStyle
         {
             label.font = style.font;
             label.color = style.textColor;
-
+           
             label.text = labelText;
-
+           
             label.fontSize = fontSize;
+
         }
     }
 

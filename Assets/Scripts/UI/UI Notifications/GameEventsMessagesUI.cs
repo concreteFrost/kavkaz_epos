@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerEventMessagesUI : MonoBehaviour
+public class GameEventsMessagesUI : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject wrapper;
@@ -14,6 +14,9 @@ public class PlayerEventMessagesUI : MonoBehaviour
     [SerializeField] private float textShowDuration = 5f;
     [SerializeField] private float textHideDelay = 2f;
 
+    [Header("LevelReachedUI")]
+    [SerializeField] private LevelReachedUI levelReachedUI;
+
     private readonly Queue<string> messageQueue = new();
 
     private Coroutine messageCoroutine;
@@ -21,6 +24,7 @@ public class PlayerEventMessagesUI : MonoBehaviour
     public void Init()
     {
         HidePanel();
+        levelReachedUI.Init();
     }
 
     private void OnEnable()
@@ -30,7 +34,10 @@ public class PlayerEventMessagesUI : MonoBehaviour
 
         QuestNpcDialogueController.QuestStarted += OnQuestStarted;
         QuestNpcDialogueController.QuestCompleted += OnQuestCompleted;
+        CharacterLevelController.NewLevelReachedWithMessage += OnNeveLevelReached;
     }
+
+
 
     private void OnDisable()
     {
@@ -39,6 +46,7 @@ public class PlayerEventMessagesUI : MonoBehaviour
 
         QuestNpcDialogueController.QuestStarted -= OnQuestStarted;
         QuestNpcDialogueController.QuestCompleted -= OnQuestCompleted;
+        CharacterLevelController.NewLevelReachedWithMessage -= OnNeveLevelReached;
     }
 
     private void OnDoorMessage(string message)
@@ -83,6 +91,11 @@ public class PlayerEventMessagesUI : MonoBehaviour
         }
 
         messageCoroutine = null;
+    }
+
+    private void OnNeveLevelReached()
+    {
+        levelReachedUI.OnNeveLevelReached();
     }
 
     private void ShowMessage(string message)

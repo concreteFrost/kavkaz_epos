@@ -26,8 +26,6 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Money")]
     [SerializeField] private PlayerMoneyUI moneyUI;
 
-    [Header("Player Messages")]
-    [SerializeField] private PlayerEventMessagesUI eventMessagesUI;
 
     #endregion
 
@@ -71,7 +69,6 @@ public class PlayerUIManager : MonoBehaviour
             () => levelControllerUI.ToggleLevelControllerPanel(true));
         interactionUI.Init(interactionController);
         moneyUI.Init(moneyManager);
-        eventMessagesUI.Init();
 
 
     }
@@ -152,7 +149,6 @@ public class PlayerUIManager : MonoBehaviour
         inventoryContextMenuUI.HideContextMenu(false);
         inventoryUI.ToggleInventory(false);
         levelControllerUI.ToggleLevelControllerPanel(false);
-        eventMessagesUI.HidePanel();
         //UiToggled?.Invoke(false);
 
     }
