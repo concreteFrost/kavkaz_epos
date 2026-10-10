@@ -84,7 +84,7 @@ public class LevelManager : MonoBehaviour
         trapsManager?.ResetTraps();
     }
 
-    public void ReloadLevelOnRest()
+    public void ReloadLevelOnRest(string val)
     {
         ProjectilePoolManager.Instance?.ClearPools();
         trapsManager?.ResetTraps();

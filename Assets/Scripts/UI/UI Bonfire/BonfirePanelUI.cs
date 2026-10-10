@@ -20,6 +20,8 @@ public class BonfirePanelUI : MonoBehaviour
     [SerializeField] Button travelSectionButton;
     [SerializeField] Button closeButton;
 
+    [SerializeField] TextMeshProUGUI text_bonfireName;
+
     private List<Button> travelButtonsPool = new List<Button>();
 
     [HideInInspector] public GameObject activePanel;
@@ -30,11 +32,19 @@ public class BonfirePanelUI : MonoBehaviour
     {
         travelSectionButton.onClick.AddListener(() => HideTravelPanel(false));
         closeButton.onClick.AddListener(CloseBonfireMenu);
+        Bonfire.BonfireInteracted += OnBonfireInteracted;
     }
+
+    private void OnBonfireInteracted(string obj)
+    {
+        text_bonfireName.text = obj;
+    }
+
     private void OnDisable()
     {
         travelSectionButton.onClick.RemoveAllListeners();
         closeButton.onClick.RemoveAllListeners();
+        Bonfire.BonfireInteracted -= OnBonfireInteracted;
     }
 
     public void ToggleMainPanel(bool isActive)
@@ -43,6 +53,7 @@ public class BonfirePanelUI : MonoBehaviour
         mainWrapper.SetActive(isActive);
         bonfirePanel.SetActive(isActive);
         HideTravelPanel(true);
+        
 
         if (isActive)
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandler
+public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandler, IDeselectHandler
 {
     PlayerLevelControllerUI levelController;
 
@@ -12,10 +12,15 @@ public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandl
 
     [SerializeField] Button upgradeBtn;
 
+    Outline outline;
+
     
     public void Init(PlayerLevelControllerUI levelControllerUI)
     {
         this.levelController = levelControllerUI;
+
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
 
         upgradeBtn.onClick.RemoveAllListeners();
         upgradeBtn.onClick.AddListener(Upgrade);
@@ -29,6 +34,7 @@ public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandl
 
     public void OnSelect(BaseEventData eventData)
     {
+        outline.enabled = true;
         levelController.CurrentSelected = this.GetComponent<Selectable>();
     }
 
@@ -37,5 +43,10 @@ public class StatsUpgraderPanelUI : MonoBehaviour , ISelectHandler, ISubmitHandl
     public void OnSubmit(BaseEventData eventData)
     {
         Upgrade();
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        outline.enabled = false;
     }
 }

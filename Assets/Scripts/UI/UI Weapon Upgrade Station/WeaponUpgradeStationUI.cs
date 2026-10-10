@@ -55,13 +55,16 @@ public class WeaponUpgradeStationUI : MonoBehaviour
         int cardIndex = 0;
         selectablePanels.Clear();
 
+        var onlyWeapons = interactor.WeaponInventory.items.FindAll(x => x.itemSO is WeaponSO);
+
+        //сортировка по базовой силе
+        onlyWeapons.Sort((x, y) =>
+            ((WeaponSO)y.itemSO).GetBaseDamage()
+                .CompareTo(((WeaponSO)x.itemSO).GetBaseDamage()));
+
         //достаём карты из пула
-        foreach (CombatItemData combatData in interactor.WeaponInventory.items)
+        foreach (WeaponData data in onlyWeapons)
         {
-            if (combatData is not WeaponData data) continue;
-            //показываем только оружие
-            if (data == null || data.itemSO is not WeaponSO)
-                continue;
 
             if (data.WeaponLevel == 10)
                 continue;
@@ -102,7 +105,7 @@ public class WeaponUpgradeStationUI : MonoBehaviour
         //скрываем остальные карты
         HideUnusedCards(cardIndex);
         HighlightAt(preferredSelectionIndex);
-        
+
     }
 
     private void HideUnusedCards(int firstUnusedIndex)

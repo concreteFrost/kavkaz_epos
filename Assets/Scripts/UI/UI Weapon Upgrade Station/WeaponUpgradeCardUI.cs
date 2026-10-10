@@ -57,6 +57,8 @@ public class WeaponUpgradeCardUI : MonoBehaviour, ISelectHandler, IDeselectHandl
     [SerializeField] private Button btn_upgrade;
     [SerializeField] private Image icon;
 
+    Outline outline;
+
     private WeaponData weaponData;
     private Action<WeaponData> onUpgradeRequest;
 
@@ -65,6 +67,10 @@ public class WeaponUpgradeCardUI : MonoBehaviour, ISelectHandler, IDeselectHandl
     private void Awake()
     {
         rectImage = GetComponent<Image>();
+        
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
+
         defaultRectColor = rectImage.color;
        
     }
@@ -146,11 +152,13 @@ public class WeaponUpgradeCardUI : MonoBehaviour, ISelectHandler, IDeselectHandl
         Color onSelectColor = new Color(defaultRectColor.r, defaultRectColor.g, defaultRectColor.b);
         onSelectColor.a = 0.5f;
         rectImage.color = onSelectColor;
+        outline.enabled = true;
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
         rectImage.color = defaultRectColor;
+        outline.enabled = false;
     }
 
     public void OnSubmit(BaseEventData eventData)

@@ -3,15 +3,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
+public class StatInfoPanelUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     CharacterLevelController levelController;
-
     [SerializeField] TextMeshProUGUI statNameText;
     [SerializeField] TextMeshProUGUI pointsText;
     [SerializeField] TextMeshProUGUI currentLevelText;
     [SerializeField] Button updateStatBtn;
     [SerializeField] Button downgradeStatBtn;
+
+    Outline outline;
 
     PlayerLevelControllerUI uiController;
 
@@ -24,6 +25,9 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
         this.levelController = levelController;
         this.statType = statType;
         this.uiController = uiController;
+
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
 
         statNameText.text = statType.ToString();
         accumulatedPoints = 0;
@@ -91,6 +95,12 @@ public class StatInfoPanelUI : MonoBehaviour, ISelectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
+        outline.enabled = true;
         uiController.CurrentSelected = this.GetComponent<Selectable>();
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        outline.enabled = false;
     }
 }

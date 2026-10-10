@@ -24,7 +24,7 @@ public class Bonfire : MonoBehaviour, IInteractable
 
     public bool isDiscovered;
 
-    public static Action BonfireInteracted;
+    public static Action<string> BonfireInteracted;
 
     public static Action BonfireDiscovered;
 
@@ -70,7 +70,7 @@ public class Bonfire : MonoBehaviour, IInteractable
             return;
         }
 
-        BonfireInteracted?.Invoke();
+        BonfireInteracted?.Invoke(bonfireName);
         //GameStateManager.GameStateChanged?.Invoke(GameState.Bonfire);
 
         interactor.LifeCycleController.SetStartingPosition(respawnPosition.position);

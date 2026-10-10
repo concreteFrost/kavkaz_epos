@@ -986,6 +986,7 @@ GameObject:
   - component: {fileID: 659359487553168299}
   - component: {fileID: 5295520469201277992}
   - component: {fileID: 5240362034024641281}
+  - component: {fileID: 776724633249251565}
   m_Layer: 0
   m_Name: CardStatUpgrade_prefab
   m_TagString: Untagged
@@ -1101,7 +1102,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
     m_PressedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
     m_SelectedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1145,6 +1146,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISelectableStyle
   style: {fileID: 11400000, guid: f7a09fcbabdcc654c8f7eab2985b1f96, type: 2}
+--- !u!114 &776724633249251565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105256901265801159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 1, g: 0.18342055, b: 0.16509432, a: 1}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &5116539289579906104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1288,6 +1304,18 @@ PrefabInstance:
     - target: {fileID: 8814577821917045099, guid: 5b5580509e235fa4e8ac31e7871499ed, type: 3}
       propertyPath: m_Colors.m_NormalColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814577821917045099, guid: 5b5580509e235fa4e8ac31e7871499ed, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.b
+      value: 0.41509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814577821917045099, guid: 5b5580509e235fa4e8ac31e7871499ed, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.g
+      value: 0.41509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814577821917045099, guid: 5b5580509e235fa4e8ac31e7871499ed, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.r
+      value: 0.41509432
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

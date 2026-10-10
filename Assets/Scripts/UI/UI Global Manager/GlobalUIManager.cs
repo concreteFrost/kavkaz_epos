@@ -37,7 +37,7 @@ public class GlobalUIManager : MonoBehaviour
         weaponUpgraderStationUI.Show(station, interactor);
     }
 
-    private void OnBonfireInteracted()
+    private void OnBonfireInteracted(string text)
     {
         GameStateManager.Instance.SetState(GameState.ContextMenu);
         bonfirePanelUI.ToggleMainPanel(true);
