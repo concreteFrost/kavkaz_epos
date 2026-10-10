@@ -20,6 +20,7 @@ public class StaminaEnableController : MonoBehaviour
         staminaModel.canReduceStamina = false;
         EnemyFOVController.TargetFound += OnTargetAdded;
         EnemyFOVController.TargetLost += OnTargetReset;
+        SceneTransitionManager.SceneLoadedAfterTravel += OnSceneLoadedAfterTravel;
 
     }
 
@@ -27,6 +28,14 @@ public class StaminaEnableController : MonoBehaviour
     {
         EnemyFOVController.TargetFound -= OnTargetAdded;
         EnemyFOVController.TargetLost -= OnTargetReset;
+        SceneTransitionManager.SceneLoadedAfterTravel -= OnSceneLoadedAfterTravel;
+    }
+
+    private void OnSceneLoadedAfterTravel(string sceneName, Vector3 startingPosition)
+    {
+        targetHolders.Clear();
+        staminaModel.canReduceStamina = false;
+        text_activeTargets.text = "Active targets: " + targetHolders.Count.ToString();
     }
 
     private void Update()

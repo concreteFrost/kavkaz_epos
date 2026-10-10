@@ -53,12 +53,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Height_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: d63379112c1a270429260ff43dd40a1e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metallic_Map:
+        m_Texture: {fileID: 2800000, guid: d29354a6a21769d4da115addcfdf1aec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -71,6 +79,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Occlusion_Map:
+        m_Texture: {fileID: 2800000, guid: 1ac172ea9c7735a4889a91de3427814e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -108,6 +120,7 @@ Material:
     - BOOLEAN_WORLDORIGIN: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
+    - _AlphaThreshold: 0.61
     - _AlphaToMask: 0
     - _Alpha_Threshold: 0
     - _Blend: 0
@@ -133,18 +146,20 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Metallic: 0
+    - _Height_Strength: 0
+    - _Metallic: 1
     - _NoiseScale: 50
     - _NormalScale: 1
-    - _Normal_Strength: 0.55
+    - _Normal_Strength: 2
     - _OcclusionStrength: 1
+    - _Occlusion_Strength: 1
     - _Opacity: 0
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _Smoothnes: 0
+    - _Smoothnes: 0.24
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

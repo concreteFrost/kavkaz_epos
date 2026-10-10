@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   mainWrapper: {fileID: 6536624284734828318}
   itemCellPrefab: {fileID: 3972935063080875979, guid: d16688517a4d6b740959ac32a11e84f2, type: 3}
-  equipmentCellPrefab: {fileID: 3972935063080875979, guid: b2f9c4c59cb847d9b251c640a3175363, type: 3}
+  equipmentCellPrefab: {fileID: 4278351857048041418, guid: b2f9c4c59cb847d9b251c640a3175363, type: 3}
   weaponCellsContainer: {fileID: 6210825105354539636}
   cellsContainer: {fileID: 2773443376432296758}
   scrollRect: {fileID: 2265079345341413709}
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effdef30d499105429a966a50080ea64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoneyManager
-  currentBalance: 500
+  currentBalance: 0
 --- !u!1 &4449761109065529391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1612,7 @@ MonoBehaviour:
   statsSO: {fileID: 11400000, guid: a440a1f66f7947041879a89b37fbeea3, type: 2}
   jumpHeight: 0
   jumpTimer: 0
-  initialHealthLevel: 50
+  initialHealthLevel: 1
   initialStaminaLevel: 1
   initialKnowledgeLevel: 1
   initialStrengthLevel: 1
@@ -2374,8 +2374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
-  hasAllConsumables: 1
-  hasAllSpells: 1
+  hasAllConsumables: 0
+  hasAllSpells: 0
   hasAllWeapons: 0
 --- !u!1 &8435803114403785097
 GameObject:

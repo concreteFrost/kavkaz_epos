@@ -69,6 +69,7 @@ public class PlayerQuickSlotsUI : MonoBehaviour
     /// </summary>
     public void SetPanelVisible(bool visible)
     {
+        wrapper.SetActive(visible);
         if (!visible) return;
 
         OnSpellUpdated(spellInventory.CurrentItem);

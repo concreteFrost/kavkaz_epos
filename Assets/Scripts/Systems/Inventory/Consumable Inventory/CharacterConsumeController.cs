@@ -16,7 +16,7 @@ public class CharacterConsumeController : MonoBehaviour
 
     public void StartConsume()
     {
-        if (inventory.CurrentItem == null) return;
+        if (inventory.CurrentItem == null || !inventory.CurrentItem.itemSO.CanUse()) return;
 
         currentItem = inventory.CurrentItem;
 
@@ -34,6 +34,8 @@ public class CharacterConsumeController : MonoBehaviour
 
     public void StartConsumeFromContext(ConsumableData data)
     {
+        if (data == null || !data.itemSO.CanUse()) return;
+
         currentItem = data;
 
         var consumable = (ConsumableItemSO)currentItem.itemSO;

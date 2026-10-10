@@ -69,6 +69,8 @@ public class PlayerUIManager : MonoBehaviour
             () => levelControllerUI.ToggleLevelControllerPanel(true));
         interactionUI.Init(interactionController);
         moneyUI.Init(moneyManager);
+        CloseAllPanels();
+        OnGameStateChanged(GameStateManager.Instance.CurrentState);
 
 
     }

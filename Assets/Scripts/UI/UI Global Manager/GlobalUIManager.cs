@@ -64,6 +64,8 @@ public class GlobalUIManager : MonoBehaviour
     {
         lootPanelUI.Init();
         eventMessagesUI.Init();
+        CloseAllPanels();
+        OnGameStateChanged(GameStateManager.Instance.CurrentState);
     }
 
 
@@ -74,6 +76,7 @@ public class GlobalUIManager : MonoBehaviour
 
         if (state == GameState.Game || state == GameState.Transition)
         {
+            SetCursorState(false);
             CloseAllPanels();
             return;
         }
@@ -81,7 +84,6 @@ public class GlobalUIManager : MonoBehaviour
 
     private void CloseAllPanels()
     {
-        SetCursorState(false);
         bonfirePanelUI.HideAllPanels();
         weaponUpgraderStationUI.Close();
         gameMenuUI.ToggleMenuOptions(false);

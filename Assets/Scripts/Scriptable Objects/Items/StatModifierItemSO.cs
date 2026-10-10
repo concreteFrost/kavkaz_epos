@@ -14,7 +14,7 @@ public class StatModifierItemSO : ConsumableItemSO
     }
 
     public override bool CanUse() => true;
-    public override bool CanEquip() => true;
+    public override bool CanEquip() => false;
     public override bool CanAddToSlot() => true;
     public override bool CanRemoveFromSlot() => true;
     public override bool CanDestroy() => false;
