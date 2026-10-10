@@ -1073,6 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   mainWrapper: {fileID: 6536624284734828318}
   itemCellPrefab: {fileID: 3972935063080875979, guid: d16688517a4d6b740959ac32a11e84f2, type: 3}
+  equipmentCellPrefab: {fileID: 3972935063080875979, guid: b2f9c4c59cb847d9b251c640a3175363, type: 3}
   weaponCellsContainer: {fileID: 6210825105354539636}
   cellsContainer: {fileID: 2773443376432296758}
   scrollRect: {fileID: 2265079345341413709}
@@ -2373,9 +2374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c314ef62da835a459f5b642ce0b0b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
-  hasAllConsumables: 0
-  hasAllSpells: 0
-  hasAllWeapons: 1
+  hasAllConsumables: 1
+  hasAllSpells: 1
+  hasAllWeapons: 0
 --- !u!1 &8435803114403785097
 GameObject:
   m_ObjectHideFlags: 0

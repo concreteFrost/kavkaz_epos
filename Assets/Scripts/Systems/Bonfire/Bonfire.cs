@@ -34,9 +34,9 @@ public class Bonfire : MonoBehaviour, IInteractable
     private EventInstance burningEventInstance;
 
     #region IInteractable Contract
-    public string InteractionName() => "Bonfire";
+    public string InteractionName() => "Очаг искры";
 
-    public string ActionText() => "Activate";
+    public string ActionText() => "Активировать";
     public bool HasInteracted { get => false; set => value = false; } // с этим предметом можно взаимодействовать всегда
 
     public ItemInteractionType InteractType() => ItemInteractionType.Item;

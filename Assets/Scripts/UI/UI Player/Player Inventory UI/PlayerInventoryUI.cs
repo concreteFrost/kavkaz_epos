@@ -20,6 +20,8 @@ public class PlayerInventoryUI : MonoBehaviour
 
     [SerializeField] GameObject mainWrapper;
     [SerializeField] GameObject itemCellPrefab;
+    [Tooltip("Префаб ячеек экипировки и быстрого доступа в инвентаре.")]
+    [SerializeField] GameObject equipmentCellPrefab;
 
     [SerializeField] Transform weaponCellsContainer;
     [SerializeField] Transform cellsContainer;
@@ -154,9 +156,9 @@ public class PlayerInventoryUI : MonoBehaviour
     /// <param name="container">Родительский элемент ячейки</param>
     /// <param name="action">Действия по нажатие на ячейку</param>
     /// <returns></returns>
-    private InventoryItemUI InstantiateInventoryCell(Transform container, Action<ItemData, Vector2> action)
+    private InventoryItemUI InstantiateInventoryCell(GameObject cellPrefab, Transform container, Action<ItemData, Vector2> action)
     {
-        GameObject go = Instantiate(itemCellPrefab, container);
+        GameObject go = Instantiate(cellPrefab, container);
         InventoryItemUI slotItem = go.GetComponent<InventoryItemUI>();
 
         slotItem.InitInInventory(action);
@@ -175,7 +177,7 @@ public class PlayerInventoryUI : MonoBehaviour
         //создание основной сетки
         for (int i = 0; i < totalCellsToInit; i++)
         {
-            var newCell = InstantiateInventoryCell(cellsContainer, (item, pos) => contextMenu.ShowContextMenu(item, pos));
+            var newCell = InstantiateInventoryCell(itemCellPrefab, cellsContainer, (item, pos) => contextMenu.ShowContextMenu(item, pos));
             slotItems.Add(newCell);
         }
 
@@ -187,7 +189,7 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            var newCell = InstantiateInventoryCell(weaponCellsContainer, (item, pos) => HandleUnequipItem(item, pos));
+            var newCell = InstantiateInventoryCell(equipmentCellPrefab, weaponCellsContainer, (item, pos) => HandleUnequipItem(item, pos));
             weaponItems.Add(newCell);
         }
     }
@@ -200,7 +202,7 @@ public class PlayerInventoryUI : MonoBehaviour
         //создание сетки быстрого доступа
         for (int i = 0; i < BaseInventory<ItemData>.QUICK_SLOTS_COUNT; i++)
         {
-            GameObject go = Instantiate(itemCellPrefab, quickSlotsContainer);
+            GameObject go = Instantiate(equipmentCellPrefab, quickSlotsContainer);
             var data = go.GetComponent<InventoryItemUI>();
             data.InitInInventory((item, pos) => contextMenu.RemoveOnItemClick(item));
 

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class StaticLootHolder : BaseLootHolder
 {
-    public override string LootHolderName => "Loot";
+    public override string LootHolderName => "Добыча";
 
-    public override string LootInteractionText => "Collect";
+    public override string LootInteractionText => "Подобрать";
     public override ItemInteractionType InteractType() => ItemInteractionType.Item;
 
     public List<ItemData> lootEntries = new List<ItemData>();
