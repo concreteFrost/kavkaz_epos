@@ -7,7 +7,7 @@ using UnityEngine;
 )]
 public class RainAttackSO : ProjectileAttackSO
 {
-    [SerializeField, Range(1, 10)] private int maxProjectiles = 10;
+    [SerializeField, Range(1, 50)] private int maxProjectiles = 20;
     [SerializeField, Min(0f)] private float minSpawnDelay = 0.08f;
     [SerializeField, Min(0f)] private float maxSpawnDelay = 0.4f;
 

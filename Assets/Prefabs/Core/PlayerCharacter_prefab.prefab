@@ -1654,6 +1654,7 @@ MonoBehaviour:
     unspentPoints: 0
     baseLevelCost: 100
     costMultiplier: 15
+    linearCostMultiplier: 40
 --- !u!114 &2856714895575341713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2375,7 +2376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterConstructor
   hasAllConsumables: 0
-  hasAllSpells: 0
+  hasAllSpells: 1
   hasAllWeapons: 0
 --- !u!1 &8435803114403785097
 GameObject:
@@ -2449,6 +2450,7 @@ MonoBehaviour:
       unspentPoints: 0
       baseLevelCost: 100
       costMultiplier: 15
+      linearCostMultiplier: 40
     effectData: []
     spellInventoryData:
       items: []

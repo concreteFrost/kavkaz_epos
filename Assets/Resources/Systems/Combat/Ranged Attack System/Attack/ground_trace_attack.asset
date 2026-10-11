@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35898b81f9b9465ca1a15c1a8f1538c5, type: 3}
   m_Name: ground_trace_attack
   m_EditorClassIdentifier: Assembly-CSharp::GroundTraceAttackSO
-  maxProjectiles: 10
-  firstDistance: 2
-  spacing: 2
-  groundProbeHeight: 20
+  firstDistance: 1
+  spacing: 1
+  zigzagAmplitude: 0.25
+  aimAssistStrength: 1
+  maxAimCorrectionAngle: 35
+  groundProbeHeight: 2
+  maxGroundRise: 0.5
+  minGroundNormalY: 0.5
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295
