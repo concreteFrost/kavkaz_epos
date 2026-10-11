@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class CameraCutout : MonoBehaviour
 {
-    [Header("References")]
+    [Header("Ссылки")]
     private Transform target;
     [SerializeField] private LayerMask cutoutLayer;
 
-    [Header("Cutout Settings")]
+    [Header("Настройки выреза")]
     [SerializeField] private float cutoutSize = 0.75f;
     [SerializeField] private float cutoutSpeed = 2f;
 
@@ -26,12 +27,22 @@ public class CameraCutout : MonoBehaviour
     private List<Renderer> tempRenderers = new();
     private List<Material> tempMaterials = new();
 
-    const string OPACITY = "_Dissolve";
+    private static readonly int OPACITY = Shader.PropertyToID("_Dissolve");
 
 
-    private void Update()
+    private void OnEnable()
     {
-        if (target == null) return;
+        CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
+    }
+
+    private void OnDisable()
+    {
+        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCameraUpdated);
+    }
+
+    private void OnCameraUpdated(CinemachineBrain brain)
+    {
+        if (target == null || cam == null || brain.OutputCamera != cam) return;
 
         UpdateCutouts();
         ApplyCutoutValues();
@@ -47,9 +58,11 @@ public class CameraCutout : MonoBehaviour
     {
         currentHits.Clear();
 
-        Vector3 origin = cam.transform.position;
-        Vector3 dir = (target.position - origin).normalized;
-        float distance = Vector3.Distance(origin, target.position);
+        // Луч из точки игрока обнаруживает препятствие и при камере внутри его коллайдера.
+        Vector3 origin = target.position;
+        Vector3 offset = cam.transform.position - origin;
+        float distance = offset.magnitude;
+        Vector3 dir = distance > 0f ? offset / distance : Vector3.zero;
 
         int hitCount = Physics.RaycastNonAlloc(origin, dir, hitsBuffer, distance, cutoutLayer);
 
@@ -113,7 +126,7 @@ public class CameraCutout : MonoBehaviour
 
     private void ProcessCutout(Renderer renderer)
     {
-        currentHits.Add(renderer);
+        if (!currentHits.Add(renderer)) return;
 
         var materials = GetMaterials(renderer);
 
@@ -145,8 +158,17 @@ public class CameraCutout : MonoBehaviour
 
     private void SetTargetCutout(Material[] materials, float target)
     {
+        target = Mathf.Clamp01(target);
         for (int i = 0; i < materials.Length; i++)
-            targetValues[materials[i]] = Mathf.Clamp01(target);
+        {
+            var material = materials[i];
+            if (!material.HasProperty(OPACITY)) continue;
+
+            if (Mathf.Approximately(material.GetFloat(OPACITY), target))
+                targetValues.Remove(material);
+            else
+                targetValues[material] = target;
+        }
     }
 
     private void ApplyCutoutValues()
@@ -167,7 +189,8 @@ public class CameraCutout : MonoBehaviour
             float target = targetValues[mat];
 
             float next = Mathf.MoveTowards(current, target, cutoutSpeed * Time.deltaTime);
-            mat.SetFloat(OPACITY, next);
+            if (next != current)
+                mat.SetFloat(OPACITY, next);
 
             if (Mathf.Approximately(next, target))
                 targetValues.Remove(mat);

@@ -14,6 +14,7 @@ public class CharacterLevelData
 
     public int baseLevelCost = 100;
     public int costMultiplier = 15;
+    public int linearCostMultiplier = 40;
 
 }
 
@@ -42,7 +43,7 @@ public class CharacterLevelController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            AddXP(10);
+            AddXP(30);
         }
     }
 
@@ -98,7 +99,8 @@ public class CharacterLevelController : MonoBehaviour
     {
         levelData.xpToNextLevel = levelData.baseLevelCost +
                                   levelData.currentCharacterLevel * levelData.currentCharacterLevel *
-                                  levelData.costMultiplier;
+                                  levelData.costMultiplier +
+                                  (levelData.currentCharacterLevel - 1) * levelData.linearCostMultiplier;
     }
 
     public void SpendPoint(StatType type)

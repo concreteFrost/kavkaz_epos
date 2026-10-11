@@ -65,7 +65,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
         Health.ChangeCurrent(damageData.finalDamage, OperationType.Negative);
 
-        CombatVFXManager.ImpactResolved?.Invoke(ImpactVFX(), GetAimTransform().position, -source.Source().forward);
+        
+        CombatVFXManager.ImpactResolved?.Invoke(ImpactVFX(), GetAimTransform().position, source !=null ? -source.Source().forward :  transform.forward);
         AudioEventPlayer.Play3DOneShot(ev_damage, transform.gameObject);
 
         DamageTaken?.Invoke(source);

@@ -97,7 +97,8 @@ public class WeaponData : CombatItemData , IItemStats
     {
         new ItemStat("weapon level", weaponLevel, ItemStatFormatType.flat),
         new ItemStat("base damage",   Mathf.Round(GetWeaponDamageWithLevel(WeaponLevel) * 10f) / 10f, ItemStatFormatType.flat),
-        new ItemStat("durability", durability, ItemStatFormatType.flat)
+        new ItemStat("durability", durability, ItemStatFormatType.flat),
+        new ItemStat("selling price", itemSO.SellingPrice, ItemStatFormatType.flat)
     };
 
 }
@@ -107,7 +108,8 @@ public class ShieldData : CombatItemData, IItemStats {
 
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     { 
-        new ItemStat("durability", durability, ItemStatFormatType.flat)
+        new ItemStat("durability", durability, ItemStatFormatType.flat),
+        new ItemStat("selling price", itemSO.SellingPrice, ItemStatFormatType.flat)
     };
 }
 [System.Serializable]
@@ -116,6 +118,7 @@ public class SpellData: ItemData, IItemStats
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
         new ItemStat("base damage", (itemSO as SpellProjectileSO).GetBaseDamage(), ItemStatFormatType.flat),
+        new ItemStat("selling price", itemSO.SellingPrice, ItemStatFormatType.flat)
 
     };
 }
@@ -123,6 +126,11 @@ public class SpellData: ItemData, IItemStats
 [System.Serializable]
 public class ConsumableData: ItemData
 {
+    public List<ItemStat> ItemStats() => new List<ItemStat>()
+    {
+        new ItemStat("selling price", itemSO.SellingPrice, ItemStatFormatType.flat)
+
+    };
 
 }
 

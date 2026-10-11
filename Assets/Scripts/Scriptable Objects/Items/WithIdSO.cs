@@ -6,7 +6,7 @@ public abstract class WithIdSO : ScriptableObject
     public string id;
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         if (string.IsNullOrEmpty(id))
         {

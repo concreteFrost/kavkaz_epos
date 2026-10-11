@@ -31,7 +31,7 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
     [SerializeField] private ParticleSystem summonParticle;
 
     [Tooltip("Задержка перед запуском анимации удара после призыва.")]
-    [SerializeField] private float summonTimer = 1f;
+    [SerializeField] private float summonTimer = 0.5f;
 
     private Coroutine summonCoroutine;
 
