@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_5058c45d-feb5-42ac-80d9-4d0524308353
+  uniqueId: uid_300248e5-10d8-47c2-8eb3-46c0d48cc717
 --- !u!195 &4827920263752337557
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef0e7eaa16f6d64eaf8be32cd3ab0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
-  skyOffset: 2.5
+  skyOffset: 4
 --- !u!114 &5145074045657262434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,11 +954,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
   items:
-  - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
+  - itemSO: {fileID: 11400000, guid: e5f339a62e1692149b5b5bed0ded567c, type: 2}
     quantity: 5
     instanceId: 
-    durability: 0
     isEquiped: 0
+    durability: 0
+    weaponLevel: 1
 --- !u!1 &3905528556958098778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1183,7 @@ MonoBehaviour:
     unspentPoints: 0
     baseLevelCost: 100
     costMultiplier: 15
+    linearCostMultiplier: 40
 --- !u!1 &4592536191150782207
 GameObject:
   m_ObjectHideFlags: 0

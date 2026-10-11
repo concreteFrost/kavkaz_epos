@@ -34,6 +34,8 @@
 
 ## Unity Guidelines
 
+- Для новых заклинаний включать видимый след (trace) в магическом префабе, используя существующее управление следами в Projectile.
+
 - Do not modify scenes, prefabs, or .meta files unless necessary for the task.
 - Preserve serialized data, Inspector references, and existing asset relationships.
 - Do not rename or remove serialized fields without considering data migration.

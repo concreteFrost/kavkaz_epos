@@ -132,14 +132,14 @@ public class CharacterStatsModifier : MonoBehaviour
         {
             var effect = activeEffects[i];
 
-            // проверяем, есть ли id эффекта в списке effectsToCancel этого эффекта
+            // РїСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё id СЌС„С„РµРєС‚Р° РІ СЃРїРёСЃРєРµ effectsToCancel СЌС‚РѕРіРѕ СЌС„С„РµРєС‚Р°
             foreach (var cancelEffect in types)
             {
                 if (effect.data.id == cancelEffect.id)
                 {
 
                     CancelStatEffect(effect);
-                    break; // раз нашли — дальше не ищем
+                    break; // СЂР°Р· РЅР°С€Р»Рё вЂ” РґР°Р»СЊС€Рµ РЅРµ РёС‰РµРј
                 }
             }
         }
@@ -159,7 +159,7 @@ public class CharacterStatsModifier : MonoBehaviour
 
             if (entry.effect is ContinuousStatusEffectSO continuous)
             {
-                AddContiniousSideEffect(continuous, entry.amount, entry.duration);
+                AddContiniousSideEffect(continuous, continuous.GetAmount(entry.amount), continuous.GetDuration(entry.duration));
             }
             else
             {
@@ -175,7 +175,7 @@ public class CharacterStatsModifier : MonoBehaviour
         if (entry == null || entry.effect == null) return;
 
 
-        // применяем сам эффект
+        // РїСЂРёРјРµРЅСЏРµРј СЃР°Рј СЌС„С„РµРєС‚
         entry.effect.Apply(statsController, entry.amount);
     }
 
@@ -209,8 +209,8 @@ public class CharacterStatsModifier : MonoBehaviour
     SavedEffectData data
    )
     {
-        // важно: НЕ ищем match и не стакаем
-        // мы восстанавливаем как есть
+        // РІР°Р¶РЅРѕ: РќР• РёС‰РµРј match Рё РЅРµ СЃС‚Р°РєР°РµРј
+        // РјС‹ РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєР°Рє РµСЃС‚СЊ
 
         var instance = StatusEffectInstance.Load(
            effect,
@@ -224,11 +224,11 @@ public class CharacterStatsModifier : MonoBehaviour
         activeEffects.Add(instance);
         effect.OnApply(statsController, data.amount);
 
-        // если эффект уже активен — применяем визуал
+        // РµСЃР»Рё СЌС„С„РµРєС‚ СѓР¶Рµ Р°РєС‚РёРІРµРЅ вЂ” РїСЂРёРјРµРЅСЏРµРј РІРёР·СѓР°Р»
         if (data.isActive)
             visualizer.ShowEffect(effect);
 
-        // уведомляем UI (если нужно)
+        // СѓРІРµРґРѕРјР»СЏРµРј UI (РµСЃР»Рё РЅСѓР¶РЅРѕ)
         EffectAdded?.Invoke(effect, instance.Progress);
 
     }

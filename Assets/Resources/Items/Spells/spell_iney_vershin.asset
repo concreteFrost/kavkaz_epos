@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: spell_iney_vershin
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: 36e5918d-8a16-45d3-83a0-49aa7aafeedf
+  itemName: "\u0418\u043D\u0435\u0439 \u0432\u0435\u0440\u0448\u0438\u043D"
+  itemImage: {fileID: 21300008, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
+  itemDescription: "\u041D\u0430 \u0432\u0435\u0440\u0448\u0438\u043D\u0430\u0445
+    \u0438\u043D\u0435\u0439 \u043E\u0441\u0435\u0434\u0430\u0435\u0442 \u0434\u0430\u0436\u0435
+    \u043F\u043E\u0434 \u044F\u0441\u043D\u044B\u043C \u043D\u0435\u0431\u043E\u043C.
+    \u041F\u0440\u0438\u0437\u0432\u0430\u043D\u043D\u044B\u0439 \u0445\u043E\u043B\u043E\u0434
+    \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442 \u0435\u0433\u043E
+    \u0432\u043D\u0438\u0437 \u043E\u0441\u0442\u0440\u044B\u043C\u0438 \u043A\u0440\u0443\u043F\u0438\u0446\u0430\u043C\u0438,
+    \u0431\u0443\u0434\u0442\u043E \u0441\u0430\u043C\u0430 \u0433\u043E\u0440\u0430
+    \u0441\u0442\u0440\u044F\u0445\u0438\u0432\u0430\u0435\u0442 \u0437\u0438\u043C\u043D\u0438\u0439
+    \u043F\u043E\u043A\u0440\u043E\u0432."
+  price: 0
+  sellingPrice: 0
+  prefab: {fileID: 6897423304324703046, guid: 34626e59f39d96944bc8390168ff55fb, type: 3}
+  baseDamage: 8
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 1
+    impactForce: 0
+    statusEffectData:
+      effects:
+      - effect: {fileID: 11400000, guid: f9dbf1d30aac46518bf65b27024595c6, type: 2}
+        amount: 0.5
+        duration: 10
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: 5dda07bff5b3476da16fc919fcc998ce, type: 2}
+  amountToSpawn: 8
+  spawnDelay: 0.1
+  emitStartingPosition: 1
+  moveSO: {fileID: 11400000, guid: 6932fa3f05762e34e910b365a8966bb3, type: 2}
+  speed: 7
+  lifetime: 10
+  ev_audio:
+    Guid:
+      Data1: -499793594
+      Data2: 1314913548
+      Data3: -369663860
+      Data4: 1101481986
+    Path: event:/Combat/Projectiles/Fireball
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 1
+  requirements:
+    statType: 2
+    minRequired: 1

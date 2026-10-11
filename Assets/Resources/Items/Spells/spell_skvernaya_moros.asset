@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
-  m_Name: spell_chernaya_moros
+  m_Name: spell_skvernaya_moros
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   id: 4ac2a3d0-811e-47f4-9b24-56ecac3612ca
-  itemName: "\u0427\u0451\u0440\u043D\u0430\u044F \u043C\u043E\u0440\u043E\u0441\u044C"
+  itemName: "\u0421\u043A\u0432\u0435\u0440\u043D\u0430\u044F \u043C\u043E\u0440\u043E\u0441\u044C"
   itemImage: {fileID: 21300004, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
   itemDescription: "\u041D\u0430\u0434 \u043C\u0435\u0441\u0442\u0430\u043C\u0438,
     \u0433\u0434\u0435 \u0438\u0441\u0442\u043E\u043D\u0447\u0438\u043B\u0430\u0441\u044C
@@ -26,10 +26,10 @@ MonoBehaviour:
   price: 0
   sellingPrice: 0
   prefab: {fileID: 6897423304324703046, guid: 98f2f0c4e40ca71439b9fd3d7f2f18f9, type: 3}
-  baseDamage: 7
+  baseDamage: 8
   damageData:
     damageMultiplier: 0
-    balanceDamageType: 0
+    balanceDamageType: 1
     impactForce: 0
     statusEffectData:
       effects:
@@ -39,7 +39,7 @@ MonoBehaviour:
       effectsToCancel: []
     finalDamage: 0
   attackSO: {fileID: 11400000, guid: 5dda07bff5b3476da16fc919fcc998ce, type: 2}
-  amountToSpawn: 25
+  amountToSpawn: 10
   spawnDelay: 0.1
   emitStartingPosition: 1
   moveSO: {fileID: 11400000, guid: 6932fa3f05762e34e910b365a8966bb3, type: 2}

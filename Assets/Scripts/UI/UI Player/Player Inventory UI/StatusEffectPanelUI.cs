@@ -27,11 +27,12 @@ public class StatusEffectPanelUI : MonoBehaviour
 
         amountText.text = $"{data.amount:F0}";
 
-        if(data.effect is ContinuousStatusEffectSO)
+        if(data.effect is ContinuousStatusEffectSO continuous)
         {
             durationLabelText.enabled = true;
             durationText.enabled = true;
-            durationText.text = $"{data.duration:F1}s";
+            amountText.text = $"{continuous.GetAmount(data.amount):0.##}";
+            durationText.text = $"{continuous.GetDuration(data.duration):F1}s";
         }
         else
         {

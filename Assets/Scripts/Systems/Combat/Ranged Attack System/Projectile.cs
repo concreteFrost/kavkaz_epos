@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour, IProjectile
             emitterPosition,
             transform,
             data.target,
-            currentDir,
+            data.moveSO is SpitMoveSO ? data.baseDir : currentDir,
             data.speed,
             aliveTime
         );
@@ -56,9 +56,8 @@ public class Projectile : MonoBehaviour, IProjectile
             return;
         }
 
-        // Keep gravity separate from currentDir so movement strategies do not
-        // feed the accumulated falling velocity back into their next update.
-        Vector3 gravityAcceleration = Vector3.down * Gravity;
+        // Движение плевком уже учитывает гравитацию в возвращаемой скорости.
+        Vector3 gravityAcceleration = Vector3.down * (data.moveSO is SpitMoveSO ? 0f : Gravity);
         float deltaTime = Time.deltaTime;
         transform.position += (velocity + gravityVelocity) * deltaTime
             + gravityAcceleration * (0.5f * deltaTime * deltaTime);
@@ -90,6 +89,7 @@ public class Projectile : MonoBehaviour, IProjectile
         );
 
         ActivateLifetimeParticles();
+        foreach (var trail in trails) trail.emitting = true;
 
         // Projectile: Lifetime -> Destroy
         audioEvent = data.ev_audio.IsNull ? default : AudioEventPlayer.Play3D(
@@ -146,6 +146,7 @@ public class Projectile : MonoBehaviour, IProjectile
             return;
 
         isDestroying = true;
+        foreach (var trail in trails) trail.emitting = false;
 
         StartCoroutine(DestroyCoroutine());
     }
@@ -207,7 +208,11 @@ public class Projectile : MonoBehaviour, IProjectile
         CacheEffects();
         foreach (var system in particles)
             system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        foreach (var trail in trails) trail.Clear();
+        foreach (var trail in trails)
+        {
+            trail.emitting = false;
+            trail.Clear();
+        }
         DeactivateAllParticles();
         data = null;
         emitterPosition = null;

@@ -7,6 +7,12 @@ public class ContinuousStatusEffectSO : StatusEffectSO
     //public float accumulationIncreaseMultiplier = 0.12f;
     //public float accumulationDecreaseMultiplier = 0.01f;
 
+    [Tooltip("Общие параметры периодического урона. Без профиля используются значения источника эффекта.")]
+    public StatusDamageSettingsSO damageSettings;
+
+    public float GetAmount(float sourceAmount) => damageSettings != null ? damageSettings.damagePerSecond : sourceAmount;
+    public float GetDuration(float sourceDuration) => damageSettings != null ? damageSettings.duration : sourceDuration;
+
     public GameObject visualAppearance;
     public bool useAccumulation = false;
 
