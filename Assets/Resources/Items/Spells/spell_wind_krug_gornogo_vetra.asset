@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: spell_wind_krug_gornogo_vetra
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: 80e21753-e934-4edf-97b4-3c09e8d44322
+  itemName: "\u041a\u0440\u0443\u0433 \u0433\u043e\u0440\u043d\u043e\u0433\u043e \u0432\u0435\u0442\u0440\u0430"
+  itemImage: {fileID: 21300011, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
+  itemDescription: "\u041d\u0430 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0433\u0440\u0435\u0431\u043d\u044f\u0445 \u0432\u0435\u0442\u0435\u0440 \u043e\u0431\u0445\u043e\u0434\u0438\u0442 \u043e\u0434\u0438\u043d\u043e\u043a\u0438\u0439 \u043a\u0430\u043c\u0435\u043d\u044c, \u043d\u0435 \u043d\u0430\u0445\u043e\u0434\u044f \u043f\u043e\u043a\u043e\u044f. \u0417\u0430\u043a\u043b\u0438\u043d\u0430\u0442\u0435\u043b\u044c \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442 \u0442\u0430\u043a\u043e\u0439 \u043a\u0440\u0443\u0433 \u0432\u043e\u0437\u043b\u0435 \u0441\u0435\u0431\u044f, \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u044f \u0438\u043c \u043f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0432\u0448\u0435\u0433\u043e\u0441\u044f \u0432\u0440\u0430\u0433\u0430."
+  price: 0
+  sellingPrice: 0
+  prefab: {fileID: 6897423304324703046, guid: 8e8c71046c30008439ee20648d1f6de5, type: 3}
+  baseDamage: 8
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 1
+    impactForce: 0
+    statusEffectData:
+      effects: []
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: 344faaf702fee2e4495c4abfcc3f29cd, type: 2}
+  amountToSpawn: 8
+  spawnDelay: 0.1
+  emitStartingPosition: 0
+  moveSO: {fileID: 11400000, guid: 5317557a29d8fd240b0b1fadb6d6817e, type: 2}
+  speed: 7
+  lifetime: 15
+  ev_audio:
+    Guid:
+      Data1: -499793594
+      Data2: 1314913548
+      Data3: -369663860
+      Data4: 1101481986
+    Path: event:/Combat/Projectiles/Fireball
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 1
+  requirements:
+    statType: 2
+    minRequired: 1

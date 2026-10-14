@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c411fba8dbc000e4e96a3d130d533385, type: 3}
+  m_Name: spell_wind_eho_vershin
+  m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
+  id: c511b532-b6dd-4af5-8278-af1614337a2e
+  itemName: "\u042d\u0445\u043e \u0432\u0435\u0440\u0448\u0438\u043d"
+  itemImage: {fileID: 21300010, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
+  itemDescription: "\u0413\u043e\u043b\u043e\u0441 \u0438\u0434\u0443\u0449\u0438\u0439 \u043e\u0442 \u0441\u0430\u043c\u043e\u0433\u043e \u043f\u0438\u043a\u0430 \u0433\u043e\u0440\u043d\u044b\u0445 \u0432\u0435\u0440\u0448\u0438\u043d. \u0415\u0433\u043e \u0437\u0432\u043e\u043d \u043e\u0433\u043b\u0443\u0448\u0430\u0435\u0442 \u043f\u0440\u043e\u0442\u0438\u0432\u043d\u0438\u043a\u0430, \u0430 \u0445\u043e\u043b\u043e\u0434 \u043f\u0440\u043e\u043d\u0438\u0437\u044b\u0432\u0430\u0435\u0442 \u0434\u043e \u043a\u043e\u0441\u0442\u0435\u0439. "
+  price: 0
+  sellingPrice: 0
+  prefab: {fileID: 6897423304324703046, guid: 8e8c71046c30008439ee20648d1f6de5, type: 3}
+  baseDamage: 8
+  damageData:
+    damageMultiplier: 0
+    balanceDamageType: 2
+    impactForce: 0
+    statusEffectData:
+      effects: []
+      effectsToCancel: []
+    finalDamage: 0
+  attackSO: {fileID: 11400000, guid: 344faaf702fee2e4495c4abfcc3f29cd, type: 2}
+  amountToSpawn: 3
+  spawnDelay: 0.15
+  emitStartingPosition: 0
+  moveSO: {fileID: 11400000, guid: 7eb39b04b2e7ff84891c90d1acc11a3b, type: 2}
+  speed: 10
+  lifetime: 10
+  ev_audio:
+    Guid:
+      Data1: -499793594
+      Data2: 1314913548
+      Data3: -369663860
+      Data4: 1101481986
+    Path: event:/Combat/Projectiles/Fireball
+  castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
+  staminaPenalty: 1
+  requirements:
+    statType: 2
+    minRequired: 1
