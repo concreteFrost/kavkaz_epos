@@ -34,7 +34,7 @@ public abstract class CombatItem : MonoBehaviour, ICombatItem , IBreakable
     
     }
 
-    public void SetEquiped(bool equiped)
+    public virtual void SetEquiped(bool equiped)
     {
         foreach(var r in meshRenderer)
         {

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d472811823fda4a9ffeff4caca8499, type: 3}
+  m_Name: weapon_sablya_chesti
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  id: c0d1fa50-c8d0-4d5c-8f52-1c8d48eb7d98
+  itemName: "Сабля чести"
+  price: 900
+  sellingPrice: 315
+  itemImage: {fileID: 0}
+  itemDescription: "Богато украшенная сабля, некогда принадлежавшая знатным воинам. Клинок исправно служит своему владельцу, а искусная работа мастера делает оружие достойным передаваться из поколения в поколение."
+  brakdownPenalty: 0.5
+  canOverride: 0
+  weaponType: 0
+  baseDamage: 19
+  attackSet: {fileID: 11400000, guid: 2fb0d82619a01874c9a6bef0ded337c3, type: 2}
+  idleAnimation: {fileID: 0}
+  equipEvent:
+    Guid:
+      Data1: -126725819
+      Data2: 1275169231
+      Data3: 1587607217
+      Data4: -62964915
+    Path: event:/Combat/Weapons/Saber/Equip

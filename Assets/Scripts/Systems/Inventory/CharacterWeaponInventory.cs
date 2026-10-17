@@ -17,7 +17,7 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
 
     private HumanoidWeaponSetter weaponSetter;
     private Dictionary<string, ICombatItem> weaponPool = new Dictionary<string, ICombatItem>();
-    private WeaponDataBaseSO weaponDataBaseSO;
+    private readonly Dictionary<string, GameObject> weaponPrefabs = new Dictionary<string, GameObject>();
     private List<CombatItemSO> cachedCombatItems;
 
     public void Init(HumanoidWeaponSetter setter)
@@ -25,9 +25,28 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
         base.BaseInit();
         weaponSetter = setter;
         
-        var resources = Resources.Load<WeaponDataBaseSO>("DataBases/DataBase_Weapons");
-        cachedCombatItems = new List<CombatItemSO>(resources.GetAllWeapons());  
-        weaponDataBaseSO = resources;
+        weaponPrefabs.Clear();
+        cachedCombatItems = new List<CombatItemSO>();
+
+        foreach (var prefab in Resources.LoadAll<GameObject>("Weapons"))
+        {
+            CombatItemSO item;
+            if (prefab.TryGetComponent(out Weapon weapon))
+                item = weapon.WeaponData();
+            else if (prefab.TryGetComponent(out Shield shield))
+                item = shield.ShieldData();
+            else
+                continue;
+
+            if (item == null || string.IsNullOrEmpty(item.id))
+                throw new InvalidOperationException($"У префаба оружия «{prefab.name}» не указан SO или его ID.");
+
+            if (weaponPrefabs.ContainsKey(item.id))
+                throw new InvalidOperationException($"Несколько префабов оружия используют ID «{item.id}».");
+
+            weaponPrefabs.Add(item.id, prefab);
+            cachedCombatItems.Add(item);
+        }
 
         if (initialWeapon != null)
         {
@@ -82,7 +101,7 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
                 WeaponLevel = 1
             };
 
-            AddItemToInventory(data);
+            AddCombatItemToInventory(data);
            
 
         }
@@ -177,9 +196,13 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
     // Пулл объектов: возвращаем GameObject для экипировки
     public ICombatItem GetWeaponObject(CombatItemData data)
     {
+        if (string.IsNullOrEmpty(data.instanceId))
+            data.instanceId = Guid.NewGuid().ToString();
+
         if (!weaponPool.TryGetValue(data.instanceId, out var obj))
         {
-            var template = weaponDataBaseSO.Get(data.itemSO.id);
+            if (!weaponPrefabs.TryGetValue(data.itemSO.id, out var template))
+                throw new InvalidOperationException($"В Resources/Weapons не найден префаб для «{data.itemSO.name}» (ID: {data.itemSO.id}).");
             GameObject go = Instantiate(template);
             var combatItem = go.GetComponent<CombatItem>();
             combatItem.Init(data);

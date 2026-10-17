@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class WeaponsManager : MonoBehaviour
 {
-    [Header("All registered combat items")]
     //public List<CombatItemInstance> instances = new List<CombatItemInstance>();
-    [SerializeField] private WeaponDataBaseSO weaponDatabase;
 
     // Инициализация: регистрируем все предметы на сцене
     public void Init()

@@ -13,9 +13,18 @@ MonoBehaviour:
   m_Name: spell_ice_kroshevo_lednika
   m_EditorClassIdentifier: Assembly-CSharp::SpellProjectileSO
   id: b82750c3-e69d-4845-af0b-39c67bcf40d1
-  itemName: "\u041a\u0440\u043e\u0448\u0435\u0432\u043e \u043b\u0435\u0434\u043d\u0438\u043a\u0430"
+  itemName: "\u041A\u0440\u043E\u0448\u0435\u0432\u043E \u043B\u0435\u0434\u043D\u0438\u043A\u0430"
   itemImage: {fileID: 21300006, guid: fe5ea5af009a35040b24bb1e50343b4a, type: 3}
-  itemDescription: "\u041a\u043e\u0433\u0434\u0430 \u0441\u0442\u0430\u0440\u044b\u0439 \u043b\u0435\u0434\u043d\u0438\u043a \u0442\u0440\u0435\u0441\u043a\u0430\u0435\u0442\u0441\u044f, \u0438\u0437 \u0435\u0433\u043e \u0442\u043e\u043b\u0449\u0438 \u0441\u044b\u043f\u043b\u044e\u0442\u0441\u044f \u043e\u0441\u0442\u0440\u044b\u0435 \u043e\u0431\u043b\u043e\u043c\u043a\u0438. \u0417\u0430\u043a\u043b\u0438\u043d\u0430\u0442\u0435\u043b\u044c \u0432\u044b\u0431\u0440\u0430\u0441\u044b\u0432\u0430\u0435\u0442 \u0438\u0445 \u0433\u043e\u0440\u0441\u0442\u044c\u044e: \u043a\u0440\u043e\u0448\u0435\u0432\u043e \u0432\u0437\u043c\u044b\u0432\u0430\u0435\u0442 \u043d\u0430\u0434 \u0437\u0435\u043c\u043b\u0451\u0439 \u0438 \u043f\u0430\u0434\u0430\u0435\u0442 \u043d\u0430 \u0432\u0440\u0430\u0433\u043e\u0432, \u0432\u043f\u0438\u0432\u0430\u044f\u0441\u044c \u0432 \u043f\u043b\u043e\u0442\u044c \u043b\u0435\u0434\u044f\u043d\u044b\u043c\u0438 \u043a\u0440\u0430\u044f\u043c\u0438."
+  itemDescription: "\u041A\u043E\u0433\u0434\u0430 \u0441\u0442\u0430\u0440\u044B\u0439
+    \u043B\u0435\u0434\u043D\u0438\u043A \u0442\u0440\u0435\u0441\u043A\u0430\u0435\u0442\u0441\u044F,
+    \u0438\u0437 \u0435\u0433\u043E \u0442\u043E\u043B\u0449\u0438 \u0441\u044B\u043F\u043B\u044E\u0442\u0441\u044F
+    \u043E\u0441\u0442\u0440\u044B\u0435 \u043E\u0431\u043B\u043E\u043C\u043A\u0438.
+    \u0417\u0430\u043A\u043B\u0438\u043D\u0430\u0442\u0435\u043B\u044C \u0432\u044B\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442
+    \u0438\u0445 \u0433\u043E\u0440\u0441\u0442\u044C\u044E: \u043A\u0440\u043E\u0448\u0435\u0432\u043E
+    \u0432\u0437\u043C\u044B\u0432\u0430\u0435\u0442 \u043D\u0430\u0434 \u0437\u0435\u043C\u043B\u0451\u0439
+    \u0438 \u043F\u0430\u0434\u0430\u0435\u0442 \u043D\u0430 \u0432\u0440\u0430\u0433\u043E\u0432,
+    \u0432\u043F\u0438\u0432\u0430\u044F\u0441\u044C \u0432 \u043F\u043B\u043E\u0442\u044C
+    \u043B\u0435\u0434\u044F\u043D\u044B\u043C\u0438 \u043A\u0440\u0430\u044F\u043C\u0438."
   price: 0
   sellingPrice: 0
   prefab: {fileID: 6897423304324703046, guid: 34626e59f39d96944bc8390168ff55fb, type: 3}
@@ -32,7 +41,7 @@ MonoBehaviour:
       effectsToCancel: []
     finalDamage: 0
   attackSO: {fileID: 11400000, guid: 9b06992940cd82441a5df1351e4d6279, type: 2}
-  amountToSpawn: 5
+  amountToSpawn: 6
   spawnDelay: 0.1
   emitStartingPosition: 0
   moveSO: {fileID: 11400000, guid: 8998bca7b23040d48d55f83f43151b40, type: 2}
@@ -40,11 +49,11 @@ MonoBehaviour:
   lifetime: 10
   ev_audio:
     Guid:
-      Data1: -499793594
-      Data2: 1314913548
-      Data3: -369663860
-      Data4: 1101481986
-    Path: event:/Combat/Projectiles/Fireball
+      Data1: -1312028037
+      Data2: 1155487696
+      Data3: -1185640002
+      Data4: 1998176554
+    Path: event:/Combat/Projectiles/Ice
   castAnimation: {fileID: 11400000, guid: fd8f9b5f8bfe83d4cbafca91d9116e68, type: 2}
   staminaPenalty: 1
   requirements:

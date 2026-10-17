@@ -6,6 +6,8 @@ public class Weapon : CombatItem, IWeapon
     private WeaponAttack currentAttack;
 
     [SerializeField] private WeaponDamageCollider damageCollider;
+    [Tooltip("Необязательный след клинка, видимый во время нанесения удара.")]
+    [SerializeField] private TrailRenderer attackTrace;
     protected WeaponAudioManager audioManager;
 
     int currentAttackIndex = 0;
@@ -36,6 +38,7 @@ public class Weapon : CombatItem, IWeapon
     {
        
         base.Init(data);
+        SetAttackTrace(false, true);
 
         damageCollider.Init();
         damageCollider.SetWeaponData(this);
@@ -71,6 +74,7 @@ public class Weapon : CombatItem, IWeapon
             Owner.AttackSource.TargetsToIgnore,
             Owner.AttackSource
         );
+        SetAttackTrace(true, true);
     }
 
 
@@ -78,6 +82,26 @@ public class Weapon : CombatItem, IWeapon
     public void CancelAttack()
     {
         damageCollider.DisableCollider();
+        SetAttackTrace(false, false);
+    }
+
+    public override void SetEquiped(bool equiped)
+    {
+        base.SetEquiped(equiped);
+        SetAttackTrace(false, true);
+    }
+
+    private void OnDisable()
+    {
+        SetAttackTrace(false, true);
+    }
+
+    private void SetAttackTrace(bool emitting, bool clear)
+    {
+        if (attackTrace == null) return;
+
+        if (clear) attackTrace.Clear();
+        attackTrace.emitting = emitting;
     }
 
     public override void AssignToOwner(IInteractor target)

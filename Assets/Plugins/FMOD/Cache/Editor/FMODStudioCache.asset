@@ -41,11 +41,67 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639275984951607295
+  lastModified: 639277576439854363
   FileSizes:
   - Name: 
-    Value: 3556
+    Value: 3624
   Exists: 1
+--- !u!114 &-8747498415360063053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Projectiles/Ice
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Projectiles/Ice
+  Guid:
+    Data1: -1312028037
+    Data2: 1155487696
+    Data3: -1185640002
+    Data4: 1998176554
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 2194478539779921673}
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 5666
+--- !u!114 &-8183570550889209273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Projectiles/Wind
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Projectiles/Wind
+  Guid:
+    Data1: -583500223
+    Data2: 1303579325
+    Data3: 1603985792
+    Data4: -809465342
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -1749259110322246931}
+  MinDistance: 1
+  MaxDistance: 30
+  Length: 5666
 --- !u!114 &-8124282087518779692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +387,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Combat.bank
   Name: Combat
   StudioPath: bank:/Combat
-  lastModified: 639275984951324618
+  lastModified: 639277577950973523
   FileSizes: []
   Exists: 1
 --- !u!114 &-5523865168224875757
@@ -638,6 +694,33 @@ MonoBehaviour:
   lastModified: 639272534691829944
   FileSizes: []
   Exists: 1
+--- !u!114 &-1749259110322246931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Wind/ProjectileState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: ProjectileState
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3045824832
+    data2: 4237265866
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Launch
+  - Lifetime
+  - Destroy
+  Exists: 1
 --- !u!114 &-1579786893638227004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,12 +885,14 @@ MonoBehaviour:
   - {fileID: 8687318658524767477}
   - {fileID: 5351999072497909993}
   - {fileID: 331150778979967601}
+  - {fileID: -8183570550889209273}
+  - {fileID: -8747498415360063053}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639275984951607295
+  cacheTime: 639277577950973523
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -1191,6 +1276,33 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
+--- !u!114 &2194478539779921673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Ice/ProjectileState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: ProjectileState
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3045824832
+    data2: 4237265866
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Launch
+  - Lifetime
+  - Destroy
+  Exists: 1
 --- !u!114 &2534038550492349406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,7 +1694,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639275984951597837
+  lastModified: 639277576439844367
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
