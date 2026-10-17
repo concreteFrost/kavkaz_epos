@@ -1,4 +1,3 @@
-using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,10 +19,6 @@ public class WeaponAttack
     public AnimationInfoSO animationInfo;
 
     public FromHand SourceHand() => fromHand;
-
-    public EventReference audioEvent;
-
-    public float audioStartTime = 0f;
 
     public float invincibleStartFrame = 0f;
     public float invincibleEndFrame = 0f;    

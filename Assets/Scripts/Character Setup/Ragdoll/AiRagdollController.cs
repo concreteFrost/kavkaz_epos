@@ -25,11 +25,15 @@ public class AiRagdollController : BaseRagdollController
 
         foreach (var rb in rigidbodies)
         {
+            bool wasKinematic = rb.isKinematic;
             rb.GetComponent<Collider>().enabled = true;
             rb.isKinematic = false;
             rb.useGravity = true;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            if (wasKinematic)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
 
         }
 

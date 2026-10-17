@@ -124,7 +124,7 @@ public class MeleeWeapon : IWeapon
 
     public void PlaySwing()
     {
-        audioManager.PlaySwing(currentAttack.audioEvent);
+        audioManager.PlaySwing(weaponSO.swingEvent);
     }
 
     public void CancelAttack()

@@ -68,10 +68,17 @@ public class HumanoidAIDamageController : BaseHumanoidDamageController
 
         base.TakeDamage(damageData, source);
 
+        if (IsDead)
+        {
+            PlayStabbedSound();
+            return;
+        }
+
         if (damageData.balanceDamageType == BalanceDamageType.Extreme && !IsKnockedOut && stats.statsSO.canTakeKnockout)
         {
 
             Vector3 sourcePos = source != null ? source.Source().transform.position : self.position - self.forward;
+            PlayStabbedSound();
             PerformKnockout(sourcePos, damageData.impactForce);
             return;
 

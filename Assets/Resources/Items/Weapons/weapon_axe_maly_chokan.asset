@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d472811823fda4a9ffeff4caca8499, type: 3}
+  m_Name: weapon_axe_maly_chokan
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  id: bd043b09-a1a5-401e-988a-cc40d51b20c7
+  itemName: "\u041C\u0430\u043B\u044B\u0439 \u0447\u043E\u043A\u0430\u043D"
+  itemImage: {fileID: -1846376484, guid: 369248fa6729ccc429437ace79308432, type: 3}
+  itemDescription: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u043E\u0439 \u0431\u043E\u0435\u0432\u043E\u0439
+    \u0442\u043E\u043F\u043E\u0440, \u043F\u0440\u0435\u0434\u043D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u043D\u044B\u0439
+    \u0434\u043B\u044F \u0431\u044B\u0441\u0442\u0440\u043E\u0433\u043E \u0431\u043E\u044F.
+    \u041A\u043E\u043C\u043F\u0430\u043A\u0442\u043D\u044B\u0439 \u0440\u0430\u0437\u043C\u0435\u0440
+    \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u043B \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
+    \u0435\u0433\u043E \u0432 \u0442\u0435\u0441\u043D\u043E\u043C \u043F\u0440\u043E\u0441\u0442\u0440\u0430\u043D\u0441\u0442\u0432\u0435
+    \u0438 \u043D\u0430\u043D\u043E\u0441\u0438\u0442\u044C \u0431\u044B\u0441\u0442\u0440\u044B\u0435
+    \u0443\u0434\u0430\u0440\u044B \u0440\u0430\u0437\u043D\u043E\u0439 \u0441\u0438\u043B\u044B."
+  price: 650
+  sellingPrice: 227
+  brakdownPenalty: 1
+  canOverride: 0
+  weaponType: 0
+  baseDamage: 20
+  attackSet: {fileID: 11400000, guid: 92b52df1842fbb341a694ef874da9fba, type: 2}
+  idleAnimation: {fileID: 0}
+  equipEvent:
+    Guid:
+      Data1: 669127894
+      Data2: 1332470831
+      Data3: 1439683518
+      Data4: -508122176
+    Path: event:/Combat/Weapons/BigAxe/Equip
+  swingEvent:
+    Guid:
+      Data1: -407506378
+      Data2: 1148727461
+      Data3: 1392180377
+      Data4: -1063510733
+    Path: event:/Combat/Weapons/BigAxe/Swing

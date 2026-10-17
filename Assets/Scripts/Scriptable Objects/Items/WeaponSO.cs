@@ -34,6 +34,9 @@ public class WeaponSO : CombatItemSO
 
     [Header("Audio")]
     public EventReference equipEvent;
+
+    [Tooltip("Звук взмаха оружием. Момент воспроизведения задаётся в анимации атаки.")]
+    public EventReference swingEvent;
     public float GetBaseDamage() => baseDamage;
 
 }

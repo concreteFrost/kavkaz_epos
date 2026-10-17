@@ -160,7 +160,7 @@ public abstract class BaseHumanoidDamageController : MonoBehaviour, IDamagable
         StartCoroutine(DamagedCoroutine(animClipName));
     }
 
-    private void PlayStabbedSound() => characterAudioManager.PlayDamage(stats.Health.Current <= 0 ? 1 : 0);
+    protected void PlayStabbedSound() => characterAudioManager.PlayDamage(stats.Health.Current <= 0 ? 1 : 0);
 
     protected IEnumerator DamageCooldownCoroutine()
     {

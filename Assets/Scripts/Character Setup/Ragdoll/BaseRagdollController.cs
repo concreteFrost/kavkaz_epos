@@ -28,12 +28,13 @@ public abstract class BaseRagdollController : IRagdollController
     protected Transform[] _bones; // кости относящиеся к ragdoll
     //private Transform _chestBone;
     protected Rigidbody hipsRb;
+    private Vector3 hipsLocalForward;
 
     protected CharacterBoneTransform[] _faceupBoneTransforms;
     protected CharacterBoneTransform[] _facedownBoneTransforms;
     protected CharacterBoneTransform[] _ragdollBoneTransforms;
 
-    //Coroutine recoveryCoroutine = null;
+    private Coroutine recoveryCoroutine;
 
     protected float blendDuration = 0.5f; // время перехода между ragdoll и анимацией
     protected bool isFacingUp; //на какую сторону упал персонаж (живот/спина)
@@ -64,6 +65,7 @@ public abstract class BaseRagdollController : IRagdollController
         this.col = self.GetComponent<Collider>();
         this.anim = anim;
         hipsBone = anim.Animator().GetBoneTransform(HumanBodyBones.Hips);
+        hipsLocalForward = hipsBone.InverseTransformDirection(self.forward);
         //_chestBone = anim.Animator().GetBoneTransform(HumanBodyBones.Chest);
         hipsRb = hipsBone.GetComponent<Rigidbody>();
 
@@ -118,9 +120,10 @@ public abstract class BaseRagdollController : IRagdollController
     /// <param name="from">от какого направления</param>
     public void Knockout(Vector3 from, float force = 0)
     {
+        ForceStop();
         IsKnockedOut = true;
         EnableRagdoll(from, force);
-        context.StartCoroutine(Recover());
+        recoveryCoroutine = context.StartCoroutine(Recover());
         KnockedOut?.Invoke();
     }
 
@@ -129,8 +132,10 @@ public abstract class BaseRagdollController : IRagdollController
     /// </summary>
     public void ForceStop()
     {
-        //IsRecovering = false;
-        context.StopCoroutine(Recover());
+        if (recoveryCoroutine == null) return;
+
+        context.StopCoroutine(recoveryCoroutine);
+        recoveryCoroutine = null;
 
     }
 
@@ -271,9 +276,9 @@ public abstract class BaseRagdollController : IRagdollController
 
         
 
-        CheckFaceUp();
 
         yield return new WaitForSeconds(3f); //искуственная задержка
+        CheckFaceUp();
         AlignRotationToHips();
         AlignPositionToHips();
 
@@ -315,25 +320,15 @@ public abstract class BaseRagdollController : IRagdollController
         yield return AnimatorUtils.WaitForAnimationEnd(anim.Animator(), animName, AnimatorParameters.damageLayer);
 
         IsKnockedOut = false;
+        recoveryCoroutine = null;
         Recovered?.Invoke();
 
     }
 
     private void CheckFaceUp()
     {
-        Vector3 upDir = hipsBone.up;
-
-        Debug.DrawRay(
-            hipsBone.position,
-            upDir * 5f,
-            Color.red,
-            5f);
-
-        bool groundBelow =
-            Physics.Raycast(hipsBone.position, upDir, 5f);
-
-
-        isFacingUp = groundBelow;
+        Vector3 bodyForward = hipsBone.TransformDirection(hipsLocalForward);
+        isFacingUp = Vector3.Dot(bodyForward, Vector3.up) > 0f;
     }
 
 

@@ -41,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639277576439854363
+  lastModified: 639278504242870278
   FileSizes:
   - Name: 
-    Value: 3624
+    Value: 4196
   Exists: 1
 --- !u!114 &-8747498415360063053
 MonoBehaviour:
@@ -74,6 +74,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 30
   Length: 5666
+--- !u!114 &-8403135389593001182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/BigAxe/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/BigAxe/Swing
+  Guid:
+    Data1: -407506378
+    Data2: 1148727461
+    Data3: 1392180377
+    Data4: -1063510733
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 653
 --- !u!114 &-8183570550889209273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +265,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
+--- !u!114 &-7344318975637437567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Saber2/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Saber2/Equip
+  Guid:
+    Data1: 617486731
+    Data2: 1207444543
+    Data3: 1134832542
+    Data4: -1412066228
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 1253
 --- !u!114 &-6530773842337098426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,7 +441,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Combat.bank
   Name: Combat
   StudioPath: bank:/Combat
-  lastModified: 639277577950973523
+  lastModified: 639278510882934850
   FileSizes: []
   Exists: 1
 --- !u!114 &-5523865168224875757
@@ -527,7 +581,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 40
-  Length: 653
+  Length: 809
 --- !u!114 &-4355587632341063676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +609,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 55
   Length: 1203
+--- !u!114 &-4233598419073163686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Dagger3/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Dagger3/Swing
+  Guid:
+    Data1: 1612594223
+    Data2: 1078709063
+    Data3: -488638575
+    Data4: 2071130279
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 966
 --- !u!114 &-4050019964733371028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,6 +739,60 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 40
   Length: 1253
+--- !u!114 &-2634692759891815221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Saber3/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Saber3/Swing
+  Guid:
+    Data1: 1318665233
+    Data2: 1165420076
+    Data3: 2075054773
+    Data4: -1016387713
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 809
+--- !u!114 &-2371851895435514670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Dagger3/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Dagger3/Equip
+  Guid:
+    Data1: 1849669110
+    Data2: 1128018226
+    Data3: 1905839259
+    Data4: 90572467
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 653
 --- !u!114 &-2295876193395353989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +910,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
+--- !u!114 &-868816587570470566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/BigAxe/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/BigAxe/Equip
+  Guid:
+    Data1: 669127894
+    Data2: 1332470831
+    Data3: 1439683518
+    Data4: -508122176
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 1253
 --- !u!114 &-631566331725824958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,6 +955,33 @@ MonoBehaviour:
   lastModified: 639245739394092127
   FileSizes: []
   Exists: 1
+--- !u!114 &-248581209238016025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/BigSword/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/BigSword/Swing
+  Guid:
+    Data1: -1392071710
+    Data2: 1207604024
+    Data3: 2100076441
+    Data4: 1057477849
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 653
 --- !u!114 &-62937419605210456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,12 +1076,24 @@ MonoBehaviour:
   - {fileID: 331150778979967601}
   - {fileID: -8183570550889209273}
   - {fileID: -8747498415360063053}
+  - {fileID: -4233598419073163686}
+  - {fileID: 5430045491988473718}
+  - {fileID: 6949989842215047229}
+  - {fileID: -2371851895435514670}
+  - {fileID: 1121007998853576864}
+  - {fileID: -7344318975637437567}
+  - {fileID: 1122351603512380224}
+  - {fileID: -2634692759891815221}
+  - {fileID: 3692960073815395959}
+  - {fileID: -248581209238016025}
+  - {fileID: -8403135389593001182}
+  - {fileID: -868816587570470566}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639277577950973523
+  cacheTime: 639278510882934850
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -1104,6 +1305,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 816
+--- !u!114 &1121007998853576864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Saber2/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Saber2/Swing
+  Guid:
+    Data1: -1077397646
+    Data2: 1185720487
+    Data3: -635977850
+    Data4: 1417395766
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 653
+--- !u!114 &1122351603512380224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Saber3/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Saber3/Equip
+  Guid:
+    Data1: -1076766720
+    Data2: 1315217597
+    Data3: -1878692708
+    Data4: 1611934173
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 1253
 --- !u!114 &1249488214173723520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1485,6 +1740,33 @@ MonoBehaviour:
   lastModified: 639244742364741973
   FileSizes: []
   Exists: 1
+--- !u!114 &3692960073815395959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/BigSword/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/BigSword/Equip
+  Guid:
+    Data1: 1484321376
+    Data2: 1191155184
+    Data3: 1389013888
+    Data4: -342863830
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 1253
 --- !u!114 &3958436707955021590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,6 +1961,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4200
+--- !u!114 &5430045491988473718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Dagger2/Equip
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Dagger2/Equip
+  Guid:
+    Data1: -831240110
+    Data2: 1089553114
+    Data3: 151247506
+    Data4: 292378934
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 20
+  Length: 653
 --- !u!114 &6045900870541245149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1694,7 +2003,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639277576439844367
+  lastModified: 639278504242850332
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -1726,6 +2035,33 @@ MonoBehaviour:
   - Wood
   - Sand
   Exists: 1
+--- !u!114 &6949989842215047229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Combat/Weapons/Dagger2/Swing
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Combat/Weapons/Dagger2/Swing
+  Guid:
+    Data1: -883509335
+    Data2: 1236237060
+    Data3: -390787652
+    Data4: 783503126
+  Banks:
+  - {fileID: -5831107289076156613}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 40
+  Length: 653
 --- !u!114 &7135498236481081438
 MonoBehaviour:
   m_ObjectHideFlags: 0

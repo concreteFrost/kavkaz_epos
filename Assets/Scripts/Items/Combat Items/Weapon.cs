@@ -51,7 +51,7 @@ public class Weapon : CombatItem, IWeapon
 
     public void PlaySwing()
     {
-        audioManager.PlaySwing(currentAttack.audioEvent);
+        audioManager.PlaySwing(weaponSO.swingEvent);
     }
 
     public void PerformAttack()

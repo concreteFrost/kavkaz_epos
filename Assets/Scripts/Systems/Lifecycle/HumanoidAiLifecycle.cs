@@ -41,10 +41,8 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         audioManager.PlayDeath();
         damagable.IsDead = true;
 
-        if (!ragdollController.IsKnockedOut)
-        {
-            ragdollController.EnableRagdoll(Vector3.zero, 0);
-        }
+        ragdollController.ForceStop();
+        ragdollController.EnableRagdoll(Vector3.zero, 0);
 
         brain.ForceStop();
        
@@ -55,6 +53,9 @@ public class HumanoidAiLifecycle : CharacterLifecycle
 
     public override void Respawn(Vector3 pos)
     {
+        ragdollController.ForceStop();
+        ragdollController.IsKnockedOut = false;
+        damagable.IsKnockedOut = false;
         damagable.IsDead = false;
         damagable.ResetOriginPosition();
       
