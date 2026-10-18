@@ -10,59 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
-  m_Name: attack_set_axe_one_hand_normal
+  m_Name: attack_set_big_axe
   m_EditorClassIdentifier: Assembly-CSharp::AttackSO
   attackList:
   - damageData:
       damageMultiplier: 0
-      balanceDamageType: 1
-      impactForce: 3
+      balanceDamageType: 2
+      impactForce: 10
       statusEffectData:
         effects: []
         effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 5
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: d626bf6a10e54875924141939e34176d, type: 2}
+    animationInfo: {fileID: 11400000, guid: 06e256fc06ea41b49b519edee6029240, type: 2}
     invincibleStartFrame: 0
     invincibleEndFrame: 0
   - damageData:
       damageMultiplier: 0.2
-      balanceDamageType: 1
-      impactForce: 4
+      balanceDamageType: 2
+      impactForce: 0
       statusEffectData:
         effects: []
         effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 6
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: 85b9e6ec5c5646c29940547836d5e02a, type: 2}
-    invincibleStartFrame: 0
-    invincibleEndFrame: 0
-  - damageData:
-      damageMultiplier: 0.35
-      balanceDamageType: 2
-      impactForce: 5
-      statusEffectData:
-        effects: []
-        effectsToCancel: []
-      finalDamage: 0
-    staminaPenalty: 7
-    fromHand: 1
-    animationInfo: {fileID: 11400000, guid: 60a6fad2d99b4a7785d944eb563049f2, type: 2}
+    animationInfo: {fileID: 11400000, guid: 043da1a416efa444fb20debd041621a3, type: 2}
     invincibleStartFrame: 0
     invincibleEndFrame: 0
   powerAttack:
     damageData:
       damageMultiplier: 0.5
-      balanceDamageType: 2
-      impactForce: 100
+      balanceDamageType: 3
+      impactForce: 500
       statusEffectData:
         effects: []
         effectsToCancel: []
       finalDamage: 0
     staminaPenalty: 15
     fromHand: 1
-    animationInfo: {fileID: 11400000, guid: 5cdc64ce264f47d1903410125c9fcf36, type: 2}
-    invincibleStartFrame: 0.2
-    invincibleEndFrame: 0.8
+    animationInfo: {fileID: 11400000, guid: e7fc91bd147045d47b14c5ad35a09be0, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
