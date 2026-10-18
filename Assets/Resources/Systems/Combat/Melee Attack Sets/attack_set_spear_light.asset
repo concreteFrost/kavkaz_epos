@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: attack_set_spear_light
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      damageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 5
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 35875c56e3ad4d4f9522260929e21dd4, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  - damageData:
+      damageMultiplier: 0.2
+      balanceDamageType: 1
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 6
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 85f07264ed83497d8503ae6296cf47f3, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  - damageData:
+      damageMultiplier: 0.35
+      balanceDamageType: 1
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 7
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 87a271f3488f476a870196d487544120, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  powerAttack:
+    damageData:
+      damageMultiplier: 0.5
+      balanceDamageType: 3
+      impactForce: 500
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 15
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 061f87af20f84084887aaf4f5546956a, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0

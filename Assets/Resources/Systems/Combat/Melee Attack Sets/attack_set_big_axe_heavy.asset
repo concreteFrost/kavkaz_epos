@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: attack_set_big_axe_heavy
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      damageMultiplier: 0
+      balanceDamageType: 2
+      impactForce: 10
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 5
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: ab6fba00cc3b4ab1aba5416db26782cb, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  - damageData:
+      damageMultiplier: 0.2
+      balanceDamageType: 2
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 6
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 58bd00e8b3494934b7349a9bf2dc44fa, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  powerAttack:
+    damageData:
+      damageMultiplier: 0.5
+      balanceDamageType: 3
+      impactForce: 500
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 0
+    staminaPenalty: 15
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: 87aa32ca81ba471ba949fda69e350480, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0

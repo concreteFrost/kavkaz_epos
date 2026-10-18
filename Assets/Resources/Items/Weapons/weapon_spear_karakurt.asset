@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d472811823fda4a9ffeff4caca8499, type: 3}
+  m_Name: weapon_spear_karakurt
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  id: 135cf8af-8870-429e-b329-dc71abb13d9e
+  itemName: "Каракурт"
+  itemImage: {fileID: 0}
+  itemDescription: "Копьё с узким и острым наконечником, рассчитанное на быстрые и точные выпады. Последствия таких ударов можно сравнить с ядовитым укусом."
+  price: 850
+  sellingPrice: 297
+  brakdownPenalty: 0.8
+  canOverride: 0
+  weaponType: 0
+  baseDamage: 20
+  attackSet: {fileID: 11400000, guid: fce00c6d322c4d42a9405814d55800e5, type: 2}
+  idleAnimation: {fileID: 0}
+  swingEvent:
+    Guid:
+      Data1: -444640850
+      Data2: 1246578429
+      Data3: -1659051639
+      Data4: -20993584
+    Path: event:/Combat/Weapons/Dagger

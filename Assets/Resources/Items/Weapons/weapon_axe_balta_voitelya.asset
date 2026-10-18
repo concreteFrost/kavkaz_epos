@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d472811823fda4a9ffeff4caca8499, type: 3}
+  m_Name: weapon_axe_balta_voitelya
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  id: 18760735-7ded-47ff-b029-cf3faad0be93
+  itemName: "Балта воителя"
+  itemImage: {fileID: 0}
+  itemDescription: "Топор, созданный для тяжёлого ближнего боя. Для такого оружия требовалась немалая сила, и не каждый Горт мог умело обращаться с ним."
+  price: 1150
+  sellingPrice: 402
+  brakdownPenalty: 1.2
+  canOverride: 0
+  weaponType: 1
+  baseDamage: 25
+  attackSet: {fileID: 11400000, guid: efb4abcb273b4671af36058d7bf17765, type: 2}
+  idleAnimation: {fileID: 7400000, guid: 752c6134559d227459c5c3caec9d9c55, type: 2}
+  equipEvent:
+    Guid:
+      Data1: 669127894
+      Data2: 1332470831
+      Data3: 1439683518
+      Data4: -508122176
+    Path: event:/Combat/Weapons/BigAxe/Equip
+  swingEvent:
+    Guid:
+      Data1: -407506378
+      Data2: 1148727461
+      Data3: 1392180377
+      Data4: -1063510733
+    Path: event:/Combat/Weapons/BigAxe/Swing
