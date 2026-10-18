@@ -115,7 +115,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
 
         WeaponDataUpdated?.Invoke(CurrentWeapon.WeaponData(), CurrentWeapon);
 
-        if (CurrentWeapon.WeaponData().weaponType == WeaponType.TwoHands)
+        if (CurrentWeapon.WeaponData().gripType == WeaponGripType.TwoHands)
         {
             //сбрасываем щит так как оружие двуручное
             ResetShield();
@@ -127,7 +127,7 @@ public class HumanoidWeaponSetter : MonoBehaviour, IWeaponSetter
     {
 
         if (w == null) return;
-        if (CurrentWeapon.WeaponData().weaponType == WeaponType.TwoHands) return;
+        if (CurrentWeapon.WeaponData().gripType == WeaponGripType.TwoHands) return;
   
         ShieldWeapon = w;
 

@@ -28,7 +28,10 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
         weaponPrefabs.Clear();
         cachedCombatItems = new List<CombatItemSO>();
 
-        foreach (var prefab in Resources.LoadAll<GameObject>("Weapons"))
+        var prefabs = new List<GameObject>(Resources.LoadAll<GameObject>("Weapons"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Shields"));
+
+        foreach (var prefab in prefabs)
         {
             CombatItemSO item;
             if (prefab.TryGetComponent(out Weapon weapon))
@@ -93,6 +96,9 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
 
         foreach (var item in allItems)
         {
+
+            if (item.weaponType == WeaponType.None) continue;
+           
             var data = new WeaponData
             {
                 itemSO = item,
@@ -107,6 +113,21 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
         }
     }
 
+
+    public void AddAllShieldsOnStart()
+    {
+        foreach (var item in Resources.LoadAll<ShieldSO>("Items/Shields/"))
+        {
+            var data = new ShieldData
+            {
+                itemSO = item,
+                quantity = 1,
+                durability = 100
+            };
+
+            AddCombatItemToInventory(data);
+        }
+    }
 
     public override void LoadInventoryData(SaveInventoryData data)
     {
@@ -202,7 +223,7 @@ public class CharacterWeaponInventory : BaseInventory<CombatItemData>
         if (!weaponPool.TryGetValue(data.instanceId, out var obj))
         {
             if (!weaponPrefabs.TryGetValue(data.itemSO.id, out var template))
-                throw new InvalidOperationException($"В Resources/Weapons не найден префаб для «{data.itemSO.name}» (ID: {data.itemSO.id}).");
+                throw new InvalidOperationException($"В Resources/Weapons  / Resources/Shields не найден префаб для «{data.itemSO.name}» (ID: {data.itemSO.id}).");
             GameObject go = Instantiate(template);
             var combatItem = go.GetComponent<CombatItem>();
             combatItem.Init(data);

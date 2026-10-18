@@ -2,10 +2,21 @@ using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponType
+public enum WeaponGripType
 {
     OneHand = 0,
     TwoHands = 1,
+}
+
+public enum WeaponType
+{
+    None = 0,
+    Dagger = 1,
+    Saber = 2,
+    Spear = 3,
+    Sword= 4,
+    Axe = 5
+
 }
 
 [CreateAssetMenu(fileName = "Weapon", menuName = ScriptablePaths.ITEMS_PATH + "/Weapons/Weapon")]
@@ -17,8 +28,10 @@ public class WeaponSO : CombatItemSO
     public bool canOverride = false;
 
     [Header("Weapon Type")]
-    [Tooltip("Тип оружия (одноручное,двуручное).")]
+
     public WeaponType weaponType;
+    [Tooltip("Тип хвата оружия (одноручное,двуручное).")]
+    public WeaponGripType gripType;
 
     [Header("Базовый урон")]
     [Tooltip("Сырой урон без мультипликаторов.")]

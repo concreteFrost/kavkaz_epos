@@ -206,6 +206,7 @@ public class CharacterCustomInspectorEditor : Editor
         DrawProperty(so, "hasAllConsumables", true);
         DrawProperty(so, "hasAllSpells", true);
         DrawProperty(so, "hasAllWeapons", true);
+        DrawProperty(so, "hasAllShields", true);
 
         if (so.ApplyModifiedProperties())
         {
