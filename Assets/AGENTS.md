@@ -34,6 +34,13 @@
 
 ## Unity Guidelines
 
+- Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Art/Shared`.
+- Create biome-specific Prefab Variants from these Shared base prefabs. Biome variants should only override material assignments (and their identifying names), inheriting geometry, colliders, tags, layers, and other common settings from the base.
+- Do not use an imported FBX directly as the base of a biome construction variant; create or reuse a Shared base prefab first. Shared base renderers must retain the required material slots with null material references, and Shared model importers must not remap materials to biome assets.
+- When correcting existing prefab inheritance, preserve asset GUIDs, component/object references, scene placement, existing collider shapes, and LOD behavior. Verify all dependent variants and scene instances before removing duplicate overrides.
+
+- Shader property display names and reference names must be in English. This is an exception to the Russian Inspector descriptions rule.
+
 - Для новых заклинаний включать видимый след (trace) в магическом префабе, используя существующее управление следами в Projectile.
 
 - Do not modify scenes, prefabs, or .meta files unless necessary for the task.
@@ -157,6 +164,13 @@
 - Do not conceal important body parts behind dramatic poses or effects.
 - For non-humanoid creatures, choose views that best communicate their three-dimensional structure.
 - Avoid environmental backgrounds and cinematic compositions unless explicitly requested.
+
+## Blender Texturing
+
+- Use Ucupaint when texturing models in Blender.
+- All construction models may be exported using the `Plain Object` preset.
+- Texture dimensions must not exceed 2048 pixels on either side.
+- Store generated images for Blender within the directory of the currently open `.blend` project. First find and use an appropriate existing subfolder, such as `refs`, `resource images`, or a similar folder, following the project's existing structure.
 
 ## Texture Reference Generation
 
