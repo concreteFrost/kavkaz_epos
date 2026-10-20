@@ -3,6 +3,7 @@
 ## Communication
 
 - Communicate with me in Russian.
+- Write all commit messages in English.
 - Write all code summaries, headers, tooltips, and Inspector descriptions in Russian.
 - After completing a task, briefly explain what changed, why, and how it was verified.
 - Never claim that something was tested unless it was actually tested.
@@ -34,7 +35,7 @@
 
 ## Unity Guidelines
 
-- Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Art/Shared`.
+- Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Assets/Art/Shared`.
 - Create biome-specific Prefab Variants from these Shared base prefabs. Biome variants should only override material assignments (and their identifying names), inheriting geometry, colliders, tags, layers, and other common settings from the base.
 - Do not use an imported FBX directly as the base of a biome construction variant; create or reuse a Shared base prefab first. Shared base renderers must retain the required material slots with null material references, and Shared model importers must not remap materials to biome assets.
 - When correcting existing prefab inheritance, preserve asset GUIDs, component/object references, scene placement, existing collider shapes, and LOD behavior. Verify all dependent variants and scene instances before removing duplicate overrides.
@@ -71,7 +72,7 @@
 
 # Third Party Assets
 
-- do not modify or change or rename anything in \_ThirdParties folder
+- do not modify or change or rename anything in `Assets/_ThirdParties` folder
 
 # Art Direction
 
