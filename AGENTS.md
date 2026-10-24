@@ -162,6 +162,7 @@
 - Use neutral, even lighting to reveal forms and materials clearly.
 - Prefer a plain, neutral background without scenery or environmental objects.
 - Avoid unnecessary text, labels, measurements, and decorative presentation elements.
+- На референсах персонажей и существ не изображать оружие и щиты, включая оружие в ножнах, за спиной, на поясе или у ноги, если пользователь явно не попросил их показать. При переработке старого референса удалять такое снаряжение, даже если оно было в исходнике.
 - Do not add extra weapons, accessories, or equipment unless requested.
 - Prioritize modeling clarity and structural consistency over cinematic presentation.
 
