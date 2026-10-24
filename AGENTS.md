@@ -7,6 +7,7 @@
 - Write all code summaries, headers, tooltips, and Inspector descriptions in Russian.
 - After completing a task, briefly explain what changed, why, and how it was verified.
 - Never claim that something was tested unless it was actually tested.
+- When the user asks to adopt a rule (for example, "возьми за правило" or "возьми за правильно"), record the requested rule in this AGENTS.md as part of the request.
 
 ## General Development
 
@@ -34,6 +35,8 @@
 - No hardcoded values.
 
 ## Unity Guidelines
+
+- Общая масса рагдолла каждого персонажа — 100; это сумма масс всех его Rigidbody, а не масса каждой кости.
 
 - Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Assets/Art/Shared`.
 - Create biome-specific Prefab Variants from these Shared base prefabs. Biome variants should only override material assignments (and their identifying names), inheriting geometry, colliders, tags, layers, and other common settings from the base.
@@ -141,13 +144,18 @@
 
 ## Character Reference Generation
 
+- Когда пользователь просит разрезать изображение на три части, сохранять полученные изображения непосредственно в корень диска F:\, если в текущем запросе явно не указано другое место.
+
+- Перед генерацией мифологического существа изучать доступные интернет-источники и отличать сведения из источников от художественной интерпретации.
+- Перед генерацией изучать существующие одобренные референсы персонажей проекта и сохранять их визуальную стилистику.
+
 - Character references are primarily intended for 3D modeling in Blender.
-- Unless otherwise requested, generate a full-body character reference showing both front and side views.
-- Both views must depict exactly the same character, clothing, equipment, proportions, and design details.
-- Use a neutral standing pose suitable for 3D modeling.
+- Если не указано иное, референс персонажа должен содержать ровно три полнофигурных вида: спереди, сбоку и сзади; без дополнительных изображений, текста, подписей, рамок и декоративных элементов.
+- Все три вида должны показывать одного и того же персонажа с одинаковыми одеждой, снаряжением, пропорциями и деталями.
+- Использовать нейтральную А-позу, удобную для моделирования и подгонки под Rigify в Blender: руки отведены от корпуса, конечности и суставы хорошо читаются.
 - Keep the character's anatomy and proportions consistent between views.
 - Use orthographic-style views without perspective distortion.
-- Align the front and side views to the same scale and height.
+- Виды спереди, сбоку и сзади должны быть в одном масштабе и выровнены по высоте.
 - Show the entire character from head to feet without cropping.
 - Keep limbs and important anatomical features clearly visible.
 - Avoid dramatic poses, cinematic camera angles, and exaggerated perspective.
@@ -159,7 +167,7 @@
 
 ## Creature Reference Generation
 
-- Apply the same front-and-side reference requirements to humanoid creatures whenever practical.
+- К гуманоидным существам применять те же требования: три вида (спереди, сбоку, сзади) в согласованной А-позе для Rigify.
 - Preserve consistent anatomy, limb proportions, and distinctive features between views.
 - Clearly communicate unusual anatomical structures required for modeling.
 - Do not conceal important body parts behind dramatic poses or effects.
@@ -168,6 +176,7 @@
 
 ## Blender Texturing
 
+- Work directly in the .blend project specified by the user. Do not create separate, intermediate, or alternative .blend projects unless the user explicitly requests them.
 - Use Ucupaint when texturing models in Blender.
 - All construction models may be exported using the `Plain Object` preset.
 - Texture dimensions must not exceed 2048 pixels on either side.

@@ -113,6 +113,10 @@ public class EnemyBrain : AIBrain
 
     private void TrackActivation()
     {
+        if (playerLocator == null && GameRunner.Instance != null && GameRunner.Instance.Player != null)
+        {
+            playerLocator = GameRunner.Instance.Player.serviceLocator;
+        }
 
         if (playerLocator != null)
         {

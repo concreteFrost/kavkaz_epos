@@ -8,12 +8,8 @@ public class CharacterInitializer : MonoBehaviour
     List<BaseHumanoidAiServiceLocator> allCharacters = new();
 
     public PlayerManager Player { get; private set; }
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] Transform playerSpawnPosition;
 
-    PlayerCameraManager playerCameraManager;    
 
-    public bool canInitPlayer = true;
 
     //public List<EnemyBrain> brains = new();    
 
@@ -21,21 +17,14 @@ public class CharacterInitializer : MonoBehaviour
     {
         
         allCharacters = FindObjectsByType<BaseHumanoidAiServiceLocator>(FindObjectsSortMode.None).ToList();
-        playerCameraManager =FindAnyObjectByType<PlayerCameraManager>();
+      
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
-        if (canInitPlayer)
-        {
-            Player = Instantiate(playerPrefab, playerSpawnPosition).GetComponent<PlayerManager>();
-            Player.Init();
-            playerCameraManager.AttachCameraToPlayer(Player.serviceLocator.cameraFollow);
-
-        }
-
+     
 
         foreach (var c in allCharacters)
         {
@@ -43,14 +32,4 @@ public class CharacterInitializer : MonoBehaviour
         }
     }
 
-   
-
-    private void OnDrawGizmos()
-    {
-        if (playerSpawnPosition == null) return;
-
-        Gizmos.color = new Color(0f, 0f, 1f, 1f);
-        Gizmos.DrawSphere(playerSpawnPosition.position, .5f);
-
-    }
 }

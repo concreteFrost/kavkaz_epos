@@ -182,7 +182,7 @@ public abstract class BaseHumanoidAnimatorController
         overrideController[stateName] = attack.animationInfo.clip;
         animator.speed = attack.animationInfo.animationSpeed;
 
-        animator.CrossFade(
+        animator.CrossFadeInFixedTime(
             stateName,
             AnimatorParameters.transitionSpeed,
             AnimatorParameters.combatLayer
@@ -194,7 +194,7 @@ public abstract class BaseHumanoidAnimatorController
         overrideController["Spell_Cast"] = spell.castAnimation.clip;
         animator.speed = spell.castAnimation.animationSpeed;
 
-        animator.CrossFade(
+        animator.CrossFadeInFixedTime(
             "Spell_Cast",
             AnimatorParameters.transitionSpeed,
             AnimatorParameters.combatLayer
@@ -206,7 +206,7 @@ public abstract class BaseHumanoidAnimatorController
         overrideController["Consume"] = animation.clip;
         animator.speed = animation.animationSpeed;
 
-        animator.CrossFade(
+        animator.CrossFadeInFixedTime(
             "Consume",
             AnimatorParameters.transitionSpeed,
             AnimatorParameters.interractionLayer
@@ -223,7 +223,7 @@ public abstract class BaseHumanoidAnimatorController
 
         overrideController["Armed"] = w.WeaponData().idleAnimation;
 
-        animator.CrossFade(
+        animator.CrossFadeInFixedTime(
             "Armed",
             AnimatorParameters.transitionSpeed,
             AnimatorParameters.armedLayer
