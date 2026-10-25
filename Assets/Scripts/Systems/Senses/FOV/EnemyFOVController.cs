@@ -7,6 +7,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 {
     [SerializeField] FovDataSO fovDataSO;
     Transform eyes;
+    Transform viewDirection;
 
     AIFov fov;
    
@@ -33,11 +34,12 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         }
     }
 
-    public void Init(CharacterBoneSocket boneSockets, string fovId)
+    public void Init(CharacterBoneSocket boneSockets, string fovId, Transform viewDirection)
     {
         this.fovId = fovId;
         eyes = boneSockets.GetEyesSocket;
-        fov = new AIFov(eyes, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore);
+        this.viewDirection = viewDirection;
+        fov = new AIFov(eyes, viewDirection, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore);
         checkCooldown = 0;
       
     }
@@ -106,21 +108,22 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
 
     private void OnDrawGizmosSelected()
     {
-        if (eyes == null) return;
+        if (eyes == null || viewDirection == null || fovDataSO == null) return;
 
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(eyes.position, fovDataSO.viewRadius);
 
-        Vector3 forward = eyes.forward;
+        Vector3 forward = viewDirection.forward;
         float halfAngle = fovDataSO.viewAngle / 2;
-        Quaternion leftRotation = Quaternion.Euler(0, -halfAngle, 0);
-        Quaternion rightRotation = Quaternion.Euler(0, halfAngle, 0);
+        Quaternion leftRotation = Quaternion.AngleAxis(-halfAngle, viewDirection.up);
+        Quaternion rightRotation = Quaternion.AngleAxis(halfAngle, viewDirection.up);
 
         Vector3 leftBoundary = leftRotation * forward * fovDataSO.viewRadius;
         Vector3 rightBoundary = rightRotation * forward * fovDataSO.viewRadius;
 
         Gizmos.DrawRay(eyes.position, leftBoundary);
         Gizmos.DrawRay(eyes.position, rightBoundary);
+        Gizmos.DrawRay(eyes.position, forward * fovDataSO.viewRadius);
 
         if (currentTarget != null)
         {

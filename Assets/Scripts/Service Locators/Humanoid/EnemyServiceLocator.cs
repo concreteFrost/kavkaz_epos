@@ -54,7 +54,7 @@ public class EnemyServiceLocator : BaseHumanoidAiServiceLocator
 
     private void FovInit()
     {
-        fovController.Init(boneSockets:boneSocket, uid);
+        fovController.Init(boneSockets: boneSocket, fovId: uid, viewDirection: motor.transform);
     }
 
     private void InteractionInit()

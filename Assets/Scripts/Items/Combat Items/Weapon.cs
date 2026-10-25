@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Weapon : CombatItem, IWeapon
 {
@@ -47,7 +48,6 @@ public class Weapon : CombatItem, IWeapon
        
 
     }
-   
 
     public void PlaySwing()
     {
@@ -91,9 +91,22 @@ public class Weapon : CombatItem, IWeapon
         SetAttackTrace(false, true);
     }
 
+    private void OnEnable()
+    {
+        if (Owner != null)
+        {
+            Owner.StatsController.Health.Depleted += OnHealthDepleted;
+        }
+    }
+
     private void OnDisable()
     {
-        SetAttackTrace(false, true);
+        if (Owner != null)
+        {
+            Owner.StatsController.Health.Depleted -= OnHealthDepleted;
+        }
+
+        CancelAttack();
     }
 
     private void SetAttackTrace(bool emitting, bool clear)
@@ -106,13 +119,25 @@ public class Weapon : CombatItem, IWeapon
 
     public override void AssignToOwner(IInteractor target)
     {
+        if (Owner != null)
+        {
+            Owner.StatsController.Health.Depleted -= OnHealthDepleted;
+        }
+
         Owner = target;
+        if (isActiveAndEnabled)
+        {
+            Owner.StatsController.Health.Depleted += OnHealthDepleted;
+        }
 
         damageCollider.SetWeaponData(this);
 
         AssignParent(Owner.WeaponSetter.GetRightHand());
     }
 
-  
-
+    //Отменяет атаку когда здоровье истощено
+    private void OnHealthDepleted()
+    {
+        CancelAttack();
+    }
 }

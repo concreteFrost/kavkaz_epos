@@ -5,14 +5,16 @@ public class AIFov
 {
 
     Transform eyes;
+    Transform viewDirection;
     List<CharacterType> objectsToScan;
     LayerMask obstacleMask;
     LayerMask layerToIgnore;
 
 
-    public AIFov(Transform eyes, List<CharacterType> objectsToScan, LayerMask obstacleMask, LayerMask layerToIgnore)
+    public AIFov(Transform eyes, Transform viewDirection, List<CharacterType> objectsToScan, LayerMask obstacleMask, LayerMask layerToIgnore)
     {
         this.eyes = eyes;
+        this.viewDirection = viewDirection;
         this.objectsToScan = objectsToScan;
         this.obstacleMask = obstacleMask;
         this.layerToIgnore = layerToIgnore;
@@ -21,7 +23,7 @@ public class AIFov
     public IDamagable PotentialTarget(float viewRadius, float viewAngle)
     {
 
-        if (eyes == null)
+        if (eyes == null || viewDirection == null)
         {
             Debug.Log("no eyes assigned. field of view is not working");
             return null;
@@ -67,11 +69,16 @@ public class AIFov
     {
 
        
+        if (eyes == null || viewDirection == null || targetTransform == null) return false;
+
         Vector3 directionToTarget = (targetTransform.position - eyes.position).normalized;
         float distanceToTarget = Vector3.Distance(eyes.position, targetTransform.position);
 
         if (distanceToTarget > viewRadius) return false;
-        if (Vector3.Angle(eyes.forward, directionToTarget) > viewAngle / 2) return false;
+        // Разница в высоте не должна выводить близкую цель из горизонтального сектора обзора.
+        Vector3 planarDirectionToTarget = Vector3.ProjectOnPlane(directionToTarget, viewDirection.up);
+        Vector3 planarForward = Vector3.ProjectOnPlane(viewDirection.forward, viewDirection.up);
+        if (Vector3.Angle(planarForward, planarDirectionToTarget) > viewAngle / 2) return false;
 
         return !Physics.Raycast(eyes.position, directionToTarget, distanceToTarget, obstacleMask);
     }
