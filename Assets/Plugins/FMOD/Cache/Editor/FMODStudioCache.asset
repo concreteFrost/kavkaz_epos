@@ -41,10 +41,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639278504242870278
+  lastModified: 639287268438558364
   FileSizes:
   - Name: 
-    Value: 4196
+    Value: 4310
   Exists: 1
 --- !u!114 &-8747498415360063053
 MonoBehaviour:
@@ -183,6 +183,34 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 20
   Length: 1153
+--- !u!114 &-7800944272376234811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/MardaAlatt/MardaAlattThemes
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/MardaAlatt/MardaAlattThemes
+  Guid:
+    Data1: -397680665
+    Data2: 1255973480
+    Data3: 1478319535
+    Data4: -778429679
+  Banks:
+  - {fileID: -4050019964733371028}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 7858944344886956599}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 254125
 --- !u!114 &-7762520477796729979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,7 +679,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639261070192205722
+  lastModified: 639287270008558497
   FileSizes: []
   Exists: 1
 --- !u!114 &-3961461177915870809
@@ -1088,12 +1116,13 @@ MonoBehaviour:
   - {fileID: -248581209238016025}
   - {fileID: -8403135389593001182}
   - {fileID: -868816587570470566}
+  - {fileID: -7800944272376234811}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6045900870541245149}
   StringsBanks:
   - {fileID: -8848861726020170923}
-  cacheTime: 639278510882934850
+  cacheTime: 639287270008558497
   cacheVersion: 131637
 --- !u!114 &55454175075174163
 MonoBehaviour:
@@ -2003,7 +2032,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639278504242850332
+  lastModified: 639287268438528300
   FileSizes: []
   Exists: 1
 --- !u!114 &6421364678674851083
@@ -2197,6 +2226,32 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 35
   Length: 653
+--- !u!114 &7858944344886956599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MardaAlattThemes/BiomMusicState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: BiomMusicState
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3818687503
+    data2: 2133260303
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - Default
+  - BossFight
+  Exists: 1
 --- !u!114 &8574448306596985251
 MonoBehaviour:
   m_ObjectHideFlags: 0

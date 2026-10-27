@@ -2,6 +2,10 @@
 
 ## Communication
 
+- После одобрения пользователем изображений для Kickstarter переносить их в Google Drive, в «Кавказский эпос/kickstarter campaign». Сначала проверять успешную загрузку, затем удалять временные локальные копии этих изображений. Исходные игровые ассеты Unity не удалять.
+
+- Полезные таблицы, сметы, расчёты, подборки и другие организационные материалы проекта вести на Google Drive в соответствующей папке проекта. Не создавать и не поддерживать локальные копии таких материалов без явной просьбы пользователя. Материалы финансирования и Kickstarter хранить в «Кавказский эпос/kickstarter campaign».
+
 - Communicate with me in Russian.
 - Write all commit messages in English.
 - Write all code summaries, headers, tooltips, and Inspector descriptions in Russian.

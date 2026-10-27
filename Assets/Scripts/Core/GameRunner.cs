@@ -95,6 +95,8 @@ public class GameRunner : MonoBehaviour
         if(activeLevel != null)
         {
             activeLevel.Init();
+
+           
             GlobalAudioManager.Instance.PlayMusic(activeLevel.BiomMusic());
         }
 
@@ -116,14 +118,17 @@ public class GameRunner : MonoBehaviour
             Player.serviceLocator.lifecycle.Respawn(activeLevel.GetStartingPosition());
     }
 
-    private void OnMenuLoaded() => ClearInstances();
+    private void OnMenuLoaded()
+    {
+        ClearInstances();
+        GlobalAudioManager.Instance.StopMusic();
+       
+    }
 
 
     public void OnTransitionStarted(float transition)
     {
-        //GlobalAudioManager.Instance.StopMusic(activeLevel.BiomMusicInstance());
         worldStateManager.SaveLevel(activeLevel);
-        GlobalAudioManager.Instance.StopMusic();
      
     }
 
