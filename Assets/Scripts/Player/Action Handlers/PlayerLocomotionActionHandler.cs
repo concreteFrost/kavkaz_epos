@@ -13,9 +13,10 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
     private void Update()
     {
-        UpdateMotor();
         TryClimb();
     }
+
+
 
     private void FixedUpdate()
     {
@@ -45,6 +46,7 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
     public void MoveAndRotate(Vector3 dir)
     {
+        UpdateMotor();
         MoveCharacter(dir);
         RotateCharacter(dir);
     }
@@ -93,15 +95,28 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
 
         if (!actionGuards.CanRotate(input)) return;
 
-        // lock-on активен → вращаем к цели
+        Rigidbody body = motor._rigidbody;
+        float speed = motor.BlockRotation ? motor.blockedRotationSpeed : motor.rotationSpeed;
+        Quaternion rotation;
+
+        // Поворот применяется в том же шаге физики, что и движение.
         if (motor.rotateTarget != null)
         {
+            Vector3 direction = motor.rotateTarget.position - body.position;
+            direction.y = 0f;
+            if (direction.sqrMagnitude <= Mathf.Epsilon) return;
 
-            motor.RotateToTarget(motor.rotateTarget.position);
-            return;
+            rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(direction),
+                speed * Time.deltaTime);
         }
-        // иначе — вращаемся по движению игрока
-        motor.RotateToDirection(input);
+        else
+        {
+            Vector3 forward = Vector3.RotateTowards(body.rotation * Vector3.forward,
+                input.normalized, speed * Time.deltaTime, 0f);
+            rotation = Quaternion.LookRotation(forward);
+        }
+
+        body.MoveRotation(rotation);
     }
 
     private void Dodge(Vector3 dir)

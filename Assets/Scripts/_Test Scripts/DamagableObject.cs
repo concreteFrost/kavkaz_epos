@@ -43,6 +43,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     {
 
         Health = new HealthModel(defaultHealth);
+        IsDead = false;
         damagableCollider.enabled = true;
 
     }

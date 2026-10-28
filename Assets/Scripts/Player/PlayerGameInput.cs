@@ -38,7 +38,12 @@ public class PlayerGameInput : MonoBehaviour
 
     private void Update()
     {
+
         HandleMovement();
+
+        Vector3 moveDir = new Vector3(reader.Move.x, 0, reader.Move.y);
+        locomotion.MoveAndRotate(moveDir);
+
         HandleCombat();
         HandleInteraction();
         HandleDialogue();
@@ -54,9 +59,6 @@ public class PlayerGameInput : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 moveDir = new Vector3(reader.Move.x, 0, reader.Move.y);
-        locomotion.MoveAndRotate(moveDir);
-
         locomotion.Sprint(reader.SprintHeld);
 
 

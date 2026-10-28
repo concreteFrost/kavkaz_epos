@@ -2,10 +2,11 @@
 
 ## Communication
 
-- После одобрения пользователем изображений для Kickstarter переносить их в Google Drive, в «Кавказский эпос/kickstarter campaign». Сначала проверять успешную загрузку, затем удалять временные локальные копии этих изображений. Исходные игровые ассеты Unity не удалять.
+- After the user approves Kickstarter images, move them to Google Drive under `Кавказский эпос/kickstarter campaign`. Verify that the upload succeeded before deleting temporary local copies of these images. Do not delete original Unity game assets.
 
-- Полезные таблицы, сметы, расчёты, подборки и другие организационные материалы проекта вести на Google Drive в соответствующей папке проекта. Не создавать и не поддерживать локальные копии таких материалов без явной просьбы пользователя. Материалы финансирования и Kickstarter хранить в «Кавказский эпос/kickstarter campaign».
+- Maintain useful spreadsheets, estimates, calculations, collections, and other project organizational materials on Google Drive in the appropriate project folder. Do not create or maintain local copies unless the user explicitly requests them. Store funding and Kickstarter materials under `Кавказский эпос/kickstarter campaign`.
 
+- Write all instructions in this AGENTS.md in English. Preserve exact folder names, paths, and quoted user phrases in their original language.
 - Communicate with me in Russian.
 - Write all commit messages in English.
 - Write all code summaries, headers, tooltips, and Inspector descriptions in Russian.
@@ -40,7 +41,7 @@
 
 ## Unity Guidelines
 
-- Общая масса рагдолла каждого персонажа — 100; это сумма масс всех его Rigidbody, а не масса каждой кости.
+- Each character must have a total ragdoll mass of 100, calculated as the sum of all its Rigidbody masses, not the mass of each bone.
 
 - Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Assets/Art/Shared`.
 - Create biome-specific Prefab Variants from these Shared base prefabs. Biome variants should only override material assignments (and their identifying names), inheriting geometry, colliders, tags, layers, and other common settings from the base.
@@ -49,7 +50,7 @@
 
 - Shader property display names and reference names must be in English. This is an exception to the Russian Inspector descriptions rule.
 
-- Для новых заклинаний включать видимый след (trace) в магическом префабе, используя существующее управление следами в Projectile.
+- For new spells, enable a visible trace in the magic prefab using the existing trace controls in Projectile.
 
 - Do not modify scenes, prefabs, or .meta files unless necessary for the task.
 - Preserve serialized data, Inspector references, and existing asset relationships.
@@ -148,31 +149,33 @@
 
 ## Character Reference Generation
 
-- Когда пользователь просит разрезать изображение на три части, сохранять полученные изображения непосредственно в корень диска F:\, если в текущем запросе явно не указано другое место.
+- Generate references suitable for high-quality AI model reconstruction (for example, with Tripo): use clear, solid forms, consistent views, readable boundaries, and simple, large folds. Avoid excessive tears, small holes, fringe, thin loose strips, intersections, and effects that obscure the structure. Convey wear primarily through materials and textures rather than a complex, torn silhouette.
 
-- Перед генерацией мифологического существа изучать доступные интернет-источники и отличать сведения из источников от художественной интерпретации.
-- Перед генерацией изучать существующие одобренные референсы персонажей проекта и сохранять их визуальную стилистику.
+- When the user asks to split an image into three parts, save the resulting images directly to the root of drive `F:\` unless the current request explicitly specifies another location.
+
+- Before generating a mythological creature, research available internet sources and distinguish information from those sources from artistic interpretation.
+- Before generation, study the existing approved project character references and preserve their visual style.
 
 - Character references are primarily intended for 3D modeling in Blender.
-- Если не указано иное, референс персонажа должен содержать ровно три полнофигурных вида: спереди, сбоку и сзади; без дополнительных изображений, текста, подписей, рамок и декоративных элементов.
-- Все три вида должны показывать одного и того же персонажа с одинаковыми одеждой, снаряжением, пропорциями и деталями.
-- Использовать нейтральную А-позу, удобную для моделирования и подгонки под Rigify в Blender: руки отведены от корпуса, конечности и суставы хорошо читаются.
+- Unless otherwise specified, a character reference must contain exactly three full-body views: front, side, and back, with no additional images, text, labels, frames, or decorative elements.
+- All three views must show the same character with identical clothing, equipment, proportions, and details.
+- Use a neutral A-pose suitable for modeling and fitting to Rigify in Blender: arms held away from the torso, with limbs and joints clearly readable.
 - Keep the character's anatomy and proportions consistent between views.
 - Use orthographic-style views without perspective distortion.
-- Виды спереди, сбоку и сзади должны быть в одном масштабе и выровнены по высоте.
+- Front, side, and back views must use the same scale and be aligned vertically.
 - Show the entire character from head to feet without cropping.
 - Keep limbs and important anatomical features clearly visible.
 - Avoid dramatic poses, cinematic camera angles, and exaggerated perspective.
 - Use neutral, even lighting to reveal forms and materials clearly.
 - Prefer a plain, neutral background without scenery or environmental objects.
 - Avoid unnecessary text, labels, measurements, and decorative presentation elements.
-- На референсах персонажей и существ не изображать оружие и щиты, включая оружие в ножнах, за спиной, на поясе или у ноги, если пользователь явно не попросил их показать. При переработке старого референса удалять такое снаряжение, даже если оно было в исходнике.
+- Do not depict weapons or shields in character and creature references, including weapons in scabbards, on the back, on the belt, or beside a leg, unless the user explicitly requests them. When revising an old reference, remove such equipment even if it appeared in the original.
 - Do not add extra weapons, accessories, or equipment unless requested.
 - Prioritize modeling clarity and structural consistency over cinematic presentation.
 
 ## Creature Reference Generation
 
-- К гуманоидным существам применять те же требования: три вида (спереди, сбоку, сзади) в согласованной А-позе для Rigify.
+- Apply the same requirements to humanoid creatures: three views (front, side, and back) in a consistent A-pose suitable for Rigify.
 - Preserve consistent anatomy, limb proportions, and distinctive features between views.
 - Clearly communicate unusual anatomical structures required for modeling.
 - Do not conceal important body parts behind dramatic poses or effects.
@@ -188,6 +191,8 @@
 - Store generated images for Blender within the directory of the currently open `.blend` project. First find and use an appropriate existing subfolder, such as `refs`, `resource images`, or a similar folder, following the project's existing structure.
 
 ## Texture Reference Generation
+
+- Generate textures and material references suitable for high-quality AI reconstruction and texturing of the 3D model: preserve clear material separation, consistent detail scale, and soft, even lighting. Avoid visual noise, overly high-contrast microdetails, painted holes, and shadows that AI could mistake for geometry; match the complexity to the target model.
 
 - When asked to generate a material or texture reference, focus on the requested surface material only.
 - Do not automatically include complete objects, props, characters, or environmental elements.

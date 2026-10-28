@@ -67,6 +67,7 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
 
     private Animator anim;
     private float currentResetTimer;
+    private HealthModel health;
 
     #endregion
 
@@ -98,7 +99,6 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
         anim = GetComponentInChildren<Animator>();
         currentResetTimer = 0f;
         attackCollider?.Init();
-        damagable.Init();
 
         summonParticle.Stop();
 
@@ -107,17 +107,24 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
             StopCoroutine(summonCoroutine);
             summonCoroutine = null;
         }
+    }
 
-        damagable.Health.Depleted += OnHealthDepleted;
+    private void OnEnable()
+    {
+        if (health != null)
+            health.Depleted += OnHealthDepleted;
     }
 
     private void OnDisable()
     {
-        damagable.Health.Depleted -= OnHealthDepleted;
+        if (health != null)
+            health.Depleted -= OnHealthDepleted;
     }
 
     private void OnHealthDepleted()
     {
+        if (wasDestroyed) return;
+
         wasActivated = true;
         AudioEventPlayer.Play3DOneShot(ev_death, gameObject, "CharacterVoiceReaction", 4);
         Die();
@@ -158,7 +165,14 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
     {
         base.ResetState();
         summonParticle.Stop();
+
+        if (health != null)
+            health.Depleted -= OnHealthDepleted;
+
         damagable.Init();
+        health = damagable.Health;
+        if (isActiveAndEnabled)
+            health.Depleted += OnHealthDepleted;
     }
 
     /// <summary>Запускает анимацию смерти и останавливает ожидающий призыв.</summary>
@@ -172,9 +186,9 @@ public class SkeletonHandTrap : BaseTrap, IDamageColliderActivator, IAttackSourc
 
     protected override void Destroy()
     {
+        wasDestroyed = true;
         attackCollider.DisableCollider();
         damagable.ForceDeath();
-        wasDestroyed = true;
     }
 
     #endregion

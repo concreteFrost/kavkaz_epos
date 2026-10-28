@@ -40,6 +40,8 @@ public class PlayerLifecycle : CharacterLifecycle
 
         SetStartingPosition(pos);
         ResetPosition();
+        // Передаём позицию спавна физике при включённой интерполяции Rigidbody.
+        Physics.SyncTransforms();
        
 
     }

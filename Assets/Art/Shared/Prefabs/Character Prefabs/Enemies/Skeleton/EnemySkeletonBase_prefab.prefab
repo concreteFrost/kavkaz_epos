@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef0e7eaa16f6d64eaf8be32cd3ab0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterEmitter
-  skyOffset: 2.5
+  skyOffset: 4
 --- !u!114 &4689748660644307239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +389,9 @@ MonoBehaviour:
   - itemSO: {fileID: 11400000, guid: 184557a22994518468bbfd3d4b56e56f, type: 2}
     quantity: 5
     instanceId: 
-    durability: 0
     isEquiped: 0
+    durability: 0
+    weaponLevel: 1
 --- !u!1 &1286323367192323121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1094,7 @@ MonoBehaviour:
     socketTransform: {fileID: 6498224756502583061}
     bone: 10
     localPosition: {x: 0, y: 0, z: 0}
-    localRotation: {x: -88.682861, y: 89.999779, z: -89.999786}
+    localRotation: {x: -88.68286, y: 89.99978, z: -89.99979}
 --- !u!1 &4707888293452334791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_e07e6c1b-b2ec-44d5-869d-6d4f31ad4c13
+  uniqueId: uid_b0f6b5e2-8de8-40f5-bac5-3a3d20c4e910
 --- !u!114 &2901701300793122616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2050,6 +2051,7 @@ MonoBehaviour:
     unspentPoints: 0
     baseLevelCost: 100
     costMultiplier: 15
+    linearCostMultiplier: 40
 --- !u!1 &8682904085030845872
 GameObject:
   m_ObjectHideFlags: 0

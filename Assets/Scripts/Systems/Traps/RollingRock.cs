@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using FMODUnity;
 
-public class RollingRock : MonoBehaviour
+public class RollingRock : MonoBehaviour, IAttackSource
 {
     [SerializeField] private float stopVelocity = 0.1f;
     [SerializeField] private float stopAngularVelocity = 0.1f;
@@ -27,6 +27,15 @@ public class RollingRock : MonoBehaviour
     private Coroutine activationCoroutine;
 
     [SerializeField] private EventReference ev_hit;
+
+    #region IDamagable Contract
+    public List<CharacterType> TargetsToIgnore { get => targetsToIgnore; set => targetsToIgnore = value; }
+
+    public int SourceId() => -1;  
+
+    public Transform Source() => transform;
+    #endregion
+
 
     private void Awake()
     {
@@ -68,7 +77,7 @@ public class RollingRock : MonoBehaviour
 
         if (isMoving)
         {
-            damageCollider.EnableCollider(damageData, null, null);
+            damageCollider.EnableCollider(damageData, null, this);
         }
 
         if ( !isMoving)
@@ -169,5 +178,5 @@ public class RollingRock : MonoBehaviour
         AudioEventPlayer.Play3DOneShot(ev_hit, gameObject);
     }
 
-
+ 
 }

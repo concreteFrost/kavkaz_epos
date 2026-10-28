@@ -44,6 +44,8 @@ public class PlayerManager : MonoBehaviour
     {
         Vector3 position = new Vector3(state.playerPosition[0], state.playerPosition[1], state.playerPosition[2]);
         serviceLocator.transform.position = position;
+        // Синхронизируем физическое тело с загруженной позицией.
+        Physics.SyncTransforms();
         serviceLocator.stats.LoadStatsData(state.statsData);
         serviceLocator.levelController.LoadLevelData(state.levelData);
         serviceLocator.statsModifier.LoadEffectsData(state.effectData);
