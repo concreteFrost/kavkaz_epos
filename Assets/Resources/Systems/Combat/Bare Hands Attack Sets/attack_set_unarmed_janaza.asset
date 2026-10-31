@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de1528cf6ca7b847b22151aaf7f64b6, type: 3}
+  m_Name: attack_set_unarmed_janaza
+  m_EditorClassIdentifier: Assembly-CSharp::AttackSO
+  attackList:
+  - damageData:
+      damageMultiplier: 0
+      balanceDamageType: 1
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 10
+    minAttackDistance: 0
+    maxAttackDistance: 1.3
+    staminaPenalty: 5
+    fromHand: 0
+    animationInfo: {fileID: 11400000, guid: 699889c86cf9e164995ca5d1fdfa8d8d, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  - damageData:
+      damageMultiplier: 0.25
+      balanceDamageType: 2
+      impactForce: 0
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 12
+    minAttackDistance: 0
+    maxAttackDistance: 1.3
+    staminaPenalty: 7
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: aa5878e997a108848ac9ec70b27f4a56, type: 2}
+    invincibleStartFrame: 0
+    invincibleEndFrame: 0
+  powerAttack:
+    damageData:
+      damageMultiplier: 0.5
+      balanceDamageType: 2
+      impactForce: 200
+      statusEffectData:
+        effects: []
+        effectsToCancel: []
+      finalDamage: 15
+    minAttackDistance: 0
+    maxAttackDistance: 3
+    staminaPenalty: 10
+    fromHand: 1
+    animationInfo: {fileID: 11400000, guid: e0f9d1b92918ae14b9b84a502c0efe52, type: 2}
+    invincibleStartFrame: 0.2
+    invincibleEndFrame: 0.8

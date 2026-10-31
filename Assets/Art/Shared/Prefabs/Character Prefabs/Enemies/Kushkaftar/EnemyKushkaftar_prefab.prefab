@@ -1031,7 +1031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_f3ead11b-da5f-4715-86ed-500c4428f239
+  uniqueId: uid_14b84c33-cb10-4c8a-9f5e-3f3c4c9000c6
 --- !u!195 &672864110525315061
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1620,7 +1620,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -1925,7 +1924,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -1989,7 +1987,7 @@ MonoBehaviour:
   weaponSocket:
     socketTransform: {fileID: 5368475799307482144}
     bone: 18
-    localPosition: {x: -0.00779773, y: 0.12910490, z: 0.05331522}
+    localPosition: {x: -0.00779773, y: 0.1291049, z: 0.05331522}
     localRotation: {x: 299.1818, y: 345.5661, z: 118.2928}
   shieldSocket:
     socketTransform: {fileID: 6934281574160940287}
@@ -2247,7 +2245,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.4
+  m_Radius: 0.47
   m_Center: {x: 0, y: 0.09, z: 0}
 --- !u!114 &2162251632148039716
 MonoBehaviour:
@@ -2449,7 +2447,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.4
+  m_Radius: 0.47
   m_Center: {x: 0, y: 0.09, z: 0}
 --- !u!114 &2924658134094062576
 MonoBehaviour:

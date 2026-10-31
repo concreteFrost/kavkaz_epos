@@ -36,8 +36,17 @@ public class CharacterBehaviourStatsSO : ScriptableObject
 
     [Header("Combat")]
 
-    public float meleeAttackRange = 1.3f;
     public float emitAttackRange = 10f;
+
+    [Header("Количество ударов в серии")]
+    [Range(1, 10)]
+    [Tooltip("Минимальное число ударов обычной серии ИИ.")]
+    public int minPunchesCount = 1;
+
+    [Range(1, 10)]
+    [Tooltip("Максимальное число ударов обычной серии ИИ, включительно.")]
+    public int maxPunchesCount = 4;
+
 
     [Tooltip("Вероятность перехода в атаку (0–1)")]
     public float attackTransitionChance = .8f;
@@ -92,11 +101,11 @@ public class CharacterBehaviourStatsSO : ScriptableObject
     public float maxTargetDistanceInStrafe = 10f;
 
     [Tooltip("Минимальное время (в секундах) нахождения в состоянии стрейфа")]
-    [Range(3, 7)]
+    [Range(1, 3)]
     public int minTimeInStrafeState = 7;
 
     [Tooltip("Максимальное время (в секундах) нахождения в состоянии стрейфа")]
-    [Range(7, 12)]
+    [Range(4, 7)]
     public int maxTimeInStrafeState = 12;
 
     [Header("Wait Behaviour")]

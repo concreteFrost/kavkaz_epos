@@ -20,21 +20,22 @@ MonoBehaviour:
   maxLostTargetTimer: 10
   maxChaseDistance: 30
   maxWaitTimer: 3
-  combatDistancesSO: {fileID: 11400000, guid: 037e07c283567cb43bacd60d97bebb29, type: 2}
+  emitAttackRange: 10
+  minPunchesCount: 1
+  maxPunchesCount: 4
   attackTransitionChance: 0.5
   initialPoweAttackChance: 0.15
   powerAttackChanceMultiplier: 0.05
   minCombatCooldown: 1
   maxCombatCooldown: 4
   initialDodgeChance: 0.078
+  strafeChance: 0.3
   dodgeChanceMultiplier: 0.15
   fromChaseToCombatDistance: 8
   maxDistanceInCombat: 10
   maxTargetDistanceInStrafe: 5
-  minTimeInStrafeState: 3
+  minTimeInStrafeState: 2
   maxTimeInStrafeState: 7
   willMoveChance: 0.4
   minRepositionCooldown: 2
   maxRepositionCooldown: 4
-  meleeScore: 1
-  spellScore: 10

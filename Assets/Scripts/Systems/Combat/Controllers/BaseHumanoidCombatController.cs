@@ -19,6 +19,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
     // очередь нажатий
     internal bool queuedAttack = false;
+    private bool loopCurrentCombo;
 
     // ================= свойства =================
     public float AttackBufferTime { get => attackBufferTime; set=>attackBufferTime = value; }   
@@ -41,16 +42,17 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
     public void ForceAttackCancel()
     {
-        inventory.CurrentWeapon.CancelAttack();
+        inventory.CurrentWeapon?.CancelAttack();
         ResetCombo();
     }
 
 
-    public void PerformAttack()
+    public void PerformAttack(bool loopCombo = false)
     {
-        if (IsShieldRaised || damageController.IsDamaged) return;
+        if (!CanStartAttack()) return;
 
         lastAttackInputTime = Time.time;
+        loopCurrentCombo = loopCombo;
 
         // если уже атакуем — ставим в очередь
         if (IsAttacking)
@@ -65,7 +67,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
     public void PerformPowerAttack()
     {
-        if (IsShieldRaised) return;
+        if (!CanStartAttack()) return;
 
         if (IsAttacking) return;
 
@@ -101,10 +103,16 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     // ================= КОМБО =================
     internal void StartNextAttack()
     {
+        if (!CanStartAttack())
+        {
+            ForceAttackCancel();
+            return;
+        }
+
         var weapon = inventory.CurrentWeapon;
         var attackSet = weapon.WeaponData().attackSet;
 
-        if (attackSet == null)
+        if (attackSet == null || attackSet.attackList == null || attackSet.attackList.Count == 0)
         {
             Debug.Log("no attacks assigned for this weapon");
             return;
@@ -112,8 +120,14 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
         if (attackIndex >= attackSet.attackList.Count)
         {
-            ResetCombo();
-            return;
+            if (!loopCurrentCombo)
+            {
+                ResetCombo();
+                return;
+            }
+
+            // ИИ может повторять набор, пока исполнитель серии не исчерпал число ударов.
+            attackIndex = 0;
         }
 
         //выбираем атаку из списка
@@ -131,12 +145,22 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
 
     public void EndAttack()
     {
+        // Выход из анимации после отмены не должен возобновлять очередь комбо.
+        if (!IsAttacking)
+            return;
+
+        if (!CanStartAttack())
+        {
+            ForceAttackCancel();
+            return;
+        }
+
         IsAttacking = false;
         OnAttackEnd?.Invoke();
         //movement.StopMove = false;  
 
         // проверяем буфер ввода
-        if (Time.time - lastAttackInputTime <= attackBufferTime)
+        if (queuedAttack && Time.time - lastAttackInputTime <= attackBufferTime)
         {
             TryStartNextAttackFromQueue();
         }
@@ -157,11 +181,16 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
         }
     }
 
+    private bool CanStartAttack() =>
+        !IsShieldRaised && !damageController.IsDamaged &&
+        !damageController.IsKnockedOut && !damageController.IsDead;
+
     public void ResetCombo()
     {
         attackIndex = 0;
         IsAttacking = false;
         queuedAttack = false;
+        loopCurrentCombo = false;
 
     }
 

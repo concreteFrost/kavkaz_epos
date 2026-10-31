@@ -34,7 +34,7 @@ public class HumanoidAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (aiMotor == null) return;
+        if (aiMotor == null || damageController.IsDead || damageController.IsKnockedOut) return;
 
         UpdateMotor();
         UpdateAnimator();

@@ -251,7 +251,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -1412,12 +1411,12 @@ MonoBehaviour:
   weaponSocket:
     socketTransform: {fileID: 1853943685412949512}
     bone: 18
-    localPosition: {x: -0.00109945, y: 0.11905670, z: 0.04846689}
+    localPosition: {x: -0.00109945, y: 0.1190567, z: 0.04846689}
     localRotation: {x: 298.9256, y: 354.1284, z: 123.6415}
   shieldSocket:
     socketTransform: {fileID: 1210116390779112831}
     bone: 17
-    localPosition: {x: -0.04162354, y: 0.02497480, z: 0.08733251}
+    localPosition: {x: -0.04162354, y: 0.0249748, z: 0.08733251}
     localRotation: {x: 6.000778, y: 352.7239, z: 97.53689}
   rightMeleeSocket:
     socketTransform: {fileID: 4577502454736370060}
@@ -1694,7 +1693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWeaponInventory
   items: []
-  initialWeapon: {fileID: 0}
+  initialWeapon: {fileID: 18204287337618311, guid: 40a667b87d591944d9f38991ed65bddb, type: 3}
   initialShield: {fileID: 0}
 --- !u!1 &5689295478913329477
 GameObject:
@@ -2048,7 +2047,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0

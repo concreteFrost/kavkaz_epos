@@ -30,10 +30,10 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     public override void HandleAttack(Transform target)
     {
        
-        if (distanceToTarget <= combatHandler.GetAttackDistance(CombatMode.Melee))
+        if (IsFirstMeleeAttackInRange())
         {
-            int punchesSount = 1;
-            combatCoroutine = combatActions.StartMelee(combatController, combatHandler,punchesSount, combatHandler.GetAttackDistance(combatMode),()=> distanceToTarget, FinishCombatAction);
+            int punchesCount = combatHandler.GetPunchesCount();
+            combatCoroutine = combatActions.StartMelee(combatController, punchesCount, FinishCombatAction);
             return;
         }
 
@@ -51,7 +51,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
     public override bool ShouldExitCooldown()
     {
 
-        if (distanceToTarget <= combatHandler.GetAttackDistance(CombatMode.Melee))
+        if (IsFirstMeleeAttackInRange())
             return true;
 
         if (!fov.IsTargetVisible())

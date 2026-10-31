@@ -20,19 +20,20 @@ MonoBehaviour:
   maxLostTargetTimer: 10
   maxChaseDistance: 30
   maxWaitTimer: 3
-  meleeAttackRange: 1.3
   emitAttackRange: 10
+  minPunchesCount: 1
+  maxPunchesCount: 3
   attackTransitionChance: 0.8
-  initialPoweAttackChance: 1
-  powerAttackChanceMultiplier: 1
+  initialPoweAttackChance: 0.2
+  powerAttackChanceMultiplier: 0.05
   minCombatCooldown: 1
-  maxCombatCooldown: 3
-  initialDodgeChance: 0.111
-  strafeChance: 0.1
-  dodgeChanceMultiplier: 0.1
+  maxCombatCooldown: 2
+  initialDodgeChance: 0.2
+  strafeChance: 0.3
+  dodgeChanceMultiplier: 0.15
   fromChaseToCombatDistance: 8
   maxDistanceInCombat: 10
-  maxTargetDistanceInStrafe: 2
+  maxTargetDistanceInStrafe: 5
   minTimeInStrafeState: 3
   maxTimeInStrafeState: 7
   willMoveChance: 0.65

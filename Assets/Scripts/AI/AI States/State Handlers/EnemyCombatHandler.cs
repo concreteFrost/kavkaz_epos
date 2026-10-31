@@ -21,6 +21,9 @@ public class EnemyCombatHandler
     CharacterBehaviourStatsSO stats;
 
     [SerializeField] bool canAttack = true;
+    private float attackCooldownUntil;
+
+    public bool IsAttackCooldownActive => Time.time < attackCooldownUntil;
 
     //power attack
     [SerializeField] private float powerAttackChance;
@@ -29,7 +32,6 @@ public class EnemyCombatHandler
     [SerializeField] private float lastDamageTime = -10f;
     //[SerializeField] private int damageCounter;
 
-    [SerializeField] private float comboDistanceOffset = 0.2f;
 
     [Header("Додж")]
     [SerializeField] private float currentDodgeChance;
@@ -83,7 +85,7 @@ public class EnemyCombatHandler
     public void ResetCombatState()
     {
 
-        SetCanAttack(true);
+        SetCanAttack(!IsAttackCooldownActive);
         currentDodgeChance = stats.initialDodgeChance;
         ResetDecideRunTimer();
       
@@ -96,7 +98,27 @@ public class EnemyCombatHandler
     public bool CanAttack() => canAttack;
 
     public void SetCanAttack(bool val) => canAttack = val;
-    public float GetMeleeAttackDistanceWithOffset() => stats.meleeAttackRange + comboDistanceOffset;
+
+    /// <summary>Выбирает длину обычной серии с включённой верхней границей.</summary>
+    public int GetPunchesCount()
+    {
+        int min = Mathf.Clamp(stats.minPunchesCount, 1, 10);
+        int max = Mathf.Clamp(stats.maxPunchesCount, min, 10);
+        return Random.Range(min, max + 1);
+    }
+
+    /// <summary>Хранит срок перезарядки независимо от текущего состояния ИИ.</summary>
+    public void StartAttackCooldown()
+    {
+        attackCooldownUntil = Time.time + Random.Range(stats.minCombatCooldown, stats.maxCombatCooldown);
+        SetCanAttack(false);
+    }
+
+    public void FinishAttackCooldown()
+    {
+        attackCooldownUntil = 0f;
+        SetCanAttack(true);
+    }
 
     public float GetMinAttackCooldown() => stats.minCombatCooldown;
     public float GetMaxAttackCooldown() => stats.maxCombatCooldown;
@@ -158,7 +180,7 @@ public class EnemyCombatHandler
     #region Distance to Target;
     public bool IsChaseDistance(float distance) => distance >= stats.maxDistanceInCombat;
 
-    public float GetAttackDistance(CombatMode mode) => mode == CombatMode.Melee ? stats.meleeAttackRange : stats.emitAttackRange;
+    public float GetEmitAttackDistance() => stats.emitAttackRange;
 
     //public bool IsLockOnDistance(float distance) => distance <= stats.targetLockOnDistance;
 

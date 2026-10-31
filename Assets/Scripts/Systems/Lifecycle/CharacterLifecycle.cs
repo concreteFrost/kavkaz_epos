@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class CharacterLifecycle : MonoBehaviour , ICharacterLifeCycle
@@ -10,8 +11,15 @@ public abstract class CharacterLifecycle : MonoBehaviour , ICharacterLifeCycle
     public Vector3 respawnPosition;
     protected Transform self;
 
+    public Action<bool> AliveStateChanged { get; internal set; }
+
     public abstract void Die();
     public abstract void Respawn(Vector3 pos);
+
+    public void NotifyAlive(bool isAlive)
+    {
+        AliveStateChanged?.Invoke(isAlive);
+    }
 
     protected void BaseInit(CharacterStatsController statsController, CharacterStatsModifier statsModifier,CharacterAudioManager audioManager ,BaseHumanoidDamageController damageController, Vector3 startingPostion, Transform self)
     {

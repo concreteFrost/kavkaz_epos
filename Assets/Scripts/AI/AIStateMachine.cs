@@ -22,7 +22,7 @@ public class AIStateMachine
     {
         if(CurrentState == null) return;    
 
-        CurrentState.Exit();
+        CurrentState.ForceExit();
         CurrentState = null;
     }
 }

@@ -38,11 +38,13 @@ public class EnemyBrain : AIBrain
     PlayerServiceLocator playerLocator;
 
     public bool isActivated = false;
+    private bool isPaused;
 
 
     public void Init(EnemyBrainContext context)
     {
         this.context = context;
+        isPaused = false;
 
         idle.Init(context);
         patrol.Init(context);
@@ -64,14 +66,23 @@ public class EnemyBrain : AIBrain
     {
         if (context == null) return;
 
-        if (!isActivated && !context.damageController.IsDead)
+        if (context.damageController.IsDead)
+        {
+            stateMachine.ForceExit();
+            return;
+        }
+
+        if (isPaused)
+            return;
+
+        if (!isActivated)
         {
 
             TrackActivation();
             return;
         }
 
-        if (context.damageController.IsDead || stateMachine.CurrentState == null)
+        if (stateMachine.CurrentState == null)
         {
             stateMachine.ForceExit();
             return;
@@ -111,6 +122,24 @@ public class EnemyBrain : AIBrain
         currentState = stateMachine.CurrentState as AIState<EnemyBrainContext>;
     }
 
+    /// <summary>Приостанавливает выполнение состояний или возобновляет выбор поведения.</summary>
+    public override void SetPaused(bool paused)
+    {
+        if (isPaused == paused)
+            return;
+
+        isPaused = paused;
+        if (isPaused)
+        {
+            stateMachine.ForceExit();
+            currentState = null;
+        }
+        else if (isActivated && !context.damageController.IsDead)
+        {
+            stateMachine.ChangeState(context.fov.currentTarget != null ? chase : idle);
+        }
+    }
+
     private void TrackActivation()
     {
         if (playerLocator == null && GameRunner.Instance != null && GameRunner.Instance.Player != null)
@@ -136,17 +165,24 @@ public class EnemyBrain : AIBrain
 
     public override void ForceChangeState(IAIState state)
     {
+        if (isPaused)
+            return;
+
         stateMachine.ChangeState(state);
     }
 
     public override void ForceStop()
     {
         stateMachine.ForceExit();
+        isPaused = false;
         isActivated = false;
     }
 
     public override void SetInitialState()
     {
+        if (isPaused)
+            return;
+
         stateMachine.ChangeState(idle);
     }
 

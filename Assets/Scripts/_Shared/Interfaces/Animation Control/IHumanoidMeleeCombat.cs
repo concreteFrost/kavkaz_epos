@@ -7,7 +7,8 @@ public interface IHumanoidMeleeCombat
     bool IsWeaponed { get; set; }
     bool IsShieldRaised { get; set; }
     void EndAttack();
-    void PerformAttack();
+    void ForceAttackCancel();
+    void PerformAttack(bool loopCombo = false);
     void PerformPowerAttack();
     void PerformBlock();
     void CancelBlock();

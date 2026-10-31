@@ -20,7 +20,15 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
     protected CharacterAudioManager audioManager;
 
-    protected CombatMode combatMode; 
+    protected CombatMode combatMode;
+
+    protected IWeapon CurrentWeapon => context.weaponSetter.CurrentWeapon;
+
+    protected bool usePowerAttack;
+
+    private bool hasAttackChoice;
+    private IWeapon choiceWeapon;
+    private Transform choiceTarget;
 
     public abstract void Init();
 
@@ -34,6 +42,7 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         audioManager = context.audioManager;
 
         combatCoroutine = null;
+        ResetMeleeAttackChoice();
         combatHandler = context.stateTracker.combatHandler;
         combatHandler.ResetCombatState();
         combatController = context.combat;
@@ -60,10 +69,23 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
         distanceToTarget = Vector3.Distance(self.position, target.position);
 
+        // Ќачатое действие заканчиваетс€ до перехода в погоню; потер€ видимости не обрывает комбо.
+        if (combatCoroutine != null)
+        {
+            motor.SetLockTarget(fov.currentTarget.GetAimTransform());
+            motor.SetStrafe(true);
+            motor.RotateToTarget(target.position);
+            return AIStateResult.None;
+        }
+
         if (combatHandler.IsChaseDistance(distanceToTarget) || !fov.IsTargetVisible())
             return AIStateResult.Chase;
 
-        if (cooldownCoroutine != null || combatCoroutine !=null)
+        // ѕри возвращении из погони продолжаем оставшуюс€ перезар€дку, а не начинаем бой заново.
+        if (cooldownCoroutine == null && combatHandler.IsAttackCooldownActive)
+            cooldownCoroutine = StartCoroutine(CooldownCoroutine());
+
+        if (cooldownCoroutine != null)
         {
             motor.SetLockTarget(fov.currentTarget.GetAimTransform());
             motor.SetStrafe(true);
@@ -93,9 +115,19 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
     public override void Exit()
     {
+        if (combatCoroutine != null)
+        {
+            if (!combatHandler.IsAttackCooldownActive)
+                combatHandler.StartAttackCooldown();
+
+            combatController.ForceAttackCancel();
+            context.emitter?.EndEmit();
+        }
+
         StopAllCoroutines();
         combatCoroutine = null;
         cooldownCoroutine = null;
+        ResetMeleeAttackChoice();
        
         HandleDefense(false);
         motor.ResetLockTarget();
@@ -118,28 +150,105 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
     {
         if(motor.IsJumping) return AIStateResult.None;
 
-        bool inRange = distanceToTarget < combatHandler.GetAttackDistance(combatMode);
+        WeaponAttack selectedAttack = null;
+        bool inRange;
+        if (combatMode == CombatMode.Melee)
+        {
+            selectedAttack = PrepareMeleeAttackChoice();
+            inRange = selectedAttack != null && selectedAttack.IsInRange(distanceToTarget);
+        }
+        else
+        {
+            inRange = distanceToTarget < combatHandler.GetEmitAttackDistance();
+        }
 
         if (!inRange || !fov.IsTargetVisible())
         {
-            motor.MoveCharacter(target.position);
+            // —ближаемс€ дл€ выбранной атаки. ƒоступность другой атаки не заставл€ет останавливатьс€.
+            if (combatMode == CombatMode.Melee && !NeedsApproach(selectedAttack))
+                motor.StopMovement();
+            else
+                motor.MoveCharacter(target.position);
+
             HandleDefense(true);
             return AIStateResult.None;
         }
 
+        motor.StopMovement();
         HandleDefense(false);
 
-        return GetNextDecision();
+        AIStateResult result = GetNextDecision();
+        ResetMeleeAttackChoice();
+        return result;
     }
 
 
+
+    /// <summary>¬озвращает первый удар серии, а не оставшуюс€ от прошлого бо€ текущую атаку.</summary>
+    protected WeaponAttack GetFirstMeleeAttack()
+    {
+        var attackSet = CurrentWeapon?.WeaponData()?.attackSet;
+        if (attackSet == null || attackSet.attackList == null || attackSet.attackList.Count == 0)
+            return null;
+
+        return attackSet.attackList[0];
+    }
+
+    protected bool IsFirstMeleeAttackInRange()
+    {
+        var attack = GetFirstMeleeAttack();
+        return attack != null && attack.IsInRange(distanceToTarget);
+    }
+
+    /// <summary>¬ыбирает тип атаки один раз на подход, сохран€€ решение до начала действи€.</summary>
+    private WeaponAttack PrepareMeleeAttackChoice()
+    {
+        IWeapon weapon = CurrentWeapon;
+        if (choiceWeapon != weapon || choiceTarget != target)
+            ResetMeleeAttackChoice();
+
+        var firstAttack = GetFirstMeleeAttack();
+        var powerAttack = weapon?.WeaponData()?.attackSet?.powerAttack;
+        if (!hasAttackChoice)
+        {
+            choiceWeapon = weapon;
+            choiceTarget = target;
+            hasAttackChoice = true;
+
+            // ƒальн€€ атака не становитс€ об€зательной только потому, что еЄ диапазон уже доступен.
+            usePowerAttack = powerAttack != null && combatHandler.WillPowerAttack();
+        }
+
+        // ≈сли цель подошла слишком близко дл€ сильного удара, продолжаем обычной серией без нового броска.
+        if (usePowerAttack &&
+            (powerAttack == null || distanceToTarget < powerAttack.minAttackDistance))
+            usePowerAttack = false;
+
+        return usePowerAttack ? powerAttack : firstAttack;
+    }
+
+    private void ResetMeleeAttackChoice()
+    {
+        hasAttackChoice = false;
+        choiceWeapon = null;
+        choiceTarget = null;
+        usePowerAttack = false;
+    }
+
+    private bool NeedsApproach(WeaponAttack attack)
+    {
+        return attack != null &&
+               attack.maxAttackDistance > 0f &&
+               attack.maxAttackDistance >= attack.minAttackDistance &&
+               distanceToTarget > attack.maxAttackDistance;
+    }
 
     protected virtual void FinishCombatAction()
     {
         //motor.ResetLockTarget();
        
         combatCoroutine = null;
-        combatHandler.SetCanAttack(false);
+        combatHandler.StartAttackCooldown();
         combatHandler.ResetDecideRunTimer();    
         cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
@@ -151,21 +260,25 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
 
     protected IEnumerator CooldownCoroutine()
     {
-        float elapsed = 0f;
-        float max = Random.Range(combatHandler.GetMinAttackCooldown(), combatHandler.GetMaxAttackCooldown());
-
         motor.StopMovement();
         HandleDefense(true);
 
-        while (elapsed < max && !ShouldExitCooldown())
+        // ƒаже при досрочном завершении вызывающий код должен успеть сохранить ссылку на корутину.
+        yield return null;
+        while (combatHandler.IsAttackCooldownActive && !ShouldExitCooldown())
         {
             HandleCooldown();
-            elapsed += Time.deltaTime;
             yield return null;
         }
 
 
-        combatHandler.SetCanAttack(true);
+        FinishCooldown();
+    }
+
+    /// <summary>«авершает перезар€дку и освобождает св€занные с ней действи€ состо€ни€.</summary>
+    protected virtual void FinishCooldown()
+    {
+        combatHandler.FinishAttackCooldown();
         HandleDefense(false);
         cooldownCoroutine = null;
     }
@@ -185,6 +298,13 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         switch (combatHandler.GetNextDecision())
         {
             case CombatTransition.Attack:
+                if (combatMode == CombatMode.Melee)
+                {
+                    var attack = PrepareMeleeAttackChoice();
+                    if (attack == null || !attack.IsInRange(distanceToTarget))
+                        break;
+                }
+
                 HandleAttack(target);
                 break;
             case CombatTransition.Dodge:

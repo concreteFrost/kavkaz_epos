@@ -15,6 +15,13 @@ public abstract class AIState<Context> : MonoBehaviour, IAIState
 
     public abstract void Exit();
 
+    /// <summary>Прерывает состояние и все принадлежащие ему корутины.</summary>
+    public void ForceExit()
+    {
+        Exit();
+        StopAllCoroutines();
+    }
+
     public abstract AIStateResult Run();
    
 }

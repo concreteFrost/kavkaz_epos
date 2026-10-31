@@ -17,7 +17,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
 
     public override void HandleAttack(Transform target)
     {
-        if (combatHandler.WillPowerAttack())
+        if (usePowerAttack)
         {
             combatCoroutine = combatActions.StartPowerAttack(
                 combatController,
@@ -30,14 +30,11 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
         }
         else
         {
-            int punchesCount = Random.Range(1, 5);
+            int punchesCount = combatHandler.GetPunchesCount();
 
             combatCoroutine = combatActions.StartMelee(
                 combatController,
-                combatHandler,
                 punchesCount,
-                combatHandler.GetAttackDistance(combatMode),
-                () => distanceToTarget,
                 FinishCombatAction
             );
 
@@ -55,15 +52,8 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
  
     public override bool ShouldExitCooldown()
     {
-        float dist = Vector3.Distance(self.position, target.position);
-
-        if (target == null)
-            return false;
-
-        if (combatHandler.CanAttack() || dist >= 5f)
-            return true;
-
-        return false;
+        // Удаление цели и переходы состояний не отменяют оставшуюся перезарядку.
+        return combatHandler.CanAttack();
     }
 
     public override void HandleCooldown()

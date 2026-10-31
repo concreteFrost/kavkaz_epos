@@ -11,10 +11,26 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public LayerMask wallLayer = 1 << 8;
 
+    [Header("Препятствия при боковом движении")]
+    [Tooltip("Слои препятствий для strafe. По умолчанию Default; при необходимости добавьте слои геометрии окружения.")]
+    public LayerMask strafeObstacleMask = 1 << 0;
+
+    [Min(0f)]
+    [Tooltip("Интервал проверки направления в секундах. Ноль включает проверку каждый кадр.")]
+    public float strafeObstacleCheckInterval = 0.2f;
+
+    [Min(0f)]
+    [Tooltip("Минимальная длина луча от центра тела. На высокой скорости она увеличивается с учётом интервала проверки и радиуса агента.")]
+    public float strafeObstacleCheckDistance = 0.8f;
+
+    private Collider bodyCollider;
+
+
     public void Init(BaseHumanoidAnimatorController anim, HumanoidAgentController agentController)
     {
         this.animator = anim;
         this.agentController = agentController;
+        bodyCollider = GetComponent<Collider>();
 
         // Animator
         //animator.Animator().updateMode = AnimatorUpdateMode.Normal;
@@ -153,38 +169,96 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
     public void StartStrafe(Transform self, Transform target)
     {
+        if (strafeCoroutine != null || self == null || target == null)
+            return;
+
         strafeCoroutine = StartCoroutine(StrafeCoroutine(self, target));
     }
 
     private IEnumerator StrafeCoroutine(Transform self, Transform target)
     {
         bool isRight = Random.value > 0.5f;
+        bool isBlocked = false;
+        float nextObstacleCheck = Time.time;
         float elapsed = 0f;
         const float maxStrafeTime = 3f;
 
         while (elapsed < maxStrafeTime && target != null)
         {
-            Vector3 toTarget = (target.position - self.position).normalized;
-            Vector3 strafeDir = Vector3.Cross(Vector3.up, toTarget).normalized;
+            Vector3 toTarget = target.position - self.position;
+            toTarget.y = 0f;
+            Vector3 strafeDir = Vector3.Cross(Vector3.up, toTarget.normalized);
+            Vector3 direction = isRight ? strafeDir : -strafeDir;
 
-            MoveLocal(isRight ? strafeDir : -strafeDir);
+            if (Time.time >= nextObstacleCheck)
+            {
+                nextObstacleCheck = Time.time + strafeObstacleCheckInterval;
+                isBlocked = IsStrafeDirectionBlocked(direction);
+
+                // Второй луч нужен только у препятствия. Если обе стороны закрыты, ждём следующей проверки.
+                if (isBlocked && !IsStrafeDirectionBlocked(-direction))
+                {
+                    isRight = !isRight;
+                    direction = -direction;
+                    isBlocked = false;
+                }
+            }
+
+            if (isBlocked)
+            {
+                if (moveDirection.sqrMagnitude > 0f)
+                    StopMovement();
+            }
+            else
+            {
+                MoveLocal(direction);
+            }
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        strafeCoroutine = null; // флаг окончания
+        StopMovement();
+        strafeCoroutine = null;
+    }
+
+    /// <summary>Проверяет направление одним лучом без выделения массива результатов и без учёта триггеров.</summary>
+    private bool IsStrafeDirectionBlocked(Vector3 direction)
+    {
+        if (direction.sqrMagnitude == 0f)
+            return true;
+
+        var agent = agentController.agent;
+        float distance = Mathf.Max(strafeObstacleCheckDistance,
+            agent.radius + agent.speed * strafeObstacleCheckInterval);
+
+        return Physics.Raycast(bodyCollider.bounds.center, direction, distance,
+            strafeObstacleMask, QueryTriggerInteraction.Ignore);
     }
 
     public void StopStrafe()
     {
-        if(strafeCoroutine != null)
-        {
-            StopCoroutine(strafeCoroutine); 
-            strafeCoroutine = null; 
-        }
+        if (strafeCoroutine == null)
+            return;
+
+        StopCoroutine(strafeCoroutine);
+        strafeCoroutine = null;
+        StopMovement();
     }
     #endregion
+
+    /// <summary>Сбрасывает движение и блокировки прерванного действия перед отключением анимации.</summary>
+    public void ResetCombatMovement()
+    {
+        StopStrafe();
+        StopMovement();
+        ResetLockTarget();
+        SetStrafe(false);
+        IsDodging = false;
+        StopMove = false;
+        BlockRotation = false;
+        animator.Animator().applyRootMotion = false;
+    }
 
     #region Root Motion Control
     public override void UseRootMotion()

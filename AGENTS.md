@@ -18,6 +18,7 @@
 
 - Study the relevant existing implementation before making changes.
 - Follow the project's established architecture, coding style, and conventions.
+- Classes must always have clear, strictly separated responsibilities. Never place behavior in a class solely because it is convenient to call it there. Keep orchestration separate from implementation details, use the existing components that own each responsibility, and review responsibility boundaries for every code change.
 - Prefer existing solutions over introducing new abstractions.
 - Keep changes minimal and focused on the requested task.
 - Do not perform unrelated refactoring.

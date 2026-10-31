@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum FromHand
 {
@@ -11,6 +12,21 @@ public enum FromHand
 public class WeaponAttack
 {
     public DamageData damageData;
+
+    [Header("Дистанция запуска ИИ")]
+    [Min(0f)]
+    [Tooltip("Минимальная дистанция начала атаки. Для обычной серии рекомендуется ноль; для прыжка позволяет запретить запуск вплотную.")]
+    public float minAttackDistance;
+
+    [FormerlySerializedAs("minDistance")]
+    [Min(0f)]
+    [Tooltip("Максимальная дистанция начала атаки. Для комбо проверяется только первый удар; продолжение серии от расстояния не зависит.")]
+    public float maxAttackDistance = 1.3f;
+
+    /// <summary>Проверяет расстояние до цели перед запуском атаки ИИ.</summary>
+    public bool IsInRange(float distance) =>
+        maxAttackDistance > 0f &&
+        distance >= minAttackDistance && distance <= maxAttackDistance;
 
     public float staminaPenalty = 1f;
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HumanoidAICombatActions 
@@ -18,44 +17,35 @@ public class HumanoidAICombatActions
     // =========================
     public Coroutine StartMelee(
         IHumanoidMeleeCombat combat,
-        EnemyCombatHandler combatHandler,
         int punchesCount,
-        float attackRange,
-        Func<float> distanceToTarget,
         Action onFinish)
     {
-        return ctx.StartCoroutine(MeleeCoroutine(
-            combat,
-            combatHandler,
-            punchesCount,
-            attackRange,
-            distanceToTarget,
-            onFinish));
+        return ctx.StartCoroutine(MeleeCoroutine(combat, punchesCount, onFinish));
     }
 
     private IEnumerator MeleeCoroutine(
-     IHumanoidMeleeCombat combat,
-     EnemyCombatHandler combatHandler,
-     int punchesCount,
-     float attackRange,
-     Func<float> getDistance,
-     Action onFinish)
+        IHumanoidMeleeCombat combat,
+        int punchesCount,
+        Action onFinish)
     {
         int executed = 0;
         void OnAttackEnd() => executed++;
 
         combat.OnAttackEnd += OnAttackEnd;
-
         try
         {
-            combat.PerformAttack();
+            combat.PerformAttack(loopCombo: true);
 
-            while (executed < punchesCount - 1 &&
-                   getDistance() <= combatHandler.GetMeleeAttackDistanceWithOffset())
+            // Поддерживаем очередь каждый кадр: длина серии не зависит от длительности анимации.
+            // После постановки последнего удара ждём его завершения, больше не пополняя очередь.
+            do
             {
-                yield return new WaitForSeconds(combat.AttackBufferTime * 0.9f);
-                combat.PerformAttack();
+                if (combat.IsAttacking && executed < punchesCount - 1)
+                    combat.PerformAttack(loopCombo: true);
+
+                yield return null;
             }
+            while (combat.IsAttacking);
         }
         finally
         {
@@ -80,7 +70,12 @@ public class HumanoidAICombatActions
         EnemyCombatHandler combatHandler,
         Action onFinish)
     {
+        bool wasAttacking = combat.IsAttacking;
         combat.PerformPowerAttack();
+        if (!wasAttacking && combat.IsAttacking)
+            Debug.Log($"[{ctx.name}] Начата силовая атака.", ctx);
+
+        yield return null;
 
         while (combat.IsAttacking)
             yield return null;

@@ -14,6 +14,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
    
     bool hitActive = false;
     bool wasAudioPlayer = false;
+    bool attackCancelled;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -33,6 +34,7 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         animator.applyRootMotion = true;
         hitActive = false;
         wasAudioPlayer = false; 
+        attackCancelled = false;
 
         // блокируем вращение персонажа во время атаки
         motor.BlockRotation = true;
@@ -46,9 +48,20 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        if (!animator.applyRootMotion) animator.applyRootMotion = true;
      
-        if (damageController.IsDamaged || pushable.IsPushed) return;
+        if (attackCancelled)
+            return;
+
+        if (IsAttackInterrupted() || !combatAnimData.IsAttacking)
+        {
+            // Stagger может играть на другом слое: прекращаем урон, не ожидая выхода из этой анимации.
+            attackCancelled = true;
+            weapon?.CancelAttack();
+            combatAnimData.ForceAttackCancel();
+            return;
+        }
+
+        if (!animator.applyRootMotion) animator.applyRootMotion = true;
 
         if (attack == null) return;
 
@@ -96,14 +109,20 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         hitActive = false;
         motor.StopMove = false;
 
-        inv.CurrentWeapon.CancelAttack();
+        weapon?.CancelAttack();
 
         animator.applyRootMotion = false;
         motor.BlockRotation = false;
         damageController.CanPlayDamagedAnimation = true;    
 
         // уведомляем контроллер, что атака завершена
-        combatAnimData.EndAttack();
+        if (attackCancelled || IsAttackInterrupted())
+            combatAnimData.ForceAttackCancel();
+        else
+            combatAnimData.EndAttack();
 
     }
+    private bool IsAttackInterrupted() =>
+        damageController.IsDamaged || damageController.IsKnockedOut ||
+        damageController.IsDead || pushable.IsPushed;
 }
