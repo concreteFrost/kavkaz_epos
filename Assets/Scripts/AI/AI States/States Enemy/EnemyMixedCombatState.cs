@@ -42,6 +42,9 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
 
         if (combatMode == CombatMode.Magic)
         {
+            if (!spellInventory.TrySelectRandomSpell())
+                return;
+
 
             combatCoroutine = combatActions.StartSpell(emitter, spellInventory, FinishCombatAction);
         }

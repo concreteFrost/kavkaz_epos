@@ -29,6 +29,42 @@ public class CharacterSpellInventory : BaseInventory<SpellData>
         Notify(); //уведомляет
     }
 
+    /// <summary>
+    /// Выбирает для ИИ случайное заклинание с положительным запасом из всего инвентаря.
+    /// </summary>
+    public bool TrySelectRandomSpell()
+    {
+        var spells = items.FindAll(x =>
+            x != null &&
+            x.itemSO != null &&
+            x.quantity > 0 &&
+            x.usageChance > 0f);
+
+        if (spells.Count == 0)
+            return false;
+
+        float totalChance = 0f;
+
+        foreach (var spell in spells)
+            totalChance += spell.usageChance;
+
+        float choice = Random.Range(0f, totalChance);
+
+        foreach (var spell in spells)
+        {
+            choice -= spell.usageChance;
+
+            if (choice > 0f)
+                continue;
+
+            quickSlots[currentIndex] = spell;
+            Notify();
+            return true;
+        }
+
+        return false;
+    }
+
     public void AddAllItemsOnStart()
     {
         var allItems = Resources.LoadAll<SpellProjectileSO>("Items/Spells/");

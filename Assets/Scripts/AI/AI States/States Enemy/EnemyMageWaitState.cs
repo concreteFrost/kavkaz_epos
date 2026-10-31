@@ -38,6 +38,10 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
             return AIStateResult.Idle;
 
 
+        // После завершения стрейфа сбрасываем оставшееся направление анимации.
+        if (motor.strafeCoroutine == null)
+            motor.StopMovement();
+
         if (castCoroutine != null)
             return AIStateResult.None;
 
@@ -58,10 +62,11 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
                 return AIStateResult.Chase;
             }
 
-            if (handler.CanAttack())
+            if (handler.CanAttack() && spellInventory.TrySelectRandomSpell())
             {
                 castCoroutine = StartCoroutine(CastCroutine());
                 handler.ResetWaitState();
+                return AIStateResult.None;
             }
 
             if (handler.ShouldReposition())
@@ -90,6 +95,7 @@ public class EnemyMageWaitState : AIState<EnemyBrainContext>
     {
         //fov.ResetTarget();
         motor.StopStrafe();
+        motor.StopMovement();
         motor.ResetLockTarget();
         motor.SetStrafe(false);
         if (castCoroutine != null)

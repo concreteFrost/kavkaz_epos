@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [System.Serializable]
 public class ItemData
 {
@@ -115,6 +116,9 @@ public class ShieldData : CombatItemData, IItemStats {
 [System.Serializable]
 public class SpellData: ItemData, IItemStats
 {
+    [Tooltip("Шанс выбора этого заклинания ИИ")]
+    [Range(0.1f,1)]
+    public float usageChance = 0.5f; // для мобов
     public List<ItemStat> ItemStats() => new List<ItemStat>()
     {
         new ItemStat("base damage", (itemSO as SpellProjectileSO).GetBaseDamage(), ItemStatFormatType.flat),

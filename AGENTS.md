@@ -41,6 +41,8 @@
 
 ## Unity Guidelines
 
+- For item balance calculations, use the project Google Sheets as the source of truth, including item statistics, prices, quantities, and progression. Unity item data must later be synchronized from these tables; do not override table values based on Unity discrepancies. If an item parameter is missing from the tables, identify it as unspecified and record any proposed value explicitly rather than treating Unity as authoritative. This source-of-truth rule does not yet apply to enemies or bosses.
+
 - Each character must have a total ragdoll mass of 100, calculated as the sum of all its Rigidbody masses, not the mass of each bone.
 
 - Shared construction assets must be material-independent. Keep reusable geometry, colliders, tags, layers, LOD configuration, and other common physical/gameplay settings in base prefabs under `Assets/Art/Shared`.

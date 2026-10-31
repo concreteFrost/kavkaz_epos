@@ -37,7 +37,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
             return;
         }
 
-        if(spellInventory.CurrentItem == null)
+        if (!spellInventory.TrySelectRandomSpell())
         {
             Debug.Log("no spell assigned");
             return;

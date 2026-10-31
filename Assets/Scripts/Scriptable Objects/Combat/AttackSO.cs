@@ -23,15 +23,6 @@ public class WeaponAttack
     public float invincibleStartFrame = 0f;
     public float invincibleEndFrame = 0f;    
 
-    //public float GetFinalDamage(float baseDamage, float strength)
-    //{
-    //    strength = Mathf.Max(1f, strength);
-
-    //    float finalDamage = baseDamage * (strength / 100f) * (1 + damageData.damageMultiplier);
-
-    //    Debug.Log(finalDamage);
-    //    return finalDamage;
-    //}
 }
 
 
@@ -42,7 +33,4 @@ public class AttackSO : ScriptableObject
     public List<WeaponAttack> attackList;
 
     public WeaponAttack powerAttack;
-
-   
- 
 }
