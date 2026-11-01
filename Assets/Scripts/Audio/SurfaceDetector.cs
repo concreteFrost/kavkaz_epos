@@ -27,7 +27,7 @@ public static class SurfaceDetector
 
             if (surface.Contains("grass")) return SurfaceType.Grass;
             if (surface.Contains("gravel")) return SurfaceType.Gravel;
-            if (surface.Contains("sand") || surface.Contains("ground")) return SurfaceType.Sand;
+            if (surface.Contains("sand") || surface.Contains("ground") || surface.Contains("soil")) return SurfaceType.Sand;
             if (surface.Contains("rock")) return SurfaceType.Rock;
 
             return SurfaceType.Grass;

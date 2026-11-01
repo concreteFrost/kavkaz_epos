@@ -32,9 +32,10 @@ public class EnemyMageAttackState : BaseEnemyAttackState
        
         if (IsFirstMeleeAttackInRange())
         {
-            audioManager.PlayAttack();
+          
             int punchesCount = combatHandler.GetPunchesCount();
             combatCoroutine = combatActions.StartMelee(combatController, punchesCount, CanStartComboAttack, FinishCombatAction);
+            TryPlayVoice(audioManager.PlayAttack);
             return;
         }
 

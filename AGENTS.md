@@ -79,6 +79,7 @@
 - Materials: descriptive names with spaces, e.g. `Rock Dark`, `Rock (Biome Name)`.
 - Prefabs: PascalCase with `_prefab` suffix, e.g. `EnemySkeleton_prefab`.
 - Animator Controllers: `Controller_CharacterName`, e.g. `Controller_Humanoid`.
+- Terrain textures: lowercase snake_case using `<biome>_<surface>_var_<number>`, e.g. `unej_kokhur_grass_var_1.png`. Give new textures their proper convention-compliant names immediately. Store terrain textures under `Assets/Terrain/Terrain Textures/<Biome Name>`.
 - Follow existing naming conventions for asset types not listed above.
 
 # Third Party Assets
@@ -195,15 +196,15 @@
 
 ## Texture Reference Generation
 
-- Generate textures and material references suitable for high-quality AI reconstruction and texturing of the 3D model: preserve clear material separation, consistent detail scale, and soft, even lighting. Avoid visual noise, overly high-contrast microdetails, painted holes, and shadows that AI could mistake for geometry; match the complexity to the target model.
+- Generate textures and material references suitable for high-quality AI reconstruction and texturing of the 3D model: preserve clear material separation and consistent detail scale. Avoid visual noise, overly high-contrast microdetails, painted holes, and shadows that AI could mistake for geometry; match the complexity to the target model.
 
 - When asked to generate a material or texture reference, focus on the requested surface material only.
 - Do not automatically include complete objects, props, characters, or environmental elements.
 - For skin textures, show the skin surface rather than a complete character.
 - For wood textures, show the wood surface without metal fittings, nails, handles, or other props unless requested.
 - For metal textures, show the metal surface without attached decorative objects unless requested.
-- Prefer consistent lighting and material appearance.
-- Avoid strong directional shadows and excessive baked-in highlights.
+- Preserve consistent material color and appearance without lighting gradients.
+- Generate base color (albedo) textures without baked-in lighting, shadows, highlights, reflections, or ambient occlusion. Lighting must be provided by the rendering engine, not painted into the texture.
 - When a seamless texture is requested, ensure that the design is suitable for tiling.
 - Do not generate UV layouts, texture atlases, normal maps, or additional texture channels unless explicitly requested.
 - Distinguish between a visual material reference and a production-ready texture map.

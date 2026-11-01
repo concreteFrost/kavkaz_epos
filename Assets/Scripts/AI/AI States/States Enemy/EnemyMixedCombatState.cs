@@ -36,15 +36,17 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
             if (usePowerAttack)
             {       
                 combatCoroutine = combatActions.StartPowerAttack(combatController, combatHandler, FinishCombatAction);
+                TryPlayVoice(audioManager.PlayPowerAttack);
             }            
                 
             else
             {
                 int punchesCount = combatHandler.GetPunchesCount();
                 combatCoroutine = combatActions.StartMelee(combatController, punchesCount, CanStartComboAttack, FinishCombatAction);
+                TryPlayVoice(audioManager.PlayAttack);
             }
 
-            audioManager.PlayAttack();
+          
             return;
 
         }
