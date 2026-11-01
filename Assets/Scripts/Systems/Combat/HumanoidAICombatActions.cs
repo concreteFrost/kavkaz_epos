@@ -18,14 +18,16 @@ public class HumanoidAICombatActions
     public Coroutine StartMelee(
         IHumanoidMeleeCombat combat,
         int punchesCount,
+        Func<WeaponAttack, bool> canStartComboAttack,
         Action onFinish)
     {
-        return ctx.StartCoroutine(MeleeCoroutine(combat, punchesCount, onFinish));
+        return ctx.StartCoroutine(MeleeCoroutine(combat, punchesCount, canStartComboAttack, onFinish));
     }
 
     private IEnumerator MeleeCoroutine(
         IHumanoidMeleeCombat combat,
         int punchesCount,
+        Func<WeaponAttack, bool> canStartComboAttack,
         Action onFinish)
     {
         int executed = 0;
@@ -34,14 +36,14 @@ public class HumanoidAICombatActions
         combat.OnAttackEnd += OnAttackEnd;
         try
         {
-            combat.PerformAttack(loopCombo: true);
+            combat.PerformAttack(loopCombo: true, canStartComboAttack: canStartComboAttack);
 
             // Поддерживаем очередь каждый кадр: длина серии не зависит от длительности анимации.
             // После постановки последнего удара ждём его завершения, больше не пополняя очередь.
             do
             {
                 if (combat.IsAttacking && executed < punchesCount - 1)
-                    combat.PerformAttack(loopCombo: true);
+                    combat.PerformAttack(loopCombo: true, canStartComboAttack: canStartComboAttack);
 
                 yield return null;
             }

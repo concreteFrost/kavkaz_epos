@@ -8,7 +8,7 @@ public interface IHumanoidMeleeCombat
     bool IsShieldRaised { get; set; }
     void EndAttack();
     void ForceAttackCancel();
-    void PerformAttack(bool loopCombo = false);
+    void PerformAttack(bool loopCombo = false, Func<WeaponAttack, bool> canStartComboAttack = null);
     void PerformPowerAttack();
     void PerformBlock();
     void CancelBlock();

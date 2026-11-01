@@ -20,6 +20,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     // очередь нажатий
     internal bool queuedAttack = false;
     private bool loopCurrentCombo;
+    private Func<WeaponAttack, bool> comboAttackCheck;
 
     // ================= свойства =================
     public float AttackBufferTime { get => attackBufferTime; set=>attackBufferTime = value; }   
@@ -47,12 +48,13 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     }
 
 
-    public void PerformAttack(bool loopCombo = false)
+    public void PerformAttack(bool loopCombo = false, Func<WeaponAttack, bool> canStartComboAttack = null)
     {
         if (!CanStartAttack()) return;
 
         lastAttackInputTime = Time.time;
         loopCurrentCombo = loopCombo;
+        comboAttackCheck = canStartComboAttack;
 
         // если уже атакуем — ставим в очередь
         if (IsAttacking)
@@ -131,6 +133,13 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
         }
 
         //выбираем атаку из списка
+        // РџСЂРѕРІРµСЂСЏРµРј СЃР»РµРґСѓСЋС‰РёР№ СѓРґР°СЂ РїСЂРё Р·Р°РїСѓСЃРєРµ: С†РµР»СЊ РјРѕРіР»Р° РѕС‚РѕР№С‚Рё РїРѕСЃР»Рµ РїРѕСЃС‚Р°РЅРѕРІРєРё РІ РѕС‡РµСЂРµРґСЊ.
+        if (comboAttackCheck != null && !comboAttackCheck(attackSet.attackList[attackIndex]))
+        {
+            ResetCombo();
+            return;
+        }
+
         weapon.SelectAttack(attackIndex);
 
         var attack = weapon.CurrentAttack();
@@ -191,6 +200,7 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
         IsAttacking = false;
         queuedAttack = false;
         loopCurrentCombo = false;
+        comboAttackCheck = null;
 
     }
 

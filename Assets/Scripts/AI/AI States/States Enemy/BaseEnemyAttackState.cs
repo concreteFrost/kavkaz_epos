@@ -194,6 +194,16 @@ public abstract class BaseEnemyAttackState : AIState<EnemyBrainContext>
         return attackSet.attackList[0];
     }
 
+    /// <summary>Проверяет актуальную дистанцию перед очередным ударом серии.</summary>
+    protected bool CanStartComboAttack(WeaponAttack attack)
+    {
+        if (attack == null || fov.currentTarget == null)
+            return false;
+
+        float distance = Vector3.Distance(self.position, fov.currentTarget.GetOrigin().position);
+        return attack.IsInRange(distance);
+    }
+
     protected bool IsFirstMeleeAttackInRange()
     {
         var attack = GetFirstMeleeAttack();

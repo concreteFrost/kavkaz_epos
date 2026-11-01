@@ -110,19 +110,14 @@ public class HumanoidAgentController
         //agent.updateRotation = false;
     }
 
-    public void FinishJump(Vector3 destination)
+    public void FinishJump()
     {
+        // Сначала завершаем переход, затем возвращаем синхронизацию позиции.
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh && agent.isOnOffMeshLink)
+            agent.CompleteOffMeshLink();
+
         agent.updatePosition = true;
-
-        if (!agent.isActiveAndEnabled) return;   
-
-        agent.Warp(destination);
-        agent.CompleteOffMeshLink();
-
-       
     }
-
-
 
     #endregion
 }

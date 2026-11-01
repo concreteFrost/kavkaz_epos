@@ -33,7 +33,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
         if (IsFirstMeleeAttackInRange())
         {
             int punchesCount = combatHandler.GetPunchesCount();
-            combatCoroutine = combatActions.StartMelee(combatController, punchesCount, FinishCombatAction);
+            combatCoroutine = combatActions.StartMelee(combatController, punchesCount, CanStartComboAttack, FinishCombatAction);
             return;
         }
 

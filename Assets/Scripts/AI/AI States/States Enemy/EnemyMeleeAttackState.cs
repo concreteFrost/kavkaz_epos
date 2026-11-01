@@ -35,6 +35,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
             combatCoroutine = combatActions.StartMelee(
                 combatController,
                 punchesCount,
+                CanStartComboAttack,
                 FinishCombatAction
             );
 

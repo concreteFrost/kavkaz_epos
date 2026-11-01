@@ -38,7 +38,7 @@ public class EnemyMixedCombatState : BaseEnemyAttackState
             else
             {
                 int punchesCount = combatHandler.GetPunchesCount();
-                combatCoroutine = combatActions.StartMelee(combatController, punchesCount, FinishCombatAction);
+                combatCoroutine = combatActions.StartMelee(combatController, punchesCount, CanStartComboAttack, FinishCombatAction);
             }
             return;
 

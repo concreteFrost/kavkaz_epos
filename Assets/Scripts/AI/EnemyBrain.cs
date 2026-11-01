@@ -87,6 +87,10 @@ public class EnemyBrain : AIBrain
             stateMachine.ForceExit();
             return;
         }
+        // В воздухе нельзя оценивать доступность пути и менять обычное поведение.
+        if (context.motor.IsJumping)
+            return;
+
         //stateMachine.Run();
 
         switch (stateMachine.CurrentState.Run())

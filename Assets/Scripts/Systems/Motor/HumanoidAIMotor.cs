@@ -311,11 +311,11 @@ public class HumanoidAIMotor : BaseHumanoidMotor
         isGrounded = false;
 
         Vector3 start = transform.position;
-        Vector3 end = data.endPos; // фиксируем ДО прыжка
+        Vector3 end = data.endPos + Vector3.up * agentController.agent.baseOffset; // фиксируем ДО прыжка
 
         yield return JumpParabola(start, end, 1.2f);
 
-        agentController.FinishJump(end);
+        agentController.FinishJump();
 
         // Ждём один кадр — агент обновит isOnOffMeshLink → false
         yield return null;
@@ -337,7 +337,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
 
         while (t < 1f)
         {
-            t += Time.deltaTime / duration;
+            t = Mathf.Min(t + Time.deltaTime / duration, 1f);
 
             float yOffset = 4f * height * t * (1 - t);
             Vector3 pos = Vector3.Lerp(start, end, t);
@@ -348,7 +348,7 @@ public class HumanoidAIMotor : BaseHumanoidMotor
             yield return null;
         }
 
-        //transform.position = end;
+        transform.position = end;
     }
 
 
