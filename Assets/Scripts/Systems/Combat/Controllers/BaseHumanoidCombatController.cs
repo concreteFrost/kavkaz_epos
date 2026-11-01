@@ -20,12 +20,14 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
     // ������� �������
     internal bool queuedAttack = false;
     private bool loopCurrentCombo;
+    private bool hasStartedCombo;
     private Func<WeaponAttack, bool> comboAttackCheck;
 
     // ================= �������� =================
     public float AttackBufferTime { get => attackBufferTime; set=>attackBufferTime = value; }   
 
     public bool IsAttacking { get; set; }
+    public bool ShouldPlayAttackAudio { get; private set; } = true;
     public bool IsWeaponed { get; set; }
     public bool IsShieldRaised { get; set; }
 
@@ -140,6 +142,9 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
             return;
         }
 
+        // Зацикленная серия ИИ звучит только на первом ударе, включая повтор списка атак.
+        ShouldPlayAttackAudio = !loopCurrentCombo || !hasStartedCombo;
+        hasStartedCombo = true;
         weapon.SelectAttack(attackIndex);
 
         var attack = weapon.CurrentAttack();
@@ -200,6 +205,8 @@ public class BaseHumanoidCombatController : MonoBehaviour, IHumanoidMeleeCombat
         IsAttacking = false;
         queuedAttack = false;
         loopCurrentCombo = false;
+        hasStartedCombo = false;
+        ShouldPlayAttackAudio = true;
         comboAttackCheck = null;
 
     }

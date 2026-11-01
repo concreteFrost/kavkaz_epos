@@ -1132,6 +1132,11 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
+  strafeObstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  strafeObstacleCheckInterval: 0.2
+  strafeObstacleCheckDistance: 0.8
 --- !u!114 &5986748626811184390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,7 +1149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
-  bankSO: {fileID: 11400000, guid: 357aa4280e2e67447aca4d735ebbe376, type: 2}
+  bankSO: {fileID: 11400000, guid: f04e1df90f5bc334181b5a772c62308e, type: 2}
 --- !u!114 &7337319640907609627
 MonoBehaviour:
   m_ObjectHideFlags: 0

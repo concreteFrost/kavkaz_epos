@@ -10,6 +10,7 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
     Transform viewDirection;
 
     AIFov fov;
+    private float nextTargetCheckTime;
    
     public IDamagable currentTarget;
 
@@ -39,14 +40,17 @@ public class EnemyFOVController : MonoBehaviour, ITargetLocker
         this.fovId = fovId;
         eyes = boneSockets.GetEyesSocket;
         this.viewDirection = viewDirection;
-        fov = new AIFov(eyes, viewDirection, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore);
+        fov = new AIFov(eyes, viewDirection, fovDataSO.objectsToScan, fovDataSO.obstacleMask, fovDataSO.layerToIgnore, fovDataSO.initialScanBufferSize);
         checkCooldown = 0;
+        nextTargetCheckTime = Time.time + UnityEngine.Random.Range(0f, Mathf.Max(0f, fovDataSO.targetCheckInterval));
       
     }
 
     public void CheckTargets()
     {
-        if (checkCooldown > 0) return;
+        if (checkCooldown > 0 || Time.time < nextTargetCheckTime) return;
+
+        nextTargetCheckTime = Time.time + Mathf.Max(0f, fovDataSO.targetCheckInterval);
 
         var potentialTarget = fov.PotentialTarget(fovDataSO.viewRadius, fovDataSO.viewAngle);
 

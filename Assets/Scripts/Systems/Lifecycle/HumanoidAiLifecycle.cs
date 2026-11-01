@@ -38,6 +38,8 @@ public class HumanoidAiLifecycle : CharacterLifecycle
         if (damagable.IsDead)
             return;
 
+        audioManager.PlayGetHit();
+
         // Нокаут прерывает текущие действия, но не запускает путь смерти и респавна.
         brain.SetPaused(true);
         combatController.ForceAttackCancel();

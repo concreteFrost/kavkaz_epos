@@ -720,13 +720,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpellInventory
   items:
-  - itemSO: {fileID: 11400000, guid: e5f339a62e1692149b5b5bed0ded567c, type: 2}
+  - itemSO: {fileID: 11400000, guid: d7d9541de72c4aaaaf2f69048b546d6c, type: 2}
     quantity: 5
     instanceId: 
     isEquiped: 0
     durability: 0
     weaponLevel: 1
-    usageChance: 0.5
+    usageChance: 1
 --- !u!1 &4418911170102047671
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_0b7312d3-f0cb-4112-96f4-94443d61e673
+  uniqueId: uid_34bae5f1-5877-4ed6-988a-cb81d0c3ec9d
 --- !u!195 &9093165699513626710
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
-  bankSO: {fileID: 11400000, guid: 357aa4280e2e67447aca4d735ebbe376, type: 2}
+  bankSO: {fileID: 11400000, guid: e6cf31e4f1b1e734c99bb1b49a1af451, type: 2}
 --- !u!114 &4212970799936769041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2843,12 +2843,12 @@ CharacterJoint:
   m_Axis: {x: -0.3511231, y: 0.00000008, z: 0.9363293}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_SwingAxis: {x: 0.3287668, y: 0.9363295, z: 0.1232873}
+  m_SwingAxis: {x: 0, y: 0, z: 0}
   m_TwistLimitSpring:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -15
+    limit: -46.464046
     bounciness: 0
     contactDistance: 5
   m_HighTwistLimit:
@@ -2859,7 +2859,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 10
+    limit: 29.425812
     bounciness: 0
     contactDistance: 5
   m_Swing2Limit:
@@ -6932,30 +6932,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 199272843447730966, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199701917445325064, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199344632708628732, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199777942524803090, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199822324177926256, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199381385023247716, guid: 9ab168a77239b3d43be281129b95e8b8, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 199123113760751648, guid: 750731fd8d316314f8378f5829ce4199, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -7007,6 +6983,30 @@ PrefabInstance:
     - target: {fileID: 8877596331768416466, guid: 1d6967b1042c5104ba09e29a5488745d, type: 3}
       propertyPath: m_Name
       value: Spirit aura
+      objectReference: {fileID: 0}
+    - target: {fileID: 199272843447730966, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199701917445325064, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199344632708628732, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199777942524803090, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199822324177926256, guid: 85d6ef735eaa04e41ac9800900084d28, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199381385023247716, guid: 9ab168a77239b3d43be281129b95e8b8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

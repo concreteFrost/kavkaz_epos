@@ -25,10 +25,7 @@ public class WeaponAudioManager
             return;
         }
 
-        AudioEventPlayer.Play3DOneShot(
-            ev,
-            source,
-            "WeaponAction", 0);
+        AudioEventPlayer.Play3DOneShot(ev, source);
     }
 
 

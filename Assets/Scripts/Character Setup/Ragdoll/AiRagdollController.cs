@@ -23,6 +23,9 @@ public class AiRagdollController : BaseRagdollController
        
         anim.Animator().enabled = false;
 
+        if (hipsRb.isKinematic)
+            UpdateJointAnchors();
+
         foreach (var rb in rigidbodies)
         {
             bool wasKinematic = rb.isKinematic;
@@ -44,13 +47,7 @@ public class AiRagdollController : BaseRagdollController
 
     public override void DisableRagdoll()
     {
-        foreach (var rb in rigidbodies)
-        {
-            rb.GetComponent<Collider>().enabled = false;
-            rb.isKinematic = true;
-            rb.useGravity = false;
-            
-        }
+        DisableRagdollPhysics();
 
         col.enabled = true;
         anim.Animator().enabled = true;

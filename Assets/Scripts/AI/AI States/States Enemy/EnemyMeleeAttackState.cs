@@ -39,7 +39,7 @@ public class EnemyMeleeAttackState : BaseEnemyAttackState
                 FinishCombatAction
             );
 
-            audioManager.PlayPowerAttack();
+            audioManager.PlayAttack();
         }
     }
 

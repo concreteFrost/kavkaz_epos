@@ -450,6 +450,11 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
+  strafeObstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  strafeObstacleCheckInterval: 0.2
+  strafeObstacleCheckDistance: 0.8
 --- !u!114 &4751592046786586566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
-  bankSO: {fileID: 11400000, guid: 3612baf62e2bcb34e878294b03767791, type: 2}
+  bankSO: {fileID: 11400000, guid: 0d070254431a44643b77d536eaf76d96, type: 2}
 --- !u!1 &1482064309614592532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,7 +1357,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -2048,7 +2052,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0

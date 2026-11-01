@@ -21,6 +21,7 @@ public abstract class BaseRagdollController : IRagdollController
     protected BaseHumanoidAnimatorController anim;
     protected List<Rigidbody> rigidbodies = new List<Rigidbody>(); //rigidbodies относящиеся к ragdoll
     protected Transform self;
+    private Joint[] autoAnchoredJoints;
 
 
     protected Transform hipsBone; // центральная кость (таз)
@@ -103,10 +104,12 @@ public abstract class BaseRagdollController : IRagdollController
     private void AddRigidbodies()
     {
 
+        var joints = hipsBone.GetComponentsInChildren<Joint>();
+        autoAnchoredJoints = joints.Where(j => j.autoConfigureConnectedAnchor).ToArray();
+
         rigidbodies.Add(hipsBone.GetComponent<Rigidbody>());
 
-        rigidbodies.AddRange(hipsBone
-     .GetComponentsInChildren<Joint>()
+        rigidbodies.AddRange(joints
      .Select(j => j.GetComponent<Rigidbody>())
      .Where(rb => rb != null)
      .Distinct()
@@ -253,6 +256,35 @@ public abstract class BaseRagdollController : IRagdollController
 
     #endregion
 
+    protected void UpdateJointAnchors()
+    {
+        Physics.SyncTransforms();
+
+        foreach (var joint in autoAnchoredJoints)
+        {
+            if (joint.connectedBody == null)
+                continue;
+
+            // Сохраняем точку крепления текущей позы на время работы физики.
+            joint.autoConfigureConnectedAnchor = false;
+            joint.connectedAnchor = joint.connectedBody.transform.InverseTransformPoint(
+                joint.transform.TransformPoint(joint.anchor));
+        }
+    }
+
+    protected void DisableRagdollPhysics()
+    {
+        foreach (var rb in rigidbodies)
+        {
+            rb.GetComponent<Collider>().enabled = false;
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+
+        foreach (var joint in autoAnchoredJoints)
+            joint.autoConfigureConnectedAnchor = true;
+    }
+
     public bool IsBonesMoving(float threshold=0.25f)
     {
         var isMoving = hipsRb.linearVelocity.sqrMagnitude > threshold;
@@ -278,6 +310,7 @@ public abstract class BaseRagdollController : IRagdollController
 
 
         yield return new WaitForSeconds(3f); //искуственная задержка
+        DisableRagdollPhysics();
         CheckFaceUp();
         AlignRotationToHips();
         AlignPositionToHips();

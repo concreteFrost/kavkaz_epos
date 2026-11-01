@@ -4,6 +4,7 @@ using System;
 public interface IHumanoidMeleeCombat
 {
     bool IsAttacking { get; set; }
+    bool ShouldPlayAttackAudio { get; }
     bool IsWeaponed { get; set; }
     bool IsShieldRaised { get; set; }
     void EndAttack();

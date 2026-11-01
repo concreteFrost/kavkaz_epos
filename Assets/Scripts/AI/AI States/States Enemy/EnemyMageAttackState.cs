@@ -32,6 +32,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
        
         if (IsFirstMeleeAttackInRange())
         {
+            audioManager.PlayAttack();
             int punchesCount = combatHandler.GetPunchesCount();
             combatCoroutine = combatActions.StartMelee(combatController, punchesCount, CanStartComboAttack, FinishCombatAction);
             return;
@@ -43,6 +44,7 @@ public class EnemyMageAttackState : BaseEnemyAttackState
             return;
         }
 
+        //audioManager.PlayAttack();
         combatCoroutine = combatActions.StartSpell(emitter, spellInventory, FinishCombatAction);
     }
 

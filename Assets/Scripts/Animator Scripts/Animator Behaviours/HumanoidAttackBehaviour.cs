@@ -82,7 +82,8 @@ public class HumanoidAttackBehaviour : StateMachineBehaviour
         if(!wasAudioPlayer && t>= attack.animationInfo.audioStartTime)
         {
             
-            weapon.PlaySwing();
+            if (combatAnimData.ShouldPlayAttackAudio)
+                weapon.PlaySwing();
             wasAudioPlayer = true;
         }
 

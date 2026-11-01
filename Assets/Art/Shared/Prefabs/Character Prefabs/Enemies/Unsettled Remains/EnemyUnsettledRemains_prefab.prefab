@@ -156,6 +156,7 @@ MonoBehaviour:
     isEquiped: 0
     durability: 100
     weaponLevel: 1
+    usageChance: 0.5
 --- !u!1 &317694210868554858
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,7 +815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411c32e749c34114db7b6e8d21c55552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniqueId
-  uniqueId: uid_f7666a19-f8cb-45cf-bdc7-91b07144b0f3
+  uniqueId: uid_943e15c4-d890-4a38-a733-710f961cb3f1
 --- !u!114 &3905807491206973329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -848,6 +849,11 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 256
+  strafeObstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  strafeObstacleCheckInterval: 0.2
+  strafeObstacleCheckDistance: 0.8
 --- !u!114 &3094754176302249547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,7 +895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3006e14b64460418b0b1e3ea840d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioManager
-  bankSO: {fileID: 11400000, guid: 357aa4280e2e67447aca4d735ebbe376, type: 2}
+  bankSO: {fileID: 11400000, guid: a00131e061df25547a03112da2ccd707, type: 2}
 --- !u!195 &641421120486702191
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1517,7 +1523,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -1654,7 +1659,6 @@ MonoBehaviour:
     canAttack: 0
     powerAttackChance: 0
     lastDamageTime: 0
-    comboDistanceOffset: 0
     currentDodgeChance: 0
     dodgeCounterResetTimer: 0
     blockStrafeCooldown: 0
@@ -2714,7 +2718,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.105130374
-  m_Center: {x: 0, y: 0, z: 0.105130374}
+  m_Center: {x: 0.07, y: 0.05, z: 0.09}
 --- !u!54 &9028523107829605905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2756,23 +2760,23 @@ CharacterJoint:
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_SwingAxis: {x: 0, y: 1, z: 0}
+  m_SwingAxis: {x: 0, y: 0, z: 0}
   m_TwistLimitSpring:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -20
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 15
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 15
+    limit: 28.075308
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
