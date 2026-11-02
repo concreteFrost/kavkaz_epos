@@ -70,6 +70,8 @@ public class PlayerLocomotionActionHandler : MonoBehaviour
     /// <param name="dir">Направление ввода</param>
     private void MoveCharacter(Vector3 dir)
     {
+        motor.CheckSlopeLimit(dir);
+
         if (!actionGuards.CanMove())
         {
             motor.StopMovement();

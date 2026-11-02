@@ -196,6 +196,10 @@
 
 ## Texture Reference Generation
 
+- For project-authored vegetation textures, use a maximum of 512 pixels on either side for grass, flowers, and leaves, and 1024 pixels on either side for tree bark, unless the user explicitly requests another resolution. Preserve aspect ratios when resizing existing textures.
+- Keep the existing approved needle textures at their current resolution unless the user explicitly requests resizing them.
+
+
 - Generate textures and material references suitable for high-quality AI reconstruction and texturing of the 3D model: preserve clear material separation and consistent detail scale. Avoid visual noise, overly high-contrast microdetails, painted holes, and shadows that AI could mistake for geometry; match the complexity to the target model.
 
 - When asked to generate a material or texture reference, focus on the requested surface material only.

@@ -6,7 +6,7 @@ public class PlayerMotor : BaseHumanoidMotor
     internal Rigidbody _rigidbody;                                                      // access the Rigidbody component
     internal CapsuleCollider _capsuleCollider;                                          // access CapsuleCollider information
 
-    [Tooltip("Max angle to walk")]
+    [Tooltip("Максимальный угол поверхности для ходьбы")]
     [Range(30, 80)] public float slopeLimit = 45f;
     internal bool isHighSlope = false; //предотвращает движение если угол наклона выше
 
@@ -80,7 +80,6 @@ public class PlayerMotor : BaseHumanoidMotor
         CheckGround();
         ControlJumpBehaviour(jumpHeight);
         AirControl();
-        CheckSlopeLimit();
     }
 
     #region Movement
@@ -189,7 +188,6 @@ public class PlayerMotor : BaseHumanoidMotor
     protected override void CheckGround()
     {
         CheckGroundDistance();
-        ControlMaterialPhysics();
 
         if (groundDistance <= groundMinDistance)
         {
@@ -216,22 +214,25 @@ public class PlayerMotor : BaseHumanoidMotor
                 _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
             }
         }
+        ControlMaterialPhysics();
     }
 
     protected virtual void ControlMaterialPhysics()
     {
-        _capsuleCollider.material = (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
-
-        if (IsGrounded && input == Vector3.zero)
-            _capsuleCollider.material = maxFrictionPhysics;
-        else if (IsGrounded && input != Vector3.zero)
-            _capsuleCollider.material = frictionPhysics;
-        else
+        if (!IsGrounded || groundHit.collider == null || GroundAngle() > slopeLimit)
+        {
             _capsuleCollider.material = slippyPhysics;
+            return;
+        }
+
+        _capsuleCollider.material = input == Vector3.zero ? maxFrictionPhysics : frictionPhysics;
     }
 
     protected override void CheckGroundDistance()
     {
+
+        groundDistance = groundMaxDistance;
+        groundHit = default;
 
         if (_capsuleCollider != null)
         {
@@ -240,30 +241,33 @@ public class PlayerMotor : BaseHumanoidMotor
 
             Ray ray2 = new Ray(transform.position + new Vector3(0, colliderHeight / 2, 0), Vector3.down);
 
-            if (Physics.Raycast(ray2, out groundHit, (colliderHeight / 2) + dist, groundLayer) && !groundHit.collider.isTrigger)
-                dist = transform.position.y - groundHit.point.y;
+            if (Physics.Raycast(ray2, out var rayHit, (colliderHeight / 2) + dist,
+                groundLayer, QueryTriggerInteraction.Ignore) && Vector3.Angle(rayHit.normal, Vector3.up) <= slopeLimit)
+            {
+                groundHit = rayHit;
+                dist = transform.position.y - rayHit.point.y;
+            }
 
             if (dist >= groundMinDistance)
             {
                 Vector3 pos = transform.position + Vector3.up * (_capsuleCollider.radius);
                 Ray ray = new Ray(pos, -Vector3.up);
-                if (Physics.SphereCast(ray, radius, out groundHit, _capsuleCollider.radius + groundMaxDistance, groundLayer) && !groundHit.collider.isTrigger)
+                if (Physics.SphereCast(ray, radius, out var sphereHit, _capsuleCollider.radius + groundMaxDistance,
+                    groundLayer, QueryTriggerInteraction.Ignore))
                 {
-                    #region Тест метод для проверки жестких углов чтобы он не скользил
-                    float angle = GroundAngle();
-
-                    if (angle > slopeLimit + 20f)
+                    // Уточняем нормаль у края, не теряя результат при промахе луча.
+                    if (Physics.Linecast(sphereHit.point + (Vector3.up * 0.1f), sphereHit.point + Vector3.down * 0.15f,
+                        out var surfaceHit, groundLayer, QueryTriggerInteraction.Ignore))
                     {
-                        //groundDistance = 999f;
-                        isGrounded = false;
-                        return;
+                        sphereHit = surfaceHit;
                     }
 
-                    #endregion
-
-                    Physics.Linecast(groundHit.point + (Vector3.up * 0.1f), groundHit.point + Vector3.down * 0.15f, out groundHit, groundLayer);
-                    float newDist = transform.position.y - groundHit.point.y;
-                    if (dist > newDist) dist = newDist;
+                    float newDist = transform.position.y - sphereHit.point.y;
+                    if (Vector3.Angle(sphereHit.normal, Vector3.up) <= slopeLimit && dist > newDist)
+                    {
+                        groundHit = sphereHit;
+                        dist = newDist;
+                    }
                 }
             }
             groundDistance = (float)System.Math.Round(dist, 2);
@@ -296,23 +300,27 @@ public class PlayerMotor : BaseHumanoidMotor
     #endregion
 
     #region Slope Check
-    public virtual void CheckSlopeLimit()
+    public virtual void CheckSlopeLimit(Vector3 direction)
     {
-        if (input.sqrMagnitude < 0.1) return;
+        isHighSlope = false;
+        direction.y = 0f;
+        if (direction.sqrMagnitude <= Mathf.Epsilon) return;
+
+        direction.Normalize();
 
         RaycastHit hitinfo;
         var hitAngle = 0f;
 
-        if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + moveDirection.normalized * (_capsuleCollider.radius + 0.2f), out hitinfo, groundLayer))
+        if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + direction * (_capsuleCollider.radius + 0.2f), out hitinfo, groundLayer, QueryTriggerInteraction.Ignore))
         {
             hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
 
-            var targetPoint = hitinfo.point + moveDirection.normalized * _capsuleCollider.radius;
-            if ((hitAngle > slopeLimit) && Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint, out hitinfo, groundLayer))
+            var targetPoint = hitinfo.point + direction * _capsuleCollider.radius;
+            if ((hitAngle > slopeLimit) && Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint, out hitinfo, groundLayer, QueryTriggerInteraction.Ignore))
             {
                 hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
 
-                if (hitAngle > slopeLimit && hitAngle < 85f)
+                if (hitAngle > slopeLimit)
                 {
                     isHighSlope = true;
                     return;
