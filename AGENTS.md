@@ -26,6 +26,7 @@
 - Ask for clarification when ambiguity could significantly affect the implementation or existing behavior.
 - Preserve existing functionality unless changes are explicitly requested.
 - Do not introduce unnecessary complexity or overengineering.
+- Treat runtime performance as a hard constraint. Do not introduce heavyweight implementations or perceptible CPU/GPU overhead. Prefer editor-time preparation or baking when it preserves the required editing workflow; do not claim zero performance impact without measurement.
 
 ## Code Quality
 
