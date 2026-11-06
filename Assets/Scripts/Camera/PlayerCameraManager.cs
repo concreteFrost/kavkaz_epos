@@ -6,6 +6,7 @@ public class PlayerCameraManager : MonoBehaviour
     [SerializeField] Camera mainCamera;
     [SerializeField] CinemachineCamera cinemachine;
     [SerializeField] CameraCutout cutout;
+    [SerializeField] TerrainCameraCutout terrainCutout;
 
     public void AttachCameraToPlayer(Transform target)
     {
@@ -13,6 +14,7 @@ public class PlayerCameraManager : MonoBehaviour
 
         cinemachine.Target.TrackingTarget = target;
         cutout.Init(target, mainCamera);
+        terrainCutout.Init(target, mainCamera, cutout.CutoutSize, cutout.CutoutSpeed);
     }
 
 

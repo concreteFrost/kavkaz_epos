@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 7880128560611526766}
   - component: {fileID: 4157398288374149807}
   - component: {fileID: 4088195341112329501}
+  - component: {fileID: 1265698441840045271}
   m_Layer: 0
   m_Name: PlayerCameraManager_prefab
   m_TagString: Untagged
@@ -229,6 +230,25 @@ MonoBehaviour:
   mainCamera: {fileID: 4755198659073359527}
   cinemachine: {fileID: 7297171757756265718}
   cutout: {fileID: 4157398288374149807}
+  terrainCutout: {fileID: 1265698441840045271}
+--- !u!114 &1265698441840045271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7125534438020648773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493a70a08ddf42df81d42140873b7cfc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainCameraCutout
+  terrainShader: {fileID: 4800000, guid: 26ce81a957024bc08cd121e849716bdd, type: 3}
+  maskSize: 0
+  maskContrast: 7.45
+  alphaOffset: 0.1
+  alphaThreshold: 0.61
+  targetPadding: 0.25
 --- !u!114 &4157398288374149807
 MonoBehaviour:
   m_ObjectHideFlags: 0

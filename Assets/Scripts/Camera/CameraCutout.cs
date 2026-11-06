@@ -12,6 +12,9 @@ public class CameraCutout : MonoBehaviour
     [SerializeField] private float cutoutSize = 0.75f;
     [SerializeField] private float cutoutSpeed = 2f;
 
+    public float CutoutSize => cutoutSize;
+    public float CutoutSpeed => cutoutSpeed;
+
     private Camera cam;
 
     // кеши
