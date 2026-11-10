@@ -81,6 +81,7 @@
 - Prefabs: PascalCase with `_prefab` suffix, e.g. `EnemySkeleton_prefab`.
 - Animator Controllers: `Controller_CharacterName`, e.g. `Controller_Humanoid`.
 - Terrain textures: lowercase snake_case using `<biome>_<surface>_var_<number>`, e.g. `unej_kokhur_grass_var_1.png`. Give new textures their proper convention-compliant names immediately. Store terrain textures under `Assets/Terrain/Terrain Textures/<Biome Name>`.
+- Use the suffix `_color` for base color texture filenames, for example `<asset>_color.png`. Do not use the suffix `_albedo`.
 - Follow existing naming conventions for asset types not listed above.
 
 # Third Party Assets
@@ -104,8 +105,9 @@
 
 ## Cultural and Historical Inspiration
 
-- Draw inspiration from the traditional clothing, weapons, armor, ornaments, architecture, and craftsmanship of the North Caucasus.
-- Use historical and ethnographic references as a foundation, adapting them to the fictional setting when appropriate.
+- Keep all asset designs strictly Caucasian, using North Caucasian clothing, weapons, armor, ornaments, architecture, and craftsmanship as the primary references.
+- Use historical and ethnographic references as the foundation. Obtain the user's explicit approval before adding invented design elements or departing from those references.
+- Exclude Nordic, Scandinavian, and Norse-inspired design elements. Limited Turkic influences are allowed only with the user's explicit approval.
 - Prefer restrained and meaningful ornamentation over excessive decorative complexity.
 - Fantasy elements should feel integrated into the local cultural and mythological context.
 - Do not automatically apply stereotypical medieval European fantasy designs.
@@ -187,12 +189,19 @@
 - For non-humanoid creatures, choose views that best communicate their three-dimensional structure.
 - Avoid environmental backgrounds and cinematic compositions unless explicitly requested.
 
+## 3D Modeling
+
+- Keep all models strictly low-poly while preserving a readable silhouette and recognizable forms at the intended in-game viewing distance. Obtain the user’s explicit approval before increasing an asset’s polygon budget.
+- Give props, small buildings, and other small objects subtly irregular forms with believable variation in their edges and proportions. Weapons and shields are exempt from this shape requirement.
+- Center each prop set layout at the world origin (0, 0, 0) in Blender. Keep an individual local pivot for each prop.
+
 ## Blender Texturing
 
 - Work directly in the .blend project specified by the user. Do not create separate, intermediate, or alternative .blend projects unless the user explicitly requests them.
 - Use Ucupaint when texturing models in Blender.
 - All construction models may be exported using the `Plain Object` preset.
 - Texture dimensions must not exceed 2048 pixels on either side.
+- Use one shared 2048 × 2048 UV texture atlas for all small objects that belong to the same asset set. Keep the objects as separate meshes.
 - Store generated images for Blender within the directory of the currently open `.blend` project. First find and use an appropriate existing subfolder, such as `refs`, `resource images`, or a similar folder, following the project's existing structure.
 
 ## Texture Reference Generation
@@ -211,7 +220,7 @@
 - Preserve consistent material color and appearance without lighting gradients.
 - Generate base color (albedo) textures without baked-in lighting, shadows, highlights, reflections, or ambient occlusion. Lighting must be provided by the rendering engine, not painted into the texture.
 - When a seamless texture is requested, ensure that the design is suitable for tiling.
-- Do not generate UV layouts, texture atlases, normal maps, or additional texture channels unless explicitly requested.
+- For standalone material or texture references, do not generate UV layouts, texture atlases, normal maps, or additional texture channels unless explicitly requested.
 - Distinguish between a visual material reference and a production-ready texture map.
 - Do not assume that a generated texture is technically seamless or production-ready without verification.
 
@@ -223,7 +232,7 @@
 - Match the level of stylization already established by the project.
 - Do not automatically add visual complexity to make an asset appear more detailed.
 - When generating variations, preserve the recognizable identity of the original design.
-- If an existing project reference conflicts with general art direction rules, prioritize the explicitly approved reference.
+- If an existing project reference conflicts with a general style preference, prioritize the explicitly approved reference. Apply the cultural restrictions and approval requirements above when developing new assets.
 - If the desired style cannot be determined from existing assets, ask for clarification rather than inventing a new visual direction.
 
 ## Asset Review
